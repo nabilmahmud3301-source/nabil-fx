@@ -1,40 +1,22 @@
-# Nabil Fx Backtesting — Hosting & Founder Control Plan
+# Nabil Fx Backtesting — Cloud account setup
 
-## Your requested outcome
-- The same Nabil brand banner and original profile photo appear for every visitor.
-- Every visitor can make their own account/profile.
-- “Founder — Nabil Al Mahmud” stays fixed and cannot be edited by visitors.
-- The founder has control of the site and access to the administrative settings.
-- User profiles, journals, and backtest history are stored in a shared database, not just one browser.
+## What this build adds
+- An Account page with email/password sign-up, sign-in and sign-out.
+- A cloud profile sync path once Supabase is configured.
+- A founder-only dashboard that reads basic profile summaries if the database role is founder.
+- `supabase/schema.sql` with row-level security and a founder-email bootstrap trigger.
 
-## Current honest status
-The included site is still a static prototype. It is **not live**, does **not** yet have sign-in, a shared cloud database, or a secure admin console. Browser `localStorage` is not a real account system. Do not treat it as one.
+## Still required before cloud login works
+1. Create a Supabase project under your own account.
+2. In `supabase/schema.sql`, replace `founder@example.com` with the exact email address you will use for your Founder account, then run the SQL in Supabase SQL Editor.
+3. Sign up with that same email in the website after the SQL is installed. If you already registered that email before installing the trigger, tell the setup guide to promote that existing profile using the Supabase SQL Editor as the project owner; do not allow users to change their own role.
+4. In Supabase Project Settings / API, copy the Project URL and public anon/publishable key into `supabase-config.js`. Only the public client key belongs there. Never paste a service_role key, database password, or secret key into site files or chat.
+5. In Supabase Auth URL settings, set the Site URL and allowed redirect URL to the exact GitHub Pages URL.
+6. Upload all changed files to the repository root and commit. Wait for GitHub Pages deployment, then test account creation and sign-in.
 
-## Free-first architecture prepared
-- Front end: static site hosting on a provider's free tier (GitHub Pages / Cloudflare Pages / Netlify; current terms and account eligibility may change).
-- Authentication and database: Supabase free tier, subject to its current limits/terms.
-- Database foundation: `supabase/schema.sql` defines profiles, backtest runs, trade journal entries, and app settings with row-level security policies.
-- Founder role: trusted `app_metadata.role = founder`. This must be assigned securely by an administrator; never let a visitor grant themselves the founder role from the browser.
-
-## Safe setup sequence
-1. Create a Supabase project under an account you control.
-2. Open Supabase SQL Editor and run `supabase/schema.sql`.
-3. Enable the desired sign-in method (email/password or magic link) and set authentication redirect URLs to the final hosted site.
-4. Assign the founder role to your own account using a trusted server-side/admin method. Never expose the Supabase `service_role` key in the website files.
-5. Create the public hosting project under an account you control and publish the site files.
-6. Add only the Supabase project URL and public anon/publishable key to the client configuration. These are designed to be public; row-level security must still be enabled and tested.
-7. Implement and test sign-in, sign-out, password recovery, account profile, cloud journal/history, founder-only site settings, and user-data export/deletion before inviting users.
-8. Test with two ordinary accounts and one founder account: users must never see or edit each other's private records; ordinary users must never access founder settings.
-
-## Founder control checklist
-A secure owner console should include:
-- Founder-only login and role verification on the server/database.
-- Change public site notices and maintenance status.
-- Manage safe site-wide settings and supported data-provider status.
-- View aggregate usage/health, not private user journals by default.
-- Suspend or remove accounts only with clear safeguards and an audit trail.
-- Export and back up the database; document recovery steps.
-- Keep the fixed founder attribution and shared brand assets controlled by the site owner.
-
-## Important limitation
-This package is preparation, not a completed cloud deployment. I cannot create provider accounts, accept their terms, or publish under your identity without your explicit account access/authorization. No live URL, cloud credentials, or working multi-user accounts are claimed here. Never send passwords, recovery codes, or service-role secrets in chat.
+## Security and current limits
+- Founder access is based on a database role, not a name displayed in the UI.
+- Row-level security is enabled for profiles. Test with two normal accounts to verify they cannot read each other's private profiles.
+- The first implementation syncs profile text fields. User-uploaded profile photos remain browser-local; trade journal and backtest run history are not yet synced to cloud.
+- This is a setup scaffold, not a claim that cloud authentication/database is live. The public site remains static until the owner completes Supabase setup and uploads these files.
+- Never expose a Supabase `service_role` key in client code.

@@ -37,3 +37,11 @@ A static host such as GitHub Pages or Netlify can host the files at no cost with
 - Added `supabase/schema.sql` as a database foundation with per-user row-level security and founder-role policies.
 - Added `DEPLOYMENT_AND_OWNER_CONTROL.md` with a free-first deployment sequence and security checklist.
 - These are setup assets only: authentication, live cloud database connection, founder console, and public hosting still need provider setup and testing.
+
+
+## Cloud login setup (starter)
+- `Account` page supports Supabase email/password auth after configuration.
+- Set your own project URL and public anon/publishable key in `supabase-config.js`.
+- Run `supabase/schema.sql` after replacing the founder email placeholder.
+- Cloud profile text sync is available for signed-in users; photo, backtest history, and journal are still local.
+- Cloud auth is not active until the owner configures Supabase and redeploys.
