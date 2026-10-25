@@ -1,212 +1,191 @@
 
-/* Supabase Auth + cloud profile starter for Nabil Fx Backtesting. */
+/* Nabil Fx Backtesting - Supabase Auth */
 (function () {
   const cfg = window.NABIL_SUPABASE_CONFIG || {};
-  const statusEl = document.getElementById('cloudStatus');
-  const details = document.getElementById('accountDetails');
-  const signUp = document.getElementById('signUpBtn');
-  const signIn = document.getElementById('signInBtn');
-  const signOut = document.getElementById('signOutBtn');
-  const founderPanel = document.getElementById('founderPanel');
-  const founderStats = document.getElementById('founderStats');
+  const $ = id => document.getElementById(id);
+
+  const statusEl = $("cloudStatus");
+  const details = $("accountDetails");
+  const signUp = $("signUpBtn");
+  const signIn = $("signInBtn");
+  const signOut = $("signOutBtn");
+  const founderPanel = $("founderPanel");
+  const founderStats = $("founderStats");
 
   let client = null;
   let currentUser = null;
 
-  const configured = !!(
-    window.supabase &&
-    cfg.url &&
-    cfg.anonKey &&
-    !cfg.url.includes('YOUR-PROJECT-REF') &&
-    !cfg.anonKey.includes('YOUR_SUPABASE')
-  );
-
-  function message(s) {
-    if (statusEl) statusEl.textContent = s;
+  function message(text) {
+    if (statusEl) statusEl.textContent = text;
   }
 
-  function sayError(prefix, e) {
-    message(prefix + ': ' + (e && e.message ? e.message : 'Unknown error'));
+  function errorMessage(prefix, error) {
+    message(prefix + ": " + (error?.message || "Unknown error"));
   }
 
-  function esc(v) {
-    return String(v ?? '').replace(/[&<>"']/g, c => ({
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#39;'
+  function esc(value) {
+    return String(value ?? "").replace(/[&<>"']/g, c => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;",
+      '"': "&quot;", "'": "&#39;"
     })[c]);
   }
 
-  if (!configured) {
-    message('Cloud account is not configured. Check Supabase config and script loading.');
-    [signUp, signIn, signOut].forEach(b => {
-      if (b) b.disabled = true;
-    });
-    if (details) details.textContent = 'Cloud login not configured.';
+  if (!window.supabase || !cfg.url || !cfg.anonKey) {
+    message("Supabase configuration missing. Check supabase-config.js.");
     return;
   }
 
   client = window.supabase.createClient(cfg.url, cfg.anonKey);
 
-  async function getRole() {
-    const { data, error } = await client
-      .from('profiles')
-      .select('role')
-      .eq('user_id', currentUser.id)
-      .maybeSingle();
-
-    if (error) throw error;
-    return (data && data.role) || 'user';
-  }
-
   async function renderSession() {
-    const { data, error } = await client.auth.getSession();
-    if (error) {
-      sayError('Session check failed', error);
-      return;
-    }
-
-    currentUser = (data.session && data.session.user) || null;
-
-    if (signUp) signUp.hidden = !!currentUser;
-    if (signIn) signIn.hidden = !!currentUser;
-    if (signOut) signOut.hidden = !currentUser;
-
-    if (!currentUser) {
-      if (details) details.textContent = 'Not signed in.';
-      if (founderPanel) founderPanel.hidden = true;
-      message('Supabase is connected. Create an account or sign in.');
-      return;
-    }
-
-    if (details) details.textContent = 'Signed in as ' + currentUser.email;
-    message('Signed in. Checking your database role…');
-
     try {
-      const role = await getRole();
+      const { data, error } = await client.auth.getSession();
+      if (error) throw error;
 
-      if (role === 'founder') {
+      currentUser = data.session?.user || null;
+
+      if (signUp) signUp.hidden = !!currentUser;
+      if (signIn) signIn.hidden = !!currentUser;
+      if (signOut) signOut.hidden = !currentUser;
+
+      if (!currentUser) {
+        if (details) details.textContent = "Not signed in.";
+        if (founderPanel) founderPanel.hidden = true;
+        message("Supabase connected. Create an account or sign in.");
+        return;
+      }
+
+      if (details) details.textContent = "Signed in as " + currentUser.email;
+
+      const { data: profile, error: profileError } = await client
+        .from("profiles")
+        .select("role")
+        .eq("user_id", currentUser.id)
+        .maybeSingle();
+
+      if (profileError) throw profileError;
+
+      if (profile?.role === "founder") {
         if (founderPanel) founderPanel.hidden = false;
 
-        const { data: profiles, error: profileError } = await client
-          .from('profiles')
-          .select('user_id,display_name,username,favorite_market,created_at')
-          .order('created_at', { ascending: false })
+        const { data: profiles, error: listError } = await client
+          .from("profiles")
+          .select("user_id,display_name,username,favorite_market,created_at")
+          .order("created_at", { ascending: false })
           .limit(100);
 
-        if (profileError) throw profileError;
+        if (listError) throw listError;
 
         if (founderStats) {
           founderStats.innerHTML =
-            '<b>Registered profiles (up to 100):</b>' +
+            "<b>Registered profiles (up to 100):</b>" +
             '<div class="tablewrap"><table><thead><tr>' +
-            '<th>Name</th><th>Username</th><th>Market</th><th>Joined</th>' +
-            '</tr></thead><tbody>' +
-            (profiles || []).map(x =>
-              '<tr><td>' + esc(x.display_name || '—') +
-              '</td><td>' + esc(x.username || '—') +
-              '</td><td>' + esc(x.favorite_market || '—') +
-              '</td><td>' +
-              esc(x.created_at ? new Date(x.created_at).toLocaleDateString() : '—') +
-              '</td></tr>'
-            ).join('') +
-            '</tbody></table></div>';
+            "<th>Name</th><th>Username</th><th>Market</th><th>Joined</th>" +
+            "</tr></thead><tbody>" +
+            (profiles || []).map(p =>
+              "<tr><td>" + esc(p.display_name || "—") +
+              "</td><td>" + esc(p.username || "—") +
+              "</td><td>" + esc(p.favorite_market || "—") +
+              "</td><td>" + esc(p.created_at
+                ? new Date(p.created_at).toLocaleDateString()
+                : "—") +
+              "</td></tr>"
+            ).join("") +
+            "</tbody></table></div>";
         }
 
-        message('Founder account verified by database role.');
+        message("Founder role detected in database.");
       } else {
         if (founderPanel) founderPanel.hidden = true;
-        message('Account connected. Your private cloud profile is available.');
+        message("Account connected. Your private cloud profile is available.");
       }
-    } catch (e) {
+    } catch (error) {
       if (founderPanel) founderPanel.hidden = true;
-      message('Signed in, but database setup/permissions need checking: ' + e.message);
+      message("Account/database issue: " + error.message);
     }
   }
 
-  if (signUp) {
-    signUp.addEventListener('click', async () => {
-      const email = document.getElementById('authEmail').value.trim();
-      const password = document.getElementById('authPassword').value;
+  if (signUp) signUp.addEventListener("click", async () => {
+    const email = $("authEmail")?.value.trim();
+    const password = $("authPassword")?.value || "";
 
-      if (!email || password.length < 8) {
-        return message('Enter a valid email and a password of at least 8 characters.');
-      }
+    if (!email || password.length < 8) {
+      message("Enter your email and a password of at least 8 characters.");
+      return;
+    }
 
-      message('Creating account…');
+    message("Creating account...");
 
-      try {
-        const { error } = await client.auth.signUp({ email, password });
-        if (error) return sayError('Sign-up failed', error);
+    const { error } = await client.auth.signUp({ email, password });
 
-        message('Account request sent. If email confirmation is enabled, check your inbox before signing in.');
-      } catch (e) {
-        sayError('Sign-up failed', e);
-      }
+    if (error) {
+      errorMessage("Sign-up failed", error);
+      return;
+    }
+
+    message("Account request sent. Check your email to confirm your account.");
+  });
+
+  if (signIn) signIn.addEventListener("click", async () => {
+    const email = $("authEmail")?.value.trim();
+    const password = $("authPassword")?.value || "";
+
+    if (!email || !password) {
+      message("Enter your email and password.");
+      return;
+    }
+
+    message("Signing in...");
+
+    const { error } = await client.auth.signInWithPassword({
+      email, password
     });
-  }
 
-  if (signIn) {
-    signIn.addEventListener('click', async () => {
-      const email = document.getElementById('authEmail').value.trim();
-      const password = document.getElementById('authPassword').value;
+    if (error) {
+      errorMessage("Sign-in failed", error);
+      return;
+    }
 
-      if (!email || !password) {
-        return message('Enter your email and password.');
-      }
+    await renderSession();
+  });
 
-      message('Signing in…');
+  if (signOut) signOut.addEventListener("click", async () => {
+    const { error } = await client.auth.signOut();
 
-      try {
-        const { error } = await client.auth.signInWithPassword({ email, password });
-        if (error) return sayError('Sign-in failed', error);
-        await renderSession();
-      } catch (e) {
-        sayError('Sign-in failed', e);
-      }
-    });
-  }
+    if (error) {
+      errorMessage("Sign-out failed", error);
+      return;
+    }
 
-  if (signOut) {
-    signOut.addEventListener('click', async () => {
-      try {
-        const { error } = await client.auth.signOut();
-        if (error) return sayError('Sign-out failed', error);
-        await renderSession();
-      } catch (e) {
-        sayError('Sign-out failed', e);
-      }
-    });
-  }
+    await renderSession();
+  });
 
   window.nabilCloudSaveProfile = async function (p) {
     if (!client || !currentUser) return;
 
     const row = {
       user_id: currentUser.id,
-      display_name: p.visitorName || '',
-      username: p.visitorHandle || '',
-      favorite_market: p.visitorMarket || 'Forex',
-      bio: p.visitorBio || '',
-      notes: p.profileGoal || '',
+      display_name: p.visitorName || "",
+      username: p.visitorHandle || "",
+      favorite_market: p.visitorMarket || "Forex",
+      bio: p.visitorBio || "",
+      notes: p.profileGoal || "",
       updated_at: new Date().toISOString()
     };
 
     const { error } = await client
-      .from('profiles')
-      .upsert(row, { onConflict: 'user_id' });
+      .from("profiles")
+      .upsert(row, { onConflict: "user_id" });
 
     if (error) {
-      message('Local profile saved; cloud sync failed: ' + error.message);
+      message("Cloud profile save failed: " + error.message);
     } else {
-      message('Profile saved locally and synced to your cloud account.');
+      message("Profile synced to your cloud account.");
     }
   };
 
   client.auth.onAuthStateChange(() => {
-    renderSession();
+    setTimeout(renderSession, 0);
   });
 
   renderSession();
