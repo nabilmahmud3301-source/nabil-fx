@@ -74,6 +74,15 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .note-detail-images a{display:block;width:105px;height:85px}
 .note-detail-images img{width:100%;height:100%;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
 .note-empty{padding:18px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}
+
+/* Account dropdown */
+.account-menu{position:relative}
+.account-dropdown{display:none;position:absolute;right:0;top:100%;min-width:190px;padding:8px;background:#101010;border:1px solid #7b1822;border-radius:12px;box-shadow:0 12px 28px #0009;z-index:50}
+.account-dropdown.open{display:grid;gap:4px}
+.account-option{width:100%;text-align:left;padding:12px;border:0;border-radius:8px;background:transparent;color:#eee;font:600 14px system-ui;cursor:pointer}
+.account-option:hover,.account-option.active{background:#241015;color:var(--accent)}
+.account-subview{display:none}
+.account-subview.active{display:block}
 @media(max-width:800px){.grid{grid-template-columns:1fr}}
 @media(max-width:760px){
 .site-header{align-items:flex-start;flex-direction:column;gap:4px;padding:10px 14px}
@@ -86,6 +95,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .view{padding:18px 10px 35px}
 .chart-toolbar,.account-grid{grid-template-columns:1fr}
 .tv-frame{height:560px}
+.account-dropdown{left:0;right:auto}
 }
 @media(max-width:520px){
 .fields{grid-template-columns:1fr}
@@ -109,8 +119,14 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     <button class="nav-btn" data-page="chart">Chart</button>
     <button class="nav-btn" data-page="backtest">Backtest with AI</button>
     <button class="nav-btn" data-page="notes">Journal/Notes</button>
-    <button class="nav-btn" data-page="profile">Profile</button>
-    <button class="nav-btn" data-page="account">Account</button>
+    <div class="account-menu" id="accountMenu">
+      <button class="nav-btn" id="accountMenuToggle" type="button" aria-expanded="false">Account ▾</button>
+      <div class="account-dropdown" id="accountDropdown">
+        <button class="account-option" type="button" data-account-page="create">Create Account</button>
+        <button class="account-option" type="button" data-account-page="login">Login</button>
+        <button class="account-option" type="button" data-account-page="profile">Profile</button>
+      </div>
+    </div>
   </nav>
 </header>
 
@@ -403,45 +419,94 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   </div>
 </section>
 
-<section id="page-profile" class="view">
-  <h2 class="view-heading">Personal Profile</h2>
-  <p class="view-lead">Your trading workspace and research preferences.</p>
-  <section class="panel">
-    <div class="profile-grid">
-      <img class="profile-photo" src="profile-photo.jpg" alt="Profile photo">
-      <div>
-        <h2 style="font-size:26px;margin-bottom:4px">Nabil Al Mahmud</h2>
-        <p class="muted">Founder · Nabil Fx Backtesting</p>
-        <p>Personal trading journal and strategy research workspace. Track setups, review outcomes, and improve through evidence-based backtesting.</p>
-        <div>
-          <span class="tag">Forex</span><span class="tag">Gold</span>
-          <span class="tag">Indices</span><span class="tag">Stocks</span>
-          <span class="tag">Crypto</span><span class="tag">Futures</span>
+<!-- Account: Create Account -->
+<section id="page-account" class="view">
+  <h2 class="view-heading">Account</h2>
+  <p class="view-lead">Create an account, log in, or open your profile.</p>
+
+  <div class="account-grid">
+    <section class="panel account-subview active" id="account-create">
+      <h2>Create Account</h2>
+      <p class="muted">Create a local demo account for this browser.</p>
+      <div class="fields">
+        <div class="field wide">
+          <label>FULL NAME</label>
+          <input id="createName" autocomplete="name" placeholder="Enter your full name">
         </div>
-        <div class="section">
-          <label for="profileGoal">TRADING GOAL</label>
-          <textarea id="profileGoal" placeholder="Write your trading goals, rules, and review notes here..."></textarea>
-          <div class="actions"><button class="btn primary" id="saveProfile">Save Profile Notes</button></div>
-          <p class="hint">Profile notes are saved locally in this browser.</p>
+        <div class="field wide">
+          <label>EMAIL</label>
+          <input id="createEmail" type="email" autocomplete="email" placeholder="Enter your email">
+        </div>
+        <div class="field wide">
+          <label>PASSWORD</label>
+          <input id="createPassword" type="password" autocomplete="new-password" placeholder="Create a password">
+        </div>
+        <div class="field wide">
+          <label>CONFIRM PASSWORD</label>
+          <input id="createConfirmPassword" type="password" autocomplete="new-password" placeholder="Confirm your password">
         </div>
       </div>
-    </div>
-  </section>
-</section>
-
-<section id="page-account" class="view">
-  <h2 class="view-heading">Account & Cloud Sync</h2>
-  <p class="view-lead">Manage your local workspace and data exports.</p>
-  <div class="account-grid">
-    <section class="panel">
-      <h2>Account status</h2>
-      <p><span class="tag">Local workspace</span></p>
-      <p class="muted">Profile notes, trade notes, images and saved backtest runs are stored in this browser.</p>
-      <p class="hint">Cloud login and cross-device sync require a configured backend. Never paste secret keys into public website code.</p>
+      <div class="actions">
+        <button class="btn primary" id="createAccountBtn" type="button">Create Account</button>
+        <button class="btn secondary" type="button" data-account-page="login">Already have an account? Login</button>
+      </div>
+      <div id="createAccountStatus" class="status">This demo stores account information only in this browser. It is not a secure cloud authentication system.</div>
     </section>
+
+    <!-- Account: Login -->
+    <section class="panel account-subview" id="account-login">
+      <h2>Login</h2>
+      <p class="muted">Log in to the local demo account saved in this browser.</p>
+      <div class="fields">
+        <div class="field wide">
+          <label>EMAIL</label>
+          <input id="loginEmail" type="email" autocomplete="email" placeholder="Enter your email">
+        </div>
+        <div class="field wide">
+          <label>PASSWORD</label>
+          <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Enter your password">
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn primary" id="loginBtn" type="button">Login</button>
+        <button class="btn secondary" type="button" data-account-page="create">Create Account</button>
+      </div>
+      <div id="loginStatus" class="status">Enter the email and password you used to create the local demo account.</div>
+    </section>
+
+    <!-- Account: Profile -->
+    <section class="panel account-subview" id="account-profile">
+      <h2>Personal Profile</h2>
+      <div class="profile-grid">
+        <img class="profile-photo" src="profile-photo.jpg" alt="Profile photo">
+        <div>
+          <h2 id="accountProfileName" style="font-size:26px;margin-bottom:4px">Nabil Al Mahmud</h2>
+          <p class="muted" id="accountProfileEmail">Founder · Nabil Fx Backtesting</p>
+          <p>Personal trading journal and strategy research workspace. Track setups, review outcomes, and improve through evidence-based backtesting.</p>
+          <div>
+            <span class="tag">Forex</span><span class="tag">Gold</span>
+            <span class="tag">Indices</span><span class="tag">Stocks</span>
+            <span class="tag">Crypto</span><span class="tag">Futures</span>
+          </div>
+          <div class="section">
+            <label for="profileGoal">TRADING GOAL</label>
+            <textarea id="profileGoal" placeholder="Write your trading goals, rules, and review notes here..."></textarea>
+            <div class="actions">
+              <button class="btn primary" id="saveProfile">Save Profile Notes</button>
+              <button class="btn secondary" id="logoutBtn" type="button">Logout</button>
+            </div>
+            <p class="hint">Profile notes are saved locally in this browser.</p>
+          </div>
+        </div>
+      </div>
+      <div id="profileStatus" class="status">Your profile information will appear here.</div>
+    </section>
+
     <section class="panel">
-      <h2>Data & privacy</h2>
-      <p class="muted">Saved runs and notes remain in this browser unless exported or connected to a separately configured backend.</p>
+      <h2>Account status & privacy</h2>
+      <p><span class="tag" id="accountStatusTag">Local workspace</span></p>
+      <p class="muted">Profile notes, trade notes, images and saved backtest runs are stored in this browser.</p>
+      <p class="hint">This front-end demo does not provide secure cloud accounts or cross-device sync. For real authentication, a secure backend is required. Do not use a real or reused password here.</p>
       <div class="actions">
         <button class="btn secondary" id="accountExport">Download Full Backup JSON</button>
         <button class="btn secondary" id="accountClear">Clear Local Profile Notes</button>
@@ -718,8 +783,8 @@ $('saveProfile').onclick=()=>{
   const notes=$('profileGoal');
   try{
     localStorage.setItem('nabilFxProfileNotes',notes.value);
-    alert('Profile notes saved on this device.');
-  }catch(e){alert('Could not save profile notes in this browser.');}
+    $('profileStatus').textContent='Profile notes saved on this device.';
+  }catch(e){$('profileStatus').textContent='Could not save profile notes in this browser.';}
 };
 
 $('accountClear').onclick=()=>{
@@ -728,15 +793,137 @@ $('accountClear').onclick=()=>{
       localStorage.removeItem('nabilFxProfileNotes');
       $('profileGoal').value='';
       $('accountStatus').textContent='Local profile notes cleared.';
+      $('profileStatus').textContent='Profile notes cleared.';
     }catch(e){$('accountStatus').textContent='Could not clear local profile notes.';}
   }
 };
 
 try{$('profileGoal').value=localStorage.getItem('nabilFxProfileNotes')||'';}catch(e){}
 
+/* Local demo account. This is not secure authentication or cloud login. */
+function getLocalAccount(){
+  try{return JSON.parse(localStorage.getItem('nabilFxDemoAccount')||'null')}catch(e){return null}
+}
+function setAccountStatus(message){
+  $('accountStatus').textContent=message;
+}
+function refreshAccountProfile(){
+  const account=getLocalAccount();
+  const loggedIn=localStorage.getItem('nabilFxDemoLoggedIn')==='true';
+  $('accountProfileName').textContent=loggedIn&&account?account.name:'Nabil Al Mahmud';
+  $('accountProfileEmail').textContent=loggedIn&&account?account.email:'Founder · Nabil Fx Backtesting';
+  $('accountStatusTag').textContent=loggedIn&&account?'Logged in locally':'Local workspace';
+  $('profileStatus').textContent=loggedIn?'Logged in to the local demo account.':'Profile preview. Create an account or log in to show your local account details.';
+}
+
+$('createAccountBtn').onclick=()=>{
+  const name=$('createName').value.trim();
+  const email=$('createEmail').value.trim().toLowerCase();
+  const password=$('createPassword').value;
+  const confirmPassword=$('createConfirmPassword').value;
+
+  if(!name||!email||!password||!confirmPassword){
+    $('createAccountStatus').textContent='Please fill in every field.';
+    return;
+  }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    $('createAccountStatus').textContent='Please enter a valid email address.';
+    return;
+  }
+  if(password.length<8){
+    $('createAccountStatus').textContent='Password must be at least 8 characters.';
+    return;
+  }
+  if(password!==confirmPassword){
+    $('createAccountStatus').textContent='Passwords do not match.';
+    return;
+  }
+  if(getLocalAccount()){
+    $('createAccountStatus').textContent='A local demo account already exists. Please use Login.';
+    return;
+  }
+
+  try{
+    localStorage.setItem('nabilFxDemoAccount',JSON.stringify({name,email,password}));
+    localStorage.setItem('nabilFxDemoLoggedIn','true');
+    $('createPassword').value='';
+    $('createConfirmPassword').value='';
+    $('loginEmail').value=email;
+    $('loginPassword').value='';
+    $('createAccountStatus').textContent='Local demo account created. You are now logged in on this browser.';
+    refreshAccountProfile();
+    showAccountPage('profile');
+  }catch(e){
+    $('createAccountStatus').textContent='Could not create the local demo account in this browser.';
+  }
+};
+
+$('loginBtn').onclick=()=>{
+  const email=$('loginEmail').value.trim().toLowerCase();
+  const password=$('loginPassword').value;
+  const account=getLocalAccount();
+
+  if(!email||!password){
+    $('loginStatus').textContent='Enter both your email and password.';
+    return;
+  }
+  if(!account||account.email!==email||account.password!==password){
+    $('loginStatus').textContent='Account not found or email/password is incorrect on this browser.';
+    return;
+  }
+
+  localStorage.setItem('nabilFxDemoLoggedIn','true');
+  $('loginPassword').value='';
+  $('loginStatus').textContent='Login successful on this browser.';
+  refreshAccountProfile();
+  showAccountPage('profile');
+};
+
+$('logoutBtn').onclick=()=>{
+  localStorage.removeItem('nabilFxDemoLoggedIn');
+  refreshAccountProfile();
+  setAccountStatus('You have logged out of the local demo account.');
+  showAccountPage('login');
+};
+
+function showAccountPage(page){
+  const valid=['create','login','profile'];
+  if(!valid.includes(page))page='create';
+  document.querySelectorAll('.account-subview').forEach(el=>{
+    el.classList.toggle('active',el.id==='account-'+page);
+  });
+  document.querySelectorAll('[data-account-page]').forEach(btn=>{
+    btn.classList.toggle('active',btn.dataset.accountPage===page);
+  });
+  $('accountDropdown').classList.remove('open');
+  $('accountMenuToggle').setAttribute('aria-expanded','false');
+  refreshAccountProfile();
+}
+
+document.querySelectorAll('[data-account-page]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    show('account');
+    showAccountPage(btn.dataset.accountPage);
+  });
+});
+
+$('accountMenuToggle').addEventListener('click',()=>{
+  const dropdown=$('accountDropdown');
+  const open=dropdown.classList.toggle('open');
+  $('accountMenuToggle').setAttribute('aria-expanded',String(open));
+});
+
+document.addEventListener('click',event=>{
+  const menu=$('accountMenu');
+  if(menu&&!menu.contains(event.target)){
+    $('accountDropdown').classList.remove('open');
+    $('accountMenuToggle').setAttribute('aria-expanded','false');
+  }
+});
+
 /* Trading chart and page navigation */
 (function(){
-  const pages=['home','chart','backtest','notes','journal','profile','account'];
+  const pages=['home','chart','backtest','notes','journal','account'];
 
   function show(page){
     pages.forEach(p=>{
@@ -746,13 +933,24 @@ try{$('profileGoal').value=localStorage.getItem('nabilFxProfileNotes')||'';}catc
         if(p==='home')el.style.display=p===page?'flex':'none';
       }
     });
-    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
+    document.querySelectorAll('.nav-btn').forEach(b=>{
+      if(b.dataset.page)b.classList.toggle('active',b.dataset.page===page);
+    });
+    if(page!=='account'){
+      $('accountDropdown').classList.remove('open');
+      $('accountMenuToggle').setAttribute('aria-expanded','false');
+    }
     window.scrollTo({top:0,behavior:'smooth'});
     if(page==='chart')loadTradingView();
     if(page==='notes'&&typeof renderSavedNotes==='function')renderSavedNotes();
+    if(page==='account')refreshAccountProfile();
   }
 
-  document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',()=>show(b.dataset.page)));
+  window.showNabilPage=show;
+
+  document.querySelectorAll('.nav-btn[data-page]').forEach(b=>{
+    b.addEventListener('click',()=>show(b.dataset.page));
+  });
 
   const chartSets={
     forex:[['EUR/USD','FX:EURUSD'],['GBP/USD','FX:GBPUSD'],['USD/JPY','FX:USDJPY'],['AUD/JPY','FX:AUDJPY'],['GBP/JPY','FX:GBPJPY']],
