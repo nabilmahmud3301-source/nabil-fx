@@ -105,6 +105,17 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
 .panel{padding:14px}
 }
+
+/* Premium founder section below the home banner */
+.founder-section{max-width:1180px;margin:0 auto;padding:34px 20px 52px}
+.founder-card{display:flex;align-items:center;gap:24px;padding:24px 28px;background:linear-gradient(120deg,#111 0%,#17090b 60%,#090909 100%);border:1px solid #492027;border-radius:20px;box-shadow:0 14px 36px #0008}
+.founder-avatar{width:112px;height:112px;flex:0 0 112px;object-fit:cover;object-position:center 35%;border-radius:50%;border:3px solid #ff2438;box-shadow:0 0 0 5px #ff24381c,0 0 28px #ff24382a}
+.founder-kicker{margin:0 0 5px;color:#ff5262;font-size:12px;font-weight:800;letter-spacing:3px;text-transform:uppercase}
+.founder-name{margin:0;color:#fff;font-size:clamp(24px,3vw,34px);font-weight:850;line-height:1.15}
+.founder-description{margin:9px 0 0;color:#c6c6c6;font-size:14px;max-width:650px}
+.founder-accent{width:64px;height:3px;margin-top:14px;border-radius:3px;background:#ff2438}
+@media(max-width:600px){.founder-section{padding:20px 12px 34px}.founder-card{gap:15px;padding:18px;align-items:center}.founder-avatar{width:78px;height:78px;flex-basis:78px}.founder-kicker{font-size:10px;letter-spacing:2px}.founder-name{font-size:22px}.founder-description{font-size:12px}}
+
 </style>
 </head>
 <body>
@@ -130,7 +141,19 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </header>
 
 <section id="page-home" class="hero">
-  <img class="hero-img" src="hero-banner.png" alt="Nabil Fx">
+  <img class="hero-img" src="hero-banner.png" alt="Nabil Fx trading workspace">
+</section>
+
+<section class="founder-section" aria-label="Founder profile">
+  <div class="founder-card">
+    <img class="founder-avatar" src="profile-photo.jpg" alt="Nabil Al Mahmud">
+    <div>
+      <p class="founder-kicker">Founder &amp; CEO</p>
+      <h2 class="founder-name">Nabil Al Mahmud</h2>
+      <p class="founder-description">Building a disciplined trading workspace for strategy backtesting, market analysis, and consistent improvement.</p>
+      <div class="founder-accent"></div>
+    </div>
+  </div>
 </section>
 
 <section id="page-chart" class="view">
