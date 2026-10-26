@@ -176,6 +176,23 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 @media(max-width:850px){.video-grid{grid-template-columns:repeat(6,minmax(0,1fr));grid-template-rows:260px 210px}.video-card:nth-child(1){grid-column:1 / span 3;grid-row:1 / span 2}.video-card:nth-child(2){grid-column:4 / span 3;grid-row:1}.video-card:nth-child(3){grid-column:4 / span 2;grid-row:2}.video-card:nth-child(4){grid-column:6 / span 1;grid-row:2}}
 @media(max-width:560px){.video-showcase{padding:25px 12px 30px}.video-heading{font-size:36px}.video-intro{font-size:10px;letter-spacing:1.8px;margin-bottom:18px}.video-grid{grid-template-columns:1fr 1fr;grid-template-rows:260px 150px 150px;gap:9px}.video-card:nth-child(1){grid-column:1 / span 2;grid-row:1}.video-card:nth-child(2){grid-column:1 / span 2;grid-row:2}.video-card:nth-child(3){grid-column:1;grid-row:3}.video-card:nth-child(4){grid-column:2;grid-row:3}}
 
+
+/* Signature-led homepage, clear captions, visible fallback when hosted videos are missing. */
+.signature-kicker{font-size:10px;letter-spacing:4px;font-weight:800;color:#ff7181;margin:0 0 9px;text-transform:uppercase}
+.signature-heading{font-family:Georgia,'Times New Roman',serif;font-size:clamp(39px,5.5vw,70px);font-weight:500;font-style:italic;letter-spacing:-2px;line-height:1.04;color:#fff;margin:0 0 10px;text-shadow:0 4px 30px #ff243833}
+.signature-mark{color:#ff354c}
+.video-intro{margin:0 0 24px;color:#c3b9bd;font-size:12px;letter-spacing:1.3px;text-transform:none}
+.video-caption{position:absolute;z-index:4;left:0;right:0;bottom:0;padding:54px 20px 20px;background:linear-gradient(transparent,#050407ed 76%);pointer-events:none}
+.video-caption span{display:block;font-size:9px;font-weight:800;letter-spacing:2px;color:#ff8190;margin-bottom:8px}
+.video-caption h2{font-size:clamp(16px,2vw,25px);line-height:1.1;color:#fff;margin:0 0 7px;font-weight:850;letter-spacing:-.35px}
+.video-caption p{font-size:11px;line-height:1.45;color:#e0d8dc;margin:0;max-width:320px}
+.showcase-video{filter:brightness(1.28) saturate(1.35) contrast(1.08)!important}
+.video-screen:before{background:radial-gradient(ellipse at 25% 65%,#ef244a99 0%,transparent 46%),linear-gradient(135deg,#1d0911,#10090f 55%,#4c1020)!important}
+.visual-orbit:before{background:radial-gradient(circle at 60% 45%,#ff344a99 0%,transparent 25%),radial-gradient(circle at 50% 50%,#8d1533 0%,transparent 60%),linear-gradient(125deg,#08080a,#2a0a16)!important}
+.visual-form:before{background:repeating-linear-gradient(135deg,#ff334455 0 1px,transparent 1px 22px),radial-gradient(ellipse at 60% 40%,#a21e3c 0%,transparent 58%),#10070b!important}
+.visual-horizon:before{background:radial-gradient(ellipse at 50% 82%,#ff334499 0%,transparent 40%),linear-gradient(180deg,#080609,#300b17 65%,#78152a)!important}
+@media(max-width:560px){.signature-heading{font-size:39px;letter-spacing:-1.2px}.video-intro{font-size:11px;letter-spacing:.4px}.video-caption{padding:42px 13px 13px}.video-caption h2{font-size:16px}.video-caption p{font-size:10px}}
+
 </style>
 </head>
 <body>
@@ -202,14 +219,14 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 
 <section id="page-home" class="hero video-showcase" aria-label="Nabil Fx abstract visual showcase">
   <div class="video-wrap">
-    <div class="video-eyebrow">NABIL FX</div>
-    <h1 class="video-heading">Market <span>Intelligence</span></h1>
-    <p class="video-intro">Discipline. Clarity. Execution.</p>
+    <div class="signature-kicker">PERSONAL TRADING WORKSPACE</div>
+    <h1 class="signature-heading">Nabil Al Mahmud<span class="signature-mark">.</span></h1>
+    <p class="video-intro">Plan with purpose. Trade with discipline. Grow every day.</p>
     <div class="motion-grid video-grid">
-      <article class="motion-card video-card"><div class="motion-screen video-screen visual-flow"><video class="showcase-video" autoplay muted loop playsinline preload="auto" aria-label="Abstract red light motion"><source src="videos/motion-01.mp4" type="video/mp4"></video></div></article>
-      <article class="motion-card video-card"><div class="motion-screen video-screen visual-orbit"><video class="showcase-video" autoplay muted loop playsinline preload="auto" aria-label="Abstract particles and light"><source src="videos/motion-02.mp4" type="video/mp4"></video></div></article>
-      <article class="motion-card video-card"><div class="motion-screen video-screen visual-form"><video class="showcase-video" autoplay muted loop playsinline preload="auto" aria-label="Abstract geometric motion"><source src="videos/motion-03.mp4" type="video/mp4"></video></div></article>
-      <article class="motion-card video-card"><div class="motion-screen video-screen visual-horizon"><video class="showcase-video" autoplay muted loop playsinline preload="auto" aria-label="Abstract cinematic light beams"><source src="videos/motion-04.mp4" type="video/mp4"></video></div></article>
+      <article class="motion-card video-card"><div class="motion-screen video-screen visual-flow"><video class="showcase-video" autoplay muted loop playsinline preload="auto" aria-label="Abstract cinematic red light motion"><source src="videos/motion-01.mp4" type="video/mp4"></video><div class="video-caption"><span>01 / JOURNAL</span><h2>Build Your Journal</h2><p>Track every decision. Learn from every trade.</p></div></div></article>
+      <article class="motion-card video-card"><div class="motion-screen video-screen visual-orbit"><video class="showcase-video" autoplay muted loop playsinline preload="auto" aria-label="Abstract cinematic orbiting light"><source src="videos/motion-02.mp4" type="video/mp4"></video><div class="video-caption"><span>02 / BACKTEST</span><h2>Test Your Strategy</h2><p>Turn ideas into evidence.</p></div></div></article>
+      <article class="motion-card video-card"><div class="motion-screen video-screen visual-form"><video class="showcase-video" autoplay muted loop playsinline preload="auto" aria-label="Abstract geometric cinematic motion"><source src="videos/motion-03.mp4" type="video/mp4"></video><div class="video-caption"><span>03 / ANALYSIS</span><h2>Analyze the Market</h2><p>Find clarity before execution.</p></div></div></article>
+      <article class="motion-card video-card"><div class="motion-screen video-screen visual-horizon"><video class="showcase-video" autoplay muted loop playsinline preload="auto" aria-label="Abstract cinematic horizon light"><source src="videos/motion-04.mp4" type="video/mp4"></video><div class="video-caption"><span>04 / GROWTH</span><h2>Build a Better Life</h2><p>Improve your process. Build your future.</p></div></div></article>
     </div>
   </div>
 </section>
