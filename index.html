@@ -207,6 +207,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 @media(max-width:900px){.tool-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.workflow-band{margin-left:14px;margin-right:14px}}
 @media(max-width:560px){.video-showcase{padding-top:34px}.signature-heading{font-size:35px;letter-spacing:-1px}.video-grid{gap:10px}.video-caption{padding:44px 13px 14px}.home-tools{padding-top:30px;padding-bottom:38px}.tool-grid{gap:9px}.tool-card{padding:15px;min-height:190px}.tool-icon{width:36px;height:36px;margin-bottom:17px}.tool-card h3{font-size:14px}.tool-card p{font-size:10px}.workflow-band{align-items:flex-start;flex-direction:column;margin-bottom:35px}.home-actions{gap:8px}.home-action{padding:11px 14px}}
 
+
+  /* Compact premium workspace title above the unchanged founder card */
+  .signature-heading{font-family:Arial,Helvetica,sans-serif!important;font-size:clamp(16px,1.8vw,23px)!important;font-style:normal!important;font-weight:850!important;letter-spacing:2.1px!important;line-height:1.25!important;text-align:center!important;margin:0 0 2px!important;text-shadow:none!important;background:linear-gradient(90deg,#ff263b 0%,#ff5262 42%,#ffffff 78%);-webkit-background-clip:text;background-clip:text;color:transparent!important}
+  @media(max-width:560px){.signature-heading{font-size:16px!important;letter-spacing:1.4px!important}}
 </style>
 </head>
 <body>
@@ -235,6 +239,17 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   <div class="video-wrap">
     
     <h1 class="signature-heading">PERSONAL TRADING WORKSPACE</h1>
+    <section class="founder-section home-only" aria-label="Founder profile">
+  <div class="founder-card">
+    <img class="founder-avatar" src="profile-photo.jpg" alt="Nabil Al Mahmud">
+    <div>
+      <p class="founder-kicker">Founder &amp; CEO</p>
+      <h2 class="founder-name">Nabil Al Mahmud</h2>
+      <p class="founder-description">Building a disciplined trading workspace for strategy backtesting, market analysis, and consistent improvement.</p>
+      <div class="founder-accent"></div>
+    </div>
+  </div>
+</section>
     <p class="video-intro">A smarter workspace for disciplined traders — built to analyze, test, track, and improve.</p>
     <div class="home-actions"><button class="home-action primary" type="button" data-page="chart">Explore Chart <span aria-hidden="true">↗</span></button><button class="home-action" type="button" data-page="backtest">Open AI Backtesting <span aria-hidden="true">→</span></button></div>
     <div class="motion-grid video-grid">
@@ -246,17 +261,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   </div>
 </section>
 
-<section class="founder-section home-only" aria-label="Founder profile">
-  <div class="founder-card">
-    <img class="founder-avatar" src="profile-photo.jpg" alt="Nabil Al Mahmud">
-    <div>
-      <p class="founder-kicker">Founder &amp; CEO</p>
-      <h2 class="founder-name">Nabil Al Mahmud</h2>
-      <p class="founder-description">Building a disciplined trading workspace for strategy backtesting, market analysis, and consistent improvement.</p>
-      <div class="founder-accent"></div>
-    </div>
-  </div>
-</section>
+
 
 
 
