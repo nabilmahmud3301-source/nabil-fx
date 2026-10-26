@@ -124,7 +124,6 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
       <div class="account-dropdown" id="accountDropdown">
         <button class="account-option" type="button" data-account-page="create">Create Account</button>
         <button class="account-option" type="button" data-account-page="login">Login</button>
-        <button class="account-option" type="button" data-account-page="profile">Profile</button>
       </div>
     </div>
   </nav>
@@ -427,7 +426,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   <div class="account-grid">
     <section class="panel account-subview active" id="account-create">
       <h2>Create Account</h2>
-      <p class="muted">Create a local demo account for this browser.</p>
+      <p class="muted">Create your secure account with Supabase authentication.</p>
       <div class="fields">
         <div class="field wide">
           <label>FULL NAME</label>
@@ -450,13 +449,13 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
         <button class="btn primary" id="createAccountBtn" type="button">Create Account</button>
         <button class="btn secondary" type="button" data-account-page="login">Already have an account? Login</button>
       </div>
-      <div id="createAccountStatus" class="status">This demo stores account information only in this browser. It is not a secure cloud authentication system.</div>
+      <div id="createAccountStatus" class="status">Use a valid email and a password with at least 8 characters.</div>
     </section>
 
     <!-- Account: Login -->
     <section class="panel account-subview" id="account-login">
       <h2>Login</h2>
-      <p class="muted">Log in to the local demo account saved in this browser.</p>
+      <p class="muted">Log in with the email and password you registered with.</p>
       <div class="fields">
         <div class="field wide">
           <label>EMAIL</label>
@@ -471,47 +470,56 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
         <button class="btn primary" id="loginBtn" type="button">Login</button>
         <button class="btn secondary" type="button" data-account-page="create">Create Account</button>
       </div>
-      <div id="loginStatus" class="status">Enter the email and password you used to create the local demo account.</div>
+      <div id="loginStatus" class="status">Enter your registered email and password.</div>
     </section>
 
     <!-- Account: Profile -->
     <section class="panel account-subview" id="account-profile">
       <h2>Personal Profile</h2>
       <div class="profile-grid">
-        <img class="profile-photo" src="profile-photo.jpg" alt="Profile photo">
         <div>
-          <h2 id="accountProfileName" style="font-size:26px;margin-bottom:4px">Nabil Al Mahmud</h2>
-          <p class="muted" id="accountProfileEmail">Founder · Nabil Fx Backtesting</p>
-          <p>Personal trading journal and strategy research workspace. Track setups, review outcomes, and improve through evidence-based backtesting.</p>
-          <div>
-            <span class="tag">Forex</span><span class="tag">Gold</span>
-            <span class="tag">Indices</span><span class="tag">Stocks</span>
-            <span class="tag">Crypto</span><span class="tag">Futures</span>
-          </div>
-          <div class="section">
-            <label for="profileGoal">TRADING GOAL</label>
-            <textarea id="profileGoal" placeholder="Write your trading goals, rules, and review notes here..."></textarea>
-            <div class="actions">
-              <button class="btn primary" id="saveProfile">Save Profile Notes</button>
-              <button class="btn secondary" id="logoutBtn" type="button">Logout</button>
-            </div>
-            <p class="hint">Profile notes are saved locally in this browser.</p>
+          <img class="profile-photo" id="accountProfilePhoto" src="profile-photo.jpg" alt="Your profile photo">
+          <div class="field section">
+            <label for="avatarUpload">PROFILE PICTURE</label>
+            <input id="avatarUpload" type="file" accept="image/png,image/jpeg,image/webp">
+            <p class="hint">PNG, JPG or WebP; maximum 2 MB.</p>
           </div>
         </div>
+        <div>
+          <h2 id="accountProfileName" style="font-size:26px;margin-bottom:4px">Your Profile</h2>
+          <p class="muted" id="accountProfileEmail">Not signed in</p>
+          <div class="fields section">
+            <div class="field wide"><label for="profileDisplayName">DISPLAY NAME</label><input id="profileDisplayName" maxlength="80" placeholder="Your name"></div>
+            <div class="field"><label for="profileUsername">USERNAME</label><input id="profileUsername" maxlength="30" placeholder="Optional username"></div>
+            <div class="field"><label for="profileMarket">FAVORITE MARKET</label><select id="profileMarket"><option>Forex</option><option>Gold</option><option>Indices</option><option>Stocks</option><option>Crypto</option><option>Futures</option></select></div>
+            <div class="field wide"><label for="profileBio">BIO</label><textarea id="profileBio" maxlength="500" placeholder="Tell people a little about your trading journey..."></textarea></div>
+          </div>
+          <div class="section">
+            <label for="profileGoal">TRADING GOAL / PRIVATE NOTES</label>
+            <textarea id="profileGoal" placeholder="Write your trading goals, rules, and review notes here..."></textarea>
+          </div>
+          <div class="actions">
+            <button class="btn primary" id="saveProfile" type="button">Save Profile</button>
+            <button class="btn secondary" id="logoutBtn" type="button">Logout</button>
+          </div>
+          <p class="hint">Your profile details and trading goal notes are saved to your cloud profile. Journal notes and saved backtest runs remain local to this browser.</p>
+        </div>
       </div>
-      <div id="profileStatus" class="status">Your profile information will appear here.</div>
+      <div id="profileStatus" class="status">Sign in to view and edit your profile.</div>
     </section>
 
     <section class="panel">
       <h2>Account status & privacy</h2>
-      <p><span class="tag" id="accountStatusTag">Local workspace</span></p>
-      <p class="muted">Profile notes, trade notes, images and saved backtest runs are stored in this browser.</p>
-      <p class="hint">This front-end demo does not provide secure cloud accounts or cross-device sync. For real authentication, a secure backend is required. Do not use a real or reused password here.</p>
+      <p><span class="tag" id="accountStatusTag">Not signed in</span></p>
+      <p class="muted">Account authentication and profile details use Supabase. Journal notes and saved backtest runs remain local to this browser.</p>
+      <p class="hint">Never share your password or a Supabase service-role key. The website should use only the publishable/anon key.</p>
       <div class="actions">
         <button class="btn secondary" id="accountExport">Download Full Backup JSON</button>
         <button class="btn secondary" id="accountClear">Clear Local Profile Notes</button>
       </div>
-      <p id="accountStatus" class="status">No cloud account connection has been configured.</p>
+      <p id="accountStatus" class="status">Connecting to Supabase...</p>
+      <p id="cloudStatus" class="status" aria-live="polite">Checking cloud connection...</p>
+      <p id="accountDetails" class="hint">Not signed in</p>
     </section>
   </div>
 </section>
@@ -800,95 +808,10 @@ $('accountClear').onclick=()=>{
 
 try{$('profileGoal').value=localStorage.getItem('nabilFxProfileNotes')||'';}catch(e){}
 
-/* Local demo account. This is not secure authentication or cloud login. */
-function getLocalAccount(){
-  try{return JSON.parse(localStorage.getItem('nabilFxDemoAccount')||'null')}catch(e){return null}
-}
-function setAccountStatus(message){
-  $('accountStatus').textContent=message;
-}
-function refreshAccountProfile(){
-  const account=getLocalAccount();
-  const loggedIn=localStorage.getItem('nabilFxDemoLoggedIn')==='true';
-  $('accountProfileName').textContent=loggedIn&&account?account.name:'Nabil Al Mahmud';
-  $('accountProfileEmail').textContent=loggedIn&&account?account.email:'Founder · Nabil Fx Backtesting';
-  $('accountStatusTag').textContent=loggedIn&&account?'Logged in locally':'Local workspace';
-  $('profileStatus').textContent=loggedIn?'Logged in to the local demo account.':'Profile preview. Create an account or log in to show your local account details.';
-}
-
-$('createAccountBtn').onclick=()=>{
-  const name=$('createName').value.trim();
-  const email=$('createEmail').value.trim().toLowerCase();
-  const password=$('createPassword').value;
-  const confirmPassword=$('createConfirmPassword').value;
-
-  if(!name||!email||!password||!confirmPassword){
-    $('createAccountStatus').textContent='Please fill in every field.';
-    return;
-  }
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-    $('createAccountStatus').textContent='Please enter a valid email address.';
-    return;
-  }
-  if(password.length<8){
-    $('createAccountStatus').textContent='Password must be at least 8 characters.';
-    return;
-  }
-  if(password!==confirmPassword){
-    $('createAccountStatus').textContent='Passwords do not match.';
-    return;
-  }
-  if(getLocalAccount()){
-    $('createAccountStatus').textContent='A local demo account already exists. Please use Login.';
-    return;
-  }
-
-  try{
-    localStorage.setItem('nabilFxDemoAccount',JSON.stringify({name,email,password}));
-    localStorage.setItem('nabilFxDemoLoggedIn','true');
-    $('createPassword').value='';
-    $('createConfirmPassword').value='';
-    $('loginEmail').value=email;
-    $('loginPassword').value='';
-    $('createAccountStatus').textContent='Local demo account created. You are now logged in on this browser.';
-    refreshAccountProfile();
-    showAccountPage('profile');
-  }catch(e){
-    $('createAccountStatus').textContent='Could not create the local demo account in this browser.';
-  }
-};
-
-$('loginBtn').onclick=()=>{
-  const email=$('loginEmail').value.trim().toLowerCase();
-  const password=$('loginPassword').value;
-  const account=getLocalAccount();
-
-  if(!email||!password){
-    $('loginStatus').textContent='Enter both your email and password.';
-    return;
-  }
-  if(!account||account.email!==email||account.password!==password){
-    $('loginStatus').textContent='Account not found or email/password is incorrect on this browser.';
-    return;
-  }
-
-  localStorage.setItem('nabilFxDemoLoggedIn','true');
-  $('loginPassword').value='';
-  $('loginStatus').textContent='Login successful on this browser.';
-  refreshAccountProfile();
-  showAccountPage('profile');
-};
-
-$('logoutBtn').onclick=()=>{
-  localStorage.removeItem('nabilFxDemoLoggedIn');
-  refreshAccountProfile();
-  setAccountStatus('You have logged out of the local demo account.');
-  showAccountPage('login');
-};
-
+/* Account authentication is handled by auth.js with Supabase. */
 function showAccountPage(page){
   const valid=['create','login','profile'];
-  if(!valid.includes(page))page='create';
+  if(!valid.includes(page)) page='create';
   document.querySelectorAll('.account-subview').forEach(el=>{
     el.classList.toggle('active',el.id==='account-'+page);
   });
@@ -897,22 +820,19 @@ function showAccountPage(page){
   });
   $('accountDropdown').classList.remove('open');
   $('accountMenuToggle').setAttribute('aria-expanded','false');
-  refreshAccountProfile();
 }
-
+window.showNabilAccountPage=showAccountPage;
 document.querySelectorAll('[data-account-page]').forEach(btn=>{
   btn.addEventListener('click',()=>{
-    show('account');
+    if(window.showNabilPage) window.showNabilPage('account');
     showAccountPage(btn.dataset.accountPage);
   });
 });
-
 $('accountMenuToggle').addEventListener('click',()=>{
   const dropdown=$('accountDropdown');
   const open=dropdown.classList.toggle('open');
   $('accountMenuToggle').setAttribute('aria-expanded',String(open));
 });
-
 document.addEventListener('click',event=>{
   const menu=$('accountMenu');
   if(menu&&!menu.contains(event.target)){
@@ -943,7 +863,7 @@ document.addEventListener('click',event=>{
     window.scrollTo({top:0,behavior:'smooth'});
     if(page==='chart')loadTradingView();
     if(page==='notes'&&typeof renderSavedNotes==='function')renderSavedNotes();
-    if(page==='account')refreshAccountProfile();
+    if(page==='account' && !document.querySelector('.account-subview.active')) showAccountPage('create');
   }
 
   window.showNabilPage=show;
@@ -1398,5 +1318,8 @@ $('importNotesFile').addEventListener('change',async event=>{
   }
 })();
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="auth.js"></script>
 </body>
 </html>
