@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Nabil Fx Backtesting — Pro Trading Workspace</title>
+<title>Nabil Fx — Pro Trading Workspace</title>
 <style>
 :root{color-scheme:dark;--bg:#050505;--panel:#101010;--line:#292929;--muted:#a7a7a7;--text:#f6f6f6;--accent:#ff2438}
 *{box-sizing:border-box}
@@ -112,7 +112,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <header class="site-header">
   <div class="site-brand">
     <img class="site-logo" src="profile-photo.jpg" alt="Profile photo">
-    <span>Nabil <b>Fx</b> Backtesting</span>
+    <span>Nabil <b>Fx</b></span>
   </div>
   <nav class="site-nav" aria-label="Main navigation">
     <button class="nav-btn active" data-page="home">Home</button>
@@ -130,7 +130,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </header>
 
 <section id="page-home" class="hero">
-  <img class="hero-img" src="hero-banner.png" alt="Nabil Fx Backtesting">
+  <img class="hero-img" src="hero-banner.png" alt="Nabil Fx">
 </section>
 
 <section id="page-chart" class="view">
@@ -775,7 +775,7 @@ async function exportBackup(){
   let notes=[];
   try{if(notesDB)notes=await getNotes()}catch(e){}
   download('nabil-fx-full-backup.json',JSON.stringify({
-    app:'Nabil Fx Backtesting',
+    app:'Nabil Fx',
     version:4,
     exportedAt:new Date().toISOString(),
     savedRuns:getSavedRuns(),

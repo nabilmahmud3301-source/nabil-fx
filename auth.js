@@ -1,4 +1,4 @@
-/* Nabil Fx Backtesting — Supabase authentication and per-user profile */
+/* Nabil Fx — Supabase authentication and per-user profile */
 (() => {
   'use strict';
 

@@ -1,0 +1,23 @@
+NABIL FX — BACKUP & RESTORE GUIDE (BANGLISH)
+
+Current repository: https://github.com/nabilmahmud3301-source/nabil-fx
+Expected website URL: https://nabilmahmud3301-source.github.io/nabil-fx/
+
+WEBSITE FILE UPDATE / RESTORE
+1. ZIP file-ta Extract All koro.
+2. GitHub repository link-ta kholo.
+3. Repository-r root-e `index.html`, `auth.js`, `supabase-config.js` ebong proyojonio docs upload/replace koro. File-gulo folder-er vitore rekhe upload korbe na; repository root-e thakbe.
+4. `hero-banner.png` ebong `profile-photo.jpg` thakle ogulo delete korbe na. Duita image `index.html`-er pashe, root-e rakhbe.
+5. Supabase table agei create kora thakle SQL abar run korar dorkar nei.
+6. Commit changes koro, tarpor GitHub Actions / Settings > Pages-e deployment status check koro.
+7. Website open kore `Ctrl + F5` dao.
+
+BRANDING
+- Website-er visible brand: Nabil Fx
+- Repository slug: nabil-fx
+- Website URL: https://nabilmahmud3301-source.github.io/nabil-fx/
+- Supabase project URL change korbe na.
+
+IMPORTANT
+- Ei ZIP-e live Supabase user accounts/database records nei.
+- Supabase service-role/secret key kokhono public GitHub file-e rakhbe na.
