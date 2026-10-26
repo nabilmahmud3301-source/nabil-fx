@@ -127,6 +127,30 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 @media(max-width:850px){.motion-grid,.video-grid{grid-template-columns:1fr 1fr}.motion-card:first-child,.video-card:first-child{grid-row:auto;grid-column:1/-1}.motion-card:first-child .motion-screen,.video-card:first-child .video-screen{height:300px!important;min-height:0!important}}@media(max-width:560px){.video-showcase{padding:25px 12px 30px}.motion-grid,.video-grid{grid-template-columns:1fr}.motion-card:first-child,.video-card:first-child{grid-column:auto}.motion-card:first-child .motion-screen,.video-card:first-child .video-screen{height:245px!important;min-height:0!important}.motion-screen,.video-screen{height:185px!important}.video-intro{margin-bottom:19px}}
 @media(prefers-reduced-motion:reduce){.chart-path,.scanline,.pulse-dot,.motion-bars i,.mini-sweep{animation:none}}
 
+
+/* Minimal premium showcase: clean typography, no strategy labels or long captions. */
+.video-showcase{padding:clamp(28px,5vw,66px) clamp(14px,3vw,34px) 42px;background:radial-gradient(ellipse at 50% 0%,#26080e 0%,#09090b 54%,#050506 100%);min-height:auto}
+.video-wrap{max-width:1320px;margin:0 auto}
+.video-eyebrow{font-size:10px;letter-spacing:5px;color:#f25b6c;margin-bottom:13px}
+.video-heading{font-size:clamp(34px,5.2vw,68px);letter-spacing:-2px;line-height:1.02;margin-bottom:30px}
+.video-heading span{color:#ff4357}
+.video-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.video-card{grid-row:auto!important;min-height:0;border-radius:15px;border-color:#352027;background:#09090b;box-shadow:0 18px 50px #0008}
+.video-screen,.motion-card:first-child .video-screen,.video-card:first-child .video-screen{height:auto!important;min-height:0!important;aspect-ratio:4/5;position:relative;isolation:isolate;background-color:#08080a;overflow:hidden}
+.showcase-video{z-index:1;object-fit:cover;background:transparent;opacity:1}
+.video-screen:before{z-index:0;background-image:radial-gradient(ellipse at 50% 50%,#54101c 0%,transparent 60%),linear-gradient(135deg,#100b10,#050506 70%);opacity:.9}
+.video-screen:after{content:"";position:absolute;z-index:0;inset:-30%;background:conic-gradient(from 0deg,transparent 0 70%,#ff334522 78%,transparent 86%);animation:abstractOrbit 14s linear infinite}
+.video-index{position:absolute;z-index:3;right:14px;bottom:12px;color:#fff9;font-size:10px;letter-spacing:2px;font-weight:700}
+.video-card .motion-copy,.motion-kicker,.motion-value,.video-overlay,.motion-label,.motion-title,.motion-desc,.showcase-note{display:none!important}
+.showcase-video.video-failed{display:none}
+.visual-flow:before{background:radial-gradient(ellipse at 35% 60%,#8d172b66,transparent 42%),linear-gradient(135deg,#0b080a,#1a070d 55%,#050506)!important}
+.visual-orbit:before{background:radial-gradient(circle at 55% 42%,#ff334433,transparent 28%),radial-gradient(circle at 50% 50%,#55101e,transparent 58%),#070709!important}
+.visual-form:before{background:repeating-linear-gradient(135deg,#ff334412 0 1px,transparent 1px 18px),linear-gradient(135deg,#09090b,#260912)!important}
+.visual-horizon:before{background:radial-gradient(ellipse at 50% 85%,#b81f3855,transparent 42%),linear-gradient(180deg,#050506,#16070b 75%,#3b0c16)!important}
+@keyframes abstractOrbit{to{transform:rotate(360deg)}}
+@media(max-width:900px){.video-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.video-screen,.motion-card:first-child .video-screen,.video-card:first-child .video-screen{aspect-ratio:5/4}}
+@media(max-width:560px){.video-grid{gap:9px}.video-heading{margin-bottom:21px}.video-screen,.motion-card:first-child .video-screen,.video-card:first-child .video-screen{aspect-ratio:4/5}.video-showcase{padding:28px 13px 30px}}
+
 </style>
 </head>
 <body>
@@ -151,30 +175,16 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   </nav>
 </header>
 
-<section id="page-home" class="hero video-showcase" aria-label="Original abstract brand motion visuals">
+<section id="page-home" class="hero video-showcase" aria-label="Nabil Fx abstract visual showcase">
   <div class="video-wrap">
-    <div class="video-eyebrow">NABIL FX · SIGNATURE MOTION</div>
-    <h1 class="video-heading">Beyond the ordinary.<br><span>Built to stand apart.</span></h1>
-    <p class="video-intro">A cinematic visual identity for Nabil Fx—abstract motion, refined lighting, and a premium black-and-red aesthetic.</p>
+    <div class="video-eyebrow">NABIL FX</div>
+    <h1 class="video-heading">A sharper <span>perspective.</span></h1>
     <div class="motion-grid video-grid">
-      <article class="motion-card video-card">
-        <div class="motion-screen video-screen"><video class="showcase-video" autoplay muted loop playsinline preload="metadata" aria-label="Original abstract flowing light video"><source src="videos/price-action.mp4" type="video/mp4"></video><div class="video-overlay"></div><span class="motion-kicker">SIGNATURE SERIES</span><span class="motion-value">01 / FLOW</span></div>
-        <div class="motion-copy"><span class="motion-label">Visual identity</span><h2 class="motion-title">Crimson Flow</h2><p class="motion-desc">Silky light trails and restrained red highlights.</p></div>
-      </article>
-      <article class="motion-card video-card">
-        <div class="motion-screen video-screen"><video class="showcase-video" autoplay muted loop playsinline preload="metadata" aria-label="Original abstract particle field video"><source src="videos/liquidity-sweep.mp4" type="video/mp4"></video><div class="video-overlay"></div><span class="motion-kicker">SIGNATURE SERIES</span><span class="motion-value">02 / ORBIT</span></div>
-        <div class="motion-copy"><span class="motion-label">Atmosphere</span><h2 class="motion-title">Orbit of Light</h2><p class="motion-desc">Elegant particles and subtle luminous connections.</p></div>
-      </article>
-      <article class="motion-card video-card">
-        <div class="motion-screen video-screen"><video class="showcase-video" autoplay muted loop playsinline preload="metadata" aria-label="Original abstract geometric loop video"><source src="videos/market-structure.mp4" type="video/mp4"></video><div class="video-overlay"></div><span class="motion-kicker">SIGNATURE SERIES</span><span class="motion-value">03 / FORM</span></div>
-        <div class="motion-copy"><span class="motion-label">Geometry</span><h2 class="motion-title">Infinite Form</h2><p class="motion-desc">Slow, precise geometric motion with a metallic glow.</p></div>
-      </article>
-      <article class="motion-card video-card">
-        <div class="motion-screen video-screen"><video class="showcase-video" autoplay muted loop playsinline preload="metadata" aria-label="Original cinematic light beam video"><source src="videos/session-flow.mp4" type="video/mp4"></video><div class="video-overlay"></div><span class="motion-kicker">SIGNATURE SERIES</span><span class="motion-value">04 / LUMINANCE</span></div>
-        <div class="motion-copy"><span class="motion-label">Cinematic design</span><h2 class="motion-title">Red Horizon</h2><p class="motion-desc">Layered light beams and a refined futuristic mood.</p></div>
-      </article>
+      <article class="motion-card video-card"><div class="motion-screen video-screen visual-flow"><video class="showcase-video" autoplay muted loop playsinline preload="auto" aria-label="Abstract red light motion"><source src="videos/motion-01.mp4" type="video/mp4"></video><span class="video-index">01</span></div></article>
+      <article class="motion-card video-card"><div class="motion-screen video-screen visual-orbit"><video class="showcase-video" autoplay muted loop playsinline preload="auto" aria-label="Abstract particles and light"><source src="videos/motion-02.mp4" type="video/mp4"></video><span class="video-index">02</span></div></article>
+      <article class="motion-card video-card"><div class="motion-screen video-screen visual-form"><video class="showcase-video" autoplay muted loop playsinline preload="auto" aria-label="Abstract geometric motion"><source src="videos/motion-03.mp4" type="video/mp4"></video><span class="video-index">03</span></div></article>
+      <article class="motion-card video-card"><div class="motion-screen video-screen visual-horizon"><video class="showcase-video" autoplay muted loop playsinline preload="auto" aria-label="Abstract cinematic light beams"><source src="videos/motion-04.mp4" type="video/mp4"></video><span class="video-index">04</span></div></article>
     </div>
-    <p class="showcase-note">4 original abstract MP4 loops · No third-party footage · No strategy visuals · Brand atmosphere only.</p>
   </div>
 </section>
 
@@ -1374,6 +1384,20 @@ $('importNotesFile').addEventListener('change',async event=>{
     $('savedNotes').innerHTML='<p class="note-empty">Browser storage is unavailable. Your notes cannot be saved in this session.</p>';
   }
 })();
+</script>
+<script>
+// Muted autoplay is attempted on load. If a video file is missing or unsupported,
+// hide the failed player and keep the abstract animated fallback visible.
+document.querySelectorAll('.showcase-video').forEach(video=>{
+  video.muted=true;
+  video.defaultMuted=true;
+  const fail=()=>video.classList.add('video-failed');
+  video.addEventListener('error',fail);
+  video.querySelectorAll('source').forEach(source=>source.addEventListener('error',fail));
+  const attempt=()=>{const p=video.play();if(p&&typeof p.catch==='function')p.catch(()=>{});};
+  video.addEventListener('canplay',attempt,{once:true});
+  attempt();
+});
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
