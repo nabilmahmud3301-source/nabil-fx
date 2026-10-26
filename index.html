@@ -24,13 +24,14 @@ main{max-width:1150px;margin:auto;padding:26px 16px 50px}
 .view-heading{font-size:28px;margin:0 0 8px}
 .view-lead{color:var(--muted);margin:0 0 22px}
 .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}
-.panel{background:rgba(16,16,16,.97);border:1px solid var(--line);border-radius:17px;padding:19px}
+.panel{background:rgba(16,16,16,.97);border:1px solid var(--line);border-radius:17px;padding:19px;min-width:0}
 .fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.field{display:flex;flex-direction:column;gap:6px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
 .wide{grid-column:1/-1}
 label{font-size:12px;color:var(--muted);font-weight:700}
-input,select,textarea{background:#0b1222;color:var(--text);border:1px solid #2b3954;border-radius:10px;padding:11px;font:inherit;width:100%}
+input,select,textarea{background:#0b1222;color:var(--text);border:1px solid #2b3954;border-radius:10px;padding:11px;font:inherit;width:100%;min-width:0}
 textarea{min-height:130px;resize:vertical}
+input[type=file]{font-size:12px}
 .hint,.tiny,.muted,.foot,.sub{color:var(--muted)}
 .hint{font-size:12px;margin-top:4px}
 .tiny{font-size:11px}
@@ -38,9 +39,9 @@ textarea{min-height:130px;resize:vertical}
 .btn{border:0;border-radius:10px;padding:12px 15px;font-weight:800;cursor:pointer}
 .primary{background:var(--accent);color:white}
 .secondary{background:#202d45;color:var(--text);border:1px solid #35445f}
-.status{margin-top:13px;padding:12px;border-radius:10px;background:#0b1222;border:1px solid var(--line);white-space:pre-wrap;font-size:13px;color:#c5d3e8}
+.status{margin-top:13px;padding:12px;border-radius:10px;background:#0b1222;border:1px solid var(--line);white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;color:#c5d3e8}
 .metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.metric{padding:13px;border-radius:12px;background:#0b1222;border:1px solid var(--line)}
+.metric{padding:13px;border-radius:12px;background:#0b1222;border:1px solid var(--line);min-width:0}
 .metric small{display:block;color:var(--muted);font-size:12px}
 .metric strong{font-size:22px;display:block;margin-top:4px;overflow-wrap:anywhere}
 .section{margin-top:16px}
@@ -59,11 +60,26 @@ canvas{display:block;width:100%;height:190px;background:#0b1222;border:1px solid
 .tag{display:inline-block;padding:6px 10px;border:1px solid #7b1822;border-radius:999px;color:#ff6978;font-size:12px;margin:4px 4px 0 0}
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .btn:disabled{opacity:.45;cursor:not-allowed}
+.note-images{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.note-image-item{position:relative;width:120px;height:100px}
+.note-image-item img{width:100%;height:100%;object-fit:cover;border:1px solid var(--line);border-radius:10px}
+.note-image-item button{position:absolute;top:4px;right:4px;padding:3px 7px;background:#b91c1c;color:white;border:0;border-radius:5px;cursor:pointer}
+.saved-notes{display:grid;gap:12px}
+.saved-note{padding:14px;background:#0b1222;border:1px solid var(--line);border-radius:12px;min-width:0}
+.saved-note h3{margin:0 0 6px;font-size:17px;overflow-wrap:anywhere}
+.saved-note p{margin:5px 0;color:var(--muted);font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere}
+.saved-note-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.saved-note-actions button{padding:9px 12px}
+.note-badge{display:inline-block;padding:3px 9px;border:1px solid #7b1822;border-radius:20px;color:#ff8792;font-size:11px;margin:2px 0 8px}
+.note-detail-images{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.note-detail-images a{display:block;width:105px;height:85px}
+.note-detail-images img{width:100%;height:100%;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
+.note-empty{padding:18px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}
 @media(max-width:800px){.grid{grid-template-columns:1fr}}
 @media(max-width:760px){
 .site-header{align-items:flex-start;flex-direction:column;gap:4px;padding:10px 14px}
 .site-nav{width:100%;justify-content:flex-start;gap:14px;overflow-x:auto;flex-wrap:nowrap}
-.nav-btn{padding:12px 1px 10px;font-size:13px}
+.nav-btn{padding:12px 1px 10px;font-size:13px;white-space:nowrap}
 .site-brand{font-size:18px}
 .site-logo{width:38px;height:38px}
 .hero{min-height:0}
@@ -72,7 +88,14 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .chart-toolbar,.account-grid{grid-template-columns:1fr}
 .tv-frame{height:560px}
 }
-@media(max-width:520px){.fields{grid-template-columns:1fr}.wide{grid-column:auto}.profile-grid{grid-template-columns:1fr}.profile-photo{width:120px;height:120px}}
+@media(max-width:520px){
+.fields{grid-template-columns:1fr}
+.wide{grid-column:auto}
+.profile-grid{grid-template-columns:1fr}
+.profile-photo{width:120px;height:120px}
+.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+.panel{padding:14px}
+}
 </style>
 </head>
 <body>
@@ -85,7 +108,8 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   <nav class="site-nav" aria-label="Main navigation">
     <button class="nav-btn active" data-page="home">Home</button>
     <button class="nav-btn" data-page="chart">Chart</button>
-    <button class="nav-btn" data-page="backtest">Backtesting with AI</button>
+    <button class="nav-btn" data-page="backtest">Backtest with AI</button>
+    <button class="nav-btn" data-page="notes">Notes</button>
     <button class="nav-btn" data-page="journal">Journal</button>
     <button class="nav-btn" data-page="profile">Profile</button>
     <button class="nav-btn" data-page="account">Account</button>
@@ -146,7 +170,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 <main style="max-width:none;padding:0;margin:0">
 
 <section id="page-backtest" class="view">
-  <h2 class="view-heading">Backtesting with AI</h2>
+  <h2 class="view-heading">Backtest with AI</h2>
   <p class="view-lead">Test the supported strategy template using historical candles. A live AI API is not connected in this static build.</p>
   <div class="grid">
     <section class="panel">
@@ -267,8 +291,8 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 </section>
 
 <section id="page-journal" class="view">
-  <h2 class="view-heading">Trading Journal</h2>
-  <p class="view-lead">Review completed trades from your most recent backtest.</p>
+  <h2 class="view-heading">Backtest Trade Journal</h2>
+  <p class="view-lead">Review completed trades from your most recent backtest. Use Notes for your personal trade reviews and screenshots.</p>
   <section class="panel section">
     <h2>Trade journal</h2>
     <div class="tablewrap">
@@ -278,6 +302,107 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
       </table>
     </div>
   </section>
+</section>
+
+<section id="page-notes" class="view">
+  <h2 class="view-heading">Trade Notes</h2>
+  <p class="view-lead">Create separate trade notes, save chart screenshots, and review your entry decisions later.</p>
+
+  <div class="grid">
+    <section class="panel">
+      <h2 id="noteFormTitle">Create New Note</h2>
+      <input type="hidden" id="noteId">
+
+      <div class="fields">
+        <div class="field wide">
+          <label>NOTE TITLE</label>
+          <input id="noteTitle" placeholder="e.g. EUR/USD London Liquidity Sweep">
+        </div>
+        <div class="field">
+          <label>PAIR / SYMBOL</label>
+          <input id="notePair" placeholder="EUR/USD">
+        </div>
+        <div class="field">
+          <label>SESSION</label>
+          <select id="noteSession">
+            <option>London</option>
+            <option>New York</option>
+            <option>Asia</option>
+            <option>Sydney / Tokyo</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>ENTRY DATE & TIME</label>
+          <input id="noteTime" type="datetime-local">
+        </div>
+        <div class="field">
+          <label>TRADE DIRECTION</label>
+          <select id="noteSide">
+            <option>Buy / Long</option>
+            <option>Sell / Short</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>ENTRY PRICE</label>
+          <input id="noteEntry" type="number" step="any" placeholder="Entry price">
+        </div>
+        <div class="field">
+          <label>STOP LOSS</label>
+          <input id="noteSL" type="number" step="any" placeholder="SL price">
+        </div>
+        <div class="field">
+          <label>TAKE PROFIT</label>
+          <input id="noteTP" type="number" step="any" placeholder="TP price">
+        </div>
+        <div class="field">
+          <label>TRADE RESULT</label>
+          <select id="noteResult">
+            <option value="Open">Open</option>
+            <option value="TP Hit">TP Hit</option>
+            <option value="SL Hit">SL Hit</option>
+            <option value="Breakeven">Breakeven</option>
+            <option value="Manual Close">Manual Close</option>
+          </select>
+        </div>
+        <div class="field wide">
+          <label>WHY DID YOU TAKE THIS ENTRY?</label>
+          <textarea id="noteReason" placeholder="Liquidity sweep, MSS, POI, HTF bias, entry confirmation..."></textarea>
+        </div>
+        <div class="field wide">
+          <label>TRADE REVIEW / LESSON LEARNED</label>
+          <textarea id="noteLesson" placeholder="TP or SL? What went well? What was the mistake? What will you improve?"></textarea>
+        </div>
+        <div class="field wide">
+          <label>CHART SCREENSHOTS (UP TO 10 IMAGES)</label>
+          <input id="noteImages" type="file" accept="image/*" multiple>
+          <p class="hint">Each image must be 5 MB or smaller. Existing images stay attached when editing a note unless you remove them.</p>
+          <div id="noteImagePreview" class="note-images"></div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn primary" id="saveNote" type="button">Save Note</button>
+        <button class="btn secondary" id="newNote" type="button">New Note</button>
+        <button class="btn secondary" id="cancelNote" type="button">Cancel Edit</button>
+      </div>
+      <div id="noteStatus" class="status">Create a note to start your trade journal.</div>
+    </section>
+
+    <section class="panel">
+      <h2>Saved Notes</h2>
+      <input id="noteSearch" placeholder="Search title, pair, session or result...">
+      <div id="savedNotes" class="saved-notes section">
+        <p class="note-empty">Loading notes...</p>
+      </div>
+      <div class="actions">
+        <button class="btn secondary" id="exportNotes" type="button">Export Notes Backup</button>
+        <button class="btn secondary" id="importNotes" type="button">Import Notes Backup</button>
+        <input id="importNotesFile" type="file" accept="application/json" hidden>
+      </div>
+      <p class="hint">Notes and screenshots are saved separately in this browser. Export backups regularly to avoid losing data.</p>
+    </section>
+  </div>
 </section>
 
 <section id="page-profile" class="view">
@@ -313,12 +438,12 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     <section class="panel">
       <h2>Account status</h2>
       <p><span class="tag">Local workspace</span></p>
-      <p class="muted">Profile notes and saved backtest runs are stored in this browser using localStorage.</p>
+      <p class="muted">Profile notes, trade notes, images and saved backtest runs are stored in this browser.</p>
       <p class="hint">Cloud login and cross-device sync require a configured backend. Never paste secret keys into public website code.</p>
     </section>
     <section class="panel">
       <h2>Data & privacy</h2>
-      <p class="muted">Saved runs remain in this browser unless exported or connected to a separately configured backend.</p>
+      <p class="muted">Saved runs and notes remain in this browser unless exported or connected to a separately configured backend.</p>
       <div class="actions">
         <button class="btn secondary" id="accountExport">Download Full Backup JSON</button>
         <button class="btn secondary" id="accountClear">Clear Local Profile Notes</button>
@@ -404,8 +529,7 @@ async function candles(){
       const next=Number(d[d.length-1][0])+1;
       if(cursor!==null&&next<=cursor)break;
       cursor=next;
-      if(d.length<1||cursor>endTime||all.length>=limit)break;
-      if(!from&&!to)break;
+      if(cursor>endTime||all.length>=limit)break;
     }
 
     const seen=new Map();
@@ -553,7 +677,10 @@ function download(name,content,type='text/csv;charset=utf-8'){
   const blob=new Blob([content],{type});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
-  a.href=url;a.download=name;a.click();
+  a.href=url;a.download=name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
   setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 function csv(rows){return rows.map(row=>row.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\r\n')}
@@ -573,13 +700,17 @@ $('exportRuns').onclick=()=>{
   ]));
 };
 
-function exportBackup(){
+async function exportBackup(){
+  let notes=[];
+  try{if(notesDB)notes=await getNotes()}catch(e){}
   download('nabil-fx-full-backup.json',JSON.stringify({
     app:'Nabil Fx Backtesting',
-    version:3,
+    version:4,
     exportedAt:new Date().toISOString(),
     savedRuns:getSavedRuns(),
-    currentRun:lastRun
+    currentRun:lastRun,
+    profileNotes:localStorage.getItem('nabilFxProfileNotes')||'',
+    tradeNotes:notes
   },null,2),'application/json');
 }
 $('exportBackup').onclick=exportBackup;
@@ -605,8 +736,10 @@ $('accountClear').onclick=()=>{
 
 try{$('profileGoal').value=localStorage.getItem('nabilFxProfileNotes')||'';}catch(e){}
 
+/* Trading chart and page navigation */
 (function(){
-  const pages=['home','chart','backtest','journal','profile','account'];
+  const pages=['home','chart','backtest','notes','journal','profile','account'];
+
   function show(page){
     pages.forEach(p=>{
       const el=document.getElementById('page-'+p);
@@ -618,7 +751,9 @@ try{$('profileGoal').value=localStorage.getItem('nabilFxProfileNotes')||'';}catc
     document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
     window.scrollTo({top:0,behavior:'smooth'});
     if(page==='chart')loadTradingView();
+    if(page==='notes'&&typeof renderSavedNotes==='function')renderSavedNotes();
   }
+
   document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',()=>show(b.dataset.page)));
 
   const chartSets={
@@ -683,6 +818,388 @@ try{$('profileGoal').value=localStorage.getItem('nabilFxProfileNotes')||'';}catc
   $('loadChart').addEventListener('click',loadTradingView);
   fillChartSymbols();
   show('home');
+})();
+
+/* Independent Notes storage: each note owns its own screenshot data. */
+let notesDB=null;
+let noteImages=[];
+let noteStorageReady=false;
+
+function noteStatus(message){
+  $('noteStatus').textContent=message;
+}
+
+function openNotesDB(){
+  return new Promise((resolve,reject)=>{
+    if(!('indexedDB' in window)){
+      reject(new Error('This browser does not support local notes storage.'));
+      return;
+    }
+    const request=indexedDB.open('NabilFxTradeNotesDB',1);
+    request.onupgradeneeded=()=>{
+      const db=request.result;
+      if(!db.objectStoreNames.contains('notes')){
+        db.createObjectStore('notes',{keyPath:'id'});
+      }
+    };
+    request.onsuccess=()=>resolve(request.result);
+    request.onerror=()=>reject(request.error||new Error('Could not open notes storage.'));
+  });
+}
+
+function getNotes(){
+  return new Promise((resolve,reject)=>{
+    if(!notesDB){reject(new Error('Notes storage is not ready.'));return;}
+    const request=notesDB.transaction('notes','readonly').objectStore('notes').getAll();
+    request.onsuccess=()=>resolve(request.result||[]);
+    request.onerror=()=>reject(request.error||new Error('Could not load notes.'));
+  });
+}
+
+function putNote(note){
+  return new Promise((resolve,reject)=>{
+    if(!notesDB){reject(new Error('Notes storage is not ready.'));return;}
+    const tx=notesDB.transaction('notes','readwrite');
+    tx.objectStore('notes').put(note);
+    tx.oncomplete=()=>resolve();
+    tx.onerror=()=>reject(tx.error||new Error('Could not save note.'));
+    tx.onabort=()=>reject(tx.error||new Error('Save was cancelled.'));
+  });
+}
+
+function deleteNoteFromDB(id){
+  return new Promise((resolve,reject)=>{
+    const tx=notesDB.transaction('notes','readwrite');
+    tx.objectStore('notes').delete(id);
+    tx.oncomplete=()=>resolve();
+    tx.onerror=()=>reject(tx.error||new Error('Could not delete note.'));
+  });
+}
+
+function noteValue(id){
+  return $(id).value.trim();
+}
+
+function renderNoteImages(){
+  const box=$('noteImagePreview');
+  box.innerHTML='';
+  noteImages.forEach((img,index)=>{
+    const item=document.createElement('div');
+    item.className='note-image-item';
+    const image=document.createElement('img');
+    image.src=img.data;
+    image.alt=img.name||'Trade screenshot';
+
+    const remove=document.createElement('button');
+    remove.type='button';
+    remove.textContent='×';
+    remove.title='Remove image';
+    remove.onclick=()=>{
+      noteImages.splice(index,1);
+      renderNoteImages();
+    };
+    item.append(image,remove);
+    box.appendChild(item);
+  });
+}
+
+$('noteImages').addEventListener('change',async event=>{
+  const files=Array.from(event.target.files||[]);
+  const maxEach=5*1024*1024;
+  const maxImages=10;
+  let added=0;
+
+  for(const file of files){
+    if(!file.type.startsWith('image/')){
+      noteStatus('Please choose image files only.');
+      continue;
+    }
+    if(file.size>maxEach){
+      noteStatus('Image is too large. Each image must be 5 MB or smaller: '+file.name);
+      continue;
+    }
+    if(noteImages.length>=maxImages){
+      noteStatus('Maximum 10 images per note. Remove an image before adding more.');
+      break;
+    }
+
+    try{
+      const data=await new Promise((resolve,reject)=>{
+        const reader=new FileReader();
+        reader.onload=()=>resolve(reader.result);
+        reader.onerror=()=>reject(new Error('Could not read image: '+file.name));
+        reader.readAsDataURL(file);
+      });
+      noteImages.push({name:file.name,data});
+      added++;
+    }catch(error){
+      noteStatus(error.message);
+    }
+  }
+
+  event.target.value='';
+  renderNoteImages();
+  if(added)noteStatus(added+' image(s) added. Save the note to keep them.');
+});
+
+function resetNoteForm(){
+  $('noteId').value='';
+  ['noteTitle','notePair','noteTime','noteEntry','noteSL','noteTP','noteReason','noteLesson']
+    .forEach(id=>$(id).value='');
+  $('noteSession').value='London';
+  $('noteResult').value='Open';
+  $('noteSide').value='Buy / Long';
+  noteImages=[];
+  renderNoteImages();
+  $('noteFormTitle').textContent='Create New Note';
+  $('saveNote').textContent='Save Note';
+  noteStatus('Ready for a new note.');
+}
+
+async function editNoteById(id){
+  try{
+    const note=(await getNotes()).find(n=>n.id===id);
+    if(!note){noteStatus('This note could not be found.');return;}
+    editNote(note);
+  }catch(error){
+    noteStatus('Could not open note: '+error.message);
+  }
+}
+
+function editNote(note){
+  $('noteId').value=note.id;
+  $('noteTitle').value=note.title||'';
+  $('notePair').value=note.pair||'';
+  $('noteSession').value=note.session||'London';
+  $('noteTime').value=note.time||'';
+  $('noteEntry').value=note.entry||'';
+  $('noteSL').value=note.sl||'';
+  $('noteTP').value=note.tp||'';
+  $('noteResult').value=note.result||'Open';
+  $('noteSide').value=note.side||'Buy / Long';
+  $('noteReason').value=note.reason||'';
+  $('noteLesson').value=note.lesson||'';
+  noteImages=Array.isArray(note.images)?note.images.slice():[];
+  renderNoteImages();
+  $('noteFormTitle').textContent='Edit Trade Note';
+  $('saveNote').textContent='Update Note';
+  noteStatus('Editing: '+(note.title||note.pair||'Trade note'));
+  $('noteFormTitle').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+async function renderSavedNotes(){
+  const box=$('savedNotes');
+  if(!noteStorageReady){
+    box.innerHTML='<p class="note-empty">Notes storage is opening. Please wait a moment.</p>';
+    return;
+  }
+
+  const query=$('noteSearch').value.trim().toLowerCase();
+  let notes;
+  try{
+    notes=await getNotes();
+  }catch(error){
+    box.innerHTML='<p class="note-empty">Could not load notes. Refresh the page and try again.</p>';
+    return;
+  }
+
+  notes.sort((a,b)=>(b.updatedAt||'').localeCompare(a.updatedAt||''));
+  notes=notes.filter(n=>[
+    n.title,n.pair,n.session,n.result,n.reason,n.lesson,n.side
+  ].some(v=>String(v||'').toLowerCase().includes(query)));
+
+  box.innerHTML='';
+  if(!notes.length){
+    box.innerHTML='<p class="note-empty">'+(query?'No matching notes found.':'No notes saved yet. Create your first trade note.')+'</p>';
+    return;
+  }
+
+  notes.forEach(note=>{
+    const card=document.createElement('article');
+    card.className='saved-note';
+
+    const title=document.createElement('h3');
+    title.textContent=note.title||'Untitled Trade';
+
+    const badge=document.createElement('span');
+    badge.className='note-badge';
+    badge.textContent=note.result||'Open';
+
+    const summary=document.createElement('p');
+    summary.textContent=(note.pair||'No pair')+' · '+(note.session||'No session')+' · '+(note.side||'Direction not set');
+
+    const details=document.createElement('p');
+    details.textContent='Entry: '+(note.entry||'—')+' | SL: '+(note.sl||'—')+' | TP: '+(note.tp||'—');
+
+    const time=document.createElement('p');
+    time.textContent=note.time?'Entry time: '+note.time:'Entry time not set';
+
+    card.append(title,badge,summary,details,time);
+
+    if(note.reason){
+      const reason=document.createElement('p');
+      reason.textContent='Entry reason: '+note.reason;
+      card.appendChild(reason);
+    }
+    if(note.lesson){
+      const lesson=document.createElement('p');
+      lesson.textContent='Review / lesson: '+note.lesson;
+      card.appendChild(lesson);
+    }
+
+    if(Array.isArray(note.images)&&note.images.length){
+      const imageBox=document.createElement('div');
+      imageBox.className='note-detail-images';
+      note.images.forEach(img=>{
+        if(!img||!img.data)return;
+        const link=document.createElement('a');
+        link.href=img.data;
+        link.target='_blank';
+        link.rel='noopener noreferrer';
+        link.title=img.name||'Open screenshot';
+
+        const image=document.createElement('img');
+        image.src=img.data;
+        image.alt=img.name||'Trade screenshot';
+        image.loading='lazy';
+        link.appendChild(image);
+        imageBox.appendChild(link);
+      });
+      if(imageBox.childElementCount)card.appendChild(imageBox);
+    }
+
+    const actions=document.createElement('div');
+    actions.className='saved-note-actions';
+
+    const edit=document.createElement('button');
+    edit.type='button';
+    edit.className='btn secondary';
+    edit.textContent='Open / Edit';
+    edit.onclick=()=>editNote(note);
+
+    const remove=document.createElement('button');
+    remove.type='button';
+    remove.className='btn secondary';
+    remove.textContent='Delete';
+    remove.onclick=async()=>{
+      if(!confirm('Delete this note and all screenshots attached to it?'))return;
+      try{
+        await deleteNoteFromDB(note.id);
+        if($('noteId').value===note.id)resetNoteForm();
+        await renderSavedNotes();
+        noteStatus('Note and its attached images deleted.');
+      }catch(error){
+        noteStatus('Could not delete note: '+error.message);
+      }
+    };
+
+    actions.append(edit,remove);
+    card.appendChild(actions);
+    box.appendChild(card);
+  });
+}
+
+$('saveNote').addEventListener('click',async()=>{
+  if(!noteStorageReady){
+    noteStatus('Notes storage is not ready yet. Wait a moment and try again.');
+    return;
+  }
+
+  const title=noteValue('noteTitle');
+  const pair=noteValue('notePair');
+  if(!title&&!pair){
+    noteStatus('Please enter a note title or pair/symbol.');
+    return;
+  }
+
+  const existingId=$('noteId').value;
+  let previous=null;
+
+  try{
+    if(existingId)previous=(await getNotes()).find(n=>n.id===existingId)||null;
+
+    const note={
+      id:existingId||('note-'+Date.now()+'-'+Math.random().toString(36).slice(2,9)),
+      title,
+      pair,
+      session:$('noteSession').value,
+      time:noteValue('noteTime'),
+      entry:noteValue('noteEntry'),
+      sl:noteValue('noteSL'),
+      tp:noteValue('noteTP'),
+      result:$('noteResult').value,
+      side:$('noteSide').value,
+      reason:noteValue('noteReason'),
+      lesson:noteValue('noteLesson'),
+      images:noteImages.slice(),
+      createdAt:previous?.createdAt||new Date().toISOString(),
+      updatedAt:new Date().toISOString()
+    };
+
+    await putNote(note);
+    resetNoteForm();
+    noteStatus('Note saved successfully with its own screenshots.');
+    await renderSavedNotes();
+  }catch(error){
+    noteStatus('Could not save note. Browser storage may be full. Try fewer or smaller images. Details: '+error.message);
+  }
+});
+
+$('newNote').addEventListener('click',resetNoteForm);
+$('cancelNote').addEventListener('click',resetNoteForm);
+$('noteSearch').addEventListener('input',renderSavedNotes);
+
+$('exportNotes').addEventListener('click',async()=>{
+  try{
+    const data={
+      app:'Nabil Fx Trade Notes',
+      version:1,
+      exportedAt:new Date().toISOString(),
+      notes:await getNotes()
+    };
+    download('nabil-fx-notes-backup.json',JSON.stringify(data,null,2),'application/json');
+    noteStatus('Notes backup downloaded, including screenshots.');
+  }catch(error){
+    noteStatus('Could not export notes: '+error.message);
+  }
+});
+
+$('importNotes').addEventListener('click',()=>$('importNotesFile').click());
+
+$('importNotesFile').addEventListener('change',async event=>{
+  const file=event.target.files&&event.target.files[0];
+  event.target.value='';
+  if(!file)return;
+
+  try{
+    const backup=JSON.parse(await file.text());
+    if(!Array.isArray(backup.notes))throw new Error('This file is not a valid notes backup.');
+
+    if(!confirm('Import '+backup.notes.length+' notes? Notes with matching IDs will be replaced.'))return;
+
+    for(const note of backup.notes){
+      if(!note||typeof note.id!=='string'||!Array.isArray(note.images)){
+        throw new Error('The backup contains an invalid note.');
+      }
+      await putNote(note);
+    }
+
+    await renderSavedNotes();
+    noteStatus('Notes and screenshots imported successfully.');
+  }catch(error){
+    noteStatus('Import failed: '+error.message);
+  }
+});
+
+(async()=>{
+  try{
+    notesDB=await openNotesDB();
+    noteStorageReady=true;
+    await renderSavedNotes();
+  }catch(error){
+    noteStatus('Notes storage could not open. Use a modern browser and try again. '+error.message);
+    $('savedNotes').innerHTML='<p class="note-empty">Browser storage is unavailable. Your notes cannot be saved in this session.</p>';
+  }
 })();
 </script>
 </body>
