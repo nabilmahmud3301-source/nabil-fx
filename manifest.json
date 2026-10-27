@@ -1,17 +1,17 @@
 {
   "id": "/nabil-fx/",
-  "name": "Nabil Fx \u2014 Pro Trading Workspace",
+  "name": "Nabil Fx Backtesting",
   "short_name": "Nabil Fx",
-  "description": "Nabil Fx Backtesting and Pro Trading Workspace",
-  "start_url": "/nabil-fx/?source=pwa",
+  "description": "Nabil Fx Backtesting \u2014 Pro Trading Workspace",
+  "start_url": "/nabil-fx/",
   "scope": "/nabil-fx/",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#050505",
-  "theme_color": "#ff2438",
+  "background_color": "#070b14",
+  "theme_color": "#0b1220",
   "icons": [
     {
-      "src": "/nabil-fx/app-icon.svg",
+      "src": "app-icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"

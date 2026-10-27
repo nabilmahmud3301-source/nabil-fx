@@ -1,8 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#18070b"/><stop offset="1" stop-color="#050505"/></linearGradient><linearGradient id="red" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ff596a"/><stop offset="1" stop-color="#ff2438"/></linearGradient></defs>
-<rect width="512" height="512" rx="112" fill="url(#bg)"/>
-<rect x="20" y="20" width="472" height="472" rx="96" fill="none" stroke="#7d1725" stroke-width="4"/>
-<path d="M105 340V172h48l104 105V172h48v168h-43L153 229v111z" fill="#fff"/>
-<path d="M329 340V172h78v39h-32v27h30v37h-30v65z" fill="url(#red)"/>
-<path d="M92 385H420" stroke="#ff2438" stroke-width="8" stroke-linecap="round"/>
+<rect width="512" height="512" rx="112" fill="#0b1220"/>
+<path d="M96 340 L180 250 L244 290 L356 142 L416 178" fill="none" stroke="#38d6a3" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M320 142 H356 V178" fill="none" stroke="#38d6a3" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="256" y="430" font-family="Arial,sans-serif" font-size="62" font-weight="700" text-anchor="middle" fill="#f4f7fb">NABIL FX</text>
 </svg>

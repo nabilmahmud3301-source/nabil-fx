@@ -1,0 +1,41 @@
+NABIL FX — PWA INSTALL FIX (GitHub Pages)
+
+1) Upload these 3 files to the ROOT of the repository `nabil-fx`:
+   - manifest.json
+   - service-worker.js
+   - app-icon.svg
+
+2) Edit index.html WITHOUT replacing the rest of the existing code.
+   Inside <head>, add:
+   <link rel="manifest" href="/nabil-fx/manifest.json">
+   <meta name="theme-color" content="#0b1220">
+   <link rel="icon" href="/nabil-fx/app-icon.svg" type="image/svg+xml">
+
+3) Just before </body>, add:
+   <script>
+   if ("serviceWorker" in navigator) {
+     window.addEventListener("load", () => {
+       navigator.serviceWorker.register("/nabil-fx/service-worker.js", {
+         scope: "/nabil-fx/"
+       }).catch((err) => console.error("PWA service worker registration failed:", err));
+     });
+   }
+   </script>
+
+4) Commit changes to the `main` branch and wait for GitHub Pages to redeploy.
+
+5) Test these URLs in the browser:
+   https://nabilmahmud3301-source.github.io/nabil-fx/manifest.json
+   https://nabilmahmud3301-source.github.io/nabil-fx/service-worker.js
+   Both should show file contents, not a 404 page.
+
+6) Open the live website in Chrome. Use the install icon in the address bar or
+   Chrome menu > Cast, save, and share > Install page as app (menu wording may vary).
+
+IMPORTANT:
+- This package does NOT modify your existing index.html automatically.
+- Keep your existing website code. Add only the snippets above.
+- Service worker caches the main page and app shell for basic offline fallback.
+  It cannot make live data/API features work offline.
+- After major changes to the cached app shell, increment CACHE_NAME in service-worker.js
+  (for example, nabil-fx-shell-v2) so browsers refresh the cache.

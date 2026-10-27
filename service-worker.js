@@ -1,5 +1,4 @@
-const CACHE_PREFIX = "nabil-fx-pwa-";
-const CACHE_NAME = CACHE_PREFIX + "v1";
+const CACHE_NAME = "nabil-fx-shell-v1";
 const APP_SHELL = [
   "/nabil-fx/",
   "/nabil-fx/index.html",
@@ -7,53 +6,40 @@ const APP_SHELL = [
   "/nabil-fx/app-icon.svg"
 ];
 
-self.addEventListener("install", event => {
-  event.waitUntil((async () => {
-    const cache = await caches.open(CACHE_NAME);
-    try { await cache.addAll(APP_SHELL); } catch (e) { /* Keep install resilient on GitHub Pages. */ }
-    await self.skipWaiting();
-  })());
+self.addEventListener("install", (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL))
+  );
+  self.skipWaiting();
 });
 
-self.addEventListener("activate", event => {
+self.addEventListener("activate", (event) => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
-    await Promise.all(keys.filter(k => k.startsWith(CACHE_PREFIX) && k !== CACHE_NAME).map(k => caches.delete(k)));
+    await Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key)));
     await self.clients.claim();
   })());
 });
 
-self.addEventListener("fetch", event => {
-  const req = event.request;
-  const url = new URL(req.url);
-  if (req.method !== "GET" || url.origin !== self.location.origin) return;
+self.addEventListener("fetch", (event) => {
+  const request = event.request;
+  if (request.method !== "GET" || new URL(request.url).origin !== self.location.origin) return;
 
-  // Network-first for page navigations: deployed website updates appear on the next open/refresh.
-  if (req.mode === "navigate" || req.destination === "document") {
-    event.respondWith((async () => {
-      try {
-        const fresh = await fetch(req, { cache: "no-store" });
-        const cache = await caches.open(CACHE_NAME);
-        cache.put(req, fresh.clone()).catch(() => {});
-        return fresh;
-      } catch (e) {
-        return (await caches.match(req)) || (await caches.match("/nabil-fx/index.html")) || Response.error();
-      }
-    })());
-    return;
-  }
-
-  // Network-first for scripts/styles/images so updated assets can be retrieved.
   event.respondWith((async () => {
     try {
-      const fresh = await fetch(req, { cache: "no-store" });
-      if (fresh.ok) {
+      const response = await fetch(request);
+      if (response && response.ok) {
         const cache = await caches.open(CACHE_NAME);
-        cache.put(req, fresh.clone()).catch(() => {});
+        cache.put(request, response.clone());
       }
-      return fresh;
-    } catch (e) {
-      return (await caches.match(req)) || Response.error();
+      return response;
+    } catch (error) {
+      const cached = await caches.match(request);
+      if (cached) return cached;
+      if (request.mode === "navigate") {
+        return (await caches.match("/nabil-fx/index.html")) || Response.error();
+      }
+      return Response.error();
     }
   })());
 });
