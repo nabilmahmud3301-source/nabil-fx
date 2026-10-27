@@ -98,6 +98,8 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 .account-subview.active{display:block}
 @media(max-width:800px){.grid{grid-template-columns:1fr}}
 @media(max-width:760px){
+/* Mobile fix: keep the Account dropdown visible outside the horizontally scrolling nav. */
+.account-dropdown{position:fixed;top:112px;right:10px;left:auto;min-width:200px;max-width:calc(100vw - 20px);z-index:9999;box-shadow:0 14px 34px #000d}
 .site-header{align-items:flex-start;flex-direction:column;gap:4px;padding:10px 14px}
 .site-nav{width:100%;justify-content:flex-start;gap:14px;overflow-x:auto;flex-wrap:nowrap}
 .nav-btn{padding:12px 1px 10px;font-size:13px;white-space:nowrap}
