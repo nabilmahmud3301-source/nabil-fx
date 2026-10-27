@@ -701,14 +701,12 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
       <div id="profileStatus" class="status">Sign in to view and edit your profile.</div>
     </section>
 
-    <section class="panel">
-      <h2>Account status & privacy</h2>
+    <section class="panel account-privacy-panel">
+      <h2>Account Status &amp; Privacy</h2>
       <p><span class="tag" id="accountStatusTag">Not signed in</span></p>
-      <p class="muted">Account authentication and profile details use Supabase. Journal notes and saved backtest runs remain local to this browser.</p>
-      <p class="hint">Never share your password or a Supabase service-role key. The website should use only the publishable/anon key.</p>
-      <div class="actions">
-        <button class="btn secondary" id="accountExport">Download Full Backup JSON</button>
-        <button class="btn secondary" id="accountClear">Clear Local Profile Notes</button>
+      <div class="account-privacy-info">
+        <p class="muted"><strong>Data &amp; Privacy</strong><br>Profile details use Supabase. Journal notes and saved backtest runs are stored locally in this browser.</p>
+        <p class="hint"><strong>Security Notice</strong><br>Never share your password or a Supabase service-role key. Use only the publishable/anon key on the website.</p>
       </div>
       <p id="accountStatus" class="status">Connecting to Supabase...</p>
       <p id="cloudStatus" class="status" aria-live="polite">Checking cloud connection...</p>
@@ -989,16 +987,7 @@ $('saveProfile').onclick=()=>{
   }catch(e){$('profileStatus').textContent='Could not save profile notes in this browser.';}
 };
 
-$('accountClear').onclick=()=>{
-  if(confirm('Clear profile notes saved in this browser?')){
-    try{
-      localStorage.removeItem('nabilFxProfileNotes');
-      $('profileGoal').value='';
-      $('accountStatus').textContent='Local profile notes cleared.';
-      $('profileStatus').textContent='Profile notes cleared.';
-    }catch(e){$('accountStatus').textContent='Could not clear local profile notes.';}
-  }
-};
+
 
 try{$('profileGoal').value=localStorage.getItem('nabilFxProfileNotes')||'';}catch(e){}
 
