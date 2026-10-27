@@ -16,7 +16,13 @@
   let saving = false;
 
   function setStatus(message) {
-    if (status) status.textContent = message;
+    // The Account Status panel shows a compact connection indicator, not repeated provider text.
+    if (status) {
+      const failed = /error|failed|configuration|could not|check .*setup/i.test(String(message));
+      status.dataset.state = failed ? 'error' : 'connected';
+      status.textContent = failed ? 'Connection Status · Attention Required' : 'Connection Status · Connected';
+      status.title = String(message || 'Connection status');
+    }
     if (accountStatus) accountStatus.textContent = message;
   }
 
@@ -51,7 +57,7 @@
     if ($('accountProfilePhoto')) $('accountProfilePhoto').src = 'profile-photo.jpg';
     setProfileStatus('Sign in to view and edit your profile.');
     if ($('signOutBtn')) $('signOutBtn').hidden = true;
-    setStatus('Connected to Supabase. Create an account or log in.');
+    setStatus('Connection ready. Create an account or log in.');
   }
 
   async function loadProfile(user) {
@@ -104,9 +110,9 @@
         return;
       }
       await loadProfile(currentUser);
-      setStatus('Signed in. Your profile is connected to the cloud.');
+      setStatus('Cloud account connected.');
     } catch (error) {
-      if (status) status.textContent = 'Account error: ' + (error?.message || 'Unknown error');
+      if (status) { status.dataset.state = 'error'; status.textContent = 'Connection Status · Attention Required'; status.title = 'Account error: ' + (error?.message || 'Unknown error'); }
       if (accountStatus) accountStatus.textContent = 'Check Supabase table setup and Row Level Security policies.';
       setProfileStatus('Could not load your cloud profile. Check the Supabase SQL setup.');
     }
@@ -282,7 +288,7 @@
 
   function init() {
     if (!config?.url || !config?.anonKey || !supabaseLib?.createClient) {
-      setStatus('Supabase configuration error. Check supabase-config.js and the Supabase library.');
+      setStatus('Connection configuration error. Check the connection settings.');
       return;
     }
     client = supabaseLib.createClient(config.url, config.anonKey);

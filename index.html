@@ -60,6 +60,18 @@ canvas{display:block;width:100%;height:190px;background:#0b1222;border:1px solid
 .tag{display:inline-block;padding:6px 10px;border:1px solid #7b1822;border-radius:999px;color:#ff6978;font-size:12px;margin:4px 4px 0 0}
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .btn:disabled{opacity:.45;cursor:not-allowed}
+/* Premium, unmistakable interaction feedback across every button group */
+button{transition:transform .16s ease,filter .16s ease,box-shadow .16s ease,border-color .16s ease}
+button:hover:not(:disabled){filter:brightness(1.13)}
+button:active:not(:disabled){transform:translateY(1px) scale(.975);filter:brightness(.92)}
+button.click-feedback:not(:disabled){box-shadow:0 0 0 2px #ff435588,0 0 18px #ff24382b;filter:brightness(1.12)}
+.nav-btn.click-feedback:not(:disabled),.account-option.click-feedback:not(:disabled){border-radius:7px;background:#ff243814}
+.connection-indicator{display:inline-flex;align-items:center;gap:9px;padding:11px 14px;border:1px solid #245a43;background:#0b2118;color:#baf5d5;border-radius:12px;font-weight:750;font-size:13px;letter-spacing:.2px}
+.connection-indicator::before{content:"";width:8px;height:8px;border-radius:50%;background:#39d98a;box-shadow:0 0 10px #39d98a88}
+.connection-indicator[data-state="error"]{border-color:#7b2932;background:#260d11;color:#ffc1c7}
+.connection-indicator[data-state="error"]::before{background:#ff5364;box-shadow:0 0 10px #ff536488}
+.connection-indicator[data-state="checking"]{border-color:#66521d;background:#211b0b;color:#ffe3a0}
+.connection-indicator[data-state="checking"]::before{background:#f4c451;box-shadow:0 0 10px #f4c45188}
 .note-images{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
 .note-image-item{position:relative;width:120px;height:100px}
 .note-image-item img{width:100%;height:100%;object-fit:cover;border:1px solid var(--line);border-radius:10px}
@@ -704,10 +716,9 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     <section class="panel">
       <h2>Account status & privacy</h2>
       <p><span class="tag" id="accountStatusTag">Not signed in</span></p>
-      <p class="muted">Account authentication and profile details use Supabase. Journal notes and saved backtest runs remain local to this browser.</p>
-      <p class="hint">Never share your password or a Supabase service-role key. The website should use only the publishable/anon key.</p>
-      <p id="accountStatus" class="status">Connecting to Supabase...</p>
-      <p id="cloudStatus" class="status" aria-live="polite">Checking cloud connection...</p>
+      <p class="muted">Account authentication and profile details are securely connected to your cloud account. Journal notes and saved backtest runs remain local to this browser.</p>
+      <p class="hint">Security: never share your password or private service credentials. The website uses a public client key only.</p>
+      <p id="cloudStatus" class="connection-indicator" data-state="checking" role="status" aria-live="polite">Connection Status · Checking</p>
       <p id="accountDetails" class="hint">Not signed in</p>
     </section>
   </div>
@@ -1519,6 +1530,18 @@ document.querySelectorAll('.showcase-video').forEach(video=>{
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
 <script src="auth.js"></script>
+<script>
+/* Brief premium click acknowledgement for buttons across Home, Chart, Backtest, Journal and Account. */
+document.addEventListener('click', function(event) {
+  const button = event.target.closest('button');
+  if (!button || button.disabled) return;
+  button.classList.remove('click-feedback');
+  // Restart the visual acknowledgement even on repeated clicks.
+  void button.offsetWidth;
+  button.classList.add('click-feedback');
+  window.setTimeout(() => button.classList.remove('click-feedback'), 650);
+}, true);
+</script>
 </body>
 </html>
 <style>
