@@ -26,4 +26,3 @@ This is the source backup for the **Nabil Fx** website. The GitHub repository ha
 - The Supabase project URL stays unchanged; it is the backend auth/database endpoint.
 - This source backup does not include live Supabase users or database records.
 - Never publish a Supabase service-role/secret key. Use only the publishable/anon key with correct Row Level Security (RLS).
-Auto-deploy test
