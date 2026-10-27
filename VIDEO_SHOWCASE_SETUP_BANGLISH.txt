@@ -1,20 +1,12 @@
-NABIL FX — PREMIUM ABSTRACT VIDEO SHOWCASE
+NABIL FX - PREMIUM HOMEPAGE CARD VIDEOS
 
-Ei version-e homepage-er 4 ta video original abstract motion visuals. Kono trading strategy, chart, candlestick, liquidity, MSS/CHOCH, FVG, entry/exit ba buy/sell signal dekhano hoy na.
+The four homepage visual cards use local MP4 files (not external Pixabay URLs):
+- Journal: videos/journal.mp4
+- Backtest: videos/backtest.mp4
+- Analysis: videos/analysis.mp4
+- Growth: videos/growth.mp4
 
-Video files:
-- videos/price-action.mp4 (file name only; abstract visual)
-- videos/liquidity-sweep.mp4 (file name only; abstract visual)
-- videos/market-structure.mp4 (file name only; abstract visual)
-- videos/session-flow.mp4 (file name only; abstract visual)
-
-Important: uporer file name gulo backward compatibility-r jonno rakha hoyeche. Video content strategy-related noy; shudhu abstract black/red cinematic motion.
-
-GitHub-e publish:
-1. ZIP extract koro.
-2. Repository root-e index.html replace koro.
-3. videos folder-er char-ti MP4-o upload koro, folder/file path same rakhbe.
-4. Existing auth.js, supabase-config.js, profile-photo.jpg, supabase-setup.sql ebong baki site files preserve koro.
-5. Commit changes, deploy complete hole Ctrl+F5 diye refresh koro.
-
-Videos are original generated abstract visuals; no third-party footage or YouTube embeds. They do not show live market data.
+Upload the contents of this ZIP to the ROOT of the existing GitHub repository and commit changes.
+Keep the videos folder alongside index.html. Do not upload the outer folder itself.
+The videos are configured for muted autoplay, looping and inline mobile playback.
+After GitHub Pages deploys, hard refresh with Ctrl+F5.
