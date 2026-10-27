@@ -307,19 +307,41 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 }
 </style>
 
+
+<style id="nabil-fx-contact-css">
+.site-brand-home{color:inherit;text-decoration:none;cursor:pointer}
+.site-brand-home:focus-visible{outline:2px solid #ff354a;outline-offset:4px;border-radius:8px}
+.nfx-contact-card{margin:26px 0 34px;padding:24px;border:1px solid #ffffff18;border-radius:20px;background:linear-gradient(145deg,#15151a,#0b0b0e);box-shadow:0 16px 42px #0003;max-width:760px}
+.nfx-contact-eyebrow{font-size:10px;letter-spacing:2.5px;font-weight:800;color:#ff5364;margin:0 0 8px}
+.nfx-contact-card h2{font-size:clamp(22px,3vw,30px);margin:0 0 8px;color:#fff}
+.nfx-contact-card>p:not(.nfx-contact-eyebrow){font-size:13px;line-height:1.7;color:#bcb8be;margin:0 0 18px}
+.nfx-contact-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.nfx-contact-link{display:flex;align-items:center;gap:12px;min-width:0;padding:14px;border-radius:14px;border:1px solid #ffffff1b;background:#ffffff08;color:#fff;text-decoration:none;transition:transform .18s,border-color .18s}
+.nfx-contact-link:hover{transform:translateY(-2px);border-color:#ff4355aa}
+.nfx-contact-icon{width:38px;height:38px;display:grid;place-items:center;flex:0 0 auto;border-radius:11px;background:#fff}
+.nfx-contact-icon svg{width:25px;height:25px;display:block}
+.nfx-telegram-icon{background:#229ed9}
+.nfx-contact-link>span:nth-child(2){display:flex;flex-direction:column;gap:4px;min-width:0}
+.nfx-contact-link strong{font-size:13px}
+.nfx-contact-link small{font-size:11px;color:#bdb8c0;overflow-wrap:anywhere}
+.nfx-contact-arrow{margin-left:auto;color:#ff5364;font-size:18px}
+@media(max-width:560px){.nfx-contact-card{padding:18px 14px}.nfx-contact-links{grid-template-columns:1fr}.nfx-contact-link{padding:12px}}
+</style>
+
 </head>
 <body>
 
 <header class="site-header">
-  <div class="site-brand">
+  <a class="site-brand site-brand-home" href="#home" data-page="home" aria-label="Nabil Fx — Go to Home">
     <img class="site-logo" src="app-icon.png" alt="Nabil Fx logo">
     <span>Nabil <b>Fx</b></span>
-  </div>
+  </a>
   <nav class="site-nav" aria-label="Main navigation">
     <button class="nav-btn active" data-page="home">Home</button>
     <button class="nav-btn" data-page="chart">Chart</button>
     <button class="nav-btn" data-page="backtest">Backtest with AI</button>
     <button class="nav-btn" data-page="notes">Journal/Notes</button>
+    <button class="nav-btn" id="contactUsNav" type="button">Contact Us</button>
     <div class="account-menu" id="accountMenu">
       <button class="nav-btn" id="accountMenuToggle" type="button" aria-expanded="false">Account ▾</button>
       <div class="account-dropdown" id="accountDropdown">
@@ -352,6 +374,21 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       <button class="home-action" id="downloadNabilFxApp" type="button"><span aria-hidden="true">▣</span> App Help</button>
     </div>
     <p id="appInstallStatus" class="app-install-status" role="status" aria-live="polite">Install Nabil Fx on your device for quick access.</p>
+    <section class="nfx-contact-card" id="contact-us" aria-label="Contact Nabil Fx">
+      <p class="nfx-contact-eyebrow">GET IN TOUCH</p>
+      <h2>Contact Us</h2>
+      <p>Questions or feedback? Reach Nabil Fx directly.</p>
+      <div class="nfx-contact-links">
+        <a class="nfx-contact-link" href="mailto:nabilmahmud3301@gmail.com" aria-label="Email Nabil Fx at nabilmahmud3301@gmail.com" target="_self">
+          <span class="nfx-contact-icon nfx-gmail-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="#EA4335" d="M2.5 6.5v12h4V9.1L12 13l5.5-3.9v9.4h4v-12c0-1.6-1.8-2.4-3-1.5L12 9.3 5.5 5C4.3 4.1 2.5 4.9 2.5 6.5Z"/><path fill="#4285F4" d="M2.5 7.2 6.5 10v8.5h-4z"/><path fill="#34A853" d="M17.5 10 21.5 7.2v11.3h-4z"/></svg></span>
+          <span><strong>Gmail</strong><small>nabilmahmud3301@gmail.com</small></span><span class="nfx-contact-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="nfx-contact-link" href="https://t.me/nabilfx3301" target="_blank" rel="noopener noreferrer" aria-label="Open Nabil Fx Telegram channel">
+          <span class="nfx-contact-icon nfx-telegram-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#229ED9"/><path fill="#fff" d="m5.2 11.6 12.1-4.7c.6-.2 1.1.2.9 1l-2.1 10c-.2.7-.6.9-1.2.5l-3.4-2.5-1.7 1.7c-.2.2-.4.3-.7.3l.3-3.5 6.4-5.8c.3-.3-.1-.4-.4-.2l-7.9 5-3.4-1.1c-.7-.2-.7-.6 1.1-1.3Z"/></svg></span>
+          <span><strong>Telegram</strong><small>@nabilfx3301</small></span><span class="nfx-contact-arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </section>
     <div class="motion-grid video-grid">
       <article class="motion-card video-card"><div class="motion-screen video-screen visual-flow"><video class="showcase-video" autoplay muted loop playsinline webkit-playsinline preload="auto" crossorigin="anonymous" aria-label="Pixabay video for Journal card"><source src="videos/journal.mp4" type="video/mp4"></video><div class="video-caption"><span>JOURNAL</span><h2>Build Your Journal</h2><p>Track every decision. Learn from every trade.</p></div></div></article>
       <article class="motion-card video-card"><div class="motion-screen video-screen visual-orbit"><video class="showcase-video" autoplay muted loop playsinline webkit-playsinline preload="auto" crossorigin="anonymous" aria-label="Pixabay video for Backtest card"><source src="videos/backtest.mp4" type="video/mp4"></video><div class="video-caption"><span>BACKTEST</span><h2>Test Your Strategy</h2><p>Turn ideas into evidence.</p></div></div></article>
@@ -1694,6 +1731,17 @@ document.addEventListener('click', function(event) {
     }
   });
   window.matchMedia('(display-mode: standalone)').addEventListener?.('change',sync);
+})();
+</script>
+
+
+<script id="nabil-fx-contact-js">
+(function(){
+  const contactButton=document.getElementById('contactUsNav');
+  const contactSection=document.getElementById('contact-us');
+  const brand=document.querySelector('.site-brand-home');
+  if(brand){brand.addEventListener('click',function(e){e.preventDefault();if(typeof window.showNabilPage==='function')window.showNabilPage('home');else window.scrollTo({top:0,behavior:'smooth'});});}
+  if(contactButton&&contactSection){contactButton.addEventListener('click',function(){if(typeof window.showNabilPage==='function')window.showNabilPage('home');setTimeout(function(){contactSection.scrollIntoView({behavior:'smooth',block:'start'});},80);const nav=document.querySelector('.site-nav');const toggle=document.getElementById('appMenuToggle');if(nav)nav.classList.remove('app-menu-open');if(toggle){toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Open navigation menu');toggle.textContent='☰';}});}
 })();
 </script>
 
