@@ -64,8 +64,8 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 button{transition:transform .16s ease,filter .16s ease,box-shadow .16s ease,border-color .16s ease}
 button:hover:not(:disabled){filter:brightness(1.13)}
 button:active:not(:disabled){transform:translateY(1px) scale(.975);filter:brightness(.92)}
-button.click-feedback:not(:disabled){box-shadow:0 0 0 2px #ff435588,0 0 18px #ff24382b;filter:brightness(1.12)}
-.nav-btn.click-feedback:not(:disabled),.account-option.click-feedback:not(:disabled){border-radius:7px;background:#ff243814}
+button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
+@keyframes buttonTapFeedback{0%{transform:scale(.985)}60%{transform:scale(1.008)}100%{transform:scale(1)}}
 .connection-indicator{display:inline-flex;align-items:center;gap:9px;padding:11px 14px;border:1px solid #245a43;background:#0b2118;color:#baf5d5;border-radius:12px;font-weight:750;font-size:13px;letter-spacing:.2px}
 .connection-indicator::before{content:"";width:8px;height:8px;border-radius:50%;background:#39d98a;box-shadow:0 0 10px #39d98a88}
 .connection-indicator[data-state="error"]{border-color:#7b2932;background:#260d11;color:#ffc1c7}
@@ -1536,10 +1536,10 @@ document.addEventListener('click', function(event) {
   const button = event.target.closest('button');
   if (!button || button.disabled) return;
   button.classList.remove('click-feedback');
-  // Restart the visual acknowledgement even on repeated clicks.
+  // Restart a subtle motion-only acknowledgement; no highlight or color change.
   void button.offsetWidth;
   button.classList.add('click-feedback');
-  window.setTimeout(() => button.classList.remove('click-feedback'), 650);
+  window.setTimeout(() => button.classList.remove('click-feedback'), 220);
 }, true);
 </script>
 </body>
