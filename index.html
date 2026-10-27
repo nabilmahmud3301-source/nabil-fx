@@ -273,6 +273,17 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 @media(prefers-reduced-motion:reduce){#page-home .video-card,#page-home .showcase-video,#page-home .home-action{transition:none}}
 </style>
 
+
+<style>
+/* Nabil Fx homepage app install actions */
+.app-install-actions{margin-top:-12px!important}
+.app-install-status{font-size:12px;color:#c8c2c6;margin:-18px 0 24px;line-height:1.6}
+#installNabilFxApp{min-height:44px}
+@media(max-width:560px){.app-install-status{margin-top:-12px;font-size:11px}}
+</style>
+<link rel="manifest" href="/nabil-fx/manifest.json">
+<meta name="theme-color" content="#0b1220">
+<link rel="icon" href="/nabil-fx/app-icon.svg" type="image/svg+xml">
 </head>
 <body>
 
@@ -312,6 +323,11 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
     </section>
     <p class="video-intro">A smarter workspace for disciplined traders — built to analyze, test, track, and improve.</p>
     <div class="home-actions"><button class="home-action primary" type="button" data-page="chart">Explore Chart <span aria-hidden="true">↗</span></button><button class="home-action" type="button" data-page="backtest">Open AI Backtesting <span aria-hidden="true">→</span></button></div>
+    <div class="home-actions app-install-actions" aria-label="Install Nabil Fx app">
+      <button class="home-action primary" id="installNabilFxApp" type="button"><span aria-hidden="true">⬇</span> Install Nabil Fx App</button>
+      <button class="home-action" id="downloadNabilFxApp" type="button"><span aria-hidden="true">▣</span> App Help</button>
+    </div>
+    <p id="appInstallStatus" class="app-install-status" role="status" aria-live="polite">Install Nabil Fx on your device for quick access.</p>
     <div class="motion-grid video-grid">
       <article class="motion-card video-card"><div class="motion-screen video-screen visual-flow"><video class="showcase-video" autoplay muted loop playsinline webkit-playsinline preload="auto" crossorigin="anonymous" aria-label="Pixabay video for Journal card"><source src="videos/journal.mp4" type="video/mp4"></video><div class="video-caption"><span>JOURNAL</span><h2>Build Your Journal</h2><p>Track every decision. Learn from every trade.</p></div></div></article>
       <article class="motion-card video-card"><div class="motion-screen video-screen visual-orbit"><video class="showcase-video" autoplay muted loop playsinline webkit-playsinline preload="auto" crossorigin="anonymous" aria-label="Pixabay video for Backtest card"><source src="videos/backtest.mp4" type="video/mp4"></video><div class="video-caption"><span>BACKTEST</span><h2>Test Your Strategy</h2><p>Turn ideas into evidence.</p></div></div></article>
@@ -1567,6 +1583,64 @@ document.addEventListener('click', function(event) {
 })();
 </script>
 
+
+<script>
+(() => {
+  let deferredInstallPrompt = null;
+  const installButton = document.getElementById("installNabilFxApp");
+  const helpButton = document.getElementById("downloadNabilFxApp");
+  const status = document.getElementById("appInstallStatus");
+  const setStatus = (message) => { if (status) status.textContent = message; };
+
+  window.addEventListener("beforeinstallprompt", (event) => {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+    if (installButton) installButton.textContent = "⬇ Install Nabil Fx App";
+    setStatus("Ready to install. Tap Install Nabil Fx App.");
+  });
+
+  if (window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true) {
+    setStatus("Nabil Fx is already installed on this device.");
+  }
+
+  installButton?.addEventListener("click", async () => {
+    if (window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true) {
+      setStatus("Nabil Fx is already installed.");
+      return;
+    }
+    if (deferredInstallPrompt) {
+      deferredInstallPrompt.prompt();
+      const choice = await deferredInstallPrompt.userChoice;
+      setStatus(choice && choice.outcome === "accepted"
+        ? "Install accepted. Follow your browser's instructions to finish."
+        : "Install cancelled. You can try again any time.");
+      deferredInstallPrompt = null;
+      return;
+    }
+    const ua = navigator.userAgent || "";
+    if (/iphone|ipad|ipod/i.test(ua)) {
+      setStatus("iPhone/iPad: tap Share in Safari, then choose Add to Home Screen.");
+    } else if (/android/i.test(ua)) {
+      setStatus("Android: open Chrome's ⋮ menu and choose Install app or Add to Home screen. If unavailable, refresh the page after a moment.");
+    } else {
+      setStatus("Chrome/Edge: use the install icon in the address bar, or open ⋮ menu and choose Install page as app. If missing, check that the site manifest and service worker loaded correctly.");
+    }
+  });
+
+  helpButton?.addEventListener("click", () => {
+    setStatus("Nabil Fx is a web app (PWA), not a separate APK. Use Install Nabil Fx App; on iPhone use Safari → Share → Add to Home Screen.");
+    status?.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/nabil-fx/service-worker.js", { scope: "/nabil-fx/" })
+        .then(() => setStatus("Nabil Fx is ready. Tap Install Nabil Fx App to install where supported."))
+        .catch((error) => console.error("Nabil Fx service worker registration failed:", error));
+    });
+  }
+})();
+</script>
 </body>
 </html>
 <style>
