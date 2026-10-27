@@ -313,10 +313,10 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
     <p class="video-intro">A smarter workspace for disciplined traders — built to analyze, test, track, and improve.</p>
     <div class="home-actions"><button class="home-action primary" type="button" data-page="chart">Explore Chart <span aria-hidden="true">↗</span></button><button class="home-action" type="button" data-page="backtest">Open AI Backtesting <span aria-hidden="true">→</span></button></div>
     <div class="motion-grid video-grid">
-      <article class="motion-card video-card"><div class="motion-screen video-screen visual-flow"><video class="showcase-video" autoplay muted loop playsinline preload="auto" aria-label="Abstract cinematic red light motion"><source src="videos/motion-01.mp4" type="video/mp4"></video><div class="video-caption"><span>JOURNAL</span><h2>Build Your Journal</h2><p>Track every decision. Learn from every trade.</p></div></div></article>
-      <article class="motion-card video-card"><div class="motion-screen video-screen visual-orbit"><video class="showcase-video" autoplay muted loop playsinline preload="auto" aria-label="Abstract cinematic orbiting light"><source src="videos/motion-02.mp4" type="video/mp4"></video><div class="video-caption"><span>BACKTEST</span><h2>Test Your Strategy</h2><p>Turn ideas into evidence.</p></div></div></article>
-      <article class="motion-card video-card"><div class="motion-screen video-screen visual-form"><video class="showcase-video" autoplay muted loop playsinline preload="auto" aria-label="Abstract geometric cinematic motion"><source src="videos/motion-03.mp4" type="video/mp4"></video><div class="video-caption"><span>ANALYSIS</span><h2>Analyze the Market</h2><p>Find clarity before execution.</p></div></div></article>
-      <article class="motion-card video-card"><div class="motion-screen video-screen visual-horizon"><video class="showcase-video" autoplay muted loop playsinline preload="auto" aria-label="Abstract cinematic horizon light"><source src="videos/motion-04.mp4" type="video/mp4"></video><div class="video-caption"><span>GROWTH</span><h2>Build a Better Life</h2><p>Improve your process. Build your future.</p></div></div></article>
+      <article class="motion-card video-card"><div class="motion-screen video-screen visual-flow"><video class="showcase-video" autoplay muted loop playsinline webkit-playsinline preload="metadata" aria-label="Abstract cinematic red light motion"><source src="videos/motion-01.mp4" type="video/mp4"></video><div class="video-caption"><span>JOURNAL</span><h2>Build Your Journal</h2><p>Track every decision. Learn from every trade.</p></div></div></article>
+      <article class="motion-card video-card"><div class="motion-screen video-screen visual-orbit"><video class="showcase-video" autoplay muted loop playsinline webkit-playsinline preload="metadata" aria-label="Abstract cinematic orbiting light"><source src="videos/motion-02.mp4" type="video/mp4"></video><div class="video-caption"><span>BACKTEST</span><h2>Test Your Strategy</h2><p>Turn ideas into evidence.</p></div></div></article>
+      <article class="motion-card video-card"><div class="motion-screen video-screen visual-form"><video class="showcase-video" autoplay muted loop playsinline webkit-playsinline preload="metadata" aria-label="Abstract geometric cinematic motion"><source src="videos/motion-03.mp4" type="video/mp4"></video><div class="video-caption"><span>ANALYSIS</span><h2>Analyze the Market</h2><p>Find clarity before execution.</p></div></div></article>
+      <article class="motion-card video-card"><div class="motion-screen video-screen visual-horizon"><video class="showcase-video" autoplay muted loop playsinline webkit-playsinline preload="metadata" aria-label="Abstract cinematic horizon light"><source src="videos/motion-04.mp4" type="video/mp4"></video><div class="video-caption"><span>GROWTH</span><h2>Build a Better Life</h2><p>Improve your process. Build your future.</p></div></div></article>
     </div>
   </div>
 </section>
@@ -1544,6 +1544,33 @@ document.addEventListener('click', function(event) {
   window.setTimeout(() => button.classList.remove('click-feedback'), 220);
 }, true);
 </script>
+
+<script>
+/* Homepage showcase clips: silent, looping, lightweight, and autoplay-friendly. */
+(function () {
+  const clips = document.querySelectorAll('#page-home .showcase-video');
+  if (!clips.length) return;
+  clips.forEach((video) => {
+    video.muted = true;
+    video.defaultMuted = true;
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
+    video.loop = true;
+    const tryPlay = () => {
+      if (document.visibilityState !== 'visible') return;
+      const result = video.play();
+      if (result && typeof result.catch === 'function') result.catch(() => {});
+    };
+    video.addEventListener('loadeddata', tryPlay, { once: true });
+    video.addEventListener('canplay', tryPlay);
+    document.addEventListener('visibilitychange', tryPlay);
+    try { video.load(); } catch (_) {}
+    tryPlay();
+  });
+})();
+</script>
+
 </body>
 </html>
 <style>
