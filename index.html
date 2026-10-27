@@ -299,15 +299,28 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
     <p class="video-intro">A smarter workspace for disciplined traders — built to analyze, test, track, and improve.</p>
     <div class="home-actions"><button class="home-action primary" type="button" data-page="chart">Explore Chart <span aria-hidden="true">↗</span></button><button class="home-action" type="button" data-page="backtest">Open AI Backtesting <span aria-hidden="true">→</span></button></div>
     <div class="motion-grid video-grid">
-      <article class="motion-card video-card"><div class="motion-screen video-screen visual-flow"><video class="showcase-video" autoplay muted loop playsinline preload="auto" aria-label="Abstract cinematic red light motion"><source src="videos/motion-01.mp4" type="video/mp4"></video><div class="video-caption"><span>01 / JOURNAL</span><h2>Build Your Journal</h2><p>Track every decision. Learn from every trade.</p></div></div></article>
-      <article class="motion-card video-card"><div class="motion-screen video-screen visual-orbit"><video class="showcase-video" autoplay muted loop playsinline preload="auto" aria-label="Abstract cinematic orbiting light"><source src="videos/motion-02.mp4" type="video/mp4"></video><div class="video-caption"><span>02 / BACKTEST</span><h2>Test Your Strategy</h2><p>Turn ideas into evidence.</p></div></div></article>
-      <article class="motion-card video-card"><div class="motion-screen video-screen visual-form"><video class="showcase-video" autoplay muted loop playsinline preload="auto" aria-label="Abstract geometric cinematic motion"><source src="videos/motion-03.mp4" type="video/mp4"></video><div class="video-caption"><span>03 / ANALYSIS</span><h2>Analyze the Market</h2><p>Find clarity before execution.</p></div></div></article>
-      <article class="motion-card video-card"><div class="motion-screen video-screen visual-horizon"><video class="showcase-video" autoplay muted loop playsinline preload="auto" aria-label="Abstract cinematic horizon light"><source src="videos/motion-04.mp4" type="video/mp4"></video><div class="video-caption"><span>04 / GROWTH</span><h2>Build a Better Life</h2><p>Improve your process. Build your future.</p></div></div></article>
+      <article class="motion-card video-card"><div class="motion-screen video-screen visual-flow"><video class="showcase-video" autoplay muted loop playsinline preload="auto" aria-label="Abstract cinematic red light motion"><source src="videos/motion-01.mp4" type="video/mp4"></video><div class="video-caption"><span>JOURNAL</span><h2>Build Your Journal</h2><p>Track every decision. Learn from every trade.</p></div></div></article>
+      <article class="motion-card video-card"><div class="motion-screen video-screen visual-orbit"><video class="showcase-video" autoplay muted loop playsinline preload="auto" aria-label="Abstract cinematic orbiting light"><source src="videos/motion-02.mp4" type="video/mp4"></video><div class="video-caption"><span>BACKTEST</span><h2>Test Your Strategy</h2><p>Turn ideas into evidence.</p></div></div></article>
+      <article class="motion-card video-card"><div class="motion-screen video-screen visual-form"><video class="showcase-video" autoplay muted loop playsinline preload="auto" aria-label="Abstract geometric cinematic motion"><source src="videos/motion-03.mp4" type="video/mp4"></video><div class="video-caption"><span>ANALYSIS</span><h2>Analyze the Market</h2><p>Find clarity before execution.</p></div></div></article>
+      <article class="motion-card video-card"><div class="motion-screen video-screen visual-horizon"><video class="showcase-video" autoplay muted loop playsinline preload="auto" aria-label="Abstract cinematic horizon light"><source src="videos/motion-04.mp4" type="video/mp4"></video><div class="video-caption"><span>GROWTH</span><h2>Build a Better Life</h2><p>Improve your process. Build your future.</p></div></div></article>
     </div>
   </div>
 </section>
 
 
+<section class="home-tools home-only" aria-label="Workspace tools">
+  <p class="section-eyebrow">YOUR WORKSPACE</p>
+  <h2 class="tools-heading">Everything you need to trade with purpose.</h2>
+  <p class="tools-lead">Analyze markets, test your strategy, document decisions, and manage your trading profile — all in one place.</p>
+  <div class="tool-grid">
+    <article class="tool-card"><div class="tool-icon">⌁</div><h3>Advanced Chart</h3><p>Explore markets with an embedded TradingView chart and available chart tools.</p><button type="button" data-page="chart">Open Chart →</button></article>
+    <article class="tool-card"><div class="tool-icon">◈</div><h3>Backtest with AI</h3><p>Test supported strategy rules against historical candles and review performance.</p><button type="button" data-page="backtest">Run Backtest →</button></article>
+    <article class="tool-card"><div class="tool-icon">▤</div><h3>Trading Journal</h3><p>Keep trade notes, review decisions, and build a consistent process.</p><button type="button" data-page="notes">Open Journal →</button></article>
+    <article class="tool-card"><div class="tool-icon">◉</div><h3>Your Trading Profile</h3><p>Access your account and manage your trading workspace profile.</p><button type="button" data-page="account">Open Account →</button></article>
+  </div>
+</section>
+
+<section class="workflow-band home-only"><div><h3>Build a process. Measure progress. Keep improving.</h3><p>Trading involves risk. Nabil Fx supports research and organization; it does not guarantee trading results.</p></div></section>
 
 <section id="page-chart" class="view">
   <h2 class="view-heading">TradingView Chart</h2>
@@ -1523,3 +1536,17 @@ document.querySelectorAll('.showcase-video').forEach(video=>{
 <script src="auth.js"></script>
 </body>
 </html>
+<style>
+/* Balanced premium Home showcase: four equally sized visual cards. */
+#page-home .video-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-rows:repeat(2,minmax(230px,clamp(230px,25vw,330px)))!important;gap:16px!important;align-items:stretch!important}
+#page-home .video-card:nth-child(1),#page-home .video-card:nth-child(2),#page-home .video-card:nth-child(3),#page-home .video-card:nth-child(4){grid-column:auto!important;grid-row:auto!important;min-height:0!important;height:auto!important}
+#page-home .video-screen,#page-home .video-card:first-child .video-screen{height:100%!important;min-height:0!important;aspect-ratio:auto!important}
+#page-home .video-caption{padding:22px 24px!important}
+#page-home .video-caption h2{font-size:clamp(19px,2vw,26px)!important}
+#page-home .video-caption p{font-size:13px!important;line-height:1.65!important;max-width:38ch}
+.home-tools{max-width:1320px;margin:0 auto;padding:34px clamp(14px,3vw,38px) 40px}
+.home-tools .tool-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.home-tools .tool-card{min-height:205px}
+@media(max-width:760px){#page-home .video-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-rows:repeat(2,minmax(210px,1fr))!important;gap:11px!important}#page-home .video-caption{padding:42px 13px 14px!important}#page-home .video-caption p{font-size:11px!important}}
+@media(max-width:560px){#page-home .video-grid{grid-template-columns:1fr!important;grid-template-rows:repeat(4,minmax(220px,1fr))!important}#page-home .video-caption{padding:22px 17px!important}.home-tools{padding-top:28px;padding-bottom:32px}.home-tools .tool-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.home-tools .tool-card{padding:15px;min-height:190px}}
+</style>
