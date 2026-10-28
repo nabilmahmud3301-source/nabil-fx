@@ -372,6 +372,28 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 @media(prefers-reduced-motion:reduce){#page-home.video-showcase:after{animation:none}}
 </style>
 
+
+<style id="nfx-desktop-home-action-layout">
+/* Desktop-browser only: align all four existing actions to the right of the Home title.
+   Mobile browsers and the installed standalone app retain the original stacked placement. */
+@media (min-width: 1101px) and (display-mode: browser){
+  #page-home.video-showcase .video-wrap{position:relative}
+  #page-home .signature-heading{max-width:48%;min-height:46px;margin:0 0 22px}
+  #page-home .home-actions:not(.app-install-actions){
+    position:absolute;top:0;right:0;margin:0!important;
+    display:flex;justify-content:flex-end;align-items:center;gap:9px;
+    max-width:50%;flex-wrap:nowrap
+  }
+  #page-home .app-install-actions{
+    position:absolute;top:51px;right:0;margin:0!important;
+    display:flex;justify-content:flex-end;align-items:center;gap:9px;
+    max-width:50%;flex-wrap:nowrap
+  }
+  #page-home .home-action{white-space:nowrap;padding:10px 13px;font-size:11px}
+  #page-home #appInstallStatus{display:none}
+}
+</style>
+
 </head>
 <body>
 <header class="site-header">
