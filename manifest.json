@@ -10,7 +10,7 @@
   "theme_color": "#050505",
   "icons": [
     {
-      "src": "./nabil-fx-logo.svg?v=logo-hd-20261028-v2",
+      "src": "./nabil-fx-app-icon.svg?v=launch-stable-20261028",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
