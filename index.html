@@ -441,10 +441,10 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
     <p id="appInstallStatus" class="app-install-status" role="status" aria-live="polite">Install Nabil Fx on your device for quick access.</p>
 
     <div class="motion-grid video-grid">
-      <article class="motion-card video-card"><div class="motion-screen video-screen visual-flow"><video class="showcase-video" autoplay muted loop playsinline webkit-playsinline preload="auto" aria-label="Pexels video for Journal card"><source src="https://videos.pexels.com/video-files/30445099/13047044_3840_2160_25fps.mp4" type="video/mp4"></video><div class="video-caption"><span>JOURNAL</span><h2>Build Your Journal</h2><p>Track every decision. Learn from every trade.</p></div></div></article>
-      <article class="motion-card video-card"><div class="motion-screen video-screen visual-orbit"><video class="showcase-video" autoplay muted loop playsinline webkit-playsinline preload="auto" aria-label="Pexels video for Backtest card"><source src="https://videos.pexels.com/video-files/30445100/13047067_3840_2160_25fps.mp4" type="video/mp4"></video><div class="video-caption"><span>BACKTEST</span><h2>Test Your Strategy</h2><p>Turn ideas into evidence.</p></div></div></article>
-      <article class="motion-card video-card"><div class="motion-screen video-screen visual-form"><video class="showcase-video" autoplay muted loop playsinline webkit-playsinline preload="auto" aria-label="Pexels video for Analysis card"><source src="https://videos.pexels.com/video-files/38698437/16438792_3840_2160_50fps.mp4" type="video/mp4"></video><div class="video-caption"><span>ANALYSIS</span><h2>Analyze the Market</h2><p>Find clarity before execution.</p></div></div></article>
-      <article class="motion-card video-card"><div class="motion-screen video-screen visual-horizon"><video class="showcase-video" autoplay muted loop playsinline webkit-playsinline preload="auto" aria-label="Pexels video for Growth card"><source src="https://videos.pexels.com/video-files/8348902/8348902-uhd_3840_2160_25fps.mp4" type="video/mp4"></video><div class="video-caption"><span>GROWTH</span><h2>Build a Better Life</h2><p>Improve your process. Build your future.</p></div></div></article>
+      <article class="motion-card video-card"><div class="motion-screen video-screen visual-flow"><video class="showcase-video" muted loop playsinline webkit-playsinline preload="none" data-lazy-showcase-video="primary" aria-label="Pexels video for Journal card"><source data-src="https://videos.pexels.com/video-files/30445099/13047044_3840_2160_25fps.mp4" type="video/mp4"></video><div class="video-caption"><span>JOURNAL</span><h2>Build Your Journal</h2><p>Track every decision. Learn from every trade.</p></div></div></article>
+      <article class="motion-card video-card"><div class="motion-screen video-screen visual-orbit"><video class="showcase-video" muted loop playsinline webkit-playsinline preload="none" data-lazy-showcase-video="on-demand" aria-label="Pexels video for Backtest card"><source data-src="https://videos.pexels.com/video-files/30445100/13047067_3840_2160_25fps.mp4" type="video/mp4"></video><div class="video-caption"><span>BACKTEST</span><h2>Test Your Strategy</h2><p>Turn ideas into evidence.</p></div></div></article>
+      <article class="motion-card video-card"><div class="motion-screen video-screen visual-form"><video class="showcase-video" muted loop playsinline webkit-playsinline preload="none" data-lazy-showcase-video="on-demand" aria-label="Pexels video for Analysis card"><source data-src="https://videos.pexels.com/video-files/38698437/16438792_3840_2160_50fps.mp4" type="video/mp4"></video><div class="video-caption"><span>ANALYSIS</span><h2>Analyze the Market</h2><p>Find clarity before execution.</p></div></div></article>
+      <article class="motion-card video-card"><div class="motion-screen video-screen visual-horizon"><video class="showcase-video" muted loop playsinline webkit-playsinline preload="none" data-lazy-showcase-video="on-demand" aria-label="Pexels video for Growth card"><source data-src="https://videos.pexels.com/video-files/8348902/8348902-uhd_3840_2160_25fps.mp4" type="video/mp4"></video><div class="video-caption"><span>GROWTH</span><h2>Build a Better Life</h2><p>Improve your process. Build your future.</p></div></div></article>
     </div>
   </div>
 </section>
@@ -1815,6 +1815,56 @@ document.addEventListener('click', function(event) {
 })();
 </script>
 
+<script id="nfx-performance-video-loading">
+(function(){
+  var videos=Array.prototype.slice.call(document.querySelectorAll('video[data-lazy-showcase-video]'));
+  if(!videos.length)return;
+  var reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var saveData=navigator.connection&&navigator.connection.saveData;
+  function loadAndPlay(video,allowPlay){
+    var source=video.querySelector('source[data-src]');
+    if(source&&!source.getAttribute('src')){
+      source.setAttribute('src',source.getAttribute('data-src'));
+      source.removeAttribute('data-src');
+      video.load();
+    }
+    if(allowPlay&&!reduced){
+      var playPromise=video.play();
+      if(playPromise&&playPromise.catch)playPromise.catch(function(){});
+    }
+  }
+  videos.forEach(function(video,index){
+    if(index===0&&!saveData){
+      if('IntersectionObserver' in window){
+        var observer=new IntersectionObserver(function(entries){
+          entries.forEach(function(entry){
+            if(entry.isIntersecting){
+              loadAndPlay(video,true);
+              observer.disconnect();
+            }
+          });
+        },{rootMargin:'120px 0px',threshold:0.01});
+        observer.observe(video);
+      }else{
+        window.addEventListener('load',function(){loadAndPlay(video,!reduced);},{once:true});
+      }
+    }
+    var card=video.closest('.video-card')||video;
+    function activate(){loadAndPlay(video,!reduced);videos.forEach(function(other){if(other!==video)other.pause();});}
+    card.addEventListener('pointerenter',activate,{passive:true});
+    card.addEventListener('focusin',activate);
+    card.addEventListener('click',function(){if(video.paused)activate();else video.pause();});
+  });
+  if('IntersectionObserver' in window){
+    var pauseObserver=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(!entry.isIntersecting)entry.target.pause();
+      });
+    },{threshold:0});
+    videos.forEach(function(video){pauseObserver.observe(video);});
+  }
+})();
+</script>
 </body>
 </html>
 <style>
