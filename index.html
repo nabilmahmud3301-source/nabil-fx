@@ -56,10 +56,10 @@ canvas{display:block;width:100%;height:190px;background:#0b1222;border:1px solid
 .foot{font-size:12px;margin-top:18px}
 .profile-grid{display:grid;grid-template-columns:180px 1fr;gap:22px;align-items:start}
 .profile-photo{width:180px;height:180px;object-fit:cover;border-radius:18px;border:2px solid var(--accent)}
-.chart-toolbar{display:grid;grid-template-columns:repeat(4,minmax(130px,1fr));gap:12px;margin-bottom:14px}
-.chart-extra-toolbar{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin:0 0 14px;padding:13px;border:1px solid #292929;border-radius:12px;background:#0a0a0c}.chart-extra-toolbar .field{min-width:150px;flex:1}.chart-indicators{display:flex;gap:8px;flex-wrap:wrap;align-items:center;min-height:42px}.chart-indicator{display:inline-flex;align-items:center;gap:7px;padding:8px 10px;border:1px solid #343434;border-radius:9px;background:#111;color:#ddd;font-size:12px}.chart-indicator input{width:auto;accent-color:#ff2438}.chart-actions{display:flex;gap:8px;flex-wrap:wrap}.chart-actions .btn{min-height:42px}.tv-frame:fullscreen{width:100vw;height:100vh;border:0;border-radius:0;background:#080808}.chart-tool-label{display:block;color:#a7a7a7;font-size:11px;font-weight:800;letter-spacing:.6px;margin-bottom:7px}
-.tv-frame{width:100%;height:680px;border:1px solid #2b2b2b;border-radius:14px;overflow:hidden;background:#080808}
+.chart-workspace{padding:10px}.tv-frame:fullscreen{width:100vw;height:100vh;border:0;border-radius:0;background:#080808}
+.tv-frame{width:100%;height:min(78vh,820px);min-height:560px;border:1px solid #2b2b2b;border-radius:10px;overflow:hidden;background:#080808}
 .tv-frame>div{height:100%;width:100%}
+@media(max-width:700px){.tv-frame{height:72vh;min-height:480px}.chart-workspace{padding:6px}}
 .account-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .tag{display:inline-block;padding:6px 10px;border:1px solid #7b1822;border-radius:999px;color:#ff6978;font-size:12px;margin:4px 4px 0 0}
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -480,78 +480,13 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       </section>
 
 <section id="page-chart" class="view">
-  <h2 class="view-heading">TradingView Chart</h2>
-  <p class="view-lead">TradingView chart with symbol, timeframe, indicators and drawing toolbar where supported.</p>
-  <section class="panel">
-    <div class="chart-toolbar">
-      <div class="field">
-        <label>MARKET</label>
-        <select id="chartMarket">
-          <option value="forex">Forex</option>
-          <option value="gold">Gold & Silver</option>
-          <option value="indices">Indices</option>
-          <option value="futures">Futures</option>
-          <option value="crypto">Crypto</option>
-          <option value="commodities">Commodities</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>SYMBOL</label>
-        <select id="chartSymbol"></select>
-      </div>
-      <div class="field">
-        <label>TIMEFRAME</label>
-        <select id="chartInterval">
-          <option value="1">1 minute</option>
-          <option value="3">3 minutes</option>
-          <option value="5">5 minutes</option>
-          <option value="15" selected>15 minutes</option>
-          <option value="30">30 minutes</option>
-          <option value="60">1 hour</option>
-          <option value="120">2 hours</option>
-          <option value="240">4 hours</option>
-          <option value="D">1 day</option>
-          <option value="W">1 week</option>
-          <option value="M">1 month</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>LOAD CHART</label>
-        <button class="btn primary" id="loadChart" type="button">Apply Chart Settings</button>
-      </div>
+  <h2 class="view-heading">Advanced Chart</h2>
+  <p class="view-lead">Interactive market chart. Use the chart's own toolbar for symbols, intervals, chart style, indicators, settings, timezone and fullscreen.</p>
+  <section class="panel chart-workspace">
+    <div id="tvChart" class="tv-frame" aria-label="Interactive TradingView chart">
+      <div style="display:grid;place-items:center;height:100%;padding:24px;text-align:center;color:#aaa">Loading chart…</div>
     </div>
-    <div class="chart-extra-toolbar" aria-label="Chart display options">
-      <div class="field">
-        <label for="chartStyle">CHART TYPE</label>
-        <select id="chartStyle">
-          <option value="1" selected>Candles</option>
-          <option value="0">Bars</option>
-          <option value="2">Line</option>
-          <option value="3">Area</option>
-          <option value="9">Baseline</option>
-        </select>
-      </div>
-      <div class="field" style="flex:2;min-width:250px">
-        <span class="chart-tool-label">INDICATORS</span>
-        <div class="chart-indicators">
-          <label class="chart-indicator"><input type="checkbox" value="STD;RSI" data-chart-study checked> RSI</label>
-          <label class="chart-indicator"><input type="checkbox" value="STD;MACD" data-chart-study checked> MACD</label>
-          <label class="chart-indicator"><input type="checkbox" value="STD;MA" data-chart-study checked> Moving Average</label>
-          <label class="chart-indicator"><input type="checkbox" value="STD;Bollinger_Bands" data-chart-study> Bollinger Bands</label>
-          <label class="chart-indicator"><input type="checkbox" value="STD;VWAP" data-chart-study> VWAP</label>
-          <label class="chart-indicator"><input type="checkbox" value="STD;Stochastic" data-chart-study> Stochastic</label>
-        </div>
-      </div>
-      <div class="chart-actions">
-        <button class="btn secondary" id="fullscreenChart" type="button">⛶ Fullscreen</button>
-      </div>
-    </div>
-    <div id="tvChart" class="tv-frame">
-      <div style="display:grid;place-items:center;height:100%;padding:24px;text-align:center;color:#aaa">
-        Select a market and press Load Selected Chart.
-      </div>
-    </div>
-    <p class="hint">Powered by TradingView's Advanced Chart widget. Use its built-in top/side toolbars for drawing tools, chart settings, symbol search and additional studies. The selected indicators above are requested when the chart reloads. Some symbols, indicators, data feeds, and tools depend on TradingView's embed permissions and market access; this is not a full TradingView account, and drawings do not sync to TradingView accounts or the Nabil Fx backtest engine.</p>
+    <p class="hint">Chart powered by TradingView. Timezone is initially set to Dhaka; change it from the chart's own time-axis/timezone controls. Symbols and indicators are not preselected as favorites. TradingView embed capabilities, saved layouts, favorite syncing and candle countdown can differ from a signed-in TradingView chart and depend on the embedded widget's supported features.</p>
   </section>
   <section class="workflow-band"><div><h3>Build a process. Measure progress. Keep improving.</h3><p>Trading involves risk. Nabil Fx supports research and organization; it does not guarantee trading results.</p></div></section>
 </section>
@@ -1240,37 +1175,23 @@ document.addEventListener('click',event=>{
     b.addEventListener('click',()=>show(b.dataset.page));
   });
 
-  const chartSets={
-    forex:[['EUR/USD','FX:EURUSD'],['GBP/USD','FX:GBPUSD'],['USD/JPY','FX:USDJPY'],['AUD/JPY','FX:AUDJPY'],['GBP/JPY','FX:GBPJPY']],
-    gold:[['Gold / USD','OANDA:XAUUSD'],['Silver / USD','OANDA:XAGUSD']],
-    indices:[['S&P 500','SP:SPX'],['Nasdaq 100','NASDAQ:NDX'],['Dow Jones','DJ:DJI'],['US Dollar Index','TVC:DXY']],
-    futures:[['E-mini S&P 500','CME_MINI:ES1!'],['E-mini Nasdaq 100','CME_MINI:NQ1!'],['E-mini Dow','CBOT_MINI:YM1!']],
-    crypto:[['Bitcoin / USDT','BINANCE:BTCUSDT'],['Ethereum / USDT','BINANCE:ETHUSDT'],['Solana / USDT','BINANCE:SOLUSDT']],
-    commodities:[['Crude Oil','NYMEX:CL1!'],['Natural Gas','NYMEX:NG1!'],['Gold Futures','COMEX:GC1!'],['Silver Futures','COMEX:SI1!']]
-  };
-  const cm=$('chartMarket'),cs=$('chartSymbol'),ci=$('chartInterval'),frame=$('tvChart');
-
-  function fillChartSymbols(){
-    const list=chartSets[cm.value]||chartSets.forex;
-    cs.innerHTML=list.map(x=>'<option value="'+x[1]+'">'+x[0]+'</option>').join('');
-  }
+  const frame=$('tvChart');
+  let chartLoaded=false;
 
   function loadTradingView(){
-    const symbol=cs.value||'FX:EURUSD';
+    if(!frame || chartLoaded) return;
+    chartLoaded=true;
     frame.innerHTML='';
     const root=document.createElement('div');
     root.className='tradingview-widget-container';
-    root.style.height='100%';root.style.width='100%';
+    root.style.height='100%';
+    root.style.width='100%';
 
     const inner=document.createElement('div');
     inner.className='tradingview-widget-container__widget';
-    inner.style.height='calc(100% - 32px)';inner.style.width='100%';
+    inner.style.height='100%';
+    inner.style.width='100%';
     root.appendChild(inner);
-
-    const credit=document.createElement('div');
-    credit.style.cssText='height:32px;padding:5px 10px;font-size:11px;color:#aaa';
-    credit.innerHTML='<a href="https://www.tradingview.com/" target="_blank" rel="noopener noreferrer" style="color:#aaa">Charts by TradingView</a>';
-    root.appendChild(credit);
     frame.appendChild(root);
 
     const script=document.createElement('script');
@@ -1279,11 +1200,11 @@ document.addEventListener('click',event=>{
     script.type='text/javascript';
     script.text=JSON.stringify({
       autosize:true,
-      symbol:symbol,
-      interval:ci.value,
+      symbol:'FX:EURUSD',
+      interval:'15',
       timezone:'Asia/Dhaka',
       theme:'dark',
-      style:$('chartStyle').value,
+      style:'1',
       locale:'en',
       withdateranges:true,
       hide_side_toolbar:false,
@@ -1296,36 +1217,23 @@ document.addEventListener('click',event=>{
       hide_legend:false,
       hide_volume:false,
       show_popup_button:true,
-      studies:Array.from(document.querySelectorAll('[data-chart-study]:checked')).map(el=>el.value),
+      show_countdown:true,
+      studies:[],
       support_host:'https://www.tradingview.com'
     });
     root.appendChild(script);
   }
 
-  cm.addEventListener('change',fillChartSymbols);
-  $('loadChart').addEventListener('click',loadTradingView);
-  $('fullscreenChart').addEventListener('click',async()=>{
-    try{
-      if(!document.fullscreenElement){
-        await frame.requestFullscreen();
-        $('fullscreenChart').textContent='⛶ Exit Fullscreen';
-      }else{
-        await document.exitFullscreen();
-        $('fullscreenChart').textContent='⛶ Fullscreen';
-      }
-    }catch(e){
-      const msg=document.createElement('p');
-      msg.className='hint';
-      msg.textContent='Fullscreen is not available in this browser.';
-      frame.after(msg);
-      setTimeout(()=>msg.remove(),3500);
-    }
-  });
-  document.addEventListener('fullscreenchange',()=>{
-    $('fullscreenChart').textContent=document.fullscreenElement?'⛶ Exit Fullscreen':'⛶ Fullscreen';
-  });
-  fillChartSymbols();
-  show('home');
+  const chartNav=document.querySelector('.nav-btn[data-page="chart"]');
+  if(chartNav) chartNav.addEventListener('click',loadTradingView);
+  const originalShow=window.showNabilPage;
+  if(typeof originalShow==='function'){
+    window.showNabilPage=function(page){
+      originalShow(page);
+      if(page==='chart') loadTradingView();
+    };
+  }
+
 })();
 
 /* Independent Notes storage: each note owns its own screenshot data. */
