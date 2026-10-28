@@ -57,6 +57,7 @@ canvas{display:block;width:100%;height:190px;background:#0b1222;border:1px solid
 .profile-grid{display:grid;grid-template-columns:180px 1fr;gap:22px;align-items:start}
 .profile-photo{width:180px;height:180px;object-fit:cover;border-radius:18px;border:2px solid var(--accent)}
 .chart-toolbar{display:grid;grid-template-columns:repeat(4,minmax(130px,1fr));gap:12px;margin-bottom:14px}
+.chart-extra-toolbar{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin:0 0 14px;padding:13px;border:1px solid #292929;border-radius:12px;background:#0a0a0c}.chart-extra-toolbar .field{min-width:150px;flex:1}.chart-indicators{display:flex;gap:8px;flex-wrap:wrap;align-items:center;min-height:42px}.chart-indicator{display:inline-flex;align-items:center;gap:7px;padding:8px 10px;border:1px solid #343434;border-radius:9px;background:#111;color:#ddd;font-size:12px}.chart-indicator input{width:auto;accent-color:#ff2438}.chart-actions{display:flex;gap:8px;flex-wrap:wrap}.chart-actions .btn{min-height:42px}.tv-frame:fullscreen{width:100vw;height:100vh;border:0;border-radius:0;background:#080808}.chart-tool-label{display:block;color:#a7a7a7;font-size:11px;font-weight:800;letter-spacing:.6px;margin-bottom:7px}
 .tv-frame{width:100%;height:680px;border:1px solid #2b2b2b;border-radius:14px;overflow:hidden;background:#080808}
 .tv-frame>div{height:100%;width:100%}
 .account-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
@@ -502,18 +503,47 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
         <label>TIMEFRAME</label>
         <select id="chartInterval">
           <option value="1">1 minute</option>
+          <option value="3">3 minutes</option>
           <option value="5">5 minutes</option>
           <option value="15" selected>15 minutes</option>
           <option value="30">30 minutes</option>
           <option value="60">1 hour</option>
+          <option value="120">2 hours</option>
           <option value="240">4 hours</option>
           <option value="D">1 day</option>
           <option value="W">1 week</option>
+          <option value="M">1 month</option>
         </select>
       </div>
       <div class="field">
         <label>LOAD CHART</label>
-        <button class="btn primary" id="loadChart" type="button">Load Selected Chart</button>
+        <button class="btn primary" id="loadChart" type="button">Apply Chart Settings</button>
+      </div>
+    </div>
+    <div class="chart-extra-toolbar" aria-label="Chart display options">
+      <div class="field">
+        <label for="chartStyle">CHART TYPE</label>
+        <select id="chartStyle">
+          <option value="1" selected>Candles</option>
+          <option value="0">Bars</option>
+          <option value="2">Line</option>
+          <option value="3">Area</option>
+          <option value="9">Baseline</option>
+        </select>
+      </div>
+      <div class="field" style="flex:2;min-width:250px">
+        <span class="chart-tool-label">INDICATORS</span>
+        <div class="chart-indicators">
+          <label class="chart-indicator"><input type="checkbox" value="STD;RSI" data-chart-study checked> RSI</label>
+          <label class="chart-indicator"><input type="checkbox" value="STD;MACD" data-chart-study checked> MACD</label>
+          <label class="chart-indicator"><input type="checkbox" value="STD;MA" data-chart-study checked> Moving Average</label>
+          <label class="chart-indicator"><input type="checkbox" value="STD;Bollinger_Bands" data-chart-study> Bollinger Bands</label>
+          <label class="chart-indicator"><input type="checkbox" value="STD;VWAP" data-chart-study> VWAP</label>
+          <label class="chart-indicator"><input type="checkbox" value="STD;Stochastic" data-chart-study> Stochastic</label>
+        </div>
+      </div>
+      <div class="chart-actions">
+        <button class="btn secondary" id="fullscreenChart" type="button">⛶ Fullscreen</button>
       </div>
     </div>
     <div id="tvChart" class="tv-frame">
@@ -521,7 +551,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
         Select a market and press Load Selected Chart.
       </div>
     </div>
-    <p class="hint">Chart availability, data feeds, drawing tools and indicators depend on TradingView's embedded widget. Chart drawings do not automatically transfer to the backtesting engine.</p>
+    <p class="hint">Powered by TradingView's Advanced Chart widget. Use its built-in top/side toolbars for drawing tools, chart settings, symbol search and additional studies. The selected indicators above are requested when the chart reloads. Some symbols, indicators, data feeds, and tools depend on TradingView's embed permissions and market access; this is not a full TradingView account, and drawings do not sync to TradingView accounts or the Nabil Fx backtest engine.</p>
   </section>
   <section class="workflow-band"><div><h3>Build a process. Measure progress. Keep improving.</h3><p>Trading involves risk. Nabil Fx supports research and organization; it does not guarantee trading results.</p></div></section>
 </section>
@@ -1253,7 +1283,7 @@ document.addEventListener('click',event=>{
       interval:ci.value,
       timezone:'Asia/Dhaka',
       theme:'dark',
-      style:'1',
+      style:$('chartStyle').value,
       locale:'en',
       withdateranges:true,
       hide_side_toolbar:false,
@@ -1262,7 +1292,11 @@ document.addEventListener('click',event=>{
       calendar:false,
       details:true,
       hotlist:false,
-      studies:['STD;RSI','STD;MACD','STD;MA'],
+      hide_top_toolbar:false,
+      hide_legend:false,
+      hide_volume:false,
+      show_popup_button:true,
+      studies:Array.from(document.querySelectorAll('[data-chart-study]:checked')).map(el=>el.value),
       support_host:'https://www.tradingview.com'
     });
     root.appendChild(script);
@@ -1270,6 +1304,26 @@ document.addEventListener('click',event=>{
 
   cm.addEventListener('change',fillChartSymbols);
   $('loadChart').addEventListener('click',loadTradingView);
+  $('fullscreenChart').addEventListener('click',async()=>{
+    try{
+      if(!document.fullscreenElement){
+        await frame.requestFullscreen();
+        $('fullscreenChart').textContent='⛶ Exit Fullscreen';
+      }else{
+        await document.exitFullscreen();
+        $('fullscreenChart').textContent='⛶ Fullscreen';
+      }
+    }catch(e){
+      const msg=document.createElement('p');
+      msg.className='hint';
+      msg.textContent='Fullscreen is not available in this browser.';
+      frame.after(msg);
+      setTimeout(()=>msg.remove(),3500);
+    }
+  });
+  document.addEventListener('fullscreenchange',()=>{
+    $('fullscreenChart').textContent=document.fullscreenElement?'⛶ Exit Fullscreen':'⛶ Fullscreen';
+  });
   fillChartSymbols();
   show('home');
 })();
