@@ -56,9 +56,7 @@ canvas{display:block;width:100%;height:190px;background:#0b1222;border:1px solid
 .foot{font-size:12px;margin-top:18px}
 .profile-grid{display:grid;grid-template-columns:180px 1fr;gap:22px;align-items:start}
 .profile-photo{width:180px;height:180px;object-fit:cover;border-radius:18px;border:2px solid var(--accent)}
-.chart-workspace{padding:10px}.tv-frame{position:relative}.chart-fullscreen-overlay{position:absolute;z-index:5;top:8px;right:54px;width:34px;height:32px;border:1px solid #3a3a3a;border-radius:5px;background:#171717;color:#f4f4f4;font-size:21px;line-height:1;cursor:pointer;display:grid;place-items:center;opacity:.96}.chart-fullscreen-overlay:hover{background:#303030}.tv-frame:fullscreen{width:100vw;height:100vh;border:0;border-radius:0;background:#080808}
-.tv-frame{width:100%;height:min(78vh,820px);min-height:560px;border:1px solid #2b2b2b;border-radius:10px;overflow:hidden;background:#080808}
-.tv-frame>div{height:100%;width:100%}
+.chart-workspace{padding:10px}.chart-shell{position:relative;width:100%}.tv-frame{width:100%;height:min(78vh,820px);min-height:560px;border:1px solid #2b2b2b;border-radius:10px;overflow:hidden;background:#080808}.tv-frame>div{height:100%;width:100%}.chart-fullscreen-overlay{position:absolute;z-index:20;top:7px;right:52px;width:34px;height:32px;border:1px solid #3a3a3a;border-radius:5px;background:#171717;color:#f4f4f4;font-size:22px;line-height:1;cursor:pointer;display:grid;place-items:center;opacity:.98}.chart-fullscreen-overlay:hover{background:#303030}.chart-shell:fullscreen{width:100vw;height:100vh;background:#080808}.chart-shell:fullscreen .tv-frame{width:100%;height:100%;min-height:100%;border:0;border-radius:0}.chart-shell:fullscreen .chart-fullscreen-overlay{position:fixed;top:8px;right:54px}
 @media(max-width:700px){.tv-frame{height:72vh;min-height:480px}.chart-workspace{padding:6px}.chart-fullscreen-overlay{right:48px;top:7px;width:31px;height:30px}}
 .account-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .tag{display:inline-block;padding:6px 10px;border:1px solid #7b1822;border-radius:999px;color:#ff6978;font-size:12px;margin:4px 4px 0 0}
@@ -481,13 +479,14 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 
 <section id="page-chart" class="view">
   <h2 class="view-heading">Advanced Chart</h2>
-  <p class="view-lead">Interactive market chart. Use the chart's own toolbar for symbols, intervals, chart style, indicators, settings, timezone and fullscreen.</p>
   <section class="panel chart-workspace">
-    <div id="tvChart" class="tv-frame" aria-label="Interactive TradingView chart">
+    <div id="chartShell" class="chart-shell">
+      <div id="tvChart" class="tv-frame" aria-label="Interactive TradingView chart">
+        <div style="display:grid;place-items:center;height:100%;padding:24px;text-align:center;color:#aaa">Loading chart…</div>
+      </div>
       <button id="chartFullscreenOverlay" class="chart-fullscreen-overlay" type="button" aria-label="Fullscreen chart" title="Fullscreen chart">⛶</button>
-      <div style="display:grid;place-items:center;height:100%;padding:24px;text-align:center;color:#aaa">Loading chart…</div>
     </div>
-    <p class="hint">Chart powered by TradingView. Timezone is initially set to Dhaka; change it from the chart's own time-axis/timezone controls. Symbols and indicators are not preselected as favorites. TradingView embed capabilities, saved layouts, favorite syncing and candle countdown can differ from a signed-in TradingView chart and depend on the embedded widget's supported features.</p>
+    <p class="hint">TradingView chart. Default timeframe: 1 hour. Use the chart toolbar to change symbols and tools.</p>
   </section>
   <section class="workflow-band"><div><h3>Build a process. Measure progress. Keep improving.</h3><p>Trading involves risk. Nabil Fx supports research and organization; it does not guarantee trading results.</p></div></section>
 </section>
@@ -1204,7 +1203,7 @@ document.addEventListener('click',event=>{
     script.text=JSON.stringify({
       autosize:true,
       symbol:currentChartSymbol,
-      interval:'15',
+      interval:'60',
       timezone:'Asia/Dhaka',
       theme:'dark',
       style:'1',
@@ -1229,7 +1228,8 @@ document.addEventListener('click',event=>{
 
   $('chartFullscreenOverlay')?.addEventListener('click',async()=>{
     try{
-      if(!document.fullscreenElement){await frame.requestFullscreen();}
+      const shell=$('chartShell');
+      if(!document.fullscreenElement){await shell.requestFullscreen();}
       else{await document.exitFullscreen();}
     }catch(e){
       window.open('https://www.tradingview.com/chart/?symbol='+encodeURIComponent(currentChartSymbol),'_blank','noopener');
@@ -1237,7 +1237,7 @@ document.addEventListener('click',event=>{
   });
   document.addEventListener('fullscreenchange',()=>{
     const btn=$('chartFullscreenOverlay');
-    if(btn){const active=!!document.fullscreenElement;btn.textContent=active?'⛶':'⛶';btn.title=active?'Exit fullscreen':'Fullscreen chart';btn.setAttribute('aria-label',btn.title);}
+    if(btn){btn.title=document.fullscreenElement?'Exit fullscreen':'Fullscreen mode';btn.setAttribute('aria-label',btn.title);}
   });
   show('home');
 
