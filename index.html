@@ -56,10 +56,10 @@ canvas{display:block;width:100%;height:190px;background:#0b1222;border:1px solid
 .foot{font-size:12px;margin-top:18px}
 .profile-grid{display:grid;grid-template-columns:180px 1fr;gap:22px;align-items:start}
 .profile-photo{width:180px;height:180px;object-fit:cover;border-radius:18px;border:2px solid var(--accent)}
-.chart-workspace{padding:10px}.tv-frame:fullscreen{width:100vw;height:100vh;border:0;border-radius:0;background:#080808}
+.chart-workspace{padding:10px}.chart-favorites{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 6px 14px}.chart-favorites strong{font-size:14px}.chart-favorites p{margin:2px 0 0;color:#999;font-size:12px}.chart-favorites-list{display:flex;gap:7px;flex-wrap:wrap;margin-top:7px}.chart-favorite-chip{display:inline-flex;align-items:center;gap:7px;padding:6px 9px;border:1px solid #333;border-radius:7px;background:#151515;color:#eee;font-size:12px;cursor:pointer}.chart-favorite-chip button{border:0;background:transparent;color:#ff7a86;cursor:pointer}.tv-frame:fullscreen{width:100vw;height:100vh;border:0;border-radius:0;background:#080808}
 .tv-frame{width:100%;height:min(78vh,820px);min-height:560px;border:1px solid #2b2b2b;border-radius:10px;overflow:hidden;background:#080808}
 .tv-frame>div{height:100%;width:100%}
-@media(max-width:700px){.tv-frame{height:72vh;min-height:480px}.chart-workspace{padding:6px}}
+@media(max-width:700px){.tv-frame{height:72vh;min-height:480px}.chart-workspace{padding:6px}.chart-favorites{align-items:flex-start;flex-direction:column}}
 .account-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .tag{display:inline-block;padding:6px 10px;border:1px solid #7b1822;border-radius:999px;color:#ff6978;font-size:12px;margin:4px 4px 0 0}
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -483,6 +483,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
   <h2 class="view-heading">Advanced Chart</h2>
   <p class="view-lead">Interactive market chart. Use the chart's own toolbar for symbols, intervals, chart style, indicators, settings, timezone and fullscreen.</p>
   <section class="panel chart-workspace">
+    <div class="chart-favorites"><div><strong>Favorites</strong><p id="chartFavoritesEmpty">No favorites saved yet. Add symbols you want to keep.</p><div id="chartFavoritesList" class="chart-favorites-list"></div></div><button class="btn secondary" id="addChartFavorite" type="button">☆ Add Favorite</button></div>
     <div id="tvChart" class="tv-frame" aria-label="Interactive TradingView chart">
       <div style="display:grid;place-items:center;height:100%;padding:24px;text-align:center;color:#aaa">Loading chart…</div>
     </div>
@@ -1176,10 +1177,12 @@ document.addEventListener('click',event=>{
   });
 
   const frame=$('tvChart');
+  let currentChartSymbol='FX:EURUSD';
   let chartLoaded=false;
 
-  function loadTradingView(){
-    if(!frame || chartLoaded) return;
+  function loadTradingView(symbol){
+    if(!frame) return;
+    if(symbol) currentChartSymbol=symbol;
     chartLoaded=true;
     frame.innerHTML='';
     const root=document.createElement('div');
@@ -1200,7 +1203,7 @@ document.addEventListener('click',event=>{
     script.type='text/javascript';
     script.text=JSON.stringify({
       autosize:true,
-      symbol:'FX:EURUSD',
+      symbol:currentChartSymbol,
       interval:'15',
       timezone:'Asia/Dhaka',
       theme:'dark',
@@ -1224,15 +1227,36 @@ document.addEventListener('click',event=>{
     root.appendChild(script);
   }
 
-  const chartNav=document.querySelector('.nav-btn[data-page="chart"]');
-  if(chartNav) chartNav.addEventListener('click',loadTradingView);
-  const originalShow=window.showNabilPage;
-  if(typeof originalShow==='function'){
-    window.showNabilPage=function(page){
-      originalShow(page);
-      if(page==='chart') loadTradingView();
-    };
+  const chartFavoritesKey='nabilFxChartFavoritesV1';
+  function readChartFavorites(){
+    try{return JSON.parse(localStorage.getItem(chartFavoritesKey)||'[]').filter(x=>x&&x.name&&x.symbol)}catch(e){return []}
   }
+  function renderChartFavorites(){
+    const list=$('chartFavoritesList'),empty=$('chartFavoritesEmpty');
+    if(!list||!empty)return;
+    const favorites=readChartFavorites();
+    empty.style.display=favorites.length?'none':'';
+    list.innerHTML='';
+    favorites.forEach((fav,index)=>{
+      const chip=document.createElement('span');chip.className='chart-favorite-chip';
+      const open=document.createElement('button');open.type='button';open.textContent='★ '+fav.name;open.title='Open '+fav.name;open.addEventListener('click',()=>loadTradingView(fav.symbol));
+      const remove=document.createElement('button');remove.type='button';remove.textContent='×';remove.title='Remove favorite';remove.setAttribute('aria-label','Remove '+fav.name+' from favorites');remove.addEventListener('click',()=>{const next=readChartFavorites();next.splice(index,1);localStorage.setItem(chartFavoritesKey,JSON.stringify(next));renderChartFavorites()});
+      chip.append(open,remove);list.appendChild(chip);
+    });
+  }
+  $('addChartFavorite')?.addEventListener('click',()=>{
+    const symbol=window.prompt('Enter a TradingView symbol (example: FX:EURUSD or BINANCE:BTCUSDT):');
+    if(!symbol||!symbol.trim())return;
+    const clean=symbol.trim().toUpperCase();
+    const name=window.prompt('Give this favorite a short name:',clean);
+    if(!name||!name.trim())return;
+    const favorites=readChartFavorites();
+    if(favorites.some(x=>x.symbol===clean)){window.alert('This symbol is already in Favorites.');return;}
+    favorites.push({name:name.trim(),symbol:clean});
+    localStorage.setItem(chartFavoritesKey,JSON.stringify(favorites));renderChartFavorites();
+  });
+  renderChartFavorites();
+  show('home');
 
 })();
 
