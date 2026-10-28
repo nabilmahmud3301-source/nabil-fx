@@ -225,11 +225,6 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 @media(max-width:560px){.workflow-band{margin-top:18px}.video-showcase{padding-top:34px}.signature-heading{font-size:35px;letter-spacing:-1px}.video-grid{gap:10px}.video-caption{padding:44px 13px 14px}.home-tools{padding-top:30px;padding-bottom:38px}.tool-grid{gap:9px}.tool-card{padding:15px;min-height:190px}.tool-icon{width:36px;height:36px;margin-bottom:17px}.tool-card h3{font-size:14px}.tool-card p{font-size:10px}.workflow-band{align-items:flex-start;flex-direction:column;margin-bottom:35px}.home-actions{gap:8px}.home-action{padding:11px 14px}}
 
 
-/* Installed-app startup splash only; normal website is unchanged. */
-#nfx-app-startup-splash{position:fixed;inset:0;z-index:2147483647;background:#050505;display:flex;align-items:center;justify-content:center;opacity:1;transition:opacity .22s ease}
-#nfx-app-startup-splash img{display:block;width:min(82vw,460px);height:auto;max-height:82vh;object-fit:contain}
-#nfx-app-startup-splash.nfx-splash-hide{opacity:0;pointer-events:none}
-@media(prefers-reduced-motion:reduce){#nfx-app-startup-splash{transition:none}}
 </style>
 <style>
 /* Final Home-only refinement: compact founder card above a premium red/white title */
@@ -345,20 +340,6 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 
 </head>
 <body>
-<div id="nfx-app-startup-splash" aria-hidden="true" style="display:none"><img src="./app-icon.png?v=original-logo-restore-20261028" alt=""></div>
-<script>
-(function(){
-  var standalone = window.matchMedia && window.matchMedia('(display-mode: standalone)').matches;
-  if (navigator.standalone === true) standalone = true;
-  var splash = document.getElementById('nfx-app-startup-splash');
-  if (!standalone || !splash) { if (splash) splash.remove(); return; }
-  splash.style.display = 'flex';
-  var hide = function(){ window.setTimeout(function(){ splash.classList.add('nfx-splash-hide'); window.setTimeout(function(){ splash.remove(); }, 260); }, 650); };
-  if (document.readyState === 'complete') hide();
-  else window.addEventListener('load', hide, {once:true});
-})();
-</script>
-
 <header class="site-header">
   <a class="site-brand site-brand-home" href="#home" data-page="home" aria-label="Nabil Fx — Go to Home">
     <img class="site-logo" src="./app-icon.png?v=original-logo-restore-20261028" alt="Nabil Fx logo">
