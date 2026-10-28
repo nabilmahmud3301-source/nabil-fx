@@ -340,22 +340,37 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 
 
 <style id="nfx-premium-trading-background">
-/* Minimal premium background: soft dark gradient only, with barely visible texture. */
+/* Subtle premium trading backdrop — background only; preserve existing Home content and layout. */
 #page-home.video-showcase{
-  background-color:#07080b!important;
+  isolation:isolate;
+  background-color:#050609!important;
   background-image:
-    radial-gradient(ellipse at 82% 10%,rgba(111,18,39,.15),transparent 42%),
-    radial-gradient(ellipse at 12% 78%,rgba(18,43,69,.10),transparent 45%),
-    linear-gradient(115deg,#07080b 0%,#09090d 52%,#0b080b 100%)!important;
+    radial-gradient(ellipse at 78% 16%,rgba(111,18,39,.34),transparent 38%),
+    radial-gradient(ellipse at 12% 80%,rgba(18,43,69,.24),transparent 42%),
+    linear-gradient(115deg,#050609 0%,#09090d 48%,#10070c 100%)!important;
 }
 #page-home.video-showcase:after{
-  content:"";position:absolute;z-index:0;inset:0;pointer-events:none;opacity:.045;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 900'%3E%3Cg stroke='%2397a8c4' stroke-opacity='.22' stroke-width='1'%3E%3Cpath d='M0 150H1440M0 300H1440M0 450H1440M0 600H1440M0 750H1440M180 0V900M360 0V900M540 0V900M720 0V900M900 0V900M1080 0V900M1260 0V900'/%3E%3C/g%3E%3C/svg%3E");
-  background-repeat:repeat;background-size:720px 450px;
+  content:"";position:absolute;z-index:0;inset:0;pointer-events:none;opacity:.23;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 900' preserveAspectRatio='xMidYMid slice'%3E%3Cg stroke='%2397a8c4' stroke-opacity='.13' stroke-width='1'%3E%3Cpath d='M0 120H1440M0 240H1440M0 360H1440M0 480H1440M0 600H1440M0 720H1440M0 840H1440M120 0V900M240 0V900M360 0V900M480 0V900M600 0V900M720 0V900M840 0V900M960 0V900M1080 0V900M1200 0V900M1320 0V900'/%3E%3C/g%3E%3Cg stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M760 250V330M760 270V310' stroke='%23ff5368' stroke-opacity='.58'/%3E%3Crect x='752' y='275' width='16' height='35' rx='1' fill='%23ff344f' fill-opacity='.34'/%3E%3Cpath d='M810 210V305' stroke='%2367c9a4' stroke-opacity='.55'/%3E%3Crect x='802' y='230' width='16' height='48' rx='1' fill='%2367c9a4' fill-opacity='.32'/%3E%3Cpath d='M860 260V380' stroke='%23ff5368' stroke-opacity='.55'/%3E%3Crect x='852' y='288' width='16' height='56' rx='1' fill='%23ff344f' fill-opacity='.34'/%3E%3Cpath d='M910 190V285' stroke='%2367c9a4' stroke-opacity='.55'/%3E%3Crect x='902' y='215' width='16' height='42' rx='1' fill='%2367c9a4' fill-opacity='.32'/%3E%3Cpath d='M960 170V300' stroke='%2367c9a4' stroke-opacity='.55'/%3E%3Crect x='952' y='195' width='16' height='68' rx='1' fill='%2367c9a4' fill-opacity='.32'/%3E%3Cpath d='M1010 205V345' stroke='%23ff5368' stroke-opacity='.55'/%3E%3Crect x='1002' y='235' width='16' height='66' rx='1' fill='%23ff344f' fill-opacity='.34'/%3E%3Cpath d='M1060 150V250' stroke='%2367c9a4' stroke-opacity='.55'/%3E%3Crect x='1052' y='170' width='16' height='52' rx='1' fill='%2367c9a4' fill-opacity='.32'/%3E%3Cpath d='M1110 115V250' stroke='%2367c9a4' stroke-opacity='.55'/%3E%3Crect x='1102' y='145' width='16' height='58' rx='1' fill='%2367c9a4' fill-opacity='.32'/%3E%3C/g%3E%3Cpath d='M640 610L735 565 815 590 900 490 990 515 1085 400 1175 425 1290 305 1440 260' fill='none' stroke='%23b8c5d9' stroke-opacity='.20' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:center center;background-size:cover;
+  mask-image:linear-gradient(180deg,rgba(0,0,0,.8),rgba(0,0,0,.35) 62%,transparent 100%);
 }
 #page-home.video-showcase>.video-wrap,
 #page-home.video-showcase>.home-tools{position:relative;z-index:1}
-@media(max-width:700px){#page-home.video-showcase:after{opacity:.025}}
+#page-home.video-showcase .video-card{box-shadow:0 16px 42px rgba(0,0,0,.24)}
+#page-home.video-showcase .video-screen{border-color:rgba(255,255,255,.10)}
+#page-home.video-showcase .video-caption{
+  background:linear-gradient(180deg,transparent 0%,rgba(3,4,8,.22) 35%,rgba(3,4,8,.88) 100%);
+}
+#page-home .home-tools{
+  background-image:linear-gradient(135deg,rgba(255,255,255,.018),transparent 52%,rgba(142,24,47,.045));
+}
+#page-home .home-tools:before{opacity:.08}
+@media(max-width:700px){
+  #page-home.video-showcase:after{opacity:.13;background-position:62% center}
+  #page-home .home-tools:before{opacity:.055}
+}
+@media(prefers-reduced-motion:reduce){#page-home.video-showcase:after{animation:none}}
 </style>
 
 
