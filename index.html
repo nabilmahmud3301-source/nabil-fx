@@ -56,8 +56,8 @@ canvas{display:block;width:100%;height:190px;background:#0b1222;border:1px solid
 .foot{font-size:12px;margin-top:18px}
 .profile-grid{display:grid;grid-template-columns:180px 1fr;gap:22px;align-items:start}
 .profile-photo{width:180px;height:180px;object-fit:cover;border-radius:18px;border:2px solid var(--accent)}
-.chart-workspace{padding:10px}.chart-shell{position:relative;width:100%;isolation:isolate}.tv-frame{width:100%;height:min(78vh,820px);min-height:560px;border:1px solid #2b2b2b;border-radius:10px;overflow:hidden;background:#080808}.tv-frame>div{height:100%;width:100%}.chart-fullscreen-overlay{position:absolute;z-index:20;top:8px;right:40px;width:28px;height:28px;min-width:28px;padding:0;border:0;border-radius:4px;background:transparent;color:#d1d4dc;cursor:pointer;display:grid;place-items:center;opacity:1;box-shadow:none;filter:none;transform:none;animation:none;transition:background .12s ease,color .12s ease;appearance:none;-webkit-appearance:none}.chart-fullscreen-overlay:hover{background:#2a2e39;color:#fff;filter:none;transform:none;box-shadow:none;animation:none}.chart-fullscreen-overlay:active,.chart-fullscreen-overlay:active:not(:disabled){background:#2a2e39;color:#fff;filter:none;transform:none;box-shadow:none;animation:none}.chart-fullscreen-overlay:focus-visible{outline:2px solid #2962ff;outline-offset:1px}.chart-fullscreen-overlay svg{display:block;width:18px;height:18px;pointer-events:none}.chart-shell:fullscreen{width:100vw;height:100vh;background:#080808}.chart-shell:fullscreen .tv-frame{width:100%;height:100%;min-height:100%;border:0;border-radius:0}.chart-shell:fullscreen .chart-fullscreen-overlay{position:fixed;top:8px;right:40px}
-@media(max-width:700px){.tv-frame{height:72vh;min-height:480px}.chart-workspace{padding:6px}.chart-fullscreen-overlay{right:40px;top:8px;width:28px;height:28px;min-width:28px}}
+.chart-workspace{padding:14px}.chart-heading-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 14px}.chart-heading-row .view-heading{margin:0;font-size:clamp(22px,2.5vw,28px)}.chart-fullscreen-btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:40px;padding:0 15px;border:1px solid #6f2732;border-radius:11px;background:linear-gradient(135deg,#261016 0%,#111116 55%,#1b0b10 100%);color:#fff;font:750 12px/1 system-ui,Arial,sans-serif;letter-spacing:.25px;white-space:nowrap;cursor:pointer;box-shadow:inset 0 1px 0 #ffffff12,0 4px 14px #0004;transition:border-color .16s ease,background .16s ease,box-shadow .16s ease}.chart-fullscreen-btn svg{width:16px;height:16px;flex:0 0 auto;display:block}.chart-fullscreen-btn:hover{border-color:#ff5364;background:linear-gradient(135deg,#40121d,#171117 58%,#2a0c14);box-shadow:inset 0 1px 0 #ffffff16,0 5px 18px #ff24381c}.chart-fullscreen-btn:active,.chart-fullscreen-btn:active:not(:disabled){transform:none;filter:none}.chart-fullscreen-btn:focus-visible{outline:2px solid #ff5364;outline-offset:3px}.chart-shell{position:relative;width:100%;isolation:isolate}.tv-frame{width:100%;height:min(78vh,820px);min-height:560px;border:1px solid #2b2b2b;border-radius:10px;overflow:hidden;background:#080808}.tv-frame>div{height:100%;width:100%}.chart-workspace:fullscreen{width:100vw;height:100vh;max-width:none;margin:0;padding:14px;background:#080808;border:0;border-radius:0;display:flex;flex-direction:column;gap:0}.chart-workspace:fullscreen .chart-shell{flex:1;min-height:0}.chart-workspace:fullscreen .tv-frame{height:100%;min-height:0;border:0;border-radius:0}.chart-workspace:fullscreen .hint{margin:8px 0 0}
+@media(max-width:700px){.tv-frame{height:72vh;min-height:480px}.chart-workspace{padding:9px}.chart-heading-row{gap:10px}.chart-heading-row .view-heading{font-size:22px}.chart-fullscreen-btn{min-height:38px;padding:0 11px;gap:7px;font-size:11px}.chart-workspace:fullscreen{padding:9px}.chart-workspace:fullscreen .tv-frame{min-height:0}}
 .account-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .tag{display:inline-block;padding:6px 10px;border:1px solid #7b1822;border-radius:999px;color:#ff6978;font-size:12px;margin:4px 4px 0 0}
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -480,13 +480,15 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       </section>
 
 <section id="page-chart" class="view">
-  <h2 class="view-heading">Advanced Chart</h2>
-  <section class="panel chart-workspace">
+  <section id="chartWorkspace" class="panel chart-workspace">
+    <div class="chart-heading-row">
+      <h2 class="view-heading">Advanced Chart</h2>
+      <button id="chartFullscreenButton" class="chart-fullscreen-btn" type="button" aria-label="Fullscreen chart" title="Fullscreen chart"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 3H3v5M3 8V3h5M16 3h5v5M16 3h5V3M3 16v5h5M3 16v5h5M21 16v5h-5M21 16v5h-5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Fullscreen Chart</span></button>
+    </div>
     <div id="chartShell" class="chart-shell">
       <div id="tvChart" class="tv-frame" aria-label="Interactive TradingView chart">
         <div style="display:grid;place-items:center;height:100%;padding:24px;text-align:center;color:#aaa">Loading chart…</div>
       </div>
-      <button id="chartFullscreenOverlay" class="chart-fullscreen-overlay" type="button" aria-label="Fullscreen chart" title="Fullscreen chart"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M3 16v5h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
     <p class="hint">TradingView chart. Default timeframe: 1 hour. Use the chart toolbar to change symbols and tools.</p>
   </section>
@@ -1228,18 +1230,25 @@ document.addEventListener('click',event=>{
     root.appendChild(script);
   }
 
-  $('chartFullscreenOverlay')?.addEventListener('click',async()=>{
+  $('chartFullscreenButton')?.addEventListener('click',async()=>{
     try{
-      const shell=$('chartShell');
-      if(!document.fullscreenElement){await shell.requestFullscreen();}
+      const workspace=$('chartWorkspace');
+      if(!document.fullscreenElement){await workspace.requestFullscreen();}
       else{await document.exitFullscreen();}
     }catch(e){
       window.open('https://www.tradingview.com/chart/?symbol='+encodeURIComponent(currentChartSymbol),'_blank','noopener');
     }
   });
   document.addEventListener('fullscreenchange',()=>{
-    const btn=$('chartFullscreenOverlay');
-    if(btn){btn.title=document.fullscreenElement?'Exit fullscreen':'Fullscreen mode';btn.setAttribute('aria-label',btn.title);}
+    const btn=$('chartFullscreenButton');
+    const active=document.fullscreenElement===$('chartWorkspace');
+    if(btn){
+      const label=active?'Exit Fullscreen':'Fullscreen Chart';
+      btn.title=label;
+      btn.setAttribute('aria-label',label);
+      const span=btn.querySelector('span');
+      if(span)span.textContent=label;
+    }
   });
   show('home');
 
