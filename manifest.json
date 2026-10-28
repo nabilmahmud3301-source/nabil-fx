@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "Nabil FX",
-  "short_name": "Nabil FX",
+  "name": "Nabil Fx",
+  "short_name": "Nabil Fx",
   "description": "Nabil FX trading workspace and backtesting tools.",
   "start_url": "./",
   "scope": "./",
