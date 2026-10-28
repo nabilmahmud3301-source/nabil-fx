@@ -10,9 +10,9 @@
   "theme_color": "#050505",
   "icons": [
     {
-      "src": "/app-icon.png?v=original-logo-restore-20261028",
-      "sizes": "512x512",
-      "type": "image/png",
+      "src": "/nabil-fx-logo.svg?v=logo-hd-20261028",
+      "sizes": "any",
+      "type": "image/svg+xml",
       "purpose": "any"
     }
   ]
