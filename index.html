@@ -340,9 +340,8 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 
 
 <style id="nfx-premium-trading-background">
-/* Subtle premium trading backdrop — background only; preserve existing Home content and layout. */
+/* Premium trading-market backdrop — background only; preserve existing Home content/cards. */
 #page-home.video-showcase{
-  isolation:isolate;
   background-color:#050609!important;
   background-image:
     radial-gradient(ellipse at 78% 16%,rgba(111,18,39,.34),transparent 38%),
@@ -351,24 +350,24 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 }
 #page-home.video-showcase:after{
   content:"";position:absolute;z-index:0;inset:0;pointer-events:none;opacity:.23;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 900' preserveAspectRatio='xMidYMid slice'%3E%3Cg stroke='%2397a8c4' stroke-opacity='.13' stroke-width='1'%3E%3Cpath d='M0 120H1440M0 240H1440M0 360H1440M0 480H1440M0 600H1440M0 720H1440M0 840H1440M120 0V900M240 0V900M360 0V900M480 0V900M600 0V900M720 0V900M840 0V900M960 0V900M1080 0V900M1200 0V900M1320 0V900'/%3E%3C/g%3E%3Cg stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M760 250V330M760 270V310' stroke='%23ff5368' stroke-opacity='.58'/%3E%3Crect x='752' y='275' width='16' height='35' rx='1' fill='%23ff344f' fill-opacity='.34'/%3E%3Cpath d='M810 210V305' stroke='%2367c9a4' stroke-opacity='.55'/%3E%3Crect x='802' y='230' width='16' height='48' rx='1' fill='%2367c9a4' fill-opacity='.32'/%3E%3Cpath d='M860 260V380' stroke='%23ff5368' stroke-opacity='.55'/%3E%3Crect x='852' y='288' width='16' height='56' rx='1' fill='%23ff344f' fill-opacity='.34'/%3E%3Cpath d='M910 190V285' stroke='%2367c9a4' stroke-opacity='.55'/%3E%3Crect x='902' y='215' width='16' height='42' rx='1' fill='%2367c9a4' fill-opacity='.32'/%3E%3Cpath d='M960 170V300' stroke='%2367c9a4' stroke-opacity='.55'/%3E%3Crect x='952' y='195' width='16' height='68' rx='1' fill='%2367c9a4' fill-opacity='.32'/%3E%3Cpath d='M1010 205V345' stroke='%23ff5368' stroke-opacity='.55'/%3E%3Crect x='1002' y='235' width='16' height='66' rx='1' fill='%23ff344f' fill-opacity='.34'/%3E%3Cpath d='M1060 150V250' stroke='%2367c9a4' stroke-opacity='.55'/%3E%3Crect x='1052' y='170' width='16' height='52' rx='1' fill='%2367c9a4' fill-opacity='.32'/%3E%3Cpath d='M1110 115V250' stroke='%2367c9a4' stroke-opacity='.55'/%3E%3Crect x='1102' y='145' width='16' height='58' rx='1' fill='%2367c9a4' fill-opacity='.32'/%3E%3C/g%3E%3Cpath d='M640 610L735 565 815 590 900 490 990 515 1085 400 1175 425 1290 305 1440 260' fill='none' stroke='%23b8c5d9' stroke-opacity='.20' stroke-width='2'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:center center;background-size:cover;
-  mask-image:linear-gradient(180deg,rgba(0,0,0,.8),rgba(0,0,0,.35) 62%,transparent 100%);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 900' preserveAspectRatio='xMidYMid slice'%3E%3Cg stroke='%2397a8c4' stroke-opacity='.13' stroke-width='1'%3E%3Cpath d='M0 120H1440M0 240H1440M0 360H1440M0 480H1440M0 600H1440M0 720H1440M0 840H1440M120 0V900M240 0V900M360 0V900M480 0V900M600 0V900M720 0V900M840 0V900M960 0V900M1080 0V900M1200 0V900M1320 0V900'/%3E%3C/g%3E%3Cg stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M760 250V330M760 270V310' stroke='%23ff5368' stroke-opacity='.58'/%3E%3Crect x='752' y='275' width='16' height='35' rx='1' fill='%23ff344f' fill-opacity='.34'/%3E%3Cpath d='M810 210V305' stroke='%2367c9a4' stroke-opacity='.55'/%3E%3Crect x='802' y='230' width='16' height='48' rx='1' fill='%2367c9a4' fill-opacity='.32'/%3E%3Cpath d='M860 260V380' stroke='%23ff5368' stroke-opacity='.55'/%3E%3Crect x='852' y='288' width='16' height='56' rx='1' fill='%23ff344f' fill-opacity='.34'/%3E%3Cpath d='M910 190V285' stroke='%2367c9a4' stroke-opacity='.55'/%3E%3Crect x='902' y='215' width='16' height='42' rx='1' fill='%2367c9a4' fill-opacity='.32'/%3E%3Cpath d='M960 170V300' stroke='%2367c9a4' stroke-opacity='.55'/%3E%3Crect x='952' y='195' width='16' height='68' rx='1' fill='%2367c9a4' fill-opacity='.32'/%3E%3Cpath d='M1010 205V345' stroke='%23ff5368' stroke-opacity='.55'/%3E%3Crect x='1002' y='235' width='16' height='66' rx='1' fill='%23ff344f' fill-opacity='.34'/%3E%3Cpath d='M1060 150V250' stroke='%2367c9a4' stroke-opacity='.55'/%3E%3Crect x='1052' y='170' width='16' height='52' rx='1' fill='%2367c9a4' fill-opacity='.32'/%3E%3Cpath d='M1110 115V250' stroke='%23ff5368' stroke-opacity='.55'/%3E%3Crect x='1102' y='150' width='16' height='62' rx='1' fill='%23ff344f' fill-opacity='.34'/%3E%3Cpath d='M1160 90V200' stroke='%2367c9a4' stroke-opacity='.55'/%3E%3Crect x='1152' y='112' width='16' height='55' rx='1' fill='%2367c9a4' fill-opacity='.32'/%3E%3C/g%3E%3Cpath d='M660 510 C740 470 770 495 830 430 S930 420 970 350 S1080 390 1130 300 S1250 330 1320 210' fill='none' stroke='%23ff4359' stroke-opacity='.34' stroke-width='3'/%3E%3Cpath d='M660 510 C740 470 770 495 830 430 S930 420 970 350 S1080 390 1130 300 S1250 330 1320 210' fill='none' stroke='%23ff4359' stroke-opacity='.12' stroke-width='11'/%3E%3C/svg%3E");
+  background-size:cover;background-position:center right;background-repeat:no-repeat;
 }
-#page-home.video-showcase>.video-wrap,
-#page-home.video-showcase>.home-tools{position:relative;z-index:1}
-#page-home.video-showcase .video-card{box-shadow:0 16px 42px rgba(0,0,0,.24)}
-#page-home.video-showcase .video-screen{border-color:rgba(255,255,255,.10)}
-#page-home.video-showcase .video-caption{
-  background:linear-gradient(180deg,transparent 0%,rgba(3,4,8,.22) 35%,rgba(3,4,8,.88) 100%);
+#page-home.video-showcase>.video-wrap{position:relative;z-index:1}
+.home-tools{
+  position:relative;isolation:isolate;overflow:hidden;
+  background:
+    radial-gradient(ellipse at 82% 15%,rgba(86,16,33,.22),transparent 42%),
+    linear-gradient(180deg,#07070a 0%,#08080b 100%);
 }
-#page-home .home-tools{
-  background-image:linear-gradient(135deg,rgba(255,255,255,.018),transparent 52%,rgba(142,24,47,.045));
+.home-tools:before{
+  content:"";position:absolute;z-index:-1;inset:0;pointer-events:none;opacity:.13;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 500'%3E%3Cg stroke='%23aab6cb' stroke-opacity='.18'%3E%3Cpath d='M0 100H900M0 200H900M0 300H900M0 400H900M100 0V500M200 0V500M300 0V500M400 0V500M500 0V500M600 0V500M700 0V500M800 0V500'/%3E%3C/g%3E%3Cpath d='M30 390L115 350 175 370 250 280 320 310 400 210 465 235 540 155 610 190 690 100 760 130 870 35' fill='none' stroke='%23ff4359' stroke-width='3' stroke-opacity='.55'/%3E%3C/svg%3E");
+  background-size:cover;background-position:center;background-repeat:no-repeat;
 }
-#page-home .home-tools:before{opacity:.08}
-@media(max-width:700px){
-  #page-home.video-showcase:after{opacity:.13;background-position:62% center}
-  #page-home .home-tools:before{opacity:.055}
+@media(max-width:600px){
+ #page-home.video-showcase:after{opacity:.13;background-position:62% center}
+ .home-tools:before{opacity:.08}
 }
 @media(prefers-reduced-motion:reduce){#page-home.video-showcase:after{animation:none}}
 </style>
