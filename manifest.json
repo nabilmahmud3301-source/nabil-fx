@@ -1,16 +1,16 @@
 {
-  "id": "/",
-  "name": "Nabil Fx",
-  "short_name": "Nabil Fx",
-  "description": "Nabil Fx trading workspace and backtesting tools.",
-  "start_url": "/",
-  "scope": "/",
+  "id": "./",
+  "name": "Nabil FX",
+  "short_name": "Nabil FX",
+  "description": "Nabil FX trading workspace and backtesting tools.",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#050505",
   "theme_color": "#050505",
   "icons": [
     {
-      "src": "/nabil-fx-logo.svg",
+      "src": "./nabil-fx-logo.svg?v=logo-hd-20261028-v2",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
