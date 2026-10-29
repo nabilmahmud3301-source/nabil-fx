@@ -8,13 +8,13 @@
 <link rel="shortcut icon" type="image/svg+xml" href="./nabil-fx-logo.svg?v=logo-hd-20261028-v2">
 <link rel="apple-touch-icon" type="image/svg+xml" href="./nabil-fx-logo.svg?v=logo-hd-20261028-v2">
 <style>
-.replay-symbol-row{display:flex;gap:8px;align-items:stretch}.replay-symbol-row input{min-width:0;flex:1}.replay-symbol-row button{white-space:nowrap}
+.replay-market-select{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 13px;min-height:44px;border:1px solid #454545;border-radius:8px;background:#111;color:#f4f4f4;text-align:left;font:inherit;cursor:pointer}.replay-market-select:hover,.replay-market-select:focus{border-color:#b52c35}.replay-manual-entry{border-top:1px solid #352929;margin-top:9px;padding-top:10px;display:grid;gap:6px}.replay-manual-entry label{font-size:11px;color:#b9aaaa}.replay-manual-entry input{width:100%;box-sizing:border-box}
 .replay-market-picker{margin-top:9px;padding:10px;border:1px solid #3b2525;border-radius:10px;background:#0d0b0b;max-height:340px;overflow:hidden}
 .replay-market-picker[hidden]{display:none!important}.replay-market-picker>input{width:100%;box-sizing:border-box;margin-bottom:9px}
 .replay-market-results{max-height:260px;overflow:auto;display:grid;gap:4px}
 .replay-market-option{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;padding:9px 10px;text-align:left;border:1px solid #282020;border-radius:7px;background:#151111;color:#f3eeee;cursor:pointer}
 .replay-market-option:hover,.replay-market-option:focus{border-color:#b52c35;background:#241113}.replay-market-option strong{font-size:12px}.replay-market-option span{font-size:11px;color:#b9aaaa}.replay-market-group{font-size:11px;letter-spacing:.08em;color:#df7379;padding:10px 3px 3px;text-transform:uppercase}
-@media(max-width:600px){.replay-symbol-row{flex-direction:column}.replay-symbol-row button{width:100%}}
+
 
 :root{color-scheme:dark;--bg:#050505;--panel:#101010;--line:#292929;--muted:#a7a7a7;--text:#f6f6f6;--accent:#ff2438}
 *{box-sizing:border-box}
@@ -537,7 +537,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
   <section id="freeReplayPanel" class="panel replay-panel">
     <div class="chart-heading-row"><div><h2 class="view-heading">Free Bar Replay</h2><p class="hint" style="margin:5px 0 0">Practice historical price action one candle at a time. Future candles stay hidden during replay.</p></div><span class="tiny">FREE DATA · NO API KEY</span></div>
     <div class="replay-grid">
-      <div class="field replay-market-field"><label for="replaySymbol">MARKET SYMBOL</label><div class="replay-symbol-row"><input id="replaySymbol" type="text" placeholder="Search or type symbol (e.g. EURUSD)" autocomplete="off" spellcheck="false" aria-describedby="replaySymbolHelp"><button class="btn secondary" id="replayBrowseMarkets" type="button" aria-expanded="false">Browse Markets ▾</button></div><small id="replaySymbolHelp" class="hint">Choose from the provider's free market list, or type a symbol manually.</small><div id="replayMarketPicker" class="replay-market-picker" hidden><input id="replayMarketSearch" type="search" placeholder="Filter by symbol or market name…" autocomplete="off" aria-label="Filter available markets"><div id="replayMarketResults" class="replay-market-results"><p class="hint">Loading free market list…</p></div></div></div>
+      <div class="field replay-market-field"><label for="replaySymbol">MARKET SYMBOL</label><button class="replay-market-select" id="replayMarketSelect" type="button" aria-expanded="false"><span id="replayMarketSelectLabel">Market Symbol</span><span aria-hidden="true">▾</span></button><div id="replayMarketPicker" class="replay-market-picker" hidden><input id="replayMarketSearch" type="search" placeholder="Search market symbol or name…" autocomplete="off" aria-label="Search available markets"><div id="replayMarketResults" class="replay-market-results"><p class="hint">Loading free market list…</p></div><div class="replay-manual-entry"><label for="replaySymbol">Or type a symbol manually</label><input id="replaySymbol" type="text" placeholder="e.g. EURUSD" autocomplete="off" spellcheck="false"></div></div></div>
       <div class="field"><label for="replayInterval">TIMEFRAME</label><select id="replayInterval"><option value="1m">1 minute</option><option value="5m">5 minutes</option><option value="15m">15 minutes</option><option value="30m">30 minutes</option><option value="1h">1 hour</option><option value="4h">4 hours</option><option value="1d">1 day</option></select></div>
       <div class="field"><label for="replayFrom">START DATE (OPTIONAL)</label><input id="replayFrom" type="date"></div>
       <div class="field"><label for="replayTo">END DATE (OPTIONAL)</label><input id="replayTo" type="date"></div>
@@ -1298,7 +1298,7 @@ document.addEventListener('click',event=>{
   let replayChart=null, replaySeries=null, replayBars=[], replayIndex=-1, replayTimer=null, replayLibPromise=null;
   function replayStatus(msg){ if(replayEls.status) replayEls.status.innerHTML=msg; }
 
-  const replayMarketPicker=$('replayMarketPicker'), replayMarketResults=$('replayMarketResults'), replayMarketSearch=$('replayMarketSearch'), replayBrowseMarkets=$('replayBrowseMarkets');
+  const replayMarketPicker=$('replayMarketPicker'), replayMarketResults=$('replayMarketResults'), replayMarketSearch=$('replayMarketSearch'), replayMarketSelect=$('replayMarketSelect'), replayMarketSelectLabel=$('replayMarketSelectLabel');
   let replayMarketCache=[], replayMarketsLoaded=false, replayMarketsPromise=null;
   const replayMarketTypeOrder=['Forex','Crypto','Commodity','Index','Stock','Other'];
   function replayMarketType(item){
@@ -1346,12 +1346,11 @@ document.addEventListener('click',event=>{
     })();
     return replayMarketsPromise;
   }
-  if(replayBrowseMarkets){
-    replayBrowseMarkets.addEventListener('click',async()=>{
+  if(replayMarketSelect){
+    replayMarketSelect.addEventListener('click',async()=>{
       const opening=replayMarketPicker.hidden;
       replayMarketPicker.hidden=!opening;
-      replayBrowseMarkets.setAttribute('aria-expanded',String(opening));
-      replayBrowseMarkets.textContent=opening?'Hide Markets ▴':'Browse Markets ▾';
+      replayMarketSelect.setAttribute('aria-expanded',String(opening));
       if(opening){
         replayMarketResults.innerHTML='<p class="hint">Loading free market list…</p>';
         try{await replayLoadMarkets();replayRenderMarkets(replayMarketSearch.value||'');}
@@ -1364,12 +1363,17 @@ document.addEventListener('click',event=>{
       const button=e.target.closest('[data-symbol]');
       if(!button)return;
       replayEls.symbol.value=button.dataset.symbol;
+      replayMarketSelectLabel.textContent=button.dataset.symbol;
       replayMarketPicker.hidden=true;
-      replayBrowseMarkets.setAttribute('aria-expanded','false');
-      replayBrowseMarkets.textContent='Browse Markets ▾';
+      replayMarketSelect.setAttribute('aria-expanded','false');
       replayStatus('Selected '+button.dataset.symbol+'. Choose timeframe/date and click <strong>Load Historical Data</strong>.');
     });
+    replayEls.symbol.addEventListener('input',()=>{
+      const typed=replayEls.symbol.value.trim().toUpperCase();
+      replayMarketSelectLabel.textContent=typed||'Market Symbol';
+    });
   }
+
   function replayLoadLibrary(){
     if(window.LightweightCharts) return Promise.resolve();
     if(replayLibPromise) return replayLibPromise;
