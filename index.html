@@ -267,6 +267,16 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 .replay-panel{margin-top:16px;padding:16px}.replay-grid{display:grid;grid-template-columns:repeat(6,minmax(110px,1fr));gap:10px;align-items:end}.replay-grid .field{margin:0}.replay-grid input,.replay-grid select{width:100%;min-width:0}.replay-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.replay-actions button{min-height:39px}
 .replay-chart-shell{margin-top:14px;border:1px solid #282a30;border-radius:10px;overflow:hidden;background:#08090c;color:#d1d4dc;box-shadow:0 10px 28px #0003}.replay-topbar{min-height:48px;display:flex;align-items:center;gap:18px;padding:7px 12px;border-bottom:1px solid #26282e;background:#101115;font:12px/1.2 Arial,sans-serif}.replay-chart-market{display:flex;align-items:center;gap:8px;white-space:nowrap}.replay-market-dot{width:8px;height:8px;border-radius:50%;background:#26a69a;box-shadow:0 0 8px #26a69a66}.replay-chart-market strong{font-size:14px;color:#f0f1f4}.replay-chart-feed{color:#777d89;font-size:11px}.replay-timeframes{display:flex;align-items:center;gap:3px;flex-wrap:wrap}.replay-timeframes button,.replay-top-actions button{border:0;border-radius:5px;padding:7px 8px;background:transparent;color:#9da3ae;font-size:12px;cursor:pointer}.replay-timeframes button:hover,.replay-top-actions button:hover{background:#252830;color:#fff}.replay-timeframes button.active{background:#292d36;color:#fff;font-weight:700}.replay-top-actions{display:flex;gap:4px;margin-left:auto}.replay-top-actions #replaySelectPoint{background:#17352f;color:#6fe0bd;border:1px solid #24594d;font-weight:700}.replay-top-actions #replaySelectPoint.active{background:#603d13;color:#ffd18a;border-color:#9b6a20}.replay-replay-cursor{position:absolute;z-index:50;top:0;bottom:0;width:1px;background:#f6b73c;box-shadow:0 0 0 1px #f6b73c33;pointer-events:none;display:none}.replay-chart-stage{height:510px;position:relative;background:#08090c}.replay-chart{position:absolute!important;inset:0 0 22px 42px!important;display:block!important;isolation:isolate;width:auto;height:auto;min-height:0;margin:0;border:0;border-radius:0;overflow:hidden;background:#08090c!important;color:#c8c8c8;box-sizing:border-box}.replay-chart>div{max-width:100%}.replay-chart canvas{display:block!important}.replay-left-tools{position:absolute;z-index:5;left:0;top:0;bottom:22px;width:42px;display:flex;align-items:center;flex-direction:column;gap:3px;padding:7px 4px;background:#101115;border-right:1px solid #25272d}.replay-left-tools button{width:32px;height:31px;flex:0 0 31px;border:0;border-radius:5px;background:transparent;color:#a6abb5;font-size:17px;cursor:pointer}.replay-left-tools button:hover,.replay-left-tools button.active{background:#2b3039;color:#f5f6f8}.replay-left-tools button#replayIndicatorToggle{font-size:12px;font-weight:700}.replay-tool-divider{height:1px;width:24px;background:#30333a;margin:3px 0}.replay-chart-footer{position:absolute;z-index:4;left:42px;right:0;bottom:0;height:22px;display:flex;justify-content:space-between;align-items:center;padding:0 10px;background:#101115;border-top:1px solid #26282e;color:#828894;font:10px/1 Arial,sans-serif;letter-spacing:.25px}.replay-chart-footer b{color:#aeb4bf;font-weight:600}.replay-status{margin-top:10px;color:#bbb;font-size:13px;line-height:1.5}.replay-status strong{color:#ff5364}.replay-meta{display:flex;flex-wrap:wrap;gap:16px;margin-top:10px;color:#bbb;font-size:13px}.replay-meta b{color:#fff}@media(max-width:900px){.replay-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.replay-topbar{gap:8px;flex-wrap:wrap}.replay-chart-market{min-width:120px}.replay-top-actions{margin-left:auto}}@media(max-width:600px){.replay-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.replay-chart-stage{height:420px}.replay-panel{padding:11px}.replay-topbar{padding:7px;gap:6px}.replay-chart-feed{display:none}.replay-timeframes{gap:0}.replay-timeframes button{padding:7px 6px}.replay-chart{inset:0 0 22px 36px!important}.replay-left-tools{width:36px}.replay-chart-footer{left:36px}}
 
+
+/* Dedicated live / replay workspaces */
+.chart-mode-switch{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 14px;padding:7px;border:1px solid #292c34;border-radius:12px;background:#101115}
+.chart-mode-tab{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:0 18px;border:1px solid transparent;border-radius:8px;background:transparent;color:#aeb4bf;font:600 13px/1.2 Arial,sans-serif;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
+.chart-mode-tab:hover{background:#20232a;color:#fff}
+.chart-mode-tab.active{background:#20352f;border-color:#2d6254;color:#80e2c2;box-shadow:inset 0 0 0 1px #1a4539}
+.chart-mode-tab[data-chart-mode="replay"].active{background:#3a2c18;border-color:#795621;color:#ffd18a;box-shadow:inset 0 0 0 1px #4c3516}
+.chart-mode-caption{margin-left:auto;color:#737b89;font-size:11px;padding:0 10px}
+#nabilReplayPointLab[hidden],#chartWorkspace[hidden]{display:none!important}
+@media(max-width:650px){.chart-mode-caption{width:100%;margin:3px 8px 4px}.chart-mode-tab{flex:1;padding:0 10px}}
 </style>
 <style>
 /* Final Home-only refinement: compact founder card above a premium red/white title */
@@ -521,7 +531,8 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       </section>
 
 <section id="page-chart" class="view">
-  <section id="chartWorkspace" class="panel chart-workspace">
+  <div class="chart-mode-switch" role="tablist" aria-label="Chart workspace mode"><button type="button" class="chart-mode-tab active" data-chart-mode="live" role="tab" aria-selected="true">↗ Real-Time Chart</button><button type="button" class="chart-mode-tab" data-chart-mode="replay" role="tab" aria-selected="false">⏮ Bar Replay</button><span class="chart-mode-caption">Live market chart and historical replay are separate workspaces.</span></div>
+  <section id="chartWorkspace" class="panel chart-workspace" data-chart-workspace="live">
     <div class="chart-heading-row">
       <h2 class="view-heading">Real Time Chart</h2>
       <div class="chart-heading-actions">
@@ -540,7 +551,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
   
 
 
-  <section id="nabilReplayPointLab" class="panel nfx-point-lab">
+  <section id="nabilReplayPointLab" class="panel nfx-point-lab" data-chart-workspace="replay" hidden>
     <div class="chart-heading-row">
       <div><h2 class="view-heading">Bar Replay Chart</h2><p class="hint" style="margin:5px 0 0">Load historical candles and select a replay point to step through price action.</p></div>
       <div class="chart-heading-actions">
@@ -1339,6 +1350,26 @@ document.addEventListener('click',event=>{
     root.appendChild(script);
   }
 
+  // Keep the embedded real-time TradingView chart and the custom historical Bar Replay in separate modes.
+  function setChartWorkspaceMode(mode){
+    const live=mode!=='replay';
+    const liveSection=$('chartWorkspace'), replaySection=$('nabilReplayPointLab');
+    if(!liveSection||!replaySection)return;
+    liveSection.hidden=!live;
+    replaySection.hidden=live;
+    document.querySelectorAll('[data-chart-mode]').forEach(btn=>{
+      const active=btn.dataset.chartMode===(live?'live':'replay');
+      btn.classList.toggle('active',active);
+      btn.setAttribute('aria-selected',active?'true':'false');
+    });
+    if(live){loadTradingView();}
+    else {setTimeout(()=>{window.dispatchEvent(new Event('resize'));},80);}
+    try{sessionStorage.setItem('nfx-chart-mode',live?'live':'replay');}catch(_){}
+  }
+  document.querySelectorAll('[data-chart-mode]').forEach(btn=>btn.addEventListener('click',()=>setChartWorkspaceMode(btn.dataset.chartMode)));
+  const replayJump=$('chartReplayJumpButton');
+  if(replayJump)replayJump.addEventListener('click',()=>setChartWorkspaceMode('replay'));
+  try{if(sessionStorage.getItem('nfx-chart-mode')==='replay')setChartWorkspaceMode('replay');}catch(_){}
 
   // Free Bar Replay: independent candle chart; source offers no-key OHLC for many FX/CFD/crypto symbols.
   const replayEls = {
