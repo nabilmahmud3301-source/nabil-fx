@@ -2631,6 +2631,25 @@ document.addEventListener('click', function(event) {
 })();
 </script>
 
+<style>
+/* Chart page spacing cleanup: move charts up and give them more vertical room */
+#page-chart{padding-top:0!important;margin-top:0!important}
+#page-chart #chartWorkspace{margin-top:0!important;padding-top:6px!important}
+#page-chart .chart-heading-row{margin-bottom:6px!important}
+#page-chart #chartShell{margin-top:0!important}
+#page-chart .tv-frame{height:min(82vh,900px)!important;min-height:620px!important}
+#page-chart #chartWorkspace>p.hint{margin-top:6px!important;margin-bottom:0!important}
+#page-chart #nabilReplayPointLab{margin-top:10px!important;padding-top:10px!important}
+#page-chart #nabilReplayPointLab .chart-heading-row{margin-bottom:4px!important}
+#page-chart #nabilReplayPointLab .nfx-point-controls{margin:8px 0!important}
+#page-chart #nabilReplayPointLab .nfx-point-meta{margin-top:4px!important}
+#page-chart #nabilReplayPointLab .nfx-point-chart{height:650px!important;min-height:520px!important}
+@media(max-width:700px){
+ #page-chart #chartWorkspace{padding:6px!important}
+ #page-chart .tv-frame{height:72vh!important;min-height:500px!important}
+ #page-chart #nabilReplayPointLab .nfx-point-chart{height:500px!important;min-height:420px!important}
+}
+</style>
 </body>
 </html>
 <style>
