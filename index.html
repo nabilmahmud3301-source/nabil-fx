@@ -434,7 +434,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
   </a>
   <nav class="site-nav" aria-label="Main navigation">
     <button class="nav-btn active" data-page="home">Home</button>
-    <button class="nav-btn" data-page="chart">Chart</button>
+    <button class="nav-btn" data-page="chart">Chart with Free Bar Replay</button>
     <button class="nav-btn" data-page="backtest">Backtest with AI</button>
     <button class="nav-btn" data-page="notes">Journal/Notes</button>
     <button class="nav-btn" data-page="contact" id="contactUsNav" type="button">Contact Us</button>
@@ -515,7 +515,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       <h2 class="view-heading">Advanced Chart</h2>
       <div class="chart-heading-actions">
       <button id="chartReplayJumpButton" class="chart-replay-btn" type="button" aria-label="Go to Free Bar Replay" title="Go to Free Bar Replay"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5.5h16M4 10.5h16M4 15.5h9M4 20h9M17 14l4 3-4 3v-6Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Free Bar Replay</span></button>
-      <button id="chartFullscreenButton" class="chart-fullscreen-btn" type="button" aria-label="Fullscreen chart" title="Fullscreen chart"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 3H3v5M3 8V3h5M16 3h5v5M16 3h5V3M3 16v5h5M3 16v5h5M21 16v5h-5M21 16v5h-5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Fullscreen Chart</span></button>
+      <button id="chartFullscreenButton" class="chart-fullscreen-btn" type="button" aria-label="Fullscreen chart" title="Fullscreen chart"><span>Fullscreen Chart</span></button>
       </div>
     </div>
     <div id="chartShell" class="chart-shell">
@@ -1383,16 +1383,20 @@ document.addEventListener('click',event=>{
   replayEls.speed?.addEventListener('change',()=>{if(replayTimer){replayStop();replayEls.play.click();}});
   replayEls.symbol?.addEventListener('keydown',e=>{if(e.key==='Enter')replayLoadData();});
 
-  $('chartReplayJumpButton')?.addEventListener('click',()=>{
+  $('chartReplayJumpButton')?.addEventListener('click',async()=>{
     const panel=$('freeReplayPanel');
     if(!panel)return;
-    panel.scrollIntoView({behavior:'smooth',block:'start'});
-    panel.setAttribute('tabindex','-1');
-    window.setTimeout(()=>panel.focus({preventScroll:true}),350);
-    panel.style.transition='box-shadow .25s ease,border-color .25s ease';
-    panel.style.boxShadow='0 0 0 2px #ff5364,0 0 28px #ff243833';
-    panel.style.borderColor='#ff5364';
-    window.setTimeout(()=>{panel.style.boxShadow='';panel.style.borderColor='';},1600);
+    // The replay panel is outside the fullscreen chart workspace, so leave fullscreen first.
+    try{if(document.fullscreenElement)await document.exitFullscreen();}catch(e){}
+    window.setTimeout(()=>{
+      panel.scrollIntoView({behavior:'smooth',block:'start'});
+      panel.setAttribute('tabindex','-1');
+      window.setTimeout(()=>panel.focus({preventScroll:true}),350);
+      panel.style.transition='box-shadow .25s ease,border-color .25s ease';
+      panel.style.boxShadow='0 0 0 2px #ff5364,0 0 28px #ff243833';
+      panel.style.borderColor='#ff5364';
+      window.setTimeout(()=>{panel.style.boxShadow='';panel.style.borderColor='';},1600);
+    },100);
   });
   $('chartFullscreenButton')?.addEventListener('click',async()=>{
     try{
