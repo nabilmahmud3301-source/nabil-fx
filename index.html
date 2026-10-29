@@ -559,10 +559,10 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       <div class="nfx-liq-timeline-note">Venue-specific Binance USDⓈ-M Futures order book · visible top-20 bid/ask levels only. This is observed order-book depth, not a prediction of future liquidation levels.</div>
     </section>
     <section class="nfx-liq-timeline-panel" aria-label="Live futures liquidation heatmap" style="margin-top:18px">
-      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">BINANCE USDⓈ-M FUTURES · PUBLIC STREAM</div><h3>Live Liquidation Heatmap</h3><p>Actual reported liquidation events by price and time. This is observed history, not a prediction of future liquidation levels.</p></div><div class="nfx-liq-live-tag"><i></i> LIVE EVENTS</div></div>
-      <div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqLiquidationCanvas" aria-label="Live reported futures liquidations by price and time" style="width:100%;height:280px;display:block"></canvas><div id="nfxLiqLiquidationEmpty" class="nfx-liq-timeline-empty">Waiting for actual futures liquidation events…</div></div>
-      <div class="nfx-liq-timeline-axis"><span>OLDER EVENTS</span><span>PRICE (Y) · TIME (X)</span><span>NOW →</span></div>
-      <div class="nfx-liq-timeline-note">Free public Binance Futures stream. Liquidation snapshots are selective, so this is not a complete market-wide liquidation map or CoinGlass’s estimated liquidation-level model.</div>
+      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">BINANCE USDⓈ-M FUTURES · PUBLIC STREAM</div><h3>Live Liquidation Heatmap</h3><p>Reported Binance Futures liquidation events across the listed markets. Brighter cells indicate larger reported notional; this is observed history, not a prediction.</p></div><div class="nfx-liq-live-tag"><i></i> LIVE EVENTS</div></div>
+      <div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqLiquidationCanvas" aria-label="Live reported futures liquidations by symbol and time" style="width:100%;height:280px;display:block"></canvas><div id="nfxLiqLiquidationEmpty" class="nfx-liq-timeline-empty">Waiting for actual futures liquidation events…</div></div>
+      <div class="nfx-liq-timeline-axis"><span>OLDER EVENTS</span><span>SYMBOL (Y) · TIME (X)</span><span>NOW →</span></div>
+      <div class="nfx-liq-timeline-note">Free public Binance USDⓈ-M Futures all-market liquidation stream, filtered to the symbols listed above. Binance snapshots are selective, so this is not a complete liquidation record or CoinGlass’s estimated liquidation-level model.</div>
     </section>
     <div class="nfx-liq-book">
       <div class="nfx-liq-book-side nfx-liq-asks"><div class="nfx-liq-book-title"><span>ASKS · SELL ORDERS</span><span>PRICE / SIZE</span></div><div id="nfxLiqAsks" class="nfx-liq-levels"><div class="nfx-liq-empty">Waiting for live order book…</div></div></div>
@@ -2919,28 +2919,31 @@ document.addEventListener('click', function(event) {
     var dpr=Math.min(window.devicePixelRatio||1,2),w=Math.round(rect.width*dpr),h=Math.round(rect.height*dpr);
     if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
     var ctx=canvas.getContext('2d');if(!ctx)return;ctx.setTransform(dpr,0,0,dpr,0,0);
-    var W=rect.width,H=rect.height,left=72,right=14,top=12,bottom=26,pw=W-left-right,ph=H-top-bottom;
+    var W=rect.width,H=rect.height,left=88,right=14,top=18,bottom=26,pw=W-left-right,ph=H-top-bottom;
     ctx.clearRect(0,0,W,H);ctx.fillStyle='#080b11';ctx.fillRect(0,0,W,H);
-    var now=Date.now(),cutoff=now-historyLimit()*1000,events=liquidationEvents.filter(e=>e.t>=cutoff);
+    var now=Date.now(),windowMs=historyLimit()*1000,cutoff=now-windowMs;
+    var events=liquidationEvents.filter(function(e){return e.t>=cutoff;});
     var empty=$('nfxLiqLiquidationEmpty');if(empty)empty.hidden=events.length>0;
     ctx.font='10px ui-monospace, SFMono-Regular, Menlo, monospace';ctx.textBaseline='middle';
-    if(!events.length){ctx.fillStyle='#667285';ctx.fillText('Waiting for actual liquidation events from Binance Futures…',left+12,top+ph/2);return;}
-    var prices=events.map(e=>e.p).filter(Number.isFinite),lo=Math.min.apply(null,prices),hi=Math.max.apply(null,prices);
-    if(lo===hi){var pad=Math.max(lo*.002,.01);lo-=pad;hi+=pad;}else{var pad=(hi-lo)*.12;lo-=pad;hi+=pad;}
-    var buckets=Array.from({length:60},()=>({long:0,short:0}));
-    events.forEach(e=>{var row=Math.max(0,Math.min(59,Math.floor((hi-e.p)/(hi-lo)*60)));buckets[row][e.side==='SELL'?'long':'short']+=e.usd;});
-    var max=1;buckets.forEach(b=>{max=Math.max(max,b.long,b.short);});
-    buckets.forEach(function(b,i){var y=top+i*ph/60,bh=Math.max(2,ph/60-1);if(b.long>0){var v=Math.min(1,Math.log1p(b.long)/Math.log1p(max));ctx.fillStyle='rgba(30,210,145,'+(.18+.78*v)+')';ctx.fillRect(left,y,pw*.49,bh);}if(b.short>0){var v2=Math.min(1,Math.log1p(b.short)/Math.log1p(max));ctx.fillStyle='rgba(255,76,100,'+(.18+.78*v2)+')';ctx.fillRect(left+pw*.51,y,pw*.49,bh);}});
-    ctx.strokeStyle='#252d39';ctx.lineWidth=1;for(var k=0;k<=4;k++){var yy=top+ph*k/4;ctx.beginPath();ctx.moveTo(left,yy);ctx.lineTo(W-right,yy);ctx.stroke();ctx.fillStyle='#9aa5b7';ctx.textAlign='right';ctx.fillText(fmt(hi-(hi-lo)*k/4),left-8,yy);}
-    for(var q=0;q<=4;q++){var xx=left+pw*q/4;ctx.beginPath();ctx.moveTo(xx,top);ctx.lineTo(xx,top+ph);ctx.stroke();var t=new Date(cutoff+historyLimit()*1000*q/4);ctx.fillStyle='#7e899a';ctx.textAlign=q===0?'left':q===4?'right':'center';ctx.fillText(t.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'}),xx,H-10);}
-    ctx.fillStyle='#1ed291';ctx.textAlign='left';ctx.fillText('LONG LIQUIDATIONS',left+8,top+10);ctx.fillStyle='#ff4c64';ctx.textAlign='right';ctx.fillText('SHORT LIQUIDATIONS',W-right-8,top+10);
+    var marketSymbols=Object.keys(symbols);
+    if(!events.length){ctx.fillStyle='#9aa5b7';ctx.fillText('No reported liquidation events in this window yet.',left+10,top+ph/2);return;}
+    var cols=60,rows=marketSymbols.length,cellW=pw/cols,cellH=ph/rows;
+    var buckets=Array.from({length:rows},function(){return Array.from({length:cols},function(){return 0;});});
+    var max=1;
+    events.forEach(function(e){var ri=marketSymbols.indexOf(e.symbol);if(ri<0)return;var ci=Math.max(0,Math.min(cols-1,Math.floor((e.t-cutoff)/windowMs*cols)));buckets[ri][ci]+=e.usd;max=Math.max(max,buckets[ri][ci]);});
+    buckets.forEach(function(row,ri){row.forEach(function(value,ci){if(value<=0)return;var intensity=Math.min(1,Math.log1p(value)/Math.log1p(max));ctx.fillStyle='rgba(255,76,100,'+(.2+.8*intensity)+')';ctx.fillRect(left+ci*cellW,top+ri*cellH,Math.max(1,cellW-.6),Math.max(2,cellH-2));});});
+    ctx.strokeStyle='#252d39';ctx.lineWidth=1;
+    for(var rr=0;rr<=rows;rr++){var yy=top+ph*rr/rows;ctx.beginPath();ctx.moveTo(left,yy);ctx.lineTo(W-right,yy);ctx.stroke();}
+    for(var q=0;q<=4;q++){var xx=left+pw*q/4;ctx.beginPath();ctx.moveTo(xx,top);ctx.lineTo(xx,top+ph);ctx.stroke();var t=new Date(cutoff+windowMs*q/4);ctx.fillStyle='#7e899a';ctx.textAlign=q===0?'left':q===4?'right':'center';ctx.fillText(t.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'}),xx,H-10);}
+    marketSymbols.forEach(function(sym,ri){ctx.fillStyle='#aab5c5';ctx.textAlign='right';ctx.fillText(symbols[sym],left-8,top+(ri+.5)*cellH);});
   }
   function connectLiquidations(){
     if(liquidationReconnectTimer)clearTimeout(liquidationReconnectTimer);
     if(liquidationSocket){try{liquidationSocket.onclose=null;liquidationSocket.close();}catch(e){}liquidationSocket=null;}
-    try{var ws=new WebSocket('wss://fstream.binance.com/market/ws/'+currentSymbol+'@forceOrder');liquidationSocket=ws;
-      ws.onmessage=function(ev){if(liquidationSocket!==ws)return;try{var msg=JSON.parse(ev.data),o=msg.o;if(!o)return;var price=Number(o.ap||o.p),qty=Number(o.z||o.q),t=Number(msg.T||msg.E||Date.now());if(!Number.isFinite(price)||!Number.isFinite(qty)||qty<=0)return;liquidationEvents.push({t:t,p:price,side:o.S,usd:price*qty});var cutoff=Date.now()-Math.max(900,historyLimit()*1000);liquidationEvents=liquidationEvents.filter(e=>e.t>=cutoff).slice(-3000);renderLiquidationHeatmap();}catch(e){}};
+    try{var ws=new WebSocket('wss://fstream.binance.com/market/ws/!forceOrder@arr');liquidationSocket=ws;
+      ws.onmessage=function(ev){if(liquidationSocket!==ws)return;try{var msg=JSON.parse(ev.data),o=msg.o;if(!o)return;var symbol=String(o.s||msg.s||'').toLowerCase();if(!symbols[symbol])return;var price=Number(o.ap||o.p),qty=Number(o.z||o.q),t=Number(msg.T||msg.E||Date.now());if(!Number.isFinite(price)||!Number.isFinite(qty)||qty<=0)return;liquidationEvents.push({t:t,p:price,side:o.S,usd:price*qty,symbol:symbol});var cutoff=Date.now()-Math.max(900,historyLimit()*1000);liquidationEvents=liquidationEvents.filter(e=>e.t>=cutoff).slice(-5000);renderLiquidationHeatmap();}catch(e){}};
       ws.onclose=function(){if(liquidationSocket!==ws||manuallyClosed)return;liquidationReconnectTimer=setTimeout(connectLiquidations,3000);};
+      ws.onerror=function(){try{ws.close();}catch(e){}};
     }catch(e){liquidationReconnectTimer=setTimeout(connectLiquidations,4000);}
   }
   function closeSocket(){manuallyClosed=true;if(reconnectTimer)clearTimeout(reconnectTimer);if(liquidationReconnectTimer)clearTimeout(liquidationReconnectTimer);reconnectTimer=null;liquidationReconnectTimer=null;if(socket){try{socket.onclose=null;socket.close();}catch(e){}socket=null;}if(liquidationSocket){try{liquidationSocket.onclose=null;liquidationSocket.close();}catch(e){}liquidationSocket=null;} }
