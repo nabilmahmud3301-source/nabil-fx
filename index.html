@@ -529,7 +529,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
   <section id="freeReplayPanel" class="panel replay-panel">
     <div class="chart-heading-row"><div><h2 class="view-heading">Free Bar Replay</h2><p class="hint" style="margin:5px 0 0">Practice historical price action one candle at a time. Future candles stay hidden during replay.</p></div><span class="tiny">FREE DATA · NO API KEY</span></div>
     <div class="replay-grid">
-      <div class="field"><label for="replaySymbol">MARKET SYMBOL</label><input id="replaySymbol" value="EURUSD" list="replaySymbols" autocomplete="off"><datalist id="replaySymbols"><option value="EURUSD"><option value="GBPUSD"><option value="USDJPY"><option value="AUDJPY"><option value="XAUUSD"><option value="XAGUSD"><option value="US30"><option value="NAS100"><option value="SPX500"><option value="BTCUSD"><option value="ETHUSD"><option value="BTCUSDT"><option value="AAPL"><option value="MSFT"><option value="CL"><option value="GC"></datalist></div>
+      <div class="field"><label for="replaySymbol">MARKET SYMBOL</label><input id="replaySymbol" type="text" placeholder="Enter any market symbol" autocomplete="off" spellcheck="false" aria-describedby="replaySymbolHelp"><small id="replaySymbolHelp" class="hint">No preset symbols. Type the exact symbol supported by the free data provider.</small></div>
       <div class="field"><label for="replayInterval">TIMEFRAME</label><select id="replayInterval"><option value="1m">1 minute</option><option value="5m">5 minutes</option><option value="15m">15 minutes</option><option value="30m">30 minutes</option><option value="1h">1 hour</option><option value="4h">4 hours</option><option value="1d">1 day</option></select></div>
       <div class="field"><label for="replayFrom">START DATE (OPTIONAL)</label><input id="replayFrom" type="date"></div>
       <div class="field"><label for="replayTo">END DATE (OPTIONAL)</label><input id="replayTo" type="date"></div>
@@ -1349,14 +1349,15 @@ document.addEventListener('click',event=>{
     replayStop();replayEls.load.disabled=true;replayStatus('Loading free historical candles…');
     try{
       await replayLoadLibrary();replayMakeChart();
-      const symbol=(replayEls.symbol.value||'EURUSD').trim().toUpperCase().replace(/[^A-Z0-9._-]/g,'');
+      const symbol=(replayEls.symbol.value||'').trim().toUpperCase().replace(/[^A-Z0-9._:/-]/g,'');
+      if(!symbol)throw new Error('Please enter a market symbol first.');
       const interval=replayEls.interval.value, limit=Number(replayEls.limit.value)||500;
       const params=new URLSearchParams({interval,limit:String(limit)});
       if(replayEls.from.value)params.set('from',new Date(replayEls.from.value+'T00:00:00Z').toISOString());
       if(replayEls.to.value)params.set('to',new Date(replayEls.to.value+'T23:59:59Z').toISOString());
       if(replayEls.from.value&&replayEls.to.value&&replayEls.from.value>replayEls.to.value)throw new Error('Start date must be before end date.');
       const response=await fetch('https://biquote.io/api/'+encodeURIComponent(symbol)+'/ohlc?'+params.toString(),{cache:'no-store'});
-      if(!response.ok)throw new Error('Data provider returned HTTP '+response.status+'. Try another symbol or date range.');
+      if(!response.ok)throw new Error('Data provider returned HTTP '+response.status+'. Check the symbol format/data-provider support, or try another date range.');
       const payload=await response.json();
       const raw=Array.isArray(payload.bars)?payload.bars:[];
       const bars=raw.filter(b=>!b.isOpen&&Number.isFinite(Number(b.open))&&Number.isFinite(Number(b.high))&&Number.isFinite(Number(b.low))&&Number.isFinite(Number(b.close))&&b.openTime)
