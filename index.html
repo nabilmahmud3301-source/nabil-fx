@@ -1406,7 +1406,7 @@ document.addEventListener('click',event=>{
   function replayMakeChart(){
     if(replayChart || !replayEls.chart || !window.LightweightCharts) return;
     replayChart=LightweightCharts.createChart(replayEls.chart,{
-      width:replayEls.chart.clientWidth,height:replayEls.chart.clientHeight,
+      width:Math.max(320,replayEls.chart.clientWidth),height:Math.max(320,replayEls.chart.clientHeight),
       layout:{background:{type:'solid',color:'#080808'},textColor:'#c8c8c8'},
       grid:{vertLines:{color:'#1c1c1c'},horzLines:{color:'#1c1c1c'}},
       rightPriceScale:{borderColor:'#333'},timeScale:{borderColor:'#333',timeVisible:true,secondsVisible:false},
@@ -1414,9 +1414,9 @@ document.addEventListener('click',event=>{
       handleScroll:true,handleScale:true
     });
     replaySeries=replayChart.addCandlestickSeries({upColor:'#18b981',downColor:'#ff5267',borderUpColor:'#18b981',borderDownColor:'#ff5267',wickUpColor:'#18b981',wickDownColor:'#ff5267'});
-    new ResizeObserver(()=>{if(replayChart&&replayEls.chart){const w=replayEls.chart.clientWidth,h=replayEls.chart.clientHeight;if(w>0&&h>0)replayChart.applyOptions({width:w,height:h});}}).observe(replayEls.chart);
+    new ResizeObserver(()=>{replayResizeChart();}).observe(replayEls.chart);
     // Recalculate dimensions when the Chart page becomes visible after navigation.
-    window.addEventListener('resize',()=>{if(replayChart&&replayEls.chart){const w=replayEls.chart.clientWidth,h=replayEls.chart.clientHeight;if(w>0&&h>0)replayChart.applyOptions({width:w,height:h});}});
+    window.addEventListener('resize',()=>{replayResizeChart();});
   }
   function replaySetButtons(loaded){
     ['start','prev','play','next','end'].forEach(k=>{if(replayEls[k])replayEls[k].disabled=!loaded;});
@@ -1432,11 +1432,23 @@ document.addEventListener('click',event=>{
     replayEls.metaTime.textContent=replayIndex<0?'—':replayFormatTime(replayBars[replayIndex].time);
   }
   function replayStop(){if(replayTimer){clearInterval(replayTimer);replayTimer=null;}if(replayEls.play)replayEls.play.textContent='▶ Play';}
+  function replayResizeChart(){
+    if(!replayChart||!replayEls.chart)return false;
+    const rect=replayEls.chart.getBoundingClientRect();
+    const width=Math.floor(rect.width||replayEls.chart.clientWidth||0);
+    const height=Math.floor(rect.height||replayEls.chart.clientHeight||0);
+    if(width<80||height<100)return false;
+    replayChart.applyOptions({width,height});
+    return true;
+  }
   function replayRender(){
     if(!replaySeries||replayIndex<0)return;
+    if(!replayResizeChart()){
+      requestAnimationFrame(()=>{if(replayResizeChart()&&replaySeries&&replayIndex>=0)replayRender();});
+      return;
+    }
     replaySeries.setData(replayBars.slice(0,replayIndex+1));
     replayChart.timeScale().fitContent();
-    // Keep the current candle near the right side without exposing future candles.
     const left=Math.max(0,replayIndex-80);
     replayChart.timeScale().setVisibleLogicalRange({from:left,to:Math.max(30,replayIndex+8)});
     replayUpdateMeta();
@@ -1464,10 +1476,10 @@ document.addEventListener('click',event=>{
         const response=await fetch('https://biquote.io/api/'+encodeURIComponent(symbol)+'/ohlc?'+params.toString(),{cache:'no-store'});
         if(response.ok){
           const payload=await response.json();
-          const raw=Array.isArray(payload.bars)?payload.bars:[];
-          bars=raw.filter(b=>!b.isOpen&&Number.isFinite(Number(b.open))&&Number.isFinite(Number(b.high))&&Number.isFinite(Number(b.low))&&Number.isFinite(Number(b.close))&&b.openTime)
-            .map(b=>({time:Math.floor(new Date(b.openTime).getTime()/1000),open:Number(b.open),high:Number(b.high),low:Number(b.low),close:Number(b.close)}))
-            .filter(b=>Number.isFinite(b.time)).sort((a,b)=>a.time-b.time);
+          const raw=Array.isArray(payload.bars)?payload.bars:(Array.isArray(payload.data)?payload.data:(Array.isArray(payload.candles)?payload.candles:[]));
+          bars=raw.filter(b=>!b.isOpen&&Number.isFinite(Number(b.open))&&Number.isFinite(Number(b.high))&&Number.isFinite(Number(b.low))&&Number.isFinite(Number(b.close))&&(b.openTime||b.time||b.timestamp||b.date))
+            .map(b=>{const stamp=b.openTime||b.time||b.timestamp||b.date;const numeric=Number(stamp);const ms=Number.isFinite(numeric)?(numeric<100000000000?numeric*1000:numeric):new Date(stamp).getTime();return {time:Math.floor(ms/1000),open:Number(b.open),high:Number(b.high),low:Number(b.low),close:Number(b.close)};})
+            .filter(b=>Number.isFinite(b.time)&&Number.isFinite(b.open)&&Number.isFinite(b.high)&&Number.isFinite(b.low)&&Number.isFinite(b.close)).sort((a,b)=>a.time-b.time);
         }
       }catch(e){/* Try the public crypto feed below if available. */}
       if(!bars.length){
