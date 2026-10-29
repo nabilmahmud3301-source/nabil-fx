@@ -569,7 +569,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       <div class="nfx-liq-mid"><span>MARKET MID</span><strong id="nfxLiqMid">—</strong><small>USDT</small></div>
       <div class="nfx-liq-book-side nfx-liq-bids"><div class="nfx-liq-book-title"><span>BIDS · BUY ORDERS</span><span>PRICE / SIZE</span></div><div id="nfxLiqBids" class="nfx-liq-levels"><div class="nfx-liq-empty">Waiting for live order book…</div></div></div>
     </div>
-    <div class="nfx-liq-foot"><span>Source: Binance public Spot depth stream</span><span>Feed status is shown live; reconnects automatically.</span></div>
+    <div class="nfx-liq-foot"><span>Source: Binance USDⓈ-M Futures public order-book depth stream</span><span>Feed status is shown live; reconnects automatically.</span></div>
   </section>
   <section class="nfx-liq-panel nfx-liq-unavailable" id="nfxLiqProviderPanel" hidden>
     <div class="nfx-liq-provider-icon">◈</div><div class="nfx-liq-kicker">MARKET DATA CONNECTION</div><h2 id="nfxLiqProviderTitle">Forex Liquidity Heatmap</h2>
@@ -2950,7 +2950,7 @@ document.addEventListener('click', function(event) {
     var ws;
     try{ws=new WebSocket('wss://fstream.binance.com/public/ws/'+currentSymbol+'@depth20@100ms');socket=ws;}catch(e){setStatus('Connection unavailable','disconnected');return;}
     ws.onopen=function(){if(socket!==ws)return;setStatus('LIVE · Binance USDⓈ-M Futures','connected');connectLiquidations();};
-    ws.onmessage=function(event){if(socket!==ws)return;try{var d=JSON.parse(event.data);if(d.bids&&d.asks)paintBook(d);}catch(e){}};
+    ws.onmessage=function(event){if(socket!==ws)return;try{var d=JSON.parse(event.data);var bids=d.bids||d.b;var asks=d.asks||d.a;if(Array.isArray(bids)&&Array.isArray(asks)&&bids.length&&asks.length)paintBook({bids:bids,asks:asks});}catch(e){}};
     ws.onerror=function(){if(socket===ws)setStatus('Feed connection issue — retrying','disconnected');};
     ws.onclose=function(){if(socket!==ws||manuallyClosed)return;setStatus('Feed disconnected — retrying','disconnected');reconnectTimer=setTimeout(function(){if(activeMarket==='crypto')connect();},2500);};
   }
