@@ -558,6 +558,25 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       <button type="button" id="nfxPointPlay" disabled>▶ Play</button>
       <button type="button" id="nfxPointReset" disabled>Show All</button>
     </div>
+    <div id="nfxReplayTools" class="nfx-replay-tools" aria-label="Replay chart drawing tools and indicators">
+      <div class="nfx-tool-group"><span>DRAW</span>
+        <button type="button" data-draw="cursor" class="active">↖ Cursor</button>
+        <button type="button" data-draw="trend">／ Trend Line</button>
+        <button type="button" data-draw="horizontal">― Horizontal</button>
+        <button type="button" data-draw="vertical">│ Vertical</button>
+        <button type="button" data-draw="rectangle">▱ Rectangle</button>
+        <button type="button" data-draw="clear">⌫ Clear drawings</button>
+      </div>
+      <div class="nfx-tool-group"><span>INDICATORS</span>
+        <label class="nfx-indicator-check"><input type="checkbox" id="nfxIndEma20"> EMA 20</label>
+        <label class="nfx-indicator-check"><input type="checkbox" id="nfxIndEma50"> EMA 50</label>
+        <label class="nfx-indicator-check"><input type="checkbox" id="nfxIndSma200"> SMA 200</label>
+        <label class="nfx-indicator-check"><input type="checkbox" id="nfxIndBollinger"> Bollinger Bands</label>
+        <label class="nfx-indicator-check"><input type="checkbox" id="nfxIndRsi"> RSI 14</label>
+        <label class="nfx-indicator-check"><input type="checkbox" id="nfxIndMacd"> MACD 12/26/9</label>
+      </div>
+      <p class="nfx-tool-help">Choose a drawing tool, then click/drag on the chart. Indicators update with the visible replay candles.</p>
+    </div>
     <div class="nfx-point-meta"><span id="nfxPointStatus">Choose a symbol and click Load Data.</span><span id="nfxPointCount">0 candles</span></div>
     <div id="nfxPointChart" class="nfx-point-chart" aria-label="Nabil custom replay point candle chart"></div>
     <p class="hint">Free market-data availability depends on the symbol and provider. Replay Point works on this new chart only; the two charts above remain unchanged.</p>
@@ -2303,6 +2322,7 @@ document.addEventListener('click', function(event) {
   };
   if(!el.chart) return;
   let libPromise=null, chart=null, candles=null, emaSeries=null, smaSeries=null, allBars=[], visibleIndex=-1, selecting=false, timer=null, cursor=null, currentSymbol='', currentInterval='';
+  let indicatorSeries={}, drawCanvas=null, drawCtx=null, drawMode='cursor', drawings=[], draftDrawing=null, drawingStart=null;
 
   function status(msg){el.status.textContent=msg;}
   function stop(){if(timer){clearInterval(timer);timer=null;}el.play.textContent='▶ Play';}
@@ -2327,12 +2347,15 @@ document.addEventListener('click', function(event) {
     if(!candles||visibleIndex<0)return;
     const visible=allBars.slice(0,visibleIndex+1);
     candles.setData(visible);
+    updateIndicators(visible);
     chart.timeScale().fitContent();
+    drawAll();
     if(visible.length>90)chart.timeScale().setVisibleLogicalRange({from:Math.max(0,visible.length-100),to:visible.length+8});
     el.count.textContent=visible.length+' / '+allBars.length+' candles';
     const b=visible[visible.length-1];
     const dt=new Date(b.time*1000);
     status(currentSymbol+' · '+currentInterval+' · '+dt.toLocaleString('en-GB',{timeZone:'UTC'})+' UTC'+(visibleIndex<allBars.length-1?' · REPLAY':' · END OF DATA'));
+    drawAll();
     const enabled=allBars.length>0;
     el.prev.disabled=!enabled||visibleIndex<=0;
     el.next.disabled=!enabled||visibleIndex>=allBars.length-1;
@@ -2353,6 +2376,8 @@ document.addEventListener('click', function(event) {
       handleScale:{mouseWheel:true,pinch:true,axisPressedMouseMove:{time:true,price:true}}
     });
     candles=chart.addCandlestickSeries({upColor:'#26a69a',downColor:'#ef5350',borderUpColor:'#26a69a',borderDownColor:'#ef5350',wickUpColor:'#26a69a',wickDownColor:'#ef5350'});
+    setupReplayTools();
+
     cursor=document.createElement('div');
     cursor.style.cssText='position:absolute;top:0;bottom:22px;width:1px;background:#f6b73c;display:none;pointer-events:none;z-index:5';
     el.chart.appendChild(cursor);
@@ -2374,6 +2399,95 @@ document.addEventListener('click', function(event) {
     if(window.ResizeObserver)new ResizeObserver(resize).observe(el.chart);
     window.addEventListener('resize',resize);
   }
+  function ema(values,period){
+    const out=[]; if(!values.length)return out;
+    const k=2/(period+1);let prev=values[0];
+    values.forEach((v,i)=>{prev=i===0?v:v*k+prev*(1-k);if(i>=period-1)out.push({index:i,value:prev});});
+    return out;
+  }
+  function sma(values,period){
+    const out=[];let sum=0;
+    values.forEach((v,i)=>{sum+=v;if(i>=period)sum-=values[i-period];if(i>=period-1)out.push({index:i,value:sum/period});});
+    return out;
+  }
+  function setLine(id, data, color, width=2, priceScaleId='right'){
+    if(!indicatorSeries[id])indicatorSeries[id]=chart.addLineSeries({color,lineWidth:width,priceScaleId, lastValueVisible:false, priceLineVisible:false});
+    indicatorSeries[id].setData(data);
+  }
+  function updateIndicators(visible){
+    if(!chart||!candles)return;
+    const closes=visible.map(b=>b.close), times=visible.map(b=>b.time);
+    const configs=[
+      ['ema20','nfxIndEma20',20,'#f4c95d'],['ema50','nfxIndEma50',50,'#5ab0ff'],['sma200','nfxIndSma200',200,'#d68cff']
+    ];
+    configs.forEach(([id,checkbox,period,color])=>{
+      const enabled=$(checkbox)?.checked;
+      if(enabled){const d=ema(closes,period).map(p=>({time:times[p.index],value:p.value}));setLine(id,d,color,2);}
+      else if(indicatorSeries[id]){chart.removeSeries(indicatorSeries[id]);delete indicatorSeries[id];}
+    });
+    if($('nfxIndBollinger')?.checked){
+      const mid=sma(closes,20), upper=[], lower=[];
+      mid.forEach(p=>{const vals=closes.slice(p.index-19,p.index+1),mean=p.value,sd=Math.sqrt(vals.reduce((a,v)=>a+(v-mean)**2,0)/vals.length);upper.push({time:times[p.index],value:mean+2*sd});lower.push({time:times[p.index],value:mean-2*sd});});
+      setLine('bbmid',mid.map(p=>({time:times[p.index],value:p.value})),'#b5a0ff',1);
+      setLine('bbupper',upper,'#8e83c8',1);setLine('bblower',lower,'#8e83c8',1);
+    }else ['bbmid','bbupper','bblower'].forEach(id=>{if(indicatorSeries[id]){chart.removeSeries(indicatorSeries[id]);delete indicatorSeries[id];}});
+    if($('nfxIndRsi')?.checked){
+      const d=[];let avgGain=0,avgLoss=0;
+      for(let i=1;i<closes.length;i++){const change=closes[i]-closes[i-1],gain=Math.max(change,0),loss=Math.max(-change,0);if(i<=14){avgGain+=gain/14;avgLoss+=loss/14;}else{avgGain=(avgGain*13+gain)/14;avgLoss=(avgLoss*13+loss)/14;}if(i>=14){const rs=avgLoss===0?100:avgGain/avgLoss;d.push({time:times[i],value:100-100/(1+rs)});}}
+      if(!indicatorSeries.rsi){indicatorSeries.rsi=chart.addLineSeries({color:'#ff9b62',lineWidth:2,priceScaleId:'rsi',lastValueVisible:true,priceLineVisible:false});chart.priceScale('rsi').applyOptions({scaleMargins:{top:.78,bottom:.02},autoScale:true});}
+      indicatorSeries.rsi.setData(d);
+    }else if(indicatorSeries.rsi){chart.removeSeries(indicatorSeries.rsi);delete indicatorSeries.rsi;}
+    if($('nfxIndMacd')?.checked){
+      const e12=ema(closes,12),e26=ema(closes,26),map12=new Map(e12.map(p=>[p.index,p.value])),map26=new Map(e26.map(p=>[p.index,p.value]));
+      const line=[];closes.forEach((v,i)=>{if(map12.has(i)&&map26.has(i))line.push({index:i,value:map12.get(i)-map26.get(i)});});
+      const macdVals=line.map(p=>p.value),sig=ema(macdVals,9),md=line.map(p=>({time:times[p.index],value:p.value}));
+      setLine('macd',md,'#62d8bd',2,'macd');
+      const signal=sig.map(p=>({time:times[line[p.index]?.index],value:p.value})).filter(p=>p.time!==undefined);
+      setLine('macdsignal',signal,'#ff9b62',1,'macd');
+      if(!indicatorSeries.macdHist)indicatorSeries.macdHist=chart.addHistogramSeries({priceScaleId:'macd',lastValueVisible:false,priceLineVisible:false,base:0});
+      const sigMap=new Map(signal.map(p=>[p.time,p.value]));
+      indicatorSeries.macdHist.setData(md.map(p=>({time:p.time,value:p.value-(sigMap.get(p.time)||0),color:p.value>=(sigMap.get(p.time)||0)?'#26a69a':'#ef5350'})));
+      chart.priceScale('macd').applyOptions({scaleMargins:{top:.78,bottom:.02},autoScale:true});
+    }else ['macd','macdsignal','macdHist'].forEach(id=>{if(indicatorSeries[id]){chart.removeSeries(indicatorSeries[id]);delete indicatorSeries[id];}});
+  }
+  function setupReplayTools(){
+    const wrap=$('nfxPointChart');if(!wrap||drawCanvas)return;
+    drawCanvas=document.createElement('canvas');drawCanvas.className='nfx-drawing-overlay';drawCanvas.setAttribute('aria-label','Chart drawing layer');wrap.appendChild(drawCanvas);drawCtx=drawCanvas.getContext('2d');
+    function sizeCanvas(){const r=wrap.getBoundingClientRect(),dpr=window.devicePixelRatio||1;drawCanvas.width=Math.max(1,Math.floor(r.width*dpr));drawCanvas.height=Math.max(1,Math.floor(r.height*dpr));drawCanvas.style.width=r.width+'px';drawCanvas.style.height=r.height+'px';drawCtx.setTransform(dpr,0,0,dpr,0,0);drawAll();}
+    if(window.ResizeObserver)new ResizeObserver(sizeCanvas).observe(wrap);window.addEventListener('resize',sizeCanvas);sizeCanvas();
+    document.querySelectorAll('[data-draw]').forEach(btn=>btn.addEventListener('click',()=>{
+      const mode=btn.dataset.draw;
+      if(mode==='clear'){drawings=[];draftDrawing=null;drawAll();return;}
+      drawMode=mode;document.querySelectorAll('[data-draw]').forEach(b=>b.classList.toggle('active',b===btn));
+      drawCanvas.classList.toggle('drawing-active',drawMode!=='cursor');
+      status(drawMode==='cursor'?'Cursor selected.':drawMode+' selected — click or drag on the chart to draw.');
+    }));
+    ['nfxIndEma20','nfxIndEma50','nfxIndSma200','nfxIndBollinger','nfxIndRsi','nfxIndMacd'].forEach(id=>$(id).addEventListener('change',()=>{if(allBars.length)updateIndicators(allBars.slice(0,visibleIndex+1));}));
+    drawCanvas.addEventListener('pointerdown',e=>{if(drawMode==='cursor'||!allBars.length)return;const p=pointAt(e);if(!p)return;drawingStart=p;draftDrawing={type:drawMode,p1:p,p2:p};drawCanvas.setPointerCapture(e.pointerId);drawAll();});
+    drawCanvas.addEventListener('pointermove',e=>{if(!drawingStart||!draftDrawing)return;draftDrawing.p2=pointAt(e)||draftDrawing.p2;drawAll();});
+    drawCanvas.addEventListener('pointerup',e=>{if(!drawingStart||!draftDrawing)return;draftDrawing.p2=pointAt(e)||draftDrawing.p2;drawings.push(draftDrawing);draftDrawing=null;drawingStart=null;drawAll();});
+    function pointAt(e){const rect=drawCanvas.getBoundingClientRect(),x=e.clientX-rect.left,y=e.clientY-rect.top,time=chart.timeScale().coordinateToTime(x),price=candles.coordinateToPrice(y);if(time==null||price==null)return null;const unix=typeof time==='number'?time:Date.UTC(time.year,time.month-1,time.day)/1000;return {time:unix,price,x,y};}
+  }
+  function drawAll(){
+    if(!drawCanvas||!drawCtx||!chart||!candles)return;
+    const r=drawCanvas.getBoundingClientRect(),w=r.width,h=r.height,dpr=window.devicePixelRatio||1;
+    if(drawCanvas.width!==Math.floor(w*dpr)||drawCanvas.height!==Math.floor(h*dpr)){drawCanvas.width=Math.max(1,Math.floor(w*dpr));drawCanvas.height=Math.max(1,Math.floor(h*dpr));drawCtx.setTransform(dpr,0,0,dpr,0,0);}
+    drawCtx.clearRect(0,0,w,h);drawCtx.lineWidth=1.6;drawCtx.strokeStyle='#f6bd55';drawCtx.fillStyle='rgba(246,189,85,.12)';
+    const items=draftDrawing?[...drawings,draftDrawing]:drawings;
+    items.forEach(d=>{
+      const x1=d.type==='horizontal'?0:chart.timeScale().timeToCoordinate(d.p1.time);
+      const x2=d.type==='horizontal'?w:(d.type==='vertical'?x1:chart.timeScale().timeToCoordinate(d.p2.time));
+      const y1=d.type==='horizontal'?candles.priceToCoordinate(d.p1.price):candles.priceToCoordinate(d.p1.price);
+      const y2=d.type==='vertical'?0:candles.priceToCoordinate(d.p2.price);
+      if([x1,x2,y1,y2].some(v=>v===null||v===undefined||!Number.isFinite(v)))return;
+      drawCtx.beginPath();
+      if(d.type==='horizontal'){drawCtx.moveTo(0,y1);drawCtx.lineTo(w,y1);}
+      else if(d.type==='vertical'){drawCtx.moveTo(x1,0);drawCtx.lineTo(x1,h);}
+      else if(d.type==='rectangle'){drawCtx.rect(x1,y1,x2-x1,y2-y1);drawCtx.fill();drawCtx.stroke();}
+      else {drawCtx.moveTo(x1,y1);drawCtx.lineTo(x2,y2);drawCtx.stroke();}
+    });
+  }
+
   async function load(){
     stop();el.load.disabled=true;status('Loading market candles…');
     try{
@@ -2391,6 +2505,7 @@ document.addEventListener('click', function(event) {
         .sort((a,b)=>a.time-b.time).filter((b,i,a)=>i===0||b.time>a[i-1].time);
       if(!allBars.length)throw new Error('No valid candles returned for this symbol/timeframe.');
       currentSymbol=symbol;currentInterval=el.interval.value;
+      drawings=[];draftDrawing=null;drawAll();
       visibleIndex=Math.min(49,allBars.length-1);selecting=false;el.select.classList.remove('active');el.select.setAttribute('aria-pressed','false');
       render();status('Loaded '+allBars.length+' candles; showing '+(visibleIndex+1)+'. Previous, Next Candle and Play are ready. Use Replay Point to choose a different starting candle, or Show All to reveal every candle.');
     }catch(e){status(e&&e.message?e.message:'Could not load candles.');}
@@ -2525,6 +2640,20 @@ document.addEventListener('click', function(event) {
 .showcase-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;filter:none!important;transform:none!important}
 #page-home .video-card:hover .showcase-image{transform:scale(1.025)!important;transition:transform .35s ease}
 @media(prefers-reduced-motion:reduce){.showcase-image{transition:none!important}}
+
+/* Replay chart drawing and indicator toolbar */
+.nfx-replay-tools{display:grid;gap:8px;padding:10px 12px;border:1px solid #282a31;border-bottom:0;background:#0d0e12}
+.nfx-tool-group{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.nfx-tool-group>span{font-size:10px;font-weight:900;letter-spacing:.1em;color:#ff8a95;margin-right:5px}
+.nfx-tool-group button{height:30px;padding:0 10px;border:1px solid #333640;border-radius:6px;background:#181a20;color:#d8dbe2;font-size:11px;font-weight:700;cursor:pointer}
+.nfx-tool-group button:hover,.nfx-tool-group button.active{border-color:#d34a5b;background:#32151b;color:#fff}
+.nfx-indicator-check{display:inline-flex;align-items:center;gap:5px;padding:5px 8px;border:1px solid #30323a;border-radius:6px;background:#15161b;color:#e2e3e8;font-size:11px;cursor:pointer}
+.nfx-indicator-check input{accent-color:#ff5364;margin:0}
+.nfx-tool-help{margin:0;color:#8f95a2;font-size:11px}
+.nfx-point-chart{position:relative}
+.nfx-drawing-overlay{position:absolute;inset:0;width:100%;height:100%;z-index:6;pointer-events:none;touch-action:none}
+.nfx-drawing-overlay.drawing-active{pointer-events:auto;cursor:crosshair}
+@media(max-width:650px){.nfx-tool-group button{font-size:10px;padding:0 7px}.nfx-indicator-check{font-size:10px;padding:5px 6px}}
 
 /* Separate third chart: Replay Point Lab. Existing chart styles and sections stay untouched. */
 .nfx-point-lab{margin-top:22px}
