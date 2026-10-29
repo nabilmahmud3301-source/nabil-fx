@@ -1317,11 +1317,12 @@ document.addEventListener('click',event=>{
     if(!filtered.length){replayMarketResults.innerHTML='<p class="hint">No matching market in the free list. You can still type a symbol manually.</p>';return;}
     const groups={};
     filtered.forEach(m=>{(groups[m.type]||(groups[m.type]=[])).push(m);});
+    const esc=value=>String(value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
     let html='';
     replayMarketTypeOrder.concat(Object.keys(groups).filter(k=>!replayMarketTypeOrder.includes(k))).forEach(type=>{
       if(!groups[type])return;
-      html+='<div class="replay-market-group">'+type+' ('+groups[type].length+')</div>';
-      groups[type].forEach(m=>{html+='<button type="button" class="replay-market-option" data-symbol="'+m.name.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"><strong>'+m.name+'</strong><span>'+m.description+'</span></button>';});
+      html+='<div class="replay-market-group">'+esc(type)+' ('+groups[type].length+')</div>';
+      groups[type].forEach(m=>{html+='<button type="button" class="replay-market-option" data-symbol="'+esc(m.name)+'"><strong>'+esc(m.name)+'</strong><span>'+esc(m.description)+'</span></button>';});
     });
     replayMarketResults.innerHTML=html;
   }
