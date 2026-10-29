@@ -2302,7 +2302,7 @@ document.addEventListener('click', function(event) {
     chart:$('nfxPointChart'), status:$('nfxPointStatus'), count:$('nfxPointCount')
   };
   if(!el.chart) return;
-  let libPromise=null, chart=null, candles=null, emaSeries=null, smaSeries=null, allBars=[], visibleIndex=-1, selecting=false, timer=null, cursor=null;
+  let libPromise=null, chart=null, candles=null, emaSeries=null, smaSeries=null, allBars=[], visibleIndex=-1, selecting=false, timer=null, cursor=null, currentSymbol='', currentInterval='';
 
   function status(msg){el.status.textContent=msg;}
   function stop(){if(timer){clearInterval(timer);timer=null;}el.play.textContent='▶ Play';}
@@ -2332,7 +2332,7 @@ document.addEventListener('click', function(event) {
     el.count.textContent=visible.length+' / '+allBars.length+' candles';
     const b=visible[visible.length-1];
     const dt=new Date(b.time*1000);
-    status(sym+' · '+tf+' · '+dt.toLocaleString('en-GB',{timeZone:'UTC'})+' UTC'+(visibleIndex<allBars.length-1?' · REPLAY':' · END OF DATA'));
+    status(currentSymbol+' · '+currentInterval+' · '+dt.toLocaleString('en-GB',{timeZone:'UTC'})+' UTC'+(visibleIndex<allBars.length-1?' · REPLAY':' · END OF DATA'));
     const enabled=allBars.length>0;
     el.prev.disabled=!enabled||visibleIndex<=0;
     el.next.disabled=!enabled||visibleIndex>=allBars.length-1;
@@ -2390,6 +2390,7 @@ document.addEventListener('click', function(event) {
         .filter(b=>Number.isFinite(b.time)&&b.open>0&&b.high>=Math.max(b.open,b.close,b.low)&&b.low<=Math.min(b.open,b.close,b.high))
         .sort((a,b)=>a.time-b.time).filter((b,i,a)=>i===0||b.time>a[i-1].time);
       if(!allBars.length)throw new Error('No valid candles returned for this symbol/timeframe.');
+      currentSymbol=symbol;currentInterval=el.interval.value;
       visibleIndex=allBars.length-1;selecting=false;el.select.classList.remove('active');el.select.setAttribute('aria-pressed','false');
       render();status('Loaded '+allBars.length+' candles. Click Replay Point, then click the candle where replay should begin.');
     }catch(e){status(e&&e.message?e.message:'Could not load candles.');}
