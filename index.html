@@ -545,32 +545,34 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
     <button type="button" class="nfx-liq-market-tab" data-liq-market="futures" role="tab" aria-selected="false">Futures</button>
     <button type="button" class="nfx-liq-market-tab" data-liq-market="commodities" role="tab" aria-selected="false">Commodities</button>
   </div>
-  <section class="nfx-liq-panel" id="nfxLiqLivePanel">
-    <div class="nfx-liq-panel-head"><div><div class="nfx-liq-kicker">CRYPTO PERPETUAL FUTURES ORDER BOOK</div><h2>Live Liquidity Heatmap</h2><p>Live public order-book depth from Binance USDⓈ-M Futures. Venue-specific visible bids and asks, not the full market.</p></div><div class="nfx-liq-status" id="nfxLiqConnection"><i></i><span>Connecting feed…</span></div></div>
-    <div class="nfx-liq-controls">
-      <label>MARKET <select id="nfxLiqSymbol"><option value="btcusdt">BTC / USDT</option><option value="ethusdt">ETH / USDT</option><option value="bnbusdt">BNB / USDT</option><option value="solusdt">SOL / USDT</option><option value="xrpusdt">XRP / USDT</option><option value="dogeusdt">DOGE / USDT</option><option value="adausdt">ADA / USDT</option><option value="linkusdt">LINK / USDT</option></select></label>
-      <div class="nfx-liq-stat"><span>BEST BID</span><strong id="nfxLiqBestBid">—</strong></div><div class="nfx-liq-stat"><span>BEST ASK</span><strong id="nfxLiqBestAsk">—</strong></div><div class="nfx-liq-stat"><span>SPREAD</span><strong id="nfxLiqSpread">—</strong></div><div class="nfx-liq-stat"><span>LAST UPDATE</span><strong id="nfxLiqUpdated">—</strong></div>
-    </div>
-    <div class="nfx-liq-legend"><span><i class="nfx-liq-ask-key"></i> ASK LIQUIDITY</span><span><i class="nfx-liq-bid-key"></i> BID LIQUIDITY</span><span class="nfx-liq-legend-note">Brighter bar = larger visible order size</span></div>
-    <section class="nfx-liq-timeline-panel" aria-label="Liquidity timeline heatmap">
-      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">ORDER BOOK HISTORY · LIVE CAPTURE</div><h3>Liquidity Heatmap</h3><p>Price levels over time · brighter zones indicate larger visible resting orders.</p></div><div class="nfx-liq-timeline-actions"><span class="nfx-liq-live-tag"><i></i> LIVE CAPTURE</span><label>WINDOW <select id="nfxLiqWindow"><option value="60">1 MIN</option><option value="300" selected>5 MIN</option><option value="900">15 MIN</option></select></label><button id="nfxLiqResetHistory" type="button">Reset history</button></div></div>
+  <div class="nfx-liq-dashboard" id="nfxLiqDashboard">
+    <section class="nfx-liq-panel nfx-liq-workspace-card" id="nfxLiqLivePanel">
+      <div class="nfx-liq-panel-head"><div><div class="nfx-liq-kicker">CRYPTO PERPETUAL FUTURES</div><h2>Live Order Book</h2><p>Visible Binance USDⓈ-M Futures bids and asks.</p></div><div class="nfx-liq-card-actions"><div class="nfx-liq-status" id="nfxLiqConnection"><i></i><span>Connecting feed…</span></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqLivePanel" aria-label="Expand live order book">⛶ <span>Expand</span></button></div></div>
+      <div class="nfx-liq-controls">
+        <label>MARKET <select id="nfxLiqSymbol"><option value="btcusdt">BTC / USDT</option><option value="ethusdt">ETH / USDT</option><option value="bnbusdt">BNB / USDT</option><option value="solusdt">SOL / USDT</option><option value="xrpusdt">XRP / USDT</option><option value="dogeusdt">DOGE / USDT</option><option value="adausdt">ADA / USDT</option><option value="linkusdt">LINK / USDT</option></select></label>
+        <div class="nfx-liq-stat"><span>BEST BID</span><strong id="nfxLiqBestBid">—</strong></div><div class="nfx-liq-stat"><span>BEST ASK</span><strong id="nfxLiqBestAsk">—</strong></div><div class="nfx-liq-stat"><span>SPREAD</span><strong id="nfxLiqSpread">—</strong></div><div class="nfx-liq-stat"><span>LAST UPDATE</span><strong id="nfxLiqUpdated">—</strong></div>
+      </div>
+      <div class="nfx-liq-legend"><span><i class="nfx-liq-ask-key"></i> ASK</span><span><i class="nfx-liq-bid-key"></i> BID</span><span class="nfx-liq-legend-note">Brighter bar = larger visible size</span></div>
+      <div class="nfx-liq-book">
+        <div class="nfx-liq-book-side nfx-liq-asks"><div class="nfx-liq-book-title"><span>ASKS · SELL</span><span>PRICE / SIZE</span></div><div id="nfxLiqAsks" class="nfx-liq-levels"><div class="nfx-liq-empty">Waiting for live order book…</div></div></div>
+        <div class="nfx-liq-mid"><span>MARKET MID</span><strong id="nfxLiqMid">—</strong><small>USDT</small></div>
+        <div class="nfx-liq-book-side nfx-liq-bids"><div class="nfx-liq-book-title"><span>BIDS · BUY</span><span>PRICE / SIZE</span></div><div id="nfxLiqBids" class="nfx-liq-levels"><div class="nfx-liq-empty">Waiting for live order book…</div></div></div>
+      </div>
+      <div class="nfx-liq-foot"><span>Binance Futures · venue-specific depth</span><span>Auto-reconnect enabled</span></div>
+    </section>
+    <section class="nfx-liq-timeline-panel nfx-liq-workspace-card" id="nfxLiqBookHeatmap" aria-label="Liquidity timeline heatmap">
+      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">LIVE CAPTURE</div><h3>Liquidity Heatmap</h3><p>Visible resting orders by price and time.</p></div><div class="nfx-liq-card-actions"><div class="nfx-liq-timeline-actions"><label>WINDOW <select id="nfxLiqWindow"><option value="60">1 MIN</option><option value="300" selected>5 MIN</option><option value="900">15 MIN</option></select></label><button id="nfxLiqResetHistory" type="button">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqBookHeatmap" aria-label="Expand liquidity heatmap">⛶ <span>Expand</span></button></div></div>
       <div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqTimelineCanvas" aria-label="Live order book liquidity by price and time"></canvas><div id="nfxLiqTimelineEmpty" class="nfx-liq-timeline-empty">Building live heatmap… historical columns appear as live snapshots arrive.</div></div>
-      <div class="nfx-liq-timeline-axis"><span>OLDER SNAPSHOTS</span><span>PRICE LEVEL (Y) · TIME (X)</span><span>NOW →</span></div>
-      <div class="nfx-liq-timeline-note">Venue-specific Binance USDⓈ-M Futures order book · visible top-20 bid/ask levels only. This is observed order-book depth, not a prediction of future liquidation levels.</div>
+      <div class="nfx-liq-timeline-axis"><span>OLDER</span><span>PRICE · TIME</span><span>NOW →</span></div>
+      <div class="nfx-liq-timeline-note">Binance USDⓈ-M Futures top-20 visible levels. Not a prediction of future liquidation levels.</div>
     </section>
-    <section class="nfx-liq-timeline-panel" aria-label="Live futures liquidation heatmap" style="margin-top:18px">
-      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">BINANCE USDⓈ-M FUTURES · PUBLIC STREAM</div><h3>Live Liquidation Heatmap</h3><p>Reported Binance Futures liquidation events across the listed markets. Brighter cells indicate larger reported notional; this is observed history, not a prediction.</p></div><div class="nfx-liq-live-tag"><i></i> LIVE EVENTS</div></div>
-      <div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqLiquidationCanvas" aria-label="Live reported futures liquidations by symbol and time" style="width:100%;height:280px;display:block"></canvas><div id="nfxLiqLiquidationEmpty" class="nfx-liq-timeline-empty">Waiting for actual futures liquidation events…</div></div>
-      <div class="nfx-liq-timeline-axis"><span>OLDER EVENTS</span><span>SYMBOL (Y) · TIME (X)</span><span>NOW →</span></div>
-      <div class="nfx-liq-timeline-note">Free public Binance USDⓈ-M Futures all-market liquidation stream, filtered to the symbols listed above. Binance snapshots are selective, so this is not a complete liquidation record or CoinGlass’s estimated liquidation-level model.</div>
+    <section class="nfx-liq-timeline-panel nfx-liq-workspace-card" id="nfxLiqLiquidationHeatmap" aria-label="Live futures liquidation heatmap">
+      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">BINANCE FUTURES · PUBLIC STREAM</div><h3>Liquidation Heatmap</h3><p>Reported liquidation events by symbol and time.</p></div><div class="nfx-liq-card-actions"><span class="nfx-liq-live-tag"><i></i> LIVE EVENTS</span><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqLiquidationHeatmap" aria-label="Expand liquidation heatmap">⛶ <span>Expand</span></button></div></div>
+      <div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqLiquidationCanvas" aria-label="Live reported futures liquidations by symbol and time" style="width:100%;height:100%;display:block"></canvas><div id="nfxLiqLiquidationEmpty" class="nfx-liq-timeline-empty">Waiting for actual futures liquidation events…</div></div>
+      <div class="nfx-liq-timeline-axis"><span>OLDER</span><span>SYMBOL · TIME</span><span>NOW →</span></div>
+      <div class="nfx-liq-timeline-note">Public Binance USDⓈ-M Futures feed. Selective snapshots; not a complete liquidation record or a predictive CoinGlass-style model.</div>
     </section>
-    <div class="nfx-liq-book">
-      <div class="nfx-liq-book-side nfx-liq-asks"><div class="nfx-liq-book-title"><span>ASKS · SELL ORDERS</span><span>PRICE / SIZE</span></div><div id="nfxLiqAsks" class="nfx-liq-levels"><div class="nfx-liq-empty">Waiting for live order book…</div></div></div>
-      <div class="nfx-liq-mid"><span>MARKET MID</span><strong id="nfxLiqMid">—</strong><small>USDT</small></div>
-      <div class="nfx-liq-book-side nfx-liq-bids"><div class="nfx-liq-book-title"><span>BIDS · BUY ORDERS</span><span>PRICE / SIZE</span></div><div id="nfxLiqBids" class="nfx-liq-levels"><div class="nfx-liq-empty">Waiting for live order book…</div></div></div>
-    </div>
-    <div class="nfx-liq-foot"><span>Source: Binance USDⓈ-M Futures public order-book depth stream</span><span>Feed status is shown live; reconnects automatically.</span></div>
-  </section>
+  </div>
   <section class="nfx-liq-panel nfx-liq-unavailable" id="nfxLiqProviderPanel" hidden>
     <div class="nfx-liq-provider-icon">◈</div><div class="nfx-liq-kicker">MARKET DATA CONNECTION</div><h2 id="nfxLiqProviderTitle">Forex Liquidity Heatmap</h2>
     <div class="nfx-liq-provider-badge">ORDER-BOOK FEED NOT CONNECTED</div>
@@ -578,7 +580,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
     <div class="nfx-liq-provider-grid"><div><strong>We will not fake live data</strong><span>No simulated liquidity or made-up delay labels.</span></div><div><strong>Delay shown only when verified</strong><span>5m / 10m / 15m labels will be used only when a provider confirms that delay.</span></div><div><strong>Market-specific data needed</strong><span>Forex is decentralised; gold, indices and futures may require venue-specific depth feeds.</span></div></div>
     <div class="nfx-liq-provider-note">This market section is ready in the workspace, but a reliable free order-book liquidity feed for this asset class has not been connected yet.</div>
   </section>
-  <p class="nfx-liq-disclaimer">Market depth is venue-specific. Binance Spot depth represents visible orders on Binance only; it is not total global liquidity and can change or be cancelled rapidly.</p>
+  <p class="nfx-liq-disclaimer">Market depth is venue-specific. Binance Futures depth shows only visible orders on that venue, not total global liquidity; orders can change or be cancelled rapidly.</p>
 </section>
 
 <section id="page-chart" class="view">
@@ -2965,6 +2967,15 @@ document.addEventListener('click', function(event) {
     else{closeSocket();live.hidden=true;provider.hidden=false;var info=marketInfo[market]||marketInfo.forex;$('nfxLiqProviderTitle').textContent=info.title;$('nfxLiqProviderDescription').textContent=info.desc;}
   }
   document.querySelectorAll('[data-liq-market]').forEach(function(btn){btn.addEventListener('click',function(){selectMarket(btn.dataset.liqMarket);});});
+  document.querySelectorAll('[data-liq-fullscreen]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var target=$(btn.getAttribute('data-liq-fullscreen'));if(!target)return;
+      if(document.fullscreenElement===target){document.exitFullscreen();return;}
+      if(target.requestFullscreen){target.requestFullscreen().then(function(){setTimeout(function(){renderTimeline();renderLiquidationHeatmap();},120);}).catch(function(){target.classList.toggle('nfx-liq-expanded-fallback');});}
+      else{target.classList.toggle('nfx-liq-expanded-fallback');}
+    });
+  });
+  document.addEventListener('fullscreenchange',function(){setTimeout(function(){renderTimeline();renderLiquidationHeatmap();},100);});
   var selector=$('nfxLiqSymbol');
   if(selector)selector.addEventListener('change',function(){currentSymbol=selector.value;connect();});
   var winSel=$('nfxLiqWindow');if(winSel)winSel.addEventListener('change',function(){var cutoff=Date.now()-historyLimit()*1000;liqHistory=liqHistory.filter(x=>x.t>=cutoff);liquidationEvents=liquidationEvents.filter(x=>x.t>=cutoff);renderTimeline();renderLiquidationHeatmap();});
@@ -2996,6 +3007,56 @@ document.addEventListener('click', function(event) {
 .nfx-liq-timeline-axis{display:flex;justify-content:space-between;gap:10px;margin-top:9px;color:#778395;font-size:8px;font-weight:800;letter-spacing:.09em}
 .nfx-liq-timeline-note{margin-top:11px;color:#818c9d;font-size:10px;line-height:1.65}
 @media(max-width:650px){.nfx-liq-timeline-panel{padding:10px}.nfx-liq-timeline-head{align-items:flex-start;flex-direction:column}.nfx-liq-timeline-actions{justify-content:flex-start}.nfx-liq-timeline-wrap{height:300px}.nfx-liq-timeline-axis{font-size:7px}}
+
+/* Premium three-panel market-depth workspace */
+#nfxLiqDashboard.nfx-liq-dashboard{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:stretch}
+#nfxLiqDashboard .nfx-liq-workspace-card{min-width:0;min-height:570px;margin:0;padding:15px;border:1px solid #273342;border-radius:14px;background:linear-gradient(155deg,rgba(19,27,37,.98),rgba(8,11,17,.99) 62%);box-shadow:0 12px 34px rgba(0,0,0,.22);overflow:hidden}
+#nfxLiqDashboard .nfx-liq-panel-head,#nfxLiqDashboard .nfx-liq-timeline-head{min-height:76px;margin-bottom:12px}
+#nfxLiqDashboard .nfx-liq-panel-head h2,#nfxLiqDashboard .nfx-liq-timeline-head h3{font-size:17px;line-height:1.25}
+#nfxLiqDashboard .nfx-liq-panel-head p,#nfxLiqDashboard .nfx-liq-timeline-head p{font-size:10px;line-height:1.5}
+#nfxLiqDashboard .nfx-liq-card-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+#nfxLiqDashboard .nfx-liq-fullscreen-btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;min-height:31px;padding:0 9px;border:1px solid #354354;border-radius:7px;background:#141c27;color:#cbd5e4;font-size:10px;font-weight:800;white-space:nowrap;cursor:pointer}
+#nfxLiqDashboard .nfx-liq-fullscreen-btn:hover{border-color:#4fd8ad;color:#75ebc2;background:#13251f}
+#nfxLiqDashboard .nfx-liq-controls{gap:8px;margin:12px 0;padding:9px}
+#nfxLiqDashboard .nfx-liq-controls label{width:100%}
+#nfxLiqDashboard .nfx-liq-controls select{width:100%;min-width:0}
+#nfxLiqDashboard .nfx-liq-stat{min-width:0;flex:1 1 calc(50% - 8px);padding:7px 5px;border-left:0;border-top:1px solid #222b37}
+#nfxLiqDashboard .nfx-liq-stat strong{font-size:12px;overflow-wrap:anywhere}
+#nfxLiqDashboard .nfx-liq-legend{gap:10px;font-size:8px;padding-bottom:10px}
+#nfxLiqDashboard .nfx-liq-legend .nfx-liq-legend-note{width:100%;margin:0}
+#nfxLiqDashboard .nfx-liq-book{grid-template-columns:minmax(0,1fr) 1fr;gap:7px}
+#nfxLiqDashboard .nfx-liq-mid{grid-column:1/-1;grid-row:1;min-height:60px;padding:8px}
+#nfxLiqDashboard .nfx-liq-book-title{font-size:8px;flex-direction:column;gap:4px;padding:9px 7px}
+#nfxLiqDashboard .nfx-liq-book-title span:last-child{font-size:7px}
+#nfxLiqDashboard .nfx-liq-levels{padding:4px}
+#nfxLiqDashboard .nfx-liq-row{grid-template-columns:minmax(0,1fr);gap:2px;min-height:37px;font-size:9px;padding:4px}
+#nfxLiqDashboard .nfx-liq-row span:last-child{text-align:left;font-size:8px;opacity:.9}
+#nfxLiqDashboard .nfx-liq-foot{font-size:8px;line-height:1.5}
+#nfxLiqDashboard .nfx-liq-timeline-wrap{height:350px}
+#nfxLiqDashboard #nfxLiqLiquidationCanvas{height:100%!important}
+#nfxLiqDashboard .nfx-liq-timeline-axis{font-size:7px}
+#nfxLiqDashboard .nfx-liq-timeline-note{font-size:9px}
+#nfxLiqDashboard .nfx-liq-live-tag{font-size:8px;padding:6px}
+#nfxLiqDashboard .nfx-liq-timeline-actions{gap:5px}
+#nfxLiqDashboard .nfx-liq-timeline-actions label{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+#nfxLiqDashboard .nfx-liq-timeline-actions select{max-width:85px}
+#nfxLiqDashboard .nfx-liq-workspace-card:fullscreen{width:100vw;height:100vh;min-height:0;max-height:100vh;margin:0;padding:clamp(18px,3vw,36px);border:0;border-radius:0;overflow:auto;background:#080b11;box-sizing:border-box}
+#nfxLiqDashboard .nfx-liq-workspace-card:fullscreen .nfx-liq-timeline-wrap{height:calc(100vh - 220px);min-height:300px}
+#nfxLiqDashboard .nfx-liq-workspace-card:fullscreen .nfx-liq-book{grid-template-columns:minmax(0,1fr) 140px minmax(0,1fr)}
+#nfxLiqDashboard .nfx-liq-workspace-card:fullscreen .nfx-liq-mid{grid-column:auto;grid-row:auto}
+#nfxLiqDashboard .nfx-liq-workspace-card:fullscreen .nfx-liq-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:29px;font-size:12px}
+#nfxLiqDashboard .nfx-liq-workspace-card:fullscreen .nfx-liq-row span:last-child{text-align:right;font-size:11px}
+#nfxLiqDashboard .nfx-liq-workspace-card:fullscreen .nfx-liq-book-title{flex-direction:row;font-size:10px}
+#nfxLiqDashboard .nfx-liq-workspace-card:fullscreen .nfx-liq-book-title span:last-child{font-size:9px}
+#nfxLiqDashboard .nfx-liq-workspace-card:fullscreen .nfx-liq-controls label{width:auto}
+#nfxLiqDashboard .nfx-liq-workspace-card:fullscreen .nfx-liq-controls select{width:auto;min-width:130px}
+#nfxLiqDashboard .nfx-liq-workspace-card:fullscreen .nfx-liq-stat{flex:0 1 auto;min-width:105px;border-left:1px solid #242a35;border-top:0;padding:3px 12px}
+#nfxLiqDashboard .nfx-liq-workspace-card:fullscreen .nfx-liq-legend .nfx-liq-legend-note{width:auto;margin-left:auto}
+@media(max-width:1180px){#nfxLiqDashboard.nfx-liq-dashboard{grid-template-columns:repeat(2,minmax(0,1fr))}#nfxLiqDashboard #nfxLiqLivePanel{grid-column:1/-1}#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-book{grid-template-columns:minmax(0,1fr) 118px minmax(0,1fr)}#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-mid{grid-column:auto;grid-row:auto}#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:27px;font-size:10px}#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-book-title{flex-direction:row}}
+@media(max-width:760px){#nfxLiqDashboard.nfx-liq-dashboard{grid-template-columns:minmax(0,1fr)}#nfxLiqDashboard #nfxLiqLivePanel{grid-column:auto}#nfxLiqDashboard .nfx-liq-workspace-card{min-height:0}#nfxLiqDashboard .nfx-liq-timeline-wrap{height:300px}#nfxLiqDashboard .nfx-liq-panel-head,#nfxLiqDashboard .nfx-liq-timeline-head{flex-direction:column;align-items:flex-start}#nfxLiqDashboard .nfx-liq-card-actions{justify-content:flex-start}#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-book{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-mid{grid-column:1/-1;grid-row:1}#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-row{grid-template-columns:minmax(0,1fr);min-height:35px}#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-book-title{flex-direction:column}}
+
+#nfxLiqDashboard .nfx-liq-workspace-card.nfx-liq-expanded-fallback{position:fixed!important;z-index:999999!important;inset:12px!important;width:auto!important;height:auto!important;max-height:none!important;min-height:0!important;overflow:auto!important;background:#080b11!important;box-shadow:0 0 0 9999px rgba(0,0,0,.82)!important}
+#nfxLiqDashboard .nfx-liq-workspace-card.nfx-liq-expanded-fallback .nfx-liq-timeline-wrap{height:calc(100vh - 250px);min-height:300px}
 </style>
 
 </body>
