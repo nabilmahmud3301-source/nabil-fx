@@ -546,7 +546,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
     <button type="button" class="nfx-liq-market-tab" data-liq-market="commodities" role="tab" aria-selected="false">Commodities</button>
   </div>
   <section class="nfx-liq-panel" id="nfxLiqLivePanel">
-    <div class="nfx-liq-panel-head"><div><div class="nfx-liq-kicker">CRYPTO ORDER BOOK</div><h2>Live Liquidity Heatmap</h2><p>Live public order-book depth from Binance Spot. Shows visible bids and asks, not the full market.</p></div><div class="nfx-liq-status" id="nfxLiqConnection"><i></i><span>Connecting feed…</span></div></div>
+    <div class="nfx-liq-panel-head"><div><div class="nfx-liq-kicker">CRYPTO PERPETUAL FUTURES ORDER BOOK</div><h2>Live Liquidity Heatmap</h2><p>Live public order-book depth from Binance USDⓈ-M Futures. Venue-specific visible bids and asks, not the full market.</p></div><div class="nfx-liq-status" id="nfxLiqConnection"><i></i><span>Connecting feed…</span></div></div>
     <div class="nfx-liq-controls">
       <label>MARKET <select id="nfxLiqSymbol"><option value="btcusdt">BTC / USDT</option><option value="ethusdt">ETH / USDT</option><option value="bnbusdt">BNB / USDT</option><option value="solusdt">SOL / USDT</option><option value="xrpusdt">XRP / USDT</option><option value="dogeusdt">DOGE / USDT</option><option value="adausdt">ADA / USDT</option><option value="linkusdt">LINK / USDT</option></select></label>
       <div class="nfx-liq-stat"><span>BEST BID</span><strong id="nfxLiqBestBid">—</strong></div><div class="nfx-liq-stat"><span>BEST ASK</span><strong id="nfxLiqBestAsk">—</strong></div><div class="nfx-liq-stat"><span>SPREAD</span><strong id="nfxLiqSpread">—</strong></div><div class="nfx-liq-stat"><span>LAST UPDATE</span><strong id="nfxLiqUpdated">—</strong></div>
@@ -556,7 +556,13 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">ORDER BOOK HISTORY · LIVE CAPTURE</div><h3>Liquidity Heatmap</h3><p>Price levels over time · brighter zones indicate larger visible resting orders.</p></div><div class="nfx-liq-timeline-actions"><span class="nfx-liq-live-tag"><i></i> LIVE CAPTURE</span><label>WINDOW <select id="nfxLiqWindow"><option value="60">1 MIN</option><option value="300" selected>5 MIN</option><option value="900">15 MIN</option></select></label><button id="nfxLiqResetHistory" type="button">Reset history</button></div></div>
       <div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqTimelineCanvas" aria-label="Live order book liquidity by price and time"></canvas><div id="nfxLiqTimelineEmpty" class="nfx-liq-timeline-empty">Building live heatmap… historical columns appear as live snapshots arrive.</div></div>
       <div class="nfx-liq-timeline-axis"><span>OLDER SNAPSHOTS</span><span>PRICE LEVEL (Y) · TIME (X)</span><span>NOW →</span></div>
-      <div class="nfx-liq-timeline-note">Venue-specific Binance Spot order book · visible top-20 bid/ask levels only. This is an order-book liquidity heatmap, not CoinGlass’s estimated futures liquidation heatmap.</div>
+      <div class="nfx-liq-timeline-note">Venue-specific Binance USDⓈ-M Futures order book · visible top-20 bid/ask levels only. This is observed order-book depth, not a prediction of future liquidation levels.</div>
+    </section>
+    <section class="nfx-liq-timeline-panel" aria-label="Live futures liquidation heatmap" style="margin-top:18px">
+      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">BINANCE USDⓈ-M FUTURES · PUBLIC STREAM</div><h3>Live Liquidation Heatmap</h3><p>Actual reported liquidation events by price and time. This is observed history, not a prediction of future liquidation levels.</p></div><div class="nfx-liq-live-tag"><i></i> LIVE EVENTS</div></div>
+      <div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqLiquidationCanvas" aria-label="Live reported futures liquidations by price and time" style="width:100%;height:280px;display:block"></canvas><div id="nfxLiqLiquidationEmpty" class="nfx-liq-timeline-empty">Waiting for actual futures liquidation events…</div></div>
+      <div class="nfx-liq-timeline-axis"><span>OLDER EVENTS</span><span>PRICE (Y) · TIME (X)</span><span>NOW →</span></div>
+      <div class="nfx-liq-timeline-note">Free public Binance Futures stream. Liquidation snapshots are selective, so this is not a complete market-wide liquidation map or CoinGlass’s estimated liquidation-level model.</div>
     </section>
     <div class="nfx-liq-book">
       <div class="nfx-liq-book-side nfx-liq-asks"><div class="nfx-liq-book-title"><span>ASKS · SELL ORDERS</span><span>PRICE / SIZE</span></div><div id="nfxLiqAsks" class="nfx-liq-levels"><div class="nfx-liq-empty">Waiting for live order book…</div></div></div>
@@ -2815,7 +2821,7 @@ document.addEventListener('click', function(event) {
 </style>
 <script id="nfx-liquidity-heatmap-app">
 (function(){
-  var socket=null, reconnectTimer=null, currentSymbol='btcusdt', activeMarket='crypto', manuallyClosed=false, lastPayload=null;
+  var socket=null, liquidationSocket=null, reconnectTimer=null, liquidationReconnectTimer=null, currentSymbol='btcusdt', activeMarket='crypto', manuallyClosed=false, lastPayload=null, liquidationEvents=[];
   var symbols={btcusdt:'BTC/USDT',ethusdt:'ETH/USDT',bnbusdt:'BNB/USDT',solusdt:'SOL/USDT',xrpusdt:'XRP/USDT',dogeusdt:'DOGE/USDT',adausdt:'ADA/USDT',linkusdt:'LINK/USDT'};
   var marketInfo={
     forex:{title:'Forex Liquidity Heatmap',desc:'Forex has no single central order book. A genuine liquidity heatmap needs a specific broker, ECN or institutional venue feed; free retail quote APIs do not provide consolidated global liquidity.'},
@@ -2907,13 +2913,43 @@ document.addEventListener('click', function(event) {
     $('nfxLiqBestBid').textContent=fmt(bb);$('nfxLiqBestAsk').textContent=fmt(ba);$('nfxLiqSpread').textContent=fmt(ba-bb);
     $('nfxLiqMid').textContent=fmt(mid);$('nfxLiqUpdated').textContent=new Date().toLocaleTimeString();
   }
-  function closeSocket(){manuallyClosed=true;if(reconnectTimer)clearTimeout(reconnectTimer);reconnectTimer=null;if(socket){try{socket.onclose=null;socket.close();}catch(e){}socket=null;} }
+  function renderLiquidationHeatmap(){
+    var canvas=$('nfxLiqLiquidationCanvas');if(!canvas)return;
+    var rect=canvas.getBoundingClientRect();if(rect.width<40||rect.height<40)return;
+    var dpr=Math.min(window.devicePixelRatio||1,2),w=Math.round(rect.width*dpr),h=Math.round(rect.height*dpr);
+    if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
+    var ctx=canvas.getContext('2d');if(!ctx)return;ctx.setTransform(dpr,0,0,dpr,0,0);
+    var W=rect.width,H=rect.height,left=72,right=14,top=12,bottom=26,pw=W-left-right,ph=H-top-bottom;
+    ctx.clearRect(0,0,W,H);ctx.fillStyle='#080b11';ctx.fillRect(0,0,W,H);
+    var now=Date.now(),cutoff=now-historyLimit()*1000,events=liquidationEvents.filter(e=>e.t>=cutoff);
+    var empty=$('nfxLiqLiquidationEmpty');if(empty)empty.hidden=events.length>0;
+    ctx.font='10px ui-monospace, SFMono-Regular, Menlo, monospace';ctx.textBaseline='middle';
+    if(!events.length){ctx.fillStyle='#667285';ctx.fillText('Waiting for actual liquidation events from Binance Futures…',left+12,top+ph/2);return;}
+    var prices=events.map(e=>e.p).filter(Number.isFinite),lo=Math.min.apply(null,prices),hi=Math.max.apply(null,prices);
+    if(lo===hi){var pad=Math.max(lo*.002,.01);lo-=pad;hi+=pad;}else{var pad=(hi-lo)*.12;lo-=pad;hi+=pad;}
+    var buckets=Array.from({length:60},()=>({long:0,short:0}));
+    events.forEach(e=>{var row=Math.max(0,Math.min(59,Math.floor((hi-e.p)/(hi-lo)*60)));buckets[row][e.side==='SELL'?'long':'short']+=e.usd;});
+    var max=1;buckets.forEach(b=>{max=Math.max(max,b.long,b.short);});
+    buckets.forEach(function(b,i){var y=top+i*ph/60,bh=Math.max(2,ph/60-1);if(b.long>0){var v=Math.min(1,Math.log1p(b.long)/Math.log1p(max));ctx.fillStyle='rgba(30,210,145,'+(.18+.78*v)+')';ctx.fillRect(left,y,pw*.49,bh);}if(b.short>0){var v2=Math.min(1,Math.log1p(b.short)/Math.log1p(max));ctx.fillStyle='rgba(255,76,100,'+(.18+.78*v2)+')';ctx.fillRect(left+pw*.51,y,pw*.49,bh);}});
+    ctx.strokeStyle='#252d39';ctx.lineWidth=1;for(var k=0;k<=4;k++){var yy=top+ph*k/4;ctx.beginPath();ctx.moveTo(left,yy);ctx.lineTo(W-right,yy);ctx.stroke();ctx.fillStyle='#9aa5b7';ctx.textAlign='right';ctx.fillText(fmt(hi-(hi-lo)*k/4),left-8,yy);}
+    for(var q=0;q<=4;q++){var xx=left+pw*q/4;ctx.beginPath();ctx.moveTo(xx,top);ctx.lineTo(xx,top+ph);ctx.stroke();var t=new Date(cutoff+historyLimit()*1000*q/4);ctx.fillStyle='#7e899a';ctx.textAlign=q===0?'left':q===4?'right':'center';ctx.fillText(t.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'}),xx,H-10);}
+    ctx.fillStyle='#1ed291';ctx.textAlign='left';ctx.fillText('LONG LIQUIDATIONS',left+8,top+10);ctx.fillStyle='#ff4c64';ctx.textAlign='right';ctx.fillText('SHORT LIQUIDATIONS',W-right-8,top+10);
+  }
+  function connectLiquidations(){
+    if(liquidationReconnectTimer)clearTimeout(liquidationReconnectTimer);
+    if(liquidationSocket){try{liquidationSocket.onclose=null;liquidationSocket.close();}catch(e){}liquidationSocket=null;}
+    try{var ws=new WebSocket('wss://fstream.binance.com/market/ws/'+currentSymbol+'@forceOrder');liquidationSocket=ws;
+      ws.onmessage=function(ev){if(liquidationSocket!==ws)return;try{var msg=JSON.parse(ev.data),o=msg.o;if(!o)return;var price=Number(o.ap||o.p),qty=Number(o.z||o.q),t=Number(msg.T||msg.E||Date.now());if(!Number.isFinite(price)||!Number.isFinite(qty)||qty<=0)return;liquidationEvents.push({t:t,p:price,side:o.S,usd:price*qty});var cutoff=Date.now()-Math.max(900,historyLimit()*1000);liquidationEvents=liquidationEvents.filter(e=>e.t>=cutoff).slice(-3000);renderLiquidationHeatmap();}catch(e){}};
+      ws.onclose=function(){if(liquidationSocket!==ws||manuallyClosed)return;liquidationReconnectTimer=setTimeout(connectLiquidations,3000);};
+    }catch(e){liquidationReconnectTimer=setTimeout(connectLiquidations,4000);}
+  }
+  function closeSocket(){manuallyClosed=true;if(reconnectTimer)clearTimeout(reconnectTimer);if(liquidationReconnectTimer)clearTimeout(liquidationReconnectTimer);reconnectTimer=null;liquidationReconnectTimer=null;if(socket){try{socket.onclose=null;socket.close();}catch(e){}socket=null;}if(liquidationSocket){try{liquidationSocket.onclose=null;liquidationSocket.close();}catch(e){}liquidationSocket=null;} }
   function connect(){
     closeSocket();manuallyClosed=false;setStatus('Connecting feed…','');
     if(!window.WebSocket){setStatus('WebSocket unsupported','disconnected');return;}
     var ws;
-    try{ws=new WebSocket('wss://stream.binance.com:9443/ws/'+currentSymbol+'@depth20@100ms');socket=ws;}catch(e){setStatus('Connection unavailable','disconnected');return;}
-    ws.onopen=function(){if(socket!==ws)return;setStatus('LIVE · Binance Spot','connected');};
+    try{ws=new WebSocket('wss://fstream.binance.com/market/ws/'+currentSymbol+'@depth20@100ms');socket=ws;}catch(e){setStatus('Connection unavailable','disconnected');return;}
+    ws.onopen=function(){if(socket!==ws)return;setStatus('LIVE · Binance USDⓈ-M Futures','connected');connectLiquidations();};
     ws.onmessage=function(event){if(socket!==ws)return;try{var d=JSON.parse(event.data);if(d.bids&&d.asks)paintBook(d);}catch(e){}};
     ws.onerror=function(){if(socket===ws)setStatus('Feed connection issue','disconnected');};
     ws.onclose=function(){if(socket!==ws||manuallyClosed)return;setStatus('Reconnecting…','disconnected');reconnectTimer=setTimeout(function(){if(activeMarket==='crypto')connect();},2500);};
@@ -2930,11 +2966,11 @@ document.addEventListener('click', function(event) {
   if(selector)selector.addEventListener('change',function(){currentSymbol=selector.value;connect();});
   var winSel=$('nfxLiqWindow');if(winSel)winSel.addEventListener('change',function(){var cutoff=Date.now()-historyLimit()*1000;liqHistory=liqHistory.filter(x=>x.t>=cutoff);renderTimeline();});
   var resetBtn=$('nfxLiqResetHistory');if(resetBtn)resetBtn.addEventListener('click',function(){liqHistory=[];lastHistoryAt=0;renderTimeline();});
-  window.addEventListener('resize',function(){if(!renderFrame)renderFrame=requestAnimationFrame(function(){renderFrame=0;renderTimeline();});});
-  window.addEventListener('nfx-liquidity-open',function(){if(activeMarket==='crypto'&&(!socket||socket.readyState>1))connect();});
+  window.addEventListener('resize',function(){if(!renderFrame)renderFrame=requestAnimationFrame(function(){renderFrame=0;renderTimeline();renderLiquidationHeatmap();});});
+  window.addEventListener('nfx-liquidity-open',function(){if(activeMarket==='crypto'&&(!socket||socket.readyState>1))connect();renderLiquidationHeatmap();});
   window.addEventListener('online',function(){if(activeMarket==='crypto')connect();});
   window.addEventListener('offline',function(){if(activeMarket==='crypto')setStatus('Browser offline','disconnected');});
-  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible'&&activeMarket==='crypto'&&$('page-liquidity')&&$('page-liquidity').classList.contains('active')&&(!socket||socket.readyState>1))connect();});
+  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible'&&activeMarket==='crypto'&&$('page-liquidity')&&$('page-liquidity').classList.contains('active')){if(!socket||socket.readyState>1)connect();if(!liquidationSocket||liquidationSocket.readyState>1)connectLiquidations();}});
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){if($('page-liquidity')&&$('page-liquidity').classList.contains('active'))connect();},{once:true});
 })();
 </script>
