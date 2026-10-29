@@ -1501,9 +1501,10 @@ document.addEventListener('click',event=>{
       }
       replayBars=bars.filter((b,i,a)=>i===0||b.time>a[i-1].time);
       if(!replayBars.length)throw new Error('No historical candles returned for this symbol/date. Try a different symbol, timeframe, or date range.');
-      // Show the first historical candle immediately so the chart is not blank after loading.
-      replayIndex=0;replaySetButtons(true);replayRender();
-      replayStatus('Loaded <strong>'+replayBars.length+'</strong> closed candles for <strong>'+symbol+'</strong> '+interval+' via '+providerUsed+'. The first candle is shown; press <strong>Start Replay</strong> to restart from the beginning, then use Next Candle or Play. Future candles remain hidden. Data is supplied by free third-party feeds and is not guaranteed to match your broker/TradingView feed.');
+      // Show enough candles to make the chart visibly populated after loading.
+      // Start Replay still resets to candle one for a clean replay.
+      replayIndex=Math.min(49,replayBars.length-1);replaySetButtons(true);replayRender();
+      replayStatus('Loaded <strong>'+replayBars.length+'</strong> closed candles for <strong>'+symbol+'</strong> '+interval+' via '+providerUsed+'. Showing the first <strong>'+(replayIndex+1)+'</strong> candles now. Press <strong>Start Replay</strong> to restart from candle 1, then use Next Candle or Play. Future candles remain hidden. Data is supplied by free third-party feeds and is not guaranteed to match your broker/TradingView feed.');
     }catch(e){replayBars=[];replayIndex=-1;replaySetButtons(false);replayUpdateMeta();replayStatus('<strong>Could not load data:</strong> '+String(e.message||e).replace(/[<>]/g,''));}
     finally{replayEls.load.disabled=false;}
   }
