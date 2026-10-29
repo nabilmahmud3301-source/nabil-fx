@@ -1315,7 +1315,7 @@ document.addEventListener('click',event=>{
     load:$('replayLoad'), start:$('replayStart'), prev:$('replayPrev'), play:$('replayPlay'), next:$('replayNext'), end:$('replayEnd'),
     status:$('replayStatus'), metaSymbol:$('replayMetaSymbol'), metaCount:$('replayMetaCount'), metaTime:$('replayMetaTime'), metaTotal:$('replayMetaTotal'), chart:$('replayChart')
   };
-  let replayChart=null, replaySeries=null, replayBars=[], replayIndex=-1, replayTimer=null, replayLibPromise=null;
+  let replayChart=null, replaySeries=null, replayEmaSeries=null, replayEmaEnabled=false, replayGridEnabled=true, replayBars=[], replayIndex=-1, replayTimer=null, replayLibPromise=null;
   function replayStatus(msg){ if(replayEls.status) replayEls.status.innerHTML=msg; }
 
   const replayMarketPicker=$('replayMarketPicker'), replayMarketResults=$('replayMarketResults'), replaySymbolInput=$('replaySymbol');
@@ -1594,6 +1594,9 @@ document.addEventListener('click',event=>{
   });
   replayEls.speed?.addEventListener('change',()=>{if(replayTimer){replayStop();replayEls.play.click();}});
   replayEls.symbol?.addEventListener('keydown',e=>{if(e.key==='Enter')replayLoadData();});
+  replayEls.interval?.addEventListener('change',()=>{
+    document.querySelectorAll('[data-replay-tf]').forEach(b=>b.classList.toggle('active',b.dataset.replayTf===replayEls.interval.value));
+  });
 
   $('chartReplayJumpButton')?.addEventListener('click',async()=>{
     const panel=$('freeReplayPanel');
