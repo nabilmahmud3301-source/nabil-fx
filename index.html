@@ -2391,8 +2391,8 @@ document.addEventListener('click', function(event) {
         .sort((a,b)=>a.time-b.time).filter((b,i,a)=>i===0||b.time>a[i-1].time);
       if(!allBars.length)throw new Error('No valid candles returned for this symbol/timeframe.');
       currentSymbol=symbol;currentInterval=el.interval.value;
-      visibleIndex=allBars.length-1;selecting=false;el.select.classList.remove('active');el.select.setAttribute('aria-pressed','false');
-      render();status('Loaded '+allBars.length+' candles. Click Replay Point, then click the candle where replay should begin.');
+      visibleIndex=Math.min(49,allBars.length-1);selecting=false;el.select.classList.remove('active');el.select.setAttribute('aria-pressed','false');
+      render();status('Loaded '+allBars.length+' candles; showing '+(visibleIndex+1)+'. Previous, Next Candle and Play are ready. Use Replay Point to choose a different starting candle, or Show All to reveal every candle.');
     }catch(e){status(e&&e.message?e.message:'Could not load candles.');}
     finally{el.load.disabled=false;}
   }
