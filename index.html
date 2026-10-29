@@ -552,6 +552,12 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       <div class="nfx-liq-stat"><span>BEST BID</span><strong id="nfxLiqBestBid">—</strong></div><div class="nfx-liq-stat"><span>BEST ASK</span><strong id="nfxLiqBestAsk">—</strong></div><div class="nfx-liq-stat"><span>SPREAD</span><strong id="nfxLiqSpread">—</strong></div><div class="nfx-liq-stat"><span>LAST UPDATE</span><strong id="nfxLiqUpdated">—</strong></div>
     </div>
     <div class="nfx-liq-legend"><span><i class="nfx-liq-ask-key"></i> ASK LIQUIDITY</span><span><i class="nfx-liq-bid-key"></i> BID LIQUIDITY</span><span class="nfx-liq-legend-note">Brighter bar = larger visible order size</span></div>
+    <section class="nfx-liq-timeline-panel" aria-label="Liquidity timeline heatmap">
+      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">ORDER BOOK HISTORY · LIVE CAPTURE</div><h3>Liquidity Heatmap</h3><p>Price levels over time · brighter zones indicate larger visible resting orders.</p></div><div class="nfx-liq-timeline-actions"><span class="nfx-liq-live-tag"><i></i> LIVE CAPTURE</span><label>WINDOW <select id="nfxLiqWindow"><option value="60">1 MIN</option><option value="300" selected>5 MIN</option><option value="900">15 MIN</option></select></label><button id="nfxLiqResetHistory" type="button">Reset history</button></div></div>
+      <div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqTimelineCanvas" aria-label="Live order book liquidity by price and time"></canvas><div id="nfxLiqTimelineEmpty" class="nfx-liq-timeline-empty">Building live heatmap… historical columns appear as live snapshots arrive.</div></div>
+      <div class="nfx-liq-timeline-axis"><span>OLDER SNAPSHOTS</span><span>PRICE LEVEL (Y) · TIME (X)</span><span>NOW →</span></div>
+      <div class="nfx-liq-timeline-note">Venue-specific Binance Spot order book · visible top-20 bid/ask levels only. This is an order-book liquidity heatmap, not CoinGlass’s estimated futures liquidation heatmap.</div>
+    </section>
     <div class="nfx-liq-book">
       <div class="nfx-liq-book-side nfx-liq-asks"><div class="nfx-liq-book-title"><span>ASKS · SELL ORDERS</span><span>PRICE / SIZE</span></div><div id="nfxLiqAsks" class="nfx-liq-levels"><div class="nfx-liq-empty">Waiting for live order book…</div></div></div>
       <div class="nfx-liq-mid"><span>MARKET MID</span><strong id="nfxLiqMid">—</strong><small>USDT</small></div>
@@ -2822,6 +2828,70 @@ document.addEventListener('click', function(event) {
   function setStatus(text,state){var el=$('nfxLiqConnection');if(!el)return;el.className='nfx-liq-status'+(state?' '+state:'');var span=el.querySelector('span');if(span)span.textContent=text;}
   function fmt(v){if(!Number.isFinite(v))return '—';return v>=1000?v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}):v>=1?v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:4}):v.toLocaleString('en-US',{minimumFractionDigits:4,maximumFractionDigits:8});}
   function makeRow(side,price,qty,max){var row=document.createElement('div');row.className='nfx-liq-row '+side;var bar=document.createElement('i');bar.className='nfx-liq-bar';bar.style.width=(max>0?Math.max(2,Math.min(100,qty/max*100)):0)+'%';row.appendChild(bar);var p=document.createElement('span');p.textContent=fmt(Number(price));var q=document.createElement('span');q.textContent=Number(qty).toLocaleString('en-US',{maximumFractionDigits:4});row.appendChild(p);row.appendChild(q);return row;}
+  var liqHistory=[],lastHistoryAt=0,historySymbol='btcusdt',renderFrame=0;
+  function historyLimit(){var el=$('nfxLiqWindow');return el?Number(el.value)||300:300;}
+  function captureHistory(data,mid){
+    var now=Date.now();
+    if(currentSymbol!==historySymbol){liqHistory=[];historySymbol=currentSymbol;lastHistoryAt=0;}
+    if(now-lastHistoryAt<900)return;
+    lastHistoryAt=now;
+    liqHistory.push({t:now,mid:mid,bids:data.bids.slice(0,20).map(x=>[Number(x[0]),Number(x[1])]),asks:data.asks.slice(0,20).map(x=>[Number(x[0]),Number(x[1])])});
+    var cutoff=now-Math.max(900,historyLimit()*1000);
+    liqHistory=liqHistory.filter(x=>x.t>=cutoff).slice(-900);
+    renderTimeline();
+  }
+  function renderTimeline(){
+    var canvas=$('nfxLiqTimelineCanvas');if(!canvas)return;
+    var wrap=canvas.parentElement,rect=wrap.getBoundingClientRect();if(rect.width<30||rect.height<30)return;
+    var dpr=Math.min(window.devicePixelRatio||1,2),w=Math.round(rect.width*dpr),h=Math.round(rect.height*dpr);
+    if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
+    var ctx=canvas.getContext('2d');if(!ctx)return;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    var W=rect.width,H=rect.height,left=68,right=12,top=12,bottom=25,pw=W-left-right,ph=H-top-bottom;
+    ctx.clearRect(0,0,W,H);ctx.fillStyle='#080b11';ctx.fillRect(0,0,W,H);
+    var now=Date.now(),windowMs=historyLimit()*1000,cutoff=now-windowMs;
+    var history=liqHistory.filter(x=>x.t>=cutoff);
+    var empty=$('nfxLiqTimelineEmpty');if(empty)empty.hidden=history.length>0;
+    ctx.font='10px ui-monospace, SFMono-Regular, Menlo, monospace';ctx.textBaseline='middle';
+    if(!history.length){ctx.fillStyle='#667285';ctx.fillText('Waiting for live order-book snapshots…',left+12,top+ph/2);return;}
+    var mids=history.map(x=>x.mid).filter(Number.isFinite),currentMid=mids[mids.length-1];
+    var lo=currentMid*0.995,hi=currentMid*1.005;
+    if(!Number.isFinite(lo)||!Number.isFinite(hi)||hi<=lo){lo=currentMid-1;hi=currentMid+1;}
+    var rows=64,cellH=ph/rows,cellW=Math.max(1,pw/history.length),maxQty=0;
+    history.forEach(s=>s.bids.concat(s.asks).forEach(x=>{if(x[0]>=lo&&x[0]<=hi&&x[1]>maxQty)maxQty=x[1];}));
+    maxQty=Math.max(maxQty,0.0000001);
+    function color(intensity,side){
+      var v=Math.max(0,Math.min(1,intensity));var r,g,b;
+      if(side==='bid'){r=Math.round(8+20*v);g=Math.round(48+195*v);b=Math.round(65+110*(1-v));}
+      else{r=Math.round(75+180*v);g=Math.round(30+65*(1-v));b=Math.round(65+100*(1-v));}
+      return 'rgb('+r+','+g+','+b+')';
+    }
+    history.forEach(function(s,idx){
+      var x=left+idx*cellW;
+      [['bid',s.bids],['ask',s.asks]].forEach(function(pair){
+        pair[1].forEach(function(level){
+          var price=level[0],qty=level[1];if(price<lo||price>hi||qty<=0)return;
+          var row=Math.floor((hi-price)/(hi-lo)*rows);row=Math.max(0,Math.min(rows-1,row));
+          var intensity=Math.min(1,Math.log(1+qty)/Math.log(1+maxQty));
+          ctx.fillStyle=color(intensity,pair[0]);ctx.globalAlpha=0.22+intensity*0.78;
+          ctx.fillRect(x,top+row*cellH,Math.max(1,cellW+0.3),Math.max(1,cellH+0.2));
+        });
+      });
+    });
+    ctx.globalAlpha=1;
+    ctx.strokeStyle='#242c38';ctx.lineWidth=1;
+    for(var k=0;k<=4;k++){
+      var yy=top+ph*k/4;ctx.beginPath();ctx.moveTo(left,yy);ctx.lineTo(W-right,yy);ctx.stroke();
+      var price=hi-(hi-lo)*k/4;ctx.fillStyle='#9aa5b7';ctx.textAlign='right';ctx.fillText(fmt(price),left-8,yy);
+    }
+    for(var q=0;q<=4;q++){
+      var xx=left+pw*q/4;ctx.beginPath();ctx.moveTo(xx,top);ctx.lineTo(xx,top+ph);ctx.stroke();
+      var t=new Date(cutoff+windowMs*q/4);ctx.fillStyle='#7e899a';ctx.textAlign=q===0?'left':q===4?'right':'center';ctx.fillText(t.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'}),xx,H-10);
+    }
+    var currentY=top+(hi-currentMid)/(hi-lo)*ph;
+    ctx.setLineDash([4,4]);ctx.strokeStyle='#f3d56c';ctx.beginPath();ctx.moveTo(left,currentY);ctx.lineTo(W-right,currentY);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle='#f3d56c';ctx.textAlign='left';ctx.fillText('MID '+fmt(currentMid),left+7,Math.max(top+8,Math.min(top+ph-8,currentY-9)));
+  }
   function paintBook(data){
     if(!data||!Array.isArray(data.bids)||!Array.isArray(data.asks)||!data.bids.length||!data.asks.length)return;
     lastPayload=data;
@@ -2833,6 +2903,7 @@ document.addEventListener('click', function(event) {
     asks.forEach(x=>askEl.appendChild(makeRow('ask',x[0],x[1],max)));
     bids.forEach(x=>bidEl.appendChild(makeRow('bid',x[0],x[1],max)));
     var bb=bids[0][0],ba=asks[0][0],mid=(bb+ba)/2;
+    captureHistory(data,mid);
     $('nfxLiqBestBid').textContent=fmt(bb);$('nfxLiqBestAsk').textContent=fmt(ba);$('nfxLiqSpread').textContent=fmt(ba-bb);
     $('nfxLiqMid').textContent=fmt(mid);$('nfxLiqUpdated').textContent=new Date().toLocaleTimeString();
   }
@@ -2857,6 +2928,9 @@ document.addEventListener('click', function(event) {
   document.querySelectorAll('[data-liq-market]').forEach(function(btn){btn.addEventListener('click',function(){selectMarket(btn.dataset.liqMarket);});});
   var selector=$('nfxLiqSymbol');
   if(selector)selector.addEventListener('change',function(){currentSymbol=selector.value;connect();});
+  var winSel=$('nfxLiqWindow');if(winSel)winSel.addEventListener('change',function(){var cutoff=Date.now()-historyLimit()*1000;liqHistory=liqHistory.filter(x=>x.t>=cutoff);renderTimeline();});
+  var resetBtn=$('nfxLiqResetHistory');if(resetBtn)resetBtn.addEventListener('click',function(){liqHistory=[];lastHistoryAt=0;renderTimeline();});
+  window.addEventListener('resize',function(){if(!renderFrame)renderFrame=requestAnimationFrame(function(){renderFrame=0;renderTimeline();});});
   window.addEventListener('nfx-liquidity-open',function(){if(activeMarket==='crypto'&&(!socket||socket.readyState>1))connect();});
   window.addEventListener('online',function(){if(activeMarket==='crypto')connect();});
   window.addEventListener('offline',function(){if(activeMarket==='crypto')setStatus('Browser offline','disconnected');});
@@ -2864,6 +2938,26 @@ document.addEventListener('click', function(event) {
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){if($('page-liquidity')&&$('page-liquidity').classList.contains('active'))connect();},{once:true});
 })();
 </script>
+
+<style id="nfx-liquidity-timeline-styles">
+.nfx-liq-timeline-panel{margin:0 0 18px;padding:16px;border:1px solid #29303c;border-radius:12px;background:#090c12}
+.nfx-liq-timeline-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:13px}
+.nfx-liq-timeline-head h3{margin:6px 0;font-size:19px;letter-spacing:-.025em}
+.nfx-liq-timeline-head p{margin:0;color:#929cad;font-size:11px;line-height:1.6}
+.nfx-liq-timeline-actions{display:flex;align-items:center;justify-content:flex-end;gap:9px;flex-wrap:wrap}
+.nfx-liq-live-tag{display:flex;align-items:center;gap:6px;padding:7px 9px;border:1px solid #245343;border-radius:6px;background:#10231d;color:#73e8b7;font-size:9px;font-weight:900;letter-spacing:.07em}
+.nfx-liq-live-tag i{width:6px;height:6px;border-radius:50%;background:#55e0a6;box-shadow:0 0 8px #55e0a6}
+.nfx-liq-timeline-actions label{display:flex;align-items:center;gap:7px;color:#828da0;font-size:9px;font-weight:800}
+.nfx-liq-timeline-actions select,.nfx-liq-timeline-actions button{height:30px;padding:0 9px;border:1px solid #343c49;border-radius:6px;background:#141922;color:#e4e8f0;font-size:10px}
+.nfx-liq-timeline-actions button{cursor:pointer}.nfx-liq-timeline-actions button:hover{border-color:#64738a}
+.nfx-liq-timeline-wrap{position:relative;height:380px;overflow:hidden;border:1px solid #252c37;border-radius:7px;background:#080b11}
+#nfxLiqTimelineCanvas{display:block;width:100%;height:100%}
+.nfx-liq-timeline-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:25px;color:#7e899a;font-size:12px;text-align:center;pointer-events:none}
+.nfx-liq-timeline-empty[hidden]{display:none}
+.nfx-liq-timeline-axis{display:flex;justify-content:space-between;gap:10px;margin-top:9px;color:#778395;font-size:8px;font-weight:800;letter-spacing:.09em}
+.nfx-liq-timeline-note{margin-top:11px;color:#818c9d;font-size:10px;line-height:1.65}
+@media(max-width:650px){.nfx-liq-timeline-panel{padding:10px}.nfx-liq-timeline-head{align-items:flex-start;flex-direction:column}.nfx-liq-timeline-actions{justify-content:flex-start}.nfx-liq-timeline-wrap{height:300px}.nfx-liq-timeline-axis{font-size:7px}}
+</style>
 
 </body>
 </html>
