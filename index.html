@@ -264,7 +264,8 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 }
 
 /* Free historical bar replay */
-.replay-panel{margin-top:16px;padding:16px}.replay-grid{display:grid;grid-template-columns:repeat(6,minmax(110px,1fr));gap:10px;align-items:end}.replay-grid .field{margin:0}.replay-grid input,.replay-grid select{width:100%;min-width:0}.replay-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.replay-actions button{min-height:39px}.replay-chart{position:relative!important;display:block!important;isolation:isolate;width:100%;height:520px;min-height:520px;margin-top:14px;border:1px solid #292929;border-radius:10px;overflow:hidden;background:#080808!important;color:#c8c8c8;box-sizing:border-box}.replay-chart>div{max-width:100%}.replay-chart canvas{display:block!important}.replay-status{margin-top:10px;color:#bbb;font-size:13px;line-height:1.5}.replay-status strong{color:#ff5364}.replay-meta{display:flex;flex-wrap:wrap;gap:16px;margin-top:10px;color:#bbb;font-size:13px}.replay-meta b{color:#fff}@media(max-width:900px){.replay-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:600px){.replay-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.replay-chart{height:420px}.replay-panel{padding:11px}}
+.replay-panel{margin-top:16px;padding:16px}.replay-grid{display:grid;grid-template-columns:repeat(6,minmax(110px,1fr));gap:10px;align-items:end}.replay-grid .field{margin:0}.replay-grid input,.replay-grid select{width:100%;min-width:0}.replay-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.replay-actions button{min-height:39px}
+.replay-chart-shell{margin-top:14px;border:1px solid #282a30;border-radius:10px;overflow:hidden;background:#08090c;color:#d1d4dc;box-shadow:0 10px 28px #0003}.replay-topbar{min-height:48px;display:flex;align-items:center;gap:18px;padding:7px 12px;border-bottom:1px solid #26282e;background:#101115;font:12px/1.2 Arial,sans-serif}.replay-chart-market{display:flex;align-items:center;gap:8px;white-space:nowrap}.replay-market-dot{width:8px;height:8px;border-radius:50%;background:#26a69a;box-shadow:0 0 8px #26a69a66}.replay-chart-market strong{font-size:14px;color:#f0f1f4}.replay-chart-feed{color:#777d89;font-size:11px}.replay-timeframes{display:flex;align-items:center;gap:3px;flex-wrap:wrap}.replay-timeframes button,.replay-top-actions button{border:0;border-radius:5px;padding:7px 8px;background:transparent;color:#9da3ae;font-size:12px;cursor:pointer}.replay-timeframes button:hover,.replay-top-actions button:hover{background:#252830;color:#fff}.replay-timeframes button.active{background:#292d36;color:#fff;font-weight:700}.replay-top-actions{display:flex;gap:4px;margin-left:auto}.replay-chart-stage{height:510px;position:relative;background:#08090c}.replay-chart{position:absolute!important;inset:0 0 22px 42px!important;display:block!important;isolation:isolate;width:auto;height:auto;min-height:0;margin:0;border:0;border-radius:0;overflow:hidden;background:#08090c!important;color:#c8c8c8;box-sizing:border-box}.replay-chart>div{max-width:100%}.replay-chart canvas{display:block!important}.replay-left-tools{position:absolute;z-index:5;left:0;top:0;bottom:22px;width:42px;display:flex;align-items:center;flex-direction:column;gap:3px;padding:7px 4px;background:#101115;border-right:1px solid #25272d}.replay-left-tools button{width:32px;height:31px;flex:0 0 31px;border:0;border-radius:5px;background:transparent;color:#a6abb5;font-size:17px;cursor:pointer}.replay-left-tools button:hover,.replay-left-tools button.active{background:#2b3039;color:#f5f6f8}.replay-left-tools button#replayIndicatorToggle{font-size:12px;font-weight:700}.replay-tool-divider{height:1px;width:24px;background:#30333a;margin:3px 0}.replay-chart-footer{position:absolute;z-index:4;left:42px;right:0;bottom:0;height:22px;display:flex;justify-content:space-between;align-items:center;padding:0 10px;background:#101115;border-top:1px solid #26282e;color:#828894;font:10px/1 Arial,sans-serif;letter-spacing:.25px}.replay-chart-footer b{color:#aeb4bf;font-weight:600}.replay-status{margin-top:10px;color:#bbb;font-size:13px;line-height:1.5}.replay-status strong{color:#ff5364}.replay-meta{display:flex;flex-wrap:wrap;gap:16px;margin-top:10px;color:#bbb;font-size:13px}.replay-meta b{color:#fff}@media(max-width:900px){.replay-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.replay-topbar{gap:8px;flex-wrap:wrap}.replay-chart-market{min-width:120px}.replay-top-actions{margin-left:auto}}@media(max-width:600px){.replay-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.replay-chart-stage{height:420px}.replay-panel{padding:11px}.replay-topbar{padding:7px;gap:6px}.replay-chart-feed{display:none}.replay-timeframes{gap:0}.replay-timeframes button{padding:7px 6px}.replay-chart{inset:0 0 22px 36px!important}.replay-left-tools{width:36px}.replay-chart-footer{left:36px}}
 
 </style>
 <style>
@@ -548,7 +549,24 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
     </div>
     <div class="replay-actions"><button class="btn primary" id="replayLoad" type="button">Load Historical Data</button><button class="btn secondary" id="replayStart" type="button" disabled>Start Replay</button><button class="btn secondary" id="replayPrev" type="button" disabled>← Previous</button><button class="btn secondary" id="replayPlay" type="button" disabled>▶ Play</button><button class="btn secondary" id="replayNext" type="button" disabled>Next Candle →</button><button class="btn secondary" id="replayEnd" type="button" disabled>Show All / End</button></div>
     <div class="replay-meta"><span>Symbol: <b id="replayMetaSymbol">—</b></span><span>Visible candle: <b id="replayMetaCount">—</b></span><span>Replay time: <b id="replayMetaTime">—</b></span><span>Loaded bars: <b id="replayMetaTotal">0</b></span></div>
-    <div id="replayChart" class="replay-chart" aria-label="Historical candle replay chart"></div>
+    <div class="replay-chart-shell">
+      <div class="replay-topbar">
+        <div class="replay-chart-market"><span class="replay-market-dot"></span><strong id="replayChartSymbol">EURUSD</strong><span class="replay-chart-feed">Historical Replay</span></div>
+        <div class="replay-timeframes" role="group" aria-label="Chart timeframe">
+          <button type="button" data-replay-tf="1m" class="active">1m</button><button type="button" data-replay-tf="5m">5m</button><button type="button" data-replay-tf="15m">15m</button><button type="button" data-replay-tf="30m">30m</button><button type="button" data-replay-tf="1h">1H</button><button type="button" data-replay-tf="4h">4H</button><button type="button" data-replay-tf="1d">1D</button>
+        </div>
+        <div class="replay-top-actions"><button type="button" id="replayFitChart" title="Fit candles to chart">Fit</button><button type="button" id="replayGridToggle" title="Toggle chart grid">Grid</button></div>
+      </div>
+      <div class="replay-chart-stage">
+        <div class="replay-left-tools" role="toolbar" aria-label="Chart tools">
+          <button type="button" class="active" data-replay-tool="cursor" title="Cursor">↖</button><button type="button" data-replay-tool="crosshair" title="Crosshair">┼</button>
+          <span class="replay-tool-divider"></span><button type="button" data-replay-tool="trendline" title="Trend line tool">／</button><button type="button" data-replay-tool="horizontal" title="Horizontal line tool">―</button><button type="button" data-replay-tool="vertical" title="Vertical line tool">│</button><button type="button" data-replay-tool="rectangle" title="Rectangle tool">□</button>
+          <span class="replay-tool-divider"></span><button type="button" id="replayIndicatorToggle" title="Toggle EMA 20">ƒx</button>
+        </div>
+        <div id="replayChart" class="replay-chart" aria-label="Historical candle replay chart"></div>
+        <div class="replay-chart-footer"><span id="replayChartStatus">Waiting for market data</span><span>PRICE <b>USD</b></span></div>
+      </div>
+    </div>
     <div id="replayStatus" class="replay-status" role="status">Choose a market and timeframe, then click <strong>Load Historical Data</strong>. Free data coverage and history depend on the provider.</div>
   </section>
 
@@ -1418,11 +1436,14 @@ document.addEventListener('click',event=>{
       height:Math.max(420,Math.floor(rect.height||replayEls.chart.clientHeight||520)),
       layout:{background:{type:'solid',color:'#080808'},textColor:'#c8c8c8'},
       grid:{vertLines:{color:'#1c1c1c'},horzLines:{color:'#1c1c1c'}},
-      rightPriceScale:{borderColor:'#333',visible:true},timeScale:{borderColor:'#333',timeVisible:true,secondsVisible:false,visible:true},
-      crosshair:{mode:LightweightCharts.CrosshairMode.Normal},
-      handleScroll:true,handleScale:true
+      rightPriceScale:{borderColor:'#333',visible:true,scaleMargins:{top:0.08,bottom:0.08}},
+      timeScale:{borderColor:'#333',timeVisible:true,secondsVisible:false,visible:true,barSpacing:5,minBarSpacing:2,rightOffset:8},
+      crosshair:{mode:LightweightCharts.CrosshairMode.Normal,vertLine:{color:'#758696',width:1,style:LightweightCharts.LineStyle.Dashed},horzLine:{color:'#758696',width:1,style:LightweightCharts.LineStyle.Dashed}},
+      handleScroll:{mouseWheel:true,pressedMouseMove:true,horzTouchDrag:true,vertTouchDrag:false},
+      handleScale:{mouseWheel:true,pinch:true,axisPressedMouseMove:{time:true,price:true}}
     });
-    replaySeries=replayChart.addCandlestickSeries({upColor:'#18b981',downColor:'#ff5267',borderUpColor:'#18b981',borderDownColor:'#ff5267',wickUpColor:'#18b981',wickDownColor:'#ff5267',priceLineVisible:true,lastValueVisible:true});
+    replaySeries=replayChart.addCandlestickSeries({upColor:'#26a69a',downColor:'#ef5350',borderUpColor:'#26a69a',borderDownColor:'#ef5350',wickUpColor:'#26a69a',wickDownColor:'#ef5350',priceLineVisible:true,lastValueVisible:true,priceLineColor:'#26a69a'});
+    replayEmaSeries=replayChart.addLineSeries({color:'#f6b73c',lineWidth:2,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});
     if(window.ResizeObserver)new ResizeObserver(()=>{if(replayResizeChart()&&replayBars.length&&replayIndex>=0)replayRender();}).observe(replayEls.chart);
     window.addEventListener('resize',()=>{if(replayResizeChart()&&replayBars.length&&replayIndex>=0)replayRender();});
     requestAnimationFrame(()=>{replayResizeChart();if(replayBars.length&&replayIndex>=0)replayRender();});
@@ -1459,12 +1480,24 @@ document.addEventListener('click',event=>{
     const visibleBars=replayBars.slice(0,replayIndex+1);
     // Always send a clean, validated OHLC series to the chart library.
     replaySeries.setData(visibleBars);
-    replayChart.applyOptions({layout:{background:{type:'solid',color:'#080808'},textColor:'#c8c8c8'}});
-    replayChart.timeScale().fitContent();
-    if(visibleBars.length>1){
-      const from=Math.max(0,visibleBars.length-80);
-      replayChart.timeScale().setVisibleLogicalRange({from,to:Math.max(from+30,visibleBars.length+8)});
+    if(replayEmaSeries){
+      if(replayEmaEnabled){
+        const period=20,alpha=2/(period+1);let ema=null;
+        const emaData=visibleBars.map(b=>{ema=ema===null?b.close:(b.close*alpha+ema*(1-alpha));return {time:b.time,value:ema};});
+        replayEmaSeries.setData(emaData);
+      }else replayEmaSeries.setData([]);
     }
+    replayChart.applyOptions({layout:{background:{type:'solid',color:'#08090c'},textColor:'#c8c8c8'},grid:{vertLines:{visible:replayGridEnabled,color:'#202229'},horzLines:{visible:replayGridEnabled,color:'#202229'}},timeScale:{barSpacing:5,minBarSpacing:2,rightOffset:8}});
+    if(visibleBars.length>1){
+      const from=Math.max(0,visibleBars.length-100);
+      replayChart.timeScale().setVisibleLogicalRange({from,to:Math.max(from+100,visibleBars.length+8)});
+    }
+    const symbol=(replayEls.symbol.value||'EURUSD').trim().toUpperCase();
+    const symbolLabel=document.getElementById('replayChartSymbol');
+    const statusLabel=document.getElementById('replayChartStatus');
+    if(symbolLabel)symbolLabel.textContent=symbol;
+    if(statusLabel)statusLabel.textContent=symbol+' · '+replayEls.interval.value+' · '+replayFormatTime(visibleBars[visibleBars.length-1].time);
+    document.querySelectorAll('[data-replay-tf]').forEach(b=>b.classList.toggle('active',b.dataset.replayTf===replayEls.interval.value));
     replayUpdateMeta();
   }
   function replayStep(delta){
@@ -1523,10 +1556,34 @@ document.addEventListener('click',event=>{
     finally{replayEls.load.disabled=false;}
   }
   replayEls.load?.addEventListener('click',replayLoadData);
+  document.querySelectorAll('[data-replay-tf]').forEach(button=>button.addEventListener('click',()=>{
+    const tf=button.dataset.replayTf;
+    if(!tf||!replayEls.interval)return;
+    replayEls.interval.value=tf;
+    document.querySelectorAll('[data-replay-tf]').forEach(b=>b.classList.toggle('active',b===button));
+    if(replayBars.length)replayLoadData();
+  }));
+  document.getElementById('replayFitChart')?.addEventListener('click',()=>{
+    if(!replayChart||!replayBars.length)return;
+    replayChart.timeScale().fitContent();
+    replayChart.timeScale().applyOptions({barSpacing:5,minBarSpacing:2,rightOffset:8});
+  });
+  document.getElementById('replayGridToggle')?.addEventListener('click',e=>{
+    replayGridEnabled=!replayGridEnabled;
+    e.currentTarget.classList.toggle('active',!replayGridEnabled);
+    if(replayChart)replayChart.applyOptions({grid:{vertLines:{visible:replayGridEnabled},horzLines:{visible:replayGridEnabled}}});
+  });
+  document.getElementById('replayIndicatorToggle')?.addEventListener('click',e=>{
+    replayEmaEnabled=!replayEmaEnabled;e.currentTarget.classList.toggle('active',replayEmaEnabled);if(replayBars.length)replayRender();
+  });
+  document.querySelectorAll('[data-replay-tool]').forEach(button=>button.addEventListener('click',()=>{
+    document.querySelectorAll('[data-replay-tool]').forEach(b=>b.classList.toggle('active',b===button));
+    if(replayChart&&button.dataset.replayTool==='crosshair')replayChart.applyOptions({crosshair:{mode:LightweightCharts.CrosshairMode.Normal}});
+  }));
   replayEls.start?.addEventListener('click',()=>{replayStop();if(!replayBars.length)return;replayIndex=0;replayRender();});
   replayEls.prev?.addEventListener('click',()=>{replayStop();replayStep(-1);});
   replayEls.next?.addEventListener('click',()=>{replayStop();if(replayIndex<0)replayIndex=0;else replayStep(1);if(replayIndex===0)replayRender();});
-  replayEls.end?.addEventListener('click',()=>{replayStop();if(!replayBars.length)return;replayIndex=replayBars.length-1;replaySeries.setData(replayBars);replayChart.timeScale().fitContent();replayUpdateMeta();});
+  replayEls.end?.addEventListener('click',()=>{replayStop();if(!replayBars.length)return;replayIndex=replayBars.length-1;replayRender();replayChart.timeScale().fitContent();});
   replayEls.play?.addEventListener('click',()=>{
     if(!replayBars.length)return;
     if(replayTimer){replayStop();return;}
