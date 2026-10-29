@@ -252,6 +252,10 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
   vertical-align:middle!important;
   contain:layout paint!important;
 }
+
+/* Free historical bar replay */
+.replay-panel{margin-top:16px;padding:16px}.replay-grid{display:grid;grid-template-columns:repeat(6,minmax(110px,1fr));gap:10px;align-items:end}.replay-grid .field{margin:0}.replay-grid input,.replay-grid select{width:100%;min-width:0}.replay-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.replay-actions button{min-height:39px}.replay-chart{height:520px;width:100%;margin-top:14px;border:1px solid #292929;border-radius:10px;overflow:hidden;background:#080808}.replay-status{margin-top:10px;color:#bbb;font-size:13px;line-height:1.5}.replay-status strong{color:#ff5364}.replay-meta{display:flex;flex-wrap:wrap;gap:16px;margin-top:10px;color:#bbb;font-size:13px}.replay-meta b{color:#fff}@media(max-width:900px){.replay-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:600px){.replay-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.replay-chart{height:420px}.replay-panel{padding:11px}}
+
 </style>
 <style>
 /* Final Home-only refinement: compact founder card above a premium red/white title */
@@ -518,6 +522,23 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
     </div>
     <p class="hint">TradingView chart. Default timeframe: 1 hour. Use the chart toolbar to change symbols and tools.</p>
   </section>
+
+  <section id="freeReplayPanel" class="panel replay-panel">
+    <div class="chart-heading-row"><div><h2 class="view-heading">Free Bar Replay</h2><p class="hint" style="margin:5px 0 0">Practice historical price action one candle at a time. Future candles stay hidden during replay.</p></div><span class="tiny">FREE DATA · NO API KEY</span></div>
+    <div class="replay-grid">
+      <div class="field"><label for="replaySymbol">MARKET SYMBOL</label><input id="replaySymbol" value="EURUSD" list="replaySymbols" autocomplete="off"><datalist id="replaySymbols"><option value="EURUSD"><option value="GBPUSD"><option value="USDJPY"><option value="AUDJPY"><option value="XAUUSD"><option value="XAGUSD"><option value="US30"><option value="NAS100"><option value="SPX500"><option value="BTCUSD"><option value="ETHUSD"><option value="BTCUSDT"><option value="AAPL"><option value="MSFT"><option value="CL"><option value="GC"></datalist></div>
+      <div class="field"><label for="replayInterval">TIMEFRAME</label><select id="replayInterval"><option value="1m">1 minute</option><option value="5m">5 minutes</option><option value="15m">15 minutes</option><option value="30m">30 minutes</option><option value="1h">1 hour</option><option value="4h">4 hours</option><option value="1d">1 day</option></select></div>
+      <div class="field"><label for="replayFrom">START DATE (OPTIONAL)</label><input id="replayFrom" type="date"></div>
+      <div class="field"><label for="replayTo">END DATE (OPTIONAL)</label><input id="replayTo" type="date"></div>
+      <div class="field"><label for="replayLimit">CANDLES TO LOAD</label><select id="replayLimit"><option value="200">200</option><option value="500" selected>500</option><option value="1000">1000 (max)</option></select></div>
+      <div class="field"><label for="replaySpeed">REPLAY SPEED</label><select id="replaySpeed"><option value="1200">0.5×</option><option value="700" selected>1×</option><option value="350">2×</option><option value="120">5×</option></select></div>
+    </div>
+    <div class="replay-actions"><button class="btn primary" id="replayLoad" type="button">Load Historical Data</button><button class="btn secondary" id="replayStart" type="button" disabled>Start Replay</button><button class="btn secondary" id="replayPrev" type="button" disabled>← Previous</button><button class="btn secondary" id="replayPlay" type="button" disabled>▶ Play</button><button class="btn secondary" id="replayNext" type="button" disabled>Next Candle →</button><button class="btn secondary" id="replayEnd" type="button" disabled>Show All / End</button></div>
+    <div class="replay-meta"><span>Symbol: <b id="replayMetaSymbol">—</b></span><span>Visible candle: <b id="replayMetaCount">—</b></span><span>Replay time: <b id="replayMetaTime">—</b></span><span>Loaded bars: <b id="replayMetaTotal">0</b></span></div>
+    <div id="replayChart" class="replay-chart" aria-label="Historical candle replay chart"></div>
+    <div id="replayStatus" class="replay-status" role="status">Choose a market and timeframe, then click <strong>Load Historical Data</strong>. Free data coverage and history depend on the provider.</div>
+  </section>
+
   <section class="workflow-band"><div><h3>Build a process. Measure progress. Keep improving.</h3><p>Trading involves risk. Nabil Fx supports research and organization; it does not guarantee trading results.</p></div></section>
 </section>
 
@@ -1255,6 +1276,109 @@ document.addEventListener('click',event=>{
     });
     root.appendChild(script);
   }
+
+
+  // Free Bar Replay: independent candle chart; source offers no-key OHLC for many FX/CFD/crypto symbols.
+  const replayEls = {
+    symbol:$('replaySymbol'), interval:$('replayInterval'), from:$('replayFrom'), to:$('replayTo'), limit:$('replayLimit'), speed:$('replaySpeed'),
+    load:$('replayLoad'), start:$('replayStart'), prev:$('replayPrev'), play:$('replayPlay'), next:$('replayNext'), end:$('replayEnd'),
+    status:$('replayStatus'), metaSymbol:$('replayMetaSymbol'), metaCount:$('replayMetaCount'), metaTime:$('replayMetaTime'), metaTotal:$('replayMetaTotal'), chart:$('replayChart')
+  };
+  let replayChart=null, replaySeries=null, replayBars=[], replayIndex=-1, replayTimer=null, replayLibPromise=null;
+  function replayStatus(msg){ if(replayEls.status) replayEls.status.innerHTML=msg; }
+  function replayLoadLibrary(){
+    if(window.LightweightCharts) return Promise.resolve();
+    if(replayLibPromise) return replayLibPromise;
+    replayLibPromise=new Promise((resolve,reject)=>{
+      const sc=document.createElement('script');
+      sc.src='https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js';
+      sc.onload=()=>window.LightweightCharts?resolve():reject(new Error('Chart library did not initialize'));
+      sc.onerror=()=>reject(new Error('Could not load chart library'));
+      document.head.appendChild(sc);
+    });
+    return replayLibPromise;
+  }
+  function replayMakeChart(){
+    if(replayChart || !replayEls.chart || !window.LightweightCharts) return;
+    replayChart=LightweightCharts.createChart(replayEls.chart,{
+      width:replayEls.chart.clientWidth,height:replayEls.chart.clientHeight,
+      layout:{background:{type:'solid',color:'#080808'},textColor:'#c8c8c8'},
+      grid:{vertLines:{color:'#1c1c1c'},horzLines:{color:'#1c1c1c'}},
+      rightPriceScale:{borderColor:'#333'},timeScale:{borderColor:'#333',timeVisible:true,secondsVisible:false},
+      crosshair:{mode:LightweightCharts.CrosshairMode.Normal},
+      handleScroll:true,handleScale:true
+    });
+    replaySeries=replayChart.addCandlestickSeries({upColor:'#18b981',downColor:'#ff5267',borderUpColor:'#18b981',borderDownColor:'#ff5267',wickUpColor:'#18b981',wickDownColor:'#ff5267'});
+    new ResizeObserver(()=>{if(replayChart&&replayEls.chart)replayChart.applyOptions({width:replayEls.chart.clientWidth,height:replayEls.chart.clientHeight});}).observe(replayEls.chart);
+  }
+  function replaySetButtons(loaded){
+    ['start','prev','play','next','end'].forEach(k=>{if(replayEls[k])replayEls[k].disabled=!loaded;});
+  }
+  function replayFormatTime(ts){
+    const d=new Date(ts*1000);
+    return d.toLocaleString('en-GB',{timeZone:'UTC',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false})+' UTC';
+  }
+  function replayUpdateMeta(){
+    replayEls.metaSymbol.textContent=(replayEls.symbol.value||'').toUpperCase();
+    replayEls.metaTotal.textContent=String(replayBars.length);
+    replayEls.metaCount.textContent=replayIndex<0?'Not started':(replayIndex+1)+' / '+replayBars.length;
+    replayEls.metaTime.textContent=replayIndex<0?'—':replayFormatTime(replayBars[replayIndex].time);
+  }
+  function replayStop(){if(replayTimer){clearInterval(replayTimer);replayTimer=null;}if(replayEls.play)replayEls.play.textContent='▶ Play';}
+  function replayRender(){
+    if(!replaySeries||replayIndex<0)return;
+    replaySeries.setData(replayBars.slice(0,replayIndex+1));
+    replayChart.timeScale().fitContent();
+    // Keep the current candle near the right side without exposing future candles.
+    const left=Math.max(0,replayIndex-80);
+    replayChart.timeScale().setVisibleLogicalRange({from:left,to:Math.max(30,replayIndex+8)});
+    replayUpdateMeta();
+  }
+  function replayStep(delta){
+    if(!replayBars.length)return;
+    replayIndex=Math.max(0,Math.min(replayBars.length-1,replayIndex+delta));
+    replayRender();
+    if(replayIndex>=replayBars.length-1)replayStop();
+  }
+  async function replayLoadData(){
+    replayStop();replayEls.load.disabled=true;replayStatus('Loading free historical candles…');
+    try{
+      await replayLoadLibrary();replayMakeChart();
+      const symbol=(replayEls.symbol.value||'EURUSD').trim().toUpperCase().replace(/[^A-Z0-9._-]/g,'');
+      const interval=replayEls.interval.value, limit=Number(replayEls.limit.value)||500;
+      const params=new URLSearchParams({interval,limit:String(limit)});
+      if(replayEls.from.value)params.set('from',new Date(replayEls.from.value+'T00:00:00Z').toISOString());
+      if(replayEls.to.value)params.set('to',new Date(replayEls.to.value+'T23:59:59Z').toISOString());
+      if(replayEls.from.value&&replayEls.to.value&&replayEls.from.value>replayEls.to.value)throw new Error('Start date must be before end date.');
+      const response=await fetch('https://biquote.io/api/'+encodeURIComponent(symbol)+'/ohlc?'+params.toString(),{cache:'no-store'});
+      if(!response.ok)throw new Error('Data provider returned HTTP '+response.status+'. Try another symbol or date range.');
+      const payload=await response.json();
+      const raw=Array.isArray(payload.bars)?payload.bars:[];
+      const bars=raw.filter(b=>!b.isOpen&&Number.isFinite(Number(b.open))&&Number.isFinite(Number(b.high))&&Number.isFinite(Number(b.low))&&Number.isFinite(Number(b.close))&&b.openTime)
+        .map(b=>({time:Math.floor(new Date(b.openTime).getTime()/1000),open:Number(b.open),high:Number(b.high),low:Number(b.low),close:Number(b.close)}))
+        .filter(b=>Number.isFinite(b.time)).sort((a,b)=>a.time-b.time);
+      replayBars=bars.filter((b,i,a)=>i===0||b.time>a[i-1].time);
+      if(!replayBars.length)throw new Error('No historical candles returned for this symbol/date. Try a different symbol, timeframe, or date range.');
+      replayIndex=-1;replaySeries.setData([]);replayChart.timeScale().fitContent();replaySetButtons(true);replayUpdateMeta();
+      replayStatus('Loaded <strong>'+replayBars.length+'</strong> closed candles for <strong>'+symbol+'</strong> ('+interval+'). Press <strong>Start Replay</strong>; future candles will remain hidden. Data is supplied by a free third-party feed and is not guaranteed to match your broker/TradingView feed.');
+    }catch(e){replayBars=[];replayIndex=-1;replaySetButtons(false);replayUpdateMeta();replayStatus('<strong>Could not load data:</strong> '+String(e.message||e).replace(/[<>]/g,''));}
+    finally{replayEls.load.disabled=false;}
+  }
+  replayEls.load?.addEventListener('click',replayLoadData);
+  replayEls.start?.addEventListener('click',()=>{replayStop();if(!replayBars.length)return;replayIndex=0;replayRender();});
+  replayEls.prev?.addEventListener('click',()=>{replayStop();replayStep(-1);});
+  replayEls.next?.addEventListener('click',()=>{replayStop();if(replayIndex<0)replayIndex=0;else replayStep(1);if(replayIndex===0)replayRender();});
+  replayEls.end?.addEventListener('click',()=>{replayStop();if(!replayBars.length)return;replayIndex=replayBars.length-1;replaySeries.setData(replayBars);replayChart.timeScale().fitContent();replayUpdateMeta();});
+  replayEls.play?.addEventListener('click',()=>{
+    if(!replayBars.length)return;
+    if(replayTimer){replayStop();return;}
+    if(replayIndex<0){replayIndex=0;replayRender();}
+    if(replayIndex>=replayBars.length-1){replayIndex=0;replayRender();}
+    replayEls.play.textContent='⏸ Pause';
+    replayTimer=setInterval(()=>{if(replayIndex>=replayBars.length-1){replayStop();return;}replayStep(1);},Number(replayEls.speed.value)||700);
+  });
+  replayEls.speed?.addEventListener('change',()=>{if(replayTimer){replayStop();replayEls.play.click();}});
+  replayEls.symbol?.addEventListener('keydown',e=>{if(e.key==='Enter')replayLoadData();});
 
   $('chartFullscreenButton')?.addEventListener('click',async()=>{
     try{
