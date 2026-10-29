@@ -2413,6 +2413,76 @@ document.addEventListener('click', function(event) {
 })();
 </script>
 
+
+<script id="nfx-chart-button-repair">
+(function(){
+  function install(){
+    function replaceButton(id, handler){
+      var old=document.getElementById(id);
+      if(!old || !old.parentNode) return;
+      var fresh=old.cloneNode(true);
+      old.parentNode.replaceChild(fresh,old); // remove any previously attached broken/duplicate listeners
+      fresh.addEventListener('click',function(event){
+        event.preventDefault();
+        Promise.resolve(handler(fresh)).catch(function(err){
+          fresh.title='Action failed: '+(err&&err.message?err.message:'browser restriction');
+          fresh.setAttribute('aria-label',fresh.title);
+        });
+      });
+    }
+    replaceButton('chartReplayJumpButton',function(btn){
+      var target=document.getElementById('nabilReplayPointLab');
+      if(!target){throw new Error('Replay Point chart section not found');}
+      // Ensure Chart page is visible if page navigation has hidden it.
+      if(typeof window.showNabilPage==='function') window.showNabilPage('chart');
+      target.scrollIntoView({behavior:'smooth',block:'start'});
+      target.style.outline='2px solid #ff5364';
+      target.style.outlineOffset='4px';
+      window.setTimeout(function(){target.style.outline='';target.style.outlineOffset='';},1600);
+      btn.title='Jumped to Nabil Replay Point Chart';
+    });
+    function fullscreenHandler(targetId,buttonId){
+      return async function(btn){
+        var target=document.getElementById(targetId);
+        if(!target) throw new Error('Chart section not found');
+        if(document.fullscreenElement===target){
+          await document.exitFullscreen();
+        }else{
+          if(!target.requestFullscreen) throw new Error('Fullscreen is not supported by this browser');
+          if(document.fullscreenElement) await document.exitFullscreen();
+          await target.requestFullscreen();
+        }
+        // Force embedded chart canvases to recalculate after entering/exiting.
+        window.setTimeout(function(){
+          window.dispatchEvent(new Event('resize'));
+          if(window.ResizeObserver) {
+            var frame=target.querySelector('iframe');
+            if(frame) frame.style.width='100%';
+          }
+        },150);
+      };
+    }
+    replaceButton('chartFullscreenButton',fullscreenHandler('chartWorkspace','chartFullscreenButton'));
+    replaceButton('nfxPointFullscreenButton',fullscreenHandler('nabilReplayPointLab','nfxPointFullscreenButton'));
+    document.addEventListener('fullscreenchange',function(){
+      [['chartFullscreenButton','chartWorkspace'],['nfxPointFullscreenButton','nabilReplayPointLab']].forEach(function(pair){
+        var btn=document.getElementById(pair[0]), target=document.getElementById(pair[1]);
+        if(!btn||!target)return;
+        var active=document.fullscreenElement===target;
+        var label=active?'Exit Fullscreen':'Fullscreen Chart';
+        var span=btn.querySelector('span');
+        if(span)span.textContent=label;
+        btn.title=label;
+        btn.setAttribute('aria-label',label);
+      });
+      window.setTimeout(function(){window.dispatchEvent(new Event('resize'));},200);
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',install,{once:true});
+  else install();
+})();
+</script>
+
 </body>
 </html>
 <style>
