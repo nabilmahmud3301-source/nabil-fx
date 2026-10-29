@@ -537,38 +537,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
     <p class="hint">TradingView chart. Default timeframe: 1 hour. Use the chart toolbar to change symbols and tools.</p>
   </section>
 
-  <section id="freeReplayPanel" class="panel replay-panel">
-    <div class="chart-heading-row"><div><h2 class="view-heading">Nabil Custom Chart Lab</h2><p class="hint" style="margin:5px 0 0">Separate chart below the TradingView chart. Load supported market candles, refresh market data, or switch to historical bar replay.</p></div><span class="tiny">CUSTOM CHART · LIVE-REFRESH + REPLAY</span></div>
-    <div class="replay-grid">
-      <div class="field replay-market-field"><label for="replaySymbol">MARKET SYMBOL</label><input id="replaySymbol" type="text" placeholder="Click to choose or type any symbol" autocomplete="off" spellcheck="false" aria-expanded="false" aria-controls="replayMarketPicker"><div id="replayMarketPicker" class="replay-market-picker" hidden><div id="replayMarketResults" class="replay-market-results"><p class="hint">Loading free market list…</p></div></div></div>
-      <div class="field"><label for="replayInterval">TIMEFRAME</label><select id="replayInterval"><option value="1m">1 minute</option><option value="5m">5 minutes</option><option value="15m">15 minutes</option><option value="30m">30 minutes</option><option value="1h">1 hour</option><option value="4h">4 hours</option><option value="1d">1 day</option></select></div>
-      <div class="field"><label for="replayFrom">START DATE (OPTIONAL)</label><input id="replayFrom" type="date"></div>
-      <div class="field"><label for="replayTo">END DATE (OPTIONAL)</label><input id="replayTo" type="date"></div>
-      <div class="field"><label for="replayLimit">CANDLES TO LOAD</label><select id="replayLimit"><option value="200">200</option><option value="500" selected>500</option><option value="1000">1000 (max)</option></select></div>
-      <div class="field"><label for="replaySpeed">REPLAY SPEED</label><select id="replaySpeed"><option value="1200">0.5×</option><option value="700" selected>1×</option><option value="350">2×</option><option value="120">5×</option></select></div>
-    </div>
-    <div class="replay-actions"><button class="btn primary" id="replayLive" type="button">Load Live Market</button><button class="btn secondary" id="replayLoad" type="button">Load Historical Data</button><button class="btn secondary" id="replayStart" type="button" disabled>Start Replay</button><button class="btn secondary" id="replayPrev" type="button" disabled>← Previous</button><button class="btn secondary" id="replayPlay" type="button" disabled>▶ Play</button><button class="btn secondary" id="replayNext" type="button" disabled>Next Candle →</button><button class="btn secondary" id="replayEnd" type="button" disabled>Show All / End</button></div>
-    <div class="replay-meta"><span>Symbol: <b id="replayMetaSymbol">—</b></span><span>Visible candle: <b id="replayMetaCount">—</b></span><span>Replay time: <b id="replayMetaTime">—</b></span><span>Loaded bars: <b id="replayMetaTotal">0</b></span></div>
-    <div class="replay-chart-shell">
-      <div class="replay-topbar">
-        <div class="replay-chart-market"><span class="replay-market-dot"></span><strong id="replayChartSymbol">EURUSD</strong><span class="replay-chart-feed">Historical Replay</span></div>
-        <div class="replay-timeframes" role="group" aria-label="Chart timeframe">
-          <button type="button" data-replay-tf="1m" class="active">1m</button><button type="button" data-replay-tf="5m">5m</button><button type="button" data-replay-tf="15m">15m</button><button type="button" data-replay-tf="30m">30m</button><button type="button" data-replay-tf="1h">1H</button><button type="button" data-replay-tf="4h">4H</button><button type="button" data-replay-tf="1d">1D</button>
-        </div>
-        <div class="replay-top-actions"><button type="button" id="replaySelectPoint" title="Click a candle to start replay">⏮ Replay Point</button><button type="button" id="replayFitChart" title="Fit candles to chart">Fit</button><button type="button" id="replayGridToggle" title="Toggle chart grid">Grid</button></div>
-      </div>
-      <div class="replay-chart-stage">
-        <div class="replay-left-tools" role="toolbar" aria-label="Chart tools">
-          <button type="button" class="active" data-replay-tool="cursor" title="Cursor">↖</button><button type="button" data-replay-tool="crosshair" title="Crosshair">┼</button>
-          <span class="replay-tool-divider"></span><button type="button" data-replay-tool="trendline" title="Trend line tool">／</button><button type="button" data-replay-tool="horizontal" title="Horizontal line tool">―</button><button type="button" data-replay-tool="vertical" title="Vertical line tool">│</button><button type="button" data-replay-tool="rectangle" title="Rectangle tool">□</button>
-          <span class="replay-tool-divider"></span><button type="button" id="replayIndicatorToggle" title="Toggle EMA 20">ƒx</button>
-        </div>
-        <div id="replayChart" class="replay-chart" aria-label="Historical candle replay chart"></div>
-        <div class="replay-chart-footer"><span id="replayChartStatus">Waiting for market data</span><span>PRICE <b>USD</b></span></div>
-      </div>
-    </div>
-    <div id="replayStatus" class="replay-status" role="status">Choose a market and timeframe, then click <strong>Load Historical Data</strong>. Free data coverage and history depend on the provider.</div>
-  </section>
+  
 
 
   <section id="nabilReplayPointLab" class="panel nfx-point-lab">
@@ -1670,9 +1639,9 @@ document.addEventListener('click',event=>{
   });
 
   $('chartReplayJumpButton')?.addEventListener('click',async()=>{
-    const panel=$('freeReplayPanel');
+    const panel=$('nabilReplayPointLab');
     if(!panel)return;
-    // The replay panel is outside the fullscreen chart workspace, so leave fullscreen first.
+    // The final replay chart is below the original chart workspace, so leave fullscreen first.
     try{if(document.fullscreenElement)await document.exitFullscreen();}catch(e){}
     window.setTimeout(()=>{
       panel.scrollIntoView({behavior:'smooth',block:'start'});
