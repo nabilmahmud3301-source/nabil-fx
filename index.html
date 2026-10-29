@@ -497,7 +497,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
   <h2 class="tools-heading">Everything you need to trade with purpose.</h2>
   <p class="tools-lead">Analyze markets, test your strategy, document decisions, and manage your trading profile — all in one place.</p>
   <div class="tool-grid">
-    <article class="tool-card"><div class="tool-icon">⌁</div><h3>Advanced Chart</h3><p>Explore markets with an embedded TradingView chart and available chart tools.</p><button type="button" data-page="chart">Open Chart →</button></article>
+    <article class="tool-card"><div class="tool-icon">⌁</div><h3>Real Time Chart</h3><p>Explore markets with an embedded TradingView chart and available chart tools.</p><button type="button" data-page="chart">Open Chart →</button></article>
     <article class="tool-card"><div class="tool-icon">◈</div><h3>Backtest with AI</h3><p>Test supported strategy rules against historical candles and review performance.</p><button type="button" data-page="backtest">Run Backtest →</button></article>
     <article class="tool-card"><div class="tool-icon">▤</div><h3>Trading Journal</h3><p>Keep trade notes, review decisions, and build a consistent process.</p><button type="button" data-page="notes">Open Journal →</button></article>
     <article class="tool-card"><div class="tool-icon">◉</div><h3>Your Trading Profile</h3><p>Access your account and manage your trading workspace profile.</p><button type="button" data-page="account">Open Account →</button></article>
@@ -523,7 +523,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 <section id="page-chart" class="view">
   <section id="chartWorkspace" class="panel chart-workspace">
     <div class="chart-heading-row">
-      <h2 class="view-heading">Advanced Chart</h2>
+      <h2 class="view-heading">Real Time Chart</h2>
       <div class="chart-heading-actions">
       <button id="chartReplayJumpButton" class="chart-replay-btn" type="button" aria-label="Go to Free Bar Replay" title="Go to Free Bar Replay"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5.5h16M4 10.5h16M4 15.5h9M4 20h9M17 14l4 3-4 3v-6Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Free Bar Replay</span></button>
       <button id="chartFullscreenButton" class="chart-fullscreen-btn" type="button" aria-label="Fullscreen chart" title="Fullscreen chart"><span>Fullscreen Chart</span></button>
@@ -542,7 +542,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 
   <section id="nabilReplayPointLab" class="panel nfx-point-lab">
     <div class="chart-heading-row">
-      <div><h2 class="view-heading">Nabil Replay Point Chart</h2><p class="hint" style="margin:5px 0 0">Load candles, click Replay Point, then select a candle to hide all candles after it.</p></div>
+      <div><h2 class="view-heading">Bar Replay Chart</h2><p class="hint" style="margin:5px 0 0">Load historical candles and select a replay point to step through price action.</p></div>
       <div class="chart-heading-actions">
         <button id="nfxPointFullscreenButton" class="chart-fullscreen-btn" type="button" aria-label="Fullscreen replay chart" title="Fullscreen replay chart"><span>Fullscreen Chart</span></button>
       </div>
@@ -2536,16 +2536,17 @@ document.addEventListener('click', function(event) {
 #nfxPointSelect.active{background:#603d13;color:#ffd18a;border-color:#9b6a20}
 .nfx-point-meta{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:9px 12px;background:#101115;border:1px solid #24262c;border-bottom:0;border-radius:8px 8px 0 0;color:#aeb3bd;font-size:12px}
 .nfx-point-chart{height:510px;min-height:380px;position:relative;overflow:hidden;background:#08090c;border:1px solid #24262c;border-radius:0 0 8px 8px}
-.nfx-point-lab:fullscreen{width:100vw;height:100vh;max-width:none;margin:0;padding:10px 14px;background:#080808;border:0;border-radius:0;display:flex;flex-direction:column;gap:5px;overflow:hidden}
-.nfx-point-lab:fullscreen .chart-heading-row{justify-content:flex-end;min-height:0;margin:0;padding:0}
+.nfx-point-lab:fullscreen{width:100vw;height:100vh;max-width:none;margin:0;padding:4px 10px 8px;background:#080808;border:0;border-radius:0;display:flex;flex-direction:column;gap:2px;overflow:hidden}
+.nfx-point-lab:fullscreen .chart-heading-row{justify-content:flex-end;min-height:0;height:30px;margin:0;padding:0;flex:0 0 30px}
 .nfx-point-lab:fullscreen .chart-heading-row>div:first-child{display:none}
-.nfx-point-lab:fullscreen .nfx-point-controls{flex-shrink:0;margin:2px 0 4px;gap:7px}
-.nfx-point-lab:fullscreen .nfx-point-controls label{gap:3px}
-.nfx-point-lab:fullscreen .nfx-point-controls input,.nfx-point-lab:fullscreen .nfx-point-controls select,.nfx-point-lab:fullscreen .nfx-point-controls button{height:32px}
-.nfx-point-lab:fullscreen .nfx-point-meta{flex-shrink:0;padding:5px 10px}
-.nfx-point-lab:fullscreen .nfx-point-chart{flex:1;min-height:0;height:auto;width:100%}
-.nfx-point-lab:fullscreen>p.hint{display:none}
 .nfx-point-lab:fullscreen .chart-heading-actions{margin-left:auto}
+.nfx-point-lab:fullscreen .nfx-point-controls{flex:0 0 auto;margin:0 0 2px;gap:5px}
+.nfx-point-lab:fullscreen .nfx-point-controls label{gap:2px;font-size:9px}
+.nfx-point-lab:fullscreen .nfx-point-controls input,.nfx-point-lab:fullscreen .nfx-point-controls select,.nfx-point-lab:fullscreen .nfx-point-controls button{height:29px;min-height:29px}
+.nfx-point-lab:fullscreen .nfx-point-meta{flex:0 0 auto;padding:3px 8px;min-height:18px}
+.nfx-point-lab:fullscreen .nfx-point-chart{flex:1 1 auto;min-height:0;height:0;width:100%;margin:0}
+.nfx-point-lab:fullscreen>p.hint{display:none}
+.nfx-point-lab:fullscreen .nfx-point-chart>table{max-height:100%}
 @media(max-width:650px){.nfx-point-controls{align-items:stretch}.nfx-point-controls label{flex:1 1 30%}.nfx-point-controls button{flex:1 1 40%}.nfx-point-chart{height:430px;min-height:350px}}
 
 </style>
