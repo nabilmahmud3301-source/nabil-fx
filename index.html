@@ -558,24 +558,29 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       <button type="button" id="nfxPointPlay" disabled>▶ Play</button>
       <button type="button" id="nfxPointReset" disabled>Show All</button>
     </div>
-    <div id="nfxReplayTools" class="nfx-replay-tools" aria-label="Replay chart drawing tools and indicators">
-      <div class="nfx-tool-group"><span>DRAW</span>
-        <button type="button" data-draw="cursor" class="active">↖ Cursor</button>
-        <button type="button" data-draw="trend">／ Trend Line</button>
-        <button type="button" data-draw="horizontal">― Horizontal</button>
-        <button type="button" data-draw="vertical">│ Vertical</button>
-        <button type="button" data-draw="rectangle">▱ Rectangle</button>
-        <button type="button" data-draw="clear">⌫ Clear drawings</button>
+    <div class="nfx-replay-toolbar-row">
+      <aside id="nfxReplayDrawingBar" class="nfx-replay-drawing-bar" aria-label="Drawing tools">
+        <button type="button" data-draw="cursor" class="active" title="Cursor" aria-label="Cursor">↖</button>
+        <button type="button" data-draw="trend" title="Trend Line" aria-label="Trend Line">／</button>
+        <button type="button" data-draw="horizontal" title="Horizontal Line" aria-label="Horizontal Line">―</button>
+        <button type="button" data-draw="vertical" title="Vertical Line" aria-label="Vertical Line">│</button>
+        <button type="button" data-draw="rectangle" title="Rectangle" aria-label="Rectangle">▱</button>
+        <button type="button" data-draw="clear" title="Remove Drawings" aria-label="Remove Drawings">⌫</button>
+      </aside>
+      <div class="nfx-replay-main-tools">
+        <div class="nfx-replay-topbar"><button id="nfxOpenIndicators" type="button" class="nfx-indicators-open">▥ &nbsp; Indicators <span id="nfxActiveIndicatorCount">0</span></button><span class="nfx-tool-help">Search and apply indicators · drawing tools are on the left</span></div>
+        <div id="nfxIndicatorDialog" class="nfx-indicator-dialog" hidden>
+          <div class="nfx-indicator-dialog-head"><strong>Indicators, Metrics & Strategies</strong><button id="nfxCloseIndicators" type="button" aria-label="Close indicators">×</button></div>
+          <input id="nfxIndicatorSearch" type="search" placeholder="Search indicators (e.g. EMA, RSI, MACD)..." autocomplete="off">
+          <div id="nfxIndicatorResults" class="nfx-indicator-results"></div>
+          <p>Choose an indicator to apply it. Select it again to remove it.</p>
+        </div>
       </div>
-      <div class="nfx-tool-group"><span>INDICATORS</span>
-        <label class="nfx-indicator-check"><input type="checkbox" id="nfxIndEma20"> EMA 20</label>
-        <label class="nfx-indicator-check"><input type="checkbox" id="nfxIndEma50"> EMA 50</label>
-        <label class="nfx-indicator-check"><input type="checkbox" id="nfxIndSma200"> SMA 200</label>
-        <label class="nfx-indicator-check"><input type="checkbox" id="nfxIndBollinger"> Bollinger Bands</label>
-        <label class="nfx-indicator-check"><input type="checkbox" id="nfxIndRsi"> RSI 14</label>
-        <label class="nfx-indicator-check"><input type="checkbox" id="nfxIndMacd"> MACD 12/26/9</label>
-      </div>
-      <p class="nfx-tool-help">Choose a drawing tool, then click/drag on the chart. Indicators update with the visible replay candles.</p>
+    </div>
+    <div id="nfxIndicatorSelections" hidden>
+      <input type="checkbox" id="nfxIndEma9" data-indicator="ema9"><input type="checkbox" id="nfxIndEma20" data-indicator="ema20"><input type="checkbox" id="nfxIndEma50" data-indicator="ema50"><input type="checkbox" id="nfxIndEma100" data-indicator="ema100"><input type="checkbox" id="nfxIndEma200" data-indicator="ema200">
+      <input type="checkbox" id="nfxIndSma20" data-indicator="sma20"><input type="checkbox" id="nfxIndSma50" data-indicator="sma50"><input type="checkbox" id="nfxIndSma100" data-indicator="sma100"><input type="checkbox" id="nfxIndSma200" data-indicator="sma200">
+      <input type="checkbox" id="nfxIndBollinger" data-indicator="bollinger"><input type="checkbox" id="nfxIndRsi" data-indicator="rsi"><input type="checkbox" id="nfxIndMacd" data-indicator="macd">
     </div>
     <div class="nfx-point-meta"><span id="nfxPointStatus">Choose a symbol and click Load Data.</span><span id="nfxPointCount">0 candles</span></div>
     <div id="nfxPointChart" class="nfx-point-chart" aria-label="Nabil custom replay point candle chart"></div>
@@ -2418,11 +2423,12 @@ document.addEventListener('click', function(event) {
     if(!chart||!candles)return;
     const closes=visible.map(b=>b.close), times=visible.map(b=>b.time);
     const configs=[
-      ['ema20','nfxIndEma20',20,'#f4c95d'],['ema50','nfxIndEma50',50,'#5ab0ff'],['sma200','nfxIndSma200',200,'#d68cff']
+      ['ema9','nfxIndEma9',9,'#f0d264','ema'],['ema20','nfxIndEma20',20,'#f4c95d','ema'],['ema50','nfxIndEma50',50,'#5ab0ff','ema'],['ema100','nfxIndEma100',100,'#ee8d58','ema'],['ema200','nfxIndEma200',200,'#d68cff','ema'],
+      ['sma20','nfxIndSma20',20,'#9ee27d','sma'],['sma50','nfxIndSma50',50,'#60d4c5','sma'],['sma100','nfxIndSma100',100,'#dca4ff','sma'],['sma200','nfxIndSma200',200,'#ff8eaa','sma']
     ];
-    configs.forEach(([id,checkbox,period,color])=>{
+    configs.forEach(([id,checkbox,period,color,type])=>{
       const enabled=$(checkbox)?.checked;
-      if(enabled){const d=ema(closes,period).map(p=>({time:times[p.index],value:p.value}));setLine(id,d,color,2);}
+      if(enabled){const calc=type==='ema'?ema(closes,period):sma(closes,period);const d=calc.map(p=>({time:times[p.index],value:p.value}));setLine(id,d,color,2);}
       else if(indicatorSeries[id]){chart.removeSeries(indicatorSeries[id]);delete indicatorSeries[id];}
     });
     if($('nfxIndBollinger')?.checked){
@@ -2462,7 +2468,25 @@ document.addEventListener('click', function(event) {
       drawCanvas.classList.toggle('drawing-active',drawMode!=='cursor');
       status(drawMode==='cursor'?'Cursor selected.':drawMode+' selected — click or drag on the chart to draw.');
     }));
-    ['nfxIndEma20','nfxIndEma50','nfxIndSma200','nfxIndBollinger','nfxIndRsi','nfxIndMacd'].forEach(id=>$(id).addEventListener('change',()=>{if(allBars.length)updateIndicators(allBars.slice(0,visibleIndex+1));}));
+    const catalog=[
+      ['ema9','EMA 9','Moving average'],['ema20','EMA 20','Moving average'],['ema50','EMA 50','Moving average'],['ema100','EMA 100','Moving average'],['ema200','EMA 200','Moving average'],
+      ['sma20','SMA 20','Moving average'],['sma50','SMA 50','Moving average'],['sma100','SMA 100','Moving average'],['sma200','SMA 200','Moving average'],
+      ['bollinger','Bollinger Bands','Volatility'],['rsi','Relative Strength Index (RSI) 14','Momentum'],['macd','MACD 12/26/9','Momentum']
+    ];
+    const renderIndicatorResults=()=>{
+      const query=($('nfxIndicatorSearch').value||'').trim().toLowerCase(),box=$('nfxIndicatorResults');box.innerHTML='';
+      const filtered=catalog.filter(x=>(x[0]+' '+x[1]+' '+x[2]).toLowerCase().includes(query));
+      if(!filtered.length){box.innerHTML='<p style="padding:10px;color:#aab0bd;font-size:12px">No matching indicator in this chart’s current library.</p>';return;}
+      filtered.forEach(([id,name,category])=>{const row=document.createElement('button');row.type='button';row.className='nfx-indicator-result'+($(indicatorId(id)).checked?' applied':'');row.innerHTML='<span>'+name+'</span><small>'+($(indicatorId(id)).checked?'✓ Applied · click to remove':category+' · click to apply')+'</small>';row.addEventListener('click',()=>{const input=$(indicatorId(id));input.checked=!input.checked;row.classList.toggle('applied',input.checked);if(allBars.length)updateIndicators(allBars.slice(0,visibleIndex+1));renderIndicatorResults();updateIndicatorCount();});box.appendChild(row);});
+    };
+    function indicatorId(id){return ({bollinger:'nfxIndBollinger',rsi:'nfxIndRsi',macd:'nfxIndMacd'})[id]||('nfxInd'+id.charAt(0).toUpperCase()+id.slice(1));}
+    function updateIndicatorCount(){$('nfxActiveIndicatorCount').textContent=catalog.filter(x=>$(indicatorId(x[0])).checked).length;}
+    $('nfxOpenIndicators').addEventListener('click',()=>{$('nfxIndicatorDialog').hidden=!$('nfxIndicatorDialog').hidden;if(!$('nfxIndicatorDialog').hidden){$('nfxIndicatorSearch').focus();renderIndicatorResults();}});
+    $('nfxCloseIndicators').addEventListener('click',()=>$('nfxIndicatorDialog').hidden=true);
+    $('nfxIndicatorSearch').addEventListener('input',renderIndicatorResults);
+    document.addEventListener('click',e=>{if(!$('nfxIndicatorDialog').hidden&&!$('nfxIndicatorDialog').contains(e.target)&&e.target!==$('nfxOpenIndicators')&&!$('nfxOpenIndicators').contains(e.target))$('nfxIndicatorDialog').hidden=true;});
+    catalog.forEach(([id])=>$(indicatorId(id)).addEventListener('change',()=>{if(allBars.length)updateIndicators(allBars.slice(0,visibleIndex+1));updateIndicatorCount();renderIndicatorResults();}));
+    updateIndicatorCount();renderIndicatorResults();
     drawCanvas.addEventListener('pointerdown',e=>{if(drawMode==='cursor'||!allBars.length)return;const p=pointAt(e);if(!p)return;drawingStart=p;draftDrawing={type:drawMode,p1:p,p2:p};drawCanvas.setPointerCapture(e.pointerId);drawAll();});
     drawCanvas.addEventListener('pointermove',e=>{if(!drawingStart||!draftDrawing)return;draftDrawing.p2=pointAt(e)||draftDrawing.p2;drawAll();});
     drawCanvas.addEventListener('pointerup',e=>{if(!drawingStart||!draftDrawing)return;draftDrawing.p2=pointAt(e)||draftDrawing.p2;drawings.push(draftDrawing);draftDrawing=null;drawingStart=null;drawAll();});
@@ -2640,6 +2664,32 @@ document.addEventListener('click', function(event) {
 .showcase-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;filter:none!important;transform:none!important}
 #page-home .video-card:hover .showcase-image{transform:scale(1.025)!important;transition:transform .35s ease}
 @media(prefers-reduced-motion:reduce){.showcase-image{transition:none!important}}
+
+/* TradingView-inspired replay toolbar: vertical drawings + searchable indicators */
+.nfx-replay-toolbar-row{display:flex;align-items:stretch;gap:0;position:relative;border:1px solid #292c34;background:#0c0e13;min-height:390px}
+.nfx-replay-drawing-bar{width:48px;flex:0 0 48px;display:flex;flex-direction:column;align-items:center;gap:5px;padding:9px 5px;border-right:1px solid #292c34;background:#101218}
+.nfx-replay-drawing-bar button{width:35px;height:35px;border:1px solid transparent;border-radius:6px;background:transparent;color:#d8dbe3;font-size:20px;cursor:pointer}
+.nfx-replay-drawing-bar button:hover,.nfx-replay-drawing-bar button.active{background:#282d39;border-color:#50596c;color:#fff}
+.nfx-replay-main-tools{position:relative;flex:1;min-width:0}
+.nfx-replay-topbar{display:flex;align-items:center;gap:12px;min-height:52px;padding:8px 12px;border-bottom:1px solid #292c34;flex-wrap:wrap}
+.nfx-indicators-open{height:34px;padding:0 13px;border:1px solid #3a3e49;border-radius:7px;background:#191c24;color:#f2f3f7;font-weight:750;cursor:pointer}
+.nfx-indicators-open:hover{border-color:#a8b2c8;background:#242936}
+.nfx-indicators-open span{display:inline-grid;place-items:center;min-width:19px;height:19px;margin-left:7px;border-radius:5px;background:#343a48;font-size:11px}
+.nfx-indicator-dialog{position:absolute;top:46px;left:12px;width:min(360px,calc(100% - 24px));z-index:30;padding:12px;border:1px solid #414653;border-radius:10px;background:#171a21;box-shadow:0 14px 40px #000b}
+.nfx-indicator-dialog[hidden]{display:none}
+.nfx-indicator-dialog-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-size:13px}
+.nfx-indicator-dialog-head button{border:0;background:transparent;color:#ddd;font-size:23px;cursor:pointer}
+#nfxIndicatorSearch{width:100%;height:38px;padding:0 10px;border:1px solid #414653;border-radius:6px;background:#0c0e13;color:#f4f4f5;outline:none}
+#nfxIndicatorSearch:focus{border-color:#8a9abc}
+.nfx-indicator-results{display:grid;gap:3px;max-height:275px;overflow:auto;margin-top:9px}
+.nfx-indicator-result{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;padding:9px 10px;border:1px solid transparent;border-radius:6px;background:transparent;color:#e6e8ee;text-align:left;cursor:pointer}
+.nfx-indicator-result:hover{background:#292e3a}.nfx-indicator-result.applied{background:#202a26;border-color:#3a6555}
+.nfx-indicator-result small{color:#9da5b5;font-size:10px}
+.nfx-indicator-dialog>p{margin:9px 0 0;color:#9ca3b2;font-size:10px}
+.nfx-point-chart{position:relative;min-width:0}
+.nfx-drawing-overlay{position:absolute;inset:0;width:100%;height:100%;z-index:6;pointer-events:none;touch-action:none}
+.nfx-drawing-overlay.drawing-active{pointer-events:auto;cursor:crosshair}
+@media(max-width:650px){.nfx-replay-drawing-bar{width:40px;flex-basis:40px}.nfx-replay-drawing-bar button{width:30px;height:32px}.nfx-replay-topbar{padding:7px}.nfx-tool-help{font-size:10px}}
 
 /* Replay chart drawing and indicator toolbar */
 .nfx-replay-tools{display:grid;gap:8px;padding:10px 12px;border:1px solid #282a31;border-bottom:0;background:#0d0e12}
