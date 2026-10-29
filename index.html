@@ -2478,6 +2478,7 @@ document.addEventListener('click', function(event) {
     document.querySelectorAll('[data-draw]').forEach(btn=>btn.addEventListener('click',()=>{
       const mode=btn.dataset.draw;
       if(mode==='clear'){drawings=[];draftDrawing=null;drawAll();return;}
+      if(mode==='undo'){drawings.pop();draftDrawing=null;drawAll();status('Last drawing removed.');return;}
       drawMode=mode;document.querySelectorAll('[data-draw]').forEach(b=>b.classList.toggle('active',b===btn));
       drawCanvas.classList.toggle('drawing-active',drawMode!=='cursor');
       status(drawMode==='cursor'?'Cursor selected.':drawMode+' selected — click or drag on the chart to draw.');
@@ -2515,7 +2516,7 @@ document.addEventListener('click', function(event) {
     items.forEach(d=>{
       const x1=d.type==='horizontal'?0:chart.timeScale().timeToCoordinate(d.p1.time);
       const rawX2=(d.type==='horizontal'||d.type==='vertical')?x1:chart.timeScale().timeToCoordinate(d.p2.time);
-      const x2=(d.type==='ray'||d.type==='hRay')?w:rawX2;
+      const x2=(d.type==='ray'||d.type==='hRay'||d.type==='extended')?w:rawX2;
       const y1=candles.priceToCoordinate(d.p1.price);
       const y2=d.type==='vertical'?0:candles.priceToCoordinate(d.p2.price);
       if([x1,x2,y1,y2].some(v=>v===null||v===undefined||!Number.isFinite(v)))return;
@@ -2526,6 +2527,7 @@ document.addEventListener('click', function(event) {
       else if(d.type==='cross'){drawCtx.moveTo(0,y1);drawCtx.lineTo(w,y1);drawCtx.moveTo(x1,0);drawCtx.lineTo(x1,h);drawCtx.stroke();}
       else if(d.type==='rectangle'){drawCtx.rect(x1,y1,x2-x1,y2-y1);drawCtx.fill();drawCtx.stroke();}
       else if(d.type==='circle'){const cx=(x1+x2)/2,cy=(y1+y2)/2,rx=Math.abs(x2-x1)/2,ry=Math.abs(y2-y1)/2;drawCtx.beginPath();drawCtx.ellipse(cx,cy,Math.max(1,rx),Math.max(1,ry),0,0,Math.PI*2);drawCtx.fill();drawCtx.stroke();}
+      else if(d.type==='extended'){const dx=x2-x1,dy=y2-y1,slope=Math.abs(dx)<.001?0:dy/dx;drawCtx.moveTo(0,y1-slope*x1);drawCtx.lineTo(w,y1+slope*(w-x1));drawCtx.stroke();}
       else if(d.type==='text'){drawCtx.font='13px Arial';drawCtx.fillStyle='#f6bd55';drawCtx.fillText(d.text||'',x1,y1);drawCtx.fillStyle='rgba(246,189,85,.12)';}
       else if(d.type==='brush'){const pts=d.points||[];if(pts.length){drawCtx.beginPath();drawCtx.moveTo(pts[0].x,pts[0].y);pts.slice(1).forEach(p=>drawCtx.lineTo(p.x,p.y));drawCtx.stroke();}}
       else if(d.type==='parallel'){drawCtx.moveTo(x1,y1);drawCtx.lineTo(x2,y2);drawCtx.moveTo(x1,y1+24);drawCtx.lineTo(x2,y2+24);drawCtx.stroke();}
