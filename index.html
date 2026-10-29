@@ -261,7 +261,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 }
 
 /* Free historical bar replay */
-.replay-panel{margin-top:16px;padding:16px}.replay-grid{display:grid;grid-template-columns:repeat(6,minmax(110px,1fr));gap:10px;align-items:end}.replay-grid .field{margin:0}.replay-grid input,.replay-grid select{width:100%;min-width:0}.replay-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.replay-actions button{min-height:39px}.replay-chart{height:520px;width:100%;margin-top:14px;border:1px solid #292929;border-radius:10px;overflow:hidden;background:#080808}.replay-status{margin-top:10px;color:#bbb;font-size:13px;line-height:1.5}.replay-status strong{color:#ff5364}.replay-meta{display:flex;flex-wrap:wrap;gap:16px;margin-top:10px;color:#bbb;font-size:13px}.replay-meta b{color:#fff}@media(max-width:900px){.replay-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:600px){.replay-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.replay-chart{height:420px}.replay-panel{padding:11px}}
+.replay-panel{margin-top:16px;padding:16px}.replay-grid{display:grid;grid-template-columns:repeat(6,minmax(110px,1fr));gap:10px;align-items:end}.replay-grid .field{margin:0}.replay-grid input,.replay-grid select{width:100%;min-width:0}.replay-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.replay-actions button{min-height:39px}.replay-chart{position:relative!important;display:block!important;isolation:isolate;width:100%;height:520px;min-height:520px;margin-top:14px;border:1px solid #292929;border-radius:10px;overflow:hidden;background:#080808!important;color:#c8c8c8;box-sizing:border-box}.replay-chart>div{max-width:100%}.replay-chart canvas{display:block!important}.replay-status{margin-top:10px;color:#bbb;font-size:13px;line-height:1.5}.replay-status strong{color:#ff5364}.replay-meta{display:flex;flex-wrap:wrap;gap:16px;margin-top:10px;color:#bbb;font-size:13px}.replay-meta b{color:#fff}@media(max-width:900px){.replay-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:600px){.replay-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.replay-chart{height:420px}.replay-panel{padding:11px}}
 
 </style>
 <style>
@@ -1405,18 +1405,24 @@ document.addEventListener('click',event=>{
   }
   function replayMakeChart(){
     if(replayChart || !replayEls.chart || !window.LightweightCharts) return;
+    // The replay panel can be initialized while its parent page is hidden.
+    // Give the chart a stable dark canvas, then resize it again once visible.
+    replayEls.chart.style.setProperty('background','#080808','important');
+    replayEls.chart.style.position='relative';
+    const rect=replayEls.chart.getBoundingClientRect();
     replayChart=LightweightCharts.createChart(replayEls.chart,{
-      width:Math.max(320,replayEls.chart.clientWidth),height:Math.max(320,replayEls.chart.clientHeight),
+      width:Math.max(320,Math.floor(rect.width||replayEls.chart.clientWidth||320)),
+      height:Math.max(420,Math.floor(rect.height||replayEls.chart.clientHeight||520)),
       layout:{background:{type:'solid',color:'#080808'},textColor:'#c8c8c8'},
       grid:{vertLines:{color:'#1c1c1c'},horzLines:{color:'#1c1c1c'}},
-      rightPriceScale:{borderColor:'#333'},timeScale:{borderColor:'#333',timeVisible:true,secondsVisible:false},
+      rightPriceScale:{borderColor:'#333',visible:true},timeScale:{borderColor:'#333',timeVisible:true,secondsVisible:false,visible:true},
       crosshair:{mode:LightweightCharts.CrosshairMode.Normal},
       handleScroll:true,handleScale:true
     });
-    replaySeries=replayChart.addCandlestickSeries({upColor:'#18b981',downColor:'#ff5267',borderUpColor:'#18b981',borderDownColor:'#ff5267',wickUpColor:'#18b981',wickDownColor:'#ff5267'});
-    new ResizeObserver(()=>{replayResizeChart();}).observe(replayEls.chart);
-    // Recalculate dimensions when the Chart page becomes visible after navigation.
-    window.addEventListener('resize',()=>{replayResizeChart();});
+    replaySeries=replayChart.addCandlestickSeries({upColor:'#18b981',downColor:'#ff5267',borderUpColor:'#18b981',borderDownColor:'#ff5267',wickUpColor:'#18b981',wickDownColor:'#ff5267',priceLineVisible:true,lastValueVisible:true});
+    if(window.ResizeObserver)new ResizeObserver(()=>{if(replayResizeChart()&&replayBars.length&&replayIndex>=0)replayRender();}).observe(replayEls.chart);
+    window.addEventListener('resize',()=>{if(replayResizeChart()&&replayBars.length&&replayIndex>=0)replayRender();});
+    requestAnimationFrame(()=>{replayResizeChart();if(replayBars.length&&replayIndex>=0)replayRender();});
   }
   function replaySetButtons(loaded){
     ['start','prev','play','next','end'].forEach(k=>{if(replayEls[k])replayEls[k].disabled=!loaded;});
@@ -1442,15 +1448,20 @@ document.addEventListener('click',event=>{
     return true;
   }
   function replayRender(){
-    if(!replaySeries||replayIndex<0)return;
+    if(!replaySeries||replayIndex<0||!replayBars.length)return;
     if(!replayResizeChart()){
       requestAnimationFrame(()=>{if(replayResizeChart()&&replaySeries&&replayIndex>=0)replayRender();});
       return;
     }
-    replaySeries.setData(replayBars.slice(0,replayIndex+1));
+    const visibleBars=replayBars.slice(0,replayIndex+1);
+    // Always send a clean, validated OHLC series to the chart library.
+    replaySeries.setData(visibleBars);
+    replayChart.applyOptions({layout:{background:{type:'solid',color:'#080808'},textColor:'#c8c8c8'}});
     replayChart.timeScale().fitContent();
-    const left=Math.max(0,replayIndex-80);
-    replayChart.timeScale().setVisibleLogicalRange({from:left,to:Math.max(30,replayIndex+8)});
+    if(visibleBars.length>1){
+      const from=Math.max(0,visibleBars.length-80);
+      replayChart.timeScale().setVisibleLogicalRange({from,to:Math.max(from+30,visibleBars.length+8)});
+    }
     replayUpdateMeta();
   }
   function replayStep(delta){
