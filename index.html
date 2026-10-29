@@ -558,9 +558,8 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       <button type="button" id="nfxPointPlay" disabled>▶ Play</button>
       <button type="button" id="nfxPointReset" disabled>Show All</button>
     </div>
-    <div class="nfx-replay-toolbar" aria-label="Replay chart tools"><div class="nfx-replay-market"><span class="nfx-replay-live-dot"></span><strong id="nfxReplayMarketName">EURUSD</strong><span id="nfxReplayMarketTf">1H</span><span class="nfx-replay-feed-label">BAR REPLAY</span></div><div class="nfx-replay-indicators"><span>Indicators</span><button type="button" id="nfxReplayEma" aria-pressed="false">EMA 20</button><button type="button" id="nfxReplaySma" aria-pressed="false">SMA 50</button></div></div>
     <div class="nfx-point-meta"><span id="nfxPointStatus">Choose a symbol and click Load Data.</span><span id="nfxPointCount">0 candles</span></div>
-    <div class="nfx-point-chart-wrap"><div class="nfx-replay-drawing-tools" aria-label="Drawing tools"><button type="button" data-nfx-draw="cursor" class="active" title="Cursor" aria-label="Cursor">↖</button><button type="button" data-nfx-draw="trendline" title="Trend line" aria-label="Trend line">╱</button><button type="button" data-nfx-draw="horizontal" title="Horizontal line" aria-label="Horizontal line">―</button><button type="button" data-nfx-draw="rectangle" title="Rectangle" aria-label="Rectangle">▱</button><span></span><button type="button" id="nfxReplayUndo" title="Undo last drawing" aria-label="Undo last drawing">↶</button><button type="button" id="nfxReplayClear" title="Clear drawings" aria-label="Clear drawings">⌫</button></div><div id="nfxPointChart" class="nfx-point-chart" aria-label="Nabil Bar Replay Chart with drawing tools"></div><svg id="nfxReplayDrawLayer" class="nfx-replay-draw-layer" aria-label="Chart drawing overlay"></svg></div>
+    <div id="nfxPointChart" class="nfx-point-chart" aria-label="Nabil custom replay point candle chart"></div>
     <p class="hint">Free market-data availability depends on the symbol and provider. Replay Point works on this new chart only; the two charts above remain unchanged.</p>
   </section>
 
