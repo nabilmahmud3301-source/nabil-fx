@@ -2430,15 +2430,22 @@ document.addEventListener('click', function(event) {
         });
       });
     }
-    replaceButton('chartReplayJumpButton',function(btn){
+    replaceButton('chartReplayJumpButton',async function(btn){
       var target=document.getElementById('nabilReplayPointLab');
       if(!target){throw new Error('Replay Point chart section not found');}
-      // Ensure Chart page is visible if page navigation has hidden it.
+      // The replay section is outside Advanced Chart fullscreen, so exit fullscreen first.
+      if(document.fullscreenElement && document.fullscreenElement.id==='chartWorkspace'){
+        await document.exitFullscreen();
+      }else if(document.fullscreenElement){
+        await document.exitFullscreen();
+      }
       if(typeof window.showNabilPage==='function') window.showNabilPage('chart');
-      target.scrollIntoView({behavior:'smooth',block:'start'});
-      target.style.outline='2px solid #ff5364';
-      target.style.outlineOffset='4px';
-      window.setTimeout(function(){target.style.outline='';target.style.outlineOffset='';},1600);
+      window.setTimeout(function(){
+        target.scrollIntoView({behavior:'smooth',block:'start'});
+        target.style.outline='2px solid #ff5364';
+        target.style.outlineOffset='4px';
+        window.setTimeout(function(){target.style.outline='';target.style.outlineOffset='';},1600);
+      },180);
       btn.title='Jumped to Nabil Replay Point Chart';
     });
     function fullscreenHandler(targetId,buttonId){
@@ -2529,10 +2536,16 @@ document.addEventListener('click', function(event) {
 #nfxPointSelect.active{background:#603d13;color:#ffd18a;border-color:#9b6a20}
 .nfx-point-meta{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:9px 12px;background:#101115;border:1px solid #24262c;border-bottom:0;border-radius:8px 8px 0 0;color:#aeb3bd;font-size:12px}
 .nfx-point-chart{height:510px;min-height:380px;position:relative;overflow:hidden;background:#08090c;border:1px solid #24262c;border-radius:0 0 8px 8px}
-.nfx-point-lab:fullscreen{width:100vw;height:100vh;max-width:none;margin:0;padding:14px;background:#080808;border:0;border-radius:0;display:flex;flex-direction:column;gap:10px;overflow:auto}
-.nfx-point-lab:fullscreen .nfx-point-chart{flex:1;min-height:0;height:auto}
-.nfx-point-lab:fullscreen .nfx-point-meta{flex-shrink:0}
-.nfx-point-lab:fullscreen .nfx-point-controls{flex-shrink:0}
+.nfx-point-lab:fullscreen{width:100vw;height:100vh;max-width:none;margin:0;padding:10px 14px;background:#080808;border:0;border-radius:0;display:flex;flex-direction:column;gap:5px;overflow:hidden}
+.nfx-point-lab:fullscreen .chart-heading-row{justify-content:flex-end;min-height:0;margin:0;padding:0}
+.nfx-point-lab:fullscreen .chart-heading-row>div:first-child{display:none}
+.nfx-point-lab:fullscreen .nfx-point-controls{flex-shrink:0;margin:2px 0 4px;gap:7px}
+.nfx-point-lab:fullscreen .nfx-point-controls label{gap:3px}
+.nfx-point-lab:fullscreen .nfx-point-controls input,.nfx-point-lab:fullscreen .nfx-point-controls select,.nfx-point-lab:fullscreen .nfx-point-controls button{height:32px}
+.nfx-point-lab:fullscreen .nfx-point-meta{flex-shrink:0;padding:5px 10px}
+.nfx-point-lab:fullscreen .nfx-point-chart{flex:1;min-height:0;height:auto;width:100%}
+.nfx-point-lab:fullscreen>p.hint{display:none}
+.nfx-point-lab:fullscreen .chart-heading-actions{margin-left:auto}
 @media(max-width:650px){.nfx-point-controls{align-items:stretch}.nfx-point-controls label{flex:1 1 30%}.nfx-point-controls button{flex:1 1 40%}.nfx-point-chart{height:430px;min-height:350px}}
 
 </style>
