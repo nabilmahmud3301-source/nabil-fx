@@ -456,6 +456,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
   <nav class="site-nav" aria-label="Main navigation">
     <button class="nav-btn active" data-page="home">Home</button>
     <button class="nav-btn" data-page="chart">Chart/Bar Replay</button>
+    <button class="nav-btn" data-page="liquidity">Liquidity Heatmap</button>
     <button class="nav-btn" data-page="backtest">Backtest with AI</button>
     <button class="nav-btn" data-page="notes">Journal/Notes</button>
     <button class="nav-btn" data-page="contact" id="contactUsNav" type="button">Contact Us</button>
@@ -529,6 +530,44 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
         </a>
       </div>
       </section>
+
+
+<section id="page-liquidity" class="view nfx-liquidity-page" aria-label="Liquidity Heatmap">
+  <div class="nfx-liq-hero">
+    <div><div class="nfx-liq-eyebrow"><span class="nfx-liq-pulse"></span> MARKET DEPTH WORKSPACE</div><h1>Liquidity Heatmap</h1><p>Order-book liquidity, market depth and feed status in one workspace.</p></div>
+    <div class="nfx-liq-hero-badge">NABIL FX <span>MARKET TOOLS</span></div>
+  </div>
+  <div class="nfx-liq-market-tabs" role="tablist" aria-label="Market type">
+    <button type="button" class="nfx-liq-market-tab active" data-liq-market="crypto" role="tab" aria-selected="true">Crypto</button>
+    <button type="button" class="nfx-liq-market-tab" data-liq-market="forex" role="tab" aria-selected="false">Forex</button>
+    <button type="button" class="nfx-liq-market-tab" data-liq-market="metals" role="tab" aria-selected="false">Metals</button>
+    <button type="button" class="nfx-liq-market-tab" data-liq-market="indices" role="tab" aria-selected="false">Indices</button>
+    <button type="button" class="nfx-liq-market-tab" data-liq-market="futures" role="tab" aria-selected="false">Futures</button>
+    <button type="button" class="nfx-liq-market-tab" data-liq-market="commodities" role="tab" aria-selected="false">Commodities</button>
+  </div>
+  <section class="nfx-liq-panel" id="nfxLiqLivePanel">
+    <div class="nfx-liq-panel-head"><div><div class="nfx-liq-kicker">CRYPTO ORDER BOOK</div><h2>Live Liquidity Heatmap</h2><p>Live public order-book depth from Binance Spot. Shows visible bids and asks, not the full market.</p></div><div class="nfx-liq-status" id="nfxLiqConnection"><i></i><span>Connecting feed…</span></div></div>
+    <div class="nfx-liq-controls">
+      <label>MARKET <select id="nfxLiqSymbol"><option value="btcusdt">BTC / USDT</option><option value="ethusdt">ETH / USDT</option><option value="bnbusdt">BNB / USDT</option><option value="solusdt">SOL / USDT</option><option value="xrpusdt">XRP / USDT</option><option value="dogeusdt">DOGE / USDT</option><option value="adausdt">ADA / USDT</option><option value="linkusdt">LINK / USDT</option></select></label>
+      <div class="nfx-liq-stat"><span>BEST BID</span><strong id="nfxLiqBestBid">—</strong></div><div class="nfx-liq-stat"><span>BEST ASK</span><strong id="nfxLiqBestAsk">—</strong></div><div class="nfx-liq-stat"><span>SPREAD</span><strong id="nfxLiqSpread">—</strong></div><div class="nfx-liq-stat"><span>LAST UPDATE</span><strong id="nfxLiqUpdated">—</strong></div>
+    </div>
+    <div class="nfx-liq-legend"><span><i class="nfx-liq-ask-key"></i> ASK LIQUIDITY</span><span><i class="nfx-liq-bid-key"></i> BID LIQUIDITY</span><span class="nfx-liq-legend-note">Brighter bar = larger visible order size</span></div>
+    <div class="nfx-liq-book">
+      <div class="nfx-liq-book-side nfx-liq-asks"><div class="nfx-liq-book-title"><span>ASKS · SELL ORDERS</span><span>PRICE / SIZE</span></div><div id="nfxLiqAsks" class="nfx-liq-levels"><div class="nfx-liq-empty">Waiting for live order book…</div></div></div>
+      <div class="nfx-liq-mid"><span>MARKET MID</span><strong id="nfxLiqMid">—</strong><small>USDT</small></div>
+      <div class="nfx-liq-book-side nfx-liq-bids"><div class="nfx-liq-book-title"><span>BIDS · BUY ORDERS</span><span>PRICE / SIZE</span></div><div id="nfxLiqBids" class="nfx-liq-levels"><div class="nfx-liq-empty">Waiting for live order book…</div></div></div>
+    </div>
+    <div class="nfx-liq-foot"><span>Source: Binance public Spot depth stream</span><span>Feed status is shown live; reconnects automatically.</span></div>
+  </section>
+  <section class="nfx-liq-panel nfx-liq-unavailable" id="nfxLiqProviderPanel" hidden>
+    <div class="nfx-liq-provider-icon">◈</div><div class="nfx-liq-kicker">MARKET DATA CONNECTION</div><h2 id="nfxLiqProviderTitle">Forex Liquidity Heatmap</h2>
+    <div class="nfx-liq-provider-badge">ORDER-BOOK FEED NOT CONNECTED</div>
+    <p id="nfxLiqProviderDescription">A verified order-book provider is required to display real liquidity.</p>
+    <div class="nfx-liq-provider-grid"><div><strong>We will not fake live data</strong><span>No simulated liquidity or made-up delay labels.</span></div><div><strong>Delay shown only when verified</strong><span>5m / 10m / 15m labels will be used only when a provider confirms that delay.</span></div><div><strong>Market-specific data needed</strong><span>Forex is decentralised; gold, indices and futures may require venue-specific depth feeds.</span></div></div>
+    <div class="nfx-liq-provider-note">This market section is ready in the workspace, but a reliable free order-book liquidity feed for this asset class has not been connected yet.</div>
+  </section>
+  <p class="nfx-liq-disclaimer">Market depth is venue-specific. Binance Spot depth represents visible orders on Binance only; it is not total global liquidity and can change or be cancelled rapidly.</p>
+</section>
 
 <section id="page-chart" class="view">
   <div class="chart-mode-switch" role="tablist" aria-label="Chart workspace mode"><button type="button" class="chart-mode-tab active" data-chart-mode="live" role="tab" aria-selected="true">↗ Real-Time Chart</button><button type="button" class="chart-mode-tab" data-chart-mode="replay" role="tab" aria-selected="false">⏮ Bar Replay</button><span class="chart-mode-caption">Live market chart and historical replay are separate workspaces.</span></div>
@@ -1265,7 +1304,7 @@ document.addEventListener('click',event=>{
 
 /* Trading chart and page navigation */
 (function(){
-  const pages=['home','chart','backtest','notes','journal','account','contact'];
+  const pages=['home','chart','liquidity','backtest','notes','journal','account','contact'];
 
   function show(page){
     pages.forEach(p=>{
@@ -2710,6 +2749,120 @@ document.addEventListener('click', function(event) {
  #page-chart #nabilReplayPointLab .nfx-point-chart{height:500px!important;min-height:420px!important}
 }
 </style>
+
+<style id="nfx-liquidity-heatmap-styles">
+.nfx-liquidity-page{max-width:1500px;margin:0 auto;padding:clamp(18px,3vw,36px)!important;color:#edf0f7}
+.nfx-liq-hero{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:12px 0 26px}
+.nfx-liq-eyebrow,.nfx-liq-kicker{display:flex;align-items:center;gap:8px;color:#aab3c4;font-size:10px;font-weight:850;letter-spacing:.16em}
+.nfx-liq-pulse{width:7px;height:7px;border-radius:50%;background:#52d6a3;box-shadow:0 0 12px #52d6a388}
+.nfx-liq-hero h1{margin:10px 0 7px;font-size:clamp(30px,4vw,46px);letter-spacing:-.045em}
+.nfx-liq-hero p{margin:0;color:#9aa3b3;font-size:13px}
+.nfx-liq-hero-badge{padding:12px 15px;border:1px solid #303847;border-radius:10px;background:linear-gradient(135deg,#151a24,#0c0f15);font-size:11px;font-weight:900;letter-spacing:.13em;white-space:nowrap}
+.nfx-liq-hero-badge span{display:block;margin-top:5px;color:#8f99aa;font-size:8px;letter-spacing:.18em}
+.nfx-liq-market-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px;padding:7px;border:1px solid #252b36;border-radius:12px;background:#0d1016}
+.nfx-liq-market-tab{border:1px solid transparent;border-radius:8px;padding:10px 17px;background:transparent;color:#a8b0bf;font-size:12px;font-weight:750;cursor:pointer}
+.nfx-liq-market-tab:hover{color:#fff;background:#1a202b}
+.nfx-liq-market-tab.active{background:#1b302d;border-color:#28584e;color:#8bf0c8}
+.nfx-liq-panel{padding:clamp(14px,2vw,24px);border:1px solid #29303c;border-radius:15px;background:radial-gradient(ellipse at 15% 0%,#16201f 0,transparent 42%),#0b0e14;box-shadow:0 18px 60px #0002}
+.nfx-liq-panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px}
+.nfx-liq-panel-head h2,.nfx-liq-unavailable h2{margin:8px 0;font-size:clamp(19px,2vw,25px);letter-spacing:-.025em}
+.nfx-liq-panel-head p{margin:0;color:#929bac;font-size:12px;line-height:1.6}
+.nfx-liq-status{display:flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid #34433f;border-radius:8px;color:#8ce5c2;background:#10201c;font-size:10px;font-weight:850;white-space:nowrap}
+.nfx-liq-status i{width:7px;height:7px;border-radius:50%;background:#f1b95a;box-shadow:0 0 10px #f1b95a66}
+.nfx-liq-status.connected i{background:#51e0a5;box-shadow:0 0 10px #51e0a588}
+.nfx-liq-status.disconnected{color:#ff9ba5;border-color:#583139;background:#241317}.nfx-liq-status.disconnected i{background:#ff5968}
+.nfx-liq-controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:22px 0 15px;padding:12px;border:1px solid #242b36;border-radius:10px;background:#0b0d12}
+.nfx-liq-controls label{display:flex;flex-direction:column;gap:7px;color:#7f899b;font-size:9px;font-weight:850;letter-spacing:.12em}
+.nfx-liq-controls select{min-width:130px;height:37px;padding:0 10px;border:1px solid #333c4b;border-radius:7px;background:#151a23;color:#f0f3f9;font-size:12px;letter-spacing:0}
+.nfx-liq-stat{min-width:105px;display:flex;flex-direction:column;gap:7px;padding:3px 12px;border-left:1px solid #242a35}
+.nfx-liq-stat span{color:#7f899b;font-size:9px;font-weight:850;letter-spacing:.1em}.nfx-liq-stat strong{font-size:13px;font-variant-numeric:tabular-nums}
+#nfxLiqBestBid{color:#58d9a5}#nfxLiqBestAsk{color:#ff7484}
+.nfx-liq-legend{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:8px 2px 13px;color:#9ba4b3;font-size:9px;font-weight:800;letter-spacing:.07em}
+.nfx-liq-legend span{display:flex;align-items:center;gap:7px}.nfx-liq-legend i{display:inline-block;width:10px;height:10px;border-radius:3px}.nfx-liq-ask-key{background:#f04f6d}.nfx-liq-bid-key{background:#00b88a}.nfx-liq-legend .nfx-liq-legend-note{margin-left:auto;color:#778193;font-weight:500;letter-spacing:0}
+.nfx-liq-book{display:grid;grid-template-columns:minmax(0,1fr) 118px minmax(0,1fr);gap:10px;align-items:stretch}
+.nfx-liq-book-side{min-width:0;border:1px solid #242a35;border-radius:9px;overflow:hidden;background:#0a0d12}
+.nfx-liq-book-title{display:flex;justify-content:space-between;gap:8px;padding:12px 10px;border-bottom:1px solid #252b35;color:#aab3c2;font-size:9px;font-weight:900;letter-spacing:.08em}
+.nfx-liq-book-title span:last-child{color:#6e7889;font-size:8px}
+.nfx-liq-levels{display:grid;gap:2px;padding:6px}
+.nfx-liq-row{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px;align-items:center;min-height:26px;padding:4px 7px;overflow:hidden;border-radius:3px;font-size:11px;font-variant-numeric:tabular-nums}
+.nfx-liq-row .nfx-liq-bar{position:absolute;inset:0 auto 0 0;width:0;opacity:.25;pointer-events:none;transition:width .2s ease}
+.nfx-liq-row span{position:relative;z-index:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.nfx-liq-row span:last-child{text-align:right;color:#d9deea}
+.nfx-liq-row.ask{color:#ff8090}.nfx-liq-row.ask .nfx-liq-bar{background:linear-gradient(90deg,#f34f6d,#6f2636)}
+.nfx-liq-row.bid{color:#62e2b0}.nfx-liq-row.bid .nfx-liq-bar{background:linear-gradient(90deg,#00b889,#125743)}
+.nfx-liq-empty{padding:30px 10px;text-align:center;color:#778193;font-size:11px}
+.nfx-liq-mid{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:7px;border:1px solid #26303a;border-radius:9px;background:linear-gradient(180deg,#121a20,#0e1219);text-align:center}
+.nfx-liq-mid span{color:#7f8a9a;font-size:8px;font-weight:900;letter-spacing:.12em}.nfx-liq-mid strong{font-size:clamp(13px,1.3vw,18px);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.nfx-liq-mid small{color:#8c96a5;font-size:9px}
+.nfx-liq-foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:13px;color:#737e8f;font-size:10px}
+.nfx-liq-unavailable{min-height:420px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+.nfx-liq-unavailable[hidden]{display:none!important}
+.nfx-liq-provider-icon{display:grid;place-items:center;width:50px;height:50px;margin-bottom:18px;border:1px solid #343c4b;border-radius:14px;background:#171c27;color:#91a4c6;font-size:25px}
+.nfx-liq-provider-badge{display:inline-flex;padding:8px 11px;border:1px solid #5c4829;border-radius:6px;background:#211a10;color:#edc477;font-size:9px;font-weight:900;letter-spacing:.1em}
+.nfx-liq-unavailable>p{max-width:700px;color:#9ba4b4;font-size:13px;line-height:1.7}
+.nfx-liq-provider-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;width:100%;margin-top:15px}
+.nfx-liq-provider-grid>div{display:flex;flex-direction:column;gap:8px;padding:16px;border:1px solid #29303c;border-radius:9px;background:#10141b}
+.nfx-liq-provider-grid strong{font-size:12px}.nfx-liq-provider-grid span{color:#8993a4;font-size:11px;line-height:1.6}
+.nfx-liq-provider-note{margin-top:18px;padding:12px 14px;border-left:2px solid #d4a04b;background:#17150f;color:#b5a582;font-size:11px;line-height:1.7}
+.nfx-liq-disclaimer{margin:13px 2px;color:#778192;font-size:10px;line-height:1.6}
+@media(max-width:800px){.nfx-liq-book{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.nfx-liq-mid{grid-column:1/-1;grid-row:1;padding:12px}.nfx-liq-provider-grid{grid-template-columns:1fr}.nfx-liq-stat{min-width:85px}.nfx-liq-panel-head{flex-direction:column}.nfx-liq-status{align-self:flex-start}}
+@media(max-width:520px){.nfx-liquidity-page{padding:14px!important}.nfx-liq-hero{align-items:flex-start}.nfx-liq-hero-badge{display:none}.nfx-liq-market-tabs{gap:4px}.nfx-liq-market-tab{padding:9px 10px;font-size:11px}.nfx-liq-controls{gap:9px}.nfx-liq-stat{padding:3px 7px;min-width:calc(50% - 12px);border-left:0}.nfx-liq-book{grid-template-columns:1fr}.nfx-liq-mid{grid-column:auto;grid-row:auto;min-height:75px}.nfx-liq-book-title{font-size:8px}.nfx-liq-row{font-size:10px}.nfx-liq-legend .nfx-liq-legend-note{margin-left:0}}
+</style>
+<script id="nfx-liquidity-heatmap-app">
+(function(){
+  var socket=null, reconnectTimer=null, currentSymbol='btcusdt', activeMarket='crypto', manuallyClosed=false, lastPayload=null;
+  var symbols={btcusdt:'BTC/USDT',ethusdt:'ETH/USDT',bnbusdt:'BNB/USDT',solusdt:'SOL/USDT',xrpusdt:'XRP/USDT',dogeusdt:'DOGE/USDT',adausdt:'ADA/USDT',linkusdt:'LINK/USDT'};
+  var marketInfo={
+    forex:{title:'Forex Liquidity Heatmap',desc:'Forex has no single central order book. A genuine liquidity heatmap needs a specific broker, ECN or institutional venue feed; free retail quote APIs do not provide consolidated global liquidity.'},
+    metals:{title:'Metals Liquidity Heatmap',desc:'Gold and silver depth is venue-specific (for example, a broker CFD book or exchange-traded futures). A verified XAUUSD/XAGUSD order-book provider must be connected before this can be labelled live or delayed.'},
+    indices:{title:'Indices Liquidity Heatmap',desc:'Index CFDs such as US30 and NAS100 do not share one consolidated order book. A true heatmap requires the selected broker or underlying futures venue depth feed.'},
+    futures:{title:'Futures Liquidity Heatmap',desc:'Futures liquidity is available per exchange and contract. A verified exchange market-depth feed is needed; the workspace will not present prices or liquidity as live without that connection.'},
+    commodities:{title:'Commodities Liquidity Heatmap',desc:'Oil, natural gas and other commodities require a contract- or venue-specific depth feed. No unverified data or invented 5/10/15-minute delay labels will be shown.'}
+  };
+  function $(id){return document.getElementById(id);}
+  function setStatus(text,state){var el=$('nfxLiqConnection');if(!el)return;el.className='nfx-liq-status'+(state?' '+state:'');var span=el.querySelector('span');if(span)span.textContent=text;}
+  function fmt(v){if(!Number.isFinite(v))return '—';return v>=1000?v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}):v>=1?v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:4}):v.toLocaleString('en-US',{minimumFractionDigits:4,maximumFractionDigits:8});}
+  function makeRow(side,price,qty,max){var row=document.createElement('div');row.className='nfx-liq-row '+side;var bar=document.createElement('i');bar.className='nfx-liq-bar';bar.style.width=(max>0?Math.max(2,Math.min(100,qty/max*100)):0)+'%';row.appendChild(bar);var p=document.createElement('span');p.textContent=fmt(Number(price));var q=document.createElement('span');q.textContent=Number(qty).toLocaleString('en-US',{maximumFractionDigits:4});row.appendChild(p);row.appendChild(q);return row;}
+  function paintBook(data){
+    if(!data||!Array.isArray(data.bids)||!Array.isArray(data.asks)||!data.bids.length||!data.asks.length)return;
+    lastPayload=data;
+    var bids=data.bids.slice(0,20).map(x=>[Number(x[0]),Number(x[1])]).filter(x=>x[1]>0).sort((a,b)=>b[0]-a[0]);
+    var asks=data.asks.slice(0,20).map(x=>[Number(x[0]),Number(x[1])]).filter(x=>x[1]>0).sort((a,b)=>a[0]-b[0]);
+    if(!bids.length||!asks.length)return;
+    var max=Math.max.apply(null,bids.concat(asks).map(x=>x[1]));
+    var bidEl=$('nfxLiqBids'),askEl=$('nfxLiqAsks');bidEl.replaceChildren();askEl.replaceChildren();
+    asks.forEach(x=>askEl.appendChild(makeRow('ask',x[0],x[1],max)));
+    bids.forEach(x=>bidEl.appendChild(makeRow('bid',x[0],x[1],max)));
+    var bb=bids[0][0],ba=asks[0][0],mid=(bb+ba)/2;
+    $('nfxLiqBestBid').textContent=fmt(bb);$('nfxLiqBestAsk').textContent=fmt(ba);$('nfxLiqSpread').textContent=fmt(ba-bb);
+    $('nfxLiqMid').textContent=fmt(mid);$('nfxLiqUpdated').textContent=new Date().toLocaleTimeString();
+  }
+  function closeSocket(){manuallyClosed=true;if(reconnectTimer)clearTimeout(reconnectTimer);reconnectTimer=null;if(socket){try{socket.onclose=null;socket.close();}catch(e){}socket=null;} }
+  function connect(){
+    closeSocket();manuallyClosed=false;setStatus('Connecting feed…','');
+    if(!window.WebSocket){setStatus('WebSocket unsupported','disconnected');return;}
+    var ws;
+    try{ws=new WebSocket('wss://stream.binance.com:9443/ws/'+currentSymbol+'@depth20@100ms');socket=ws;}catch(e){setStatus('Connection unavailable','disconnected');return;}
+    ws.onopen=function(){if(socket!==ws)return;setStatus('LIVE · Binance Spot','connected');};
+    ws.onmessage=function(event){if(socket!==ws)return;try{var d=JSON.parse(event.data);if(d.bids&&d.asks)paintBook(d);}catch(e){}};
+    ws.onerror=function(){if(socket===ws)setStatus('Feed connection issue','disconnected');};
+    ws.onclose=function(){if(socket!==ws||manuallyClosed)return;setStatus('Reconnecting…','disconnected');reconnectTimer=setTimeout(function(){if(activeMarket==='crypto')connect();},2500);};
+  }
+  function selectMarket(market){
+    activeMarket=market;
+    document.querySelectorAll('[data-liq-market]').forEach(function(btn){var on=btn.dataset.liqMarket===market;btn.classList.toggle('active',on);btn.setAttribute('aria-selected',String(on));});
+    var live=$('nfxLiqLivePanel'),provider=$('nfxLiqProviderPanel');
+    if(market==='crypto'){provider.hidden=true;live.hidden=false;connect();}
+    else{closeSocket();live.hidden=true;provider.hidden=false;var info=marketInfo[market]||marketInfo.forex;$('nfxLiqProviderTitle').textContent=info.title;$('nfxLiqProviderDescription').textContent=info.desc;}
+  }
+  document.querySelectorAll('[data-liq-market]').forEach(function(btn){btn.addEventListener('click',function(){selectMarket(btn.dataset.liqMarket);});});
+  var selector=$('nfxLiqSymbol');
+  if(selector)selector.addEventListener('change',function(){currentSymbol=selector.value;connect();});
+  window.addEventListener('online',function(){if(activeMarket==='crypto')connect();});
+  window.addEventListener('offline',function(){if(activeMarket==='crypto')setStatus('Browser offline','disconnected');});
+  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible'&&activeMarket==='crypto'&&$('page-liquidity')&&$('page-liquidity').classList.contains('active')&&(!socket||socket.readyState>1))connect();});
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){if($('page-liquidity')&&$('page-liquidity').classList.contains('active'))connect();},{once:true});
+})();
+</script>
+
 </body>
 </html>
 <style>
