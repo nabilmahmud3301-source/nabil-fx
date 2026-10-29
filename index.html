@@ -1324,6 +1324,7 @@ document.addEventListener('click',event=>{
     }
     window.scrollTo({top:0,behavior:'smooth'});
     if(page==='chart')loadTradingView();
+    if(page==='liquidity')window.dispatchEvent(new Event('nfx-liquidity-open'));
     if(page==='notes'&&typeof renderSavedNotes==='function')renderSavedNotes();
     if(page==='account' && !document.querySelector('.account-subview.active')) showAccountPage('create');
   }
@@ -2856,6 +2857,7 @@ document.addEventListener('click', function(event) {
   document.querySelectorAll('[data-liq-market]').forEach(function(btn){btn.addEventListener('click',function(){selectMarket(btn.dataset.liqMarket);});});
   var selector=$('nfxLiqSymbol');
   if(selector)selector.addEventListener('change',function(){currentSymbol=selector.value;connect();});
+  window.addEventListener('nfx-liquidity-open',function(){if(activeMarket==='crypto'&&(!socket||socket.readyState>1))connect();});
   window.addEventListener('online',function(){if(activeMarket==='crypto')connect();});
   window.addEventListener('offline',function(){if(activeMarket==='crypto')setStatus('Browser offline','disconnected');});
   document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible'&&activeMarket==='crypto'&&$('page-liquidity')&&$('page-liquidity').classList.contains('active')&&(!socket||socket.readyState>1))connect();});
