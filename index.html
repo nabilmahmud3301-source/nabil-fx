@@ -538,7 +538,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
   </section>
 
   <section id="freeReplayPanel" class="panel replay-panel">
-    <div class="chart-heading-row"><div><h2 class="view-heading">Free Bar Replay</h2><p class="hint" style="margin:5px 0 0">Practice historical price action one candle at a time. Future candles stay hidden during replay.</p></div><span class="tiny">FREE DATA · NO API KEY</span></div>
+    <div class="chart-heading-row"><div><h2 class="view-heading">Nabil Custom Chart Lab</h2><p class="hint" style="margin:5px 0 0">Separate chart below the TradingView chart. Load supported market candles, refresh market data, or switch to historical bar replay.</p></div><span class="tiny">CUSTOM CHART · LIVE-REFRESH + REPLAY</span></div>
     <div class="replay-grid">
       <div class="field replay-market-field"><label for="replaySymbol">MARKET SYMBOL</label><input id="replaySymbol" type="text" placeholder="Click to choose or type any symbol" autocomplete="off" spellcheck="false" aria-expanded="false" aria-controls="replayMarketPicker"><div id="replayMarketPicker" class="replay-market-picker" hidden><div id="replayMarketResults" class="replay-market-results"><p class="hint">Loading free market list…</p></div></div></div>
       <div class="field"><label for="replayInterval">TIMEFRAME</label><select id="replayInterval"><option value="1m">1 minute</option><option value="5m">5 minutes</option><option value="15m">15 minutes</option><option value="30m">30 minutes</option><option value="1h">1 hour</option><option value="4h">4 hours</option><option value="1d">1 day</option></select></div>
@@ -547,7 +547,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       <div class="field"><label for="replayLimit">CANDLES TO LOAD</label><select id="replayLimit"><option value="200">200</option><option value="500" selected>500</option><option value="1000">1000 (max)</option></select></div>
       <div class="field"><label for="replaySpeed">REPLAY SPEED</label><select id="replaySpeed"><option value="1200">0.5×</option><option value="700" selected>1×</option><option value="350">2×</option><option value="120">5×</option></select></div>
     </div>
-    <div class="replay-actions"><button class="btn primary" id="replayLoad" type="button">Load Historical Data</button><button class="btn secondary" id="replayStart" type="button" disabled>Start Replay</button><button class="btn secondary" id="replayPrev" type="button" disabled>← Previous</button><button class="btn secondary" id="replayPlay" type="button" disabled>▶ Play</button><button class="btn secondary" id="replayNext" type="button" disabled>Next Candle →</button><button class="btn secondary" id="replayEnd" type="button" disabled>Show All / End</button></div>
+    <div class="replay-actions"><button class="btn primary" id="replayLive" type="button">Load Live Market</button><button class="btn secondary" id="replayLoad" type="button">Load Historical Data</button><button class="btn secondary" id="replayStart" type="button" disabled>Start Replay</button><button class="btn secondary" id="replayPrev" type="button" disabled>← Previous</button><button class="btn secondary" id="replayPlay" type="button" disabled>▶ Play</button><button class="btn secondary" id="replayNext" type="button" disabled>Next Candle →</button><button class="btn secondary" id="replayEnd" type="button" disabled>Show All / End</button></div>
     <div class="replay-meta"><span>Symbol: <b id="replayMetaSymbol">—</b></span><span>Visible candle: <b id="replayMetaCount">—</b></span><span>Replay time: <b id="replayMetaTime">—</b></span><span>Loaded bars: <b id="replayMetaTotal">0</b></span></div>
     <div class="replay-chart-shell">
       <div class="replay-topbar">
@@ -1312,11 +1312,12 @@ document.addEventListener('click',event=>{
   // Free Bar Replay: independent candle chart; source offers no-key OHLC for many FX/CFD/crypto symbols.
   const replayEls = {
     symbol:$('replaySymbol'), interval:$('replayInterval'), from:$('replayFrom'), to:$('replayTo'), limit:$('replayLimit'), speed:$('replaySpeed'),
-    load:$('replayLoad'), start:$('replayStart'), prev:$('replayPrev'), play:$('replayPlay'), next:$('replayNext'), end:$('replayEnd'),
+    live:$('replayLive'), load:$('replayLoad'), start:$('replayStart'), prev:$('replayPrev'), play:$('replayPlay'), next:$('replayNext'), end:$('replayEnd'),
     status:$('replayStatus'), metaSymbol:$('replayMetaSymbol'), metaCount:$('replayMetaCount'), metaTime:$('replayMetaTime'), metaTotal:$('replayMetaTotal'), chart:$('replayChart')
   };
-  let replayChart=null, replaySeries=null, replayEmaSeries=null, replayEmaEnabled=false, replayGridEnabled=true, replaySelectingPoint=false, replayBars=[], replayIndex=-1, replayTimer=null, replayLibPromise=null;
+  let replayChart=null, replaySeries=null, replayEmaSeries=null, replayEmaEnabled=false, replayGridEnabled=true, replaySelectingPoint=false, replayBars=[], replayIndex=-1, replayTimer=null, replayLiveTimer=null, replayLiveMode=false, replayLiveFetchBusy=false, replayLibPromise=null;
   function replayStatus(msg){ if(replayEls.status) replayEls.status.innerHTML=msg; }
+  function replayStopLive(){if(replayLiveTimer){clearInterval(replayLiveTimer);replayLiveTimer=null;}replayLiveMode=false;replayLiveFetchBusy=false;replayEls.live?.classList.remove('active');}
 
   const replayMarketPicker=$('replayMarketPicker'), replayMarketResults=$('replayMarketResults'), replaySymbolInput=$('replaySymbol');
   let replayMarketCache=[], replayMarketsLoaded=false, replayMarketsPromise=null;
@@ -1531,8 +1532,10 @@ document.addEventListener('click',event=>{
     replayRender();
     if(replayIndex>=replayBars.length-1)replayStop();
   }
-  async function replayLoadData(){
-    replayStop();replayEls.load.disabled=true;replayStatus('Loading free historical candles…');
+  async function replayLoadData(liveMode=false){
+    if(liveMode&&replayLiveFetchBusy)return;
+    if(liveMode)replayLiveFetchBusy=true;else{replayStop();replayStopLive();}
+    replayEls.load.disabled=true;if(!liveMode)replayStatus('Loading free historical candles…');
     try{
       await replayLoadLibrary();replayMakeChart();
       const symbol=(replayEls.symbol.value||'').trim().toUpperCase().replace(/[^A-Z0-9._:/-]/g,'');
@@ -1549,7 +1552,7 @@ document.addEventListener('click',event=>{
         if(response.ok){
           const payload=await response.json();
           const raw=Array.isArray(payload.bars)?payload.bars:(Array.isArray(payload.data)?payload.data:(Array.isArray(payload.candles)?payload.candles:[]));
-          bars=raw.filter(b=>!b.isOpen&&Number.isFinite(Number(b.open))&&Number.isFinite(Number(b.high))&&Number.isFinite(Number(b.low))&&Number.isFinite(Number(b.close))&&(b.openTime||b.time||b.timestamp||b.date))
+          bars=raw.filter(b=>(liveMode||!b.isOpen)&&Number.isFinite(Number(b.open))&&Number.isFinite(Number(b.high))&&Number.isFinite(Number(b.low))&&Number.isFinite(Number(b.close))&&(b.openTime||b.time||b.timestamp||b.date))
             .map(b=>{const stamp=b.openTime||b.time||b.timestamp||b.date;const numeric=Number(stamp);const ms=Number.isFinite(numeric)?(numeric<100000000000?numeric*1000:numeric):new Date(stamp).getTime();return {time:Math.floor(ms/1000),open:Number(b.open),high:Number(b.high),low:Number(b.low),close:Number(b.close)};})
             .filter(b=>Number.isFinite(b.time)&&Number.isFinite(b.open)&&Number.isFinite(b.high)&&Number.isFinite(b.low)&&Number.isFinite(b.close)).sort((a,b)=>a.time-b.time);
         }
@@ -1575,12 +1578,17 @@ document.addEventListener('click',event=>{
       if(!replayBars.length)throw new Error('No historical candles returned for this symbol/date. Try a different symbol, timeframe, or date range.');
       // Show enough candles to make the chart visibly populated after loading.
       // Start Replay still resets to candle one for a clean replay.
-      replayIndex=Math.min(49,replayBars.length-1);replaySetButtons(true);replayRender();
-      replayStatus('Loaded <strong>'+replayBars.length+'</strong> closed candles for <strong>'+symbol+'</strong> '+interval+' via '+providerUsed+'. Showing the first <strong>'+(replayIndex+1)+'</strong> candles now. Press <strong>Start Replay</strong> to restart from candle 1, then use Next Candle or Play. Future candles remain hidden. Data is supplied by free third-party feeds and is not guaranteed to match your broker/TradingView feed.');
-    }catch(e){replayBars=[];replayIndex=-1;replaySetButtons(false);replayUpdateMeta();replayStatus('<strong>Could not load data:</strong> '+String(e.message||e).replace(/[<>]/g,''));}
-    finally{replayEls.load.disabled=false;}
+      replayIndex=liveMode?replayBars.length-1:Math.min(49,replayBars.length-1);replaySetButtons(true);replayRender();
+      if(liveMode){
+        replayLiveMode=true;replayEls.live?.classList.add('active');
+        replayStatus('Live-refresh mode loaded <strong>'+replayBars.length+'</strong> candles for <strong>'+symbol+'</strong> '+interval+' via '+providerUsed+'. Refreshing every 15 seconds while this page is open. Updates depend on the provider and may be delayed; this is not guaranteed exchange/broker real-time data. Click <strong>Load Historical Data</strong> to stop live refresh and use Bar Replay.');
+        if(!replayLiveTimer)replayLiveTimer=setInterval(()=>{if(replayLiveMode&&!replayLiveFetchBusy)replayLoadData(true);},15000);
+      }else replayStatus('Loaded <strong>'+replayBars.length+'</strong> historical candles for <strong>'+symbol+'</strong> '+interval+' via '+providerUsed+'. Showing the first <strong>'+(replayIndex+1)+'</strong> candles now. Press <strong>Start Replay</strong> to restart from candle 1, then use Next Candle or Play. Future candles remain hidden. Data is supplied by free third-party feeds and is not guaranteed to match your broker/TradingView feed.');
+    }catch(e){if(!liveMode){replayBars=[];replayIndex=-1;replaySetButtons(false);}replayUpdateMeta();replayStatus('<strong>Could not load data:</strong> '+String(e.message||e).replace(/[<>]/g,''));}
+    finally{replayEls.load.disabled=false;if(liveMode)replayLiveFetchBusy=false;}
   }
-  replayEls.load?.addEventListener('click',replayLoadData);
+  replayEls.live?.addEventListener('click',()=>{replayStop();replayStopLive();replayLoadData(true);});
+  replayEls.load?.addEventListener('click',()=>{replayStopLive();replayLoadData(false);});
   document.querySelectorAll('[data-replay-tf]').forEach(button=>button.addEventListener('click',()=>{
     const tf=button.dataset.replayTf;
     if(!tf||!replayEls.interval)return;
@@ -1589,6 +1597,7 @@ document.addEventListener('click',event=>{
     if(replayBars.length)replayLoadData();
   }));
   document.getElementById('replaySelectPoint')?.addEventListener('click',e=>{
+    replayStopLive();
     if(!replayChart||!replayBars.length){replayStatus('Load historical data first, then choose <strong>Replay Point</strong>.');return;}
     replayStop();
     replaySelectingPoint=true;
@@ -1620,12 +1629,12 @@ document.addEventListener('click',event=>{
     document.querySelectorAll('[data-replay-tool]').forEach(b=>b.classList.toggle('active',b===button));
     if(replayChart&&button.dataset.replayTool==='crosshair')replayChart.applyOptions({crosshair:{mode:LightweightCharts.CrosshairMode.Normal}});
   }));
-  replayEls.start?.addEventListener('click',()=>{replayStop();if(!replayBars.length)return;replayIndex=0;replayRender();});
-  replayEls.prev?.addEventListener('click',()=>{replayStop();replayStep(-1);});
-  replayEls.next?.addEventListener('click',()=>{replayStop();if(replayIndex<0)replayIndex=0;else replayStep(1);if(replayIndex===0)replayRender();});
-  replayEls.end?.addEventListener('click',()=>{replayStop();if(!replayBars.length)return;replayIndex=replayBars.length-1;replayRender();replayChart.timeScale().fitContent();});
+  replayEls.start?.addEventListener('click',()=>{replayStopLive();replayStop();if(!replayBars.length)return;replayIndex=0;replayRender();});
+  replayEls.prev?.addEventListener('click',()=>{replayStopLive();replayStop();replayStep(-1);});
+  replayEls.next?.addEventListener('click',()=>{replayStopLive();replayStop();if(replayIndex<0)replayIndex=0;else replayStep(1);if(replayIndex===0)replayRender();});
+  replayEls.end?.addEventListener('click',()=>{replayStopLive();replayStop();if(!replayBars.length)return;replayIndex=replayBars.length-1;replayRender();replayChart.timeScale().fitContent();});
   replayEls.play?.addEventListener('click',()=>{
-    if(!replayBars.length)return;
+    replayStopLive();if(!replayBars.length)return;
     if(replayTimer){replayStop();return;}
     if(replayIndex<0){replayIndex=0;replayRender();}
     if(replayIndex>=replayBars.length-1){replayIndex=0;replayRender();}
