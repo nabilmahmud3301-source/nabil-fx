@@ -1301,7 +1301,7 @@ document.addEventListener('click',event=>{
   let replayMarketCache=[], replayMarketsLoaded=false, replayMarketsPromise=null;
   const replayMarketTypeOrder=['Forex','Crypto','Commodity','Index','Stock','Other'];
   const replayCuratedMarkets=[
-    ['Forex','EURUSD','Euro / US Dollar'],['Forex','GBPUSD','British Pound / US Dollar'],['Forex','USDJPY','US Dollar / Japanese Yen'],['Forex','USDCHF','US Dollar / Swiss Franc'],['Forex','USDCAD','US Dollar / Canadian Dollar'],['Forex','AUDUSD','Australian Dollar / US Dollar'],['Forex','NZDUSD','New Zealand Dollar / US Dollar'],['Forex','EURGBP','Euro / British Pound'],['Forex','EURJPY','Euro / Japanese Yen'],['GBPJPY','GBPJPY','British Pound / Japanese Yen'],['Forex','AUDJPY','Australian Dollar / Japanese Yen'],['Forex','CADJPY','Canadian Dollar / Japanese Yen'],['Forex','CHFJPY','Swiss Franc / Japanese Yen'],['Forex','EURAUD','Euro / Australian Dollar'],['Forex','EURCAD','Euro / Canadian Dollar'],['Forex','EURNZD','Euro / New Zealand Dollar'],['Forex','GBPAUD','British Pound / Australian Dollar'],['Forex','GBPCAD','British Pound / Canadian Dollar'],['Forex','GBPNZD','British Pound / New Zealand Dollar'],['Forex','AUDCAD','Australian Dollar / Canadian Dollar'],['Forex','AUDNZD','Australian Dollar / New Zealand Dollar'],['Forex','NZDJPY','New Zealand Dollar / Japanese Yen'],['Forex','CADCHF','Canadian Dollar / Swiss Franc'],['Forex','AUDCHF','Australian Dollar / Swiss Franc'],['Forex','NZDCHF','New Zealand Dollar / Swiss Franc'],['Forex','EURCHF','Euro / Swiss Franc'],['Forex','GBPCHF','British Pound / Swiss Franc'],['Forex','USDSGD','US Dollar / Singapore Dollar'],['Forex','USDHKD','US Dollar / Hong Kong Dollar'],['Forex','USDTRY','US Dollar / Turkish Lira'],['Forex','USDMXN','US Dollar / Mexican Peso'],['Forex','USDZAR','US Dollar / South African Rand'],['Forex','USDNOK','US Dollar / Norwegian Krone'],['Forex','USDSEK','US Dollar / Swedish Krona'],['Forex','USDCNH','US Dollar / Chinese Yuan'],['Forex','EURPLN','Euro / Polish Zloty'],['Forex','EURTRY','Euro / Turkish Lira'],['Forex','GBPSEK','British Pound / Swedish Krona'],
+    ['Forex','EURUSD','Euro / US Dollar'],['Forex','GBPUSD','British Pound / US Dollar'],['Forex','USDJPY','US Dollar / Japanese Yen'],['Forex','USDCHF','US Dollar / Swiss Franc'],['Forex','USDCAD','US Dollar / Canadian Dollar'],['Forex','AUDUSD','Australian Dollar / US Dollar'],['Forex','NZDUSD','New Zealand Dollar / US Dollar'],['Forex','EURGBP','Euro / British Pound'],['Forex','EURJPY','Euro / Japanese Yen'],['Forex','GBPJPY','British Pound / Japanese Yen'],['Forex','AUDJPY','Australian Dollar / Japanese Yen'],['Forex','CADJPY','Canadian Dollar / Japanese Yen'],['Forex','CHFJPY','Swiss Franc / Japanese Yen'],['Forex','EURAUD','Euro / Australian Dollar'],['Forex','EURCAD','Euro / Canadian Dollar'],['Forex','EURNZD','Euro / New Zealand Dollar'],['Forex','GBPAUD','British Pound / Australian Dollar'],['Forex','GBPCAD','British Pound / Canadian Dollar'],['Forex','GBPNZD','British Pound / New Zealand Dollar'],['Forex','AUDCAD','Australian Dollar / Canadian Dollar'],['Forex','AUDNZD','Australian Dollar / New Zealand Dollar'],['Forex','NZDJPY','New Zealand Dollar / Japanese Yen'],['Forex','CADCHF','Canadian Dollar / Swiss Franc'],['Forex','AUDCHF','Australian Dollar / Swiss Franc'],['Forex','NZDCHF','New Zealand Dollar / Swiss Franc'],['Forex','EURCHF','Euro / Swiss Franc'],['Forex','GBPCHF','British Pound / Swiss Franc'],['Forex','USDSGD','US Dollar / Singapore Dollar'],['Forex','USDHKD','US Dollar / Hong Kong Dollar'],['Forex','USDTRY','US Dollar / Turkish Lira'],['Forex','USDMXN','US Dollar / Mexican Peso'],['Forex','USDZAR','US Dollar / South African Rand'],['Forex','USDNOK','US Dollar / Norwegian Krone'],['Forex','USDSEK','US Dollar / Swedish Krona'],['Forex','USDCNH','US Dollar / Chinese Yuan'],['Forex','EURPLN','Euro / Polish Zloty'],['Forex','EURTRY','Euro / Turkish Lira'],['Forex','GBPSEK','British Pound / Swedish Krona'],
     ['Crypto','BTCUSD','Bitcoin / US Dollar'],['Crypto','ETHUSD','Ethereum / US Dollar'],['Crypto','BTCUSDT','Bitcoin / Tether'],['Crypto','ETHUSDT','Ethereum / Tether'],['Crypto','BNBUSDT','BNB / Tether'],['Crypto','SOLUSDT','Solana / Tether'],['Crypto','XRPUSDT','XRP / Tether'],['Crypto','ADAUSDT','Cardano / Tether'],['Crypto','DOGEUSDT','Dogecoin / Tether'],['Crypto','AVAXUSDT','Avalanche / Tether'],['Crypto','LINKUSDT','Chainlink / Tether'],['Crypto','LTCUSDT','Litecoin / Tether'],['Crypto','DOTUSDT','Polkadot / Tether'],['Crypto','TRXUSDT','TRON / Tether'],['Crypto','BCHUSDT','Bitcoin Cash / Tether'],['Crypto','SHIBUSDT','Shiba Inu / Tether'],['Crypto','TONUSDT','Toncoin / Tether'],['Crypto','XLMUSDT','Stellar / Tether'],['Crypto','ATOMUSDT','Cosmos / Tether'],['Crypto','NEARUSDT','NEAR / Tether'],
     ['Commodity','XAUUSD','Gold / US Dollar'],['Commodity','XAGUSD','Silver / US Dollar'],['Commodity','XPTUSD','Platinum / US Dollar'],['Commodity','XPDUSD','Palladium / US Dollar'],['Commodity','WTI','WTI Crude Oil'],['Commodity','BRENT','Brent Crude Oil'],['Commodity','NATGAS','Natural Gas'],['Commodity','CL','Crude Oil Futures'],['Commodity','GC','Gold Futures'],['Commodity','SI','Silver Futures'],['Commodity','HG','Copper Futures'],['Commodity','NG','Natural Gas Futures'],['Commodity','ZC','Corn Futures'],['Commodity','ZW','Wheat Futures'],['Commodity','ZS','Soybean Futures'],
     ['Index','US30','Dow Jones 30'],['Index','NAS100','Nasdaq 100'],['Index','SPX500','S&P 500'],['Index','US500','US 500 Index'],['Index','US100','US Tech 100'],['Index','GER40','Germany 40'],['Index','DE40','Germany 40'],['Index','UK100','UK 100'],['Index','JP225','Japan 225'],['Index','AUS200','Australia 200'],['Index','FRA40','France 40'],['Index','EU50','Euro Stoxx 50'],['Index','HK50','Hong Kong 50'],['Index','CHINA50','China 50'],['Index','VIX','Volatility Index'],
@@ -1458,18 +1458,40 @@ document.addEventListener('click',event=>{
       if(replayEls.from.value)params.set('from',new Date(replayEls.from.value+'T00:00:00Z').toISOString());
       if(replayEls.to.value)params.set('to',new Date(replayEls.to.value+'T23:59:59Z').toISOString());
       if(replayEls.from.value&&replayEls.to.value&&replayEls.from.value>replayEls.to.value)throw new Error('Start date must be before end date.');
-      const response=await fetch('https://biquote.io/api/'+encodeURIComponent(symbol)+'/ohlc?'+params.toString(),{cache:'no-store'});
-      if(!response.ok)throw new Error('Data provider returned HTTP '+response.status+'. Check the symbol format/data-provider support, or try another date range.');
-      const payload=await response.json();
-      const raw=Array.isArray(payload.bars)?payload.bars:[];
-      const bars=raw.filter(b=>!b.isOpen&&Number.isFinite(Number(b.open))&&Number.isFinite(Number(b.high))&&Number.isFinite(Number(b.low))&&Number.isFinite(Number(b.close))&&b.openTime)
-        .map(b=>({time:Math.floor(new Date(b.openTime).getTime()/1000),open:Number(b.open),high:Number(b.high),low:Number(b.low),close:Number(b.close)}))
-        .filter(b=>Number.isFinite(b.time)).sort((a,b)=>a.time-b.time);
+      let bars=[];
+      let providerUsed='Biquote';
+      try{
+        const response=await fetch('https://biquote.io/api/'+encodeURIComponent(symbol)+'/ohlc?'+params.toString(),{cache:'no-store'});
+        if(response.ok){
+          const payload=await response.json();
+          const raw=Array.isArray(payload.bars)?payload.bars:[];
+          bars=raw.filter(b=>!b.isOpen&&Number.isFinite(Number(b.open))&&Number.isFinite(Number(b.high))&&Number.isFinite(Number(b.low))&&Number.isFinite(Number(b.close))&&b.openTime)
+            .map(b=>({time:Math.floor(new Date(b.openTime).getTime()/1000),open:Number(b.open),high:Number(b.high),low:Number(b.low),close:Number(b.close)}))
+            .filter(b=>Number.isFinite(b.time)).sort((a,b)=>a.time-b.time);
+        }
+      }catch(e){/* Try the public crypto feed below if available. */}
+      if(!bars.length){
+        const cryptoAliases={BTCUSD:'BTCUSDT',ETHUSD:'ETHUSDT'};
+        const cryptoSymbol=cryptoAliases[symbol]||symbol;
+        const looksCrypto=/USDT$|BUSD$|BTC$|ETH$|BNB$/.test(cryptoSymbol);
+        if(looksCrypto){
+          const binanceParams=new URLSearchParams({symbol:cryptoSymbol,interval,limit:String(Math.min(limit,1000))});
+          if(replayEls.from.value)binanceParams.set('startTime',String(new Date(replayEls.from.value+'T00:00:00Z').getTime()));
+          if(replayEls.to.value)binanceParams.set('endTime',String(new Date(replayEls.to.value+'T23:59:59Z').getTime()));
+          const response=await fetch('https://api.binance.com/api/v3/klines?'+binanceParams.toString(),{cache:'no-store'});
+          if(response.ok){
+            const raw=await response.json();
+            bars=raw.map(k=>({time:Math.floor(Number(k[0])/1000),open:Number(k[1]),high:Number(k[2]),low:Number(k[3]),close:Number(k[4])}))
+              .filter(b=>Number.isFinite(b.time)&&Number.isFinite(b.open)&&Number.isFinite(b.high)&&Number.isFinite(b.low)&&Number.isFinite(b.close)).sort((a,b)=>a.time-b.time);
+            providerUsed='Binance public spot data';
+          }
+        }
+      }
       replayBars=bars.filter((b,i,a)=>i===0||b.time>a[i-1].time);
       if(!replayBars.length)throw new Error('No historical candles returned for this symbol/date. Try a different symbol, timeframe, or date range.');
       // Show the first historical candle immediately so the chart is not blank after loading.
       replayIndex=0;replaySetButtons(true);replayRender();
-      replayStatus('Loaded <strong>'+replayBars.length+'</strong> closed candles for <strong>'+symbol+'</strong> ('+interval+'). The first candle is shown; press <strong>Start Replay</strong> to restart from the beginning, then use Next Candle or Play. Future candles remain hidden. Data is supplied by a free third-party feed and is not guaranteed to match your broker/TradingView feed.');
+      replayStatus('Loaded <strong>'+replayBars.length+'</strong> closed candles for <strong>'+symbol+'</strong> '+interval+' via '+providerUsed+'. The first candle is shown; press <strong>Start Replay</strong> to restart from the beginning, then use Next Candle or Play. Future candles remain hidden. Data is supplied by free third-party feeds and is not guaranteed to match your broker/TradingView feed.');
     }catch(e){replayBars=[];replayIndex=-1;replaySetButtons(false);replayUpdateMeta();replayStatus('<strong>Could not load data:</strong> '+String(e.message||e).replace(/[<>]/g,''));}
     finally{replayEls.load.disabled=false;}
   }
