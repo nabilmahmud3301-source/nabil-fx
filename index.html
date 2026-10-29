@@ -2942,9 +2942,37 @@ document.addEventListener('click', function(event) {
   function connectLiquidations(){
     if(liquidationReconnectTimer)clearTimeout(liquidationReconnectTimer);
     if(liquidationSocket){try{liquidationSocket.onclose=null;liquidationSocket.close();}catch(e){}liquidationSocket=null;}
-    try{var ws=new WebSocket('wss://fstream.binance.com/market/ws/!forceOrder@arr');liquidationSocket=ws;
-      ws.onmessage=function(ev){if(liquidationSocket!==ws)return;try{var msg=JSON.parse(ev.data),o=msg.o;if(!o)return;var symbol=String(o.s||msg.s||'').toLowerCase();if(!symbols[symbol])return;var price=Number(o.ap||o.p),qty=Number(o.z||o.q),t=Number(msg.T||msg.E||Date.now());if(!Number.isFinite(price)||!Number.isFinite(qty)||qty<=0)return;liquidationEvents.push({t:t,p:price,side:o.S,usd:price*qty,symbol:symbol});var cutoff=Date.now()-Math.max(900,historyLimit()*1000);liquidationEvents=liquidationEvents.filter(e=>e.t>=cutoff).slice(-5000);renderLiquidationHeatmap();}catch(e){}};
-      ws.onclose=function(){if(liquidationSocket!==ws||manuallyClosed)return;liquidationReconnectTimer=setTimeout(connectLiquidations,3000);};
+    try{
+      var ws=new WebSocket('wss://fstream.binance.com/market/ws/!forceOrder@arr');
+      liquidationSocket=ws;
+      ws.onmessage=function(ev){
+        if(liquidationSocket!==ws)return;
+        try{
+          var payload=JSON.parse(ev.data);
+          /* Binance's !forceOrder@arr stream sends an ARRAY of events, not one {o:...} object. */
+          var messages=Array.isArray(payload)?payload:[payload];
+          var now=Date.now();
+          messages.forEach(function(msg){
+            if(!msg)return;
+            var o=msg.o||msg;
+            if(!o||!o.s)return;
+            var symbol=String(o.s).toLowerCase();
+            if(!symbols[symbol])return;
+            var price=Number(o.ap||o.p);
+            var qty=Number(o.z||o.q||o.l);
+            var t=Number(o.T||msg.T||msg.E||now);
+            if(!Number.isFinite(price)||price<=0||!Number.isFinite(qty)||qty<=0)return;
+            liquidationEvents.push({t:t,p:price,side:String(o.S||'').toUpperCase(),usd:price*qty,symbol:symbol});
+          });
+          var cutoff=Date.now()-Math.max(900,historyLimit()*1000);
+          liquidationEvents=liquidationEvents.filter(function(e){return e.t>=cutoff;}).slice(-5000);
+          renderLiquidationHeatmap();
+        }catch(e){}
+      };
+      ws.onclose=function(){
+        if(liquidationSocket!==ws||manuallyClosed)return;
+        liquidationReconnectTimer=setTimeout(connectLiquidations,3000);
+      };
       ws.onerror=function(){try{ws.close();}catch(e){}};
     }catch(e){liquidationReconnectTimer=setTimeout(connectLiquidations,4000);}
   }
