@@ -565,17 +565,27 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
     </div>
     <div class="nfx-point-meta"><span id="nfxPointStatus">Choose a symbol and click Load Data.</span><span id="nfxPointCount">0 candles</span></div>
     <div id="nfxPointChart" class="nfx-point-chart" aria-label="Nabil custom replay point candle chart">
-      <aside id="nfxReplayDrawingBar" class="nfx-replay-drawing-bar" aria-label="Drawing tools">
-        <button type="button" data-draw="cursor" class="active" title="Cursor" aria-label="Cursor">↖</button>
-        <button type="button" data-draw="trend" title="Trend Line" aria-label="Trend Line">／</button>
-        <button type="button" data-draw="ray" title="Ray" aria-label="Ray">↗</button>
-        <button type="button" data-draw="horizontal" title="Horizontal Line" aria-label="Horizontal Line">―</button>
-        <button type="button" data-draw="vertical" title="Vertical Line" aria-label="Vertical Line">│</button>
-        <button type="button" data-draw="rectangle" title="Rectangle" aria-label="Rectangle">▱</button>
-        <button type="button" data-draw="fib" title="Fibonacci Retracement" aria-label="Fibonacci Retracement">Fₙ</button>
-        <button type="button" data-draw="arrow" title="Arrow" aria-label="Arrow">➤</button>
-        <span class="nfx-drawing-divider"></span>
-        <button type="button" data-draw="clear" title="Remove All Drawings" aria-label="Remove All Drawings">⌫</button>
+      <aside id="nfxReplayDrawingBar" class="nfx-replay-drawing-bar" aria-label="Chart drawing tools">
+        <div class="nfx-tool-section">
+          <button type="button" data-draw="cursor" class="active" title="Cursor / Select" aria-label="Cursor / Select"><svg viewBox="0 0 24 24"><path d="M5 3l13 11-6 .7-3 5z"/></svg></button>
+        </div>
+        <div class="nfx-tool-section">
+          <button type="button" data-draw="trend" title="Trend Line" aria-label="Trend Line"><svg viewBox="0 0 24 24"><path d="M4 19L20 5M4 19h5M4 19v-5M20 5h-5M20 5v5"/></svg></button>
+          <button type="button" data-draw="ray" title="Ray" aria-label="Ray"><svg viewBox="0 0 24 24"><path d="M4 20L20 4M12 4h8v8"/></svg></button>
+          <button type="button" data-draw="horizontal" title="Horizontal Line" aria-label="Horizontal Line"><svg viewBox="0 0 24 24"><path d="M3 12h18M7 8l-4 4 4 4"/></svg></button>
+          <button type="button" data-draw="vertical" title="Vertical Line" aria-label="Vertical Line"><svg viewBox="0 0 24 24"><path d="M12 3v18M8 7l4-4 4 4"/></svg></button>
+          <button type="button" data-draw="hRay" title="Horizontal Ray" aria-label="Horizontal Ray"><svg viewBox="0 0 24 24"><path d="M3 12h18M15 8l4 4-4 4"/></svg></button>
+        </div>
+        <div class="nfx-tool-section">
+          <button type="button" data-draw="rectangle" title="Rectangle" aria-label="Rectangle"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="1"/></svg></button>
+          <button type="button" data-draw="circle" title="Ellipse" aria-label="Ellipse"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="8" ry="6"/></svg></button>
+          <button type="button" data-draw="fib" title="Fibonacci Retracement" aria-label="Fibonacci Retracement"><svg viewBox="0 0 24 24"><path d="M4 5h16M4 9h12M4 13h16M4 17h10M4 21h16"/></svg></button>
+          <button type="button" data-draw="arrow" title="Arrow" aria-label="Arrow"><svg viewBox="0 0 24 24"><path d="M4 20L19 5M10 5h9v9"/></svg></button>
+        </div>
+        <div class="nfx-tool-section">
+          <button type="button" data-draw="clear" title="Remove All Drawings" aria-label="Remove All Drawings"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13M10 10v7M14 10v7"/></svg></button>
+        </div>
+        <div class="nfx-toolbar-brand" title="Nabil Fx chart tools">NFX</div>
       </aside>
       <div class="nfx-chart-indicator-float">
         <button id="nfxOpenIndicators" type="button" class="nfx-indicators-open">▥ &nbsp; Indicators <span id="nfxActiveIndicatorCount">0</span></button>
@@ -2762,4 +2772,25 @@ document.addEventListener('click', function(event) {
 .nfx-point-lab:fullscreen .nfx-point-chart>table{max-height:100%}
 @media(max-width:650px){.nfx-point-controls{align-items:stretch}.nfx-point-controls label{flex:1 1 30%}.nfx-point-controls button{flex:1 1 40%}.nfx-point-chart{height:430px;min-height:350px}}
 
+</style>
+
+
+<style id="nfx-premium-replay-toolbar">
+#page-chart #nabilReplayPointLab .nfx-point-chart{background:#0b0e13!important;border:1px solid #252b35!important;border-radius:2px!important;box-shadow:0 12px 35px #0004!important;overflow:hidden!important}
+#page-chart #nabilReplayPointLab .nfx-point-meta{background:#11151c!important;border-color:#252b35!important;border-radius:2px 2px 0 0!important;font-variant-numeric:tabular-nums}
+#page-chart #nabilReplayPointLab .nfx-replay-drawing-bar{left:0!important;top:0!important;bottom:0!important;width:46px!important;box-sizing:border-box!important;gap:0!important;padding:7px 4px 9px!important;display:flex!important;flex-direction:column!important;align-items:center!important;overflow-y:auto!important;overflow-x:hidden!important;border:0!important;border-right:1px solid #292f3a!important;border-radius:0!important;background:#11151c!important;box-shadow:3px 0 14px #0002!important;scrollbar-width:thin!important;scrollbar-color:#3a414d transparent!important}
+#page-chart #nabilReplayPointLab .nfx-tool-section{width:100%;display:flex;flex-direction:column;align-items:center;gap:3px;padding:0 0 7px;margin:0 0 7px;border-bottom:1px solid #292f3a}
+#page-chart #nabilReplayPointLab .nfx-tool-section:last-of-type{border-bottom:0;margin-bottom:0}
+#page-chart #nabilReplayPointLab .nfx-replay-drawing-bar button{flex:0 0 34px!important;width:36px!important;height:34px!important;display:grid!important;place-items:center!important;padding:0!important;border:1px solid transparent!important;border-radius:5px!important;background:transparent!important;color:#aeb7c5!important;transition:background .12s,border-color .12s,color .12s!important}
+#page-chart #nabilReplayPointLab .nfx-replay-drawing-bar button svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round}
+#page-chart #nabilReplayPointLab .nfx-replay-drawing-bar button[data-draw="cursor"] svg{fill:currentColor;stroke:#11151c;stroke-width:1}
+#page-chart #nabilReplayPointLab .nfx-replay-drawing-bar button:hover{background:#202733!important;border-color:#343d4b!important;color:#f0f3f8!important}
+#page-chart #nabilReplayPointLab .nfx-replay-drawing-bar button.active{background:#29394a!important;border-color:#45627f!important;color:#8bc5ff!important;box-shadow:inset 2px 0 #66aaf2!important}
+#page-chart #nabilReplayPointLab .nfx-toolbar-brand{margin-top:auto;padding-top:10px;color:#8d98a8;font-size:9px;font-weight:900;letter-spacing:.06em}
+#page-chart #nabilReplayPointLab .nfx-chart-indicator-float{top:10px!important;right:12px!important}
+#page-chart #nabilReplayPointLab .nfx-indicators-open{height:32px!important;border-color:#303947!important;border-radius:5px!important;background:#171d27!important;color:#d8e0eb!important;font-size:11px!important;font-weight:650!important;box-shadow:0 3px 10px #0003!important}
+#page-chart #nabilReplayPointLab .nfx-indicators-open:hover{background:#222b38!important;border-color:#52647b!important}
+#page-chart #nabilReplayPointLab .nfx-indicators-open span{background:#293747!important;color:#b8d8ff!important}
+#page-chart #nabilReplayPointLab .nfx-drawing-overlay{z-index:6!important}
+@media(max-width:650px){#page-chart #nabilReplayPointLab .nfx-replay-drawing-bar{width:39px!important;padding:5px 3px 7px!important}#page-chart #nabilReplayPointLab .nfx-replay-drawing-bar button{width:31px!important;flex-basis:31px!important;height:31px!important}#page-chart #nabilReplayPointLab .nfx-replay-drawing-bar button svg{width:17px;height:17px}#page-chart #nabilReplayPointLab .nfx-chart-indicator-float{top:6px!important;right:6px!important}}
 </style>
