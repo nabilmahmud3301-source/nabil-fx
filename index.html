@@ -434,7 +434,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
   </a>
   <nav class="site-nav" aria-label="Main navigation">
     <button class="nav-btn active" data-page="home">Home</button>
-    <button class="nav-btn" data-page="chart">Chart with Free Bar Replay</button>
+    <button class="nav-btn" data-page="chart">Chart with Bar Replay</button>
     <button class="nav-btn" data-page="backtest">Backtest with AI</button>
     <button class="nav-btn" data-page="notes">Journal/Notes</button>
     <button class="nav-btn" data-page="contact" id="contactUsNav" type="button">Contact Us</button>
@@ -1312,7 +1312,9 @@ document.addEventListener('click',event=>{
       handleScroll:true,handleScale:true
     });
     replaySeries=replayChart.addCandlestickSeries({upColor:'#18b981',downColor:'#ff5267',borderUpColor:'#18b981',borderDownColor:'#ff5267',wickUpColor:'#18b981',wickDownColor:'#ff5267'});
-    new ResizeObserver(()=>{if(replayChart&&replayEls.chart)replayChart.applyOptions({width:replayEls.chart.clientWidth,height:replayEls.chart.clientHeight});}).observe(replayEls.chart);
+    new ResizeObserver(()=>{if(replayChart&&replayEls.chart){const w=replayEls.chart.clientWidth,h=replayEls.chart.clientHeight;if(w>0&&h>0)replayChart.applyOptions({width:w,height:h});}}).observe(replayEls.chart);
+    // Recalculate dimensions when the Chart page becomes visible after navigation.
+    window.addEventListener('resize',()=>{if(replayChart&&replayEls.chart){const w=replayEls.chart.clientWidth,h=replayEls.chart.clientHeight;if(w>0&&h>0)replayChart.applyOptions({width:w,height:h});}});
   }
   function replaySetButtons(loaded){
     ['start','prev','play','next','end'].forEach(k=>{if(replayEls[k])replayEls[k].disabled=!loaded;});
@@ -1362,8 +1364,9 @@ document.addEventListener('click',event=>{
         .filter(b=>Number.isFinite(b.time)).sort((a,b)=>a.time-b.time);
       replayBars=bars.filter((b,i,a)=>i===0||b.time>a[i-1].time);
       if(!replayBars.length)throw new Error('No historical candles returned for this symbol/date. Try a different symbol, timeframe, or date range.');
-      replayIndex=-1;replaySeries.setData([]);replayChart.timeScale().fitContent();replaySetButtons(true);replayUpdateMeta();
-      replayStatus('Loaded <strong>'+replayBars.length+'</strong> closed candles for <strong>'+symbol+'</strong> ('+interval+'). Press <strong>Start Replay</strong>; future candles will remain hidden. Data is supplied by a free third-party feed and is not guaranteed to match your broker/TradingView feed.');
+      // Show the first historical candle immediately so the chart is not blank after loading.
+      replayIndex=0;replaySetButtons(true);replayRender();
+      replayStatus('Loaded <strong>'+replayBars.length+'</strong> closed candles for <strong>'+symbol+'</strong> ('+interval+'). The first candle is shown; press <strong>Start Replay</strong> to restart from the beginning, then use Next Candle or Play. Future candles remain hidden. Data is supplied by a free third-party feed and is not guaranteed to match your broker/TradingView feed.');
     }catch(e){replayBars=[];replayIndex=-1;replaySetButtons(false);replayUpdateMeta();replayStatus('<strong>Could not load data:</strong> '+String(e.message||e).replace(/[<>]/g,''));}
     finally{replayEls.load.disabled=false;}
   }
