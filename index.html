@@ -3057,6 +3057,18 @@ document.addEventListener('click', function(event) {
 
 #nfxLiqDashboard .nfx-liq-workspace-card.nfx-liq-expanded-fallback{position:fixed!important;z-index:999999!important;inset:12px!important;width:auto!important;height:auto!important;max-height:none!important;min-height:0!important;overflow:auto!important;background:#080b11!important;box-shadow:0 0 0 9999px rgba(0,0,0,.82)!important}
 #nfxLiqDashboard .nfx-liq-workspace-card.nfx-liq-expanded-fallback .nfx-liq-timeline-wrap{height:calc(100vh - 250px);min-height:300px}
+
+/* Keep Liquidity Heatmap controls perfectly aligned in one row */
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-card-actions{align-items:center;align-self:flex-start}
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-actions{display:flex;flex-direction:row;align-items:center;justify-content:flex-end;gap:7px;flex-wrap:nowrap}
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-actions label{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:6px;white-space:nowrap}
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-actions select,
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-actions button,
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-fullscreen-btn{height:31px;min-height:31px;box-sizing:border-box;align-self:center}
+@media(max-width:1050px){
+ #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-card-actions{width:100%;justify-content:flex-start}
+ #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-actions{justify-content:flex-start}
+}
 </style>
 
 </body>
