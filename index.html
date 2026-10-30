@@ -3644,7 +3644,25 @@ document.addEventListener('click', function(event) {
     if(bidEl){bidEl.replaceChildren();bids.slice(0,bookDisplayLevels).reverse().forEach(function(x,ri,arr){var originalIndex=arr.length-1-ri;bidEl.appendChild(makeRow('bid',x[0],x[1],maxQty,bidCum[originalIndex]));});}
     if(askEl){askEl.replaceChildren();asks.slice(0,bookDisplayLevels).forEach(function(x,i){askEl.appendChild(makeRow('ask',x[0],x[1],maxQty,askCum[i]));});}
     var midMove=$('nfxProMidMove');if(midMove){if(previousMidPrice!==null){var md=mid-previousMidPrice;midMove.textContent=(md>0?'▲ +':md<0?'▼ ':'● ')+fmt(Math.abs(md))+' USDT '+(md>0?'UP':md<0?'DOWN':'UNCHANGED');midMove.className='nfx-pro-mid-move '+(md>0?'up':md<0?'down':'flat');}else{midMove.textContent='Live price movement';} }previousMidPrice=mid;
-    var bidNotional=bids.slice(0,bookDisplayLevels).reduce(function(s,x){return s+x[0]*x[1];},0),askNotional=asks.slice(0,bookDisplayLevels).reduce(function(s,x){return s+x[0]*x[1];},0),bidQty=bids.slice(0,bookDisplayLevels).reduce(function(s,x){return s+x[1];},0),askQty=asks.slice(0,bookDisplayLevels).reduce(function(s,x){return s+x[1];},0),depthDelta=(bidNotional+askNotional)>0?(bidNotional-askNotional)/(bidNotional+askNotional)*100:0;var deltaEl=$('nfxLiqDelta');if(deltaEl){deltaEl.textContent=(depthDelta>0?'+':'')+depthDelta.toFixed(2)+'%';deltaEl.className='nfx-ob-delta-'+(depthDelta>.15?'bid':depthDelta<-.15?'ask':'neutral');deltaEl.title='Visible top '+bookDisplayLevels+' levels only; not total market-wide liquidity.';}var imbalanceBar=$('nfxObxImbalanceBar');if(imbalanceBar){imbalanceBar.style.width=Math.min(100,Math.abs(depthDelta)).toFixed(1)+'%';imbalanceBar.style.marginLeft=depthDelta<0?(50-Math.min(50,Math.abs(depthDelta)/2))+'%':'50%';}var bidSizeEl=$('nfxObxBidSize'),askSizeEl=$('nfxObxAskSize');if(bidSizeEl)bidSizeEl.textContent=bidQty.toLocaleString('en-US',{maximumFractionDigits:4});if(askSizeEl)askSizeEl.textContent=askQty.toLocaleString('en-US',{maximumFractionDigits:4});var vals={'nfxLiqBestBid':fmt(bestBid[0]),'nfxLiqBestAsk':fmt(bestAsk[0]),'nfxPobBidMirror':fmt(bestBid[0]),'nfxPobAskMirror':fmt(bestAsk[0]),'nfxLiqSpread':fmt(spread),'nfxProSpread':fmt(spread),'nfxLiqMid':fmt(mid),'nfxLiqUpdated':new Date().toLocaleTimeString()  var fullDepthTimer=null,fullDepthBusy=false,lastVenueCount=1,lastVenueNames=['Binance USDⓈ-M Futures'];
+    var bidNotional=bids.slice(0,bookDisplayLevels).reduce(function(sum,x){return sum+x[0]*x[1];},0);
+    var askNotional=asks.slice(0,bookDisplayLevels).reduce(function(sum,x){return sum+x[0]*x[1];},0);
+    var bidQty=bids.slice(0,bookDisplayLevels).reduce(function(sum,x){return sum+x[1];},0);
+    var askQty=asks.slice(0,bookDisplayLevels).reduce(function(sum,x){return sum+x[1];},0);
+    var depthDelta=(bidNotional+askNotional)>0?(bidNotional-askNotional)/(bidNotional+askNotional)*100:0;
+    var deltaEl=$('nfxLiqDelta');
+    if(deltaEl){deltaEl.textContent=(depthDelta>0?'+':'')+depthDelta.toFixed(2)+'%';deltaEl.className='nfx-ob-delta-'+(depthDelta>.15?'bid':depthDelta<-.15?'ask':'neutral');deltaEl.title='Visible top '+bookDisplayLevels+' levels only; not total market-wide liquidity.';}
+    var imbalanceBar=$('nfxObxImbalanceBar');
+    if(imbalanceBar){imbalanceBar.style.width=Math.min(100,Math.abs(depthDelta)).toFixed(1)+'%';imbalanceBar.style.marginLeft=depthDelta<0?(50-Math.min(50,Math.abs(depthDelta)/2))+'%':'50%';}
+    var bidSizeEl=$('nfxObxBidSize'),askSizeEl=$('nfxObxAskSize');
+    if(bidSizeEl)bidSizeEl.textContent=bidQty.toLocaleString('en-US',{maximumFractionDigits:4});
+    if(askSizeEl)askSizeEl.textContent=askQty.toLocaleString('en-US',{maximumFractionDigits:4});
+    var vals={'nfxLiqBestBid':fmt(bestBid[0]),'nfxLiqBestAsk':fmt(bestAsk[0]),'nfxPobBidMirror':fmt(bestBid[0]),'nfxPobAskMirror':fmt(bestAsk[0]),'nfxLiqSpread':fmt(spread),'nfxProSpread':fmt(spread),'nfxLiqMid':fmt(mid),'nfxLiqUpdated':new Date().toLocaleTimeString()};
+    Object.keys(vals).forEach(function(id){var el=$(id);if(el)el.textContent=vals[id];});
+    if(!fromHistory)captureHistory({bids:bids,asks:asks},mid);
+    renderTimeline();
+    if(!fromHistory)setStatus('Live depth stream · '+marketLabel(currentSymbol),'connected');
+  }
+  var fullDepthTimer=null,fullDepthBusy=false,lastVenueCount=1,lastVenueNames=['Binance USDⓈ-M Futures'];
   function updateVenueLabels(names){var source=$('nfxPobSourceName');if(source)source.textContent='BINANCE USDⓈ-M FUTURES';var feed=$('nfxPobFeedName');if(feed)feed.textContent='BINANCE FUTURES · LIVE DEPTH';var tag=$('nfxPobFeedTag');if(tag)tag.textContent='100 MS STREAM';}
   function connect(){
     if(activeMarket!=='crypto'||document.hidden)return;
@@ -3689,7 +3707,7 @@ document.addEventListener('click', function(event) {
           snapshot.bids.forEach(function(x){var p=String(Number(x[0])),q=Number(x[1]);if(Number(p)>0&&q>0)bidsMap.set(p,q);});
           snapshot.asks.forEach(function(x){var p=String(Number(x[0])),q=Number(x[1]);if(Number(p)>0&&q>0)asksMap.set(p,q);});
           var first=buffer.findIndex(function(ev){return Number(ev.u)>lastUpdateId&&Number(ev.U)<=lastUpdateId+1&&Number(ev.u)>=lastUpdateId+1;});
-          if(first<0){throw new Error('Depth sequence resync required');}
+          if(first<0)throw new Error('Depth sequence resync required');
           var pending=buffer.slice(first);buffer=[];ready=true;
           for(var i=0;i<pending.length;i++){if(!applyEvent(pending[i]))throw new Error('Depth sequence gap');}
           updateVenueLabels(lastVenueNames);renderLive();
