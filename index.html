@@ -1113,6 +1113,72 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
  #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-metric{min-height:62px!important;padding:7px!important}
  #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-metric>strong{font-size:13px!important}
 }
+
+/* Final polish: smaller stat cards, lift the book, and fit expanded view to one screen. */
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-summary{padding:4px 10px 6px!important;gap:5px!important}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-contract,
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-metric{min-height:60px!important;padding:6px 8px!important;border-radius:7px!important}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-toolbar{padding:5px 2px!important}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-book{padding-top:9px!important}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-sidehead{padding:9px 10px 7px!important}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-sidehead>div:first-child{margin-bottom:8px!important}
+/* Expanded desktop/tablet: use the viewport as a fixed canvas, no page scrolling. */
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next:fullscreen,
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next.nfx-liq-expanded-fallback{
+ display:flex!important;flex-direction:column!important;gap:0!important;
+ width:100vw!important;height:100vh!important;max-height:100vh!important;min-height:0!important;
+ overflow:hidden!important;padding:0!important;border:0!important;border-radius:0!important;
+}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next:fullscreen .nfx-obx-top,
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next.nfx-liq-expanded-fallback .nfx-obx-top{flex:0 0 auto;padding:8px 18px!important;min-height:52px!important}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next:fullscreen .nfx-obx-summary,
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next.nfx-liq-expanded-fallback .nfx-obx-summary{flex:0 0 auto;padding:4px 10px 5px!important;gap:5px!important}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next:fullscreen .nfx-obx-contract,
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next:fullscreen .nfx-obx-metric,
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next.nfx-liq-expanded-fallback .nfx-obx-contract,
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next.nfx-liq-expanded-fallback .nfx-obx-metric{min-height:52px!important;padding:5px 8px!important}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next:fullscreen .nfx-obx-toolbar,
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next.nfx-liq-expanded-fallback .nfx-obx-toolbar{flex:0 0 auto;margin:0 10px!important;padding:4px 2px!important}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next:fullscreen .nfx-obx-book,
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next.nfx-liq-expanded-fallback .nfx-obx-book{flex:1 1 auto!important;min-height:0!important;overflow:hidden!important;padding:7px 10px 6px!important;gap:8px!important}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next:fullscreen .nfx-obx-side,
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next.nfx-liq-expanded-fallback .nfx-obx-side,
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next:fullscreen .nfx-obx-mid,
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next.nfx-liq-expanded-fallback .nfx-obx-mid{min-height:0!important;overflow:hidden!important}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next:fullscreen .nfx-obx-ladder,
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next.nfx-liq-expanded-fallback .nfx-obx-ladder{flex:1 1 0!important;min-height:0!important;height:auto!important;max-height:none!important;overflow:hidden!important;padding:4px 6px 2px!important;gap:1px!important}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next:fullscreen .nfx-obx-footer,
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next.nfx-liq-expanded-fallback .nfx-obx-footer{flex:0 0 auto;padding:6px 14px!important;gap:8px!important}
+@media(max-width:760px){
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next:fullscreen .nfx-obx-top,
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next.nfx-liq-expanded-fallback .nfx-obx-top{padding:6px 10px!important;min-height:44px!important}
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next:fullscreen .nfx-obx-summary,
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next.nfx-liq-expanded-fallback .nfx-obx-summary{grid-template-columns:repeat(3,minmax(0,1fr))!important;padding:4px 6px!important;gap:4px!important}
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next:fullscreen .nfx-obx-contract,
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next:fullscreen .nfx-obx-metric,
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next.nfx-liq-expanded-fallback .nfx-obx-contract,
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next.nfx-liq-expanded-fallback .nfx-obx-metric{min-height:42px!important;padding:4px 6px!important}
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next:fullscreen .nfx-obx-caption,
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next:fullscreen .nfx-obx-metric>span,
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next.nfx-liq-expanded-fallback .nfx-obx-caption,
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next.nfx-liq-expanded-fallback .nfx-obx-metric>span{font-size:6px!important;margin-bottom:2px!important}
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next:fullscreen .nfx-obx-metric>strong,
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next.nfx-liq-expanded-fallback .nfx-obx-metric>strong{font-size:11px!important}
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next:fullscreen .nfx-obx-toolbar,
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next.nfx-liq-expanded-fallback .nfx-obx-toolbar{margin:0 6px!important;padding:3px 1px!important;flex-direction:row!important;align-items:center!important}
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next:fullscreen .nfx-obx-book,
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next.nfx-liq-expanded-fallback .nfx-obx-book{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr) minmax(0,1.25fr)!important;padding:5px 6px!important;gap:5px!important}
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next:fullscreen .nfx-obx-mid,
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next.nfx-liq-expanded-fallback .nfx-obx-mid{grid-column:1/-1!important;grid-row:1!important;padding:6px 8px!important}
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next:fullscreen .nfx-obx-mid>strong,
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next.nfx-liq-expanded-fallback .nfx-obx-mid>strong{font-size:18px!important;margin:4px 0!important}
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next:fullscreen .nfx-obx-midrule,
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next.nfx-liq-expanded-fallback .nfx-obx-midrule{margin:5px 0 3px!important}
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next:fullscreen .nfx-obx-ladder,
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next.nfx-liq-expanded-fallback .nfx-obx-ladder{min-height:0!important;height:auto!important;max-height:none!important;padding:3px!important}
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next:fullscreen .nfx-obx-footer,
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next.nfx-liq-expanded-fallback .nfx-obx-footer{padding:4px 8px!important;font-size:7px!important}
+}
 </style></head>
 <body>
 <header class="site-header">
