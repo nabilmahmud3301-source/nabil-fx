@@ -1056,7 +1056,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
     <div class="nfx-pob-stat nfx-pob-updated"><span>LAST UPDATE</span><strong id="nfxLiqUpdated">—</strong><small><i></i> Snapshot refresh</small></div>
   </div>
   <div class="nfx-pob-controls">
-    <div class="nfx-pob-feed"><span class="nfx-pob-live-pulse"></span><div><strong>LIVE DEPTH</strong><small>Binance USDⓈ-M</small></div><span class="nfx-pob-feed-separator"></span><span class="nfx-pob-feed-tag">REAL-TIME SNAPSHOT</span></div>
+    <div class="nfx-pob-feed"><span class="nfx-pob-live-pulse"></span><div><strong>LIVE DEPTH</strong><small id="nfxPobFeedName">MULTI-EXCHANGE DEPTH</small></div><span class="nfx-pob-feed-separator"></span><span class="nfx-pob-feed-tag" id="nfxPobFeedTag">4 VENUES AGGREGATED</span></div>
     <div class="nfx-pro-book-actions nfx-pob-depth"><span class="nfx-pro-depth-label">LEVELS</span><button type="button" data-book-depth="10">10</button><button type="button" data-book-depth="20">20</button><button type="button" data-book-depth="50" class="active">50</button><span class="nfx-pro-book-unit">PRICE · USDT</span></div>
   </div>
   <div class="nfx-pob-book-wrap">
@@ -1083,7 +1083,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
   <div class="nfx-pob-footer">
     <div class="nfx-pob-legend"><span><i class="nfx-pob-legend-ask"></i> Ask liquidity</span><span><i class="nfx-pob-legend-bid"></i> Bid liquidity</span><span class="nfx-pob-legend-note">Depth bars show relative resting size at each price level</span></div>
     <div class="nfx-pob-velocity"><span>BID MOVE <b id="nfxLiqBidVelocity">—</b></span><span>ASK MOVE <b id="nfxLiqAskVelocity">—</b></span></div>
-    <div class="nfx-pob-source">DATA SOURCE <b>BINANCE USDⓈ-M</b><span>·</span>VISIBLE EXCHANGE DEPTH ONLY</div>
+    <div class="nfx-pob-source">DATA SOURCE <b id="nfxPobSourceName">BINANCE USDⓈ-M + COINBASE + KRAKEN + BITFINEX</b><span>·</span>AGGREGATED PUBLIC SNAPSHOTS</div>
   </div>
   <div hidden aria-hidden="true"><span id="nfxLiqBidVelocitySub"></span><span id="nfxLiqAskVelocitySub"></span></div>
 </section>
@@ -3536,27 +3536,77 @@ document.addEventListener('click', function(event) {
     Object.keys(vals).forEach(function(id){var el=$(id);if(el)el.textContent=vals[id];});
     if(!fromHistory)captureHistory({bids:bids,asks:asks},mid);
     renderTimeline();
-    if(!fromHistory)setStatus('Live · '+marketLabel(currentSymbol),'connected');
+    if(!fromHistory)setStatus('Live · '+(lastVenueCount||1)+' venue'+((lastVenueCount||1)===1?'':'s')+' · '+marketLabel(currentSymbol),'connected');
   }
-  var fullDepthTimer=null,fullDepthBusy=false;
+  var fullDepthTimer=null,fullDepthBusy=false,lastVenueCount=1,lastVenueNames=['Binance Futures'];
+  function fetchVenueBook(url,parser,name){
+    return fetch(url,{cache:'no-store'}).then(function(res){if(!res.ok)throw new Error(name+' unavailable');return res.json();}).then(function(json){
+      var book=parser(json);if(!book||!Array.isArray(book.bids)||!Array.isArray(book.asks))throw new Error(name+' book invalid');
+      return {name:name,bids:book.bids,asks:book.asks};
+    });
+  }
+  function venuePair(base,venue){
+    var aliases={BTC:{coinbase:'BTC',kraken:'XBT',bitfinex:'BTC'},ETH:{coinbase:'ETH',kraken:'ETH',bitfinex:'ETH'},XRP:{coinbase:'XRP',kraken:'XRP',bitfinex:'XRP'},SOL:{coinbase:'SOL',kraken:'SOL',bitfinex:'SOL'},DOGE:{coinbase:'DOGE',kraken:'XDG',bitfinex:'DOGE'},ADA:{coinbase:'ADA',kraken:'ADA',bitfinex:'ADA'},LINK:{coinbase:'LINK',kraken:'LINK',bitfinex:'LINK'},LTC:{coinbase:'LTC',kraken:'LTC',bitfinex:'LTC'},BCH:{coinbase:'BCH',kraken:'BCH',bitfinex:'BCH'},DOT:{coinbase:'DOT',kraken:'DOT',bitfinex:'DOT'},AVAX:{coinbase:'AVAX',kraken:'AVAX',bitfinex:'AVAX'},TRX:{coinbase:'TRX',kraken:'TRX',bitfinex:'TRX'},BNB:{coinbase:null,kraken:null,bitfinex:null}};
+    var entry=aliases[base];return entry?entry[venue]:null;
+  }
+  function mergeVenueBooks(books){
+    var bidsMap=new Map(),asksMap=new Map(),midPrices=[];
+    function stepFor(price){return price>=10000?1:price>=1000?.1:price>=100?.01:price>=1?.001:.00001;}
+    books.forEach(function(book){
+      var allBids=book.bids.slice(0,100),allAsks=book.asks.slice(0,100);
+      allBids.forEach(function(x){if(Number(x[0])>0&&Number(x[1])>0)midPrices.push(Number(x[0]));});
+      allAsks.forEach(function(x){if(Number(x[0])>0&&Number(x[1])>0)midPrices.push(Number(x[0]));});
+    });
+    if(!midPrices.length)return null;
+    var sorted=midPrices.slice().sort(function(a,b){return a-b;}),approxMid=sorted[Math.floor(sorted.length/2)],step=stepFor(approxMid);
+    books.forEach(function(book){
+      [[book.bids,bidsMap],[book.asks,asksMap]].forEach(function(pair){
+        pair[0].slice(0,100).forEach(function(level){
+          var price=Number(level[0]),qty=Number(level[1]);if(!Number.isFinite(price)||!Number.isFinite(qty)||price<=0||qty<=0)return;
+          var bucket=Math.round(price/step)*step;bucket=Number(bucket.toFixed(step<.001?8:step<1?4:2));
+          pair[1].set(bucket,(pair[1].get(bucket)||0)+qty);
+        });
+      });
+    });
+    return {bids:Array.from(bidsMap.entries()).map(function(x){return [x[0],x[1]];}).sort(function(a,b){return b[0]-a[0];}).slice(0,100),asks:Array.from(asksMap.entries()).map(function(x){return [x[0],x[1]];}).sort(function(a,b){return a[0]-b[0];}).slice(0,100),venues:books.map(function(x){return x.name;})};
+  }
+  function updateVenueLabels(names){
+    var count=names.length;
+    var source=$('nfxPobSourceName');if(source)source.textContent=names.length?names.join(' + ').toUpperCase():'WAITING FOR VENUES';
+    var feed=$('nfxPobFeedName');if(feed)feed.textContent=count>1?'MULTI-EXCHANGE DEPTH':count===1?'SINGLE VENUE DEPTH':'CONNECTING VENUES';
+    var tag=$('nfxPobFeedTag');if(tag)tag.textContent=count>1?count+' VENUES AGGREGATED':'LIVE SNAPSHOT';
+  }
   function connect(){
     if(activeMarket!=='crypto'||document.hidden)return;
     manuallyClosed=false;
-    if(socket){try{socket.onclose=null;socket.close();}catch(e){}socket=null;}
     if(fullDepthTimer){clearInterval(fullDepthTimer);fullDepthTimer=null;}
     var thisSymbol=currentSymbol;
-    function loadFullDepth(){
+    function loadCombinedDepth(){
       if(fullDepthBusy||document.hidden||thisSymbol!==currentSymbol||activeMarket!=='crypto')return;
       fullDepthBusy=true;
-      fetch('https://fapi.binance.com/fapi/v1/depth?symbol='+thisSymbol.toUpperCase()+'&limit=1000',{cache:'no-store'})
-        .then(function(res){if(!res.ok)throw new Error('Depth snapshot unavailable');return res.json();})
-        .then(function(d){if(thisSymbol!==currentSymbol||!Array.isArray(d.bids)||!Array.isArray(d.asks))return;paintOrderBook({bids:d.bids.slice(0,100),asks:d.asks.slice(0,100)});setStatus('Live full depth · '+marketLabel(thisSymbol),'connected');})
-        .catch(function(){if(thisSymbol===currentSymbol)setStatus('Depth feed reconnecting…','disconnected');})
+      var base=thisSymbol.toUpperCase().replace(/USDT$/,'');
+      var tasks=[];
+      tasks.push(fetchVenueBook('https://fapi.binance.com/fapi/v1/depth?symbol='+thisSymbol.toUpperCase()+'&limit=100',function(d){return d;},'Binance USDⓈ-M'));
+      var cb=venuePair(base,'coinbase');
+      if(cb)tasks.push(fetchVenueBook('https://api.exchange.coinbase.com/products/'+cb+'-USD/book?level=2',function(d){return {bids:d.bids,asks:d.asks};},'Coinbase'));
+      var kr=venuePair(base,'kraken');
+      if(kr)tasks.push(fetchVenueBook('https://api.kraken.com/0/public/Depth?pair='+kr+'USD&count=100',function(d){if(d.error&&d.error.length)throw new Error(d.error.join(', '));var result=d.result||{},key=Object.keys(result)[0];return key?{bids:result[key].bids,asks:result[key].asks}:null;},'Kraken'));
+      var bf=venuePair(base,'bitfinex');
+      if(bf)tasks.push(fetchVenueBook('https://api-pub.bitfinex.com/v2/book/t'+bf+'USD/P0?len=100',function(d){var bids=[],asks=[];(Array.isArray(d)?d:[]).forEach(function(x){var p=Number(x[0]),count=Number(x[1]),amount=Number(x[2]);if(p>0&&count>0&&amount>0)bids.push([p,amount]);else if(p>0&&count>0&&amount<0)asks.push([p,Math.abs(amount)]);});return {bids:bids,asks:asks};},'Bitfinex'));
+      Promise.allSettled(tasks).then(function(results){
+        if(thisSymbol!==currentSymbol||activeMarket!=='crypto')return;
+        var books=results.filter(function(r){return r.status==='fulfilled'&&r.value&&r.value.bids.length&&r.value.asks.length;}).map(function(r){return r.value;});
+        if(!books.length)throw new Error('All public venue feeds are unavailable');
+        var merged=mergeVenueBooks(books);if(!merged||!merged.bids.length||!merged.asks.length)throw new Error('Combined depth is empty');
+        lastVenueCount=books.length;lastVenueNames=books.map(function(b){return b.name;});updateVenueLabels(lastVenueNames);
+        paintOrderBook({bids:merged.bids,asks:merged.asks,venues:merged.venues});
+        setStatus('Live · '+books.length+' venue'+(books.length===1?'':'s')+' · '+marketLabel(thisSymbol),'connected');
+      }).catch(function(){if(thisSymbol===currentSymbol)setStatus('Multi-venue feed reconnecting…','disconnected');})
         .finally(function(){fullDepthBusy=false;});
     }
-    setStatus('Loading full market depth…','connecting');
-    loadFullDepth();
-    fullDepthTimer=setInterval(loadFullDepth,1200);
+    setStatus('Connecting to public exchange books…','connecting');
+    loadCombinedDepth();
+    fullDepthTimer=setInterval(loadCombinedDepth,2500);
   }
   function connectLiquidations(){
     if(activeMarket!=='crypto'||!window.WebSocket||document.hidden)return;
@@ -3579,7 +3629,7 @@ document.addEventListener('click', function(event) {
     if(dashboard)dashboard.style.opacity=activeMarket==='crypto'?'1':'.72';
     if(activeMarket==='crypto'){
       if(socket&&socket.readyState<=1&&socket.url&&socket.url.indexOf('/'+currentSymbol+'@depth')===-1){try{socket.close();}catch(e){}socket=null;}
-      connect();connectLiquidations();setStatus('Connecting live Binance Futures…','connecting');
+      connect();connectLiquidations();setStatus('Connecting to public exchange books…','connecting');
     }else{
       if(socket){try{socket.close();}catch(e){}socket=null;}
       if(liquidationSocket){try{liquidationSocket.close();}catch(e){}liquidationSocket=null;}
