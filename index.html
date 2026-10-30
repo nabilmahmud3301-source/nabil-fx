@@ -2851,6 +2851,81 @@ document.addEventListener('click', function(event) {
   function fmt(v){if(!Number.isFinite(v))return '—';return v>=1000?v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}):v>=1?v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:4}):v.toLocaleString('en-US',{minimumFractionDigits:4,maximumFractionDigits:8});}
   function makeRow(side,price,qty,max){var row=document.createElement('div');row.className='nfx-liq-row '+side;var bar=document.createElement('i');bar.className='nfx-liq-bar';bar.style.width=(max>0?Math.max(2,Math.min(100,qty/max*100)):0)+'%';row.appendChild(bar);var p=document.createElement('span');p.textContent=fmt(Number(price));var q=document.createElement('span');q.textContent=Number(qty).toLocaleString('en-US',{maximumFractionDigits:4});row.appendChild(p);row.appendChild(q);return row;}
   var liqHistory=[],lastHistoryAt=0,historySymbol='btcusdt',renderFrame=0;
+  var wsRetry=1000,liqRetry=1000,wsConnectTimer=null,liqConnectTimer=null,wsAttempt=0,liqAttempt=0;
+  function scheduleBookReconnect(){
+    if(manuallyClosed||activeMarket!=='crypto'||wsConnectTimer)return;
+    var delay=Math.min(15000,wsRetry);wsRetry=Math.min(15000,Math.round(wsRetry*1.7));
+    wsConnectTimer=setTimeout(function(){wsConnectTimer=null;connect();},delay);
+  }
+  function scheduleLiquidationReconnect(){
+    if(manuallyClosed||activeMarket!=='crypto'||liqConnectTimer)return;
+    var delay=Math.min(15000,liqRetry);liqRetry=Math.min(15000,Math.round(liqRetry*1.7));
+    liqConnectTimer=setTimeout(function(){liqConnectTimer=null;connectLiquidations();},delay);
+  }
+  function paintOrderBook(data){
+    if(!data||!Array.isArray(data.bids)||!Array.isArray(data.asks)||!data.bids.length||!data.asks.length)return;
+    lastPayload=data;
+    var bids=data.bids.slice(0,20).map(function(x){return [Number(x[0]),Number(x[1])];}).filter(function(x){return x[1]>0;});
+    var asks=data.asks.slice(0,20).map(function(x){return [Number(x[0]),Number(x[1])];}).filter(function(x){return x[1]>0;});
+    if(!bids.length||!asks.length)return;
+    var bestBid=bids.reduce(function(a,b){return b[0]>a[0]?b:a;},bids[0]),bestAsk=asks.reduce(function(a,b){return b[0]<a[0]?b:a;},asks[0]);
+    var mid=(bestBid[0]+bestAsk[0])/2,spread=bestAsk[0]-bestBid[0],maxQty=Math.max.apply(null,bids.concat(asks).map(function(x){return x[1];}).concat([0]));
+    var bidEl=$('nfxLiqBids'),askEl=$('nfxLiqAsks');
+    if(bidEl){bidEl.replaceChildren();bids.slice().reverse().forEach(function(x){bidEl.appendChild(makeRow('bid',x[0],x[1],maxQty));});}
+    if(askEl){askEl.replaceChildren();asks.forEach(function(x){askEl.appendChild(makeRow('ask',x[0],x[1],maxQty));});}
+    var vals={'nfxLiqBestBid':fmt(bestBid[0]),'nfxLiqBestAsk':fmt(bestAsk[0]),'nfxLiqSpread':fmt(spread),'nfxLiqMid':fmt(mid),'nfxLiqUpdated':new Date().toLocaleTimeString()};
+    Object.keys(vals).forEach(function(id){var el=$(id);if(el)el.textContent=vals[id];});
+    captureHistory({bids:bids,asks:asks},mid);
+    renderTimeline();
+    setStatus('Live · '+marketLabel(currentSymbol),'connected');
+  }
+  function connect(){
+    if(activeMarket!=='crypto'||!window.WebSocket||document.hidden)return;
+    manuallyClosed=false;
+    if(wsConnectTimer){clearTimeout(wsConnectTimer);wsConnectTimer=null;}
+    if(socket&&(socket.readyState===WebSocket.OPEN||socket.readyState===WebSocket.CONNECTING))return;
+    var thisSymbol=currentSymbol,ws;
+    setStatus('Connecting '+marketLabel(thisSymbol)+'…','connecting');
+    try{ws=new WebSocket('wss://fstream.binance.com/ws/'+thisSymbol+'@depth20@100ms');}catch(e){setStatus('Feed unavailable · retrying','disconnected');scheduleBookReconnect();return;}
+    socket=ws;var timeout=setTimeout(function(){if(ws.readyState===WebSocket.CONNECTING){try{ws.close();}catch(e){}}},7000);
+    ws.onopen=function(){clearTimeout(timeout);if(socket!==ws)return;wsRetry=1000;wsAttempt=0;setStatus('Connected · waiting for data','connecting');};
+    ws.onmessage=function(ev){if(socket!==ws||thisSymbol!==currentSymbol)return;try{var d=JSON.parse(ev.data);if(d&&Array.isArray(d.b)&&Array.isArray(d.a))paintOrderBook({bids:d.b,asks:d.a});}catch(e){}};
+    ws.onerror=function(){if(socket===ws)setStatus('Connection issue · retrying','disconnected');};
+    ws.onclose=function(){clearTimeout(timeout);if(socket===ws)socket=null;if(thisSymbol===currentSymbol){setStatus('Disconnected · reconnecting','disconnected');scheduleBookReconnect();}};
+  }
+  function connectLiquidations(){
+    if(activeMarket!=='crypto'||!window.WebSocket||document.hidden)return;
+    manuallyClosed=false;
+    if(liqConnectTimer){clearTimeout(liqConnectTimer);liqConnectTimer=null;}
+    if(liquidationSocket&&(liquidationSocket.readyState===WebSocket.OPEN||liquidationSocket.readyState===WebSocket.CONNECTING))return;
+    var ws;
+    try{ws=new WebSocket('wss://fstream.binance.com/ws/!forceOrder@arr');}catch(e){scheduleLiquidationReconnect();return;}
+    liquidationSocket=ws;var timeout=setTimeout(function(){if(ws.readyState===WebSocket.CONNECTING){try{ws.close();}catch(e){}}},7000);
+    ws.onopen=function(){clearTimeout(timeout);if(liquidationSocket===ws){liqRetry=1000;liqAttempt=0;}};
+    ws.onmessage=function(ev){if(liquidationSocket!==ws)return;try{var packet=JSON.parse(ev.data),items=Array.isArray(packet)?packet:[packet];items.forEach(function(item){var o=item&&item.o?item.o:item;if(!o||!o.s||!o.S)return;var sym=String(o.s).toLowerCase(),price=Number(o.ap||o.p),qty=Number(o.z||o.q),usd=price*qty,ts=Number(o.T||item.E||Date.now());if(!Number.isFinite(price)||price<=0||!Number.isFinite(usd)||usd<=0)return;liquidationEvents.push({symbol:sym,p:price,usd:usd,side:String(o.S).toUpperCase(),t:ts});});var cutoff=Date.now()-Math.max(900,historyLimit()*1000);liquidationEvents=liquidationEvents.filter(function(e){return e.t>=cutoff;}).slice(-2500);renderLiquidationHeatmap();}catch(e){}};
+    ws.onerror=function(){};
+    ws.onclose=function(){clearTimeout(timeout);if(liquidationSocket===ws)liquidationSocket=null;scheduleLiquidationReconnect();};
+  }
+  function selectMarket(type){
+    activeMarket=type||'crypto';
+    document.querySelectorAll('[data-liq-market]').forEach(function(btn){var on=btn.dataset.liqMarket===activeMarket;btn.classList.toggle('active',on);btn.setAttribute('aria-selected',on?'true':'false');});
+    var search=$('nfxMarketSearch'),dashboard=$('nfxLiqDashboard');
+    if(search)search.hidden=activeMarket!=='crypto';
+    if(dashboard)dashboard.style.opacity=activeMarket==='crypto'?'1':'.72';
+    if(activeMarket==='crypto'){
+      if(socket&&socket.readyState<=1&&socket.url&&socket.url.indexOf('/'+currentSymbol+'@depth')===-1){try{socket.close();}catch(e){}socket=null;}
+      connect();connectLiquidations();setStatus('Connecting live Binance Futures…','connecting');
+    }else{
+      if(socket){try{socket.close();}catch(e){}socket=null;}
+      if(liquidationSocket){try{liquidationSocket.close();}catch(e){}liquidationSocket=null;}
+      setStatus('No verified live provider for '+((marketInfo[activeMarket]||{}).title||activeMarket),'disconnected');
+      var bids=$('nfxLiqBids'),asks=$('nfxLiqAsks');
+      if(bids)bids.innerHTML='<div class="nfx-liq-empty">A verified venue feed is required for this market.</div>';
+      if(asks)asks.innerHTML='<div class="nfx-liq-empty">A verified venue feed is required for this market.</div>';
+      var count=$('nfxMarketCount');if(count)count.textContent=(marketInfo[activeMarket]||{}).desc||'Provider required for live market data.';
+    }
+    renderTimeline();renderLiquidationHeatmap();
+  }
   function historyLimit(){var el=$('nfxLiqWindow');return el?Number(el.value)||300:300;}
   function captureHistory(data,mid){
     var now=Date.now();
@@ -3018,11 +3093,11 @@ function bindHeatmapInspector(canvasId,kind){
   var winSel=$('nfxLiqWindow');if(winSel)winSel.addEventListener('change',function(){var cutoff=Date.now()-historyLimit()*1000;liqHistory=liqHistory.filter(x=>x.t>=cutoff);liquidationEvents=liquidationEvents.filter(x=>x.t>=cutoff);renderTimeline();renderLiquidationHeatmap();});
   var resetBtn=$('nfxLiqResetHistory');if(resetBtn)resetBtn.addEventListener('click',function(){liqHistory=[];lastHistoryAt=0;renderTimeline();});
   window.addEventListener('resize',function(){if(!renderFrame)renderFrame=requestAnimationFrame(function(){renderFrame=0;renderTimeline();renderLiquidationHeatmap();});});
-  window.addEventListener('nfx-liquidity-open',function(){if(activeMarket==='crypto'&&(!socket||socket.readyState>1))connect();renderLiquidationHeatmap();});
-  window.addEventListener('online',function(){if(activeMarket==='crypto')connect();});
+  window.addEventListener('nfx-liquidity-open',function(){if(activeMarket==='crypto'){connect();connectLiquidations();}renderTimeline();renderLiquidationHeatmap();});
+  window.addEventListener('online',function(){if(activeMarket==='crypto'){connect();connectLiquidations();}});
   window.addEventListener('offline',function(){if(activeMarket==='crypto')setStatus('Browser offline','disconnected');});
   document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible'&&activeMarket==='crypto'&&$('page-liquidity')&&$('page-liquidity').classList.contains('active')){if(!socket||socket.readyState>1)connect();if(!liquidationSocket||liquidationSocket.readyState>1)connectLiquidations();}});
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){if($('page-liquidity')&&$('page-liquidity').classList.contains('active'))connect();},{once:true});
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){if($('page-liquidity')&&$('page-liquidity').classList.contains('active')){connect();connectLiquidations();}},{once:true});
 })();
 </script>
 
