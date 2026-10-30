@@ -1436,6 +1436,7 @@ document.addEventListener('click',event=>{
     window.scrollTo({top:0,behavior:'smooth'});
     if(page==='chart')loadTradingView();
     if(page==='liquidity')window.dispatchEvent(new Event('nfx-liquidity-open'));
+    if(['page-footprint','page-bookmap','page-volumeprofile'].includes(page))window.dispatchEvent(new Event('nfx-pro-chart-open'));
     if(page==='notes'&&typeof renderSavedNotes==='function')renderSavedNotes();
     if(page==='account' && !document.querySelector('.account-subview.active')) showAccountPage('create');
   }
