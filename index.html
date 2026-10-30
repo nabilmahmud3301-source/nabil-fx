@@ -635,6 +635,58 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 @media(max-width:760px){#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-controls{grid-template-columns:repeat(2,minmax(0,1fr))!important}#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-selected-market{grid-column:1/-1!important}#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-book{gap:7px!important}#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-book-side{padding:6px!important}#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-levels{height:320px!important;max-height:320px!important}#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-row{font-size:9px!important;gap:4px!important;padding:2px 4px!important}}
 @media(max-width:700px){#nfxLiqDashboard #nfxLiqLivePanel:fullscreen,#nfxLiqDashboard #nfxLiqLivePanel.nfx-liq-expanded-fallback{padding:9px!important}#nfxLiqDashboard #nfxLiqLivePanel:fullscreen .nfx-liq-book,#nfxLiqDashboard #nfxLiqLivePanel.nfx-liq-expanded-fallback .nfx-liq-book{gap:6px!important}#nfxLiqDashboard #nfxLiqLivePanel:fullscreen .nfx-liq-book-side,#nfxLiqDashboard #nfxLiqLivePanel.nfx-liq-expanded-fallback .nfx-liq-book-side{padding:5px!important}}
 </style>
+
+<style id="nfx-live-orderbook-original-layout-restore">
+/* Restore the original wide, full-depth order-book presentation. */
+#nfxLiqDashboard #nfxLiqLivePanel{grid-column:1/-1!important;min-width:0!important}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-book{
+ display:grid!important;
+ grid-template-columns:minmax(0,1fr) 118px minmax(0,1fr)!important;
+ gap:10px!important;align-items:stretch!important;overflow:visible!important
+}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-book-side{
+ display:block!important;min-width:0!important;min-height:0!important;
+ overflow:hidden!important;padding:0!important
+}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-levels{
+ display:grid!important;grid-auto-rows:minmax(26px,auto)!important;gap:2px!important;
+ box-sizing:border-box!important;width:100%!important;height:auto!important;
+ min-height:0!important;max-height:none!important;padding:6px!important;
+ overflow:visible!important;scrollbar-width:auto!important
+}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-levels::-webkit-scrollbar{display:none!important}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-row{
+ flex:initial!important;min-height:26px!important;padding:4px 7px!important;
+ grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+ gap:6px!important;font-size:11px!important
+}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-mid{
+ grid-column:auto!important;grid-row:auto!important;min-width:0!important;
+ min-height:100%!important;margin:0!important;padding:12px 8px!important
+}
+#nfxLiqDashboard #nfxLiqLivePanel:fullscreen .nfx-liq-book,
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-liq-expanded-fallback .nfx-liq-book{
+ flex:1 1 auto!important;min-height:0!important;
+ grid-template-columns:minmax(0,1fr) 150px minmax(0,1fr)!important;
+ gap:18px!important;overflow:visible!important
+}
+#nfxLiqDashboard #nfxLiqLivePanel:fullscreen .nfx-liq-levels,
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-liq-expanded-fallback .nfx-liq-levels{
+ height:auto!important;min-height:0!important;max-height:none!important;
+ overflow:visible!important;grid-auto-rows:minmax(30px,auto)!important
+}
+#nfxLiqDashboard #nfxLiqLivePanel:fullscreen .nfx-liq-row,
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-liq-expanded-fallback .nfx-liq-row{
+ min-height:30px!important;font-size:clamp(11px,.9vw,14px)!important;
+ padding:5px 12px!important
+}
+@media(max-width:760px){
+ #nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-book{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:8px!important}
+ #nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-mid{grid-column:1/-1!important;grid-row:1!important;min-height:64px!important}
+ #nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-row{font-size:10px!important;gap:4px!important;padding:4px 5px!important}
+}
+</style>
+
 </head>
 <body>
 <header class="site-header">
@@ -3165,8 +3217,8 @@ document.addEventListener('click', function(event) {
   function paintOrderBook(data,fromHistory){
     if(!data||!Array.isArray(data.bids)||!Array.isArray(data.asks)||!data.bids.length||!data.asks.length)return;
     lastPayload=data;
-    var bids=data.bids.slice(0,100).map(function(x){return [Number(x[0]),Number(x[1])];}).filter(function(x){return x[1]>0;});
-    var asks=data.asks.slice(0,100).map(function(x){return [Number(x[0]),Number(x[1])];}).filter(function(x){return x[1]>0;});
+    var bids=data.bids.slice(0,20).map(function(x){return [Number(x[0]),Number(x[1])];}).filter(function(x){return x[1]>0;});
+    var asks=data.asks.slice(0,20).map(function(x){return [Number(x[0]),Number(x[1])];}).filter(function(x){return x[1]>0;});
     if(!bids.length||!asks.length)return;
     var bestBid=bids.reduce(function(a,b){return b[0]>a[0]?b:a;},bids[0]),bestAsk=asks.reduce(function(a,b){return b[0]<a[0]?b:a;},asks[0]);
     var mid=(bestBid[0]+bestAsk[0])/2,spread=bestAsk[0]-bestBid[0],maxQty=Math.max.apply(null,bids.concat(asks).map(function(x){return x[1];}).concat([0]));
