@@ -923,23 +923,44 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
     <div class="nfx-market-search-meta"><span class="nfx-market-dot"></span><span id="nfxMarketCount">Loading available crypto markets…</span><span class="nfx-market-search-current">Selected: <strong id="nfxMarketCurrent">BTC/USDT</strong></span></div>
   </section>
   <div class="nfx-liq-dashboard" id="nfxLiqDashboard">
-    <section class="nfx-liq-panel nfx-liq-workspace-card" id="nfxLiqLivePanel">
-      <div class="nfx-liq-panel-head"><div><div class="nfx-liq-kicker">CRYPTO PERPETUAL FUTURES</div><h2>Live Order Book</h2><p>Visible Binance USDⓈ-M Futures bids and asks.</p></div><div class="nfx-liq-card-actions"><div class="nfx-liq-status" id="nfxLiqConnection"><i></i><span>Connecting feed…</span></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqLivePanel" aria-label="Expand live order book">⛶ <span>Expand</span></button></div></div>
-      <div class="nfx-liq-controls">
-        <div class="nfx-liq-selected-market"><span>SELECTED MARKET</span><strong id="nfxLiqSelectedMarket">BTC / USDT</strong></div>
-        <div class="nfx-liq-stat"><span>BEST BID</span><strong id="nfxLiqBestBid">—</strong></div><div class="nfx-liq-stat"><span>BEST ASK</span><strong id="nfxLiqBestAsk">—</strong></div><div class="nfx-liq-stat"><span>SPREAD</span><strong id="nfxLiqSpread">—</strong></div><div class="nfx-liq-stat nfx-liq-velocity-stat"><span>BID VELOCITY <i>LIVE</i></span><strong id="nfxLiqBidVelocity">—</strong><small id="nfxLiqBidVelocitySub">Waiting for price updates</small></div><div class="nfx-liq-stat nfx-liq-velocity-stat"><span>ASK VELOCITY <i>LIVE</i></span><strong id="nfxLiqAskVelocity">—</strong><small id="nfxLiqAskVelocitySub">Waiting for price updates</small></div><div class="nfx-liq-stat"><span>LAST UPDATE</span><strong id="nfxLiqUpdated">—</strong></div>
+    <section class="nfx-liq-panel nfx-liq-workspace-card nfx-ob-v2" id="nfxLiqLivePanel" aria-label="Professional live order book">
+      <header class="nfx-ob-head">
+        <div class="nfx-ob-brand">
+          <div class="nfx-ob-mark">N</div>
+          <div><span class="nfx-ob-eyebrow">NABIL FX · MARKET MICROSTRUCTURE</span><h2>Live Order Book</h2><p>Real-time liquidity ladder · Binance USDⓈ-M Futures</p></div>
+        </div>
+        <div class="nfx-ob-head-actions">
+          <div class="nfx-liq-status" id="nfxLiqConnection"><i></i><span>Connecting feed…</span></div>
+          <button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqLivePanel" aria-label="Expand live order book">⛶ <span>Expand</span></button>
+        </div>
+      </header>
+      <div class="nfx-ob-marketbar">
+        <div class="nfx-ob-instrument"><span class="nfx-ob-label">TRADING INSTRUMENT</span><strong id="nfxLiqSelectedMarket">BTC / USDT</strong><small>PERPETUAL · USDⓈ-M</small></div>
+        <div class="nfx-ob-marketstat"><span>BEST BID</span><strong class="bid-text" id="nfxLiqBestBid">—</strong></div>
+        <div class="nfx-ob-marketstat"><span>BEST ASK</span><strong class="ask-text" id="nfxLiqBestAsk">—</strong></div>
+        <div class="nfx-ob-marketstat"><span>SPREAD</span><strong id="nfxLiqSpread">—</strong></div>
+        <div class="nfx-ob-marketstat"><span>UPDATED</span><strong id="nfxLiqUpdated">—</strong></div>
       </div>
-      <div class="nfx-liq-legend"><span><i class="nfx-liq-ask-key"></i> ASK</span><span><i class="nfx-liq-bid-key"></i> BID</span><span class="nfx-liq-legend-note">Brighter bar = larger visible size</span></div>
-      <div class="nfx-pro-book-toolbar">
-        <div class="nfx-pro-book-tabs"><span class="active">ORDER BOOK</span><span>BINANCE FUTURES</span></div>
+      <div class="nfx-ob-toolbar">
+        <div class="nfx-ob-viewtabs"><span class="nfx-ob-viewdot"></span><strong>ORDER BOOK</strong><span class="nfx-ob-divider"></span><span class="nfx-ob-feed">LIVE EXCHANGE FEED</span></div>
         <div class="nfx-pro-book-actions"><span class="nfx-pro-depth-label">DEPTH</span><button type="button" data-book-depth="10">10</button><button type="button" data-book-depth="20" class="active">20</button><button type="button" data-book-depth="50">50</button><span class="nfx-pro-book-unit">PRICE · USDT</span></div>
       </div>
-      <div class="nfx-liq-book">
-        <div class="nfx-liq-book-side nfx-liq-asks"><div class="nfx-liq-book-title"><span>ASKS · SELL</span><span>PRICE / SIZE</span></div><div id="nfxLiqAsks" class="nfx-liq-levels"><div class="nfx-liq-empty">Waiting for live order book…</div></div></div>
-        <div class="nfx-liq-mid nfx-pro-mid"><span>MARKET MID · USDT</span><strong id="nfxLiqMid">—</strong><small id="nfxProMidMove">Awaiting price movement</small><div class="nfx-pro-mid-spread"><span>SPREAD</span><b id="nfxProSpread">—</b></div></div>
-        <div class="nfx-liq-book-side nfx-liq-bids"><div class="nfx-liq-book-title"><span>BIDS · BUY</span><span>PRICE / SIZE</span></div><div id="nfxLiqBids" class="nfx-liq-levels"><div class="nfx-liq-empty">Waiting for live order book…</div></div></div>
+      <div class="nfx-ob-price-focus">
+        <div class="nfx-ob-price-side"><span>SELL SIDE</span><strong class="ask-text">ASKS</strong><small>Offers / liquidity</small></div>
+        <div class="nfx-ob-midprice"><span>MARKET MID PRICE</span><strong id="nfxLiqMid">—</strong><small id="nfxProMidMove">Awaiting price movement</small><div class="nfx-ob-spread"><span>SPREAD</span><b id="nfxProSpread">—</b></div></div>
+        <div class="nfx-ob-price-side right"><span>BUY SIDE</span><strong class="bid-text">BIDS</strong><small>Demand / liquidity</small></div>
       </div>
-      <div class="nfx-liq-foot"><span>Binance Futures · venue-specific depth</span><span>Auto-reconnect enabled</span></div>
+      <div class="nfx-liq-book nfx-ob-ladder">
+        <div class="nfx-liq-book-side nfx-liq-asks nfx-ob-side"><div class="nfx-liq-book-title"><span>ASK PRICE <small>· SELL</small></span><span>SIZE (BTC)</span></div><div id="nfxLiqAsks" class="nfx-liq-levels"><div class="nfx-liq-empty">Waiting for live order book…</div></div></div>
+        <div class="nfx-ob-center-rail"><span>PRICE LEVEL</span><i></i><small>USDT</small></div>
+        <div class="nfx-liq-book-side nfx-liq-bids nfx-ob-side"><div class="nfx-liq-book-title"><span>BID PRICE <small>· BUY</small></span><span>SIZE (BTC)</span></div><div id="nfxLiqBids" class="nfx-liq-levels"><div class="nfx-liq-empty">Waiting for live order book…</div></div></div>
+      </div>
+      <div class="nfx-ob-footer">
+        <div class="nfx-ob-legend"><span><i class="ask-key"></i> SELL LIQUIDITY</span><span><i class="bid-key"></i> BUY LIQUIDITY</span><span class="nfx-ob-legend-note">Bar length represents relative order size</span></div>
+        <div class="nfx-ob-velocity"><span>BID <b id="nfxLiqBidVelocity">—</b></span><span>ASK <b id="nfxLiqAskVelocity">—</b></span></div>
+        <small class="nfx-ob-footnote">Venue-specific visible depth · Snapshot refresh ~1.2s</small>
+      </div>
+      <div hidden aria-hidden="true"><span id="nfxLiqBidVelocitySub"></span><span id="nfxLiqAskVelocitySub"></span></div>
     </section>
     <section class="nfx-liq-timeline-panel nfx-liq-workspace-card" id="nfxLiqBookHeatmap" aria-label="Liquidity timeline heatmap">
       <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">LIVE CAPTURE</div><h3>Liquidity Heatmap</h3><p>Visible resting orders by price and time · <strong id="nfxLiqTimelineSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><div class="nfx-liq-timeline-actions"><label>WINDOW <select id="nfxLiqWindow"><option value="60">1 MIN</option><option value="300" selected>5 MIN</option><option value="900">15 MIN</option></select></label><button id="nfxLiqResetHistory" type="button">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqBookHeatmap" aria-label="Expand liquidity heatmap">⛶ <span>Expand</span></button></div></div>
@@ -5207,4 +5228,75 @@ document.addEventListener('nfx-liquidity-open',start);document.addEventListener(
 #nfxLiqDashboard #nfxLiqLivePanel .nfx-pro-mid-spread span{font-size:8px;color:#7f93a8;letter-spacing:.12em;font-weight:800}
 #nfxLiqDashboard #nfxLiqLivePanel .nfx-pro-mid-spread b{font-size:11px;color:#dbe5ef;font-variant-numeric:tabular-nums}
 @media(max-width:760px){#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-book{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}#nfxLiqDashboard #nfxLiqLivePanel .nfx-pro-mid{grid-column:1/-1!important;grid-row:1!important;min-height:92px!important}#nfxLiqDashboard #nfxLiqLivePanel .nfx-pro-book-toolbar{align-items:flex-start;flex-direction:column}}
+</style>
+<style id="nfx-live-orderbook-total-redesign">
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-ob-v2{--ob-bg:#080e18;--ob-panel:#0d1725;--ob-line:#1c2b3d;--ob-muted:#8292a7;--ob-text:#e8eef6;position:relative!important;overflow:hidden!important;padding:0!important;background:radial-gradient(ellipse at 50% 0%,rgba(30,56,82,.25),transparent 48%),#080e18!important;border:1px solid #26374b!important;border-radius:16px!important;box-shadow:0 18px 55px rgba(0,0,0,.34),inset 0 1px rgba(255,255,255,.035)!important;color:var(--ob-text)!important}
+#nfxLiqLivePanel .nfx-ob-head{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:22px 24px 19px;border-bottom:1px solid var(--ob-line)}
+#nfxLiqLivePanel .nfx-ob-brand{display:flex;align-items:center;gap:14px;min-width:0}
+#nfxLiqLivePanel .nfx-ob-mark{width:42px;height:42px;display:grid;place-items:center;border-radius:11px;background:linear-gradient(145deg,#d9b46c,#8e6730);color:#111722;font-size:19px;font-weight:950;box-shadow:0 5px 20px #b58a4433}
+#nfxLiqLivePanel .nfx-ob-eyebrow{display:block;color:#c6a66b;font-size:9px;letter-spacing:.17em;font-weight:850;margin-bottom:5px}
+#nfxLiqLivePanel .nfx-ob-brand h2{font-size:21px;line-height:1.15;letter-spacing:-.035em;margin:0;color:#f3f6fb;font-weight:800}
+#nfxLiqLivePanel .nfx-ob-brand p{font-size:11px;color:#8393a8;margin:5px 0 0}
+#nfxLiqLivePanel .nfx-ob-head-actions{display:flex;align-items:center;gap:12px}
+#nfxLiqLivePanel .nfx-ob-head .nfx-liq-status{border:1px solid #203b35;background:#0c211e;border-radius:30px;padding:8px 12px;color:#8bd8b7;font-size:10px;white-space:nowrap}
+#nfxLiqLivePanel .nfx-ob-head .nfx-liq-fullscreen-btn{border:1px solid #2b3c50;background:#111e2d;color:#d4deea;border-radius:8px;padding:9px 12px;font-size:10px}
+#nfxLiqLivePanel .nfx-ob-marketbar{display:grid;grid-template-columns:1.45fr repeat(4,minmax(100px,1fr));gap:0;padding:15px 24px;background:linear-gradient(90deg,#0c1725,#101c2b,#0c1725);border-bottom:1px solid var(--ob-line)}
+#nfxLiqLivePanel .nfx-ob-instrument,#nfxLiqLivePanel .nfx-ob-marketstat{display:flex;flex-direction:column;justify-content:center;gap:5px;padding:0 16px;border-right:1px solid #223247;min-width:0}
+#nfxLiqLivePanel .nfx-ob-instrument{padding-left:0}
+#nfxLiqLivePanel .nfx-ob-marketstat:last-child{border:0}
+#nfxLiqLivePanel .nfx-ob-label,#nfxLiqLivePanel .nfx-ob-marketstat>span{font-size:8px;letter-spacing:.14em;color:#8192a7;font-weight:850}
+#nfxLiqLivePanel .nfx-ob-instrument strong{font-size:17px;color:#f2f5f9;letter-spacing:-.025em}
+#nfxLiqLivePanel .nfx-ob-instrument small{font-size:8px;color:#65788f;letter-spacing:.12em;font-weight:800}
+#nfxLiqLivePanel .nfx-ob-marketstat strong{font-size:13px;font-variant-numeric:tabular-nums;color:#dfe7f0;font-weight:750}
+#nfxLiqLivePanel .nfx-ob-marketstat .bid-text,#nfxLiqLivePanel .bid-text{color:#31d6a0!important}
+#nfxLiqLivePanel .nfx-ob-marketstat .ask-text,#nfxLiqLivePanel .ask-text{color:#ff7185!important}
+#nfxLiqLivePanel .nfx-ob-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 24px 10px}
+#nfxLiqLivePanel .nfx-ob-viewtabs{display:flex;align-items:center;gap:9px;font-size:9px;letter-spacing:.13em;color:#e7edf5}
+#nfxLiqLivePanel .nfx-ob-viewdot{width:7px;height:7px;border-radius:50%;background:#42d6a2;box-shadow:0 0 10px #42d6a2}
+#nfxLiqLivePanel .nfx-ob-divider{height:13px;width:1px;background:#314156;margin:0 4px}
+#nfxLiqLivePanel .nfx-ob-feed{color:#71849b;font-size:8px;font-weight:750}
+#nfxLiqLivePanel .nfx-pro-book-actions{display:flex;align-items:center;gap:5px}
+#nfxLiqLivePanel .nfx-pro-depth-label,#nfxLiqLivePanel .nfx-pro-book-unit{font-size:8px;letter-spacing:.13em;color:#8293a8;font-weight:850;margin:0 7px}
+#nfxLiqLivePanel .nfx-pro-book-actions button{height:28px;min-width:34px;border:1px solid #293b50;border-radius:6px;background:#111f30;color:#aab9ca;font-size:10px;font-weight:850;cursor:pointer;transition:.18s}
+#nfxLiqLivePanel .nfx-pro-book-actions button:hover{border-color:#8b7046;color:#fff}
+#nfxLiqLivePanel .nfx-pro-book-actions button.active{background:linear-gradient(180deg,#27384a,#1a293a);border-color:#b18c53;color:#f5d9a3;box-shadow:inset 0 -2px #c5a064}
+#nfxLiqLivePanel .nfx-ob-price-focus{display:grid;grid-template-columns:1fr minmax(220px,1.15fr) 1fr;align-items:center;gap:12px;margin:0 24px 13px;padding:14px 18px;background:linear-gradient(110deg,rgba(255,89,113,.055),rgba(20,35,52,.85) 45%,rgba(40,211,157,.055));border:1px solid #24354a;border-radius:11px}
+#nfxLiqLivePanel .nfx-ob-price-side{display:flex;flex-direction:column;gap:4px}
+#nfxLiqLivePanel .nfx-ob-price-side>span{font-size:8px;letter-spacing:.16em;color:#8293a8;font-weight:850}
+#nfxLiqLivePanel .nfx-ob-price-side>strong{font-size:15px;letter-spacing:.1em}
+#nfxLiqLivePanel .nfx-ob-price-side>small{font-size:9px;color:#71839a}
+#nfxLiqLivePanel .nfx-ob-price-side.right{text-align:right;align-items:flex-end}
+#nfxLiqLivePanel .nfx-ob-midprice{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+#nfxLiqLivePanel .nfx-ob-midprice>span{font-size:8px;letter-spacing:.16em;color:#8b9bb0;font-weight:850}
+#nfxLiqLivePanel .nfx-ob-midprice>strong{font-size:clamp(22px,2.4vw,31px);line-height:1.05;letter-spacing:-.045em;color:#f6f8fb;font-weight:850;font-variant-numeric:tabular-nums}
+#nfxLiqLivePanel .nfx-ob-midprice>small{font-size:9px;color:#9aabc0}
+#nfxLiqLivePanel .nfx-pro-mid-move.up{color:#37d8a2!important}#nfxLiqLivePanel .nfx-pro-mid-move.down{color:#ff778a!important}#nfxLiqLivePanel .nfx-pro-mid-move.flat{color:#9aabc0!important}
+#nfxLiqLivePanel .nfx-ob-spread{display:flex;gap:7px;align-items:center;margin-top:4px;padding:4px 10px;border:1px solid #2b3c50;border-radius:30px;background:#0a1421}
+#nfxLiqLivePanel .nfx-ob-spread span{font-size:7px;letter-spacing:.12em;color:#8293a8;font-weight:850}#nfxLiqLivePanel .nfx-ob-spread b{font-size:9px;color:#e1e9f2;font-variant-numeric:tabular-nums}
+#nfxLiqLivePanel .nfx-liq-book.nfx-ob-ladder{display:grid!important;grid-template-columns:minmax(0,1fr) 22px minmax(0,1fr)!important;gap:0!important;align-items:stretch!important;margin:0 24px!important;border:1px solid #24354a!important;border-radius:10px!important;overflow:hidden!important;background:#0b1420!important}
+#nfxLiqLivePanel .nfx-ob-side{display:flex!important;flex-direction:column!important;min-width:0!important;background:#0b1420!important}
+#nfxLiqLivePanel .nfx-ob-side .nfx-liq-book-title{display:flex;justify-content:space-between;align-items:center;padding:11px 13px!important;background:#101d2c!important;border-bottom:1px solid #26374b!important;color:#aebdce!important;font-size:8px!important;letter-spacing:.12em!important;font-weight:850!important}
+#nfxLiqLivePanel .nfx-ob-side .nfx-liq-book-title small{font-size:8px;color:#72869c}
+#nfxLiqLivePanel .nfx-ob-side .nfx-liq-levels{height:360px!important;max-height:360px!important;min-height:0!important;display:flex!important;flex-direction:column!important;gap:2px!important;padding:7px 8px!important;overflow:hidden!important;background:#0b1420!important}
+#nfxLiqLivePanel .nfx-ob-side .nfx-liq-row{position:relative!important;display:grid!important;grid-template-columns:1fr 1fr!important;align-items:center!important;min-height:16px!important;height:16px!important;padding:0 7px!important;border-radius:3px!important;overflow:hidden!important;background:transparent!important;font-size:9px!important;font-variant-numeric:tabular-nums!important}
+#nfxLiqLivePanel .nfx-ob-side .nfx-liq-row>i{position:absolute!important;top:1px!important;bottom:1px!important;right:0!important;opacity:.16!important;border-radius:2px!important;pointer-events:none!important}
+#nfxLiqLivePanel .nfx-ob-side .nfx-liq-row.ask>i{background:#fa6277!important}#nfxLiqLivePanel .nfx-ob-side .nfx-liq-row.bid>i{background:#21c995!important}
+#nfxLiqLivePanel .nfx-ob-side .nfx-liq-row>span{position:relative!important;z-index:1!important;color:#e3eaf2!important}
+#nfxLiqLivePanel .nfx-ob-side .nfx-liq-row.ask>span:first-of-type{color:#ff8292!important}#nfxLiqLivePanel .nfx-ob-side .nfx-liq-row.bid>span:first-of-type{color:#4cdbad!important}
+#nfxLiqLivePanel .nfx-ob-side .nfx-liq-row>span:last-child{text-align:right;color:#a9b7c7!important}
+#nfxLiqLivePanel .nfx-ob-center-rail{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;background:#101c2a;border-left:1px solid #26374b;border-right:1px solid #26374b}
+#nfxLiqLivePanel .nfx-ob-center-rail span,.nfx-ob-center-rail small{writing-mode:vertical-rl;font-size:7px;letter-spacing:.12em;color:#72869b;font-weight:800}
+#nfxLiqLivePanel .nfx-ob-center-rail i{height:42px;width:2px;border-radius:2px;background:linear-gradient(#f16d7e,#c9a66b,#32c99c)}
+#nfxLiqLivePanel .nfx-ob-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:13px 24px 17px}
+#nfxLiqLivePanel .nfx-ob-legend,#nfxLiqLivePanel .nfx-ob-velocity{display:flex;align-items:center;gap:15px;flex-wrap:wrap}
+#nfxLiqLivePanel .nfx-ob-legend span,#nfxLiqLivePanel .nfx-ob-velocity span{font-size:8px;color:#8b9bb0;letter-spacing:.08em;font-weight:800}
+#nfxLiqLivePanel .nfx-ob-legend i{display:inline-block;width:7px;height:7px;border-radius:2px;margin-right:5px}
+#nfxLiqLivePanel .nfx-ob-legend .ask-key{background:#f16c80}#nfxLiqLivePanel .nfx-ob-legend .bid-key{background:#27c995}
+#nfxLiqLivePanel .nfx-ob-legend-note{color:#64788e!important;font-weight:500!important;letter-spacing:0!important}
+#nfxLiqLivePanel .nfx-ob-velocity b{color:#d8e2ec;font-size:9px;font-variant-numeric:tabular-nums}
+#nfxLiqLivePanel .nfx-ob-footnote{width:100%;text-align:right;color:#596d83;font-size:8px;letter-spacing:.04em}
+@media(max-width:760px){#nfxLiqLivePanel .nfx-ob-head{padding:16px;align-items:flex-start}#nfxLiqLivePanel .nfx-ob-brand h2{font-size:18px}#nfxLiqLivePanel .nfx-ob-brand p{max-width:220px}#nfxLiqLivePanel .nfx-ob-marketbar{grid-template-columns:repeat(2,minmax(0,1fr));padding:12px 16px;row-gap:13px}#nfxLiqLivePanel .nfx-ob-instrument,#nfxLiqLivePanel .nfx-ob-marketstat{padding:0 9px;border-right:0}#nfxLiqLivePanel .nfx-ob-instrument{padding-left:0}#nfxLiqLivePanel .nfx-ob-toolbar{padding:12px 16px;align-items:flex-start;flex-direction:column}#nfxLiqLivePanel .nfx-ob-price-focus{margin:0 12px 12px;padding:12px 9px;grid-template-columns:.7fr 1.4fr .7fr;gap:4px}#nfxLiqLivePanel .nfx-ob-price-side>strong{font-size:11px}#nfxLiqLivePanel .nfx-ob-price-side>small{font-size:8px}#nfxLiqLivePanel .nfx-ob-midprice>strong{font-size:21px}#nfxLiqLivePanel .nfx-liq-book.nfx-ob-ladder{margin:0 12px!important;grid-template-columns:minmax(0,1fr) 12px minmax(0,1fr)!important}#nfxLiqLivePanel .nfx-ob-side .nfx-liq-levels{height:320px!important;max-height:320px!important;padding:5px 3px!important}#nfxLiqLivePanel .nfx-ob-side .nfx-liq-row{padding:0 3px!important;font-size:8px!important}#nfxLiqLivePanel .nfx-ob-side .nfx-liq-book-title{padding:9px 6px!important;font-size:7px!important}#nfxLiqLivePanel .nfx-ob-footer{padding:12px 15px}#nfxLiqLivePanel .nfx-ob-head-actions{gap:6px;flex-direction:column;align-items:flex-end}#nfxLiqLivePanel .nfx-ob-head .nfx-liq-fullscreen-btn{padding:7px 8px}}
+@media(max-width:420px){#nfxLiqLivePanel .nfx-ob-feed{display:none}#nfxLiqLivePanel .nfx-ob-marketstat strong{font-size:11px}#nfxLiqLivePanel .nfx-ob-price-side>small{display:none}#nfxLiqLivePanel .nfx-ob-legend{gap:8px}#nfxLiqLivePanel .nfx-ob-footnote{text-align:left}}
+#nfxLiqDashboard[data-focus-panel="nfxLiqLivePanel"] #nfxLiqLivePanel .nfx-ob-side .nfx-liq-levels{height:min(58vh,680px)!important;max-height:min(58vh,680px)!important}
+#nfxLiqLivePanel:fullscreen .nfx-ob-side .nfx-liq-levels,#nfxLiqLivePanel.nfx-liq-expanded-fallback .nfx-ob-side .nfx-liq-levels{height:min(58vh,680px)!important;max-height:min(58vh,680px)!important}
 </style>
