@@ -593,6 +593,17 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 #nfxLiqDashboard #nfxLiqLivePanel:fullscreen .nfx-liq-levels::-webkit-scrollbar,#nfxLiqDashboard #nfxLiqLivePanel.nfx-liq-expanded-fallback .nfx-liq-levels::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}
 @media(max-width:700px){#nfxLiqDashboard #nfxLiqLivePanel:fullscreen,#nfxLiqDashboard #nfxLiqLivePanel.nfx-liq-expanded-fallback{padding:10px!important}#nfxLiqDashboard #nfxLiqLivePanel:fullscreen .nfx-liq-book,#nfxLiqDashboard #nfxLiqLivePanel.nfx-liq-expanded-fallback .nfx-liq-book{grid-template-columns:minmax(0,1fr) minmax(76px,.24fr) minmax(0,1fr)!important}}
 </style>
+<style id="nfx-orderbook-premium-expanded">
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-book{gap:14px!important}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-book-side{border:1px solid rgba(148,163,184,.14)!important;border-radius:14px!important;background:linear-gradient(180deg,rgba(17,27,41,.96),rgba(8,14,23,.98))!important;padding:10px!important;box-shadow:inset 0 1px rgba(255,255,255,.035),0 12px 30px rgba(0,0,0,.18)!important}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-book-title{padding:8px 10px 12px!important;border-bottom:1px solid rgba(148,163,184,.13)!important;letter-spacing:.09em!important}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-row{min-height:25px!important;border-radius:5px!important}
+#nfxLiqDashboard #nfxLiqLivePanel:fullscreen .nfx-liq-book,#nfxLiqDashboard #nfxLiqLivePanel.nfx-liq-expanded-fallback .nfx-liq-book{flex:1 1 auto!important;min-height:0!important;grid-template-columns:minmax(0,1fr) minmax(150px,.22fr) minmax(0,1fr)!important;gap:18px!important}
+#nfxLiqDashboard #nfxLiqLivePanel:fullscreen .nfx-liq-book-side,#nfxLiqDashboard #nfxLiqLivePanel.nfx-liq-expanded-fallback .nfx-liq-book-side{padding:16px!important;border-color:rgba(189,161,107,.24)!important}
+#nfxLiqDashboard #nfxLiqLivePanel:fullscreen .nfx-liq-levels,#nfxLiqDashboard #nfxLiqLivePanel.nfx-liq-expanded-fallback .nfx-liq-levels{flex:1 1 auto!important;height:auto!important;min-height:0!important;max-height:none!important;overflow:hidden!important;gap:3px!important}
+#nfxLiqDashboard #nfxLiqLivePanel:fullscreen .nfx-liq-mid,#nfxLiqDashboard #nfxLiqLivePanel.nfx-liq-expanded-fallback .nfx-liq-mid{align-self:center!important;padding:18px 8px!important;border:1px solid rgba(189,161,107,.2)!important;border-radius:14px!important;background:linear-gradient(180deg,rgba(189,161,107,.09),rgba(10,16,25,.7))!important}
+@media(max-width:700px){#nfxLiqDashboard #nfxLiqLivePanel:fullscreen .nfx-liq-book,#nfxLiqDashboard #nfxLiqLivePanel.nfx-liq-expanded-fallback .nfx-liq-book{grid-template-columns:minmax(0,1fr) minmax(70px,.2fr) minmax(0,1fr)!important;gap:6px!important}#nfxLiqDashboard #nfxLiqLivePanel:fullscreen .nfx-liq-book-side,#nfxLiqDashboard #nfxLiqLivePanel.nfx-liq-expanded-fallback .nfx-liq-book-side{padding:5px!important}}
+</style>
 </head>
 <body>
 <header class="site-header">
@@ -3123,8 +3134,8 @@ document.addEventListener('click', function(event) {
   function paintOrderBook(data,fromHistory){
     if(!data||!Array.isArray(data.bids)||!Array.isArray(data.asks)||!data.bids.length||!data.asks.length)return;
     lastPayload=data;
-    var bids=data.bids.slice(0,20).map(function(x){return [Number(x[0]),Number(x[1])];}).filter(function(x){return x[1]>0;});
-    var asks=data.asks.slice(0,20).map(function(x){return [Number(x[0]),Number(x[1])];}).filter(function(x){return x[1]>0;});
+    var bids=data.bids.slice(0,100).map(function(x){return [Number(x[0]),Number(x[1])];}).filter(function(x){return x[1]>0;});
+    var asks=data.asks.slice(0,100).map(function(x){return [Number(x[0]),Number(x[1])];}).filter(function(x){return x[1]>0;});
     if(!bids.length||!asks.length)return;
     var bestBid=bids.reduce(function(a,b){return b[0]>a[0]?b:a;},bids[0]),bestAsk=asks.reduce(function(a,b){return b[0]<a[0]?b:a;},asks[0]);
     var mid=(bestBid[0]+bestAsk[0])/2,spread=bestAsk[0]-bestBid[0],maxQty=Math.max.apply(null,bids.concat(asks).map(function(x){return x[1];}).concat([0]));
@@ -3138,23 +3149,25 @@ document.addEventListener('click', function(event) {
     renderTimeline();
     if(!fromHistory)setStatus('Live · '+marketLabel(currentSymbol),'connected');
   }
+  var fullDepthTimer=null,fullDepthBusy=false;
   function connect(){
-    if(activeMarket!=='crypto'||!window.WebSocket||document.hidden)return;
+    if(activeMarket!=='crypto'||document.hidden)return;
     manuallyClosed=false;
-    if(wsConnectTimer){clearTimeout(wsConnectTimer);wsConnectTimer=null;}
+    if(socket){try{socket.onclose=null;socket.close();}catch(e){}socket=null;}
+    if(fullDepthTimer){clearInterval(fullDepthTimer);fullDepthTimer=null;}
     var thisSymbol=currentSymbol;
-    if(socket&&(socket.readyState===WebSocket.OPEN||socket.readyState===WebSocket.CONNECTING)){
-      if(socket.url&&socket.url.indexOf('/'+thisSymbol+'@depth20@100ms')!==-1)return;
-      try{socket.onclose=null;socket.close();}catch(e){}socket=null;
+    function loadFullDepth(){
+      if(fullDepthBusy||document.hidden||thisSymbol!==currentSymbol||activeMarket!=='crypto')return;
+      fullDepthBusy=true;
+      fetch('https://fapi.binance.com/fapi/v1/depth?symbol='+thisSymbol.toUpperCase()+'&limit=1000',{cache:'no-store'})
+        .then(function(res){if(!res.ok)throw new Error('Depth snapshot unavailable');return res.json();})
+        .then(function(d){if(thisSymbol!==currentSymbol||!Array.isArray(d.bids)||!Array.isArray(d.asks))return;paintOrderBook({bids:d.bids.slice(0,100),asks:d.asks.slice(0,100)});setStatus('Live full depth · '+marketLabel(thisSymbol),'connected');})
+        .catch(function(){if(thisSymbol===currentSymbol)setStatus('Depth feed reconnecting…','disconnected');})
+        .finally(function(){fullDepthBusy=false;});
     }
-    var ws;
-    setStatus('Connecting '+marketLabel(thisSymbol)+'…','connecting');
-    try{ws=new WebSocket('wss://fstream.binance.com/ws/'+thisSymbol+'@depth20@100ms');}catch(e){setStatus('Feed unavailable · retrying','disconnected');scheduleBookReconnect();return;}
-    socket=ws;var timeout=setTimeout(function(){if(ws.readyState===WebSocket.CONNECTING){try{ws.close();}catch(e){}}},7000);
-    ws.onopen=function(){clearTimeout(timeout);if(socket!==ws)return;wsRetry=1000;wsAttempt=0;setStatus('Connected · waiting for data','connecting');};
-    ws.onmessage=function(ev){if(socket!==ws||thisSymbol!==currentSymbol)return;try{var d=JSON.parse(ev.data);if(d&&Array.isArray(d.b)&&Array.isArray(d.a))paintOrderBook({bids:d.b,asks:d.a});}catch(e){}};
-    ws.onerror=function(){if(socket===ws)setStatus('Connection issue · retrying','disconnected');};
-    ws.onclose=function(){clearTimeout(timeout);if(socket===ws)socket=null;if(thisSymbol===currentSymbol){setStatus('Disconnected · reconnecting','disconnected');scheduleBookReconnect();}};
+    setStatus('Loading full market depth…','connecting');
+    loadFullDepth();
+    fullDepthTimer=setInterval(loadFullDepth,1200);
   }
   function connectLiquidations(){
     if(activeMarket!=='crypto'||!window.WebSocket||document.hidden)return;
