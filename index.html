@@ -942,6 +942,10 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next *{box-sizing:border-box}
 #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-top{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 26px;border-bottom:1px solid var(--obx-line);background:linear-gradient(90deg,#111c2b99,#0a111c66)}
 #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-brand{display:flex;align-items:center;gap:15px;min-width:0}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-brand-clean{gap:0}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-brand-clean h2{font-size:25px}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-brand-clean .nfx-obx-eyebrow{letter-spacing:.14em}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-coin{display:none!important}
 #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-mark{display:grid;place-items:center;width:49px;height:49px;flex:0 0 49px;border:1px solid #d94c5e77;border-radius:14px;background:linear-gradient(145deg,#4d1725,#15101a);font-size:20px;font-weight:900;letter-spacing:-2px;color:#fff;box-shadow:inset 0 1px #ffffff16,0 7px 22px #d72e4d16}
 #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-mark span{color:#ff627a}
 #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-eyebrow{font-size:9px;font-weight:800;letter-spacing:.18em;color:#b7c4d5}
@@ -1151,14 +1155,13 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
   <div class="nfx-liq-dashboard" id="nfxLiqDashboard">
     <section class="nfx-liq-panel nfx-liq-workspace-card nfx-orderbook-next" id="nfxLiqLivePanel" aria-label="NFX professional live order book">
       <header class="nfx-obx-top">
-        <div class="nfx-obx-brand">
-          <div class="nfx-obx-mark">N<span>×</span></div>
-          <div><div class="nfx-obx-eyebrow"><i></i> NABIL FX <span>/ MARKET MICROSTRUCTURE</span></div><h2>Order Book <b>PRO</b></h2><p>Live liquidity ladder · USDⓈ-M perpetuals</p></div>
+        <div class="nfx-obx-brand nfx-obx-brand-clean">
+          <div><div class="nfx-obx-eyebrow"><i></i> MARKET MICROSTRUCTURE <span>/ USDⓈ-M</span></div><h2>Order Book</h2><p>Live liquidity ladder · Binance USDⓈ-M perpetuals</p></div>
         </div>
         <div class="nfx-obx-topright"><div class="nfx-liq-status" id="nfxLiqConnection"><i></i><span>Connecting to live market…</span></div><button class="nfx-liq-fullscreen-btn nfx-obx-expand" type="button" data-liq-fullscreen="nfxLiqLivePanel" aria-label="Expand live order book">⛶ <span>Expand</span></button></div>
       </header>
       <div class="nfx-obx-summary">
-        <div class="nfx-obx-contract"><span class="nfx-obx-caption">ACTIVE CONTRACT</span><div class="nfx-obx-contractline"><span class="nfx-obx-coin">₿</span><strong id="nfxLiqSelectedMarket">BTC / USDT</strong><span class="nfx-obx-perp">PERP</span></div><small><i></i> BINANCE USDⓈ-M FUTURES</small></div>
+        <div class="nfx-obx-contract"><span class="nfx-obx-caption">ACTIVE CONTRACT</span><div class="nfx-obx-contractline"><strong id="nfxLiqSelectedMarket">BTC / USDT</strong><span class="nfx-obx-perp">PERP</span></div><small><i></i> BINANCE USDⓈ-M FUTURES</small></div>
         <div class="nfx-obx-metric"><span>BEST BID</span><strong id="nfxLiqBestBid" class="bid-text">—</strong><small>Highest buy order</small></div>
         <div class="nfx-obx-metric"><span>BEST ASK</span><strong id="nfxLiqBestAsk" class="ask-text">—</strong><small>Lowest sell order</small></div>
         <div class="nfx-obx-metric"><span>SPREAD</span><strong id="nfxLiqSpread">—</strong><small>Ask − bid</small></div>
@@ -3667,9 +3670,10 @@ document.addEventListener('click', function(event) {
   function connect(){
     if(activeMarket!=='crypto'||document.hidden)return;
     manuallyClosed=false;
+    if(wsConnectTimer){clearTimeout(wsConnectTimer);wsConnectTimer=null;}
     if(fullDepthTimer){clearInterval(fullDepthTimer);fullDepthTimer=null;}
     if(socket){try{socket.onclose=null;socket.onerror=null;socket.close();}catch(e){}socket=null;}
-    var thisSymbol=currentSymbol,buffer=[],ready=false,lastUpdateId=0,bidsMap=new Map(),asksMap=new Map(),snapshotStarted=false,sequenceBroken=false;
+    var thisSymbol=currentSymbol,buffer=[],ready=false,lastUpdateId=0,bidsMap=new Map(),asksMap=new Map(),snapshotStarted=false,sequenceBroken=false,firstEventSynced=false;
     setStatus('Connecting to Binance Futures depth stream…','connecting');
     var ws;
     try{ws=new WebSocket('wss://fstream.binance.com/ws/'+thisSymbol.toLowerCase()+'@depth@100ms');}
@@ -3689,12 +3693,21 @@ document.addEventListener('click', function(event) {
     }
     function applyEvent(ev){
       if(!ev||!Array.isArray(ev.b)||!Array.isArray(ev.a))return true;
-      if(Number(ev.u)<=lastUpdateId)return true;
-      if(Number(ev.U)>lastUpdateId+1){sequenceBroken=true;return false;}
+      var U=Number(ev.U),u=Number(ev.u),pu=Number(ev.pu);
+      if(!Number.isFinite(U)||!Number.isFinite(u))return true;
+      if(!firstEventSynced){
+        if(u<lastUpdateId)return true;
+        if(U>lastUpdateId||u<lastUpdateId){sequenceBroken=true;return false;}
+        firstEventSynced=true;
+      }else{
+        if(u<=lastUpdateId)return true;
+        if(Number.isFinite(pu)&&pu!==lastUpdateId){sequenceBroken=true;return false;}
+        if(!Number.isFinite(pu)&&U>lastUpdateId+1){sequenceBroken=true;return false;}
+      }
       function applySide(changes,map){
         changes.forEach(function(x){var p=String(Number(x[0])),q=Number(x[1]);if(!Number.isFinite(Number(p))||!Number.isFinite(q)||Number(p)<=0)return;if(q===0)map.delete(p);else map.set(p,q);});
       }
-      applySide(ev.b,bidsMap);applySide(ev.a,asksMap);lastUpdateId=Number(ev.u);return true;
+      applySide(ev.b,bidsMap);applySide(ev.a,asksMap);lastUpdateId=u;return true;
     }
     function loadSnapshot(){
       if(snapshotStarted||socket!==ws)return;snapshotStarted=true;
@@ -3706,10 +3719,11 @@ document.addEventListener('click', function(event) {
           lastUpdateId=Number(snapshot.lastUpdateId);
           snapshot.bids.forEach(function(x){var p=String(Number(x[0])),q=Number(x[1]);if(Number(p)>0&&q>0)bidsMap.set(p,q);});
           snapshot.asks.forEach(function(x){var p=String(Number(x[0])),q=Number(x[1]);if(Number(p)>0&&q>0)asksMap.set(p,q);});
-          var first=buffer.findIndex(function(ev){return Number(ev.u)>lastUpdateId&&Number(ev.U)<=lastUpdateId+1&&Number(ev.u)>=lastUpdateId+1;});
-          if(first<0)throw new Error('Depth sequence resync required');
+          var first=buffer.findIndex(function(ev){return Number(ev.u)>=lastUpdateId&&Number(ev.U)<=lastUpdateId;});
+          if(first<0)throw new Error('Depth snapshot fell outside buffered update range');
           var pending=buffer.slice(first);buffer=[];ready=true;
           for(var i=0;i<pending.length;i++){if(!applyEvent(pending[i]))throw new Error('Depth sequence gap');}
+          if(!firstEventSynced)throw new Error('Depth stream did not synchronize');
           updateVenueLabels(lastVenueNames);renderLive();
         })
         .catch(function(){if(socket===ws&&thisSymbol===currentSymbol){setStatus('Resyncing live depth…','disconnected');try{ws.close();}catch(e){}}});
