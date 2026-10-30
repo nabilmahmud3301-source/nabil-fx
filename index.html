@@ -489,6 +489,8 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 .nfx-orderflow-workspace>.nfx-of-disclaimer{margin:18px 0 0;padding-top:13px;border-top:1px solid #202d3b}
 @media(max-width:900px){.nfx-terminal-brand{min-width:190px}.nfx-terminal-field{min-width:110px;padding:4px 13px}.nfx-of-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.nfx-terminal-bar{display:grid;grid-template-columns:1fr 1fr;gap:13px;padding:14px}.nfx-terminal-brand{grid-column:1/-1;padding:0 0 11px;border-bottom:1px solid #263342}.nfx-terminal-field{min-width:0;padding:0;border:0}.nfx-terminal-live{grid-column:1/-1;margin:0;width:max-content}.nfx-orderflow-workspace{padding:14px}.nfx-of-grid{grid-template-columns:1fr}.nfx-of-card#nfxCvdCard,.nfx-of-card#nfxFootprintCard{grid-column:auto}.nfx-of-heading{align-items:flex-start;flex-direction:column}.nfx-of-card{min-height:150px}}
+</style><style id="nfx-pro-chart-pages">
+.nfx-pro-chart-page{padding:24px 0 45px;color:#e7edf6}.nfx-pro-page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:0 0 18px}.nfx-pro-page-head>div:first-child>span{color:#9b7180;font-size:9px;font-weight:900;letter-spacing:.15em}.nfx-pro-page-head h1{margin:7px 0;font-size:clamp(25px,3vw,36px);letter-spacing:-.04em}.nfx-pro-page-head p{margin:0;color:#8a9aaf;font-size:12px}.nfx-pro-live{display:flex;align-items:center;gap:8px;border:1px solid #285747;background:#0b211b;color:#8be0bd;border-radius:5px;padding:9px 12px;font-size:9px;font-weight:850;white-space:nowrap}.nfx-pro-live i{width:6px;height:6px;background:#4bd4a1;border-radius:50%;box-shadow:0 0 9px #4bd4a1}.nfx-pro-toolbar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:12px 15px;margin-bottom:13px;border:1px solid #273748;border-radius:7px;background:#0e1722}.nfx-pro-toolbar label{display:flex;align-items:center;gap:9px;color:#8294aa;font-size:9px;font-weight:850;letter-spacing:.1em}.nfx-pro-toolbar select{background:#111e2b;border:1px solid #35485c;color:#e5edf7;border-radius:4px;padding:8px 10px}.nfx-pro-toolbar>span{margin-left:auto;color:#7d91a8;font-size:9px}.nfx-pro-chart-card{min-width:0;padding:14px;border:1px solid #29394a;border-radius:8px;background:linear-gradient(150deg,#111b27,#080e16);box-shadow:0 15px 45px #0004}.nfx-pro-chart-card canvas{display:block;width:100%;height:auto;min-height:260px}.nfx-pro-legend{display:flex;gap:17px;align-items:center;flex-wrap:wrap;margin-bottom:10px;color:#8496aa;font-size:9px;font-weight:800;letter-spacing:.08em}.nfx-pro-legend .buy{color:#43d69f}.nfx-pro-legend .sell{color:#f16b7d}.nfx-pro-note{color:#718298;font-size:10px;line-height:1.6;margin:12px 2px}.nfx-profile-grid{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:13px}.nfx-profile-side{display:grid;gap:12px;align-content:start}.nfx-profile-metric{padding:17px;border:1px solid #29394a;border-radius:7px;background:#0e1722}.nfx-profile-metric small{display:block;color:#8294aa;font-size:9px;font-weight:850;letter-spacing:.12em}.nfx-profile-metric strong{display:block;margin-top:10px;color:#edf3fa;font-size:22px;font-variant-numeric:tabular-nums}@media(max-width:760px){.nfx-pro-page-head{align-items:flex-start;flex-direction:column}.nfx-profile-grid{grid-template-columns:1fr}.nfx-pro-chart-page{padding:15px 0 30px}.nfx-pro-chart-card{padding:9px}}
 </style></head>
 <body>
 <header class="site-header">
@@ -504,6 +506,9 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
     <button class="nav-btn" type="button" data-liq-tool="nfxCvdCard">CVD</button>
     <button class="nav-btn" type="button" data-liq-tool="nfxOpenInterestCard">Open Interest</button>
     <button class="nav-btn" type="button" data-liq-tool="nfxFundingCard">Funding Rate</button>
+    <button class="nav-btn" type="button" data-page="page-footprint">Footprint</button>
+    <button class="nav-btn" type="button" data-page="page-bookmap">Liquidity Heatmap</button>
+    <button class="nav-btn" type="button" data-page="page-volumeprofile">Volume Profile</button>
     <button class="nav-btn" data-page="backtest">Backtest with AI</button>
     <button class="nav-btn" data-page="notes">Journal/Notes</button>
     <button class="nav-btn" data-page="contact" id="contactUsNav" type="button">Contact Us</button>
@@ -652,6 +657,24 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
   <p class="nfx-liq-disclaimer">Market depth is venue-specific. Binance Futures depth shows only visible orders on that venue, not total global liquidity; orders can change or be cancelled rapidly.</p>
 </section>
 
+<section id="page-footprint" class="view nfx-pro-chart-page">
+  <div class="nfx-pro-page-head"><div><span>BINANCE USDⓈ-M · LIVE AGGREGATE TRADES</span><h1>Footprint Chart</h1><p>Price-level buy/sell volume, delta and point of control.</p></div><div class="nfx-pro-live"><i></i> LIVE PUBLIC FEED</div></div>
+  <div class="nfx-pro-toolbar"><label>SYMBOL <select data-nfx-symbol><option>BTCUSDT</option><option>ETHUSDT</option><option>BNBUSDT</option><option>SOLUSDT</option><option>XRPUSDT</option></select></label><label>TIMEFRAME <select id="nfxFootprintTf"><option value="60">1 MIN</option><option value="300" selected>5 MIN</option><option value="900">15 MIN</option></select></label><span id="nfxFootprintStatus">Connecting…</span></div>
+  <div class="nfx-pro-chart-card"><div class="nfx-pro-legend"><span class="buy">BUY VOLUME</span><span class="sell">SELL VOLUME</span><span>LIVE PRICE-LEVEL AGGREGATION</span></div><canvas id="nfxFootprintChart" height="520"></canvas></div>
+  <p class="nfx-pro-note">Trades are grouped by price from Binance aggregate trades. This is a live-built footprint, not historical exchange footprint data. Price tick aggregation is approximate.</p>
+</section>
+<section id="page-bookmap" class="view nfx-pro-chart-page">
+  <div class="nfx-pro-page-head"><div><span>BINANCE USDⓈ-M · LIVE DEPTH STREAM</span><h1>Liquidity Heatmap</h1><p>Resting bid/ask liquidity by price and time, captured from the live order book.</p></div><div class="nfx-pro-live"><i></i> LIVE PUBLIC FEED</div></div>
+  <div class="nfx-pro-toolbar"><label>SYMBOL <select data-nfx-symbol><option>BTCUSDT</option><option>ETHUSDT</option><option>BNBUSDT</option><option>SOLUSDT</option><option>XRPUSDT</option></select></label><label>DEPTH <select id="nfxDepthLimit"><option value="10">TOP 10</option><option value="20" selected>TOP 20</option><option value="50">TOP 50</option></select></label><span id="nfxDepthStatus">Connecting…</span></div>
+  <div class="nfx-pro-chart-card nfx-heat-card"><div class="nfx-pro-legend"><span class="buy">BIDS · BUY LIQUIDITY</span><span class="sell">ASKS · SELL LIQUIDITY</span><span>CAPTURE STARTS ON PAGE OPEN</span></div><canvas id="nfxBookmapChart" height="560"></canvas></div>
+  <p class="nfx-pro-note">Heatmap records visible Binance USDⓈ-M depth only after connection. No historical order-book snapshots are supplied by this free feed; this chart builds its own rolling capture while open.</p>
+</section>
+<section id="page-volumeprofile" class="view nfx-pro-chart-page">
+  <div class="nfx-pro-page-head"><div><span>BINANCE USDⓈ-M · LIVE TRADES + DERIVATIVES</span><h1>Volume Profile & Open Interest</h1><p>Price distribution, point of control, value area and open-interest trend.</p></div><div class="nfx-pro-live"><i></i> LIVE PUBLIC FEED</div></div>
+  <div class="nfx-pro-toolbar"><label>SYMBOL <select data-nfx-symbol><option>BTCUSDT</option><option>ETHUSDT</option><option>BNBUSDT</option><option>SOLUSDT</option><option>XRPUSDT</option></select></label><span id="nfxProfileStatus">Connecting…</span></div>
+  <div class="nfx-profile-grid"><div class="nfx-pro-chart-card"><div class="nfx-pro-legend"><span>LIVE VOLUME PROFILE</span><span class="buy">BUY</span><span class="sell">SELL</span></div><canvas id="nfxVolumeProfileChart" height="520"></canvas></div><div class="nfx-profile-side"><div class="nfx-profile-metric"><small>POINT OF CONTROL</small><strong id="nfxProfilePoc">—</strong></div><div class="nfx-profile-metric"><small>OPEN INTEREST</small><strong id="nfxProfileOi">—</strong></div><div class="nfx-profile-metric"><small>FUNDING RATE</small><strong id="nfxProfileFunding">—</strong></div><div class="nfx-pro-chart-card"><div class="nfx-pro-legend">OPEN INTEREST HISTORY</div><canvas id="nfxOiHistoryChart" height="180"></canvas></div></div></div>
+  <p class="nfx-pro-note">Volume profile is accumulated from trades received after connection. Open interest and funding are public Binance Futures contract metrics, not consolidated market-wide figures.</p>
+</section>
 <section id="page-chart" class="view">
   <div class="chart-mode-switch" role="tablist" aria-label="Chart workspace mode"><button type="button" class="chart-mode-tab active" data-chart-mode="live" role="tab" aria-selected="true">↗ Real-Time Chart</button><button type="button" class="chart-mode-tab" data-chart-mode="replay" role="tab" aria-selected="false">⏮ Bar Replay</button><span class="chart-mode-caption">Live market chart and historical replay are separate workspaces.</span></div>
   <section id="chartWorkspace" class="panel chart-workspace" data-chart-workspace="live">
@@ -1387,7 +1410,7 @@ document.addEventListener('click',event=>{
 
 /* Trading chart and page navigation */
 (function(){
-  const pages=['home','chart','liquidity','backtest','notes','journal','account','contact'];
+  const pages=['home','chart','liquidity','page-footprint','page-bookmap','page-volumeprofile','backtest','notes','journal','account','contact'];
 
   function show(page){
     if(page==='liquidity'){
