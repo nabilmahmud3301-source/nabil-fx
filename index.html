@@ -572,6 +572,19 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 #nfxLiqDashboard[data-focus-panel="nfxLiqLivePanel"] #nfxLiqLivePanel .nfx-liq-levels{height:min(55vh,620px)!important;max-height:min(55vh,620px)!important}
 @media(max-width:700px){#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-levels{height:280px!important;max-height:280px!important}}
 </style>
+<style id="nfx-orderbook-clean-wheel-ui">
+/* One clean wheel-controlled ladder: no separate scrollbar tracks or thumb controls. */
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-book{overflow:hidden!important}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-levels{
+ height:340px!important;max-height:340px!important;min-height:0!important;
+ overflow-y:hidden!important;overflow-x:hidden!important;scrollbar-width:none!important;
+ -ms-overflow-style:none!important;overscroll-behavior:none!important;
+}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-levels::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-book{cursor:ns-resize}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-levels{cursor:ns-resize}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-levels .nfx-liq-row{flex:0 0 auto}
+</style>
 </head>
 <body>
 <header class="site-header">
@@ -4590,28 +4603,25 @@ document.addEventListener('nfx-liquidity-open',start);document.addEventListener(
  move('nfxFundingCard','nfxFundingMount');
  document.querySelectorAll('.nfx-market-tab').forEach(btn=>btn.addEventListener('click',()=>window.showNabilPage&&window.showNabilPage(btn.dataset.page)));
 })();
-</script><script id="nfx-orderbook-sync-scroll">
+</script><script id="nfx-orderbook-premium-wheel-scroll">
 (function(){
-  function bind(){
-    var asks=document.getElementById('nfxLiqAsks');
-    var bids=document.getElementById('nfxLiqBids');
-    if(!asks||!bids||asks.dataset.syncScrollBound||bids.dataset.syncScrollBound)return;
-    asks.dataset.syncScrollBound='1';bids.dataset.syncScrollBound='1';
-    var syncing=false;
-    function sync(source,target){
-      if(syncing)return;
-      syncing=true;
-      var sourceMax=Math.max(1,source.scrollHeight-source.clientHeight);
-      var targetMax=Math.max(0,target.scrollHeight-target.clientHeight);
-      target.scrollTop=(source.scrollTop/sourceMax)*targetMax;
-      requestAnimationFrame(function(){syncing=false;});
-    }
-    asks.addEventListener('scroll',function(){sync(asks,bids);},{passive:true});
-    bids.addEventListener('scroll',function(){sync(bids,asks);},{passive:true});
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});
-  else bind();
-  setTimeout(bind,800);
+ function bind(){
+  var book=document.querySelector('#nfxLiqLivePanel .nfx-liq-book');
+  var asks=document.getElementById('nfxLiqAsks'),bids=document.getElementById('nfxLiqBids');
+  if(!book||!asks||!bids||book.dataset.wheelScrollReady)return;
+  book.dataset.wheelScrollReady='1';
+  book.addEventListener('wheel',function(ev){
+   if(Math.abs(ev.deltaY)<1)return;
+   ev.preventDefault();
+   var maxA=Math.max(0,asks.scrollHeight-asks.clientHeight);
+   var maxB=Math.max(0,bids.scrollHeight-bids.clientHeight);
+   var ratio=maxA?asks.scrollTop/maxA:(maxB?bids.scrollTop/maxB:0);
+   var next=Math.max(0,Math.min(1,ratio+ev.deltaY/Math.max(180,Math.min(maxA||maxB,520))));
+   asks.scrollTop=next*maxA;bids.scrollTop=next*maxB;
+  },{passive:false});
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});else bind();
+ setTimeout(bind,500);
 })();
 </script>
 </body>
