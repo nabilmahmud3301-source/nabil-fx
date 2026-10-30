@@ -1053,6 +1053,43 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 @media(max-width:1100px){#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-summary{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:14px}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-contract,#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-metric{border-right:0;border-bottom:1px solid #1c2938;padding:8px 12px 13px}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-book{grid-template-columns:minmax(0,1fr) minmax(150px,.4fr) minmax(0,1fr);gap:8px;padding:12px}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-mid{padding:18px 9px}}
 @media(max-width:760px){#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-top{align-items:flex-start;padding:17px 15px}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-mark{width:39px;height:39px;flex-basis:39px;border-radius:11px}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-brand h2{font-size:20px}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-topright{gap:7px}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-liq-status{max-width:150px;white-space:normal;font-size:9px}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-expand{font-size:0;padding:9px}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-expand:first-letter{font-size:14px}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-summary{margin:0 12px;grid-template-columns:repeat(2,minmax(0,1fr));padding:12px 0;row-gap:0}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-contract,#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-metric{padding:10px 8px;border-bottom:1px solid #1c2938}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-contractline strong{font-size:14px}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-metric>strong{font-size:15px}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-toolbar{align-items:flex-start;flex-direction:column;margin:0 12px;padding:12px 3px}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-tools{width:100%;gap:8px}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-unit{margin-left:auto}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-book{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;padding:10px}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-mid{grid-column:1/-1;grid-row:1;padding:14px 12px}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-mid>strong{margin:9px 0 5px}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-spread{margin-top:10px}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-midrule{margin:14px 0 5px}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-depthsplit{margin-top:10px}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-midnote{padding-top:10px}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-ladder{height:300px!important;min-height:300px!important;max-height:300px!important;padding:5px 4px!important}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-sidehead{padding:10px 6px 8px}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-colheads{grid-template-columns:1.1fr .8fr .8fr;font-size:7px;gap:3px}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-liq-row{grid-template-columns:1.1fr .8fr .8fr;gap:3px;padding:0 2px!important;font-size:9px}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-sidefoot{padding:8px 6px;font-size:7px}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-footer{align-items:flex-start;flex-direction:column;padding:12px 15px;gap:10px}#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-source{flex-wrap:wrap}}
 @media(prefers-reduced-motion:reduce){#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-live:after{animation:none}}
+/* Compact premium market-stat cards, lifted closer to the title. */
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-top{padding:14px 20px!important;min-height:76px}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-brand-clean h2{font-size:22px!important;margin:3px 0 1px!important}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-brand-clean p{font-size:10px!important}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-summary{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin:0;padding:10px 14px 12px;border-bottom:1px solid var(--obx-line);background:linear-gradient(180deg,#0b121c,#080e16)}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-contract,
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-metric{display:flex;flex-direction:column;justify-content:center;min-width:0;min-height:78px;padding:10px 11px!important;border:1px solid #233246!important;border-radius:9px;background:linear-gradient(145deg,#111c2a,#0c141f);box-shadow:inset 0 1px #ffffff06}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-caption,
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-metric>span{margin-bottom:5px;font-size:8px;letter-spacing:.09em}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-contractline{gap:5px}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-contractline strong{font-size:13px;letter-spacing:-.025em}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-perp{font-size:7px;padding:3px 4px}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-contract small{margin-top:5px;font-size:7px;letter-spacing:.04em;white-space:nowrap}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-metric>strong{font-size:15px;letter-spacing:-.025em}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-metric>small{margin-top:4px;font-size:8px}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-imbalance-track{margin-top:6px}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-toolbar{margin:0 14px;padding:9px 2px;gap:10px}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-feed b{font-size:9px}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-feed small{font-size:8px}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-streamtag{padding:4px 6px;font-size:7px}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-levels button{min-width:26px;padding:5px 7px;font-size:9px}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-unit{font-size:8px}
+@media(max-width:1100px){
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-summary{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:600px){
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-top{padding:12px 13px!important;align-items:flex-start;gap:8px}
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-brand-clean h2{font-size:19px!important}
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-topright{gap:6px}
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-liq-status{padding:6px 7px;font-size:8px;white-space:normal}
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-expand{min-height:30px;padding:6px 8px;font-size:9px}
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-summary{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;padding:8px}
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-contract,
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-metric{min-height:70px;padding:8px!important}
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-toolbar{align-items:flex-start;flex-direction:column}
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-tools{width:100%;justify-content:space-between}
+}
 </style></head>
 <body>
 <header class="site-header">
