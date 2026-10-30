@@ -2924,10 +2924,10 @@ document.addEventListener('click', function(event) {
     var W=rect.width,H=rect.height,left=88,right=14,top=18,bottom=26,pw=W-left-right,ph=H-top-bottom;
     ctx.clearRect(0,0,W,H);ctx.fillStyle='#080b11';ctx.fillRect(0,0,W,H);
     var now=Date.now(),windowMs=historyLimit()*1000,cutoff=now-windowMs;
-    var events=liquidationEvents.filter(function(e){return e.t>=cutoff;});
+    var events=liquidationEvents.filter(function(e){return e.t>=cutoff&&e.symbol===currentSymbol;});
     var empty=$('nfxLiqLiquidationEmpty');if(empty)empty.hidden=events.length>0;
     ctx.font='10px ui-monospace, SFMono-Regular, Menlo, monospace';ctx.textBaseline='middle';
-    var marketSymbols=Object.keys(symbols);
+    var marketSymbols=symbols[currentSymbol]?[currentSymbol]:[];
     if(!events.length){ctx.fillStyle='#9aa5b7';ctx.fillText('No reported liquidation events in this window yet.',left+10,top+ph/2);return;}
     var cols=60,rows=marketSymbols.length,cellW=pw/cols,cellH=ph/rows;
     var buckets=Array.from({length:rows},function(){return Array.from({length:cols},function(){return 0;});});
