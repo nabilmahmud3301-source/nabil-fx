@@ -3164,8 +3164,10 @@ document.addEventListener('click', function(event) {
     if(now-lastHistoryAt<900)return;
     lastHistoryAt=now;
     liqHistory.push({t:now,mid:mid,bids:data.bids.slice(0,20).map(x=>[Number(x[0]),Number(x[1])]),asks:data.asks.slice(0,20).map(x=>[Number(x[0]),Number(x[1])])});
-    var cutoff=now-Math.max(900,historyLimit()*1000);
-    liqHistory=liqHistory.filter(x=>x.t>=cutoff).slice(-900);
+    // Keep a fixed 15-minute capture buffer so switching the visible window
+    // from 1m/5m to 15m never destroys snapshots needed by the wider view.
+    var cutoff=now-15*60*1000;
+    liqHistory=liqHistory.filter(x=>x.t>=cutoff).slice(-1200);
     if(!window._nfxHistorySaveTimer)window._nfxHistorySaveTimer=setTimeout(function(){window._nfxHistorySaveTimer=null;saveHistoryCache();},2500);
     renderTimeline();
   }
@@ -3228,6 +3230,7 @@ document.addEventListener('click', function(event) {
 var nfxEstLiqCandles=[];
   var nfxEstLiqSymbol='';
   var nfxEstLiqRange='24h';
+  var nfxEstLiqLoadedRange='';
   var nfxEstLiqLoading=false;
   var nfxEstLiqFetchedAt=0;
   var nfxEstLiqZoom=1;
@@ -3239,7 +3242,9 @@ var nfxEstLiqCandles=[];
   function nfxEstLiqLoad(force){
     var symbol=String(currentSymbol||'BTCUSDT').toUpperCase();
     if(nfxEstLiqLoading)return;
-    if(!force&&nfxEstLiqSymbol===symbol&&nfxEstLiqCandles.length&&Date.now()-nfxEstLiqFetchedAt<45000)return;
+    var requestedRange=nfxEstLiqRange;
+    if(!force&&nfxEstLiqSymbol===symbol&&nfxEstLiqLoadedRange===requestedRange&&nfxEstLiqCandles.length&&Date.now()-nfxEstLiqFetchedAt<45000)return;
+    if(nfxEstLiqLoading)return;
     nfxEstLiqLoading=true;
     var cfg=nfxEstLiqConfig();
     fetch('https://fapi.binance.com/fapi/v1/klines?symbol='+encodeURIComponent(symbol)+'&interval='+cfg.interval+'&limit='+cfg.limit,{cache:'no-store'})
@@ -3247,12 +3252,17 @@ var nfxEstLiqCandles=[];
       .then(function(rows){
         if(!Array.isArray(rows))throw new Error('Invalid candle data');
         nfxEstLiqCandles=rows.map(function(k){return {t:+k[0],o:+k[1],h:+k[2],l:+k[3],c:+k[4],v:+k[5]};}).filter(function(k){return k.t>0&&k.o>0&&k.h>0&&k.l>0&&k.c>0;});
-        nfxEstLiqSymbol=symbol;nfxEstLiqFetchedAt=Date.now();
+        nfxEstLiqSymbol=symbol;nfxEstLiqLoadedRange=requestedRange;nfxEstLiqFetchedAt=Date.now();
         renderLiquidationHeatmap();
       }).catch(function(err){
         var status=$('nfxLiqEstStatus');if(status)status.textContent='Candle feed unavailable';
         console.warn('Nabil FX estimated liquidation heatmap:',err);
-      }).finally(function(){nfxEstLiqLoading=false;});
+      }).finally(function(){
+        nfxEstLiqLoading=false;
+        // If the user changed the range while this request was in flight,
+        // immediately fetch candles for the newly selected range.
+        if(nfxEstLiqRange!==requestedRange||String(currentSymbol||'BTCUSDT').toUpperCase()!==symbol)nfxEstLiqLoad(true);
+      });
   }
   function renderLiquidationHeatmap(){
     var canvas=$('nfxLiqLiquidationCanvas');if(!canvas)return;
@@ -3384,7 +3394,11 @@ function bindHeatmapInspector(canvasId,kind){
   if(searchForm)searchForm.addEventListener('submit',function(event){event.preventDefault();chooseMarket(searchInput?searchInput.value:'');});
   if(searchInput)searchInput.addEventListener('change',function(){var raw=searchInput.value;if(raw&&symbols[normalizeSymbol(raw).toLowerCase()])chooseMarket(raw);});
   restoreHistoryCache(currentSymbol);updateMarketSearchUI();loadCryptoMarkets();
-  var winSel=$('nfxLiqWindow');if(winSel)winSel.addEventListener('change',function(){var cutoff=Date.now()-historyLimit()*1000;liqHistory=liqHistory.filter(x=>x.t>=cutoff);liquidationEvents=liquidationEvents.filter(x=>x.t>=cutoff);renderTimeline();renderLiquidationHeatmap();});
+  var winSel=$('nfxLiqWindow');if(winSel)winSel.addEventListener('change',function(){
+    // The selector changes the visible time window only; preserve the full
+    // rolling capture buffer so a wider window can show earlier snapshots.
+    renderTimeline();renderLiquidationHeatmap();
+  });
   var resetBtn=$('nfxLiqResetHistory');if(resetBtn)resetBtn.addEventListener('click',function(){liqHistory=[];lastHistoryAt=0;try{localStorage.removeItem(historyCacheKey(currentSymbol));}catch(e){}renderTimeline();});
   window.addEventListener('resize',function(){if(!renderFrame)renderFrame=requestAnimationFrame(function(){renderFrame=0;renderTimeline();renderLiquidationHeatmap();});});
   window.addEventListener('nfx-liquidity-open',function(){if(activeMarket==='crypto'){connect();connectLiquidations();}renderTimeline();renderLiquidationHeatmap();});
