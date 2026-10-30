@@ -1341,6 +1341,11 @@ document.addEventListener('click',event=>{
   const pages=['home','chart','liquidity','backtest','notes','journal','account','contact'];
 
   function show(page){
+    if(page==='liquidity'){
+      const dashboard=document.getElementById('nfxLiqDashboard');
+      if(dashboard)delete dashboard.dataset.focusPanel;
+      document.querySelectorAll('.nav-btn[data-liq-section]').forEach(x=>x.classList.remove('active'));
+    }
     pages.forEach(p=>{
       const el=document.getElementById('page-'+p);
       if(el){
@@ -1372,16 +1377,16 @@ document.addEventListener('click',event=>{
     b.addEventListener('click',()=>show(b.dataset.page));
   });
 
-  // Top navigation shortcuts into the existing liquidity workspace panels.
+  // Each liquidity shortcut opens its own focused workspace; Liquidity returns to the full dashboard.
   document.querySelectorAll('.nav-btn[data-liq-section]').forEach(b=>{
     b.addEventListener('click',()=>{
       const targetId=b.dataset.liqSection;
       show('liquidity');
+      const dashboard=document.getElementById('nfxLiqDashboard');
+      if(dashboard)dashboard.dataset.focusPanel=targetId;
       document.querySelectorAll('.nav-btn[data-liq-section]').forEach(x=>x.classList.toggle('active',x===b));
-      window.setTimeout(()=>{
-        const target=document.getElementById(targetId);
-        if(target)target.scrollIntoView({behavior:'smooth',block:'start'});
-      },120);
+      const target=document.getElementById(targetId);
+      if(target)target.scrollIntoView({behavior:'smooth',block:'start'});
     });
   });
 
@@ -3574,4 +3579,22 @@ setInterval(function(){nfxEstLiqLoad(false);},30000);
  #nfxLiqDashboard .nfx-liq-workspace-card.nfx-liq-expanded-fallback{padding:10px!important}
 }
 
+
+/* Focused liquidity workspaces: each top shortcut opens one distinct full-width tool. */
+#nfxLiqDashboard[data-focus-panel]{grid-template-columns:minmax(0,1fr)!important;gap:0!important}
+#nfxLiqDashboard[data-focus-panel]>.nfx-liq-workspace-card{display:none!important}
+#nfxLiqDashboard[data-focus-panel="nfxLiqLivePanel"]>#nfxLiqLivePanel,
+#nfxLiqDashboard[data-focus-panel="nfxLiqBookHeatmap"]>#nfxLiqBookHeatmap,
+#nfxLiqDashboard[data-focus-panel="nfxLiqLiquidationHeatmap"]>#nfxLiqLiquidationHeatmap{display:block!important;grid-column:1/-1!important;width:100%!important;min-height:0!important;padding:clamp(16px,2vw,26px)!important}
+#nfxLiqDashboard[data-focus-panel="nfxLiqBookHeatmap"] #nfxLiqTimelineCanvas,
+#nfxLiqDashboard[data-focus-panel="nfxLiqLiquidationHeatmap"] #nfxLiqLiquidationCanvas{width:100%!important}
+#nfxLiqDashboard[data-focus-panel="nfxLiqBookHeatmap"] .nfx-liq-timeline-wrap,
+#nfxLiqDashboard[data-focus-panel="nfxLiqLiquidationHeatmap"] .nfx-liq-timeline-wrap{height:min(68vh,760px)!important;min-height:430px!important}
+#nfxLiqDashboard[data-focus-panel="nfxLiqLivePanel"] .nfx-liq-book{min-height:420px}
+#nfxLiqDashboard[data-focus-panel="nfxLiqLivePanel"] .nfx-liq-levels{max-height:55vh!important;overflow:auto}
+#nfxLiqDashboard[data-focus-panel] .nfx-liq-timeline-head h3{font-size:clamp(20px,2vw,27px)!important}
+@media(max-width:700px){
+ #nfxLiqDashboard[data-focus-panel] .nfx-liq-timeline-wrap{height:58vh!important;min-height:330px!important}
+ #nfxLiqDashboard[data-focus-panel="nfxLiqLivePanel"] .nfx-liq-book{min-height:320px}
+}
 </style>
