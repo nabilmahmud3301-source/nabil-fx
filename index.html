@@ -555,7 +555,24 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 .nfx-liq-timeline-head h3{font-size:20px!important;letter-spacing:-.02em!important}
 .nfx-liq-timeline-note{color:#8fa1b5!important}
 @media(max-width:850px){.nfx-profile-grid{grid-template-columns:1fr!important}.nfx-market-nav-inner{min-height:54px!important}.nfx-market-tab{padding:9px 11px!important}}
-</style><style id="nfx-remove-market-terminal-nav">.nfx-market-nav{display:none!important}</style></head>
+</style><style id="nfx-remove-market-terminal-nav">.nfx-market-nav{display:none!important}</style><style id="nfx-orderbook-scroll-fix">
+/* Scrollable live depth ladder; retain usable scrolling on desktop and touch. */
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-book-side{display:flex!important;flex-direction:column!important;min-height:0!important;overflow:hidden!important}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-levels{
+ display:flex!important;flex-direction:column!important;gap:2px!important;
+ min-height:0!important;height:340px!important;max-height:340px!important;
+ overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain!important;
+ touch-action:pan-y!important;scrollbar-width:thin;scrollbar-color:#53657b #111923
+}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-levels::-webkit-scrollbar{width:7px}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-levels::-webkit-scrollbar-track{background:#111923;border-radius:8px}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-levels::-webkit-scrollbar-thumb{background:#53657b;border-radius:8px}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-levels::-webkit-scrollbar-thumb:hover{background:#8294aa}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-row{flex:0 0 auto}
+#nfxLiqDashboard[data-focus-panel="nfxLiqLivePanel"] #nfxLiqLivePanel .nfx-liq-levels{height:min(55vh,620px)!important;max-height:min(55vh,620px)!important}
+@media(max-width:700px){#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-levels{height:280px!important;max-height:280px!important}}
+</style>
+</head>
 <body>
 <header class="site-header">
   <a class="site-brand site-brand-home" href="#home" data-page="home" aria-label="Nabil FX — Go to Home">
@@ -3098,8 +3115,9 @@ document.addEventListener('click', function(event) {
     var bestBid=bids.reduce(function(a,b){return b[0]>a[0]?b:a;},bids[0]),bestAsk=asks.reduce(function(a,b){return b[0]<a[0]?b:a;},asks[0]);
     var mid=(bestBid[0]+bestAsk[0])/2,spread=bestAsk[0]-bestBid[0],maxQty=Math.max.apply(null,bids.concat(asks).map(function(x){return x[1];}).concat([0]));
     var bidEl=$('nfxLiqBids'),askEl=$('nfxLiqAsks');
-    if(bidEl){bidEl.replaceChildren();bids.slice().reverse().forEach(function(x){bidEl.appendChild(makeRow('bid',x[0],x[1],maxQty));});}
-    if(askEl){askEl.replaceChildren();asks.forEach(function(x){askEl.appendChild(makeRow('ask',x[0],x[1],maxQty));});}
+    // Preserve scroll offsets while the live depth stream refreshes the rows.
+    if(bidEl){var bidScroll=bidEl.scrollTop;bidEl.replaceChildren();bids.slice().reverse().forEach(function(x){bidEl.appendChild(makeRow('bid',x[0],x[1],maxQty));});bidEl.scrollTop=bidScroll;}
+    if(askEl){var askScroll=askEl.scrollTop;askEl.replaceChildren();asks.forEach(function(x){askEl.appendChild(makeRow('ask',x[0],x[1],maxQty));});askEl.scrollTop=askScroll;}
     var vals={'nfxLiqBestBid':fmt(bestBid[0]),'nfxLiqBestAsk':fmt(bestAsk[0]),'nfxLiqSpread':fmt(spread),'nfxLiqMid':fmt(mid),'nfxLiqUpdated':new Date().toLocaleTimeString()};
     Object.keys(vals).forEach(function(id){var el=$(id);if(el)el.textContent=vals[id];});
     if(!fromHistory)captureHistory({bids:bids,asks:asks},mid);
