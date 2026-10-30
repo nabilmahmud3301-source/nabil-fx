@@ -823,6 +823,73 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 }
 </style>
 
+
+<style id="nfx-live-orderbook-premium-v3">
+/* Nabil FX — premium institutional-style order book */
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-ob-v2{
+ --ob-bg:#080c12;--ob-panel:#0d141e;--ob-border:#202c3a;--ob-muted:#7e8da0;
+ background:radial-gradient(ellipse at 50% -12%,rgba(43,73,103,.24),transparent 52%),#080c12!important;
+ border:1px solid #293646!important;border-radius:12px!important;
+ box-shadow:0 22px 65px rgba(0,0,0,.45),inset 0 1px rgba(255,255,255,.035)!important;
+}
+#nfxLiqLivePanel .nfx-ob-head{padding:20px 24px 17px;border-bottom:1px solid #202c3a;background:linear-gradient(100deg,#0c131d,#0b1018 62%,#10141a)}
+#nfxLiqLivePanel .nfx-ob-mark{width:40px;height:40px;border-radius:10px;background:linear-gradient(145deg,#f2d18b,#b98b42 58%,#765327);color:#17130d;font-size:12px;letter-spacing:-.06em;box-shadow:0 5px 22px #c49b4c26}
+#nfxLiqLivePanel .nfx-ob-brand h2{font-size:20px;font-weight:850;letter-spacing:-.035em}
+#nfxLiqLivePanel .nfx-ob-brand p{color:#8998aa}
+#nfxLiqLivePanel .nfx-ob-head .nfx-liq-status{font-size:10px;font-weight:750;letter-spacing:.02em}
+#nfxLiqLivePanel .nfx-ob-marketbar{grid-template-columns:1.45fr repeat(4,minmax(90px,1fr));padding:15px 24px;background:#0c121b;border-bottom:1px solid #202c3a}
+#nfxLiqLivePanel .nfx-ob-instrument,#nfxLiqLivePanel .nfx-ob-marketstat{border-color:#222e3c}
+#nfxLiqLivePanel .nfx-ob-instrument strong{font-size:18px;font-weight:850}
+#nfxLiqLivePanel .nfx-ob-marketstat strong{font-size:13px;font-weight:800}
+#nfxLiqLivePanel .nfx-ob-toolbar{padding:14px 24px 11px}
+#nfxLiqLivePanel .nfx-ob-viewtabs{font-size:10px;letter-spacing:.11em}
+#nfxLiqLivePanel .nfx-ob-feed{font-size:9px;color:#71849a}
+#nfxLiqLivePanel .nfx-pro-book-actions button{height:29px;min-width:35px;border-radius:6px;background:#111a25;border-color:#293747;color:#9aabbe;font-size:11px}
+#nfxLiqLivePanel .nfx-pro-book-actions button.active{background:linear-gradient(180deg,#234333,#152b23);border-color:#329b70;color:#a0f1c9;box-shadow:inset 0 -2px #39c98a}
+#nfxLiqLivePanel .nfx-ob-price-focus{grid-template-columns:minmax(0,1fr) minmax(220px,1.15fr) minmax(0,1fr);margin:0 24px 14px;padding:14px 18px;background:linear-gradient(105deg,#171018 0%,#101823 37%,#101923 63%,#0d1a17 100%);border:1px solid #293646;border-radius:9px}
+#nfxLiqLivePanel .nfx-ob-price-side>strong{font-size:17px;letter-spacing:.04em;font-weight:850}
+#nfxLiqLivePanel .nfx-ob-midprice>strong{font-size:clamp(25px,2.3vw,34px);letter-spacing:-.05em;font-weight:900;text-shadow:0 0 25px #e9eef40d}
+#nfxLiqLivePanel .nfx-ob-midprice>span{font-size:9px;letter-spacing:.17em}
+#nfxLiqLivePanel .nfx-ob-spread{padding:5px 11px;border-color:#2c3949}
+#nfxLiqLivePanel .nfx-liq-book.nfx-ob-ladder{grid-template-columns:minmax(0,1fr) 12px minmax(0,1fr)!important;margin:0 24px!important;border:1px solid #273545!important;border-radius:8px!important;background:#090e15!important}
+#nfxLiqLivePanel .nfx-ob-side{background:#090e15!important}
+#nfxLiqLivePanel .nfx-ob-side .nfx-liq-book-title{padding:11px 14px!important;background:#111a25!important;border-bottom:1px solid #283646!important;font-size:9px!important;letter-spacing:.1em!important}
+#nfxLiqLivePanel .nfx-ob-side .nfx-liq-levels{height:660px!important;max-height:660px!important;min-height:660px!important;padding:5px 8px!important;gap:1px!important;overflow:hidden!important;background:linear-gradient(180deg,#0a1018,#090e15)!important}
+#nfxLiqLivePanel .nfx-ob-side .nfx-liq-row{height:12px!important;min-height:12px!important;flex:0 0 12px!important;padding:0 7px!important;font-size:10px!important;line-height:12px!important;font-weight:650!important;border-radius:2px!important;transition:background .12s ease!important}
+#nfxLiqLivePanel .nfx-ob-side .nfx-liq-row:hover{background:#ffffff0b!important}
+#nfxLiqLivePanel .nfx-ob-side .nfx-liq-row>i{top:0!important;bottom:0!important;opacity:.22!important;transition:width .18s ease!important}
+#nfxLiqLivePanel .nfx-ob-side .nfx-liq-row.ask>i{background:linear-gradient(90deg,#d93e54,#ff6677)!important}
+#nfxLiqLivePanel .nfx-ob-side .nfx-liq-row.bid>i{background:linear-gradient(90deg,#148d65,#2ad39a)!important}
+#nfxLiqLivePanel .nfx-ob-side .nfx-liq-row.ask>span:first-of-type{color:#ff7586!important;font-weight:750!important}
+#nfxLiqLivePanel .nfx-ob-side .nfx-liq-row.bid>span:first-of-type{color:#42dca8!important;font-weight:750!important}
+#nfxLiqLivePanel .nfx-ob-side .nfx-liq-row>span:last-child{color:#c1cbd8!important;font-variant-numeric:tabular-nums}
+#nfxLiqLivePanel .nfx-ob-center-rail{background:linear-gradient(180deg,#131c28,#0d141d 50%,#131c28);border-color:#263342}
+#nfxLiqLivePanel .nfx-ob-center-rail i{height:70px;width:3px;background:linear-gradient(#ff6578,#8d99a8 48%,#39d6a0);box-shadow:0 0 12px #ffffff0a}
+#nfxLiqLivePanel .nfx-ob-footer{padding:15px 24px 17px;background:#0b1119;border-top:1px solid #202c3a}
+#nfxLiqLivePanel .nfx-ob-legend span,#nfxLiqLivePanel .nfx-ob-velocity span{font-size:9px;letter-spacing:.07em}
+#nfxLiqLivePanel .nfx-ob-velocity b{font-size:10px}
+#nfxLiqLivePanel .nfx-ob-footnote{font-size:9px;color:#718095}
+@media(max-width:760px){
+ #nfxLiqLivePanel .nfx-ob-head{padding:15px}
+ #nfxLiqLivePanel .nfx-ob-marketbar{grid-template-columns:repeat(2,minmax(0,1fr));padding:13px 15px}
+ #nfxLiqLivePanel .nfx-ob-toolbar{padding:12px 15px}
+ #nfxLiqLivePanel .nfx-ob-price-focus{margin:0 10px 12px;padding:12px 8px;grid-template-columns:.7fr 1.5fr .7fr;gap:3px}
+ #nfxLiqLivePanel .nfx-ob-price-side>strong{font-size:12px}
+ #nfxLiqLivePanel .nfx-ob-price-side>small{font-size:8px}
+ #nfxLiqLivePanel .nfx-ob-midprice>strong{font-size:20px}
+ #nfxLiqLivePanel .nfx-liq-book.nfx-ob-ladder{margin:0 10px!important;grid-template-columns:minmax(0,1fr) 8px minmax(0,1fr)!important}
+ #nfxLiqLivePanel .nfx-ob-side .nfx-liq-levels{height:660px!important;max-height:660px!important;min-height:660px!important;padding:5px 3px!important}
+ #nfxLiqLivePanel .nfx-ob-side .nfx-liq-row{padding:0 3px!important;font-size:9px!important}
+ #nfxLiqLivePanel .nfx-ob-side .nfx-liq-book-title{padding:9px 5px!important;font-size:7px!important}
+ #nfxLiqLivePanel .nfx-ob-footer{padding:12px 14px}
+}
+@media(max-width:420px){
+ #nfxLiqLivePanel .nfx-ob-side .nfx-liq-row{font-size:8px!important;padding:0 2px!important}
+ #nfxLiqLivePanel .nfx-ob-side .nfx-liq-book-title{font-size:6px!important}
+ #nfxLiqLivePanel .nfx-ob-feed{display:none}
+}
+</style>
+
 </head>
 <body>
 <header class="site-header">
@@ -926,7 +993,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
     <section class="nfx-liq-panel nfx-liq-workspace-card nfx-ob-v2" id="nfxLiqLivePanel" aria-label="Professional live order book">
       <header class="nfx-ob-head">
         <div class="nfx-ob-brand">
-          <div class="nfx-ob-mark">CG</div>
+          <div class="nfx-ob-mark">NFX</div>
           <div><span class="nfx-ob-eyebrow">MARKET DEPTH · REAL-TIME</span><h2>Order Book</h2><p>Price ladder · bid/ask liquidity distribution</p></div>
         </div>
         <div class="nfx-ob-head-actions">
@@ -943,7 +1010,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       </div>
       <div class="nfx-ob-toolbar">
         <div class="nfx-ob-viewtabs"><span class="nfx-ob-viewdot"></span><strong>DEPTH</strong><span class="nfx-ob-divider"></span><span class="nfx-ob-feed">BINANCE USDⓈ-M PERPETUAL</span></div>
-        <div class="nfx-pro-book-actions"><span class="nfx-pro-depth-label">DEPTH</span><button type="button" data-book-depth="10">10</button><button type="button" data-book-depth="20" class="active">20</button><button type="button" data-book-depth="50">50</button><span class="nfx-pro-book-unit">PRICE · USDT</span></div>
+        <div class="nfx-pro-book-actions"><span class="nfx-pro-depth-label">DEPTH</span><button type="button" data-book-depth="10">10</button><button type="button" data-book-depth="20">20</button><button type="button" data-book-depth="50" class="active">50</button><span class="nfx-pro-book-unit">PRICE · USDT</span></div>
       </div>
       <div class="nfx-ob-price-focus">
         <div class="nfx-ob-price-side"><span>SELL ORDERS</span><strong class="ask-text">ASKS</strong><small>Accumulated sell liquidity</small></div>
@@ -951,7 +1018,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
         <div class="nfx-ob-price-side right"><span>BUY ORDERS</span><strong class="bid-text">BIDS</strong><small>Accumulated buy liquidity</small></div>
       </div>
       <div class="nfx-liq-book nfx-ob-ladder">
-        <div class="nfx-liq-book-side nfx-liq-asks nfx-ob-side"><div class="nfx-liq-book-title"><span>PRICE (USDT)</span><span>AMOUNT (BTC)</span></div><div id="nfxLiqAsks" class="nfx-liq-levels"><div class="nfx-liq-empty">Waiting for live order book…</div></div></div>
+        <div class="nfx-liq-book-side nfx-liq-asks nfx-ob-side"><div class="nfx-liq-book-title"><span>PRICE (USDT)</span><span>AMOUNT (BASE)</span></div><div id="nfxLiqAsks" class="nfx-liq-levels"><div class="nfx-liq-empty">Waiting for live order book…</div></div></div>
         <div class="nfx-ob-center-rail"><span>PRICE LEVEL</span><i></i><small>USDT</small></div>
         <div class="nfx-liq-book-side nfx-liq-bids nfx-ob-side"><div class="nfx-liq-book-title"><span>PRICE (USDT)</span><span>AMOUNT (BTC)</span></div><div id="nfxLiqBids" class="nfx-liq-levels"><div class="nfx-liq-empty">Waiting for live order book…</div></div></div>
       </div>
@@ -3360,7 +3427,7 @@ document.addEventListener('click', function(event) {
   function $(id){return document.getElementById(id);}
   function setStatus(text,state){var el=$('nfxLiqConnection');if(!el)return;el.className='nfx-liq-status'+(state?' '+state:'');var span=el.querySelector('span');if(span)span.textContent=text;}
   function fmt(v){if(!Number.isFinite(v))return '—';return v>=1000?v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}):v>=1?v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:4}):v.toLocaleString('en-US',{minimumFractionDigits:4,maximumFractionDigits:8});}
-  var bookDisplayLevels=20,previousMidPrice=null;
+  var bookDisplayLevels=50,previousMidPrice=null;
   function makeRow(side,price,qty,max){var row=document.createElement('div');row.className='nfx-liq-row '+side;var bar=document.createElement('i');bar.className='nfx-liq-bar';bar.style.width=(max>0?Math.max(2,Math.min(100,qty/max*100)):0)+'%';row.appendChild(bar);var p=document.createElement('span');p.textContent=fmt(Number(price));var q=document.createElement('span');q.textContent=Number(qty).toLocaleString('en-US',{maximumFractionDigits:4});row.appendChild(p);row.appendChild(q);return row;}
   var liqHistory=[],lastHistoryAt=0,historySymbol='btcusdt',renderFrame=0;
   var velocitySnapshot=null;
