@@ -4430,7 +4430,17 @@ function feed(){const s=sym();if(ws&&wsSym===s&&ws.readyState<2)return;if(ws)try
 async function metrics(){const s=sym().toUpperCase();try{const [o,f]=await Promise.all([fetch('https://fapi.binance.com/fapi/v1/openInterest?symbol='+s).then(r=>{if(!r.ok)throw Error();return r.json()}),fetch('https://fapi.binance.com/fapi/v1/premiumIndex?symbol='+s).then(r=>{if(!r.ok)throw Error();return r.json()})]);$('nfxOiValue').textContent=fmt(Number(o.openInterest))+' '+s.replace('USDT','');$('nfxOiSub').textContent='Open contracts · '+new Date().toLocaleTimeString();const rate=Number(f.lastFundingRate)*100;$('nfxFundingValue').textContent=(rate>=0?'+':'')+rate.toFixed(4)+'%';$('nfxFundingSub').textContent='Next funding: '+(f.nextFundingTime?new Date(f.nextFundingTime).toLocaleTimeString():'—')}catch(e){$('nfxOiValue').textContent='Unavailable';$('nfxFundingValue').textContent='Unavailable'}}
 function start(){if(timer)clearInterval(timer);feed();metrics();timer=setInterval(()=>{if(wsSym!==sym())feed();metrics()},15000)}
 document.addEventListener('nfx-liquidity-open',start);document.addEventListener('visibilitychange',()=>{if(!document.hidden&&$('page-liquidity')?.classList.contains('active'))start()});document.addEventListener('submit',e=>{if(e.target&&e.target.id==='nfxMarketSearchForm')setTimeout(start,500)});start()
-})();</script></body>
+})();</script><script id="nfx-terminal-symbol-sync">
+(function(){
+  const source=document.getElementById('nfxMarketCurrent');
+  const target=document.getElementById('nfxTerminalSymbol');
+  if(!source||!target)return;
+  const sync=()=>{const value=(source.textContent||'').trim();if(value)target.textContent=value.replace(/\\s*\\/\\s*/g,' / ');};
+  sync();
+  new MutationObserver(sync).observe(source,{childList:true,subtree:true,characterData:true});
+})();
+</script>
+</body>
 </html>
 <style>
 /* Balanced premium Home showcase: four equally sized visual cards. */
