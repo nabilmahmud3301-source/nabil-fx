@@ -1179,7 +1179,47 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
  #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next:fullscreen .nfx-obx-footer,
  #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next.nfx-liq-expanded-fallback .nfx-obx-footer{padding:4px 8px!important;font-size:7px!important}
 }
-</style></head>
+</style>
+<style id="nfx-tradingview-replay-polish">
+/* TradingView-inspired replay workspace — original NFX implementation */
+#page-chart #nabilReplayPointLab{background:#131722!important;border:1px solid #2a2e39!important;border-radius:8px!important;padding:16px!important;box-shadow:0 14px 38px #0005!important}
+#page-chart #nabilReplayPointLab .chart-heading-row{align-items:center!important;margin-bottom:12px!important}
+#page-chart #nabilReplayPointLab .view-heading{color:#d1d4dc!important;font-size:22px!important;font-weight:700!important;letter-spacing:-.35px}
+#page-chart #nabilReplayPointLab .chart-heading-row .hint{color:#787f8e!important}
+#page-chart #nabilReplayPointLab .nfx-point-controls{display:flex!important;align-items:flex-end!important;gap:8px!important;padding:10px!important;margin:0 0 10px!important;border:1px solid #2a2e39!important;border-radius:7px!important;background:#0f131d!important}
+#page-chart #nabilReplayPointLab .nfx-point-controls label{gap:5px!important;color:#787f8e!important;font-size:9px!important;letter-spacing:.11em!important}
+#page-chart #nabilReplayPointLab .nfx-point-controls input,#page-chart #nabilReplayPointLab .nfx-point-controls select{height:35px!important;min-width:108px!important;padding:0 10px!important;border:1px solid #363c4a!important;border-radius:5px!important;background:#181d29!important;color:#d1d4dc!important;font-size:12px!important}
+#page-chart #nabilReplayPointLab .nfx-point-controls button{height:35px!important;padding:0 12px!important;border:1px solid #363c4a!important;border-radius:5px!important;background:#202635!important;color:#c7cbd4!important;font-size:11px!important;font-weight:650!important}
+#page-chart #nabilReplayPointLab .nfx-point-controls button:hover:not(:disabled){border-color:#64738d!important;background:#2a3446!important;color:#fff!important}
+#page-chart #nabilReplayPointLab #nfxPointSelect{background:#17352f!important;border-color:#24594d!important;color:#7ce4c1!important}
+#page-chart #nabilReplayPointLab #nfxPointPlay{background:#1b2b4a!important;border-color:#34558b!important;color:#c5d8ff!important}
+#page-chart #nabilReplayPointLab .nfx-point-meta{min-height:34px!important;padding:8px 12px!important;border:1px solid #2a2e39!important;border-bottom:0!important;border-radius:6px 6px 0 0!important;background:#0f131d!important;color:#aeb6c4!important;font-size:11px!important;font-variant-numeric:tabular-nums!important}
+#page-chart #nabilReplayPointLab .nfx-point-chart{height:680px!important;min-height:540px!important;border:1px solid #2a2e39!important;border-radius:0 0 6px 6px!important;background:#131722!important;overflow:hidden!important}
+#page-chart #nabilReplayPointLab .nfx-replay-drawing-bar{left:0!important;top:0!important;bottom:0!important;width:48px!important;gap:0!important;padding:8px 5px!important;border:0!important;border-right:1px solid #2a2e39!important;border-radius:0!important;background:#131722!important;box-shadow:2px 0 10px #0003!important}
+#page-chart #nabilReplayPointLab .nfx-tool-section{gap:3px!important;padding:0 0 8px!important;margin:0 0 8px!important;border-bottom:1px solid #2a2e39!important}
+#page-chart #nabilReplayPointLab .nfx-replay-drawing-bar button{position:relative!important;flex:0 0 34px!important;width:36px!important;height:34px!important;border:1px solid transparent!important;border-radius:5px!important;background:transparent!important;color:#aeb6c4!important}
+#page-chart #nabilReplayPointLab .nfx-replay-drawing-bar button svg{width:19px!important;height:19px!important;fill:none!important;stroke:currentColor!important;stroke-width:1.7!important;stroke-linecap:round!important;stroke-linejoin:round!important}
+#page-chart #nabilReplayPointLab .nfx-replay-drawing-bar button:hover{background:#202635!important;border-color:#363f50!important;color:#f0f3fa!important}
+#page-chart #nabilReplayPointLab .nfx-replay-drawing-bar button.active{background:#26344e!important;border-color:#3c5d96!important;color:#7eabff!important;box-shadow:inset 2px 0 #2962ff!important}
+#page-chart #nabilReplayPointLab .nfx-toolbar-brand{padding-top:7px!important;color:#647086!important;font-size:8px!important;font-weight:900!important;letter-spacing:.16em!important}
+#page-chart #nabilReplayPointLab .nfx-chart-indicator-float{top:9px!important;right:10px!important}
+#page-chart #nabilReplayPointLab .nfx-indicators-open{height:32px!important;border:1px solid #363f50!important;border-radius:5px!important;background:#1b2230!important;color:#d1d4dc!important;font-size:11px!important;box-shadow:0 3px 10px #0004!important}
+#page-chart #nabilReplayPointLab .nfx-indicators-open:hover{border-color:#64738d!important;background:#252e3e!important}
+#page-chart #nabilReplayPointLab .nfx-indicator-dialog{border:1px solid #363f50!important;border-radius:7px!important;background:#171d29!important;color:#d1d4dc!important}
+#page-chart #nabilReplayPointLab .nfx-drawing-overlay{z-index:8!important}
+#page-chart #nabilReplayPointLab .nfx-drawing-overlay.drawing-active{cursor:crosshair!important}
+#page-chart #nabilReplayPointLab .nfx-point-chart>div:not(.nfx-drawing-overlay){font-family:Arial,sans-serif}
+@media(max-width:700px){
+ #page-chart #nabilReplayPointLab{padding:9px!important}
+ #page-chart #nabilReplayPointLab .nfx-point-controls{gap:6px!important;padding:8px!important}
+ #page-chart #nabilReplayPointLab .nfx-point-controls label{flex:1 1 28%!important}
+ #page-chart #nabilReplayPointLab .nfx-point-controls input,#page-chart #nabilReplayPointLab .nfx-point-controls select{min-width:0!important;width:100%!important}
+ #page-chart #nabilReplayPointLab .nfx-point-chart{height:540px!important;min-height:430px!important}
+ #page-chart #nabilReplayPointLab .nfx-replay-drawing-bar{width:42px!important;padding:6px 3px!important}
+ #page-chart #nabilReplayPointLab .nfx-replay-drawing-bar button{width:34px!important;flex-basis:32px!important;height:32px!important}
+}
+</style>
+</head>
 <body>
 <header class="site-header">
   <a class="site-brand site-brand-home" href="#home" data-page="home" aria-label="Nabil FX — Go to Home">
@@ -3301,15 +3341,15 @@ document.addEventListener('click', function(event) {
     const rect=el.chart.getBoundingClientRect();
     chart=LightweightCharts.createChart(el.chart,{
       width:Math.max(320,Math.floor(rect.width||800)),height:Math.max(350,Math.floor(rect.height||510)),
-      layout:{background:{type:'solid',color:'#0b0e14'},textColor:'#b8c2d1',fontFamily:'-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif',fontSize:12},
-      grid:{vertLines:{color:'rgba(148,163,184,.075)',style:LightweightCharts.LineStyle.Dotted},horzLines:{color:'rgba(148,163,184,.09)',style:LightweightCharts.LineStyle.Dotted}},
-      rightPriceScale:{borderColor:'#293241',scaleMargins:{top:.07,bottom:.07},minimumWidth:76},
-      timeScale:{borderColor:'#293241',timeVisible:true,secondsVisible:false,barSpacing:7,minBarSpacing:2,rightOffset:10,lockVisibleTimeRangeOnResize:true},
-      crosshair:{mode:LightweightCharts.CrosshairMode.Normal,vertLine:{color:'rgba(180,195,215,.55)',width:1,style:LightweightCharts.LineStyle.Dashed,labelBackgroundColor:'#34445a'},horzLine:{color:'rgba(180,195,215,.55)',width:1,style:LightweightCharts.LineStyle.Dashed,labelBackgroundColor:'#34445a'}},
+      layout:{background:{type:'solid',color:'#131722'},textColor:'#d1d4dc',fontFamily:'-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif',fontSize:12},
+      grid:{vertLines:{color:'#1e222d',style:LightweightCharts.LineStyle.Solid},horzLines:{color:'#1e222d',style:LightweightCharts.LineStyle.Solid}},
+      rightPriceScale:{borderColor:'#2a2e39',scaleMargins:{top:.07,bottom:.07},minimumWidth:76},
+      timeScale:{borderColor:'#2a2e39',timeVisible:true,secondsVisible:false,barSpacing:7,minBarSpacing:2,rightOffset:10,lockVisibleTimeRangeOnResize:true},
+      crosshair:{mode:LightweightCharts.CrosshairMode.Normal,vertLine:{color:'#758696',width:1,style:LightweightCharts.LineStyle.Dashed,labelBackgroundColor:'#2962ff'},horzLine:{color:'#758696',width:1,style:LightweightCharts.LineStyle.Dashed,labelBackgroundColor:'#2962ff'}},
       handleScroll:{mouseWheel:true,pressedMouseMove:true,horzTouchDrag:true,vertTouchDrag:false},
       handleScale:{mouseWheel:true,pinch:true,axisPressedMouseMove:{time:true,price:true}}
     });
-    candles=chart.addCandlestickSeries({upColor:'#26a69a',downColor:'#ef5350',borderUpColor:'#26a69a',borderDownColor:'#ef5350',wickUpColor:'#26a69a',wickDownColor:'#ef5350',borderVisible:true,wickVisible:true,priceLineVisible:true,lastValueVisible:true,priceLineColor:'#26a69a',priceLineStyle:LightweightCharts.LineStyle.Dashed});
+    candles=chart.addCandlestickSeries({upColor:'#089981',downColor:'#f23645',borderUpColor:'#089981',borderDownColor:'#f23645',wickUpColor:'#089981',wickDownColor:'#f23645',borderVisible:true,wickVisible:true,priceLineVisible:true,lastValueVisible:true,priceLineColor:'#26a69a',priceLineStyle:LightweightCharts.LineStyle.Dashed});
     setupReplayTools();
 
     cursor=document.createElement('div');
@@ -3426,7 +3466,7 @@ document.addEventListener('click', function(event) {
     if(!drawCanvas||!drawCtx||!chart||!candles)return;
     const r=drawCanvas.getBoundingClientRect(),w=r.width,h=r.height,dpr=window.devicePixelRatio||1;
     if(drawCanvas.width!==Math.floor(w*dpr)||drawCanvas.height!==Math.floor(h*dpr)){drawCanvas.width=Math.max(1,Math.floor(w*dpr));drawCanvas.height=Math.max(1,Math.floor(h*dpr));drawCtx.setTransform(dpr,0,0,dpr,0,0);}
-    drawCtx.clearRect(0,0,w,h);drawCtx.lineWidth=1.6;drawCtx.strokeStyle='#f6bd55';drawCtx.fillStyle='rgba(246,189,85,.12)';
+    drawCtx.clearRect(0,0,w,h);drawCtx.lineWidth=1.6;drawCtx.strokeStyle='#2962ff';drawCtx.fillStyle='rgba(41,98,255,.12)';
     const items=draftDrawing?[...drawings,draftDrawing]:drawings;
     items.forEach(d=>{
       const x1=d.type==='horizontal'?0:chart.timeScale().timeToCoordinate(d.p1.time);
@@ -3442,8 +3482,8 @@ document.addEventListener('click', function(event) {
       else if(d.type==='cross'){drawCtx.moveTo(0,y1);drawCtx.lineTo(w,y1);drawCtx.moveTo(x1,0);drawCtx.lineTo(x1,h);drawCtx.stroke();}
       else if(d.type==='rectangle'){drawCtx.rect(x1,y1,x2-x1,y2-y1);drawCtx.fill();drawCtx.stroke();}
       else if(d.type==='circle'){const cx=(x1+x2)/2,cy=(y1+y2)/2,rx=Math.abs(x2-x1)/2,ry=Math.abs(y2-y1)/2;drawCtx.beginPath();drawCtx.ellipse(cx,cy,Math.max(1,rx),Math.max(1,ry),0,0,Math.PI*2);drawCtx.fill();drawCtx.stroke();}
-      else if(d.type==='extended'){const dx=x2-x1,dy=y2-y1,slope=Math.abs(dx)<.001?0:dy/dx;drawCtx.moveTo(0,y1-slope*x1);drawCtx.lineTo(w,y1+slope*(w-x1));drawCtx.stroke();}
-      else if(d.type==='text'){drawCtx.font='13px Arial';drawCtx.fillStyle='#f6bd55';drawCtx.fillText(d.text||'',x1,y1);drawCtx.fillStyle='rgba(246,189,85,.12)';}
+      else if(d.type==='ray'||d.type==='extended'){const dx=x2-x1,dy=y2-y1,slope=Math.abs(dx)<.001?0:dy/dx;drawCtx.moveTo(d.type==='extended'?0:x1,d.type==='extended'?y1-slope*x1:y1);drawCtx.lineTo(w,y1+slope*(w-x1));drawCtx.stroke();}
+      else if(d.type==='text'){drawCtx.font='13px Arial';drawCtx.fillStyle='#d1d4dc';drawCtx.fillText(d.text||'',x1,y1);drawCtx.fillStyle='rgba(246,189,85,.12)';}
       else if(d.type==='brush'){const pts=d.points||[];if(pts.length){drawCtx.beginPath();drawCtx.moveTo(pts[0].x,pts[0].y);pts.slice(1).forEach(p=>drawCtx.lineTo(p.x,p.y));drawCtx.stroke();}}
       else if(d.type==='parallel'){drawCtx.moveTo(x1,y1);drawCtx.lineTo(x2,y2);drawCtx.moveTo(x1,y1+24);drawCtx.lineTo(x2,y2+24);drawCtx.stroke();}
       else if(d.type==='longPosition'||d.type==='shortPosition'){const entry=y1,stop=y2,target=entry+(d.type==='longPosition'?-1:1)*(entry-stop)*1.8;drawCtx.fillStyle=d.type==='longPosition'?'rgba(38,166,154,.16)':'rgba(239,83,80,.16)';drawCtx.fillRect(Math.min(x1,x2),Math.min(entry,target),Math.abs(x2-x1),Math.abs(target-entry));drawCtx.strokeRect(Math.min(x1,x2),Math.min(entry,target),Math.abs(x2-x1),Math.abs(target-entry));drawCtx.fillStyle='rgba(239,83,80,.14)';drawCtx.fillRect(Math.min(x1,x2),Math.min(entry,stop),Math.abs(x2-x1),Math.abs(stop-entry));drawCtx.strokeRect(Math.min(x1,x2),Math.min(entry,stop),Math.abs(x2-x1),Math.abs(stop-entry));drawCtx.fillStyle='rgba(246,189,85,.12)';}
@@ -3452,7 +3492,7 @@ document.addEventListener('click', function(event) {
         (d.type==='fibExt'?[-.618,-.272,0,.236,.382,.5,.618,.786,1,1.272,1.618,2,2.618]:[0,.236,.382,.5,.618,.786,1]).forEach(level=>{const y=top+(bottom-top)*level;drawCtx.beginPath();drawCtx.moveTo(left,y);drawCtx.lineTo(right,y);drawCtx.stroke();drawCtx.fillText((level*100).toFixed(1)+'%',left+4,y-3);});
       }else{
         drawCtx.moveTo(x1,y1);drawCtx.lineTo(x2,y2);drawCtx.stroke();
-        if(d.type==='arrow'){const angle=Math.atan2(y2-y1,x2-x1),head=9;drawCtx.beginPath();drawCtx.moveTo(x2,y2);drawCtx.lineTo(x2-head*Math.cos(angle-.5),y2-head*Math.sin(angle-.5));drawCtx.lineTo(x2-head*Math.cos(angle+.5),y2-head*Math.sin(angle+.5));drawCtx.closePath();drawCtx.fillStyle='#f6bd55';drawCtx.fill();drawCtx.fillStyle='rgba(246,189,85,.12)';}
+        if(d.type==='arrow'){const angle=Math.atan2(y2-y1,x2-x1),head=9;drawCtx.beginPath();drawCtx.moveTo(x2,y2);drawCtx.lineTo(x2-head*Math.cos(angle-.5),y2-head*Math.sin(angle-.5));drawCtx.lineTo(x2-head*Math.cos(angle+.5),y2-head*Math.sin(angle+.5));drawCtx.closePath();drawCtx.fillStyle='#2962ff';drawCtx.fill();drawCtx.fillStyle='rgba(246,189,85,.12)';}
       }
     });
   }
