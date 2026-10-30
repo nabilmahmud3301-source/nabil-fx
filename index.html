@@ -3425,7 +3425,7 @@ function bindHeatmapInspector(canvasId,kind){
       var rect=canvas.getBoundingClientRect(),x=ev.clientX-rect.left,y=ev.clientY-rect.top;
       var W=rect.width,H=rect.height,left=68,right=14,top=34,bottom=28,pw=W-left-right,ph=H-top-bottom;
       if(x<left||x>W-right||y<top||y>H-bottom){v.hidden=h.hidden=tip.hidden=true;return;}
-      var now=Date.now(),windowMs=historyLimit()*1000,cutoff=now-windowMs,price=NaN,detail='';
+      var now=Date.now(),windowMs=historyLimit()*1000,cutoff=now-windowMs,price=NaN,detail='',displayTime='';
       if(kind==='book'){
         var hist=liqHistory.filter(function(z){return z.t>=cutoff;});
         if(!hist.length)return;
@@ -3435,6 +3435,7 @@ function bindHeatmapInspector(canvasId,kind){
         var nearest=null,dist=Infinity;
         snap.bids.concat(snap.asks).forEach(function(level){var d=Math.abs(level[0]-price);if(d<dist){dist=d;nearest=level;}});
         detail=nearest?'Nearest depth: '+fmt(nearest[0])+' · '+Number(nearest[1]).toLocaleString('en-US',{maximumFractionDigits:4})+' contracts':'Live order-book depth';
+        displayTime=new Date(snap.t).toLocaleString();
       }else{
         var rangeMs=({'12h':12*3600000,'24h':24*3600000,'3d':3*86400000,'7d':7*86400000}[nfxEstLiqRange]||24*3600000)/nfxEstLiqZoom;
         var liqCutoff=Date.now()-rangeMs;
@@ -3458,15 +3459,13 @@ function bindHeatmapInspector(canvasId,kind){
           });
         });
         var inZone=nearestLevel&&nearestDistance<=(maxC-minC)/100*4;
-        detail='<b>'+fmt(candle.o)+' O</b> · '+fmt(candle.h)+' H · '+fmt(candle.l)+' L · '+fmt(candle.c)+' C'
-          +(inZone?'<small>'+nearestLevel.side+' · ~'+nearestLevel.leverage+'× zone · '+fmt(nearestLevel.price)+'</small>':'<small>Estimated model zone · no nearby level</small>');
-        var timeAt=liqCutoff+(x-left)/pw*rangeMs;
-        var dateAt=new Date(candle.t).toLocaleString();
+        detail='O '+fmt(candle.o)+' · H '+fmt(candle.h)+' · L '+fmt(candle.l)+' · C '+fmt(candle.c)+' | '+(inZone?nearestLevel.side+' · ~'+nearestLevel.leverage+'× zone · '+fmt(nearestLevel.price):'Estimated model zone · no nearby level');
+        displayTime=new Date(candle.t).toLocaleString();
       }
       var px=left+x-left,py=top+y-top;
       v.style.left=Math.round(x)+'px';v.style.top=top+'px';v.style.height=ph+'px';
       h.style.left=left+'px';h.style.top=Math.round(y)+'px';h.style.width=pw+'px';
-      tip.innerHTML='<strong>'+fmt(price)+'</strong><span>'+new Date(cutoff+(x-left)/pw*windowMs).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'})+'</span><small>'+detail+'</small>';
+      tip.innerHTML='<strong>'+fmt(price)+'</strong><span>'+displayTime+'</span><small>'+detail+'</small>';
       tip.style.left=Math.max(6,Math.min(W-246,x+14))+'px';tip.style.top=Math.max(6,Math.min(H-74,y-36))+'px';
       v.hidden=h.hidden=tip.hidden=false;
     });
