@@ -26,6 +26,9 @@ main{max-width:1150px;margin:auto;padding:26px 16px 50px}
 .site-nav{display:flex;align-items:center;gap:clamp(8px,1.8vw,24px);flex-wrap:wrap;justify-content:flex-end}
 .nav-btn{background:none;border:0;border-bottom:3px solid transparent;color:#eee;padding:20px 2px 17px;font:600 15px system-ui;cursor:pointer}
 .nav-btn.active,.nav-btn:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.nav-btn[data-liq-section]{font-size:13px}
+#page-liquidity .nfx-liq-workspace-card{scroll-margin-top:105px}
+@media(max-width:760px){.nav-btn[data-liq-section]{font-size:12px}}
 .hero{min-height:calc(100vh - 84px);display:flex;align-items:stretch;background:#050505;overflow:hidden}
 .hero-img{width:100%;height:calc(100vh - 84px);min-height:570px;max-height:1000px;object-fit:cover;object-position:center}
 .home-only{display:block}
@@ -463,7 +466,10 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
   <nav class="site-nav" aria-label="Main navigation">
     <button class="nav-btn active" data-page="home">Home</button>
     <button class="nav-btn" data-page="chart">Chart/Bar Replay</button>
-    <button class="nav-btn" data-page="liquidity">Liquidity Heatmap</button>
+    <button class="nav-btn" data-page="liquidity">Liquidity</button>
+    <button class="nav-btn" type="button" data-liq-section="nfxLiqLivePanel">Live Order Book</button>
+    <button class="nav-btn" type="button" data-liq-section="nfxLiqBookHeatmap">Order Book Heatmap</button>
+    <button class="nav-btn" type="button" data-liq-section="nfxLiqLiquidationHeatmap">Liquidation Heatmap</button>
     <button class="nav-btn" data-page="backtest">Backtest with AI</button>
     <button class="nav-btn" data-page="notes">Journal/Notes</button>
     <button class="nav-btn" data-page="contact" id="contactUsNav" type="button">Contact Us</button>
@@ -1364,6 +1370,19 @@ document.addEventListener('click',event=>{
   });
   document.querySelectorAll('button[data-page]:not(.nav-btn)').forEach(b=>{
     b.addEventListener('click',()=>show(b.dataset.page));
+  });
+
+  // Top navigation shortcuts into the existing liquidity workspace panels.
+  document.querySelectorAll('.nav-btn[data-liq-section]').forEach(b=>{
+    b.addEventListener('click',()=>{
+      const targetId=b.dataset.liqSection;
+      show('liquidity');
+      document.querySelectorAll('.nav-btn[data-liq-section]').forEach(x=>x.classList.toggle('active',x===b));
+      window.setTimeout(()=>{
+        const target=document.getElementById(targetId);
+        if(target)target.scrollIntoView({behavior:'smooth',block:'start'});
+      },120);
+    });
   });
 
   const frame=$('tvChart');
