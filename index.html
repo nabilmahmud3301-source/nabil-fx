@@ -936,7 +936,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       </div>
       <div class="nfx-liq-book">
         <div class="nfx-liq-book-side nfx-liq-asks"><div class="nfx-liq-book-title"><span>ASKS · SELL</span><span>PRICE / SIZE</span></div><div id="nfxLiqAsks" class="nfx-liq-levels"><div class="nfx-liq-empty">Waiting for live order book…</div></div></div>
-        <div class="nfx-liq-mid nfx-pro-mid"><span>MARKET MID · USDT</span><strong id="nfxLiqMid">—</strong><small id="nfxProMidMove">Awaiting price movement</small><div class="nfx-pro-mid-spread"><span>SPREAD</span><b id="nfxLiqSpread">—</b></div></div>
+        <div class="nfx-liq-mid nfx-pro-mid"><span>MARKET MID · USDT</span><strong id="nfxLiqMid">—</strong><small id="nfxProMidMove">Awaiting price movement</small><div class="nfx-pro-mid-spread"><span>SPREAD</span><b id="nfxProSpread">—</b></div></div>
         <div class="nfx-liq-book-side nfx-liq-bids"><div class="nfx-liq-book-title"><span>BIDS · BUY</span><span>PRICE / SIZE</span></div><div id="nfxLiqBids" class="nfx-liq-levels"><div class="nfx-liq-empty">Waiting for live order book…</div></div></div>
       </div>
       <div class="nfx-liq-foot"><span>Binance Futures · venue-specific depth</span><span>Auto-reconnect enabled</span></div>
@@ -3383,7 +3383,7 @@ document.addEventListener('click', function(event) {
     if(bidEl){bidEl.replaceChildren();bids.slice(0,bookDisplayLevels).reverse().forEach(function(x){bidEl.appendChild(makeRow('bid',x[0],x[1],maxQty));});}
     if(askEl){askEl.replaceChildren();asks.slice(0,bookDisplayLevels).forEach(function(x){askEl.appendChild(makeRow('ask',x[0],x[1],maxQty));});}
     var midMove=$('nfxProMidMove');if(midMove){if(previousMidPrice!==null){var md=mid-previousMidPrice;midMove.textContent=(md>0?'▲ +':md<0?'▼ ':'● ')+fmt(Math.abs(md))+' USDT '+(md>0?'UP':md<0?'DOWN':'UNCHANGED');midMove.className='nfx-pro-mid-move '+(md>0?'up':md<0?'down':'flat');}else{midMove.textContent='Live price movement';} }previousMidPrice=mid;
-    var vals={'nfxLiqBestBid':fmt(bestBid[0]),'nfxLiqBestAsk':fmt(bestAsk[0]),'nfxLiqSpread':fmt(spread),'nfxLiqMid':fmt(mid),'nfxLiqUpdated':new Date().toLocaleTimeString()};
+    var vals={'nfxLiqBestBid':fmt(bestBid[0]),'nfxLiqBestAsk':fmt(bestAsk[0]),'nfxLiqSpread':fmt(spread),'nfxProSpread':fmt(spread),'nfxLiqMid':fmt(mid),'nfxLiqUpdated':new Date().toLocaleTimeString()};
     Object.keys(vals).forEach(function(id){var el=$(id);if(el)el.textContent=vals[id];});
     if(!fromHistory)captureHistory({bids:bids,asks:asks},mid);
     renderTimeline();
