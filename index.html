@@ -2549,9 +2549,7 @@ document.addEventListener('click', function(event) {
     }
   });
   document.addEventListener('click',function(e){
-    var range=e.target.closest('[data-est-liq-range]');
-    if(range){nfxEstLiqRange=range.getAttribute('data-est-liq-range')||'24h';nfxEstLiqZoom=1;document.querySelectorAll('[data-est-liq-range]').forEach(function(x){x.classList.toggle('active',x===range);});nfxEstLiqLoad(true);renderLiquidationHeatmap();return;}
-    var zoom=e.target.closest('[data-est-liq-zoom]');if(zoom){var action=zoom.getAttribute('data-est-liq-zoom');nfxEstLiqZoom=action==='reset'?1:action==='in'?Math.min(8,nfxEstLiqZoom*1.5):Math.max(1,nfxEstLiqZoom/1.5);renderLiquidationHeatmap();}
+    /* Range and zoom controls are wired inside the liquidity engine scope. */
   });
   document.addEventListener('pointermove',function(e){var c=e.target.closest('#nfxLiqLiquidationCanvas');if(!c){if(nfxEstLiqPointer){nfxEstLiqPointer=null;renderLiquidationHeatmap();}return;}var r=c.getBoundingClientRect();nfxEstLiqPointer={x:e.clientX-r.left,y:e.clientY-r.top};renderLiquidationHeatmap();},{passive:true});
   document.addEventListener('pointerleave',function(e){if(e.target&&e.target.id==='nfxLiqLiquidationCanvas'){nfxEstLiqPointer=null;renderLiquidationHeatmap();}},true);
@@ -3429,6 +3427,23 @@ function bindHeatmapInspector(canvasId,kind){
     // The selector changes the visible time window only; preserve the full
     // rolling capture buffer so a wider window can show earlier snapshots.
     renderTimeline();renderLiquidationHeatmap();
+  });
+  // Keep all heatmap controls in the same closure as their rendering state.
+  document.querySelectorAll('[data-est-liq-range]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var next=btn.getAttribute('data-est-liq-range');if(!next||next===nfxEstLiqRange)return;
+      nfxEstLiqRange=next;nfxEstLiqZoom=1;
+      document.querySelectorAll('[data-est-liq-range]').forEach(function(x){var active=x===btn;x.classList.toggle('active',active);x.setAttribute('aria-pressed',active?'true':'false');});
+      nfxEstLiqLoad(true);renderLiquidationHeatmap();
+    });
+    btn.setAttribute('aria-pressed',btn.classList.contains('active')?'true':'false');
+  });
+  document.querySelectorAll('[data-est-liq-zoom]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var action=btn.getAttribute('data-est-liq-zoom');
+      nfxEstLiqZoom=action==='reset'?1:action==='in'?Math.min(8,nfxEstLiqZoom*1.5):Math.max(1,nfxEstLiqZoom/1.5);
+      renderLiquidationHeatmap();
+    });
   });
   var resetBtn=$('nfxLiqResetHistory');if(resetBtn)resetBtn.addEventListener('click',function(){liqHistory=[];lastHistoryAt=0;try{localStorage.removeItem(historyCacheKey(currentSymbol));}catch(e){}renderTimeline();});
   window.addEventListener('resize',function(){if(!renderFrame)renderFrame=requestAnimationFrame(function(){renderFrame=0;renderTimeline();renderLiquidationHeatmap();});});
