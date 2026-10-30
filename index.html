@@ -555,7 +555,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 .nfx-liq-timeline-head h3{font-size:20px!important;letter-spacing:-.02em!important}
 .nfx-liq-timeline-note{color:#8fa1b5!important}
 @media(max-width:850px){.nfx-profile-grid{grid-template-columns:1fr!important}.nfx-market-nav-inner{min-height:54px!important}.nfx-market-tab{padding:9px 11px!important}}
-</style></head>
+</style><style id="nfx-remove-market-terminal-nav">.nfx-market-nav{display:none!important}</style></head>
 <body>
 <header class="site-header">
   <a class="site-brand site-brand-home" href="#home" data-page="home" aria-label="Nabil FX — Go to Home">
@@ -579,19 +579,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
   </nav>
   <button class="app-menu-toggle" id="appMenuToggle" type="button" aria-label="Open navigation menu" aria-expanded="false">☰</button>
 </header>
-<nav class="nfx-market-nav" aria-label="Market analytics navigation">
-  <div class="nfx-market-nav-inner">
-    <span class="nfx-market-nav-label">MARKET TERMINAL</span>
-    <button class="nfx-market-tab" data-page="liquidity"><span class="nfx-tab-icon">◈</span>Liquidity</button>
-    <button class="nfx-market-tab" data-page="orderflow"><span class="nfx-tab-icon">⌁</span>Order Flow</button>
-    <button class="nfx-market-tab" data-page="cvd"><span class="nfx-tab-icon">∿</span>CVD</button>
-    <button class="nfx-market-tab" data-page="openinterest"><span class="nfx-tab-icon">◫</span>Open Interest</button>
-    <button class="nfx-market-tab" data-page="fundingrate"><span class="nfx-tab-icon">％</span>Funding Rate</button>
-    <button class="nfx-market-tab" data-page="footprint"><span class="nfx-tab-icon">▤</span>Footprint</button>
-    <button class="nfx-market-tab" data-page="bookmap"><span class="nfx-tab-icon">▦</span>Liquidity Heatmap</button>
-    <button class="nfx-market-tab" data-page="volumeprofile"><span class="nfx-tab-icon">▥</span>Volume Profile</button>
-  </div>
-</nav>
+
 
 <section id="page-home" class="hero video-showcase" aria-label="Nabil Fx abstract visual showcase">
   <div class="video-wrap">
