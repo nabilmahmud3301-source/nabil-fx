@@ -3822,8 +3822,8 @@ document.addEventListener('click', function(event) {
       var U=Number(ev.U),u=Number(ev.u),pu=Number(ev.pu);
       if(!Number.isFinite(U)||!Number.isFinite(u))return true;
       if(!firstEventSynced){
-        if(u<lastUpdateId+1)return true;
-        if(U>lastUpdateId+1){sequenceBroken=true;return false;}
+        if(u<lastUpdateId)return true;
+        if(U>lastUpdateId){sequenceBroken=true;return false;}
         firstEventSynced=true;
       }else{
         if(u<=lastUpdateId)return true;
@@ -3845,7 +3845,7 @@ document.addEventListener('click', function(event) {
           lastUpdateId=Number(snapshot.lastUpdateId);
           snapshot.bids.forEach(function(x){var p=String(Number(x[0])),q=Number(x[1]);if(Number(p)>0&&q>0)bidsMap.set(p,q);});
           snapshot.asks.forEach(function(x){var p=String(Number(x[0])),q=Number(x[1]);if(Number(p)>0&&q>0)asksMap.set(p,q);});
-          var first=buffer.findIndex(function(ev){return Number(ev.u)>=lastUpdateId+1&&Number(ev.U)<=lastUpdateId+1;});
+          var first=buffer.findIndex(function(ev){return Number(ev.u)>=lastUpdateId&&Number(ev.U)<=lastUpdateId;});
           if(first<0)throw new Error('Depth snapshot fell outside buffered update range');
           var pending=buffer.slice(first);buffer=[];ready=true;
           for(var i=0;i<pending.length;i++){if(!applyEvent(pending[i]))throw new Error('Depth sequence gap');}
