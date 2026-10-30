@@ -506,9 +506,9 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
     <button class="nav-btn" type="button" data-liq-tool="nfxCvdCard">CVD</button>
     <button class="nav-btn" type="button" data-liq-tool="nfxOpenInterestCard">Open Interest</button>
     <button class="nav-btn" type="button" data-liq-tool="nfxFundingCard">Funding Rate</button>
-    <button class="nav-btn" type="button" data-page="page-footprint">Footprint</button>
-    <button class="nav-btn" type="button" data-page="page-bookmap">Liquidity Heatmap</button>
-    <button class="nav-btn" type="button" data-page="page-volumeprofile">Volume Profile</button>
+    <button class="nav-btn" type="button" data-page="footprint">Footprint</button>
+    <button class="nav-btn" type="button" data-page="bookmap">Liquidity Heatmap</button>
+    <button class="nav-btn" type="button" data-page="volumeprofile">Volume Profile</button>
     <button class="nav-btn" data-page="backtest">Backtest with AI</button>
     <button class="nav-btn" data-page="notes">Journal/Notes</button>
     <button class="nav-btn" data-page="contact" id="contactUsNav" type="button">Contact Us</button>
@@ -1410,7 +1410,7 @@ document.addEventListener('click',event=>{
 
 /* Trading chart and page navigation */
 (function(){
-  const pages=['home','chart','liquidity','page-footprint','page-bookmap','page-volumeprofile','backtest','notes','journal','account','contact'];
+  const pages=['home','chart','liquidity','footprint','bookmap','volumeprofile','backtest','notes','journal','account','contact'];
 
   function show(page){
     if(page==='liquidity'){
@@ -1436,7 +1436,7 @@ document.addEventListener('click',event=>{
     window.scrollTo({top:0,behavior:'smooth'});
     if(page==='chart')loadTradingView();
     if(page==='liquidity')window.dispatchEvent(new Event('nfx-liquidity-open'));
-    if(['page-footprint','page-bookmap','page-volumeprofile'].includes(page))window.dispatchEvent(new Event('nfx-pro-chart-open'));
+    if(['footprint','bookmap','volumeprofile'].includes(page))window.dispatchEvent(new Event('nfx-pro-chart-open'));
     if(page==='notes'&&typeof renderSavedNotes==='function')renderSavedNotes();
     if(page==='account' && !document.querySelector('.account-subview.active')) showAccountPage('create');
   }
