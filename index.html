@@ -2376,11 +2376,11 @@ document.addEventListener('click',event=>{
     replayChart=LightweightCharts.createChart(replayEls.chart,{
       width:Math.max(320,Math.floor(rect.width||replayEls.chart.clientWidth||320)),
       height:Math.max(420,Math.floor(rect.height||replayEls.chart.clientHeight||520)),
-      layout:{background:{type:'solid',color:'#080808'},textColor:'#c8c8c8'},
-      grid:{vertLines:{color:'#1c1c1c'},horzLines:{color:'#1c1c1c'}},
-      rightPriceScale:{borderColor:'#333',visible:true,scaleMargins:{top:0.08,bottom:0.08}},
-      timeScale:{borderColor:'#333',timeVisible:true,secondsVisible:false,visible:true,barSpacing:5,minBarSpacing:2,rightOffset:8},
-      crosshair:{mode:LightweightCharts.CrosshairMode.Normal,vertLine:{color:'#758696',width:1,style:LightweightCharts.LineStyle.Dashed},horzLine:{color:'#758696',width:1,style:LightweightCharts.LineStyle.Dashed}},
+      layout:{background:{type:'solid',color:'#0b0e14'},textColor:'#b8c2d1',fontFamily:'-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif',fontSize:12},
+      grid:{vertLines:{color:'rgba(148,163,184,.075)',style:LightweightCharts.LineStyle.Dotted},horzLines:{color:'rgba(148,163,184,.09)',style:LightweightCharts.LineStyle.Dotted}},
+      rightPriceScale:{borderColor:'#293241',visible:true,scaleMargins:{top:.07,bottom:.07},minimumWidth:76},
+      timeScale:{borderColor:'#293241',timeVisible:true,secondsVisible:false,visible:true,barSpacing:7,minBarSpacing:2,rightOffset:10,lockVisibleTimeRangeOnResize:true},
+      crosshair:{mode:LightweightCharts.CrosshairMode.Normal,vertLine:{color:'rgba(180,195,215,.55)',width:1,style:LightweightCharts.LineStyle.Dashed,labelBackgroundColor:'#34445a'},horzLine:{color:'rgba(180,195,215,.55)',width:1,style:LightweightCharts.LineStyle.Dashed,labelBackgroundColor:'#34445a'}},
       handleScroll:{mouseWheel:true,pressedMouseMove:true,horzTouchDrag:true,vertTouchDrag:false},
       handleScale:{mouseWheel:true,pinch:true,axisPressedMouseMove:{time:true,price:true}}
     });
@@ -3301,15 +3301,15 @@ document.addEventListener('click', function(event) {
     const rect=el.chart.getBoundingClientRect();
     chart=LightweightCharts.createChart(el.chart,{
       width:Math.max(320,Math.floor(rect.width||800)),height:Math.max(350,Math.floor(rect.height||510)),
-      layout:{background:{type:'solid',color:'#08090c'},textColor:'#c8c8c8'},
-      grid:{vertLines:{color:'#202229'},horzLines:{color:'#202229'}},
-      rightPriceScale:{borderColor:'#34363d',scaleMargins:{top:.08,bottom:.08}},
-      timeScale:{borderColor:'#34363d',timeVisible:true,secondsVisible:false,barSpacing:6,rightOffset:8},
-      crosshair:{mode:LightweightCharts.CrosshairMode.Normal},
+      layout:{background:{type:'solid',color:'#0b0e14'},textColor:'#b8c2d1',fontFamily:'-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif',fontSize:12},
+      grid:{vertLines:{color:'rgba(148,163,184,.075)',style:LightweightCharts.LineStyle.Dotted},horzLines:{color:'rgba(148,163,184,.09)',style:LightweightCharts.LineStyle.Dotted}},
+      rightPriceScale:{borderColor:'#293241',scaleMargins:{top:.07,bottom:.07},minimumWidth:76},
+      timeScale:{borderColor:'#293241',timeVisible:true,secondsVisible:false,barSpacing:7,minBarSpacing:2,rightOffset:10,lockVisibleTimeRangeOnResize:true},
+      crosshair:{mode:LightweightCharts.CrosshairMode.Normal,vertLine:{color:'rgba(180,195,215,.55)',width:1,style:LightweightCharts.LineStyle.Dashed,labelBackgroundColor:'#34445a'},horzLine:{color:'rgba(180,195,215,.55)',width:1,style:LightweightCharts.LineStyle.Dashed,labelBackgroundColor:'#34445a'}},
       handleScroll:{mouseWheel:true,pressedMouseMove:true,horzTouchDrag:true,vertTouchDrag:false},
       handleScale:{mouseWheel:true,pinch:true,axisPressedMouseMove:{time:true,price:true}}
     });
-    candles=chart.addCandlestickSeries({upColor:'#26a69a',downColor:'#ef5350',borderUpColor:'#26a69a',borderDownColor:'#ef5350',wickUpColor:'#26a69a',wickDownColor:'#ef5350'});
+    candles=chart.addCandlestickSeries({upColor:'#26a69a',downColor:'#ef5350',borderUpColor:'#26a69a',borderDownColor:'#ef5350',wickUpColor:'#26a69a',wickDownColor:'#ef5350',borderVisible:true,wickVisible:true,priceLineVisible:true,lastValueVisible:true,priceLineColor:'#26a69a',priceLineStyle:LightweightCharts.LineStyle.Dashed});
     setupReplayTools();
 
     cursor=document.createElement('div');
@@ -5380,6 +5380,37 @@ document.addEventListener('nfx-liquidity-open',start);document.addEventListener(
 </script><script id="nfx-orderbook-premium-wheel-scroll">
 (function(){function bind(){var panel=document.getElementById('nfxLiqLivePanel'),book=panel&&panel.querySelector('.nfx-liq-book'),asks=document.getElementById('nfxLiqAsks'),bids=document.getElementById('nfxLiqBids');if(!panel||!book||!asks||!bids||panel.dataset.unifiedWheelReady)return;panel.dataset.unifiedWheelReady='1';book.addEventListener('wheel',function(ev){if(!ev.deltaY)return;ev.preventDefault();var maxA=Math.max(0,asks.scrollHeight-asks.clientHeight),maxB=Math.max(0,bids.scrollHeight-bids.clientHeight),max=Math.max(maxA,maxB);if(!max)return;var current=maxA?asks.scrollTop/maxA:(maxB?bids.scrollTop/maxB:0),step=Math.max(asks.clientHeight,bids.clientHeight,260),next=Math.max(0,Math.min(1,current+ev.deltaY/step));asks.scrollTop=next*maxA;bids.scrollTop=next*maxB;},{passive:false});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});else bind();setTimeout(bind,600);})();
 </script>
+
+<style id="nfx-professional-replay-chart">
+/* Professional trading-terminal presentation for the Bar Replay workspace */
+#page-chart #nabilReplayPointLab{padding:20px!important;border:1px solid #263243!important;border-radius:16px!important;background:linear-gradient(155deg,#101722 0%,#0b1018 52%,#090d13 100%)!important;box-shadow:0 22px 60px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.035)!important}
+#page-chart #nabilReplayPointLab .chart-heading-row{align-items:center;margin-bottom:14px}
+#page-chart #nabilReplayPointLab .view-heading{font-size:24px!important;font-weight:750!important;letter-spacing:-.045em!important;color:#f2f5fa!important}
+#page-chart #nabilReplayPointLab .chart-heading-row .hint{color:#8998ad!important;font-size:12px!important}
+#page-chart #nabilReplayPointLab .nfx-point-controls{align-items:end;gap:8px!important;padding:12px!important;margin:0 0 12px!important;border:1px solid #263243!important;border-radius:11px!important;background:#0b111a!important}
+#page-chart #nabilReplayPointLab .nfx-point-controls label{color:#8797ad!important;font-size:9px!important;letter-spacing:.11em!important}
+#page-chart #nabilReplayPointLab .nfx-point-controls input,#page-chart #nabilReplayPointLab .nfx-point-controls select{height:38px!important;min-width:105px!important;border:1px solid #303e51!important;border-radius:7px!important;background:#111b28!important;color:#e4ebf5!important;font-size:12px!important;outline:none!important}
+#page-chart #nabilReplayPointLab .nfx-point-controls input:focus,#page-chart #nabilReplayPointLab .nfx-point-controls select:focus{border-color:#5d83b1!important;box-shadow:0 0 0 2px rgba(93,131,177,.13)!important}
+#page-chart #nabilReplayPointLab .nfx-point-controls button{height:38px!important;padding:0 13px!important;border:1px solid #34445a!important;border-radius:7px!important;background:linear-gradient(180deg,#1b293a,#131d2a)!important;color:#dce6f3!important;font-size:11px!important;font-weight:700!important;letter-spacing:.01em!important;transition:all .16s ease!important}
+#page-chart #nabilReplayPointLab .nfx-point-controls button:hover:not(:disabled){border-color:#6386ae!important;background:#22344a!important;transform:translateY(-1px)!important}
+#page-chart #nabilReplayPointLab #nfxPointPlay{border-color:#236c5c!important;background:linear-gradient(180deg,#174c40,#12372f)!important;color:#9cebd4!important}
+#page-chart #nabilReplayPointLab #nfxPointSelect{border-color:#386d62!important;background:linear-gradient(180deg,#173d36,#102c28)!important;color:#8ee0c8!important}
+#page-chart #nabilReplayPointLab #nfxPointSelect.active{border-color:#a77935!important;background:linear-gradient(180deg,#59401c,#342612)!important;color:#ffda9a!important}
+#page-chart #nabilReplayPointLab .nfx-point-meta{padding:10px 13px!important;border:1px solid #29374a!important;border-bottom:0!important;border-radius:9px 9px 0 0!important;background:#101925!important;color:#9eacc0!important;font-size:11px!important}
+#page-chart #nabilReplayPointLab .nfx-point-chart{height:620px!important;min-height:430px!important;border:1px solid #29374a!important;border-radius:0 0 9px 9px!important;background:#0b0e14!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.02),0 12px 30px rgba(0,0,0,.24)!important}
+#page-chart #nabilReplayPointLab .nfx-replay-drawing-bar{width:50px!important;padding:9px 5px!important;background:rgba(13,19,28,.97)!important;border-right:1px solid #273447!important;box-shadow:5px 0 18px rgba(0,0,0,.2)!important;backdrop-filter:blur(10px)!important}
+#page-chart #nabilReplayPointLab .nfx-tool-section{gap:4px!important;padding-bottom:8px!important;margin-bottom:8px!important;border-bottom-color:#263448!important}
+#page-chart #nabilReplayPointLab .nfx-replay-drawing-bar button{width:38px!important;height:36px!important;flex-basis:36px!important;border:1px solid transparent!important;border-radius:7px!important;color:#aebdd0!important}
+#page-chart #nabilReplayPointLab .nfx-replay-drawing-bar button svg{width:20px!important;height:20px!important;stroke-width:1.7!important}
+#page-chart #nabilReplayPointLab .nfx-replay-drawing-bar button:hover{background:#1c2a3b!important;border-color:#354b64!important;color:#f2f6fc!important}
+#page-chart #nabilReplayPointLab .nfx-replay-drawing-bar button.active{background:linear-gradient(145deg,#284360,#1b2d42)!important;border-color:#527da8!important;color:#a8d1ff!important;box-shadow:inset 3px 0 #73b5f4!important}
+#page-chart #nabilReplayPointLab .nfx-chart-indicator-float{top:12px!important;right:14px!important}
+#page-chart #nabilReplayPointLab .nfx-indicators-open{height:35px!important;padding:0 13px!important;border:1px solid #34465d!important;border-radius:7px!important;background:rgba(17,27,40,.96)!important;color:#dce7f5!important;font-size:11px!important;box-shadow:0 5px 16px #0005!important}
+#page-chart #nabilReplayPointLab .nfx-indicators-open:hover{border-color:#6688ae!important;background:#1c2c40!important}
+#page-chart #nabilReplayPointLab .nfx-indicator-dialog{border-color:#35465c!important;border-radius:10px!important;background:rgba(12,19,29,.98)!important}
+#page-chart #nabilReplayPointLab .nfx-drawing-overlay{z-index:7!important}
+@media(max-width:760px){#page-chart #nabilReplayPointLab{padding:12px!important}#page-chart #nabilReplayPointLab .nfx-point-chart{height:500px!important}#page-chart #nabilReplayPointLab .nfx-point-controls{padding:9px!important}}
+</style>
 </body>
 </html>
 <style>
