@@ -3658,7 +3658,7 @@ document.addEventListener('click', function(event) {
   var socket=null, liquidationSocket=null, reconnectTimer=null, liquidationReconnectTimer=null, currentSymbol='btcusdt', activeMarket='crypto', manuallyClosed=false, lastPayload=null, liquidationEvents=[], liquidationRenderFrame=0;
   var symbols={btcusdt:'BTC/USDT',ethusdt:'ETH/USDT',bnbusdt:'BNB/USDT',solusdt:'SOL/USDT',xrpusdt:'XRP/USDT',dogeusdt:'DOGE/USDT',adausdt:'ADA/USDT',linkusdt:'LINK/USDT'},marketSymbolsLoaded=false;
   function normalizeSymbol(value){return String(value||'').toUpperCase().replace(/[^A-Z0-9]/g,'').replace(/USDT$/,'')+'USDT';}
-  function marketLabel(symbol){return symbol.slice(0,-4)+'/USDT';}
+  function marketLabel(symbol){symbol=String(symbol||'').toUpperCase();return symbol.slice(0,-4)+'/USDT';}
   function updateMarketSearchUI(){var list=$('nfxMarketSuggestions'),count=$('nfxMarketCount');if(list){list.replaceChildren();Object.keys(symbols).sort().forEach(function(key){var opt=document.createElement('option');opt.value=symbols[key];list.appendChild(opt);});}if(count)count.textContent=Object.keys(symbols).length.toLocaleString()+' USDT perpetual markets available · Binance Futures';var label=symbols[currentSymbol]||marketLabel(currentSymbol);['nfxMarketCurrent','nfxLiqSelectedMarket','nfxLiqTimelineSymbol','nfxLiqLiquidationSymbol'].forEach(function(id){var el=$(id);if(el)el.textContent=label.replace('/',' / ');});}
   function loadCryptoMarkets(){var cacheKey='nfxBinanceUsdtPerpetualMarketsV1',cached=null;try{cached=JSON.parse(sessionStorage.getItem(cacheKey)||'null');}catch(e){}if(cached&&cached.savedAt&&Date.now()-cached.savedAt<21600000&&Array.isArray(cached.markets)){cached.markets.forEach(function(item){if(item&&item.symbol&&item.label)symbols[item.symbol]=item.label;});marketSymbolsLoaded=true;updateMarketSearchUI();return;}fetch('https://fapi.binance.com/fapi/v1/exchangeInfo').then(function(r){if(!r.ok)throw new Error('Market list unavailable');return r.json();}).then(function(data){var markets=[];(data.symbols||[]).forEach(function(item){if(item.status==='TRADING'&&item.contractType==='PERPETUAL'&&item.quoteAsset==='USDT'&&item.symbol){var key=item.symbol.toLowerCase(),label=item.baseAsset+'/USDT';symbols[key]=label;markets.push({symbol:key,label:label});}});marketSymbolsLoaded=true;try{sessionStorage.setItem(cacheKey,JSON.stringify({savedAt:Date.now(),markets:markets}));}catch(e){}updateMarketSearchUI();}).catch(function(){var count=$('nfxMarketCount');if(count)count.textContent=Object.keys(symbols).length+' popular markets loaded · full list temporarily unavailable';});}
   function historyCacheKey(symbol){return 'nfxLiqHistoryV2:'+symbol;}
@@ -3822,8 +3822,8 @@ document.addEventListener('click', function(event) {
       var U=Number(ev.U),u=Number(ev.u),pu=Number(ev.pu);
       if(!Number.isFinite(U)||!Number.isFinite(u))return true;
       if(!firstEventSynced){
-        if(u<lastUpdateId)return true;
-        if(U>lastUpdateId||u<lastUpdateId){sequenceBroken=true;return false;}
+        if(u<lastUpdateId+1)return true;
+        if(U>lastUpdateId+1){sequenceBroken=true;return false;}
         firstEventSynced=true;
       }else{
         if(u<=lastUpdateId)return true;
@@ -3845,7 +3845,7 @@ document.addEventListener('click', function(event) {
           lastUpdateId=Number(snapshot.lastUpdateId);
           snapshot.bids.forEach(function(x){var p=String(Number(x[0])),q=Number(x[1]);if(Number(p)>0&&q>0)bidsMap.set(p,q);});
           snapshot.asks.forEach(function(x){var p=String(Number(x[0])),q=Number(x[1]);if(Number(p)>0&&q>0)asksMap.set(p,q);});
-          var first=buffer.findIndex(function(ev){return Number(ev.u)>=lastUpdateId&&Number(ev.U)<=lastUpdateId;});
+          var first=buffer.findIndex(function(ev){return Number(ev.u)>=lastUpdateId+1&&Number(ev.U)<=lastUpdateId+1;});
           if(first<0)throw new Error('Depth snapshot fell outside buffered update range');
           var pending=buffer.slice(first);buffer=[];ready=true;
           for(var i=0;i<pending.length;i++){if(!applyEvent(pending[i]))throw new Error('Depth sequence gap');}
