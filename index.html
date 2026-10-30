@@ -585,6 +585,14 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 #nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-levels{cursor:ns-resize}
 #nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-levels .nfx-liq-row{flex:0 0 auto}
 </style>
+<style id="nfx-orderbook-expanded-scroll-match">
+#nfxLiqDashboard #nfxLiqLivePanel:fullscreen,#nfxLiqDashboard #nfxLiqLivePanel.nfx-liq-expanded-fallback{box-sizing:border-box!important;display:flex!important;flex-direction:column!important;width:100vw!important;height:100vh!important;max-height:100vh!important;min-height:0!important;overflow:hidden!important;padding:20px!important;background:#080d15!important}
+#nfxLiqDashboard #nfxLiqLivePanel:fullscreen .nfx-liq-book,#nfxLiqDashboard #nfxLiqLivePanel.nfx-liq-expanded-fallback .nfx-liq-book{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(110px,.28fr) minmax(0,1fr)!important;align-items:stretch!important;flex:0 0 auto!important;height:auto!important;min-height:0!important;max-height:none!important;overflow:hidden!important}
+#nfxLiqDashboard #nfxLiqLivePanel:fullscreen .nfx-liq-book-side,#nfxLiqDashboard #nfxLiqLivePanel.nfx-liq-expanded-fallback .nfx-liq-book-side{display:flex!important;flex-direction:column!important;min-width:0!important;min-height:0!important;overflow:hidden!important}
+#nfxLiqDashboard #nfxLiqLivePanel:fullscreen .nfx-liq-levels,#nfxLiqDashboard #nfxLiqLivePanel.nfx-liq-expanded-fallback .nfx-liq-levels{box-sizing:border-box!important;height:340px!important;min-height:340px!important;max-height:340px!important;overflow-y:auto!important;overflow-x:hidden!important;scrollbar-width:none!important;-ms-overflow-style:none!important;overscroll-behavior:contain!important}
+#nfxLiqDashboard #nfxLiqLivePanel:fullscreen .nfx-liq-levels::-webkit-scrollbar,#nfxLiqDashboard #nfxLiqLivePanel.nfx-liq-expanded-fallback .nfx-liq-levels::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}
+@media(max-width:700px){#nfxLiqDashboard #nfxLiqLivePanel:fullscreen,#nfxLiqDashboard #nfxLiqLivePanel.nfx-liq-expanded-fallback{padding:10px!important}#nfxLiqDashboard #nfxLiqLivePanel:fullscreen .nfx-liq-book,#nfxLiqDashboard #nfxLiqLivePanel.nfx-liq-expanded-fallback .nfx-liq-book{grid-template-columns:minmax(0,1fr) minmax(76px,.24fr) minmax(0,1fr)!important}}
+</style>
 </head>
 <body>
 <header class="site-header">
@@ -4619,25 +4627,7 @@ document.addEventListener('nfx-liquidity-open',start);document.addEventListener(
  document.querySelectorAll('.nfx-market-tab').forEach(btn=>btn.addEventListener('click',()=>window.showNabilPage&&window.showNabilPage(btn.dataset.page)));
 })();
 </script><script id="nfx-orderbook-premium-wheel-scroll">
-(function(){
- function bind(){
-  var book=document.querySelector('#nfxLiqLivePanel .nfx-liq-book');
-  var asks=document.getElementById('nfxLiqAsks'),bids=document.getElementById('nfxLiqBids');
-  if(!book||!asks||!bids||book.dataset.wheelScrollReady)return;
-  book.dataset.wheelScrollReady='1';
-  book.addEventListener('wheel',function(ev){
-   if(Math.abs(ev.deltaY)<1)return;
-   ev.preventDefault();
-   var maxA=Math.max(0,asks.scrollHeight-asks.clientHeight);
-   var maxB=Math.max(0,bids.scrollHeight-bids.clientHeight);
-   var ratio=maxA?asks.scrollTop/maxA:(maxB?bids.scrollTop/maxB:0);
-   var next=Math.max(0,Math.min(1,ratio+ev.deltaY/Math.max(180,Math.min(maxA||maxB,520))));
-   asks.scrollTop=next*maxA;bids.scrollTop=next*maxB;
-  },{passive:false});
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});else bind();
- setTimeout(bind,500);
-})();
+(function(){function bind(){var panel=document.getElementById('nfxLiqLivePanel'),book=panel&&panel.querySelector('.nfx-liq-book'),asks=document.getElementById('nfxLiqAsks'),bids=document.getElementById('nfxLiqBids');if(!panel||!book||!asks||!bids||panel.dataset.unifiedWheelReady)return;panel.dataset.unifiedWheelReady='1';book.addEventListener('wheel',function(ev){if(!ev.deltaY)return;ev.preventDefault();var maxA=Math.max(0,asks.scrollHeight-asks.clientHeight),maxB=Math.max(0,bids.scrollHeight-bids.clientHeight),max=Math.max(maxA,maxB);if(!max)return;var current=maxA?asks.scrollTop/maxA:(maxB?bids.scrollTop/maxB:0),step=Math.max(asks.clientHeight,bids.clientHeight,260),next=Math.max(0,Math.min(1,current+ev.deltaY/step));asks.scrollTop=next*maxA;bids.scrollTop=next*maxB;},{passive:false});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});else bind();setTimeout(bind,600);})();
 </script>
 </body>
 </html>
