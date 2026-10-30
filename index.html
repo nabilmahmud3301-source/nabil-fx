@@ -5969,4 +5969,42 @@ document.addEventListener('nfx-liquidity-open',start);document.addEventListener(
  .site-header .account-menu{display:block;padding:3px;border-radius:12px}
  .site-header .account-menu>#accountMenuToggle{width:100%}
 }
+
+/* NAV REFINEMENT: text-only tabs with active red underline */
+.site-header .site-nav>.nav-btn,
+.site-header .account-menu>#accountMenuToggle{
+  min-height:42px!important;padding:0 9px!important;
+  border:0!important;border-radius:0!important;border-bottom:2px solid transparent!important;
+  background:transparent!important;box-shadow:none!important;transform:none!important;
+  color:#c9cbd1!important;transition:color .18s ease,border-color .18s ease!important;
+}
+.site-header .site-nav>.nav-btn:hover,
+.site-header .account-menu>#accountMenuToggle:hover{
+  color:#fff!important;background:transparent!important;box-shadow:none!important;transform:none!important;
+  border-color:transparent!important;border-bottom-color:rgba(255,55,74,.55)!important;
+}
+.site-header .site-nav>.nav-btn.active{
+  color:#fff!important;background:transparent!important;box-shadow:none!important;
+  border-color:transparent!important;border-bottom-color:#ff2438!important;
+}
+.site-header .account-menu{
+  display:flex!important;align-items:center!important;padding:0!important;
+  border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;
+}
+.site-header .account-menu>#accountMenuToggle{
+  color:#c9cbd1!important;border-color:transparent!important;border-bottom-color:transparent!important;
+}
+.site-header .account-menu>#accountMenuToggle:hover{
+  color:#fff!important;border-bottom-color:rgba(255,55,74,.55)!important;
+}
+.site-header .account-menu>#accountMenuToggle[aria-expanded="true"]{
+  color:#fff!important;border-bottom-color:#ff2438!important;
+}
+@media(max-width:760px){
+ .site-header .site-nav>.nav-btn,.site-header .account-menu>#accountMenuToggle{
+   min-height:42px!important;padding:0 13px!important;border-bottom:2px solid transparent!important;
+ }
+ .site-header .site-nav>.nav-btn.active{border-bottom-color:#ff2438!important}
+ .site-header .site-nav>.nav-btn:hover,.site-header .account-menu>#accountMenuToggle:hover{border-bottom-color:rgba(255,55,74,.55)!important}
+}
 </style>
