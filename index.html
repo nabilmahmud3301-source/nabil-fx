@@ -2968,7 +2968,7 @@ function bindHeatmapInspector(canvasId,kind){
     v.hidden=h.hidden=tip.hidden=true;wrap.appendChild(v);wrap.appendChild(h);wrap.appendChild(tip);
     canvas.addEventListener('pointermove',function(ev){
       var rect=canvas.getBoundingClientRect(),x=ev.clientX-rect.left,y=ev.clientY-rect.top;
-      var W=rect.width,H=rect.height,left=kind==='book'?82:88,right=18,top=30,bottom=30,pw=W-left-right,ph=H-top-bottom;
+      var W=rect.width,H=rect.height,left=68,right=14,top=34,bottom=28,pw=W-left-right,ph=H-top-bottom;
       if(x<left||x>W-right||y<top||y>H-bottom){v.hidden=h.hidden=tip.hidden=true;return;}
       var now=Date.now(),windowMs=historyLimit()*1000,cutoff=now-windowMs,price=NaN,detail='';
       if(kind==='book'){
