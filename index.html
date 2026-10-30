@@ -3030,6 +3030,48 @@ document.addEventListener('click', function(event) {
     if(market==='crypto'){provider.hidden=true;live.hidden=false;connect();if(!liquidationSocket||liquidationSocket.readyState>1)connectLiquidations();}
     else{closeSocket();live.hidden=true;provider.hidden=false;var info=marketInfo[market]||marketInfo.forex;$('nfxLiqProviderTitle').textContent=info.title;$('nfxLiqProviderDescription').textContent=info.desc;}
   }
+  /* Interactive chart crosshair + data tooltip for both live heatmaps. */
+  function bindHeatmapInspector(canvasId,kind){
+    var canvas=$(canvasId);if(!canvas||canvas.dataset.inspectorReady)return;canvas.dataset.inspectorReady='1';
+    var wrap=canvas.parentElement;wrap.style.position='relative';canvas.style.cursor='crosshair';
+    var v=document.createElement('div'),h=document.createElement('div'),tip=document.createElement('div');
+    v.className='nfx-heatmap-crosshair-v';h.className='nfx-heatmap-crosshair-h';tip.className='nfx-heatmap-inspector';
+    v.hidden=h.hidden=tip.hidden=true;wrap.appendChild(v);wrap.appendChild(h);wrap.appendChild(tip);
+    canvas.addEventListener('pointermove',function(ev){
+      var rect=canvas.getBoundingClientRect(),x=ev.clientX-rect.left,y=ev.clientY-rect.top;
+      var W=rect.width,H=rect.height,left=kind==='book'?82:88,right=18,top=30,bottom=30,pw=W-left-right,ph=H-top-bottom;
+      if(x<left||x>W-right||y<top||y>H-bottom){v.hidden=h.hidden=tip.hidden=true;return;}
+      var now=Date.now(),windowMs=historyLimit()*1000,cutoff=now-windowMs,price=NaN,detail='';
+      if(kind==='book'){
+        var hist=liqHistory.filter(function(z){return z.t>=cutoff;});
+        if(!hist.length)return;
+        var mid=hist[hist.length-1].mid,lo=mid*.995,hi=mid*1.005;
+        price=hi-(y-top)/ph*(hi-lo);
+        var snap=hist[Math.max(0,Math.min(hist.length-1,Math.floor((x-left)/pw*hist.length)))];
+        var nearest=null,dist=Infinity;
+        snap.bids.concat(snap.asks).forEach(function(level){var d=Math.abs(level[0]-price);if(d<dist){dist=d;nearest=level;}});
+        detail=nearest?'Nearest depth: '+fmt(nearest[0])+' · '+Number(nearest[1]).toLocaleString('en-US',{maximumFractionDigits:4})+' contracts':'Live order-book depth';
+      }else{
+        var events=liquidationEvents.filter(function(e){return e.t>=cutoff&&e.symbol===currentSymbol&&Number.isFinite(e.p)&&e.p>0&&Number.isFinite(e.usd)&&e.usd>0;});
+        if(!events.length)return;
+        var mids=liqHistory.map(function(z){return z.mid;}).filter(function(z){return Number.isFinite(z)&&z>0;}),mid=mids.length?mids[mids.length-1]:events[events.length-1].p;
+        var spread=mid*.008;events.forEach(function(e){spread=Math.max(spread,Math.abs(e.p-mid)*1.08);});
+        var lo=Math.max(1e-8,mid-spread),hi=mid+spread;price=hi-(y-top)/ph*(hi-lo);
+        var timeAt=cutoff+(x-left)/pw*windowMs,near=events.filter(function(e){return Math.abs(e.t-timeAt)<windowMs/96&&Math.abs(e.p-price)<(hi-lo)/64;});
+        var total=near.reduce(function(a,e){return a+e.usd;},0);
+        detail=near.length?near.length+' reported event(s) · '+total.toLocaleString('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}):'No reported event in this cell';
+      }
+      var px=left+x-left,py=top+y-top;
+      v.style.left=Math.round(x)+'px';v.style.top=top+'px';v.style.height=ph+'px';
+      h.style.left=left+'px';h.style.top=Math.round(y)+'px';h.style.width=pw+'px';
+      tip.innerHTML='<strong>'+fmt(price)+'</strong><span>'+new Date(cutoff+(x-left)/pw*windowMs).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'})+'</span><small>'+detail+'</small>';
+      tip.style.left=Math.max(6,Math.min(W-246,x+14))+'px';tip.style.top=Math.max(6,Math.min(H-74,y-36))+'px';
+      v.hidden=h.hidden=tip.hidden=false;
+    });
+    canvas.addEventListener('pointerleave',function(){v.hidden=h.hidden=tip.hidden=true;});
+  }
+  bindHeatmapInspector('nfxLiqTimelineCanvas','book');
+  bindHeatmapInspector('nfxLiqLiquidationCanvas','liquidation');
   document.querySelectorAll('[data-liq-market]').forEach(function(btn){btn.addEventListener('click',function(){selectMarket(btn.dataset.liqMarket);});});
   document.querySelectorAll('[data-liq-fullscreen]').forEach(function(btn){
     btn.addEventListener('click',function(){
@@ -3279,5 +3321,20 @@ document.addEventListener('click', function(event) {
 #nfxLiqDashboard .nfx-liq-timeline-note{padding-top:10px;border-top:1px solid rgba(123,146,174,.13);font-size:10px;color:#8494a9}
 @media(max-width:1050px){#nfxLiqDashboard.nfx-liq-dashboard{grid-template-columns:minmax(0,1fr)}#nfxLiqDashboard #nfxLiqLivePanel{grid-column:auto}#nfxLiqDashboard #nfxLiqBookHeatmap,#nfxLiqDashboard #nfxLiqLiquidationHeatmap{min-height:0}#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-wrap,#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap{height:390px}}
 @media(max-width:600px){#nfxLiqDashboard #nfxLiqBookHeatmap,#nfxLiqDashboard #nfxLiqLiquidationHeatmap{padding:11px}#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-wrap,#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap{height:310px}#nfxLiqDashboard .nfx-liq-timeline-head{align-items:flex-start;gap:10px}#nfxLiqDashboard .nfx-liq-timeline-head h3{font-size:18px}}
+
+
+/* Premium interactive inspection layer */
+#nfxLiqDashboard #nfxLiqBookHeatmap,#nfxLiqDashboard #nfxLiqLiquidationHeatmap{position:relative;isolation:isolate;transition:border-color .2s ease,transform .2s ease,box-shadow .2s ease}
+#nfxLiqDashboard #nfxLiqBookHeatmap:hover,#nfxLiqDashboard #nfxLiqLiquidationHeatmap:hover{border-color:#3a536c;box-shadow:0 22px 48px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.035)}
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-wrap,#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap{overflow:hidden}
+.nfx-heatmap-crosshair-v,.nfx-heatmap-crosshair-h{position:absolute;z-index:4;pointer-events:none;background:rgba(220,235,255,.62);box-shadow:0 0 7px rgba(115,178,255,.2)}
+.nfx-heatmap-crosshair-v{width:1px;border-left:1px dashed rgba(220,235,255,.48);background:transparent}
+.nfx-heatmap-crosshair-h{height:1px;border-top:1px dashed rgba(220,235,255,.48);background:transparent}
+.nfx-heatmap-inspector{position:absolute;z-index:5;min-width:210px;max-width:235px;padding:10px 12px;border:1px solid #34485f;border-radius:8px;background:rgba(8,14,23,.96);box-shadow:0 12px 30px rgba(0,0,0,.38);backdrop-filter:blur(12px);pointer-events:none;color:#dfe8f4;font:11px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace}
+.nfx-heatmap-inspector strong{display:block;color:#f4d77b;font-size:15px;letter-spacing:-.02em}
+.nfx-heatmap-inspector span{display:block;color:#91a6bf;margin-top:2px}
+.nfx-heatmap-inspector small{display:block;color:#c2cedd;margin-top:5px;font-size:10px;line-height:1.45;white-space:normal}
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-note,#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-note{min-height:34px}
+@media(prefers-reduced-motion:reduce){#nfxLiqDashboard #nfxLiqBookHeatmap,#nfxLiqDashboard #nfxLiqLiquidationHeatmap{transition:none}}
 
 </style>
