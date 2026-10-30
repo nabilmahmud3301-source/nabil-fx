@@ -1036,46 +1036,57 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
     <div class="nfx-market-search-meta"><span class="nfx-market-dot"></span><span id="nfxMarketCount">Loading available crypto markets…</span><span class="nfx-market-search-current">Selected: <strong id="nfxMarketCurrent">BTC/USDT</strong></span></div>
   </section>
   <div class="nfx-liq-dashboard" id="nfxLiqDashboard">
-    <section class="nfx-liq-panel nfx-liq-workspace-card nfx-ob-v2" id="nfxLiqLivePanel" aria-label="Professional live order book">
-      <header class="nfx-ob-head">
-        <div class="nfx-ob-brand">
-          <div class="nfx-ob-mark">NFX</div>
-          <div><span class="nfx-ob-eyebrow">MARKET DEPTH · REAL-TIME</span><h2>Order Book</h2><p>Price ladder · bid/ask liquidity distribution</p></div>
-        </div>
-        <div class="nfx-ob-head-actions">
-          <div class="nfx-liq-status" id="nfxLiqConnection"><i></i><span>Connecting feed…</span></div>
-          <button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqLivePanel" aria-label="Expand live order book">⛶ <span>Expand</span></button>
-        </div>
-      </header>
-      <div class="nfx-ob-marketbar">
-        <div class="nfx-ob-instrument"><span class="nfx-ob-label">TRADING INSTRUMENT</span><strong id="nfxLiqSelectedMarket">BTC / USDT</strong><small>PERPETUAL · USDⓈ-M</small></div>
-        <div class="nfx-ob-marketstat"><span>BEST BID</span><strong class="bid-text" id="nfxLiqBestBid">—</strong></div>
-        <div class="nfx-ob-marketstat"><span>BEST ASK</span><strong class="ask-text" id="nfxLiqBestAsk">—</strong></div>
-        <div class="nfx-ob-marketstat"><span>SPREAD</span><strong id="nfxLiqSpread">—</strong></div>
-        <div class="nfx-ob-marketstat nfx-ob-delta-stat"><span>VISIBLE DEPTH DELTA</span><strong id="nfxLiqDelta" class="nfx-ob-delta-neutral">—</strong></div>
-        <div class="nfx-ob-marketstat"><span>UPDATED</span><strong id="nfxLiqUpdated">—</strong></div>
-      </div>
-      <div class="nfx-ob-toolbar">
-        <div class="nfx-ob-viewtabs"><span class="nfx-ob-viewdot"></span><strong>DEPTH</strong><span class="nfx-ob-divider"></span><span class="nfx-ob-feed">BINANCE USDⓈ-M PERPETUAL</span></div>
-        <div class="nfx-pro-book-actions"><span class="nfx-pro-depth-label">DEPTH</span><button type="button" data-book-depth="10">10</button><button type="button" data-book-depth="20">20</button><button type="button" data-book-depth="50" class="active">50</button><span class="nfx-pro-book-unit">PRICE · USDT</span></div>
-      </div>
-      <div class="nfx-ob-price-focus">
-        <div class="nfx-ob-price-side"><span>SELL ORDERS</span><strong class="ask-text">ASKS</strong><small>Accumulated sell liquidity</small></div>
-        <div class="nfx-ob-midprice"><span>MARKET MID PRICE</span><strong id="nfxLiqMid">—</strong><small id="nfxProMidMove">Awaiting price movement</small><div class="nfx-ob-spread"><span>SPREAD</span><b id="nfxProSpread">—</b></div></div>
-        <div class="nfx-ob-price-side right"><span>BUY ORDERS</span><strong class="bid-text">BIDS</strong><small>Accumulated buy liquidity</small></div>
-      </div>
-      <div class="nfx-liq-book nfx-ob-ladder">
-        <div class="nfx-liq-book-side nfx-liq-asks nfx-ob-side"><div class="nfx-liq-book-title"><span>PRICE (USDT)</span><span>SIZE</span><span>TOTAL</span></div><div id="nfxLiqAsks" class="nfx-liq-levels"><div class="nfx-liq-empty">Waiting for live order book…</div></div></div>
-        <div class="nfx-ob-center-rail"><span>PRICE LEVEL</span><i></i><small>USDT</small></div>
-        <div class="nfx-liq-book-side nfx-liq-bids nfx-ob-side"><div class="nfx-liq-book-title"><span>PRICE (USDT)</span><span>SIZE</span><span>TOTAL</span></div><div id="nfxLiqBids" class="nfx-liq-levels"><div class="nfx-liq-empty">Waiting for live order book…</div></div></div>
-      </div>
-      <div class="nfx-ob-footer">
-        <div class="nfx-ob-legend"><span><i class="ask-key"></i> SELL LIQUIDITY</span><span><i class="bid-key"></i> BUY LIQUIDITY</span><span class="nfx-ob-legend-note">Bar length represents relative order size</span></div>
-        <div class="nfx-ob-velocity"><span>BID <b id="nfxLiqBidVelocity">—</b></span><span>ASK <b id="nfxLiqAskVelocity">—</b></span></div>
-        <small class="nfx-ob-footnote">Venue-specific visible depth · Snapshot refresh ~1.2s</small>
-      </div>
-      <div hidden aria-hidden="true"><span id="nfxLiqBidVelocitySub"></span><span id="nfxLiqAskVelocitySub"></span></div>
-    </section>
+    <section class="nfx-liq-panel nfx-liq-workspace-card nfx-ob-v2 nfx-ob-premium-rebuild" id="nfxLiqLivePanel" aria-label="Premium live order book">
+  <header class="nfx-pob-header">
+    <div class="nfx-pob-brand">
+      <div class="nfx-pob-logo">NFX<span>•</span></div>
+      <div class="nfx-pob-heading"><div class="nfx-pob-overline"><i></i> LIVE MARKET MICROSTRUCTURE</div><h2>Order Book <span>PRO</span></h2><p>Real-time liquidity ladder · Perpetual futures</p></div>
+    </div>
+    <div class="nfx-pob-header-right">
+      <div class="nfx-liq-status" id="nfxLiqConnection"><i></i><span>Connecting feed…</span></div>
+      <button class="nfx-liq-fullscreen-btn nfx-pob-expand" type="button" data-liq-fullscreen="nfxLiqLivePanel" aria-label="Expand live order book"><span class="nfx-pob-expand-icon">⛶</span> Expand</button>
+    </div>
+  </header>
+  <div class="nfx-pob-marketline">
+    <div class="nfx-pob-pair"><span class="nfx-pob-label">SELECTED CONTRACT</span><strong id="nfxLiqSelectedMarket">BTC / USDT</strong><small><b class="nfx-pob-perp-dot"></b> USDⓈ-M PERPETUAL</small></div>
+    <div class="nfx-pob-stat"><span>BEST BID</span><strong id="nfxLiqBestBid" class="bid-text">—</strong><small>Top buy price</small></div>
+    <div class="nfx-pob-stat"><span>BEST ASK</span><strong id="nfxLiqBestAsk" class="ask-text">—</strong><small>Top sell price</small></div>
+    <div class="nfx-pob-stat"><span>SPREAD</span><strong id="nfxLiqSpread">—</strong><small>Bid / ask gap</small></div>
+    <div class="nfx-pob-stat"><span>DEPTH IMBALANCE</span><strong id="nfxLiqDelta" class="nfx-ob-delta-neutral">—</strong><small>Visible levels only</small></div>
+    <div class="nfx-pob-stat nfx-pob-updated"><span>LAST UPDATE</span><strong id="nfxLiqUpdated">—</strong><small><i></i> Snapshot refresh</small></div>
+  </div>
+  <div class="nfx-pob-controls">
+    <div class="nfx-pob-feed"><span class="nfx-pob-live-pulse"></span><div><strong>LIVE DEPTH</strong><small>Binance USDⓈ-M</small></div><span class="nfx-pob-feed-separator"></span><span class="nfx-pob-feed-tag">REAL-TIME SNAPSHOT</span></div>
+    <div class="nfx-pro-book-actions nfx-pob-depth"><span class="nfx-pro-depth-label">LEVELS</span><button type="button" data-book-depth="10">10</button><button type="button" data-book-depth="20">20</button><button type="button" data-book-depth="50" class="active">50</button><span class="nfx-pro-book-unit">PRICE · USDT</span></div>
+  </div>
+  <div class="nfx-pob-book-wrap">
+    <div class="nfx-pob-side nfx-pob-asks">
+      <div class="nfx-pob-sidehead"><div class="nfx-pob-side-title"><i></i><span>ASKS</span><small>SELL SIDE</small></div><div class="nfx-pob-columns"><span>PRICE (USDT)</span><span>SIZE</span><span>TOTAL</span></div></div>
+      <div class="nfx-liq-levels nfx-pob-levels" id="nfxLiqAsks"><div class="nfx-liq-empty">Connecting to live order book…</div></div>
+      <div class="nfx-pob-sidefoot"><span>SELL LIQUIDITY</span><b class="ask-text">ASK DEPTH</b></div>
+    </div>
+    <div class="nfx-pob-center">
+      <div class="nfx-pob-center-label"><span class="nfx-pob-center-pulse"></span> MID MARKET</div>
+      <strong id="nfxLiqMid">—</strong>
+      <div id="nfxProMidMove" class="nfx-pob-move">Waiting for price movement</div>
+      <div class="nfx-pob-spread-pill"><span>SPREAD</span><b id="nfxProSpread">—</b></div>
+      <div class="nfx-pob-center-divider"><span>PRICE LADDER</span><i></i></div>
+      <div class="nfx-pob-flow"><span>BEST ASK</span><b class="ask-text" id="nfxPobAskMirror">—</b></div>
+      <div class="nfx-pob-flow"><span>BEST BID</span><b class="bid-text" id="nfxPobBidMirror">—</b></div>
+    </div>
+    <div class="nfx-pob-side nfx-pob-bids">
+      <div class="nfx-pob-sidehead"><div class="nfx-pob-side-title"><i></i><span>BIDS</span><small>BUY SIDE</small></div><div class="nfx-pob-columns"><span>PRICE (USDT)</span><span>SIZE</span><span>TOTAL</span></div></div>
+      <div class="nfx-liq-levels nfx-pob-levels" id="nfxLiqBids"><div class="nfx-liq-empty">Connecting to live order book…</div></div>
+      <div class="nfx-pob-sidefoot"><span>BUY LIQUIDITY</span><b class="bid-text">BID DEPTH</b></div>
+    </div>
+  </div>
+  <div class="nfx-pob-footer">
+    <div class="nfx-pob-legend"><span><i class="nfx-pob-legend-ask"></i> Ask liquidity</span><span><i class="nfx-pob-legend-bid"></i> Bid liquidity</span><span class="nfx-pob-legend-note">Depth bars show relative resting size at each price level</span></div>
+    <div class="nfx-pob-velocity"><span>BID MOVE <b id="nfxLiqBidVelocity">—</b></span><span>ASK MOVE <b id="nfxLiqAskVelocity">—</b></span></div>
+    <div class="nfx-pob-source">DATA SOURCE <b>BINANCE USDⓈ-M</b><span>·</span>VISIBLE EXCHANGE DEPTH ONLY</div>
+  </div>
+  <div hidden aria-hidden="true"><span id="nfxLiqBidVelocitySub"></span><span id="nfxLiqAskVelocitySub"></span></div>
+</section>
     <section class="nfx-liq-timeline-panel nfx-liq-workspace-card" id="nfxLiqBookHeatmap" aria-label="Liquidity timeline heatmap">
       <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">LIVE CAPTURE</div><h3>Liquidity Heatmap</h3><p>Visible resting orders by price and time · <strong id="nfxLiqTimelineSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><div class="nfx-liq-timeline-actions"><label>WINDOW <select id="nfxLiqWindow"><option value="60">1 MIN</option><option value="300" selected>5 MIN</option><option value="900">15 MIN</option></select></label><button id="nfxLiqResetHistory" type="button">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqBookHeatmap" aria-label="Expand liquidity heatmap">⛶ <span>Expand</span></button></div></div>
       <div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqTimelineCanvas" aria-label="Live order book liquidity by price and time"></canvas><div id="nfxLiqTimelineEmpty" class="nfx-liq-timeline-empty">Building live heatmap… historical columns appear as live snapshots arrive.</div></div>
@@ -5490,4 +5501,114 @@ document.addEventListener('nfx-liquidity-open',start);document.addEventListener(
 #nfxLiqLivePanel .nfx-ob-footnote{color:#69788b!important}
 @media(max-width:900px){#nfxLiqLivePanel .nfx-ob-marketbar{grid-template-columns:repeat(3,minmax(0,1fr))!important;row-gap:12px!important}#nfxLiqLivePanel .nfx-ob-marketstat:nth-last-child(1){border-right:0!important}}
 @media(max-width:620px){#nfxLiqLivePanel .nfx-ob-marketbar{grid-template-columns:repeat(2,minmax(0,1fr))!important;padding:10px 12px!important}#nfxLiqLivePanel .nfx-ob-head{padding:12px!important}#nfxLiqLivePanel .nfx-ob-price-focus{margin:0 8px 8px!important;padding:8px!important}#nfxLiqLivePanel .nfx-liq-book.nfx-ob-ladder{margin:0 8px!important}#nfxLiqLivePanel .nfx-ob-side .nfx-liq-levels{height:420px!important;max-height:420px!important;min-height:420px!important}#nfxLiqLivePanel .nfx-ob-side .nfx-liq-row{font-size:8px!important;gap:3px!important;padding:0 3px!important}#nfxLiqLivePanel .nfx-ob-side .nfx-liq-book-title{font-size:7px!important;gap:3px!important;padding:8px 5px!important}}
+</style>
+
+
+<style id="nfx-premium-orderbook-complete-rebuild">
+/* New NFX premium order-book interface. Existing data feed and interaction IDs remain wired to live data. */
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-ob-premium-rebuild{--pob-bg:#080c12;--pob-panel:#0c121b;--pob-panel2:#101823;--pob-line:#202c3a;--pob-muted:#77879b;--pob-text:#e7edf5;--pob-red:#f05c6c;--pob-green:#23c78a;position:relative!important;display:block!important;overflow:hidden!important;padding:0!important;background:radial-gradient(ellipse at 50% -18%,#1a2a3d 0,transparent 48%),var(--pob-bg)!important;border:1px solid #293747!important;border-radius:13px!important;color:var(--pob-text)!important;box-shadow:0 24px 70px #0008,inset 0 1px #ffffff08!important;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important}
+#nfxLiqLivePanel.nfx-ob-premium-rebuild *{box-sizing:border-box}
+#nfxLiqLivePanel .nfx-pob-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 23px 18px;background:linear-gradient(110deg,#101925,#0b1119 72%);border-bottom:1px solid var(--pob-line)}
+#nfxLiqLivePanel .nfx-pob-brand{display:flex;align-items:center;gap:14px;min-width:0}
+#nfxLiqLivePanel .nfx-pob-logo{position:relative;display:grid;place-items:center;width:45px;height:45px;flex:0 0 45px;border-radius:12px;border:1px solid #d9b56a66;background:linear-gradient(145deg,#e8c982,#97713c);color:#111820;font-size:15px;font-weight:950;letter-spacing:-.08em;box-shadow:0 8px 24px #d1aa4a20}
+#nfxLiqLivePanel .nfx-pob-logo span{position:absolute;right:5px;bottom:3px;color:#1bc68a;font-size:12px}
+#nfxLiqLivePanel .nfx-pob-overline{display:flex;align-items:center;gap:7px;color:#91a1b5;font-size:9px;letter-spacing:.17em;font-weight:850}
+#nfxLiqLivePanel .nfx-pob-overline i,#nfxLiqLivePanel .nfx-pob-live-pulse,#nfxLiqLivePanel .nfx-pob-center-pulse{display:inline-block;width:6px;height:6px;border-radius:50%;background:#24ce8b;box-shadow:0 0 10px #24ce8b88}
+#nfxLiqLivePanel .nfx-pob-heading h2{margin:5px 0 2px;color:#f2f5fa;font-size:23px;line-height:1.15;font-weight:850;letter-spacing:-.045em}
+#nfxLiqLivePanel .nfx-pob-heading h2 span{margin-left:5px;padding:3px 5px;border:1px solid #c5a45d55;border-radius:4px;color:#d7b76f;font-size:8px;letter-spacing:.12em;vertical-align:middle}
+#nfxLiqLivePanel .nfx-pob-heading p{margin:4px 0 0;color:#7f8da0;font-size:11px}
+#nfxLiqLivePanel .nfx-pob-header-right{display:flex;align-items:center;gap:11px}
+#nfxLiqLivePanel .nfx-pob-header .nfx-liq-status{display:flex;align-items:center;gap:7px;max-width:220px;padding:8px 11px;border:1px solid #234236;border-radius:6px;background:#0c1c18;color:#8fe0bb;font-size:10px;white-space:nowrap}
+#nfxLiqLivePanel .nfx-pob-header .nfx-liq-status i{width:6px;height:6px;border-radius:50%;background:#2cc98b;box-shadow:0 0 8px #2cc98b88}
+#nfxLiqLivePanel .nfx-pob-expand{display:flex;align-items:center;gap:7px;padding:9px 11px;border:1px solid #2b394a;border-radius:6px;background:#121c28;color:#d2dce8;font-size:10px;white-space:nowrap}
+#nfxLiqLivePanel .nfx-pob-expand:hover{border-color:#71849b;background:#182535}
+#nfxLiqLivePanel .nfx-pob-expand-icon{font-size:16px;line-height:12px}
+#nfxLiqLivePanel .nfx-pob-marketline{display:grid;grid-template-columns:1.3fr repeat(5,minmax(0,1fr));background:#0b1118;border-bottom:1px solid var(--pob-line)}
+#nfxLiqLivePanel .nfx-pob-pair,#nfxLiqLivePanel .nfx-pob-stat{display:flex;flex-direction:column;justify-content:center;min-width:0;gap:5px;padding:14px 15px;border-right:1px solid #1d2936}
+#nfxLiqLivePanel .nfx-pob-pair{padding-left:23px}
+#nfxLiqLivePanel .nfx-pob-stat:last-child{border-right:0}
+#nfxLiqLivePanel .nfx-pob-label,#nfxLiqLivePanel .nfx-pob-stat>span{color:#75859a;font-size:8px;letter-spacing:.13em;font-weight:850;white-space:nowrap}
+#nfxLiqLivePanel .nfx-pob-pair>strong{color:#eef3fa;font-size:17px;line-height:1.15;font-weight:850;letter-spacing:-.035em}
+#nfxLiqLivePanel .nfx-pob-pair>small{display:flex;align-items:center;gap:5px;color:#7c8da1;font-size:8px;letter-spacing:.07em}
+#nfxLiqLivePanel .nfx-pob-perp-dot{width:5px;height:5px;border-radius:50%;background:#c5a45f}
+#nfxLiqLivePanel .nfx-pob-stat>strong{font-size:13px;line-height:1.2;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+#nfxLiqLivePanel .nfx-pob-stat>small{color:#596b80;font-size:9px;white-space:nowrap}
+#nfxLiqLivePanel .nfx-pob-stat .bid-text,#nfxLiqLivePanel .nfx-pob-flow .bid-text{color:var(--pob-green)!important}
+#nfxLiqLivePanel .nfx-pob-stat .ask-text,#nfxLiqLivePanel .nfx-pob-flow .ask-text{color:var(--pob-red)!important}
+#nfxLiqLivePanel .nfx-pob-updated>small{display:flex;align-items:center;gap:5px}
+#nfxLiqLivePanel .nfx-pob-updated>small i{display:inline-block;width:5px;height:5px;border-radius:50%;background:#2ac98b}
+#nfxLiqLivePanel .nfx-ob-delta-bid{color:var(--pob-green)!important}
+#nfxLiqLivePanel .nfx-ob-delta-ask{color:var(--pob-red)!important}
+#nfxLiqLivePanel .nfx-ob-delta-neutral{color:#a9b6c5!important}
+#nfxLiqLivePanel .nfx-pob-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 22px 11px;background:#0c121a}
+#nfxLiqLivePanel .nfx-pob-feed{display:flex;align-items:center;gap:9px;min-width:0}
+#nfxLiqLivePanel .nfx-pob-live-pulse{flex:0 0 6px}
+#nfxLiqLivePanel .nfx-pob-feed>div{display:flex;flex-direction:column;gap:2px}
+#nfxLiqLivePanel .nfx-pob-feed>div strong{color:#dbe4ef;font-size:9px;letter-spacing:.12em}
+#nfxLiqLivePanel .nfx-pob-feed>div small{color:#728398;font-size:9px}
+#nfxLiqLivePanel .nfx-pob-feed-separator{width:1px;height:24px;background:#2b3746;margin:0 3px}
+#nfxLiqLivePanel .nfx-pob-feed-tag{padding:5px 7px;border:1px solid #263342;border-radius:4px;color:#8090a3;font-size:8px;letter-spacing:.07em;white-space:nowrap}
+#nfxLiqLivePanel .nfx-pob-depth{display:flex;align-items:center;gap:4px}
+#nfxLiqLivePanel .nfx-pob-depth .nfx-pro-depth-label{margin-right:4px;color:#6f8095;font-size:8px;letter-spacing:.12em}
+#nfxLiqLivePanel .nfx-pob-depth button{min-width:31px;height:27px;padding:0 8px;border:1px solid #2b3644;border-radius:4px;background:#111a25;color:#9eacbd;font-size:10px;font-weight:750}
+#nfxLiqLivePanel .nfx-pob-depth button:hover{border-color:#61768d;color:#f0f5fa}
+#nfxLiqLivePanel .nfx-pob-depth button.active{border-color:#b79a5a;background:linear-gradient(180deg,#322b1e,#211f1a);color:#e4c982;box-shadow:inset 0 -2px #d0ae62}
+#nfxLiqLivePanel .nfx-pob-depth .nfx-pro-book-unit{margin-left:10px;color:#6e7e91;font-size:8px;letter-spacing:.08em}
+#nfxLiqLivePanel .nfx-pob-book-wrap{display:grid;grid-template-columns:minmax(0,1fr) 190px minmax(0,1fr);gap:1px;margin:0 18px 14px;overflow:hidden;border:1px solid #26313e;border-radius:7px;background:#26313e}
+#nfxLiqLivePanel .nfx-pob-side{display:flex;flex-direction:column;min-width:0;background:#090e14}
+#nfxLiqLivePanel .nfx-pob-sidehead{background:#101721;border-bottom:1px solid #26313e}
+#nfxLiqLivePanel .nfx-pob-side-title{display:flex;align-items:center;gap:7px;padding:12px 12px 9px}
+#nfxLiqLivePanel .nfx-pob-side-title>i{width:7px;height:7px;border-radius:2px}
+#nfxLiqLivePanel .nfx-pob-asks .nfx-pob-side-title>i{background:var(--pob-red);box-shadow:0 0 8px #f05c6c55}
+#nfxLiqLivePanel .nfx-pob-bids .nfx-pob-side-title>i{background:var(--pob-green);box-shadow:0 0 8px #23c78a55}
+#nfxLiqLivePanel .nfx-pob-side-title>span{font-size:10px;font-weight:900;letter-spacing:.13em}
+#nfxLiqLivePanel .nfx-pob-asks .nfx-pob-side-title>span{color:var(--pob-red)}
+#nfxLiqLivePanel .nfx-pob-bids .nfx-pob-side-title>span{color:var(--pob-green)}
+#nfxLiqLivePanel .nfx-pob-side-title>small{margin-left:auto;color:#637286;font-size:8px;letter-spacing:.1em}
+#nfxLiqLivePanel .nfx-pob-columns{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.82fr) minmax(0,.88fr);gap:5px;padding:7px 10px;border-top:1px solid #1e2935;color:#66778b;font-size:8px;font-weight:800;letter-spacing:.07em}
+#nfxLiqLivePanel .nfx-pob-columns span:not(:first-child){text-align:right}
+#nfxLiqLivePanel .nfx-pob-levels{display:flex!important;flex-direction:column!important;gap:1px!important;height:650px!important;max-height:650px!important;min-height:650px!important;overflow:hidden!important;padding:5px 6px!important;background:#090e14!important}
+#nfxLiqLivePanel .nfx-pob-levels .nfx-liq-row{position:relative!important;display:grid!important;grid-template-columns:minmax(0,1.12fr) minmax(0,.82fr) minmax(0,.88fr)!important;align-items:center!important;gap:5px!important;flex:0 0 12px!important;height:12px!important;min-height:12px!important;padding:0 5px!important;border-radius:2px!important;overflow:hidden!important;background:transparent!important;color:#b8c4d2!important;font-size:9px!important;line-height:12px!important;font-variant-numeric:tabular-nums!important}
+#nfxLiqLivePanel .nfx-pob-levels .nfx-liq-row>i{position:absolute!important;top:0!important;bottom:0!important;z-index:0!important;border-radius:1px!important;opacity:.24!important;pointer-events:none!important}
+#nfxLiqLivePanel .nfx-pob-levels .nfx-liq-row.ask>i{background:linear-gradient(90deg,#f05c6c22,#f05c6c)!important}
+#nfxLiqLivePanel .nfx-pob-levels .nfx-liq-row.bid>i{background:linear-gradient(90deg,#23c78a22,#23c78a)!important}
+#nfxLiqLivePanel .nfx-pob-levels .nfx-liq-row>span{position:relative!important;z-index:1!important;display:block!important;min-width:0!important;overflow:hidden!important;white-space:nowrap!important;text-overflow:clip!important}
+#nfxLiqLivePanel .nfx-pob-levels .nfx-liq-row .nfx-ob-row-price{font-weight:750!important}
+#nfxLiqLivePanel .nfx-pob-levels .nfx-liq-row.ask .nfx-ob-row-price{color:#f06a79!important}
+#nfxLiqLivePanel .nfx-pob-levels .nfx-liq-row.bid .nfx-ob-row-price{color:#2bce91!important}
+#nfxLiqLivePanel .nfx-pob-levels .nfx-liq-row .nfx-ob-row-size,#nfxLiqLivePanel .nfx-pob-levels .nfx-liq-row .nfx-ob-row-total{text-align:right!important;color:#aebbc9!important}
+#nfxLiqLivePanel .nfx-pob-levels .nfx-liq-row:hover{outline:1px solid #60758c!important;background:#15202c!important;z-index:2!important}
+#nfxLiqLivePanel .nfx-pob-levels .nfx-liq-empty{padding:20px 8px;color:#718198;text-align:center;font-size:11px}
+#nfxLiqLivePanel .nfx-pob-center{display:flex;flex-direction:column;align-items:stretch;min-width:0;padding:22px 13px;background:radial-gradient(ellipse at 50% 8%,#192638,#0c121a 66%);text-align:center}
+#nfxLiqLivePanel .nfx-pob-center-label{display:flex;align-items:center;justify-content:center;gap:7px;color:#7e8fa3;font-size:8px;font-weight:850;letter-spacing:.15em}
+#nfxLiqLivePanel .nfx-pob-center-pulse{width:5px;height:5px}
+#nfxLiqLivePanel #nfxLiqMid{display:block;margin:17px 0 6px;color:#f4f7fb;font-size:clamp(19px,2vw,28px);line-height:1.05;font-weight:850;letter-spacing:-.05em;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+#nfxLiqLivePanel .nfx-pob-move{min-height:28px;color:#8392a5;font-size:10px;line-height:1.45}
+#nfxLiqLivePanel .nfx-pob-move.up{color:var(--pob-green)!important}
+#nfxLiqLivePanel .nfx-pob-move.down{color:var(--pob-red)!important}
+#nfxLiqLivePanel .nfx-pob-spread-pill{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:11px 0 20px;padding:10px 11px;border:1px solid #293747;border-radius:5px;background:#101a26}
+#nfxLiqLivePanel .nfx-pob-spread-pill span{color:#718399;font-size:8px;letter-spacing:.1em;font-weight:800}
+#nfxLiqLivePanel .nfx-pob-spread-pill b{color:#dce5ef;font-size:11px;font-variant-numeric:tabular-nums}
+#nfxLiqLivePanel .nfx-pob-center-divider{display:flex;align-items:center;gap:8px;margin:0 0 13px;color:#64758a;font-size:8px;font-weight:850;letter-spacing:.1em}
+#nfxLiqLivePanel .nfx-pob-center-divider i{height:1px;flex:1;background:#293544}
+#nfxLiqLivePanel .nfx-pob-flow{display:flex;flex-direction:column;gap:5px;padding:10px 8px;margin-bottom:7px;border:1px solid #222f3d;border-radius:5px;background:#0e1620;text-align:left}
+#nfxLiqLivePanel .nfx-pob-flow span{color:#6f8195;font-size:8px;letter-spacing:.1em}
+#nfxLiqLivePanel .nfx-pob-flow b{font-size:12px;font-variant-numeric:tabular-nums}
+#nfxLiqLivePanel .nfx-pob-sidefoot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto;padding:10px;border-top:1px solid #202b37;background:#0d141d;color:#6f8094;font-size:8px;letter-spacing:.08em}
+#nfxLiqLivePanel .nfx-pob-sidefoot b{font-size:8px;letter-spacing:.1em}
+#nfxLiqLivePanel .nfx-pob-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:13px 22px 15px;background:#0b1118;border-top:1px solid #202c39}
+#nfxLiqLivePanel .nfx-pob-legend{display:flex;align-items:center;flex-wrap:wrap;gap:13px;color:#8d9bad;font-size:9px}
+#nfxLiqLivePanel .nfx-pob-legend>span{display:flex;align-items:center;gap:6px}
+#nfxLiqLivePanel .nfx-pob-legend>span>i{width:7px;height:7px;border-radius:2px}
+#nfxLiqLivePanel .nfx-pob-legend-ask{background:var(--pob-red)}
+#nfxLiqLivePanel .nfx-pob-legend-bid{background:var(--pob-green)}
+#nfxLiqLivePanel .nfx-pob-legend-note{color:#627389}
+#nfxLiqLivePanel .nfx-pob-velocity{display:flex;gap:12px;color:#6f8093;font-size:8px;letter-spacing:.06em}
+#nfxLiqLivePanel .nfx-pob-velocity span{white-space:nowrap}
+#nfxLiqLivePanel .nfx-pob-velocity b{margin-left:4px;color:#c3cfdd;font-size:9px;font-variant-numeric:tabular-nums}
+#nfxLiqLivePanel .nfx-pob-source{display:flex;align-items:center;gap:6px;color:#627287;font-size:8px;letter-spacing:.08em}
+#nfxLiqLivePanel .nfx-pob-source b{color:#98a7b8}
+@media(min-width:1500px){#nfxLiqLivePanel .nfx-pob-book-wrap{grid-template-columns:minmax(0,1fr) 210px minmax(0,1fr)}#nfxLiqLivePanel .nfx-pob-levels{height:700px!important;max-height:700px!important;min-height:700px!important}}
+@media(max-width:1050px){#nfxLiqLivePanel .nfx-pob-marketline{grid-template-columns:repeat(3,minmax(0,1fr))}#nfxLiqLivePanel .nfx-pob-pair{padding-left:15px}#nfxLiqLivePanel .nfx-pob-book-wrap{grid-template-columns:minmax(0,1fr) 150px minmax(0,1fr);margin:0 10px 10px}#nfxLiqLivePanel .nfx-pob-center{padding:18px 9px}}
+@media(max-width:720px){#nfxLiqLivePanel .nfx-pob-header{align-items:flex-start;padding:14px;gap:10px}#nfxLiqLivePanel .nfx-pob-logo{width:36px;height:36px;flex-basis:36px;font-size:12px}#nfxLiqLivePanel .nfx-pob-heading h2{font-size:19px}#nfxLiqLivePanel .nfx-pob-heading p{font-size:9px}#nfxLiqLivePanel .nfx-pob-overline{font-size:7px;letter-spacing:.1em}#nfxLiqLivePanel .nfx-pob-header-right{flex-direction:column;align-items:flex-end;gap:6px}#nfxLiqLivePanel .nfx-pob-header .nfx-liq-status{padding:6px 7px;font-size:8px}#nfxLiqLivePanel .nfx-pob-expand{padding:6px 8px;font-size:9px}#nfxLiqLivePanel .nfx-pob-marketline{grid-template-columns:repeat(2,minmax(0,1fr))}#nfxLiqLivePanel .nfx-pob-pair,#nfxLiqLivePanel .nfx-pob-stat{padding:10px 12px}#nfxLiqLivePanel .nfx-pob-pair>strong{font-size:15px}#nfxLiqLivePanel .nfx-pob-stat>strong{font-size:12px}#nfxLiqLivePanel .nfx-pob-controls{align-items:flex-start;flex-direction:column;padding:11px 12px}#nfxLiqLivePanel .nfx-pob-feed-tag{font-size:7px}#nfxLiqLivePanel .nfx-pob-book-wrap{grid-template-columns:minmax(0,1fr) minmax(0,1fr);margin:0 7px 8px;gap:1px}#nfxLiqLivePanel .nfx-pob-center{grid-column:1/-1;grid-row:1;padding:12px 14px;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:5px 12px;text-align:left}#nfxLiqLivePanel .nfx-pob-center-label{justify-content:flex-start;grid-column:1}#nfxLiqLivePanel #nfxLiqMid{margin:0;grid-column:1;grid-row:2;font-size:22px}#nfxLiqLivePanel .nfx-pob-move{grid-column:2;grid-row:2;text-align:right;align-self:center;font-size:9px}#nfxLiqLivePanel .nfx-pob-spread-pill{grid-column:1/-1;margin:4px 0;padding:7px 10px}#nfxLiqLivePanel .nfx-pob-center-divider,#nfxLiqLivePanel .nfx-pob-flow{display:none}#nfxLiqLivePanel .nfx-pob-levels{height:410px!important;max-height:410px!important;min-height:410px!important;padding:4px 3px!important}#nfxLiqLivePanel .nfx-pob-columns{grid-template-columns:minmax(0,1fr) minmax(0,.8fr) minmax(0,.8fr);gap:3px;padding:7px 4px;font-size:7px}#nfxLiqLivePanel .nfx-pob-side-title{padding:9px 5px 7px;gap:5px}#nfxLiqLivePanel .nfx-pob-side-title>small{font-size:7px}#nfxLiqLivePanel .nfx-pob-levels .nfx-liq-row{grid-template-columns:minmax(0,1fr) minmax(0,.8fr) minmax(0,.8fr)!important;gap:2px!important;padding:0 2px!important;font-size:7px!important}#nfxLiqLivePanel .nfx-pob-sidefoot{padding:8px 5px;font-size:7px}#nfxLiqLivePanel .nfx-pob-sidefoot b{font-size:7px}#nfxLiqLivePanel .nfx-pob-footer{padding:10px 12px;align-items:flex-start}#nfxLiqLivePanel .nfx-pob-legend{gap:8px;font-size:8px}#nfxLiqLivePanel .nfx-pob-legend-note{display:none}#nfxLiqLivePanel .nfx-pob-source{font-size:7px;flex-wrap:wrap}}
 </style>
