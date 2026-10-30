@@ -456,7 +456,40 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 }
 </style>
 
-<style id="nfx-orderflow-workspace-style">.nfx-orderflow-workspace{margin:20px 0 10px;padding:20px;border:1px solid #29384a;border-radius:16px;background:linear-gradient(145deg,#101925,#080d14);color:#e8eef8}.nfx-of-heading{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:16px}.nfx-of-heading h2{font-size:21px;margin:5px 0}.nfx-of-heading p,.nfx-of-sub{font-size:11px;color:#91a0b5}.nfx-of-source{font-size:9px;color:#75e5bd;border:1px solid #315d51;border-radius:20px;padding:7px 10px}.nfx-of-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.nfx-of-card{min-width:0;min-height:150px;padding:17px;border:1px solid #27384b;border-radius:12px;background:#0b121c;scroll-margin-top:90px}.nfx-of-label{display:block;color:#8ea1b8;font-size:10px;font-weight:800;letter-spacing:.09em}.nfx-of-card>strong{display:block;font-size:27px;margin:12px 0 4px;color:#f3f7fc;font-variant-numeric:tabular-nums}.nfx-of-card canvas{width:100%;height:90px;margin-top:10px}.nfx-of-flow{display:flex;justify-content:space-between;margin:18px 0 8px;font-size:11px;font-weight:800}.nfx-of-bar{height:8px;border-radius:9px;background:#a94d5b;overflow:hidden}.nfx-of-bar i{display:block;height:100%;width:50%;background:#35c99b}.nfx-of-disclaimer{display:block;color:#8494a8;font-size:9px;line-height:1.5;margin-top:12px}.nfx-orderflow-workspace>.nfx-of-disclaimer{margin-top:15px}@media(max-width:700px){.nfx-of-grid{grid-template-columns:1fr}.nfx-of-heading{align-items:flex-start;flex-direction:column}.nfx-orderflow-workspace{padding:13px}.nfx-of-card{min-height:130px}}</style></head>
+<style id="nfx-orderflow-workspace-style">.nfx-orderflow-workspace{margin:20px 0 10px;padding:20px;border:1px solid #29384a;border-radius:16px;background:linear-gradient(145deg,#101925,#080d14);color:#e8eef8}.nfx-of-heading{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:16px}.nfx-of-heading h2{font-size:21px;margin:5px 0}.nfx-of-heading p,.nfx-of-sub{font-size:11px;color:#91a0b5}.nfx-of-source{font-size:9px;color:#75e5bd;border:1px solid #315d51;border-radius:20px;padding:7px 10px}.nfx-of-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.nfx-of-card{min-width:0;min-height:150px;padding:17px;border:1px solid #27384b;border-radius:12px;background:#0b121c;scroll-margin-top:90px}.nfx-of-label{display:block;color:#8ea1b8;font-size:10px;font-weight:800;letter-spacing:.09em}.nfx-of-card>strong{display:block;font-size:27px;margin:12px 0 4px;color:#f3f7fc;font-variant-numeric:tabular-nums}.nfx-of-card canvas{width:100%;height:90px;margin-top:10px}.nfx-of-flow{display:flex;justify-content:space-between;margin:18px 0 8px;font-size:11px;font-weight:800}.nfx-of-bar{height:8px;border-radius:9px;background:#a94d5b;overflow:hidden}.nfx-of-bar i{display:block;height:100%;width:50%;background:#35c99b}.nfx-of-disclaimer{display:block;color:#8494a8;font-size:9px;line-height:1.5;margin-top:12px}.nfx-orderflow-workspace>.nfx-of-disclaimer{margin-top:15px}@media(max-width:700px){.nfx-of-grid{grid-template-columns:1fr}.nfx-of-heading{align-items:flex-start;flex-direction:column}.nfx-orderflow-workspace{padding:13px}.nfx-of-card{min-height:130px}}</style><style id="nfx-orderflow-premium-v2">
+/* NFX institutional order-flow terminal */
+.nfx-terminal-bar{display:flex;align-items:center;gap:0;min-height:76px;margin:0 0 18px;padding:13px 18px;border:1px solid #263342;border-radius:10px;background:linear-gradient(105deg,#111b28 0%,#0b121c 65%,#101a26 100%);box-shadow:0 12px 34px #0005}
+.nfx-terminal-brand{display:flex;align-items:center;gap:12px;min-width:245px;padding-right:24px}
+.nfx-terminal-mark{display:grid;place-items:center;width:42px;height:42px;border:1px solid #7c2835;border-radius:8px;background:linear-gradient(145deg,#501a27,#1b1119);color:#ffb4bd;font-size:13px;font-weight:900;letter-spacing:.06em}
+.nfx-terminal-brand strong,.nfx-terminal-field small{display:block;color:#dce5f0;font-size:10px;font-weight:850;letter-spacing:.12em}
+.nfx-terminal-brand small{display:block;margin-top:5px;color:#73859b;font-size:8px;letter-spacing:.1em}
+.nfx-terminal-field{min-width:135px;padding:4px 22px;border-left:1px solid #263342}
+.nfx-terminal-field small{color:#71849a;font-size:8px;letter-spacing:.13em}
+.nfx-terminal-field strong{display:block;margin-top:7px;color:#e8eef6;font-size:11px;letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.nfx-terminal-live{display:flex;align-items:center;gap:8px;margin-left:auto;padding:8px 11px;border:1px solid #285347;border-radius:5px;background:#0b201c;color:#8ee0c0;font-size:8px;font-weight:850;letter-spacing:.1em;white-space:nowrap}
+.nfx-terminal-live i{width:6px;height:6px;border-radius:50%;background:#50d4a3;box-shadow:0 0 10px #50d4a3}
+.nfx-orderflow-workspace{margin:18px 0 14px;padding:22px;border:1px solid #253445;border-radius:11px;background:radial-gradient(ellipse at 8% 0%,#182638 0%,#0b121c 42%,#080d14 100%);box-shadow:0 18px 55px #0005}
+.nfx-of-heading{align-items:flex-end;margin-bottom:22px;padding-bottom:17px;border-bottom:1px solid #263443}
+.nfx-of-heading h2{margin:6px 0 5px;font-size:23px;font-weight:750;letter-spacing:-.035em;color:#f0f4fa}
+.nfx-of-heading p{margin:0;color:#8293a7;font-size:11px}
+.nfx-of-source{border-radius:4px;border-color:#315748;background:#0c211c;color:#8be0bd;font-size:8px;font-weight:850;letter-spacing:.1em}
+.nfx-of-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.nfx-of-card{position:relative;overflow:hidden;min-height:178px;padding:18px;border:1px solid #263647;border-radius:8px;background:linear-gradient(155deg,#111c29,#0b121b 72%);box-shadow:inset 0 1px #ffffff08;transition:border-color .2s,transform .2s}
+.nfx-of-card:hover{border-color:#435a70;transform:translateY(-2px)}
+.nfx-of-card:before{content:"";position:absolute;left:0;top:0;width:100%;height:2px;background:linear-gradient(90deg,#8f3444,#354c63 65%,transparent)}
+.nfx-of-card#nfxCvdCard,.nfx-of-card#nfxFootprintCard{grid-column:span 2}
+.nfx-of-label{color:#8da0b5;font-size:9px;letter-spacing:.14em}
+.nfx-of-card>strong{margin:17px 0 5px;color:#f4f7fb;font-size:30px;font-weight:720;letter-spacing:-.04em}
+.nfx-of-sub{color:#8292a6;font-size:10px}
+.nfx-of-card canvas{height:105px;margin-top:13px}
+.nfx-of-flow{margin:25px 0 10px;color:#cbd5e1;font-size:10px;letter-spacing:.04em}
+.nfx-of-bar{height:6px;background:#713541}
+.nfx-of-bar i{background:#34c69a}
+.nfx-of-disclaimer{color:#718196;font-size:9px}
+.nfx-orderflow-workspace>.nfx-of-disclaimer{margin:18px 0 0;padding-top:13px;border-top:1px solid #202d3b}
+@media(max-width:900px){.nfx-terminal-brand{min-width:190px}.nfx-terminal-field{min-width:110px;padding:4px 13px}.nfx-of-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.nfx-terminal-bar{display:grid;grid-template-columns:1fr 1fr;gap:13px;padding:14px}.nfx-terminal-brand{grid-column:1/-1;padding:0 0 11px;border-bottom:1px solid #263342}.nfx-terminal-field{min-width:0;padding:0;border:0}.nfx-terminal-live{grid-column:1/-1;margin:0;width:max-content}.nfx-orderflow-workspace{padding:14px}.nfx-of-grid{grid-template-columns:1fr}.nfx-of-card#nfxCvdCard,.nfx-of-card#nfxFootprintCard{grid-column:auto}.nfx-of-heading{align-items:flex-start;flex-direction:column}.nfx-of-card{min-height:150px}}
+</style></head>
 <body>
 <header class="site-header">
   <a class="site-brand site-brand-home" href="#home" data-page="home" aria-label="Nabil FX — Go to Home">
@@ -595,6 +628,13 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
     </section>
   </div>
   <section class="nfx-orderflow-workspace" id="nfxOrderFlowWorkspace" aria-label="Order flow analytics">
+<section class="nfx-terminal-bar" aria-label="Order flow market overview">
+  <div class="nfx-terminal-brand"><span class="nfx-terminal-mark">NFX</span><div><strong>MARKET MICROSTRUCTURE</strong><small>PROFESSIONAL ORDER FLOW TERMINAL</small></div></div>
+  <div class="nfx-terminal-field"><small>INSTRUMENT</small><strong id="nfxTerminalSymbol">BTC / USDT</strong></div>
+  <div class="nfx-terminal-field"><small>VENUE</small><strong>BINANCE USDⓈ-M</strong></div>
+  <div class="nfx-terminal-field"><small>MARKET TYPE</small><strong>PERPETUAL</strong></div>
+  <div class="nfx-terminal-live"><i></i><span>PUBLIC EXCHANGE FEED</span></div>
+</section>
 <div class="nfx-of-heading"><div><span class="nfx-liq-kicker">MARKET MICROSTRUCTURE</span><h2>Order Flow Analytics</h2><p>Live Binance USDⓈ-M Futures trade flow and public derivatives metrics.</p></div><span class="nfx-of-source" id="nfxOfSource">BINANCE FUTURES · CONNECTING</span></div>
 <div class="nfx-of-grid">
 <article class="nfx-of-card" id="nfxCvdCard"><span class="nfx-of-label">CUMULATIVE VOLUME DELTA</span><strong id="nfxCvdValue">—</strong><div class="nfx-of-sub" id="nfxCvdSub">Waiting for live aggregate trades</div><canvas id="nfxCvdCanvas" height="90"></canvas></article>
