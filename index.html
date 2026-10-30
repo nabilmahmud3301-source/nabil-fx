@@ -960,7 +960,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-liq-status.connected i{background:var(--obx-green);box-shadow:0 0 9px #24d6a0a0}
 #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-liq-status.disconnected i{background:var(--obx-red);box-shadow:0 0 9px #ff647c88}
 #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-expand{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:8px 12px;border:1px solid #304358;border-radius:8px;background:#111d2b;color:#dce6f3;font-size:11px;font-weight:700;transition:background .18s,border-color .18s}
-#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-expand:hover{background:rgba(34,197,94,.12);border-color:rgba(74,222,128,.58);color:#d9ffe7;box-shadow:0 0 0 1px rgba(34,197,94,.08),0 0 12px rgba(34,197,94,.08)}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-expand:hover{border-color:#4fd8ad;color:#75ebc2;background:#13251f}
 #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-summary{display:grid;grid-template-columns:1.25fr repeat(3,minmax(110px,1fr)) minmax(135px,1.1fr) minmax(135px,1fr);margin:0 20px;padding:18px 0;border-bottom:1px solid var(--obx-line);gap:0}
 #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-contract,#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-metric{min-width:0;padding:4px 15px;border-right:1px solid #1c2938}
 #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-contract{padding-left:7px}
@@ -3799,7 +3799,7 @@ document.addEventListener('click', function(event) {
     if(wsConnectTimer){clearTimeout(wsConnectTimer);wsConnectTimer=null;}
     if(fullDepthTimer){clearInterval(fullDepthTimer);fullDepthTimer=null;}
     if(socket){try{socket.onclose=null;socket.onerror=null;socket.close();}catch(e){}socket=null;}
-    var thisSymbol=currentSymbol,buffer=[],ready=false,lastUpdateId=0,bidsMap=new Map(),asksMap=new Map(),snapshotStarted=false,sequenceBroken=false,firstEventSynced=false;
+    var thisSymbol=currentSymbol,buffer=[],ready=false,lastUpdateId=0,bidsMap=new Map(),asksMap=new Map(),snapshotStarted=false,snapshotLoaded=false,sequenceBroken=false,firstEventSynced=false;
     setStatus('Connecting to Binance Futures depth stream…','connecting');
     var ws;
     try{ws=new WebSocket('wss://fstream.binance.com/ws/'+thisSymbol.toLowerCase()+'@depth@100ms');}
@@ -3835,6 +3835,32 @@ document.addEventListener('click', function(event) {
       }
       applySide(ev.b,bidsMap);applySide(ev.a,asksMap);lastUpdateId=u;return true;
     }
+    function failSync(message){
+      if(socket!==ws)return;
+      ready=false;sequenceBroken=true;
+      setStatus(message||'Depth stream resyncing…','disconnected');
+      try{ws.close();}catch(e){}
+    }
+    function syncBufferedEvents(){
+      if(!snapshotLoaded||ready||socket!==ws||thisSymbol!==currentSymbol)return;
+      var first=buffer.findIndex(function(ev){return Number(ev.u)>=lastUpdateId&&Number(ev.U)<=lastUpdateId;});
+      if(first<0){
+        var next=buffer.find(function(ev){return Number(ev.u)>=lastUpdateId;});
+        if(next&&Number(next.U)>lastUpdateId){
+          failSync('Depth sequence resyncing…');
+          return;
+        }
+        buffer=buffer.filter(function(ev){return Number(ev.u)>=lastUpdateId;}).slice(-1800);
+        return;
+      }
+      var pending=buffer.slice(first);buffer=[];firstEventSynced=false;
+      for(var i=0;i<pending.length;i++){
+        if(!applyEvent(pending[i])||sequenceBroken){failSync('Depth sequence resyncing…');return;}
+      }
+      if(!firstEventSynced){failSync('Resyncing live depth…');return;}
+      ready=true;
+      updateVenueLabels(lastVenueNames);renderLive();
+    }
     function loadSnapshot(){
       if(snapshotStarted||socket!==ws)return;snapshotStarted=true;
       fetch('https://fapi.binance.com/fapi/v1/depth?symbol='+thisSymbol.toUpperCase()+'&limit=1000',{cache:'no-store'})
@@ -3845,22 +3871,18 @@ document.addEventListener('click', function(event) {
           lastUpdateId=Number(snapshot.lastUpdateId);
           snapshot.bids.forEach(function(x){var p=String(Number(x[0])),q=Number(x[1]);if(Number(p)>0&&q>0)bidsMap.set(p,q);});
           snapshot.asks.forEach(function(x){var p=String(Number(x[0])),q=Number(x[1]);if(Number(p)>0&&q>0)asksMap.set(p,q);});
-          var first=buffer.findIndex(function(ev){return Number(ev.u)>=lastUpdateId&&Number(ev.U)<=lastUpdateId;});
-          if(first<0)throw new Error('Depth snapshot fell outside buffered update range');
-          var pending=buffer.slice(first);buffer=[];ready=true;
-          for(var i=0;i<pending.length;i++){if(!applyEvent(pending[i]))throw new Error('Depth sequence gap');}
-          if(!firstEventSynced)throw new Error('Depth stream did not synchronize');
-          updateVenueLabels(lastVenueNames);renderLive();
+          snapshotLoaded=true;
+          syncBufferedEvents();
         })
-        .catch(function(){if(socket===ws&&thisSymbol===currentSymbol){setStatus('Resyncing live depth…','disconnected');try{ws.close();}catch(e){}}});
+        .catch(function(){if(socket===ws&&thisSymbol===currentSymbol){setStatus('Snapshot retrying · reconnecting depth…','disconnected');try{ws.close();}catch(e){}}});
     }
     ws.onopen=function(){clearTimeout(timeout);if(socket!==ws)return;wsRetry=1000;wsAttempt=0;loadSnapshot();};
     ws.onmessage=function(ev){
       if(socket!==ws||thisSymbol!==currentSymbol)return;
       try{
         var d=JSON.parse(ev.data);if(!Array.isArray(d.b)||!Array.isArray(d.a)||!Number.isFinite(Number(d.U))||!Number.isFinite(Number(d.u)))return;
-        if(!ready){buffer.push(d);if(buffer.length>2500)buffer=buffer.slice(-1800);return;}
-        if(!applyEvent(d)||sequenceBroken){ready=false;setStatus('Depth sequence resyncing…','disconnected');try{ws.close();}catch(e){}return;}
+        if(!ready){buffer.push(d);if(buffer.length>2500)buffer=buffer.slice(-1800);syncBufferedEvents();return;}
+        if(!applyEvent(d)||sequenceBroken){failSync('Depth sequence resyncing…');return;}
         renderLive();
       }catch(e){}
     };
