@@ -4590,7 +4590,31 @@ document.addEventListener('nfx-liquidity-open',start);document.addEventListener(
  move('nfxFundingCard','nfxFundingMount');
  document.querySelectorAll('.nfx-market-tab').forEach(btn=>btn.addEventListener('click',()=>window.showNabilPage&&window.showNabilPage(btn.dataset.page)));
 })();
-</script></body>
+</script><script id="nfx-orderbook-sync-scroll">
+(function(){
+  function bind(){
+    var asks=document.getElementById('nfxLiqAsks');
+    var bids=document.getElementById('nfxLiqBids');
+    if(!asks||!bids||asks.dataset.syncScrollBound||bids.dataset.syncScrollBound)return;
+    asks.dataset.syncScrollBound='1';bids.dataset.syncScrollBound='1';
+    var syncing=false;
+    function sync(source,target){
+      if(syncing)return;
+      syncing=true;
+      var sourceMax=Math.max(1,source.scrollHeight-source.clientHeight);
+      var targetMax=Math.max(0,target.scrollHeight-target.clientHeight);
+      target.scrollTop=(source.scrollTop/sourceMax)*targetMax;
+      requestAnimationFrame(function(){syncing=false;});
+    }
+    asks.addEventListener('scroll',function(){sync(asks,bids);},{passive:true});
+    bids.addEventListener('scroll',function(){sync(bids,asks);},{passive:true});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});
+  else bind();
+  setTimeout(bind,800);
+})();
+</script>
+</body>
 </html>
 <style>
 /* Balanced premium Home showcase: four equally sized visual cards. */
