@@ -1464,6 +1464,8 @@ document.addEventListener('click',event=>{
     document.querySelectorAll('.nav-btn').forEach(b=>{
       if(b.dataset.page)b.classList.toggle('active',b.dataset.page===page);
     });
+    document.querySelectorAll('.nfx-market-tab').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
+    document.querySelectorAll('.nav-btn[data-page="liquidity"]').forEach(b=>b.classList.toggle('active',page==='liquidity'||['orderflow','cvd','openinterest','fundingrate','footprint','bookmap','volumeprofile'].includes(page)));
     if(page!=='account'){
       $('accountDropdown').classList.remove('open');
       $('accountMenuToggle').setAttribute('aria-expanded','false');
