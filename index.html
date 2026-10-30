@@ -491,6 +491,31 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 @media(max-width:600px){.nfx-terminal-bar{display:grid;grid-template-columns:1fr 1fr;gap:13px;padding:14px}.nfx-terminal-brand{grid-column:1/-1;padding:0 0 11px;border-bottom:1px solid #263342}.nfx-terminal-field{min-width:0;padding:0;border:0}.nfx-terminal-live{grid-column:1/-1;margin:0;width:max-content}.nfx-orderflow-workspace{padding:14px}.nfx-of-grid{grid-template-columns:1fr}.nfx-of-card#nfxCvdCard,.nfx-of-card#nfxFootprintCard{grid-column:auto}.nfx-of-heading{align-items:flex-start;flex-direction:column}.nfx-of-card{min-height:150px}}
 </style><style id="nfx-pro-chart-pages">
 .nfx-pro-chart-page{padding:24px 0 45px;color:#e7edf6}.nfx-pro-page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:0 0 18px}.nfx-pro-page-head>div:first-child>span{color:#9b7180;font-size:9px;font-weight:900;letter-spacing:.15em}.nfx-pro-page-head h1{margin:7px 0;font-size:clamp(25px,3vw,36px);letter-spacing:-.04em}.nfx-pro-page-head p{margin:0;color:#8a9aaf;font-size:12px}.nfx-pro-live{display:flex;align-items:center;gap:8px;border:1px solid #285747;background:#0b211b;color:#8be0bd;border-radius:5px;padding:9px 12px;font-size:9px;font-weight:850;white-space:nowrap}.nfx-pro-live i{width:6px;height:6px;background:#4bd4a1;border-radius:50%;box-shadow:0 0 9px #4bd4a1}.nfx-pro-toolbar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:12px 15px;margin-bottom:13px;border:1px solid #273748;border-radius:7px;background:#0e1722}.nfx-pro-toolbar label{display:flex;align-items:center;gap:9px;color:#8294aa;font-size:9px;font-weight:850;letter-spacing:.1em}.nfx-pro-toolbar select{background:#111e2b;border:1px solid #35485c;color:#e5edf7;border-radius:4px;padding:8px 10px}.nfx-pro-toolbar>span{margin-left:auto;color:#7d91a8;font-size:9px}.nfx-pro-chart-card{min-width:0;padding:14px;border:1px solid #29394a;border-radius:8px;background:linear-gradient(150deg,#111b27,#080e16);box-shadow:0 15px 45px #0004}.nfx-pro-chart-card canvas{display:block;width:100%;height:auto;min-height:260px}.nfx-pro-legend{display:flex;gap:17px;align-items:center;flex-wrap:wrap;margin-bottom:10px;color:#8496aa;font-size:9px;font-weight:800;letter-spacing:.08em}.nfx-pro-legend .buy{color:#43d69f}.nfx-pro-legend .sell{color:#f16b7d}.nfx-pro-note{color:#718298;font-size:10px;line-height:1.6;margin:12px 2px}.nfx-profile-grid{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:13px}.nfx-profile-side{display:grid;gap:12px;align-content:start}.nfx-profile-metric{padding:17px;border:1px solid #29394a;border-radius:7px;background:#0e1722}.nfx-profile-metric small{display:block;color:#8294aa;font-size:9px;font-weight:850;letter-spacing:.12em}.nfx-profile-metric strong{display:block;margin-top:10px;color:#edf3fa;font-size:22px;font-variant-numeric:tabular-nums}@media(max-width:760px){.nfx-pro-page-head{align-items:flex-start;flex-direction:column}.nfx-profile-grid{grid-template-columns:1fr}.nfx-pro-chart-page{padding:15px 0 30px}.nfx-pro-chart-card{padding:9px}}
+</style><style id="nfx-market-terminal-polish">
+.site-header{padding:8px clamp(14px,3vw,38px);min-height:66px;background:rgba(5,8,13,.98);border-bottom:1px solid #202a37}
+.site-nav{gap:clamp(7px,1.2vw,17px)}
+.nav-btn{padding:14px 3px 12px;font-size:13px;letter-spacing:.01em;color:#aeb9c8}
+.nav-btn.active,.nav-btn:hover{color:#f0b5bd;border-bottom-color:#a83d4b}
+.nfx-market-nav{position:sticky;top:66px;z-index:19;background:rgba(10,15,22,.97);border-bottom:1px solid #273442;backdrop-filter:blur(14px);box-shadow:0 8px 25px #0003}
+.nfx-market-nav-inner{max-width:1500px;margin:auto;padding:0 clamp(12px,2vw,28px);min-height:56px;display:flex;align-items:center;gap:6px;overflow-x:auto;scrollbar-width:thin}
+.nfx-market-nav-label{flex:0 0 auto;color:#66788d;font-size:8px;font-weight:900;letter-spacing:.16em;padding:0 15px 0 2px;border-right:1px solid #293747;margin-right:5px}
+.nfx-market-tab{position:relative;display:flex;align-items:center;gap:8px;flex:0 0 auto;border:1px solid transparent;border-radius:6px;background:transparent;color:#9baabd;padding:9px 12px;font:700 10px system-ui;letter-spacing:.025em;cursor:pointer;transition:.18s}
+.nfx-market-tab:hover{color:#f0e9eb;background:#18212d;border-color:#334253}
+.nfx-market-tab.active{color:#ffe7ea;background:linear-gradient(180deg,#351b25,#20151c);border-color:#713544;box-shadow:inset 0 1px #ffffff0b}
+.nfx-market-tab.active:after{content:"";position:absolute;left:12px;right:12px;bottom:-1px;height:2px;background:#d66b7c;border-radius:2px}
+.nfx-tab-icon{color:#d27b89;font-size:13px}
+.nfx-market-page{max-width:1500px!important;min-height:calc(100vh - 130px);padding-top:30px!important}
+.nfx-market-page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:22px;padding:0 0 18px;border-bottom:1px solid #263544}
+.nfx-market-page-head span{color:#a66a78;font-size:9px;font-weight:900;letter-spacing:.16em}
+.nfx-market-page-head h1{margin:7px 0 5px;color:#f0f4fa;font-size:clamp(26px,3vw,36px);font-weight:760;letter-spacing:-.04em}
+.nfx-market-page-head p{margin:0;color:#8798ac;font-size:12px}
+.nfx-page-source{padding:8px 11px;border:1px solid #315546;border-radius:4px;background:#0c211c;color:#8be0bd;font-size:8px;letter-spacing:.1em;white-space:nowrap}
+.nfx-market-page .nfx-orderflow-workspace{margin:0}
+.nfx-market-page .nfx-of-card{min-height:220px}
+.nfx-market-page #nfxCvdCard,.nfx-market-page #nfxOpenInterestCard,.nfx-market-page #nfxFundingCard{width:100%;min-height:300px}
+.nfx-market-page #nfxCvdCard canvas{height:180px}
+.nfx-market-page #nfxOpenInterestCard,.nfx-market-page #nfxFundingCard{display:flex;flex-direction:column;justify-content:center}
+@media(max-width:760px){.nfx-market-nav{top:58px}.nfx-market-nav-inner{min-height:51px}.nfx-market-nav-label{display:none}.nfx-market-tab{padding:8px 10px}.nfx-market-page{padding:20px 13px 38px!important}.nfx-market-page-head{align-items:flex-start;flex-direction:column}.site-nav{gap:7px}.nav-btn{font-size:12px;padding:10px 2px}}
 </style></head>
 <body>
 <header class="site-header">
@@ -501,14 +526,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
   <nav class="site-nav" aria-label="Main navigation">
     <button class="nav-btn active" data-page="home">Home</button>
     <button class="nav-btn" data-page="chart">Chart/Bar Replay</button>
-    <button class="nav-btn" data-page="liquidity">Liquidity</button>
-    <button class="nav-btn" type="button" data-liq-tool="nfxOrderFlowWorkspace">Order Flow</button>
-    <button class="nav-btn" type="button" data-liq-tool="nfxCvdCard">CVD</button>
-    <button class="nav-btn" type="button" data-liq-tool="nfxOpenInterestCard">Open Interest</button>
-    <button class="nav-btn" type="button" data-liq-tool="nfxFundingCard">Funding Rate</button>
-    <button class="nav-btn" type="button" data-page="footprint">Footprint</button>
-    <button class="nav-btn" type="button" data-page="bookmap">Liquidity Heatmap</button>
-    <button class="nav-btn" type="button" data-page="volumeprofile">Volume Profile</button>
+    <button class="nav-btn" data-page="liquidity">Market Data</button>
     <button class="nav-btn" data-page="backtest">Backtest with AI</button>
     <button class="nav-btn" data-page="notes">Journal/Notes</button>
     <button class="nav-btn" data-page="contact" id="contactUsNav" type="button">Contact Us</button>
@@ -522,6 +540,19 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
   </nav>
   <button class="app-menu-toggle" id="appMenuToggle" type="button" aria-label="Open navigation menu" aria-expanded="false">☰</button>
 </header>
+<nav class="nfx-market-nav" aria-label="Market analytics navigation">
+  <div class="nfx-market-nav-inner">
+    <span class="nfx-market-nav-label">MARKET TERMINAL</span>
+    <button class="nfx-market-tab" data-page="liquidity"><span class="nfx-tab-icon">◈</span>Liquidity</button>
+    <button class="nfx-market-tab" data-page="orderflow"><span class="nfx-tab-icon">⌁</span>Order Flow</button>
+    <button class="nfx-market-tab" data-page="cvd"><span class="nfx-tab-icon">∿</span>CVD</button>
+    <button class="nfx-market-tab" data-page="openinterest"><span class="nfx-tab-icon">◫</span>Open Interest</button>
+    <button class="nfx-market-tab" data-page="fundingrate"><span class="nfx-tab-icon">％</span>Funding Rate</button>
+    <button class="nfx-market-tab" data-page="footprint"><span class="nfx-tab-icon">▤</span>Footprint</button>
+    <button class="nfx-market-tab" data-page="bookmap"><span class="nfx-tab-icon">▦</span>Liquidity Heatmap</button>
+    <button class="nfx-market-tab" data-page="volumeprofile"><span class="nfx-tab-icon">▥</span>Volume Profile</button>
+  </div>
+</nav>
 
 <section id="page-home" class="hero video-showcase" aria-label="Nabil Fx abstract visual showcase">
   <div class="video-wrap">
@@ -657,6 +688,10 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
   <p class="nfx-liq-disclaimer">Market depth is venue-specific. Binance Futures depth shows only visible orders on that venue, not total global liquidity; orders can change or be cancelled rapidly.</p>
 </section>
 
+<section id="page-orderflow" class="view nfx-market-page"><div class="nfx-market-page-head"><div><span>NABIL FX / MARKET MICROSTRUCTURE</span><h1>Order Flow</h1><p>Live aggressor activity and derivatives analytics from the selected Binance Futures contract.</p></div><b class="nfx-page-source">BINANCE USDⓈ-M</b></div><div id="nfxOrderFlowMount"></div></section>
+<section id="page-cvd" class="view nfx-market-page"><div class="nfx-market-page-head"><div><span>BUYER VS SELLER INITIATIVE</span><h1>Cumulative Volume Delta</h1><p>Track net aggressive buying and selling pressure from live exchange trades.</p></div><b class="nfx-page-source">LIVE TRADE STREAM</b></div><div id="nfxCvdMount"></div></section>
+<section id="page-openinterest" class="view nfx-market-page"><div class="nfx-market-page-head"><div><span>DERIVATIVES POSITIONING</span><h1>Open Interest</h1><p>Monitor outstanding Binance USDⓈ-M perpetual contracts.</p></div><b class="nfx-page-source">BINANCE FUTURES API</b></div><div id="nfxOpenInterestMount"></div></section>
+<section id="page-fundingrate" class="view nfx-market-page"><div class="nfx-market-page-head"><div><span>PERPETUAL CONTRACTS</span><h1>Funding Rate</h1><p>Review the latest published funding rate for the selected contract.</p></div><b class="nfx-page-source">BINANCE FUTURES API</b></div><div id="nfxFundingMount"></div></section>
 <section id="page-footprint" class="view nfx-pro-chart-page">
   <div class="nfx-pro-page-head"><div><span>BINANCE USDⓈ-M · LIVE AGGREGATE TRADES</span><h1>Footprint Chart</h1><p>Price-level buy/sell volume, delta and point of control.</p></div><div class="nfx-pro-live"><i></i> LIVE PUBLIC FEED</div></div>
   <div class="nfx-pro-toolbar"><label>SYMBOL <select data-nfx-symbol><option>BTCUSDT</option><option>ETHUSDT</option><option>BNBUSDT</option><option>SOLUSDT</option><option>XRPUSDT</option></select></label><label>TIMEFRAME <select id="nfxFootprintTf"><option value="60">1 MIN</option><option value="300" selected>5 MIN</option><option value="900">15 MIN</option></select></label><span id="nfxFootprintStatus">Connecting…</span></div>
@@ -1410,7 +1445,7 @@ document.addEventListener('click',event=>{
 
 /* Trading chart and page navigation */
 (function(){
-  const pages=['home','chart','liquidity','footprint','bookmap','volumeprofile','backtest','notes','journal','account','contact'];
+  const pages=['home','chart','liquidity','orderflow','cvd','openinterest','fundingrate','footprint','bookmap','volumeprofile','backtest','notes','journal','account','contact'];
 
   function show(page){
     if(page==='liquidity'){
@@ -1450,10 +1485,7 @@ document.addEventListener('click',event=>{
     b.addEventListener('click',()=>show(b.dataset.page));
   });
 
-  // Order-flow shortcuts open their analytics module within Liquidity.
-  document.querySelectorAll('.nav-btn[data-liq-tool]').forEach(b=>{
-    b.addEventListener('click',()=>{show('liquidity');const target=document.getElementById(b.dataset.liqTool);document.querySelectorAll('.nav-btn[data-liq-tool]').forEach(x=>x.classList.toggle('active',x===b));if(target)target.scrollIntoView({behavior:'smooth',block:'start'});});
-  });
+  // Market analytics tools use dedicated page routes, never the Liquidity page.
   document.querySelectorAll('.nav-btn[data-liq-section]').forEach(b=>{
     b.addEventListener('click',()=>{
       const targetId=b.dataset.liqSection;
@@ -4489,7 +4521,16 @@ document.addEventListener('nfx-liquidity-open',start);document.addEventListener(
  setInterval(redraw,900);
 })();
 </script>
-</body>
+<script id="nfx-market-page-mounts">
+(()=>{
+ const move=(id,mount)=>{const node=document.getElementById(id),host=document.getElementById(mount);if(node&&host)host.appendChild(node)};
+ move('nfxOrderFlowWorkspace','nfxOrderFlowMount');
+ move('nfxCvdCard','nfxCvdMount');
+ move('nfxOpenInterestCard','nfxOpenInterestMount');
+ move('nfxFundingCard','nfxFundingMount');
+ document.querySelectorAll('.nfx-market-tab').forEach(btn=>btn.addEventListener('click',()=>window.showNabilPage&&window.showNabilPage(btn.dataset.page)));
+})();
+</script></body>
 </html>
 <style>
 /* Balanced premium Home showcase: four equally sized visual cards. */
