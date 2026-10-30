@@ -3396,4 +3396,29 @@ function bindHeatmapInspector(canvasId,kind){
   #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-wrap,
   #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap{height:300px!important}
 }
+
+/* Fix fullscreen sizing for all three market-depth cards */
+#nfxLiqDashboard .nfx-liq-workspace-card:fullscreen,
+#nfxLiqDashboard .nfx-liq-workspace-card.nfx-liq-expanded-fallback{
+  box-sizing:border-box!important;width:100vw!important;height:100vh!important;max-width:none!important;max-height:none!important;min-height:0!important;margin:0!important;padding:18px!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;gap:0!important;background:#080b11!important;
+}
+#nfxLiqDashboard #nfxLiqBookHeatmap:fullscreen .nfx-liq-timeline-wrap,
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap:fullscreen .nfx-liq-timeline-wrap,
+#nfxLiqDashboard #nfxLiqBookHeatmap.nfx-liq-expanded-fallback .nfx-liq-timeline-wrap,
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap.nfx-liq-expanded-fallback .nfx-liq-timeline-wrap{
+  flex:1 1 auto!important;width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;overflow:hidden!important;
+}
+#nfxLiqDashboard #nfxLiqLivePanel:fullscreen .nfx-liq-book,
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-liq-expanded-fallback .nfx-liq-book{flex:1 1 auto!important;min-height:0!important;overflow:auto!important}
+#nfxLiqDashboard .nfx-liq-workspace-card:fullscreen canvas,
+#nfxLiqDashboard .nfx-liq-workspace-card.nfx-liq-expanded-fallback canvas{width:100%!important;height:100%!important;display:block!important}
+#nfxLiqDashboard .nfx-liq-workspace-card:fullscreen .nfx-liq-timeline-head,
+#nfxLiqDashboard .nfx-liq-workspace-card.nfx-liq-expanded-fallback .nfx-liq-timeline-head,
+#nfxLiqDashboard .nfx-liq-workspace-card:fullscreen .nfx-liq-panel-head,
+#nfxLiqDashboard .nfx-liq-workspace-card.nfx-liq-expanded-fallback .nfx-liq-panel-head{flex:0 0 auto!important;min-height:0!important}
+@media(max-width:650px){
+ #nfxLiqDashboard .nfx-liq-workspace-card:fullscreen,
+ #nfxLiqDashboard .nfx-liq-workspace-card.nfx-liq-expanded-fallback{padding:10px!important}
+}
+
 </style>
