@@ -3068,7 +3068,9 @@ var nfxEstLiqCandles=[];
   var nfxEstLiqSymbol='';
   var nfxEstLiqRange='24h';
   var nfxEstLiqLoading=false;
-  var nfxEstLiqFetchedAt=0;\n  var nfxEstLiqZoom=1;\n  var nfxEstLiqPointer=null;
+  var nfxEstLiqFetchedAt=0;
+  var nfxEstLiqZoom=1;
+  var nfxEstLiqPointer=null;
   function nfxEstLiqConfig(){
     var map={'12h':{interval:'5m',limit:144},'24h':{interval:'15m',limit:96},'3d':{interval:'1h',limit:72},'7d':{interval:'2h',limit:84}};
     return map[nfxEstLiqRange]||map['24h'];
