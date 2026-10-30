@@ -2837,8 +2837,60 @@ document.addEventListener('click', function(event) {
   function marketLabel(symbol){return symbol.slice(0,-4)+'/USDT';}
   function updateMarketSearchUI(){var list=$('nfxMarketSuggestions'),count=$('nfxMarketCount');if(list){list.replaceChildren();Object.keys(symbols).sort().forEach(function(key){var opt=document.createElement('option');opt.value=symbols[key];list.appendChild(opt);});}if(count)count.textContent=Object.keys(symbols).length.toLocaleString()+' USDT perpetual markets available · Binance Futures';var label=symbols[currentSymbol]||marketLabel(currentSymbol);['nfxMarketCurrent','nfxLiqSelectedMarket','nfxLiqTimelineSymbol','nfxLiqLiquidationSymbol'].forEach(function(id){var el=$(id);if(el)el.textContent=label.replace('/',' / ');});}
   function loadCryptoMarkets(){var cacheKey='nfxBinanceUsdtPerpetualMarketsV1',cached=null;try{cached=JSON.parse(sessionStorage.getItem(cacheKey)||'null');}catch(e){}if(cached&&cached.savedAt&&Date.now()-cached.savedAt<21600000&&Array.isArray(cached.markets)){cached.markets.forEach(function(item){if(item&&item.symbol&&item.label)symbols[item.symbol]=item.label;});marketSymbolsLoaded=true;updateMarketSearchUI();return;}fetch('https://fapi.binance.com/fapi/v1/exchangeInfo').then(function(r){if(!r.ok)throw new Error('Market list unavailable');return r.json();}).then(function(data){var markets=[];(data.symbols||[]).forEach(function(item){if(item.status==='TRADING'&&item.contractType==='PERPETUAL'&&item.quoteAsset==='USDT'&&item.symbol){var key=item.symbol.toLowerCase(),label=item.baseAsset+'/USDT';symbols[key]=label;markets.push({symbol:key,label:label});}});marketSymbolsLoaded=true;try{sessionStorage.setItem(cacheKey,JSON.stringify({savedAt:Date.now(),markets:markets}));}catch(e){}updateMarketSearchUI();}).catch(function(){var count=$('nfxMarketCount');if(count)count.textContent=Object.keys(symbols).length+' popular markets loaded · full list temporarily unavailable';});}
-  function clearSelectedMarketViews(){lastPayload=null;liqHistory=[];lastHistoryAt=0;historySymbol=currentSymbol;var ids=['nfxLiqBestBid','nfxLiqBestAsk','nfxLiqSpread','nfxLiqMid','nfxLiqUpdated'];ids.forEach(function(id){var el=$(id);if(el)el.textContent='—';});['nfxLiqBids','nfxLiqAsks'].forEach(function(id){var el=$(id);if(el)el.innerHTML='<div class="nfx-liq-empty">Loading '+marketLabel(currentSymbol)+' order book…</div>';});liquidationEvents=liquidationEvents.filter(function(e){return e.symbol===currentSymbol;});renderTimeline();renderLiquidationHeatmap();}
-  function chooseMarket(raw){var key=normalizeSymbol(raw).toLowerCase();if(!symbols[key]){var exact=Object.keys(symbols).find(function(k){return k===String(raw||'').toLowerCase().replace(/[^a-z0-9]/g,'');});if(exact)key=exact;}if(!symbols[key]){var input=$('nfxMarketSearchInput');if(input){input.setCustomValidity(marketSymbolsLoaded?'Market not found. Choose a listed USDT perpetual symbol.':'Market list is still loading. Try again in a moment.');input.reportValidity();input.addEventListener('input',function clear(){input.setCustomValidity('');input.removeEventListener('input',clear);},{once:true});}return false;}var changed=currentSymbol!==key;currentSymbol=key;var input=$('nfxMarketSearchInput');if(input)input.value=symbols[key];updateMarketSearchUI();if(changed)clearSelectedMarketViews();if(activeMarket!=='crypto')selectMarket('crypto');else connect();return true;}
+  function historyCacheKey(symbol){return 'nfxLiqHistoryV2:'+symbol;}
+  function saveHistoryCache(){
+    try{
+      var cache={savedAt:Date.now(),history:liqHistory.slice(-180),events:liquidationEvents.filter(function(e){return e.symbol===currentSymbol;}).slice(-250)};
+      localStorage.setItem(historyCacheKey(currentSymbol),JSON.stringify(cache));
+    }catch(e){}
+  }
+  function restoreHistoryCache(symbol){
+    liqHistory=[];historySymbol=symbol;lastHistoryAt=0;
+    try{
+      var cached=JSON.parse(localStorage.getItem(historyCacheKey(symbol))||'null');
+      if(cached&&Array.isArray(cached.history))liqHistory=cached.history.filter(function(x){return x&&Number.isFinite(Number(x.t))&&Number.isFinite(Number(x.mid))&&Array.isArray(x.bids)&&Array.isArray(x.asks);}).slice(-180);
+      if(cached&&Array.isArray(cached.events)){
+        liquidationEvents=liquidationEvents.filter(function(e){return e.symbol!==symbol;});
+        cached.events.forEach(function(e){if(e&&e.symbol===symbol&&Number.isFinite(Number(e.p))&&Number.isFinite(Number(e.t)))liquidationEvents.push(e);});
+      }
+    }catch(e){}
+    var cutoff=Date.now()-Math.max(900,historyLimit()*1000);
+    liqHistory=liqHistory.filter(function(x){return x.t>=cutoff;});
+    liquidationEvents=liquidationEvents.filter(function(e){return e.t>=cutoff;}).slice(-2500);
+  }
+  function clearSelectedMarketViews(){
+    lastPayload=null;restoreHistoryCache(currentSymbol);
+    var ids=['nfxLiqBestBid','nfxLiqBestAsk','nfxLiqSpread','nfxLiqMid','nfxLiqUpdated'];
+    ids.forEach(function(id){var el=$(id);if(el)el.textContent='—';});
+    ['nfxLiqBids','nfxLiqAsks'].forEach(function(id){var el=$(id);if(el)el.innerHTML='<div class="nfx-liq-empty">Connecting to '+marketLabel(currentSymbol)+'…</div>';});
+    var saved=liqHistory.length?liqHistory[liqHistory.length-1]:null;
+    if(saved)paintOrderBook({bids:saved.bids,asks:saved.asks},true);
+    renderTimeline();renderLiquidationHeatmap();
+  }
+  function chooseMarket(raw){
+    var key=normalizeSymbol(raw).toLowerCase();
+    if(!symbols[key]){
+      var exact=Object.keys(symbols).find(function(k){return k===String(raw||'').toLowerCase().replace(/[^a-z0-9]/g,'');});
+      if(exact)key=exact;
+    }
+    if(!symbols[key]){
+      var input=$('nfxMarketSearchInput');
+      if(input){input.setCustomValidity(marketSymbolsLoaded?'Market not found. Choose a listed USDT perpetual symbol.':'Market list is still loading. Try again in a moment.');input.reportValidity();input.addEventListener('input',function clear(){input.setCustomValidity('');input.removeEventListener('input',clear);},{once:true});}
+      return false;
+    }
+    var changed=currentSymbol!==key;
+    if(changed){
+      saveHistoryCache();
+      if(socket){try{socket.onclose=null;socket.close();}catch(e){}socket=null;}
+      currentSymbol=key;
+      clearSelectedMarketViews();
+    }
+    var input=$('nfxMarketSearchInput');if(input)input.value=symbols[key];
+    updateMarketSearchUI();
+    if(activeMarket!=='crypto')selectMarket('crypto');
+    else {connect();connectLiquidations();}
+    return true;
+  }
   var marketInfo={
     forex:{title:'Forex Liquidity Heatmap',desc:'Forex has no single central order book. A genuine liquidity heatmap needs a specific broker, ECN or institutional venue feed; free retail quote APIs do not provide consolidated global liquidity.'},
     metals:{title:'Metals Liquidity Heatmap',desc:'Gold and silver depth is venue-specific (for example, a broker CFD book or exchange-traded futures). A verified XAUUSD/XAGUSD order-book provider must be connected before this can be labelled live or delayed.'},
@@ -2862,7 +2914,7 @@ document.addEventListener('click', function(event) {
     var delay=Math.min(15000,liqRetry);liqRetry=Math.min(15000,Math.round(liqRetry*1.7));
     liqConnectTimer=setTimeout(function(){liqConnectTimer=null;connectLiquidations();},delay);
   }
-  function paintOrderBook(data){
+  function paintOrderBook(data,fromHistory){
     if(!data||!Array.isArray(data.bids)||!Array.isArray(data.asks)||!data.bids.length||!data.asks.length)return;
     lastPayload=data;
     var bids=data.bids.slice(0,20).map(function(x){return [Number(x[0]),Number(x[1])];}).filter(function(x){return x[1]>0;});
@@ -2875,16 +2927,20 @@ document.addEventListener('click', function(event) {
     if(askEl){askEl.replaceChildren();asks.forEach(function(x){askEl.appendChild(makeRow('ask',x[0],x[1],maxQty));});}
     var vals={'nfxLiqBestBid':fmt(bestBid[0]),'nfxLiqBestAsk':fmt(bestAsk[0]),'nfxLiqSpread':fmt(spread),'nfxLiqMid':fmt(mid),'nfxLiqUpdated':new Date().toLocaleTimeString()};
     Object.keys(vals).forEach(function(id){var el=$(id);if(el)el.textContent=vals[id];});
-    captureHistory({bids:bids,asks:asks},mid);
+    if(!fromHistory)captureHistory({bids:bids,asks:asks},mid);
     renderTimeline();
-    setStatus('Live · '+marketLabel(currentSymbol),'connected');
+    if(!fromHistory)setStatus('Live · '+marketLabel(currentSymbol),'connected');
   }
   function connect(){
     if(activeMarket!=='crypto'||!window.WebSocket||document.hidden)return;
     manuallyClosed=false;
     if(wsConnectTimer){clearTimeout(wsConnectTimer);wsConnectTimer=null;}
-    if(socket&&(socket.readyState===WebSocket.OPEN||socket.readyState===WebSocket.CONNECTING))return;
-    var thisSymbol=currentSymbol,ws;
+    var thisSymbol=currentSymbol;
+    if(socket&&(socket.readyState===WebSocket.OPEN||socket.readyState===WebSocket.CONNECTING)){
+      if(socket.url&&socket.url.indexOf('/'+thisSymbol+'@depth20@100ms')!==-1)return;
+      try{socket.onclose=null;socket.close();}catch(e){}socket=null;
+    }
+    var ws;
     setStatus('Connecting '+marketLabel(thisSymbol)+'…','connecting');
     try{ws=new WebSocket('wss://fstream.binance.com/ws/'+thisSymbol+'@depth20@100ms');}catch(e){setStatus('Feed unavailable · retrying','disconnected');scheduleBookReconnect();return;}
     socket=ws;var timeout=setTimeout(function(){if(ws.readyState===WebSocket.CONNECTING){try{ws.close();}catch(e){}}},7000);
@@ -2902,7 +2958,7 @@ document.addEventListener('click', function(event) {
     try{ws=new WebSocket('wss://fstream.binance.com/ws/!forceOrder@arr');}catch(e){scheduleLiquidationReconnect();return;}
     liquidationSocket=ws;var timeout=setTimeout(function(){if(ws.readyState===WebSocket.CONNECTING){try{ws.close();}catch(e){}}},7000);
     ws.onopen=function(){clearTimeout(timeout);if(liquidationSocket===ws){liqRetry=1000;liqAttempt=0;}};
-    ws.onmessage=function(ev){if(liquidationSocket!==ws)return;try{var packet=JSON.parse(ev.data),items=Array.isArray(packet)?packet:[packet];items.forEach(function(item){var o=item&&item.o?item.o:item;if(!o||!o.s||!o.S)return;var sym=String(o.s).toLowerCase(),price=Number(o.ap||o.p),qty=Number(o.z||o.q),usd=price*qty,ts=Number(o.T||item.E||Date.now());if(!Number.isFinite(price)||price<=0||!Number.isFinite(usd)||usd<=0)return;liquidationEvents.push({symbol:sym,p:price,usd:usd,side:String(o.S).toUpperCase(),t:ts});});var cutoff=Date.now()-Math.max(900,historyLimit()*1000);liquidationEvents=liquidationEvents.filter(function(e){return e.t>=cutoff;}).slice(-2500);renderLiquidationHeatmap();}catch(e){}};
+    ws.onmessage=function(ev){if(liquidationSocket!==ws)return;try{var packet=JSON.parse(ev.data),items=Array.isArray(packet)?packet:[packet];items.forEach(function(item){var o=item&&item.o?item.o:item;if(!o||!o.s||!o.S)return;var sym=String(o.s).toLowerCase(),price=Number(o.ap||o.p),qty=Number(o.z||o.q),usd=price*qty,ts=Number(o.T||item.E||Date.now());if(!Number.isFinite(price)||price<=0||!Number.isFinite(usd)||usd<=0)return;liquidationEvents.push({symbol:sym,p:price,usd:usd,side:String(o.S).toUpperCase(),t:ts});});var cutoff=Date.now()-Math.max(900,historyLimit()*1000);liquidationEvents=liquidationEvents.filter(function(e){return e.t>=cutoff;}).slice(-2500);if(!window._nfxHistorySaveTimer)window._nfxHistorySaveTimer=setTimeout(function(){window._nfxHistorySaveTimer=null;saveHistoryCache();},2500);renderLiquidationHeatmap();}catch(e){}};
     ws.onerror=function(){};
     ws.onclose=function(){clearTimeout(timeout);if(liquidationSocket===ws)liquidationSocket=null;scheduleLiquidationReconnect();};
   }
@@ -2935,6 +2991,7 @@ document.addEventListener('click', function(event) {
     liqHistory.push({t:now,mid:mid,bids:data.bids.slice(0,20).map(x=>[Number(x[0]),Number(x[1])]),asks:data.asks.slice(0,20).map(x=>[Number(x[0]),Number(x[1])])});
     var cutoff=now-Math.max(900,historyLimit()*1000);
     liqHistory=liqHistory.filter(x=>x.t>=cutoff).slice(-900);
+    if(!window._nfxHistorySaveTimer)window._nfxHistorySaveTimer=setTimeout(function(){window._nfxHistorySaveTimer=null;saveHistoryCache();},2500);
     renderTimeline();
   }
   function renderTimeline(){
@@ -3089,9 +3146,9 @@ function bindHeatmapInspector(canvasId,kind){
   var searchForm=$('nfxMarketSearchForm'),searchInput=$('nfxMarketSearchInput');
   if(searchForm)searchForm.addEventListener('submit',function(event){event.preventDefault();chooseMarket(searchInput?searchInput.value:'');});
   if(searchInput)searchInput.addEventListener('change',function(){var raw=searchInput.value;if(raw&&symbols[normalizeSymbol(raw).toLowerCase()])chooseMarket(raw);});
-  updateMarketSearchUI();loadCryptoMarkets();
+  restoreHistoryCache(currentSymbol);updateMarketSearchUI();loadCryptoMarkets();
   var winSel=$('nfxLiqWindow');if(winSel)winSel.addEventListener('change',function(){var cutoff=Date.now()-historyLimit()*1000;liqHistory=liqHistory.filter(x=>x.t>=cutoff);liquidationEvents=liquidationEvents.filter(x=>x.t>=cutoff);renderTimeline();renderLiquidationHeatmap();});
-  var resetBtn=$('nfxLiqResetHistory');if(resetBtn)resetBtn.addEventListener('click',function(){liqHistory=[];lastHistoryAt=0;renderTimeline();});
+  var resetBtn=$('nfxLiqResetHistory');if(resetBtn)resetBtn.addEventListener('click',function(){liqHistory=[];lastHistoryAt=0;try{localStorage.removeItem(historyCacheKey(currentSymbol));}catch(e){}renderTimeline();});
   window.addEventListener('resize',function(){if(!renderFrame)renderFrame=requestAnimationFrame(function(){renderFrame=0;renderTimeline();renderLiquidationHeatmap();});});
   window.addEventListener('nfx-liquidity-open',function(){if(activeMarket==='crypto'){connect();connectLiquidations();}renderTimeline();renderLiquidationHeatmap();});
   window.addEventListener('online',function(){if(activeMarket==='crypto'){connect();connectLiquidations();}});
