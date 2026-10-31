@@ -3787,7 +3787,7 @@ document.addEventListener('click', function(event) {
   }
   function scheduleLiquidationReconnect(){
     if(manuallyClosed||activeMarket!=='crypto'||liqConnectTimer)return;
-    var delay=Math.min(15000,liqRetry);liqRetry=Math.min(15000,Math.round(liqRetry*1.7));
+    var delay=Math.min(5000,liqRetry);liqRetry=Math.min(5000,Math.round(liqRetry*1.5));
     liqConnectTimer=setTimeout(function(){liqConnectTimer=null;connectLiquidations();},delay);
   }
   function paintOrderBook(data,fromHistory){
