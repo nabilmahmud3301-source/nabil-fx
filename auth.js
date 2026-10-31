@@ -197,7 +197,7 @@
         if (details) details.textContent = 'Signed in: ' + (currentUser.email || 'account') + ' · Profile unavailable';
         if (statusTag) statusTag.textContent = 'Signed in · Profile needs attention';
         if (status) { status.dataset.state = 'error'; status.textContent = 'Signed in · Profile Connection Needs Attention'; status.title = 'Profile error: ' + (error?.message || 'Unknown error'); }
-        setProfileStatus('You are signed in, but your cloud profile could not be loaded. Check the Supabase profiles table and Row Level Security policies.');
+        setProfileStatus('You are signed in, but your cloud profile could not be loaded. Supabase error: ' + (error?.message || error?.code || 'Unknown error') + (error?.code ? ' [code: ' + error.code + ']' : ''));
       } else {
         if (status) { status.dataset.state = 'error'; status.textContent = 'Connection Status · Attention Required'; status.title = 'Account error: ' + (error?.message || 'Unknown error'); }
         setProfileStatus('Could not check your cloud account. Check your connection and Supabase setup.');
