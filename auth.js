@@ -252,7 +252,7 @@
       return;
     }
     if (password !== confirmPassword) {
-      setMessage(message, 'Duita password match korche na.', 'error');
+      setMessage(message, 'The passwords do not match.', 'error');
       return;
     }
 
