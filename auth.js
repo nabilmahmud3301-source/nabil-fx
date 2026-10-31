@@ -95,8 +95,37 @@
     });
   }
 
+  function updateAuthNavigation(signedIn) {
+    window.NABIL_IS_AUTHENTICATED = !!signedIn;
+    const toggle = $('accountMenuToggle');
+    const dropdown = $('accountDropdown');
+    if (toggle) {
+      toggle.textContent = signedIn ? 'Profile' : 'Account ▾';
+      toggle.setAttribute('aria-label', signedIn ? 'Open personal profile' : 'Open account menu');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+    if (dropdown) dropdown.classList.remove('open');
+    document.querySelectorAll('[data-account-page="create"],[data-account-page="login"]').forEach(button => {
+      button.hidden = !!signedIn;
+    });
+    const pageTitle = document.querySelector('#page-account > .view-heading');
+    const pageLead = document.querySelector('#page-account > .view-lead');
+    if (pageTitle) pageTitle.textContent = signedIn ? 'Personal Profile' : 'Account';
+    if (pageLead) pageLead.textContent = signedIn
+      ? 'Manage your identity, trading preferences, and personal workspace.'
+      : 'Create an account, log in, or open your profile.';
+  }
+
+  const confirmationReturn = (() => {
+    const hash = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+    const query = new URLSearchParams(window.location.search);
+    return hash.get('type') === 'signup' || query.has('code');
+  })();
+  let confirmationRedirectHandled = false;
+
   function showSignedOut() {
     currentUser = null;
+    updateAuthNavigation(false);
     loadedProfile = null;
     if (details) details.textContent = 'Not signed in';
     if (statusTag) statusTag.textContent = 'Not signed in';
@@ -156,6 +185,7 @@
       ...profile
     };
     loadedProfile = profile;
+    updateAuthNavigation(true);
 
     if ($('accountProfileName')) $('accountProfileName').textContent = profile.display_name || fallbackName || 'Your Profile';
     if ($('accountProfileEmail')) $('accountProfileEmail').textContent = user.email || '';
@@ -211,6 +241,7 @@
         throw new Error('Supabase could not verify the signed-in user.');
       }
       currentUser = verified.data.user;
+      updateAuthNavigation(true);
 
       // Authentication can succeed even if the profile table has a separate issue.
       if (details) details.textContent = 'Signed in: ' + (currentUser.email || 'account');
@@ -219,6 +250,13 @@
       setStatus('Cloud account connected.');
       await loadProfile(currentUser);
       setStatus('Cloud account connected.');
+      if (confirmationReturn && !confirmationRedirectHandled) {
+        confirmationRedirectHandled = true;
+        showAccountPage('profile');
+        // Remove one-time confirmation tokens from the address bar after Supabase has exchanged them.
+        try { window.history.replaceState({}, document.title, window.location.pathname); } catch (_) {}
+        setProfileStatus('Email confirmed. You are now signed in and your personal profile is ready.');
+      }
     } catch (error) {
       if (currentUser) {
         if (details) details.textContent = 'Signed in: ' + (currentUser.email || 'account') + ' · Profile unavailable';
