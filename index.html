@@ -4658,7 +4658,6 @@ setInterval(function(){nfxEstLiqLoad(false);},30000);
   window.alert=(message)=>showToast(message);
   const start=()=>{
     observer.observe(document.body,{subtree:true,childList:true,characterData:true});
-    scan(document.body);
   };
   if(document.body)start();else document.addEventListener('DOMContentLoaded',start,{once:true});
 })();
