@@ -5414,7 +5414,36 @@ document.addEventListener('nfx-liquidity-open',start);document.addEventListener(
  function setStatus(id,t){const e=$(id);if(e)e.textContent=t}
  function canvas(id){const c=$(id);if(!c)return null;const w=Math.max(320,c.clientWidth||900),h=Number(c.getAttribute('height'))||420,d=window.devicePixelRatio||1;c.width=w*d;c.height=h*d;const x=c.getContext('2d');x.scale(d,d);x.fillStyle='#0a111a';x.fillRect(0,0,w,h);return {c,x,w,h}}
  function lineGrid(x,w,h){x.strokeStyle='#253342';x.lineWidth=1;for(let i=1;i<6;i++){let y=i*h/6;x.beginPath();x.moveTo(0,y);x.lineTo(w,y);x.stroke()}}
- function drawFoot(){const z=canvas('nfxFootprintChart');if(!z)return;const {x,w,h}=z;lineGrid(x,w,h);const cols=[...state.footBuckets.entries()].slice(-10),prices=[...new Set(cols.flatMap(([k,m])=>[...m.keys()]))].map(Number).sort((a,b)=>b-a).slice(0,24);if(!cols.length||!prices.length){x.fillStyle='#8394a8';x.font='12px system-ui';x.fillText('Waiting for live trade clusters…',20,35);return}const left=62,right=8,top=12,bottom=25,cw=(w-left-right)/cols.length,rh=(h-top-bottom)/prices.length;let max=1;cols.forEach(([k,m])=>m.forEach(v=>max=Math.max(max,v.buy,v.sell)));prices.forEach((p,i)=>{const y=top+i*rh;x.fillStyle='#a9b6c7';x.font='10px monospace';x.textAlign='right';x.fillText(fmt(p),left-9,y+rh*.68);cols.forEach(([k,m],j)=>{const v=m.get(String(p))||{buy:0,sell:0},cx=left+j*cw,half=(cw-4)/2,alphaBuy=.12+.78*v.buy/max,alphaSell=.12+.78*v.sell/max;x.fillStyle='rgba(34,190,133,'+alphaBuy+')';x.fillRect(cx+1,y+1,half,rh-2);x.fillStyle='rgba(220,79,105,'+alphaSell+')';x.fillRect(cx+2+half,y+1,half,rh-2);x.fillStyle='#e5edf5';x.font='9px monospace';x.textAlign='center';if(cw>48){x.fillText(v.buy?fmt(v.buy):'·',cx+half/2,y+rh*.68);x.fillText(v.sell?fmt(v.sell):'·',cx+half+2+half/2,y+rh*.68)}})});x.textAlign='center';x.fillStyle='#8293a8';x.font='9px system-ui';cols.forEach(([k],j)=>x.fillText(new Date(k*Number(($('nfxFootprintTf')||{}).value||300)*1000).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),left+j*cw+cw/2,h-7));x.textAlign='left';} function drawBook(){const z=canvas('nfxBookmapChart');if(!z)return;const {x,w,h}=z;lineGrid(x,w,h);const snaps=state.snapshots.slice(-110);if(!snaps.length){x.fillStyle='#8394a8';x.fillText('Capturing live order-book depth…',20,35);return}const center=state.mid||snaps[snaps.length-1].mid,lo=center*.996,hi=center*1.004,rows=48,cw=w/snaps.length,rh=h/rows;for(let j=0;j<snaps.length;j++){const snap=snaps[j];for(const [side,arr] of [['bid',snap.bids],['ask',snap.asks]])arr.forEach(([p,q])=>{if(p<lo||p>hi)return;const row=Math.max(0,Math.min(rows-1,Math.floor((hi-p)/(hi-lo)*rows))),v=Math.min(1,Math.log1p(q*center)/Math.log(1500));x.fillStyle=side==='bid'?'rgba(20,143,210,'+(.12+v*.78)+')':'rgba(218,74,94,'+(.12+v*.78)+')';x.fillRect(j*cw,row*rh,Math.max(1,cw+0.5),Math.max(1,rh-1))})}x.fillStyle='#e1e9f2';x.font='10px monospace';x.fillText('PRICE '+fmt(hi),8,12);x.fillText('MID '+fmt(center),8,h-8)}
+ function drawFoot(){
+  const z=canvas('nfxFootprintChart');if(!z)return;const {x,w,h}=z;
+  const left=78,right=12,top=18,bottom=34,innerW=w-left-right,innerH=h-top-bottom;
+  lineGrid(x,w,h);
+  const all=[...state.footBuckets.entries()].sort((a,b)=>a[0]-b[0]),cols=all.slice(-12);
+  const priceSet=new Set();cols.forEach(([,m])=>m.forEach((v,k)=>{if((v.buy||0)+(v.sell||0)>0)priceSet.add(Number(k))}));
+  const prices=[...priceSet].filter(Number.isFinite).sort((a,b)=>b-a).slice(0,32);
+  if(!cols.length||!prices.length){x.fillStyle='#8394a8';x.font='13px system-ui';x.fillText('Waiting for live trade clusters…',20,36);x.font='11px system-ui';x.fillText('Select Crypto and wait for Binance trades to arrive.',20,56);return}
+  const cw=innerW/cols.length,rh=Math.max(1,innerH/prices.length),max=Math.max(1,...cols.flatMap(([,m])=>[...m.values()].map(v=>Math.max(v.buy||0,v.sell||0))));
+  x.fillStyle='#92a5ba';x.font='10px monospace';x.textAlign='right';
+  prices.forEach((p,i)=>{
+   const y=top+i*rh;
+   x.fillStyle='#0d1722';x.fillRect(left,y,innerW,rh);
+   x.fillStyle='#aab9ca';x.font='10px monospace';x.textAlign='right';x.fillText(fmt(p),left-9,y+Math.max(10,rh*.68));
+   cols.forEach(([bucket,m],j)=>{
+    const cx=left+j*cw,half=Math.max(1,(cw-3)/2);
+    const entry=[...m.entries()].find(([k])=>Number(k)===p);
+    const v=entry?entry[1]:{buy:0,sell:0},bv=Number(v.buy)||0,sv=Number(v.sell)||0;
+    const ab=bv?Math.min(.98,.18+.8*Math.sqrt(bv/max)):.035,as=sv?Math.min(.98,.18+.8*Math.sqrt(sv/max)):.035;
+    x.fillStyle='rgba(34,190,133,'+ab+')';x.fillRect(cx+1,y+1,half,Math.max(1,rh-2));
+    x.fillStyle='rgba(220,79,105,'+as+')';x.fillRect(cx+1+half,y+1,half,Math.max(1,rh-2));
+    if(cw>=48&&rh>=15){x.fillStyle='#f1f5f9';x.font='9px monospace';x.textAlign='center';x.fillText(bv?compact(bv):'·',cx+half/2,y+rh*.67);x.fillText(sv?compact(sv):'·',cx+1+half+half/2,y+rh*.67)}
+   });
+  });
+  x.textAlign='center';x.fillStyle='#8da0b5';x.font='9px system-ui';
+  cols.forEach(([k],j)=>{const tf=Number(($('nfxFootprintTf')||{}).value||300);x.fillText(new Date(k*tf*1000).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),left+j*cw+cw/2,h-10)});
+  x.textAlign='left';x.fillStyle='#39d6a0';x.font='bold 10px system-ui';x.fillText('BUY',left,11);x.fillStyle='#f0788d';x.fillText('SELL',left+38,11);
+ }
+ function compact(n){n=Number(n)||0;return n>=1e6?(n/1e6).toFixed(1)+'m':n>=1e3?(n/1e3).toFixed(1)+'k':n.toFixed(0)}
+ function drawBook(){const z=canvas('nfxBookmapChart');if(!z)return;const {x,w,h}=z;lineGrid(x,w,h);const snaps=state.snapshots.slice(-110);if(!snaps.length){x.fillStyle='#8394a8';x.fillText('Capturing live order-book depth…',20,35);return}const center=state.mid||snaps[snaps.length-1].mid,lo=center*.996,hi=center*1.004,rows=48,cw=w/snaps.length,rh=h/rows;for(let j=0;j<snaps.length;j++){const snap=snaps[j];for(const [side,arr] of [['bid',snap.bids],['ask',snap.asks]])arr.forEach(([p,q])=>{if(p<lo||p>hi)return;const row=Math.max(0,Math.min(rows-1,Math.floor((hi-p)/(hi-lo)*rows))),v=Math.min(1,Math.log1p(q*center)/Math.log(1500));x.fillStyle=side==='bid'?'rgba(20,143,210,'+(.12+v*.78)+')':'rgba(218,74,94,'+(.12+v*.78)+')';x.fillRect(j*cw,row*rh,Math.max(1,cw+0.5),Math.max(1,rh-1))})}x.fillStyle='#e1e9f2';x.font='10px monospace';x.fillText('PRICE '+fmt(hi),8,12);x.fillText('MID '+fmt(center),8,h-8)}
  function drawProfile(){const z=canvas('nfxVolumeProfileChart');if(!z)return;const {x,w,h}=z;lineGrid(x,w,h);const rows=[...state.profile.entries()].sort((a,b)=>b[0]-a[0]).slice(0,60);if(!rows.length){x.fillStyle='#8394a8';x.fillText('Building volume profile from live trades…',20,35);return}const max=Math.max(1,...rows.map(([p,v])=>v.buy+v.sell)),row=h/rows.length;let poc=rows[0];rows.forEach(([p,v],i)=>{const y=i*row+2,b=(w-90)*v.buy/max,s=(w-90)*v.sell/max;x.fillStyle='#38bd8b';x.fillRect(8,y,b,Math.max(4,row-3));x.fillStyle='#d85b70';x.fillRect(8+b,y,s,Math.max(4,row-3));x.fillStyle='#dce5ef';x.font='10px monospace';x.fillText(fmt(p),w-70,y+Math.max(10,row-3));if(v.buy+v.sell>poc[1].buy+poc[1].sell)poc=[p,v]});if($('nfxProfilePoc'))$('nfxProfilePoc').textContent=fmt(poc[0])}
  function drawOi(){const z=canvas('nfxOiHistoryChart');if(!z)return;const {x,w,h}=z;lineGrid(x,w,h);const a=state.oi;if(a.length<2){x.fillStyle='#8394a8';x.fillText('Collecting open-interest samples…',10,25);return}const lo=Math.min(...a),hi=Math.max(...a),r=hi-lo||1;x.strokeStyle='#8db5e8';x.lineWidth=2;x.beginPath();a.forEach((v,i)=>{const px=i/(a.length-1)*w,py=h-8-(v-lo)/r*(h-16);i?x.lineTo(px,py):x.moveTo(px,py)});x.stroke()}
  function redraw(){drawFoot();drawBook();drawProfile();drawOi()}
@@ -5423,7 +5452,7 @@ document.addEventListener('nfx-liquidity-open',start);document.addEventListener(
   const p=Number(t.p),q=Number(t.q),time=Number(t.T||t.E||Date.now());
   if(!Number.isFinite(p)||p<=0||!Number.isFinite(q)||q<=0)return;
   const tick=p>=10000?10:p>=1000?1:p>=100?0.1:p>=10?0.01:p>=1?0.001:p>=0.1?0.0001:0.000001;
-  const decimals=tick<1?Math.ceil(-Math.log10(tick)):0,key=(Math.round(p/tick)*tick).toFixed(decimals);
+  const decimals=tick<1?Math.ceil(-Math.log10(tick)):0,key=String(Number((Math.round(p/tick)*tick).toFixed(decimals)));
   const buy=!t.m,notional=p*q,map=buy?state.buys:state.sells;
   map.set(key,(map.get(key)||0)+notional);
   const pr=state.profile.get(key)||{buy:0,sell:0};pr[buy?'buy':'sell']+=notional;state.profile.set(key,pr);
