@@ -4594,33 +4594,72 @@ setInterval(function(){nfxEstLiqLoad(false);},30000);
 
 
 <script>
-/* Global temporary feedback: dismiss validation, success and action messages after 2.7 seconds. */
+/* NABIL FX — site-wide temporary feedback manager. Validation remains active; only its message UI auto-dismisses. */
 (()=>{
-  const selector='.status, .replay-status, #nfxPointStatus';
+  const feedbackSelector=[
+    '.status:not(.nfx-liq-status):not(.nfx-of-status)',
+    '.replay-status','#nfxPointStatus',
+    '[role="alert"]','.toast','.notification','.alert',
+    '.error-message','.warning-message','.success-message',
+    '[data-toast]','[data-notification]'
+  ].join(',');
   const timers=new WeakMap();
   const dismiss=(node)=>{
     if(!(node instanceof Element))return;
-    const target=node.matches(selector)?node:node.closest(selector);
-    if(!target)return;
+    const target=node.matches(feedbackSelector)?node:node.closest(feedbackSelector);
+    if(!target || target.matches('.nfx-liq-status,.nfx-of-status'))return;
     target.classList.remove('nfx-feedback-dismissed');
-    const old=timers.get(target);
-    if(old)clearTimeout(old);
+    const previous=timers.get(target);
+    if(previous)clearTimeout(previous);
     const timer=setTimeout(()=>{
       target.classList.add('nfx-feedback-dismissed');
       timers.delete(target);
-    },2700);
+    },2800);
     timers.set(target,timer);
+  };
+  const scan=(node)=>{
+    if(!(node instanceof Element))return;
+    dismiss(node);
+    node.querySelectorAll(feedbackSelector).forEach(dismiss);
   };
   const observer=new MutationObserver(records=>{
     for(const record of records){
       if(record.type==='characterData')dismiss(record.target.parentElement);
       else if(record.type==='childList'){
         if(record.target instanceof Element)dismiss(record.target);
-        record.addedNodes.forEach(node=>{if(node instanceof Element)dismiss(node);});
+        record.addedNodes.forEach(scan);
       }
     }
   });
-  const start=()=>observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+  const showToast=(message)=>{
+    const text=String(message??'').trim();
+    if(!text)return;
+    let host=document.getElementById('nfxGlobalToastHost');
+    if(!host){
+      host=document.createElement('div');
+      host.id='nfxGlobalToastHost';
+      host.className='nfx-global-toast-host';
+      host.setAttribute('aria-live','polite');
+      host.setAttribute('aria-atomic','true');
+      document.body.appendChild(host);
+    }
+    const toast=document.createElement('div');
+    toast.className='nfx-global-toast';
+    toast.setAttribute('role','alert');
+    toast.textContent=text;
+    host.appendChild(toast);
+    requestAnimationFrame(()=>toast.classList.add('is-visible'));
+    setTimeout(()=>{
+      toast.classList.remove('is-visible');
+      setTimeout(()=>toast.remove(),260);
+    },2800);
+  };
+  /* Convert blocking JavaScript alert dialogs into the same polished, short-lived feedback. */
+  window.alert=(message)=>showToast(message);
+  const start=()=>{
+    observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+    scan(document.body);
+  };
   if(document.body)start();else document.addEventListener('DOMContentLoaded',start,{once:true});
 })();
 </script>
@@ -5254,4 +5293,10 @@ setInterval(function(){nfxEstLiqLoad(false);},30000);
 
 /* Auto-dismiss temporary action feedback after a short, readable interval. */
 .nfx-feedback-dismissed{opacity:0!important;visibility:hidden!important;pointer-events:none!important;transition:opacity .24s ease,visibility .24s ease!important}
+
+/* Premium global toast for JavaScript alerts and dynamically generated warnings. */
+.nfx-global-toast-host{position:fixed;top:22px;right:22px;z-index:2147483000;display:grid;gap:10px;width:min(390px,calc(100vw - 28px));pointer-events:none}
+.nfx-global-toast{padding:14px 17px;border:1px solid rgba(255,83,100,.42);border-left:3px solid #ff4054;border-radius:12px;background:linear-gradient(135deg,rgba(35,13,18,.98),rgba(14,14,17,.98));box-shadow:0 16px 42px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.06);color:#f7e9eb;font:600 13px/1.55 system-ui,Arial,sans-serif;overflow-wrap:anywhere;opacity:0;transform:translate3d(0,-8px,0);transition:opacity .22s ease,transform .22s ease}
+.nfx-global-toast.is-visible{opacity:1;transform:translate3d(0,0,0)}
+@media(max-width:600px){.nfx-global-toast-host{top:12px;right:12px;width:calc(100vw - 24px)}.nfx-global-toast{padding:12px 14px;font-size:12px}}
 </style>
