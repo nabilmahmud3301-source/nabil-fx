@@ -1237,8 +1237,12 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 #page-account .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
 #page-account .actions .btn{min-height:44px;border-radius:11px;padding:11px 16px;font-weight:700}
 #page-account .auth-submit{background:linear-gradient(110deg,#a82f43,#d04c5d);border:1px solid rgba(255,255,255,.12);box-shadow:0 8px 22px rgba(168,47,67,.2)}
-#page-account .auth-inline-action{display:inline-flex;margin-top:7px;padding:3px 0;border:0;background:transparent;color:#c5d2e1;font-size:12px;cursor:pointer}
-#page-account .auth-inline-action:hover{color:#fff}
+#page-account .password-input-wrap{position:relative;width:100%}
+#page-account .password-input-wrap input{width:100%;padding-right:48px}
+#page-account .password-input-wrap .auth-inline-action{position:absolute;right:9px;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:32px;height:32px;margin:0;padding:0;border:0;border-radius:8px;background:transparent;color:#9eafc2;cursor:pointer;transition:color .18s ease,background .18s ease}
+#page-account .password-input-wrap .auth-inline-action:hover{color:#fff;background:rgba(255,255,255,.07)}
+#page-account .password-input-wrap .auth-inline-action:focus-visible{outline:2px solid #d04c5d;outline-offset:1px}
+#page-account .password-input-wrap .auth-inline-action svg{width:19px;height:19px;display:block}
 #page-account .status{margin-top:18px;padding:13px 14px;border-radius:11px;border:1px solid rgba(129,151,177,.2);background:rgba(6,12,20,.55);color:#b9c7d7;line-height:1.55;overflow-wrap:anywhere}
 #page-account .status[data-kind="success"]{border-color:rgba(54,196,142,.35);color:#8ee4bd}
 #page-account .status[data-kind="error"]{border-color:rgba(239,94,112,.4);color:#ffb0ba}
@@ -1841,13 +1845,11 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
         </div>
         <div class="field wide">
           <label for="createPassword">PASSWORD</label>
-          <input id="createPassword" type="password" autocomplete="new-password" minlength="8" placeholder="Create a password">
-          <button class="auth-inline-action" type="button" data-toggle-password="createPassword" aria-pressed="false">Show password</button>
+          <div class="password-input-wrap"><input id="createPassword" type="password" autocomplete="new-password" minlength="8" placeholder="Create a password"><button class="auth-inline-action" type="button" data-toggle-password="createPassword" aria-label="Show password" title="Show password" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2.5 12s3.3-6 9.5-6 9.5 6 9.5 6-3.3 6-9.5 6-9.5-6-9.5-6Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="12" r="2.7" stroke="currentColor" stroke-width="1.7"/></svg></button></div>
         </div>
         <div class="field wide">
           <label for="createConfirmPassword">CONFIRM PASSWORD</label>
-          <input id="createConfirmPassword" type="password" autocomplete="new-password" minlength="8" placeholder="Confirm your password">
-          <button class="auth-inline-action" type="button" data-toggle-password="createConfirmPassword" aria-pressed="false">Show password</button>
+          <div class="password-input-wrap"><input id="createConfirmPassword" type="password" autocomplete="new-password" minlength="8" placeholder="Confirm your password"><button class="auth-inline-action" type="button" data-toggle-password="createConfirmPassword" aria-label="Show password" title="Show password" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2.5 12s3.3-6 9.5-6 9.5 6 9.5 6-3.3 6-9.5 6-9.5-6-9.5-6Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="12" r="2.7" stroke="currentColor" stroke-width="1.7"/></svg></button></div>
         </div>
       </div>
       <div class="actions">
@@ -1868,8 +1870,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
         </div>
         <div class="field wide">
           <label for="loginPassword">PASSWORD</label>
-          <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Enter your password">
-          <button class="auth-inline-action" type="button" data-toggle-password="loginPassword" aria-pressed="false">Show password</button>
+          <div class="password-input-wrap"><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Enter your password"><button class="auth-inline-action" type="button" data-toggle-password="loginPassword" aria-label="Show password" title="Show password" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2.5 12s3.3-6 9.5-6 9.5 6 9.5 6-3.3 6-9.5 6-9.5-6-9.5-6Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="12" r="2.7" stroke="currentColor" stroke-width="1.7"/></svg></button></div>
         </div>
       </div>
       <div class="actions">
