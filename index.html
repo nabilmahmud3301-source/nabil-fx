@@ -1384,7 +1384,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       <div hidden aria-hidden="true"><span id="nfxLiqBidVelocitySub"></span><span id="nfxLiqAskVelocitySub"></span></div>
     </section>
     <section class="nfx-liq-timeline-panel nfx-liq-workspace-card" id="nfxLiqBookHeatmap" aria-label="Liquidity timeline heatmap">
-      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">LIVE CAPTURE</div><h3>Liquidity Heatmap</h3><p>Visible resting orders by price and time · <strong id="nfxLiqTimelineSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><div class="nfx-liq-timeline-actions"><label>WINDOW <select id="nfxLiqWindow"><option value="60">1 MIN</option><option value="300" selected>5 MIN</option><option value="900">15 MIN</option><option value="3600">1 HOUR</option><option value="7200">2 HOURS</option><option value="14400">4 HOURS</option><option value="43200">12 HOURS</option><option value="86400">1 DAY</option><option value="259200">3 DAYS</option><option value="604800">7 DAYS</option></select></label><button id="nfxLiqResetHistory" type="button">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqBookHeatmap" aria-label="Expand liquidity heatmap">⛶ <span>Expand</span></button></div></div>
+      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">LIVE CAPTURE</div><h3>Liquidity Heatmap</h3><p>Live resting orders by price and time · Binance Futures 100ms depth · <strong id="nfxLiqTimelineSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><div class="nfx-liq-timeline-actions"><label>WINDOW <select id="nfxLiqWindow"><option value="60">1 MIN</option><option value="300" selected>5 MIN</option><option value="900">15 MIN</option><option value="3600">1 HOUR</option><option value="7200">2 HOURS</option><option value="14400">4 HOURS</option><option value="43200">12 HOURS</option><option value="86400">1 DAY</option><option value="259200">3 DAYS</option><option value="604800">7 DAYS</option></select></label><button id="nfxLiqResetHistory" type="button">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqBookHeatmap" aria-label="Expand liquidity heatmap">⛶ <span>Expand</span></button></div></div>
       <div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqTimelineCanvas" aria-label="Live order book liquidity by price and time"></canvas><div id="nfxLiqTimelineEmpty" class="nfx-liq-timeline-empty">Building live heatmap… historical columns appear as live snapshots arrive.</div></div>
       <div class="nfx-liq-timeline-axis"><span>OLDER</span><span>PRICE · TIME</span><span>NOW →</span></div>
       <div class="nfx-liq-timeline-note">Binance USDⓈ-M Futures top-20 visible levels. Not a prediction of future liquidation levels.</div>
@@ -3986,7 +3986,7 @@ document.addEventListener('click', function(event) {
   function captureHistory(data,mid){
     var now=Date.now();
     if(currentSymbol!==historySymbol){liqHistory=[];historySymbol=currentSymbol;lastHistoryAt=0;}
-    if(now-lastHistoryAt<900)return;
+    if(now-lastHistoryAt<250)return;
     lastHistoryAt=now;
     liqHistory.push({t:now,mid:mid,bids:data.bids.slice(0,20).map(x=>[Number(x[0]),Number(x[1])]),asks:data.asks.slice(0,20).map(x=>[Number(x[0]),Number(x[1])])});
     // Keep a fixed 15-minute capture buffer so switching the visible window
@@ -3997,7 +3997,6 @@ document.addEventListener('click', function(event) {
     liqHistory.forEach(function(x){var age=now-x.t;if(age<=15*60*1000){kept.push(x);return;}var bucket=age<=4*60*60*1000?30000:300000;var key=Math.floor(x.t/bucket);if(!seenBuckets[key]){seenBuckets[key]=true;kept.push(x);}});
     liqHistory=kept.slice(-3500);
     if(!window._nfxHistorySaveTimer)window._nfxHistorySaveTimer=setTimeout(function(){window._nfxHistorySaveTimer=null;saveHistoryCache();},2500);
-    renderTimeline();
   }
   function renderTimeline(){
     var canvas=$('nfxLiqTimelineCanvas');if(!canvas)return;
@@ -4015,7 +4014,7 @@ document.addEventListener('click', function(event) {
     var empty=$('nfxLiqTimelineEmpty');if(empty)empty.hidden=history.length>0;
     ctx.font='700 9px system-ui,sans-serif';ctx.textBaseline='middle';ctx.textAlign='left';ctx.fillStyle='#a6b2c5';ctx.fillText('ASK',left,15);
     ctx.fillStyle='#8b5cf6';ctx.fillRect(left+27,11,8,8);ctx.fillStyle='#a6b2c5';ctx.fillText('BID',left+43,15);ctx.fillStyle='#27c7b8';ctx.fillRect(left+65,11,8,8);
-    ctx.textAlign='right';ctx.fillStyle='#73839b';ctx.fillText('LIVE DEPTH  /  '+history.length+' SNAPSHOTS',W-right,15);
+    ctx.textAlign='right';ctx.fillStyle='#73839b';ctx.fillText('LIVE DEPTH · 250MS CAPTURE  /  '+history.length+' SNAPSHOTS',W-right,15);
     if(!history.length){ctx.fillStyle='#73839b';ctx.textAlign='center';ctx.font='12px system-ui,sans-serif';ctx.fillText('Collecting live order-book snapshots…',left+pw/2,top+ph/2-7);ctx.font='10px system-ui,sans-serif';ctx.fillStyle='#4e6077';ctx.fillText('Heatmap intensity builds from visible Binance Futures depth',left+pw/2,top+ph/2+13);return;}
     var mids=history.map(function(x){return x.mid;}).filter(function(x){return Number.isFinite(x)&&x>0;}),currentMid=mids[mids.length-1];
     // Fit the vertical price scale to the actual visible depth levels instead of a fixed +/-0.5% band.
