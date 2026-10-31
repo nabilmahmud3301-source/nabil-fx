@@ -1219,6 +1219,15 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
  #page-chart #nabilReplayPointLab .nfx-replay-drawing-bar button{width:34px!important;flex-basis:32px!important;height:32px!important}
 }
 </style>
+
+<style id="nfx-footprint-market-finder-css">
+#page-footprint .nfx-footprint-toolbar{align-items:flex-end;gap:12px}
+#page-footprint .nfx-footprint-toolbar label{display:flex;flex-direction:column;align-items:stretch;gap:7px;min-width:150px}
+#page-footprint #nfx-footprint-market-search{width:min(290px,32vw);min-width:190px;background:#111e2b;border:1px solid #35485c;color:#e5edf7;border-radius:5px;padding:9px 11px;font-size:12px}
+#page-footprint #nfxFootprintMarket{min-width:130px}
+#page-footprint .nfx-footprint-toolbar input:focus,#page-footprint .nfx-footprint-toolbar select:focus{outline:1px solid #8b4654;border-color:#8b4654}
+@media(max-width:650px){#page-footprint .nfx-footprint-toolbar{display:grid;grid-template-columns:1fr 1fr;gap:12px}#page-footprint .nfx-footprint-toolbar label:first-child{grid-column:1/-1}#page-footprint #nfx-footprint-market-search{width:100%;min-width:0}#page-footprint .nfx-footprint-toolbar>span{margin:0;grid-column:1/-1}}
+</style>
 </head>
 <body>
 <header class="site-header">
@@ -1229,6 +1238,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
   <nav class="site-nav" aria-label="Main navigation">
     <button class="nav-btn active" data-page="home">Home</button>
     <button class="nav-btn" data-page="chart">Chart/Bar Replay</button>
+    <button class="nav-btn" data-page="footprint">Footprint</button>
     <button class="nav-btn" data-page="liquidity">Heatmap/Order Book</button>
     <button class="nav-btn" data-page="backtest">Backtest with AI</button>
     <button class="nav-btn" data-page="notes">Journal/Notes</button>
@@ -1412,7 +1422,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 <section id="page-fundingrate" class="view nfx-market-page"><div class="nfx-market-page-head"><div><span>PERPETUAL CONTRACTS</span><h1>Funding Rate</h1><p>Review the latest published funding rate for the selected contract.</p></div><b class="nfx-page-source">BINANCE FUTURES API</b></div><div id="nfxFundingMount"></div></section>
 <section id="page-footprint" class="view nfx-pro-chart-page">
   <div class="nfx-pro-page-head"><div><span>BINANCE USDⓈ-M · LIVE AGGREGATE TRADES</span><h1>Footprint Chart</h1><p>Price-level buy/sell volume, delta and point of control.</p></div><div class="nfx-pro-live"><i></i> LIVE PUBLIC FEED</div></div>
-  <div class="nfx-pro-toolbar"><label>SYMBOL <select data-nfx-symbol><option>BTCUSDT</option><option>ETHUSDT</option><option>BNBUSDT</option><option>SOLUSDT</option><option>XRPUSDT</option></select></label><label>TIMEFRAME <select id="nfxFootprintTf"><option value="60">1 MIN</option><option value="300" selected>5 MIN</option><option value="900">15 MIN</option></select></label><span id="nfxFootprintStatus">Connecting…</span></div>
+  <div class="nfx-pro-toolbar nfx-footprint-toolbar"><label>SEARCH MARKET <input id="nfx-footprint-market-search" type="search" list="nfx-footprint-market-list" placeholder="Search any Binance futures symbol…" autocomplete="off" spellcheck="false" aria-label="Search Binance futures market"></label><datalist id="nfx-footprint-market-list"></datalist><label>SYMBOL <select data-nfx-symbol id="nfxFootprintMarket"><option>BTCUSDT</option><option>ETHUSDT</option><option>BNBUSDT</option><option>SOLUSDT</option><option>XRPUSDT</option></select></label><label>TIMEFRAME <select id="nfxFootprintTf"><option value="60">1 MIN</option><option value="300" selected>5 MIN</option><option value="900">15 MIN</option></select></label><span id="nfxFootprintStatus">Connecting…</span></div>
   <div class="nfx-pro-chart-card"><div class="nfx-pro-legend"><span class="buy">BUY VOLUME</span><span class="sell">SELL VOLUME</span><span>LIVE PRICE-LEVEL AGGREGATION</span></div><canvas id="nfxFootprintChart" height="520"></canvas></div>
   <p class="nfx-pro-note">Trades are grouped by price from Binance aggregate trades. This is a live-built footprint, not historical exchange footprint data. Price tick aggregation is approximate.</p>
 </section>
@@ -5451,6 +5461,58 @@ document.addEventListener('nfx-liquidity-open',start);document.addEventListener(
 #page-chart #nabilReplayPointLab .nfx-drawing-overlay{z-index:7!important}
 @media(max-width:760px){#page-chart #nabilReplayPointLab{padding:12px!important}#page-chart #nabilReplayPointLab .nfx-point-chart{height:500px!important}#page-chart #nabilReplayPointLab .nfx-point-controls{padding:9px!important}}
 </style>
+
+<script id="nfx-footprint-market-finder">
+(function(){
+  const input=document.getElementById('nfx-footprint-market-search');
+  const list=document.getElementById('nfx-footprint-market-list');
+  const select=document.getElementById('nfxFootprintMarket');
+  const status=document.getElementById('nfxFootprintStatus');
+  if(!input||!list||!select)return;
+  let symbols=new Set(Array.from(select.options).map(o=>o.value));
+  let loaded=false;
+  function choose(raw){
+    const value=String(raw||'').trim().toUpperCase().replace(/[^A-Z0-9]/g,'');
+    if(!value)return false;
+    const match=Array.from(symbols).find(x=>x===value);
+    if(!match){if(status)status.textContent='Symbol not available on Binance USDⓈ-M';return false;}
+    select.value=match;
+    input.value=match;
+    select.dispatchEvent(new Event('change',{bubbles:true}));
+    if(status)status.textContent='Switching feed to '+match+'…';
+    return true;
+  }
+  input.addEventListener('change',()=>choose(input.value));
+  input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();if(!choose(input.value)&&status)status.textContent='Choose a listed Binance USDⓈ-M symbol';}});
+  select.addEventListener('change',()=>{input.value=select.value;});
+  async function loadSymbols(){
+    try{
+      const response=await fetch('https://fapi.binance.com/fapi/v1/exchangeInfo',{cache:'no-store'});
+      if(!response.ok)throw new Error('exchange info unavailable');
+      const data=await response.json();
+      const active=(data.symbols||[]).filter(x=>x.status==='TRADING'&&x.contractType==='PERPETUAL'&&x.quoteAsset==='USDT').map(x=>x.symbol).sort();
+      if(!active.length)throw new Error('empty symbol list');
+      symbols=new Set(active);
+      const frag=document.createDocumentFragment();
+      active.forEach(symbol=>{const opt=document.createElement('option');opt.value=symbol;frag.appendChild(opt);});
+      list.replaceChildren(frag);
+      const current=select.value||'BTCUSDT';
+      const options=document.createDocumentFragment();
+      active.forEach(symbol=>{const opt=document.createElement('option');opt.value=symbol;opt.textContent=symbol;options.appendChild(opt);});
+      select.replaceChildren(options);
+      select.value=symbols.has(current)?current:(symbols.has('BTCUSDT')?'BTCUSDT':active[0]);
+      input.value=select.value;
+      loaded=true;
+      if(status)status.textContent='Live feed · '+active.length+' USDT perpetual markets available';
+    }catch(error){
+      if(status)status.textContent='Live feed · default markets only (market list unavailable)';
+    }
+  }
+  input.value=select.value||'BTCUSDT';
+  loadSymbols();
+  window.addEventListener('nfx-pro-chart-open',()=>{if(!loaded)loadSymbols();});
+})();
+</script>
 </body>
 </html>
 <style>
