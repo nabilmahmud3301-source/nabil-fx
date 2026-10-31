@@ -44,7 +44,7 @@
     const raw = String(error?.message || error || '');
     const m = raw.toLowerCase();
     if (/invalid login credentials|invalid email or password/.test(m)) return 'Email ba password thik noy. Abar check kore try koro.';
-    if (/email not confirmed/.test(m)) return 'Email ekhono confirm kora hoyni. Inbox/spam folder theke confirmation link open koro.';
+    if (/email not confirmed/.test(m)) return 'Your email is not confirmed yet. Please open the confirmation link in your inbox or spam folder.';
     if (/user already registered|already been registered|already exists/.test(m)) return 'Ei email diye account agei ache. Login koro, ba password reset use koro.';
     if (/password should be at least|weak password|password is too short/.test(m)) return 'Password aro strong koro; minimum 8 characters use koro.';
     if (/rate limit|too many requests|email rate limit/.test(m)) return 'Onnek chesta hoyeche. Kichukhon pore abar try koro.';
