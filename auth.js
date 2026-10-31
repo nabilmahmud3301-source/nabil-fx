@@ -400,7 +400,7 @@
     if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) {
       throw new Error('Choose a PNG, JPG or WebP image.');
     }
-    if (file.size > 2 * 1024 * 1024) throw new Error('Profile picture must be 2 MB or smaller.');
+    if (file.size > 20 * 1024 * 1024) throw new Error('Profile picture must be 20 MB or smaller.');
 
     const safeName = file.name.toLowerCase().replace(/[^a-z0-9._-]/g, '-');
     const path = `${user.id}/${Date.now()}-${safeName}`;
@@ -512,8 +512,8 @@
     $('logoutBtn')?.addEventListener('click', logout);
     $('avatarUpload')?.addEventListener('change', () => {
       const file = $('avatarUpload').files?.[0];
-      if (!file || !['image/png', 'image/jpeg', 'image/webp'].includes(file.type) || file.size > 2 * 1024 * 1024) {
-        if (file) setProfileStatus('Choose a PNG, JPG or WebP image no larger than 2 MB.');
+      if (!file || !['image/png', 'image/jpeg', 'image/webp'].includes(file.type) || file.size > 20 * 1024 * 1024) {
+        if (file) setProfileStatus('Choose a PNG, JPG or WebP image no larger than 20 MB.');
         return;
       }
       const preview = URL.createObjectURL(file);
