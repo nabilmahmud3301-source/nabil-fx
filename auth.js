@@ -31,6 +31,54 @@
     if (el) el.textContent = message;
   }
 
+  function setMessage(el, message, kind = '') {
+    if (!el) return;
+    el.textContent = message;
+    if (kind) el.dataset.kind = kind;
+    else delete el.dataset.kind;
+    el.setAttribute('role', kind === 'error' ? 'alert' : 'status');
+    el.setAttribute('aria-live', 'polite');
+  }
+
+  function friendlyAuthError(error, mode = 'login') {
+    const raw = String(error?.message || error || '');
+    const m = raw.toLowerCase();
+    if (/invalid login credentials|invalid email or password/.test(m)) return 'Email ba password thik noy. Abar check kore try koro.';
+    if (/email not confirmed/.test(m)) return 'Email ekhono confirm kora hoyni. Inbox/spam folder theke confirmation link open koro.';
+    if (/user already registered|already been registered|already exists/.test(m)) return 'Ei email diye account agei ache. Login koro, ba password reset use koro.';
+    if (/password should be at least|weak password|password is too short/.test(m)) return 'Password aro strong koro; minimum 8 characters use koro.';
+    if (/rate limit|too many requests|email rate limit/.test(m)) return 'Onnek chesta hoyeche. Kichukhon pore abar try koro.';
+    if (/network|fetch failed|failed to fetch|load failed/.test(m)) return 'Network/Supabase connection hocche na. Internet check kore abar try koro.';
+    if (/redirect|allow list|redirect_to|not allowed/.test(m)) return 'Supabase Auth URL settings-e ei website-er URL allow korte hobe.';
+    if (/captcha/.test(m)) return 'Security verification complete kora jayni. Page refresh kore abar try koro.';
+    if (/profiles|row-level security|permission denied|policy/.test(m)) return mode === 'signup'
+      ? 'Account create request hoyeche, kintu profile database permission-e problem. Login diye account check koro; admin-ke Supabase RLS setup verify korte hobe.'
+      : 'Login hoyeche kina session check koro; profile database permission-e problem ache. Supabase profiles RLS setup verify korte hobe.';
+    return raw || 'Unknown error. Abar try koro.';
+  }
+
+  function bindAuthEnhancements() {
+    document.querySelectorAll('[data-toggle-password]').forEach(button => {
+      button.addEventListener('click', () => {
+        const input = $(button.dataset.togglePassword);
+        if (!input) return;
+        const reveal = input.type === 'password';
+        input.type = reveal ? 'text' : 'password';
+        button.textContent = reveal ? 'Hide password' : 'Show password';
+        button.setAttribute('aria-pressed', String(reveal));
+      });
+    });
+    const submitOnEnter = (id, action) => {
+      const input = $(id);
+      input?.addEventListener('keydown', event => {
+        if (event.key === 'Enter') { event.preventDefault(); action(); }
+      });
+    };
+    ['createName','createEmail','createPassword','createConfirmPassword'].forEach(id => submitOnEnter(id, createAccount));
+    ['loginEmail','loginPassword'].forEach(id => submitOnEnter(id, login));
+    $('forgotPasswordBtn')?.addEventListener('click', resetPassword);
+  }
+
   function showAccountPage(page) {
     if (typeof window.showNabilPage === 'function') window.showNabilPage('account');
     if (typeof window.showNabilAccountPage === 'function') window.showNabilAccountPage(page);
@@ -126,24 +174,24 @@
     const message = $('createAccountStatus');
 
     if (!name || !email || !password || !confirmPassword) {
-      if (message) message.textContent = 'Please fill in every field.';
+      setMessage(message, 'Shob field fill up koro.', 'error');
       return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      if (message) message.textContent = 'Please enter a valid email address.';
+      setMessage(message, 'Valid email address dao.', 'error');
       return;
     }
     if (password.length < 8) {
-      if (message) message.textContent = 'Password must be at least 8 characters.';
+      setMessage(message, 'Password minimum 8 characters hote hobe.', 'error');
       return;
     }
     if (password !== confirmPassword) {
-      if (message) message.textContent = 'Passwords do not match.';
+      setMessage(message, 'Duita password match korche na.', 'error');
       return;
     }
 
     setAuthButtonsBusy(true);
-    if (message) message.textContent = 'Creating your secure account...';
+    setMessage(message, 'Secure account create hocche…', '');
     try {
       const { data, error } = await client.auth.signUp({
         email,
@@ -166,15 +214,15 @@
         }, { onConflict: 'user_id' });
         if (profileError) throw profileError;
         await refreshAuth();
-        if (message) message.textContent = 'Account created successfully.';
+        setMessage(message, 'Account successfully create hoyeche. Tomar profile ready.', 'success');
         showAccountPage('profile');
       } else {
-        if (message) message.textContent = 'Account created. Check your email to confirm it, then log in.';
+        setMessage(message, 'Account request successful. Email inbox/spam check kore confirmation link open koro, tarpor login koro.', 'success');
         setStatus('Email confirmation is required before login.');
         showAccountPage('login');
       }
     } catch (error) {
-      if (message) message.textContent = 'Sign-up failed: ' + (error?.message || 'Unknown error');
+      setMessage(message, friendlyAuthError(error, 'signup'), 'error');
     } finally {
       setAuthButtonsBusy(false);
     }
@@ -185,23 +233,46 @@
     const password = $('loginPassword')?.value || '';
     const message = $('loginStatus');
     if (!email || !password) {
-      if (message) message.textContent = 'Enter your email and password.';
+      setMessage(message, 'Email ebong password dao.', 'error');
       return;
     }
     setAuthButtonsBusy(true);
-    if (message) message.textContent = 'Signing in...';
+    setMessage(message, 'Securely sign in hocche…', '');
     try {
       const { data, error } = await client.auth.signInWithPassword({ email, password });
       if (error) throw error;
       if ($('loginPassword')) $('loginPassword').value = '';
       currentUser = data.user;
       await refreshAuth();
-      if (message) message.textContent = 'Login successful.';
+      setMessage(message, 'Login successful. Tomar cloud profile load hocche.', 'success');
       showAccountPage('profile');
     } catch (error) {
-      if (message) message.textContent = 'Login failed: ' + (error?.message || 'Unknown error');
+      setMessage(message, friendlyAuthError(error, 'login'), 'error');
     } finally {
       setAuthButtonsBusy(false);
+    }
+  }
+
+  async function resetPassword() {
+    const email = $('loginEmail')?.value.trim().toLowerCase();
+    const message = $('loginStatus');
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setMessage(message, 'Age Login email field-e valid email address dao, tarpor Forgot password chapো.', 'error');
+      $('loginEmail')?.focus();
+      return;
+    }
+    const button = $('forgotPasswordBtn');
+    if (button) button.disabled = true;
+    setMessage(message, 'Password reset link pathano hocche…', '');
+    try {
+      const redirectTo = window.location.origin + window.location.pathname;
+      const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo });
+      if (error) throw error;
+      setMessage(message, 'Password reset link request kora hoyeche. Email inbox/spam check koro. Supabase email/redirect settings thik thakte hobe.', 'success');
+    } catch (error) {
+      setMessage(message, friendlyAuthError(error, 'reset'), 'error');
+    } finally {
+      if (button) button.disabled = false;
     }
   }
 
@@ -288,11 +359,16 @@
 
   function init() {
     if (!config?.url || !config?.anonKey || !supabaseLib?.createClient) {
-      setStatus('Connection configuration error. Check the connection settings.');
+      setStatus('Connection configuration error. Supabase client/config not loaded. Check network and public config.');
+      setMessage($('createAccountStatus'), 'Account system load hoyni. Page refresh koro; issue thakle Supabase config/CDN check korte hobe.', 'error');
+      setMessage($('loginStatus'), 'Login system load hoyni. Page refresh koro; issue thakle Supabase config/CDN check korte hobe.', 'error');
       return;
     }
-    client = supabaseLib.createClient(config.url, config.anonKey);
+    client = supabaseLib.createClient(config.url, config.anonKey, {
+      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+    });
 
+    bindAuthEnhancements();
     $('createAccountBtn')?.addEventListener('click', createAccount);
     $('loginBtn')?.addEventListener('click', login);
     $('saveProfile')?.addEventListener('click', saveProfile);
