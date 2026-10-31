@@ -376,7 +376,7 @@
     }
   }
 
-  function init() {
+  async function init() {
     if (!config?.url || !config?.anonKey || !supabaseLib?.createClient) {
       setStatus('Connection configuration error. Supabase client/config not loaded. Check network and public config.');
       setMessage($('createAccountStatus'), 'Account system load hoyni. Page refresh koro; issue thakle Supabase config/CDN check korte hobe.', 'error');
