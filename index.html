@@ -1261,6 +1261,21 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 #page-account .tag{border-radius:999px;padding:7px 11px;background:rgba(168,47,67,.14);border:1px solid rgba(168,47,67,.3)}
 @media(max-width:850px){#page-account .account-grid{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:520px){#page-account .account-subview,#page-account .account-grid>.panel{padding:18px;border-radius:15px}#page-account .actions .btn{width:100%}}
+
+/* Account page layout: status/privacy card sits beside auth and above profile. */
+#page-account .account-grid{grid-template-columns:minmax(0,1.08fr) minmax(280px,.92fr);align-items:stretch}
+#page-account #account-create,#page-account #account-login{grid-column:1;grid-row:1}
+#page-account #account-profile{grid-column:1/-1;grid-row:2}
+#page-account .account-status-privacy{grid-column:2;grid-row:1;align-self:stretch;min-width:0;padding:clamp(20px,2.4vw,30px);border:1px solid rgba(135,157,183,.2);border-radius:20px;background:radial-gradient(ellipse at 100% 0%,rgba(168,47,67,.13),transparent 48%),linear-gradient(145deg,rgba(17,27,40,.98),rgba(9,15,24,.98));box-shadow:0 18px 50px rgba(0,0,0,.2)}
+#page-account .account-status-heading{display:flex;align-items:center;gap:13px;margin-bottom:22px}
+#page-account .account-status-icon{display:grid;place-items:center;width:42px;height:42px;flex:0 0 42px;border:1px solid rgba(255,88,108,.25);border-radius:13px;background:rgba(168,47,67,.13);color:#ff7888;font-size:22px}
+#page-account .account-status-heading h2{margin:0;color:#edf4fb;font-size:clamp(17px,1.6vw,21px);letter-spacing:-.025em}
+#page-account .account-status-heading p{margin:4px 0 0;color:#8293a8;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+#page-account .account-status-privacy>.muted{color:#a9b7c8;font-size:13px;line-height:1.7;margin:16px 0}
+#page-account .account-privacy-divider{height:1px;margin:18px 0;background:linear-gradient(90deg,rgba(255,255,255,.12),transparent)}
+#page-account .account-status-privacy .hint{color:#8797aa;font-size:11px;line-height:1.65}
+#page-account .account-status-privacy .connection-indicator{padding:12px 13px;border:1px solid rgba(135,157,183,.12);border-radius:11px;background:rgba(255,255,255,.035);font-size:12px}
+@media(max-width:850px){#page-account .account-grid{grid-template-columns:minmax(0,1fr)}#page-account #account-create,#page-account #account-login{grid-column:1;grid-row:1}#page-account .account-status-privacy{grid-column:1;grid-row:2}#page-account #account-profile{grid-column:1;grid-row:3}}
 </style>
 </head>
 <body>
@@ -1932,10 +1947,11 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       <div id="profileStatus" class="status">Sign in to view and edit your profile.</div>
     </section>
 
-    <section class="panel">
-      <h2>Account status & privacy</h2>
+    <section class="panel account-status-privacy" aria-label="Account status and privacy">
+      <div class="account-status-heading"><span class="account-status-icon" aria-hidden="true">◈</span><div><h2>Account status & privacy</h2><p>Security overview</p></div></div>
       <p><span class="tag" id="accountStatusTag">Not signed in</span></p>
       <p class="muted">Account authentication and profile details are securely connected to your cloud account. Journal notes and saved backtest runs remain local to this browser.</p>
+      <div class="account-privacy-divider"></div>
       <p class="hint">Security: never share your password or private service credentials. The website uses a public client key only.</p>
       <p id="cloudStatus" class="connection-indicator" data-state="checking" role="status" aria-live="polite">Connection Status · Checking</p>
       <p id="accountDetails" class="hint">Not signed in</p>
