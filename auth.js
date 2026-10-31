@@ -113,23 +113,47 @@
   }
 
   async function loadProfile(user) {
+    // Select existing columns dynamically so older profiles schemas do not fail
+    // just because a newer optional field has not been migrated yet.
     const { data, error } = await client
       .from('profiles')
-      .select('user_id,display_name,username,favorite_market,bio,notes,avatar_url,created_at,updated_at')
+      .select('*')
       .eq('user_id', user.id)
       .maybeSingle();
 
     if (error) throw error;
 
     const fallbackName = user.user_metadata?.display_name || user.email?.split('@')[0] || '';
-    const profile = data || {
+    let profile = data;
+    if (!profile) {
+      // Older accounts may predate the auth.users profile trigger. Create their
+      // own row with the minimal expected fields, then use a safe UI fallback.
+      const seed = {
+        user_id: user.id,
+        display_name: fallbackName,
+        username: '',
+        favorite_market: 'Forex',
+        bio: '',
+        notes: '',
+        avatar_url: ''
+      };
+      const { data: created, error: createError } = await client
+        .from('profiles')
+        .upsert(seed, { onConflict: 'user_id' })
+        .select('*')
+        .maybeSingle();
+      if (createError) throw createError;
+      profile = created || seed;
+    }
+    profile = {
       user_id: user.id,
-      display_name: fallbackName,
-      username: '',
-      favorite_market: 'Forex',
-      bio: '',
-      notes: '',
-      avatar_url: ''
+      display_name: profile.display_name || fallbackName,
+      username: profile.username || '',
+      favorite_market: profile.favorite_market || 'Forex',
+      bio: profile.bio || '',
+      notes: profile.notes || '',
+      avatar_url: profile.avatar_url || '',
+      ...profile
     };
     loadedProfile = profile;
 
