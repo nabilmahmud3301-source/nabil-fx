@@ -4004,6 +4004,9 @@ document.addEventListener('click', function(event) {
     ctx.clearRect(0,0,W,H);
     var bg=ctx.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#070b13');bg.addColorStop(.55,'#080c14');bg.addColorStop(1,'#05080e');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
     var now=Date.now(),windowMs=historyLimit()*1000,cutoff=now-windowMs,history=liqHistory.filter(function(x){return x.t>=cutoff;});
+    if(activeMarket==='crypto'&&typeof nfxEstLiqLoad==='function')nfxEstLiqLoad(false);
+    var candleSymbol=String(currentSymbol||'BTCUSDT').toUpperCase();
+    var chartCandles=activeMarket==='crypto'&&nfxEstLiqSymbol===candleSymbol?nfxEstLiqCandles.filter(function(c){return c.t>=cutoff-windowMs*.08&&c.t<=now;}):[];
     var empty=$('nfxLiqTimelineEmpty');if(empty)empty.hidden=history.length>0;
     ctx.font='700 9px system-ui,sans-serif';ctx.textBaseline='middle';ctx.textAlign='left';ctx.fillStyle='#a6b2c5';ctx.fillText('ASK',left,15);
     ctx.fillStyle='#8b5cf6';ctx.fillRect(left+27,11,8,8);ctx.fillStyle='#a6b2c5';ctx.fillText('BID',left+43,15);ctx.fillStyle='#27c7b8';ctx.fillRect(left+65,11,8,8);
@@ -4014,7 +4017,8 @@ document.addEventListener('click', function(event) {
     // This spreads captured liquidity across the full plot height rather than compressing it into the center.
     var depthLo=Infinity,depthHi=-Infinity;
     history.forEach(function(s){[['bid',s.bids||[]],['ask',s.asks||[]]].forEach(function(pair){pair[1].forEach(function(level){var p=Number(level[0]),q=Number(level[1]);if(Number.isFinite(p)&&p>0&&Number.isFinite(q)&&q>0){depthLo=Math.min(depthLo,p);depthHi=Math.max(depthHi,p);}});});});
-    var span=depthHi-depthLo, padding=span>0?span*.10:currentMid*.001;
+    chartCandles.forEach(function(c){depthLo=Math.min(depthLo,c.l);depthHi=Math.max(depthHi,c.h);});
+    var span=depthHi-depthLo, padding=span>0?span*.06:currentMid*.001;
     var lo=Number.isFinite(depthLo)?depthLo-padding:currentMid*.995,hi=Number.isFinite(depthHi)?depthHi+padding:currentMid*1.005;
     if(!Number.isFinite(lo)||!Number.isFinite(hi)||hi<=lo){lo=currentMid-1;hi=currentMid+1;}
     var rows=100,cols=Math.max(1,Math.min(220,history.length)),grid=Array.from({length:rows},function(){return Array.from({length:cols},function(){return {bid:0,ask:0};});}),maxQty=0;
@@ -4049,6 +4053,15 @@ document.addEventListener('click', function(event) {
     ctx.strokeStyle='rgba(144,164,194,.15)';ctx.lineWidth=1;
     for(var k=0;k<=6;k++){var yy=top+ph*k/6;ctx.beginPath();ctx.moveTo(left,yy);ctx.lineTo(W-right,yy);ctx.stroke();var price=hi-(hi-lo)*k/6;ctx.fillStyle='#a4b1c5';ctx.textAlign='right';ctx.font='10px ui-monospace,SFMono-Regular,Menlo,monospace';ctx.fillText(fmt(price),left-8,yy);}
     for(var q=0;q<=6;q++){var xx=left+pw*q/6;ctx.beginPath();ctx.moveTo(xx,top);ctx.lineTo(xx,top+ph);ctx.stroke();var t=new Date(cutoff+windowMs*q/6);ctx.fillStyle='#75849a';ctx.textAlign=q===0?'left':q===6?'right':'center';ctx.font='9px ui-monospace,SFMono-Regular,Menlo,monospace';ctx.fillText(t.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'}),xx,H-13);}
+    // Overlay verified Binance Futures OHLC candles on the same price/time scale.
+    if(chartCandles.length){
+      var candleStep=pw/Math.max(1,windowMs/60000),bodyW=Math.max(2,Math.min(7,candleStep*.68));
+      chartCandles.forEach(function(c){
+        var x=left+((c.t+30000-cutoff)/windowMs)*pw;if(x<left-bodyW||x>left+pw+bodyW)return;
+        var yO=top+(hi-c.o)/(hi-lo)*ph,yC=top+(hi-c.c)/(hi-lo)*ph,yH=top+(hi-c.h)/(hi-lo)*ph,yL=top+(hi-c.l)/(hi-lo)*ph;
+        var color=c.c>=c.o?'#21d6a0':'#ff5575';ctx.globalAlpha=.96;ctx.strokeStyle=color;ctx.lineWidth=1.15;ctx.beginPath();ctx.moveTo(x,yH);ctx.lineTo(x,yL);ctx.stroke();ctx.fillStyle=color;ctx.fillRect(x-bodyW/2,Math.min(yO,yC),bodyW,Math.max(1.4,Math.abs(yC-yO)));
+      });ctx.globalAlpha=1;
+    }
     var currentY=top+(hi-currentMid)/(hi-lo)*ph;
     ctx.setLineDash([4,4]);ctx.strokeStyle='#f8d568';ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(left,currentY);ctx.lineTo(W-right,currentY);ctx.stroke();ctx.setLineDash([]);
     var tag=' '+fmt(currentMid)+' ';ctx.font='700 10px ui-monospace,SFMono-Regular,Menlo,monospace';var tw=ctx.measureText(tag).width+10,ty=Math.max(top+2,Math.min(top+ph-18,currentY-9));ctx.fillStyle='#29220d';ctx.fillRect(left+5,ty,tw,17);ctx.strokeStyle='#f8d568';ctx.strokeRect(left+5,ty,tw,17);ctx.fillStyle='#f8d568';ctx.textAlign='left';ctx.fillText(tag,left+9,ty+8);
