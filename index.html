@@ -4409,7 +4409,7 @@ setInterval(function(){nfxEstLiqLoad(false);},30000);
   const source=document.getElementById('nfxMarketCurrent');
   const target=document.getElementById('nfxTerminalSymbol');
   if(!source||!target)return;
-  const sync=()=>{const value=(source.textContent||'').trim();if(value)target.textContent=value.replace(/\\s*\\/\\s*/g,' / ');};
+  const sync=()=>{const value=(source.textContent||'').trim();if(value)target.textContent=value.replace(/\s*\/\s*/g,' / ');};
   sync();
   new MutationObserver(sync).observe(source,{childList:true,subtree:true,characterData:true});
 })();
