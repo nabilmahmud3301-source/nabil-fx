@@ -1393,7 +1393,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 <div class="nfx-of-heading"><div><span class="nfx-liq-kicker">MARKET MICROSTRUCTURE</span><h2>Order Flow Analytics</h2><p>Live Binance USDⓈ-M Futures trade flow and public derivatives metrics.</p></div><span class="nfx-of-source" id="nfxOfSource">BINANCE FUTURES · CONNECTING</span></div>
 <div class="nfx-of-grid">
 <article class="nfx-of-card" id="nfxCvdCard"><span class="nfx-of-label">CUMULATIVE VOLUME DELTA</span><strong id="nfxCvdValue">—</strong><div class="nfx-of-sub" id="nfxCvdSub">Waiting for live aggregate trades</div><canvas id="nfxCvdCanvas" height="90"></canvas></article>
-<article class="nfx-of-card" id="nfxFootprintCard"><span class="nfx-of-label">TRADE FLOW / FOOTPRINT</span><strong id="nfxFootprintValue">—</strong><div class="nfx-of-sub">Aggressor buy vs sell volume · live feed</div><div class="nfx-of-flow"><span id="nfxAggBuy">BUY —</span><span id="nfxAggSell">SELL —</span></div><div class="nfx-of-bar"><i id="nfxAggBuyBar"></i></div><small class="nfx-of-disclaimer">Aggressor-side volume from Binance aggregate trades; not a full historical price-level footprint.</small></article>
+<article class="nfx-of-card" id="nfxAggressorFlowCard"><span class="nfx-of-label">LIVE AGGRESSOR ORDER FLOW</span><strong id="nfxOrderFlowValue">—</strong><div class="nfx-of-sub">Market-buy vs market-sell notional · live trade stream</div><div class="nfx-of-flow"><span id="nfxAggBuy">BUY —</span><span id="nfxAggSell">SELL —</span></div><div class="nfx-of-bar"><i id="nfxAggBuyBar"></i></div><small class="nfx-of-disclaimer">Aggressor-side volume from Binance aggregate trades for the selected perpetual contract.</small></article>
 <article class="nfx-of-card" id="nfxOpenInterestCard"><span class="nfx-of-label">OPEN INTEREST</span><strong id="nfxOiValue">—</strong><div class="nfx-of-sub" id="nfxOiSub">Public Binance Futures contract metric</div></article>
 <article class="nfx-of-card" id="nfxFundingCard"><span class="nfx-of-label">FUNDING RATE</span><strong id="nfxFundingValue">—</strong><div class="nfx-of-sub" id="nfxFundingSub">Latest published funding rate</div></article>
 </div><p class="nfx-of-disclaimer">Selected Binance USDⓈ-M perpetual contract only; not consolidated across exchanges. CVD starts when this page connects and is not historical CVD.</p></section>
@@ -2159,7 +2159,7 @@ document.addEventListener('click',event=>{
 
 /* Trading chart and page navigation */
 (function(){
-  const pages=['home','chart','liquidity','orderflow','cvd','openinterest','fundingrate','footprint','bookmap','volumeprofile','backtest','notes','journal','account','contact'];
+  const pages=['home','chart','liquidity','orderflow','cvd','openinterest','fundingrate','bookmap','volumeprofile','backtest','notes','journal','account','contact'];
 
   function show(page){
     if(page==='liquidity'){
@@ -2179,7 +2179,7 @@ document.addEventListener('click',event=>{
       if(b.dataset.page)b.classList.toggle('active',b.dataset.page===page);
     });
     document.querySelectorAll('.nfx-market-tab').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
-    document.querySelectorAll('.nav-btn[data-page="liquidity"]').forEach(b=>b.classList.toggle('active',page==='liquidity'||['orderflow','cvd','openinterest','fundingrate','footprint','bookmap','volumeprofile'].includes(page)));
+    document.querySelectorAll('.nav-btn[data-page="liquidity"]').forEach(b=>b.classList.toggle('active',page==='liquidity'||['orderflow','cvd','openinterest','fundingrate','bookmap','volumeprofile'].includes(page)));
     if(page!=='account'){
       $('accountDropdown').classList.remove('open');
       $('accountMenuToggle').setAttribute('aria-expanded','false');
@@ -2187,7 +2187,7 @@ document.addEventListener('click',event=>{
     window.scrollTo({top:0,behavior:'smooth'});
     if(page==='chart')loadTradingView();
     if(page==='liquidity')window.dispatchEvent(new Event('nfx-liquidity-open'));
-    if(['footprint','bookmap','volumeprofile'].includes(page))window.dispatchEvent(new Event('nfx-pro-chart-open'));
+    if(['bookmap','volumeprofile'].includes(page))window.dispatchEvent(new Event('nfx-pro-chart-open'));
     if(page==='notes'&&typeof renderSavedNotes==='function')renderSavedNotes();
     if(page==='account' && !document.querySelector('.account-subview.active')) showAccountPage('create');
   }
@@ -4595,7 +4595,7 @@ function feed(){const s=sym();if(ws&&wsSym===s&&ws.readyState<2)return;if(ws)try
  #nfxLiqDashboard[data-focus-panel="nfxLiqLivePanel"] .nfx-liq-book{min-height:320px}
 }
 </style>
-+fmt(Math.abs(delta));$('nfxCvdSub').textContent='Since connection · '+points.length+' samples';$('nfxFootprintValue').textContent='
++fmt(Math.abs(delta));$('nfxCvdSub').textContent='Since connection · '+points.length+' samples';$('nfxOrderFlowValue').textContent='
 </html>
 <style>
 /* Balanced premium Home showcase: four equally sized visual cards. */
