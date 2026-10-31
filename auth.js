@@ -43,18 +43,18 @@
   function friendlyAuthError(error, mode = 'login') {
     const raw = String(error?.message || error || '');
     const m = raw.toLowerCase();
-    if (/invalid login credentials|invalid email or password/.test(m)) return 'Email ba password thik noy. Abar check kore try koro.';
+    if (/invalid login credentials|invalid email or password/.test(m)) return 'The email address or password is incorrect. Please check your details and try again.';
     if (/email not confirmed/.test(m)) return 'Your email is not confirmed yet. Please open the confirmation link in your inbox or spam folder.';
-    if (/user already registered|already been registered|already exists/.test(m)) return 'Ei email diye account agei ache. Login koro, ba password reset use koro.';
-    if (/password should be at least|weak password|password is too short/.test(m)) return 'Password aro strong koro; minimum 8 characters use koro.';
-    if (/rate limit|too many requests|email rate limit/.test(m)) return 'Onnek chesta hoyeche. Kichukhon pore abar try koro.';
-    if (/network|fetch failed|failed to fetch|load failed/.test(m)) return 'Network/Supabase connection hocche na. Internet check kore abar try koro.';
-    if (/redirect|allow list|redirect_to|not allowed/.test(m)) return 'Supabase Auth URL settings-e ei website-er URL allow korte hobe.';
-    if (/captcha/.test(m)) return 'Security verification complete kora jayni. Page refresh kore abar try koro.';
+    if (/user already registered|already been registered|already exists/.test(m)) return 'An account with this email address already exists. Please sign in or reset your password.';
+    if (/password should be at least|weak password|password is too short/.test(m)) return 'Please choose a stronger password with at least 8 characters.';
+    if (/rate limit|too many requests|email rate limit/.test(m)) return 'Too many attempts. Please try again in a little while.';
+    if (/network|fetch failed|failed to fetch|load failed/.test(m)) return 'Unable to connect. Please check your internet connection and try again.';
+    if (/redirect|allow list|redirect_to|not allowed/.test(m)) return 'This website URL must be added to the allowed redirect URLs in the authentication settings.';
+    if (/captcha/.test(m)) return 'Security verification could not be completed. Please refresh the page and try again.';
     if (/profiles|row-level security|permission denied|policy/.test(m)) return mode === 'signup'
-      ? 'Account create request hoyeche, kintu profile database permission-e problem. Login diye account check koro; admin-ke Supabase RLS setup verify korte hobe.'
-      : 'Login hoyeche kina session check koro; profile database permission-e problem ache. Supabase profiles RLS setup verify korte hobe.';
-    return raw || 'Unknown error. Abar try koro.';
+      ? 'Your account was created, but a profile database permission issue occurred. Please try signing in. The administrator should review the database security policies.'
+      : 'A profile database permission issue occurred. Please ask the administrator to review the database security policies.';
+    return raw || 'An unexpected error occurred. Please try again.';
   }
 
   function bindAuthEnhancements() {
