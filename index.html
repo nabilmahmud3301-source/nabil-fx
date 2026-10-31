@@ -4028,9 +4028,9 @@ document.addEventListener('click', function(event) {
     var cellW=pw/cols,cellH=ph/rows;
     for(var rr=0;rr<rows;rr++)for(var cc2=0;cc2<cols;cc2++){
       var cell=grid[rr][Math.min(cols-1,Math.floor(cc2/Math.max(1,cols)*cols))],raw=Math.max(cell.bid,cell.ask),smooth=smoothed[rr][cc2];
-      if(raw<=0&&smooth<=maxSmooth*.045)continue;
+      // Keep a subtle, continuous base tint across the entire plot; stronger color still comes only from captured resting depth.
       var intensity=Math.max(0,Math.min(1,Math.log1p(smooth*8)/Math.log1p(maxSmooth*8)));
-      var alpha=.10+intensity*.86;
+      var alpha=.055+intensity*.88;
       // CoinGlass-inspired dark-to-purple/blue/teal/yellow liquidity palette.
       var hue=intensity<.35?'76,54,176':intensity<.62?'37,104,220':intensity<.82?'16,190,177':'255,202,65';
       ctx.fillStyle='rgba('+hue+','+alpha+')';
