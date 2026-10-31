@@ -1243,6 +1243,16 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 #page-account .password-input-wrap .auth-inline-action:hover{color:#fff;background:rgba(255,255,255,.07)}
 #page-account .password-input-wrap .auth-inline-action:focus-visible{outline:2px solid #d04c5d;outline-offset:1px}
 #page-account .password-input-wrap .auth-inline-action svg{width:19px;height:19px;display:block}
+/* Keep the password visibility control perfectly fixed while pressing it. */
+#page-account .password-input-wrap .auth-inline-action,
+#page-account .password-input-wrap .auth-inline-action:hover,
+#page-account .password-input-wrap .auth-inline-action:active,
+#page-account .password-input-wrap .auth-inline-action.click-feedback{
+  transform:translateY(-50%) !important;
+  transition:color .18s ease,background .18s ease !important;
+  animation:none !important;
+}
+
 #page-account .status{margin-top:18px;padding:13px 14px;border-radius:11px;border:1px solid rgba(129,151,177,.2);background:rgba(6,12,20,.55);color:#b9c7d7;line-height:1.55;overflow-wrap:anywhere}
 #page-account .status[data-kind="success"]{border-color:rgba(54,196,142,.35);color:#8ee4bd}
 #page-account .status[data-kind="error"]{border-color:rgba(239,94,112,.4);color:#ffb0ba}
