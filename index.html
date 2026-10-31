@@ -3871,8 +3871,8 @@ document.addEventListener('click', function(event) {
       var U=Number(ev.U),u=Number(ev.u),pu=Number(ev.pu);
       if(!Number.isFinite(U)||!Number.isFinite(u))return true;
       if(!firstEventSynced){
-        if(u<lastUpdateId)return true;
-        if(U>lastUpdateId){sequenceBroken=true;return false;}
+        if(u<lastUpdateId+1)return true;
+        if(U>lastUpdateId+1){sequenceBroken=true;return false;}
         firstEventSynced=true;
       }else{
         if(u<=lastUpdateId)return true;
@@ -3892,14 +3892,14 @@ document.addEventListener('click', function(event) {
     }
     function syncBufferedEvents(){
       if(!snapshotLoaded||ready||socket!==ws||thisSymbol!==currentSymbol)return;
-      var first=buffer.findIndex(function(ev){return Number(ev.u)>=lastUpdateId&&Number(ev.U)<=lastUpdateId;});
+      var first=buffer.findIndex(function(ev){return Number(ev.u)>=lastUpdateId+1&&Number(ev.U)<=lastUpdateId+1;});
       if(first<0){
-        var next=buffer.find(function(ev){return Number(ev.u)>=lastUpdateId;});
-        if(next&&Number(next.U)>lastUpdateId){
+        var next=buffer.find(function(ev){return Number(ev.u)>=lastUpdateId+1;});
+        if(next&&Number(next.U)>lastUpdateId+1){
           failSync('Depth sequence resyncing…');
           return;
         }
-        buffer=buffer.filter(function(ev){return Number(ev.u)>=lastUpdateId;}).slice(-1800);
+        buffer=buffer.filter(function(ev){return Number(ev.u)>=lastUpdateId+1;}).slice(-1800);
         return;
       }
       var pending=buffer.slice(first);buffer=[];firstEventSynced=false;
