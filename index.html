@@ -4592,6 +4592,38 @@ setInterval(function(){nfxEstLiqLoad(false);},30000);
 </style>
 
 
+
+<script>
+/* Global temporary feedback: dismiss validation, success and action messages after 2.7 seconds. */
+(()=>{
+  const selector='.status, .replay-status, #nfxPointStatus';
+  const timers=new WeakMap();
+  const dismiss=(node)=>{
+    if(!(node instanceof Element))return;
+    const target=node.matches(selector)?node:node.closest(selector);
+    if(!target)return;
+    target.classList.remove('nfx-feedback-dismissed');
+    const old=timers.get(target);
+    if(old)clearTimeout(old);
+    const timer=setTimeout(()=>{
+      target.classList.add('nfx-feedback-dismissed');
+      timers.delete(target);
+    },2700);
+    timers.set(target,timer);
+  };
+  const observer=new MutationObserver(records=>{
+    for(const record of records){
+      if(record.type==='characterData')dismiss(record.target.parentElement);
+      else if(record.type==='childList'){
+        if(record.target instanceof Element)dismiss(record.target);
+        record.addedNodes.forEach(node=>{if(node instanceof Element)dismiss(node);});
+      }
+    }
+  });
+  const start=()=>observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+  if(document.body)start();else document.addEventListener('DOMContentLoaded',start,{once:true});
+})();
+</script>
 </body>
 </html>
 <style>
@@ -5219,4 +5251,7 @@ setInterval(function(){nfxEstLiqLoad(false);},30000);
  .site-header .site-nav>.nav-btn.active{border-bottom-color:#ff2438!important}
  .site-header .site-nav>.nav-btn:hover,.site-header .account-menu>#accountMenuToggle:hover{border-bottom-color:rgba(255,55,74,.55)!important}
 }
+
+/* Auto-dismiss temporary action feedback after a short, readable interval. */
+.nfx-feedback-dismissed{opacity:0!important;visibility:hidden!important;pointer-events:none!important;transition:opacity .24s ease,visibility .24s ease!important}
 </style>
