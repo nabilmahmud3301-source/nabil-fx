@@ -1226,7 +1226,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 #page-footprint #nfx-footprint-market-search{width:min(290px,32vw);min-width:190px;background:#111e2b;border:1px solid #35485c;color:#e5edf7;border-radius:5px;padding:9px 11px;font-size:12px}
 #page-footprint #nfxFootprintMarket{min-width:130px}
 #page-footprint .nfx-footprint-toolbar input:focus,#page-footprint .nfx-footprint-toolbar select:focus{outline:1px solid #8b4654;border-color:#8b4654}
-@media(max-width:650px){#page-footprint .nfx-footprint-toolbar{display:grid;grid-template-columns:1fr 1fr;gap:12px}#page-footprint .nfx-footprint-toolbar label:first-child{grid-column:1/-1}#page-footprint #nfx-footprint-market-search{width:100%;min-width:0}#page-footprint .nfx-footprint-toolbar>span{margin:0;grid-column:1/-1}}
+@media(max-width:650px){#page-footprint .nfx-footprint-toolbar{display:grid;grid-template-columns:1fr 1fr;gap:12px}#page-footprint .nfx-footprint-toolbar label:nth-child(2){grid-column:1/-1}#page-footprint #nfx-footprint-market-search{width:100%;min-width:0}#page-footprint .nfx-footprint-toolbar>span{margin:0;grid-column:1/-1}}
 #nfx-footprint-coverage{margin:12px 0 16px;padding:16px 18px;border:1px solid #2d4052;border-radius:8px;background:linear-gradient(130deg,#0c1722,#09111a);color:#cbd6e3}
 #nfx-footprint-coverage .nfx-footprint-coverage-title{font-size:10px;letter-spacing:.16em;color:#9aabbe;font-weight:800;margin-bottom:12px}
 #nfx-footprint-coverage .nfx-footprint-coverage-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
@@ -1434,7 +1434,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 <section id="page-fundingrate" class="view nfx-market-page"><div class="nfx-market-page-head"><div><span>PERPETUAL CONTRACTS</span><h1>Funding Rate</h1><p>Review the latest published funding rate for the selected contract.</p></div><b class="nfx-page-source">BINANCE FUTURES API</b></div><div id="nfxFundingMount"></div></section>
 <section id="page-footprint" class="view nfx-pro-chart-page">
   <div class="nfx-pro-page-head"><div><span>MULTI-MARKET COVERAGE · VERIFIED DATA ONLY</span><h1>Footprint Chart</h1><p>Live trade-by-trade footprint wherever a free public trade feed is available.</p></div><div class="nfx-pro-live"><i></i> LIVE · 0s FEED DELAY*</div></div>
-  <div class="nfx-pro-toolbar nfx-footprint-toolbar"><label>SEARCH MARKET <input id="nfx-footprint-market-search" type="search" list="nfx-footprint-market-list" placeholder="Search live crypto symbol (e.g. BTCUSDT)" autocomplete="off" spellcheck="false" aria-label="Search live crypto market"></label><datalist id="nfx-footprint-market-list"></datalist><label>LIVE MARKET <select data-nfx-symbol id="nfxFootprintMarket"><option>BTCUSDT</option><option>ETHUSDT</option><option>BNBUSDT</option><option>SOLUSDT</option><option>XRPUSDT</option></select></label><label>TIMEFRAME <select id="nfxFootprintTf"><option value="60">1 MIN</option><option value="300" selected>5 MIN</option><option value="900">15 MIN</option></select></label><span id="nfxFootprintStatus">Connecting…</span></div><div id="nfx-footprint-coverage" class="nfx-footprint-coverage"><div class="nfx-footprint-coverage-title">DATA SOURCE &amp; DELAY</div><div class="nfx-footprint-coverage-grid"><div><b class="nfx-fc-live">LIVE · 0s</b><strong>Crypto futures</strong><span>Binance USDⓈ-M public aggregate trades · all active USDT perpetual symbols</span></div><div><b class="nfx-fc-delay">DELAYED · 5/15 MIN*</b><strong>Stocks, indices &amp; exchange futures</strong><span>Free delayed candle feeds do not include trade-by-trade bid/ask volume at each price; genuine footprint is not available from those candles alone.</span></div><div><b class="nfx-fc-off">NOT CONNECTED</b><strong>Forex, spot metals &amp; commodities</strong><span>No verified free public trade tape is connected for these markets yet. A quote/candle feed must not be presented as real footprint.</span></div></div><p>*The 5/15-minute labels describe common delayed quote availability on some venues, not a connected footprint feed on this page. Delay is shown only when a provider is actually connected.</p></div>
+  <div class="nfx-pro-toolbar nfx-footprint-toolbar"><label>MARKET TYPE <select id="nfxFootprintAsset"><option value="crypto" selected>Crypto</option><option value="forex">Forex</option><option value="stocks">Stocks / ETFs</option><option value="indices">Indices</option><option value="futures">Exchange Futures</option><option value="commodities">Commodities</option><option value="metals">Spot Metals</option></select></label><label>SEARCH MARKET <input id="nfx-footprint-market-search" type="search" list="nfx-footprint-market-list" placeholder="Search symbol (e.g. BTCUSDT)" autocomplete="off" spellcheck="false" aria-label="Search market"></label><datalist id="nfx-footprint-market-list"></datalist><label>SYMBOL <select data-nfx-symbol id="nfxFootprintMarket"><option>BTCUSDT</option><option>ETHUSDT</option><option>BNBUSDT</option><option>SOLUSDT</option><option>XRPUSDT</option></select></label><label>TIMEFRAME <select id="nfxFootprintTf"><option value="60">1 MIN</option><option value="300" selected>5 MIN</option><option value="900">15 MIN</option></select></label><span id="nfxFootprintStatus">Connecting…</span></div><div id="nfx-footprint-coverage" class="nfx-footprint-coverage"><div class="nfx-footprint-coverage-title">SELECTED MARKET · FEED STATUS</div><div class="nfx-footprint-coverage-grid"><div id="nfxFcLiveCard"><b class="nfx-fc-live">LIVE · 0s</b><strong>Crypto futures</strong><span>Binance USDⓈ-M aggregate trades. All active USDT perpetual symbols are searchable.</span></div><div id="nfxFcDelayCard"><b class="nfx-fc-delay">DELAY DEPENDS ON VENUE</b><strong>Stocks, indices &amp; exchange futures</strong><span>Some venues offer delayed quotes/candles (often 5–15 minutes); this is not automatically trade-level footprint data.</span></div><div id="nfxFcOtherCard"><b class="nfx-fc-off">PROVIDER REQUIRED</b><strong>Forex, metals &amp; commodities</strong><span>Choose any market type above. A genuine feed must be connected before footprint cells can be displayed.</span></div></div><p id="nfxFootprintDelayNote">Delay labels are provider-specific. The chart will never invent buy/sell volume or claim a delayed feed is connected when it is not.</p></div>
   <div class="nfx-pro-chart-card"><div class="nfx-pro-legend"><span class="buy">BUY VOLUME</span><span class="sell">SELL VOLUME</span><span>LIVE PRICE-LEVEL AGGREGATION</span></div><canvas id="nfxFootprintChart" height="520"></canvas></div>
   <p class="nfx-pro-note">Current live footprint is built from Binance USDⓈ-M aggregate trades received after connection; source-side trade data is live, but the chart starts accumulating only when opened. It is not historical footprint. Price tick aggregation is approximate. Delayed OHLC candles are not treated as genuine bid/ask footprint.</p>
 </section>
@@ -5419,7 +5419,7 @@ document.addEventListener('nfx-liquidity-open',start);document.addEventListener(
  function drawOi(){const z=canvas('nfxOiHistoryChart');if(!z)return;const {x,w,h}=z;lineGrid(x,w,h);const a=state.oi;if(a.length<2){x.fillStyle='#8394a8';x.fillText('Collecting open-interest samples…',10,25);return}const lo=Math.min(...a),hi=Math.max(...a),r=hi-lo||1;x.strokeStyle='#8db5e8';x.lineWidth=2;x.beginPath();a.forEach((v,i)=>{const px=i/(a.length-1)*w,py=h-8-(v-lo)/r*(h-16);i?x.lineTo(px,py):x.moveTo(px,py)});x.stroke()}
  function redraw(){drawFoot();drawBook();drawProfile();drawOi()}
  function stop(){if(state.trade)state.trade.close();if(state.depth)state.depth.close();state.trade=state.depth=null;if(state.oiTimer)clearInterval(state.oiTimer)}
- function connect(){const sym=selected();if(sym===state.symbol&&state.trade&&state.trade.readyState<2)return;stop();state.symbol=sym;state.buys.clear();state.sells.clear();state.profile.clear();state.snapshots=[];state.oi=[];['nfxFootprintStatus','nfxDepthStatus','nfxProfileStatus'].forEach(id=>setStatus(id,'Connecting to '+sym.toUpperCase()+'…'));
+ function connect(){const asset=($('nfxFootprintAsset')||{}).value||'crypto';const sym=selected();if(asset!=='crypto'){stop();state.symbol='';state.buys.clear();state.sells.clear();state.profile.clear();state.footBuckets.clear();state.snapshots=[];['nfxFootprintStatus','nfxDepthStatus','nfxProfileStatus'].forEach(id=>setStatus(id,'NOT CONNECTED · '+asset.toUpperCase()+' trade-level provider required'));setStatus('nfxFootprintStatus','NO FEED · '+asset.toUpperCase()+' · provider/API access required');const c=$('nfxFootprintChart');if(c){const x=c.getContext('2d');x.clearRect(0,0,c.width,c.height);x.fillStyle='#0a111a';x.fillRect(0,0,c.width,c.height);x.fillStyle='#f2c779';x.font='bold 16px system-ui';x.fillText('FOOTPRINT FEED NOT CONNECTED',24,38);x.fillStyle='#a4b3c5';x.font='12px system-ui';x.fillText('No live or delayed trade-level source is configured for this market.',24,64);x.fillText('Connect a licensed/provider API to display genuine bid/ask volume.',24,86)}setStatus('nfxFootprintDelayNote',asset.toUpperCase()+': no provider connected. Delay is unknown until a real provider is configured.');return}if(sym===state.symbol&&state.trade&&state.trade.readyState<2)return;stop();state.symbol=sym;state.buys.clear();state.sells.clear();state.profile.clear();state.snapshots=[];state.oi=[];['nfxFootprintStatus','nfxDepthStatus','nfxProfileStatus'].forEach(id=>setStatus(id,'Connecting to '+sym.toUpperCase()+'…'));
  try{state.trade=new WebSocket('wss://fstream.binance.com/ws/'+sym+'@aggTrade');state.trade.onopen=()=>['nfxFootprintStatus','nfxProfileStatus'].forEach(id=>setStatus(id,'LIVE · '+sym.toUpperCase()));state.trade.onmessage=e=>{const t=JSON.parse(e.data),p=Number(t.p),v=Number(t.p)*Number(t.q);if(!Number.isFinite(p)||!Number.isFinite(v))return;const tick=sym.includes('BTC')?10:sym.includes('ETH')?1:0.1,key=(Math.round(p/tick)*tick).toFixed(tick<1?1:0),buy=!t.m,map=buy?state.buys:state.sells;map.set(key,(map.get(key)||0)+v);const pr=state.profile.get(key)||{buy:0,sell:0};pr[buy?'buy':'sell']+=v;state.profile.set(key,pr);const tf=Number(($('nfxFootprintTf')||{}).value)||300,bucket=Math.floor(Number(t.T||Date.now())/(tf*1000)),bk=state.footBuckets.get(bucket)||new Map(),cell=bk.get(key)||{buy:0,sell:0};cell[buy?'buy':'sell']+=v;bk.set(key,cell);state.footBuckets.set(bucket,bk);while(state.footBuckets.size>14)state.footBuckets.delete(state.footBuckets.keys().next().value);if(state.buys.size>120){state.buys.clear();state.sells.clear();state.footBuckets.clear()}if(state.profile.size>300)state.profile.delete(state.profile.keys().next().value)};state.trade.onerror=()=>setStatus('nfxFootprintStatus','TRADE FEED ERROR');state.trade.onclose=()=>setStatus('nfxFootprintStatus','TRADE FEED DISCONNECTED')}catch(e){setStatus('nfxFootprintStatus','WEBSOCKET UNAVAILABLE')}
  try{state.depth=new WebSocket('wss://fstream.binance.com/ws/'+sym+'@depth20@100ms');state.depth.onopen=()=>setStatus('nfxDepthStatus','LIVE DEPTH · CAPTURING');state.depth.onmessage=e=>{const d=JSON.parse(e.data),bids=(d.b||[]).map(a=>[+a[0],+a[1]]),asks=(d.a||[]).map(a=>[+a[0],+a[1]]);if(!bids.length||!asks.length)return;state.mid=(bids[0][0]+asks[0][0])/2;state.snapshots.push({mid:state.mid,bids,asks});if(state.snapshots.length>140)state.snapshots.shift()};state.depth.onerror=()=>setStatus('nfxDepthStatus','DEPTH FEED ERROR')}catch(e){setStatus('nfxDepthStatus','DEPTH FEED UNAVAILABLE')}
  const poll=async()=>{try{const [o,p]=await Promise.all([fetch('https://fapi.binance.com/fapi/v1/openInterest?symbol='+sym.toUpperCase()),fetch('https://fapi.binance.com/fapi/v1/premiumIndex?symbol='+sym.toUpperCase())]);if(!o.ok||!p.ok)throw Error('API');const oi=await o.json(),fund=await p.json(),v=Number(oi.openInterest);if(Number.isFinite(v)){state.oi.push(v);if(state.oi.length>100)state.oi.shift();$('nfxProfileOi').textContent=fmt(v)}$('nfxProfileFunding').textContent=(Number(fund.lastFundingRate)*100).toFixed(4)+'%'}catch(e){setStatus('nfxProfileStatus','LIVE TRADES · OI API UNAVAILABLE')}};poll();state.oiTimer=setInterval(poll,15000)}
@@ -5476,53 +5476,17 @@ document.addEventListener('nfx-liquidity-open',start);document.addEventListener(
 
 <script id="nfx-footprint-market-finder">
 (function(){
-  const input=document.getElementById('nfx-footprint-market-search');
-  const list=document.getElementById('nfx-footprint-market-list');
-  const select=document.getElementById('nfxFootprintMarket');
-  const status=document.getElementById('nfxFootprintStatus');
-  if(!input||!list||!select)return;
-  let symbols=new Set(Array.from(select.options).map(o=>o.value));
-  let loaded=false;
-  function choose(raw){
-    const value=String(raw||'').trim().toUpperCase().replace(/[^A-Z0-9]/g,'');
-    if(!value)return false;
-    const match=Array.from(symbols).find(x=>x===value);
-    if(!match){if(status)status.textContent='Symbol not available on Binance USDⓈ-M';return false;}
-    select.value=match;
-    input.value=match;
-    select.dispatchEvent(new Event('change',{bubbles:true}));
-    if(status)status.textContent='Switching feed to '+match+'…';
-    return true;
-  }
-  input.addEventListener('change',()=>choose(input.value));
-  input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();if(!choose(input.value)&&status)status.textContent='Choose a listed Binance USDⓈ-M symbol';}});
-  select.addEventListener('change',()=>{input.value=select.value;});
-  async function loadSymbols(){
-    try{
-      const response=await fetch('https://fapi.binance.com/fapi/v1/exchangeInfo',{cache:'no-store'});
-      if(!response.ok)throw new Error('exchange info unavailable');
-      const data=await response.json();
-      const active=(data.symbols||[]).filter(x=>x.status==='TRADING'&&x.contractType==='PERPETUAL'&&x.quoteAsset==='USDT').map(x=>x.symbol).sort();
-      if(!active.length)throw new Error('empty symbol list');
-      symbols=new Set(active);
-      const frag=document.createDocumentFragment();
-      active.forEach(symbol=>{const opt=document.createElement('option');opt.value=symbol;frag.appendChild(opt);});
-      list.replaceChildren(frag);
-      const current=select.value||'BTCUSDT';
-      const options=document.createDocumentFragment();
-      active.forEach(symbol=>{const opt=document.createElement('option');opt.value=symbol;opt.textContent=symbol;options.appendChild(opt);});
-      select.replaceChildren(options);
-      select.value=symbols.has(current)?current:(symbols.has('BTCUSDT')?'BTCUSDT':active[0]);
-      input.value=select.value;
-      loaded=true;
-      if(status)status.textContent='LIVE · 0s source delay · Binance USDⓈ-M · '+active.length+' active USDT perpetual markets';
-    }catch(error){
-      if(status)status.textContent='Market list unavailable · retry later; default symbols remain selectable';
-    }
-  }
-  input.value=select.value||'BTCUSDT';
-  loadSymbols();
-  window.addEventListener('nfx-pro-chart-open',()=>{if(!loaded)loadSymbols();});
+ const $=id=>document.getElementById(id),input=$('nfx-footprint-market-search'),list=$('nfx-footprint-market-list'),select=$('nfxFootprintMarket'),asset=$('nfxFootprintAsset'),status=$('nfxFootprintStatus');
+ if(!input||!list||!select||!asset)return;
+ const catalogs={crypto:['BTCUSDT','ETHUSDT','BNBUSDT','SOLUSDT','XRPUSDT'],forex:['EURUSD','GBPUSD','USDJPY','AUDUSD','USDCAD','USDCHF','NZDUSD','EURJPY','GBPJPY','EURGBP'],stocks:['AAPL','MSFT','NVDA','AMZN','GOOGL','META','TSLA','SPY','QQQ','AMD'],indices:['US30','NAS100','SPX500','US500','GER40','UK100','JP225','HK50'],futures:['ES','NQ','YM','RTY','CL','GC','SI','HG','ZC','ZW'],commodities:['WTI','BRENT','NATGAS','CORN','WHEAT','SOYBEAN','SUGAR','COFFEE'],metals:['XAUUSD','XAGUSD','XPTUSD','XPDUSD']};
+ let symbols=new Set(catalogs.crypto),loaded=false;
+ function fill(name){const arr=catalogs[name]||[];symbols=new Set(arr);const frag=document.createDocumentFragment();arr.forEach(v=>{const o=document.createElement('option');o.value=v;frag.appendChild(o)});list.replaceChildren(frag);const opts=document.createDocumentFragment();arr.forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;opts.appendChild(o)});select.replaceChildren(opts);select.value=arr[0]||'';input.value=select.value;}
+ function choose(raw){const v=String(raw||'').trim().toUpperCase().replace(/[^A-Z0-9]/g,'');if(!v)return false;const found=Array.from(symbols).find(x=>x===v);if(!found){if(status)status.textContent='Symbol not found in '+asset.value.toUpperCase()+' list';return false;}select.value=found;input.value=found;select.dispatchEvent(new Event('change',{bubbles:true}));return true;}
+ asset.addEventListener('change',()=>{fill(asset.value);select.dispatchEvent(new Event('change',{bubbles:true}));});
+ input.addEventListener('change',()=>choose(input.value));input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();choose(input.value)}});
+ select.addEventListener('change',()=>{input.value=select.value;});
+ async function loadCrypto(){try{const r=await fetch('https://fapi.binance.com/fapi/v1/exchangeInfo',{cache:'no-store'});if(!r.ok)throw Error('exchange info');const d=await r.json();const a=(d.symbols||[]).filter(x=>x.status==='TRADING'&&x.contractType==='PERPETUAL'&&x.quoteAsset==='USDT').map(x=>x.symbol).sort();if(!a.length)throw Error('empty');catalogs.crypto=a;if(asset.value==='crypto')fill('crypto');loaded=true;if(status&&asset.value==='crypto')status.textContent='LIVE · 0s source delay · Binance USDⓈ-M · '+a.length+' active USDT perpetual markets';}catch(e){if(status&&asset.value==='crypto')status.textContent='Crypto feed list unavailable · default symbols only';}}
+ fill('crypto');loadCrypto();window.addEventListener('nfx-pro-chart-open',()=>{if(!loaded)loadCrypto()});
 })();
 </script>
 </body>
