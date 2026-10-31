@@ -4416,17 +4416,26 @@ setInterval(function(){nfxEstLiqLoad(false);},30000);
    catch(err){retry();return;}
    ws.onopen=()=>{
     if(token!==generation){try{ws.close()}catch(e){}return;}
-    setState('LIVE ORDER FLOW · '+sym.toUpperCase(),'live',source.name+' connected · '+new Date().toLocaleTimeString());
-    $('nfxOfTapeMode').textContent=source.name+' · live trade tape';
+    setState('CONNECTED · WAITING FOR TRADES','delay',source.name+' socket open · waiting for first exchange trade');
+    $('nfxOfTapeMode').textContent=source.name+' · waiting for live trade tape';
    };
    ws.onmessage=e=>{
     if(token!==generation)return;
     try{
-     const t=JSON.parse(e.data);
-     if(!t||t.p==null||t.q==null)return;
-     add(t.m?'SELL':'BUY',t.p,t.q,new Date(Number(t.T||Date.now())).toLocaleTimeString());
-     if(history.length<=8||history.length%4===0)tape(history);
-    }catch(err){}
+     const packet=JSON.parse(e.data);
+     const t=packet&&packet.data&&packet.data.p!=null?packet.data:packet;
+     if(!t||t.p==null||t.q==null||t.m==null)return;
+     const px=Number(t.p),qty=Number(t.q);
+     if(!Number.isFinite(px)||!Number.isFinite(qty)||px<=0||qty<=0)return;
+     add(t.m?'SELL':'BUY',px,qty,new Date(Number(t.T||t.E||Date.now())).toLocaleTimeString());
+     tape(history);
+     if($('nfxOfState').textContent!=='LIVE ORDER FLOW · '+sym.toUpperCase()){
+      setState('LIVE ORDER FLOW · '+sym.toUpperCase(),'live',source.name+' trade received · '+new Date().toLocaleTimeString());
+      $('nfxOfTapeMode').textContent=source.name+' · live trade tape';
+     }
+    }catch(err){
+     setState('LIVE DATA PARSE ERROR','error','Exchange message could not be processed: '+String(err&&err.message||err));
+    }
    };
    ws.onerror=()=>{if(token===generation){setState('EXCHANGE CONNECTION ISSUE','delay','Trying an alternate public feed…');try{ws.close()}catch(e){}}};
    ws.onclose=()=>{if(token!==generation)return;retry();};
