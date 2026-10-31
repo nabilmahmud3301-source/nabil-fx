@@ -4156,6 +4156,26 @@ var nfxEstLiqCandles=[];
       var x=left+(i+.5)*step,yO=top+(maxP-c.o)/(maxP-minP)*ph,yC=top+(maxP-c.c)/(maxP-minP)*ph,yH=top+(maxP-c.h)/(maxP-minP)*ph,yL=top+(maxP-c.l)/(maxP-minP)*ph;
       var col=c.c>=c.o?'#21d6a0':'#f04469';ctx.strokeStyle=col;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x,yH);ctx.lineTo(x,yL);ctx.stroke();ctx.fillStyle=col;ctx.fillRect(x-cw/2,Math.min(yO,yC),cw,Math.max(1,Math.abs(yC-yO)));
     });
+    // Plot each verified liquidation at its reported price/time and extend a level guide to the right.
+    // These are event levels only; no estimated liquidation bands are fabricated.
+    events.forEach(function(e){
+      var ex=left+Math.max(0,Math.min(1,(e.t-cutoff)/span))*pw;
+      var ey=top+(maxP-e.p)/(maxP-minP)*ph;
+      if(ey<top||ey>top+ph)return;
+      var longLiq=e.side==='SELL',levelColor=longLiq?'#ff5b78':'#39d6b0';
+      ctx.save();
+      ctx.strokeStyle=levelColor;ctx.globalAlpha=.78;ctx.lineWidth=1.15;ctx.setLineDash([5,3]);
+      ctx.beginPath();ctx.moveTo(ex,ey);ctx.lineTo(W-right,ey);ctx.stroke();ctx.setLineDash([]);
+      ctx.fillStyle=levelColor;ctx.beginPath();ctx.moveTo(ex,ey-4);ctx.lineTo(ex+4,ey);ctx.lineTo(ex,ey+4);ctx.lineTo(ex-4,ey);ctx.closePath();ctx.fill();
+      var label=(longLiq?'LONG LIQ':'SHORT LIQ')+'  '+fmt(e.p)+'  '+(e.usd/1e6).toFixed(2)+'M';
+      ctx.font='700 9px ui-monospace,monospace';var labelW=ctx.measureText(label).width+12;
+      var labelX=Math.max(left,Math.min(W-right-labelW,Math.max(ex+6,W-right-labelW)));
+      var labelY=Math.max(top+9,Math.min(top+ph-9,ey));
+      ctx.fillStyle='rgba(5,10,18,.94)';ctx.fillRect(labelX,labelY-8,labelW,16);
+      ctx.strokeStyle=levelColor;ctx.globalAlpha=.85;ctx.strokeRect(labelX,labelY-8,labelW,16);
+      ctx.globalAlpha=1;ctx.fillStyle=levelColor;ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillText(label,labelX+6,labelY);
+      ctx.restore();
+    });
     if(nfxEstLiqPointer&&nfxEstLiqPointer.x>=left&&nfxEstLiqPointer.x<=left+pw&&nfxEstLiqPointer.y>=top&&nfxEstLiqPointer.y<=top+ph){
       var px=nfxEstLiqPointer.x,py=nfxEstLiqPointer.y;
       ctx.strokeStyle='rgba(226,235,248,.65)';ctx.lineWidth=1;ctx.setLineDash([3,4]);ctx.beginPath();ctx.moveTo(px,top);ctx.lineTo(px,top+ph);ctx.moveTo(left,py);ctx.lineTo(left+pw,py);ctx.stroke();ctx.setLineDash([]);
