@@ -2266,17 +2266,51 @@ document.addEventListener('click',event=>{
     if(symbol) currentChartSymbol=symbol;
     chartLoaded=true;
     frame.innerHTML='';
+    frame.style.minHeight='560px';
     const root=document.createElement('div');
     root.className='tradingview-widget-container';
-    root.style.height='100%';
-    root.style.width='100%';
-
+    root.style.cssText='height:100%;width:100%;min-height:560px;position:relative';
     const inner=document.createElement('div');
     inner.className='tradingview-widget-container__widget';
-    inner.style.height='100%';
-    inner.style.width='100%';
+    inner.style.cssText='height:100%;width:100%;min-height:560px';
     root.appendChild(inner);
     frame.appendChild(root);
+
+    let fallbackStarted=false;
+    const showFallback=(reason)=>{
+      if(fallbackStarted)return;
+      fallbackStarted=true;
+      inner.innerHTML='';
+      const iframe=document.createElement('iframe');
+      const params=new URLSearchParams({
+        frameElementId:'nfxTradingViewFallback',
+        symbol:currentChartSymbol,
+        interval:'60',
+        hidesidetoolbar:'0',
+        symboledit:'1',
+        saveimage:'1',
+        toolbarbg:'0b0d12',
+        theme:'dark',
+        style:'1',
+        timezone:'Asia%2FDhaka',
+        withdateranges:'1',
+        hideideas:'1',
+        locale:'en'
+      });
+      iframe.id='nfxTradingViewFallback';
+      iframe.title='TradingView live market chart';
+      iframe.loading='eager';
+      iframe.referrerPolicy='no-referrer-when-downgrade';
+      iframe.allowFullscreen=true;
+      iframe.style.cssText='display:block;width:100%;height:100%;min-height:560px;border:0;background:#080808';
+      iframe.src='https://www.tradingview.com/widgetembed/?'+params.toString();
+      inner.appendChild(iframe);
+      const note=document.createElement('div');
+      note.style.cssText='position:absolute;right:10px;bottom:8px;z-index:3;padding:5px 8px;border-radius:6px;background:#10151ddd;border:1px solid #263243;color:#94a3b8;font:11px system-ui;pointer-events:none';
+      note.textContent='Chart fallback mode · '+(reason||'Loading chart');
+      root.appendChild(note);
+      setTimeout(()=>{if(note.isConnected)note.remove();},7000);
+    };
 
     const script=document.createElement('script');
     script.src='https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
@@ -2305,7 +2339,12 @@ document.addEventListener('click',event=>{
       studies:[],
       support_host:'https://www.tradingview.com'
     });
+    script.onerror=()=>showFallback('Primary chart did not load');
     root.appendChild(script);
+    setTimeout(()=>{
+      const embedded=inner.querySelector('iframe');
+      if(!embedded&&!fallbackStarted)showFallback('Primary chart took too long');
+    },9000);
   }
 
   // Keep the embedded real-time TradingView chart and the custom historical Bar Replay in separate modes.
