@@ -203,7 +203,7 @@
           // Clear only this browser's stale session; do not affect other users.
           await client.auth.signOut({ scope: 'local' });
           showSignedOut();
-          setProfileStatus('Purono login session invalid hoye geche. abar notun account create koro ba valid account diye login koro.');
+          setProfileStatus('Your previous login session is no longer valid. Please create a new account or sign in with a valid account.');
           setStatus('Old session cleared. Please sign in again.');
           return;
         }
@@ -240,15 +240,15 @@
     const message = $('createAccountStatus');
 
     if (!name || !email || !password || !confirmPassword) {
-      setMessage(message, 'Shob field fill up koro.', 'error');
+      setMessage(message, 'Please complete all fields.', 'error');
       return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setMessage(message, 'Valid email address dao.', 'error');
+      setMessage(message, 'Please enter a valid email address.', 'error');
       return;
     }
     if (password.length < 8) {
-      setMessage(message, 'Password minimum 8 characters hote hobe.', 'error');
+      setMessage(message, 'Password must contain at least 8 characters.', 'error');
       return;
     }
     if (password !== confirmPassword) {
@@ -257,7 +257,7 @@
     }
 
     setAuthButtonsBusy(true);
-    setMessage(message, 'Secure account create hocche…', '');
+    setMessage(message, 'Creating your account securely…', '');
     try {
       const { data, error } = await client.auth.signUp({
         email,
@@ -283,10 +283,10 @@
         }, { onConflict: 'user_id' });
         if (profileError) throw profileError;
         await refreshAuth();
-        setMessage(message, 'Account successfully create hoyeche. Tomar profile ready.', 'success');
+        setMessage(message, 'Your account has been created successfully. Your profile is ready.', 'success');
         showAccountPage('profile');
       } else {
-        setMessage(message, 'Account request successful. Email inbox/spam check kore confirmation link open koro.', 'success');
+        setMessage(message, 'Your account request was successful. Please check your inbox or spam folder and open the confirmation link.', 'success');
         setMessage($('loginStatus'), 'Your account has been created. Please confirm your email using the link we sent, then log in here.', 'success');
         setStatus('Email confirmation is required before login.');
         showAccountPage('login');
@@ -303,18 +303,18 @@
     const password = $('loginPassword')?.value || '';
     const message = $('loginStatus');
     if (!email || !password) {
-      setMessage(message, 'Email ebong password dao.', 'error');
+      setMessage(message, 'Please enter your email address and password.', 'error');
       return;
     }
     setAuthButtonsBusy(true);
-    setMessage(message, 'Securely sign in hocche…', '');
+    setMessage(message, 'Signing you in securely…', '');
     try {
       const { data, error } = await client.auth.signInWithPassword({ email, password });
       if (error) throw error;
       if ($('loginPassword')) $('loginPassword').value = '';
       currentUser = data.user;
       await refreshAuth();
-      setMessage(message, 'Login successful. Tomar cloud profile load hocche.', 'success');
+      setMessage(message, 'You have signed in successfully. Your cloud profile is loading.', 'success');
       showAccountPage('profile');
     } catch (error) {
       setMessage(message, friendlyAuthError(error, 'login'), 'error');
@@ -327,18 +327,18 @@
     const email = $('loginEmail')?.value.trim().toLowerCase();
     const message = $('loginStatus');
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setMessage(message, 'Age Login email field-e valid email address dao, tarpor Forgot password chapো.', 'error');
+      setMessage(message, 'Please enter a valid email address in the Email field, then select Forgot Password.', 'error');
       $('loginEmail')?.focus();
       return;
     }
     const button = $('forgotPasswordBtn');
     if (button) button.disabled = true;
-    setMessage(message, 'Password reset link pathano hocche…', '');
+    setMessage(message, 'Sending password reset link…', '');
     try {
       const redirectTo = window.location.origin + window.location.pathname;
       const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo });
       if (error) throw error;
-      setMessage(message, 'Password reset link request kora hoyeche. Email inbox/spam check koro. Supabase email/redirect settings thik thakte hobe.', 'success');
+      setMessage(message, 'Your password reset link has been requested. Please check your inbox or spam folder. The email and redirect settings must be configured correctly.', 'success');
     } catch (error) {
       setMessage(message, friendlyAuthError(error, 'reset'), 'error');
     } finally {
@@ -430,8 +430,8 @@
   async function init() {
     if (!config?.url || !config?.anonKey || !supabaseLib?.createClient) {
       setStatus('Connection configuration error. Supabase client/config not loaded. Check network and public config.');
-      setMessage($('createAccountStatus'), 'Account system load hoyni. Page refresh koro; issue thakle Supabase config/CDN check korte hobe.', 'error');
-      setMessage($('loginStatus'), 'Login system load hoyni. Page refresh koro; issue thakle Supabase config/CDN check korte hobe.', 'error');
+      setMessage($('createAccountStatus'), 'The account system could not be loaded. Please refresh the page. If the issue persists, check the Supabase configuration and CDN.', 'error');
+      setMessage($('loginStatus'), 'The sign-in system could not be loaded. Please refresh the page. If the issue persists, check the Supabase configuration and CDN.', 'error');
       return;
     }
     client = supabaseLib.createClient(config.url, config.anonKey, {
