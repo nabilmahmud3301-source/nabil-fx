@@ -1385,7 +1385,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       <div class="nfx-liq-timeline-note">Binance USDⓈ-M Futures top-20 visible levels. Not a prediction of future liquidation levels.</div>
     </section>
     <section class="nfx-liq-timeline-panel nfx-liq-workspace-card" id="nfxLiqLiquidationHeatmap" aria-label="Live futures liquidation heatmap">
-      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">BINANCE FUTURES · MODEL ESTIMATE</div><h3>Liquidation Heatmap</h3><p>Estimated leverage levels + candlesticks · <strong id="nfxLiqLiquidationSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><span class="nfx-liq-live-tag" id="nfxLiqEstStatus"><i></i> ESTIMATED MODEL</span><div class="nfx-est-liq-ranges" role="group" aria-label="Heatmap time range"><button type="button" data-est-liq-range="1m">1M</button><button type="button" data-est-liq-range="5m">5M</button><button type="button" data-est-liq-range="15m">15M</button><button type="button" data-est-liq-range="1h" class="active">1H</button><button type="button" data-est-liq-range="2h">2H</button><button type="button" data-est-liq-range="4h">4H</button><button type="button" data-est-liq-zoom="out" aria-label="Zoom out">−</button><button type="button" data-est-liq-zoom="in" aria-label="Zoom in">+</button><button type="button" data-est-liq-zoom="reset">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqLiquidationHeatmap" aria-label="Expand liquidation heatmap">⛶ <span>Expand</span></button></div></div>
+      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">BINANCE FUTURES · MODEL ESTIMATE</div><h3>Liquidation Heatmap</h3><p>Estimated leverage levels + candlesticks · <strong id="nfxLiqLiquidationSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><span class="nfx-liq-live-tag" id="nfxLiqEstStatus"><i></i> ESTIMATED MODEL</span><div class="nfx-est-liq-ranges" role="group" aria-label="Heatmap time range"><button type="button" data-est-liq-range="1h" class="active">1H</button><button type="button" data-est-liq-range="2h">2H</button><button type="button" data-est-liq-range="4h">4H</button><button type="button" data-est-liq-range="12h">12H</button><button type="button" data-est-liq-range="1d">1D</button><button type="button" data-est-liq-range="2d">2D</button><button type="button" data-est-liq-range="3d">3D</button><button type="button" data-est-liq-range="7d">7D</button><button type="button" data-est-liq-zoom="out" aria-label="Zoom out">−</button><button type="button" data-est-liq-zoom="in" aria-label="Zoom in">+</button><button type="button" data-est-liq-zoom="reset">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqLiquidationHeatmap" aria-label="Expand liquidation heatmap">⛶ <span>Expand</span></button></div></div>
       <div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqLiquidationCanvas" aria-label="Live reported futures liquidations by symbol and time" style="width:100%;height:100%;display:block"></canvas><div id="nfxLiqLiquidationEmpty" class="nfx-liq-timeline-empty">Waiting for actual futures liquidation events…</div></div>
       <div class="nfx-liq-timeline-axis"><span>OLDER</span><span>SYMBOL · TIME</span><span>NOW →</span></div>
       <div class="nfx-liq-timeline-note">Estimated liquidation zones derived from public Binance Futures candles and common leverage-distance assumptions. Not actual trader positions, exchange-reported liquidation levels, or CoinGlass data.</div>
@@ -4065,8 +4065,8 @@ var nfxEstLiqCandles=[];
   var nfxEstLiqZoom=1;
   var nfxEstLiqPointer=null;
   function nfxEstLiqConfig(){
-    var map={'1m':{interval:'1m',limit:2},'5m':{interval:'1m',limit:6},'15m':{interval:'1m',limit:16},'1h':{interval:'1m',limit:61},'2h':{interval:'1m',limit:121},'4h':{interval:'5m',limit:49}};
-    return map[nfxEstLiqRange]||map['24h'];
+    var map={'1h':{interval:'1m',limit:61},'2h':{interval:'1m',limit:121},'4h':{interval:'1m',limit:241},'12h':{interval:'5m',limit:145},'1d':{interval:'15m',limit:97},'2d':{interval:'15m',limit:193},'3d':{interval:'15m',limit:289},'7d':{interval:'15m',limit:673}};
+    return map[nfxEstLiqRange]||map['1h'];
   }
   function nfxEstLiqLoad(force){
     var symbol=String(currentSymbol||'BTCUSDT').toUpperCase();
@@ -4104,7 +4104,7 @@ var nfxEstLiqCandles=[];
     var symbol=String(currentSymbol||'BTCUSDT').toUpperCase();
     if(nfxEstLiqSymbol!==symbol||!nfxEstLiqCandles.length){nfxEstLiqLoad(false);}
     var candles=nfxEstLiqCandles.slice();
-    var rangeMap={'1m':60*1000,'5m':5*60*1000,'15m':15*60*1000,'1h':3600000,'2h':2*3600000,'4h':4*3600000};
+    var rangeMap={'1h':3600000,'2h':2*3600000,'4h':4*3600000,'12h':12*3600000,'1d':86400000,'2d':2*86400000,'3d':3*86400000,'7d':7*86400000};
     var span=(rangeMap[nfxEstLiqRange]||rangeMap['24h'])/nfxEstLiqZoom,now=Date.now(),cutoff=now-span;
     candles=candles.filter(function(c){return c.t>=cutoff;});
     ctx.font='700 9px system-ui,sans-serif';ctx.textBaseline='middle';ctx.textAlign='left';ctx.fillStyle='#d5dbea';
@@ -4190,7 +4190,7 @@ function bindHeatmapInspector(canvasId,kind){
         detail=nearest?'Nearest depth: '+fmt(nearest[0])+' · '+Number(nearest[1]).toLocaleString('en-US',{maximumFractionDigits:4})+' contracts':'Live order-book depth';
         displayTime=new Date(snap.t).toLocaleString();
       }else{
-        var rangeMs=({'12h':12*3600000,'24h':24*3600000,'3d':3*86400000,'7d':7*86400000}[nfxEstLiqRange]||24*3600000)/nfxEstLiqZoom;
+        var rangeMs=({'1h':3600000,'2h':2*3600000,'4h':4*3600000,'12h':12*3600000,'1d':86400000,'2d':2*86400000,'3d':3*86400000,'7d':7*86400000}[nfxEstLiqRange]||3600000)/nfxEstLiqZoom;
         var liqCutoff=Date.now()-rangeMs;
         var candles=nfxEstLiqCandles.filter(function(c){return c.t>=liqCutoff;});
         if(!candles.length){v.hidden=h.hidden=tip.hidden=true;return;}
