@@ -1379,13 +1379,13 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       <div hidden aria-hidden="true"><span id="nfxLiqBidVelocitySub"></span><span id="nfxLiqAskVelocitySub"></span></div>
     </section>
     <section class="nfx-liq-timeline-panel nfx-liq-workspace-card" id="nfxLiqBookHeatmap" aria-label="Liquidity timeline heatmap">
-      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">LIVE CAPTURE</div><h3>Liquidity Heatmap</h3><p>Visible resting orders by price and time · <strong id="nfxLiqTimelineSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><div class="nfx-liq-timeline-actions"><label>WINDOW <select id="nfxLiqWindow"><option value="60">1 MIN</option><option value="300" selected>5 MIN</option><option value="900">15 MIN</option></select></label><button id="nfxLiqResetHistory" type="button">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqBookHeatmap" aria-label="Expand liquidity heatmap">⛶ <span>Expand</span></button></div></div>
+      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">LIVE CAPTURE</div><h3>Liquidity Heatmap</h3><p>Visible resting orders by price and time · <strong id="nfxLiqTimelineSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><div class="nfx-liq-timeline-actions"><label>WINDOW <select id="nfxLiqWindow"><option value="60">1 MIN</option><option value="300" selected>5 MIN</option><option value="900">15 MIN</option><option value="3600">1 HOUR</option><option value="7200">2 HOURS</option><option value="14400">4 HOURS</option><option value="43200">12 HOURS</option><option value="86400">1 DAY</option><option value="259200">3 DAYS</option><option value="604800">7 DAYS</option></select></label><button id="nfxLiqResetHistory" type="button">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqBookHeatmap" aria-label="Expand liquidity heatmap">⛶ <span>Expand</span></button></div></div>
       <div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqTimelineCanvas" aria-label="Live order book liquidity by price and time"></canvas><div id="nfxLiqTimelineEmpty" class="nfx-liq-timeline-empty">Building live heatmap… historical columns appear as live snapshots arrive.</div></div>
       <div class="nfx-liq-timeline-axis"><span>OLDER</span><span>PRICE · TIME</span><span>NOW →</span></div>
       <div class="nfx-liq-timeline-note">Binance USDⓈ-M Futures top-20 visible levels. Not a prediction of future liquidation levels.</div>
     </section>
     <section class="nfx-liq-timeline-panel nfx-liq-workspace-card" id="nfxLiqLiquidationHeatmap" aria-label="Live futures liquidation heatmap">
-      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">BINANCE FUTURES · MODEL ESTIMATE</div><h3>Liquidation Heatmap</h3><p>Estimated leverage levels + candlesticks · <strong id="nfxLiqLiquidationSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><span class="nfx-liq-live-tag" id="nfxLiqEstStatus"><i></i> ESTIMATED MODEL</span><div class="nfx-est-liq-ranges" role="group" aria-label="Heatmap time range"><button type="button" data-est-liq-range="12h">12H</button><button type="button" data-est-liq-range="24h" class="active">24H</button><button type="button" data-est-liq-range="3d">3D</button><button type="button" data-est-liq-range="7d">7D</button><button type="button" data-est-liq-zoom="out" aria-label="Zoom out">−</button><button type="button" data-est-liq-zoom="in" aria-label="Zoom in">+</button><button type="button" data-est-liq-zoom="reset">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqLiquidationHeatmap" aria-label="Expand liquidation heatmap">⛶ <span>Expand</span></button></div></div>
+      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">BINANCE FUTURES · MODEL ESTIMATE</div><h3>Liquidation Heatmap</h3><p>Estimated leverage levels + candlesticks · <strong id="nfxLiqLiquidationSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><span class="nfx-liq-live-tag" id="nfxLiqEstStatus"><i></i> ESTIMATED MODEL</span><div class="nfx-est-liq-ranges" role="group" aria-label="Heatmap time range"><button type="button" data-est-liq-range="1m">1M</button><button type="button" data-est-liq-range="5m">5M</button><button type="button" data-est-liq-range="15m">15M</button><button type="button" data-est-liq-range="1h" class="active">1H</button><button type="button" data-est-liq-range="2h">2H</button><button type="button" data-est-liq-range="4h">4H</button><button type="button" data-est-liq-zoom="out" aria-label="Zoom out">−</button><button type="button" data-est-liq-zoom="in" aria-label="Zoom in">+</button><button type="button" data-est-liq-zoom="reset">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqLiquidationHeatmap" aria-label="Expand liquidation heatmap">⛶ <span>Expand</span></button></div></div>
       <div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqLiquidationCanvas" aria-label="Live reported futures liquidations by symbol and time" style="width:100%;height:100%;display:block"></canvas><div id="nfxLiqLiquidationEmpty" class="nfx-liq-timeline-empty">Waiting for actual futures liquidation events…</div></div>
       <div class="nfx-liq-timeline-axis"><span>OLDER</span><span>SYMBOL · TIME</span><span>NOW →</span></div>
       <div class="nfx-liq-timeline-note">Estimated liquidation zones derived from public Binance Futures candles and common leverage-distance assumptions. Not actual trader positions, exchange-reported liquidation levels, or CoinGlass data.</div>
@@ -3713,7 +3713,7 @@ document.addEventListener('click', function(event) {
   function historyCacheKey(symbol){return 'nfxLiqHistoryV2:'+symbol;}
   function saveHistoryCache(){
     try{
-      var cache={savedAt:Date.now(),history:liqHistory.slice(-180),events:liquidationEvents.filter(function(e){return e.symbol===currentSymbol;}).slice(-250)};
+      var cache={savedAt:Date.now(),history:liqHistory.slice(-3500),events:liquidationEvents.filter(function(e){return e.symbol===currentSymbol;}).slice(-250)};
       localStorage.setItem(historyCacheKey(currentSymbol),JSON.stringify(cache));
     }catch(e){}
   }
@@ -3721,13 +3721,13 @@ document.addEventListener('click', function(event) {
     liqHistory=[];historySymbol=symbol;lastHistoryAt=0;
     try{
       var cached=JSON.parse(localStorage.getItem(historyCacheKey(symbol))||'null');
-      if(cached&&Array.isArray(cached.history))liqHistory=cached.history.filter(function(x){return x&&Number.isFinite(Number(x.t))&&Number.isFinite(Number(x.mid))&&Array.isArray(x.bids)&&Array.isArray(x.asks);}).slice(-180);
+      if(cached&&Array.isArray(cached.history))liqHistory=cached.history.filter(function(x){return x&&Number.isFinite(Number(x.t))&&Number.isFinite(Number(x.mid))&&Array.isArray(x.bids)&&Array.isArray(x.asks);}).slice(-3500);
       if(cached&&Array.isArray(cached.events)){
         liquidationEvents=liquidationEvents.filter(function(e){return e.symbol!==symbol;});
         cached.events.forEach(function(e){if(e&&e.symbol===symbol&&Number.isFinite(Number(e.p))&&Number.isFinite(Number(e.t)))liquidationEvents.push(e);});
       }
     }catch(e){}
-    var cutoff=Date.now()-Math.max(900,historyLimit()*1000);
+    var cutoff=Date.now()-7*24*60*60*1000;
     liqHistory=liqHistory.filter(function(x){return x.t>=cutoff;});
     liquidationEvents=liquidationEvents.filter(function(e){return e.t>=cutoff;}).slice(-2500);
   }
@@ -3782,7 +3782,7 @@ document.addEventListener('click', function(event) {
   var wsRetry=1000,liqRetry=1000,wsConnectTimer=null,liqConnectTimer=null,wsAttempt=0,liqAttempt=0;
   function scheduleBookReconnect(){
     if(manuallyClosed||activeMarket!=='crypto'||wsConnectTimer)return;
-    var delay=Math.min(15000,wsRetry);wsRetry=Math.min(15000,Math.round(wsRetry*1.7));
+    var delay=Math.min(5000,wsRetry);wsRetry=Math.min(5000,Math.round(wsRetry*1.5));
     wsConnectTimer=setTimeout(function(){wsConnectTimer=null;connect();},delay);
   }
   function scheduleLiquidationReconnect(){
@@ -3854,7 +3854,7 @@ document.addEventListener('click', function(event) {
     try{ws=new WebSocket('wss://fstream.binance.com/ws/'+thisSymbol.toLowerCase()+'@depth@100ms');}
     catch(e){scheduleBookReconnect();return;}
     socket=ws;
-    var timeout=setTimeout(function(){if(ws.readyState===WebSocket.CONNECTING){try{ws.close();}catch(e){}}},9000);
+    var timeout=setTimeout(function(){if(ws.readyState===WebSocket.CONNECTING){try{ws.close();}catch(e){}}},6000);
     function topLevels(map,isBid){
       return Array.from(map.entries()).map(function(x){return [Number(x[0]),Number(x[1])];})
         .filter(function(x){return Number.isFinite(x[0])&&Number.isFinite(x[1])&&x[0]>0&&x[1]>0;})
@@ -3887,7 +3887,7 @@ document.addEventListener('click', function(event) {
     function failSync(message){
       if(socket!==ws)return;
       ready=false;sequenceBroken=true;
-      setStatus(message||'Depth stream resyncing…','disconnected');
+      setStatus('Synchronizing live depth…','connecting');
       try{ws.close();}catch(e){}
     }
     function syncBufferedEvents(){
@@ -3923,7 +3923,7 @@ document.addEventListener('click', function(event) {
           snapshotLoaded=true;
           syncBufferedEvents();
         })
-        .catch(function(){if(socket===ws&&thisSymbol===currentSymbol){setStatus('Snapshot retrying · reconnecting depth…','disconnected');try{ws.close();}catch(e){}}});
+        .catch(function(){if(socket===ws&&thisSymbol===currentSymbol){setStatus('Refreshing live depth snapshot…','connecting');try{ws.close();}catch(e){}}});
     }
     ws.onopen=function(){clearTimeout(timeout);if(socket!==ws)return;wsRetry=1000;wsAttempt=0;loadSnapshot();};
     ws.onmessage=function(ev){
@@ -3939,7 +3939,7 @@ document.addEventListener('click', function(event) {
     ws.onclose=function(){
       clearTimeout(timeout);
       if(socket===ws)socket=null;
-      if(thisSymbol===currentSymbol&&activeMarket==='crypto')setStatus('Reconnecting to live depth stream…','disconnected');
+      if(thisSymbol===currentSymbol&&activeMarket==='crypto')setStatus('Restoring live depth feed…','connecting');
       scheduleBookReconnect();
     };
   }
@@ -3986,8 +3986,11 @@ document.addEventListener('click', function(event) {
     liqHistory.push({t:now,mid:mid,bids:data.bids.slice(0,20).map(x=>[Number(x[0]),Number(x[1])]),asks:data.asks.slice(0,20).map(x=>[Number(x[0]),Number(x[1])])});
     // Keep a fixed 15-minute capture buffer so switching the visible window
     // from 1m/5m to 15m never destroys snapshots needed by the wider view.
-    var cutoff=now-15*60*1000;
-    liqHistory=liqHistory.filter(x=>x.t>=cutoff).slice(-1200);
+    var cutoff=now-7*24*60*60*1000;
+    liqHistory=liqHistory.filter(function(x){return x.t>=cutoff;});
+    var kept=[],seenBuckets=Object.create(null);
+    liqHistory.forEach(function(x){var age=now-x.t;if(age<=15*60*1000){kept.push(x);return;}var bucket=age<=4*60*60*1000?30000:300000;var key=Math.floor(x.t/bucket);if(!seenBuckets[key]){seenBuckets[key]=true;kept.push(x);}});
+    liqHistory=kept.slice(-3500);
     if(!window._nfxHistorySaveTimer)window._nfxHistorySaveTimer=setTimeout(function(){window._nfxHistorySaveTimer=null;saveHistoryCache();},2500);
     renderTimeline();
   }
@@ -4055,14 +4058,14 @@ document.addEventListener('click', function(event) {
 
 var nfxEstLiqCandles=[];
   var nfxEstLiqSymbol='';
-  var nfxEstLiqRange='24h';
+  var nfxEstLiqRange='1h';
   var nfxEstLiqLoadedRange='';
   var nfxEstLiqLoading=false;
   var nfxEstLiqFetchedAt=0;
   var nfxEstLiqZoom=1;
   var nfxEstLiqPointer=null;
   function nfxEstLiqConfig(){
-    var map={'12h':{interval:'5m',limit:144},'24h':{interval:'15m',limit:96},'3d':{interval:'1h',limit:72},'7d':{interval:'2h',limit:84}};
+    var map={'1m':{interval:'1m',limit:2},'5m':{interval:'1m',limit:6},'15m':{interval:'1m',limit:16},'1h':{interval:'1m',limit:61},'2h':{interval:'1m',limit:121},'4h':{interval:'5m',limit:49}};
     return map[nfxEstLiqRange]||map['24h'];
   }
   function nfxEstLiqLoad(force){
@@ -4101,7 +4104,7 @@ var nfxEstLiqCandles=[];
     var symbol=String(currentSymbol||'BTCUSDT').toUpperCase();
     if(nfxEstLiqSymbol!==symbol||!nfxEstLiqCandles.length){nfxEstLiqLoad(false);}
     var candles=nfxEstLiqCandles.slice();
-    var rangeMap={'12h':12*3600000,'24h':24*3600000,'3d':3*86400000,'7d':7*86400000};
+    var rangeMap={'1m':60*1000,'5m':5*60*1000,'15m':15*60*1000,'1h':3600000,'2h':2*3600000,'4h':4*3600000};
     var span=(rangeMap[nfxEstLiqRange]||rangeMap['24h'])/nfxEstLiqZoom,now=Date.now(),cutoff=now-span;
     candles=candles.filter(function(c){return c.t>=cutoff;});
     ctx.font='700 9px system-ui,sans-serif';ctx.textBaseline='middle';ctx.textAlign='left';ctx.fillStyle='#d5dbea';
