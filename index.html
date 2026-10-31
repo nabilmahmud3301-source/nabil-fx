@@ -1385,10 +1385,10 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       <div class="nfx-liq-timeline-note">Binance USDⓈ-M Futures top-20 visible levels. Not a prediction of future liquidation levels.</div>
     </section>
     <section class="nfx-liq-timeline-panel nfx-liq-workspace-card" id="nfxLiqLiquidationHeatmap" aria-label="Live futures liquidation heatmap">
-      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">BINANCE FUTURES · MODEL ESTIMATE</div><h3>Liquidation Heatmap</h3><p>Estimated leverage levels + candlesticks · <strong id="nfxLiqLiquidationSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><span class="nfx-liq-live-tag" id="nfxLiqEstStatus"><i></i> ESTIMATED MODEL</span><div class="nfx-est-liq-ranges" role="group" aria-label="Heatmap time range"><button type="button" data-est-liq-range="1h" class="active">1H</button><button type="button" data-est-liq-range="2h">2H</button><button type="button" data-est-liq-range="4h">4H</button><button type="button" data-est-liq-range="12h">12H</button><button type="button" data-est-liq-range="1d">1D</button><button type="button" data-est-liq-range="2d">2D</button><button type="button" data-est-liq-range="3d">3D</button><button type="button" data-est-liq-range="7d">7D</button><button type="button" data-est-liq-zoom="out" aria-label="Zoom out">−</button><button type="button" data-est-liq-zoom="in" aria-label="Zoom in">+</button><button type="button" data-est-liq-zoom="reset">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqLiquidationHeatmap" aria-label="Expand liquidation heatmap">⛶ <span>Expand</span></button></div></div>
-      <div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqLiquidationCanvas" aria-label="Live reported futures liquidations by symbol and time" style="width:100%;height:100%;display:block"></canvas><div id="nfxLiqLiquidationEmpty" class="nfx-liq-timeline-empty">Waiting for actual futures liquidation events…</div></div>
+      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">BINANCE FUTURES · LIVE FORCE ORDERS</div><h3>Liquidation Heatmap</h3><p>Exchange-reported liquidations + candlesticks · <strong id="nfxLiqLiquidationSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><span class="nfx-liq-live-tag" id="nfxLiqEstStatus"><i></i> LIVE FEED</span><div class="nfx-est-liq-ranges" role="group" aria-label="Heatmap time range"><button type="button" data-est-liq-range="1h" class="active">1H</button><button type="button" data-est-liq-range="2h">2H</button><button type="button" data-est-liq-range="4h">4H</button><button type="button" data-est-liq-range="12h">12H</button><button type="button" data-est-liq-range="1d">1D</button><button type="button" data-est-liq-range="2d">2D</button><button type="button" data-est-liq-range="3d">3D</button><button type="button" data-est-liq-range="7d">7D</button><button type="button" data-est-liq-zoom="out" aria-label="Zoom out">−</button><button type="button" data-est-liq-zoom="in" aria-label="Zoom in">+</button><button type="button" data-est-liq-zoom="reset">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqLiquidationHeatmap" aria-label="Expand liquidation heatmap">⛶ <span>Expand</span></button></div></div>
+      <div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqLiquidationCanvas" aria-label="Heatmap of actual Binance Futures liquidation events by price and time" style="width:100%;height:100%;display:block"></canvas><div id="nfxLiqLiquidationEmpty" class="nfx-liq-timeline-empty">Waiting for actual futures liquidation events…</div></div>
       <div class="nfx-liq-timeline-axis"><span>OLDER</span><span>SYMBOL · TIME</span><span>NOW →</span></div>
-      <div class="nfx-liq-timeline-note">Estimated liquidation zones derived from public Binance Futures candles and common leverage-distance assumptions. Not actual trader positions, exchange-reported liquidation levels, or CoinGlass data.</div>
+      <div class="nfx-liq-timeline-note">Heatmap intensity is built only from Binance USDⓈ-M Futures force-order events and their reported price and notional. Historical events begin accumulating when this page is open; Binance does not provide a public historical liquidation-level map.</div>
     </section>
   </div>
   <article class="nfx-of-card" id="nfxCvdCard"><span class="nfx-of-label">CUMULATIVE VOLUME DELTA</span><strong id="nfxCvdValue">—</strong><div class="nfx-of-sub" id="nfxCvdSub">Waiting for live aggregate trades</div><canvas id="nfxCvdCanvas" height="90"></canvas></article>
@@ -3952,7 +3952,7 @@ document.addEventListener('click', function(event) {
     try{ws=new WebSocket('wss://fstream.binance.com/ws/!forceOrder@arr');}catch(e){scheduleLiquidationReconnect();return;}
     liquidationSocket=ws;var timeout=setTimeout(function(){if(ws.readyState===WebSocket.CONNECTING){try{ws.close();}catch(e){}}},7000);
     ws.onopen=function(){clearTimeout(timeout);if(liquidationSocket===ws){liqRetry=1000;liqAttempt=0;}};
-    ws.onmessage=function(ev){if(liquidationSocket!==ws)return;try{var packet=JSON.parse(ev.data),items=Array.isArray(packet)?packet:[packet];items.forEach(function(item){var o=item&&item.o?item.o:item;if(!o||!o.s||!o.S)return;var sym=String(o.s).toLowerCase(),price=Number(o.ap||o.p),qty=Number(o.z||o.q),usd=price*qty,ts=Number(o.T||item.E||Date.now());if(!Number.isFinite(price)||price<=0||!Number.isFinite(usd)||usd<=0)return;liquidationEvents.push({symbol:sym,p:price,usd:usd,side:String(o.S).toUpperCase(),t:ts});});var cutoff=Date.now()-Math.max(900,historyLimit()*1000);liquidationEvents=liquidationEvents.filter(function(e){return e.t>=cutoff;}).slice(-2500);if(!window._nfxHistorySaveTimer)window._nfxHistorySaveTimer=setTimeout(function(){window._nfxHistorySaveTimer=null;saveHistoryCache();},2500);renderLiquidationHeatmap();}catch(e){}};
+    ws.onmessage=function(ev){if(liquidationSocket!==ws)return;try{var packet=JSON.parse(ev.data),items=Array.isArray(packet)?packet:[packet];items.forEach(function(item){var o=item&&item.o?item.o:item;if(!o||!o.s||!o.S)return;var sym=String(o.s).toLowerCase(),price=Number(o.ap||o.p),qty=Number(o.z||o.q),usd=price*qty,ts=Number(o.T||item.E||Date.now());if(!Number.isFinite(price)||price<=0||!Number.isFinite(usd)||usd<=0)return;liquidationEvents.push({symbol:sym,p:price,usd:usd,side:String(o.S).toUpperCase(),t:ts});});var cutoff=Date.now()-7*24*60*60*1000;liquidationEvents=liquidationEvents.filter(function(e){return e.t>=cutoff;}).slice(-10000);if(!window._nfxHistorySaveTimer)window._nfxHistorySaveTimer=setTimeout(function(){window._nfxHistorySaveTimer=null;saveHistoryCache();},2500);renderLiquidationHeatmap();}catch(e){}};
     ws.onerror=function(){};
     ws.onclose=function(){clearTimeout(timeout);if(liquidationSocket===ws)liquidationSocket=null;scheduleLiquidationReconnect();};
   }
@@ -4099,73 +4099,82 @@ var nfxEstLiqCandles=[];
     var dpr=Math.min(window.devicePixelRatio||1,2),w=Math.round(rect.width*dpr),h=Math.round(rect.height*dpr);
     if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
     var ctx=canvas.getContext('2d');if(!ctx)return;ctx.setTransform(dpr,0,0,dpr,0,0);
-    var W=rect.width,H=rect.height,left=74,right=64,top=26,bottom=30,pw=W-left-right,ph=H-top-bottom;
-    ctx.clearRect(0,0,W,H);ctx.fillStyle='#070a12';ctx.fillRect(0,0,W,H);
-    var symbol=String(currentSymbol||'BTCUSDT').toUpperCase();
-    if(nfxEstLiqSymbol!==symbol||!nfxEstLiqCandles.length){nfxEstLiqLoad(false);}
-    var candles=nfxEstLiqCandles.slice();
-    var rangeMap={'1h':3600000,'2h':2*3600000,'4h':4*3600000,'12h':12*3600000,'1d':86400000,'2d':2*86400000,'3d':3*86400000,'7d':7*86400000};
-    var span=(rangeMap[nfxEstLiqRange]||rangeMap['24h'])/nfxEstLiqZoom,now=Date.now(),cutoff=now-span;
-    candles=candles.filter(function(c){return c.t>=cutoff;});
-    ctx.font='700 9px system-ui,sans-serif';ctx.textBaseline='middle';ctx.textAlign='left';ctx.fillStyle='#d5dbea';
-    ctx.fillText('ESTIMATED LIQUIDATION LEVELS',left,12);
-    ctx.fillStyle='#8997ad';ctx.textAlign='right';ctx.fillText(symbol+' · '+nfxEstLiqRange.toUpperCase(),W-right,12);
+    var W=rect.width,H=rect.height,left=76,right=68,top=30,bottom=34,pw=W-left-right,ph=H-top-bottom;
+    ctx.clearRect(0,0,W,H);ctx.fillStyle='#03060b';ctx.fillRect(0,0,W,H);
+    var symbol=String(currentSymbol||'BTCUSDT').toLowerCase();
+    if(nfxEstLiqSymbol!==symbol.toUpperCase()||!nfxEstLiqCandles.length)nfxEstLiqLoad(false);
+    var rangeMap={'1h':3600000,'2h':7200000,'4h':14400000,'12h':43200000,'1d':86400000,'2d':172800000,'3d':259200000,'7d':604800000};
+    var span=(rangeMap[nfxEstLiqRange]||3600000)/nfxEstLiqZoom,now=Date.now(),cutoff=now-span;
+    var candles=nfxEstLiqCandles.filter(function(c){return c.t>=cutoff;});
+    var events=liquidationEvents.filter(function(e){return e.symbol===symbol&&e.t>=cutoff&&e.p>0&&e.usd>0;});
+    ctx.font='700 10px system-ui,sans-serif';ctx.textBaseline='middle';ctx.textAlign='left';ctx.fillStyle='#dce5f1';
+    ctx.fillText('LIVE REPORTED LIQUIDATIONS',left,14);
+    ctx.textAlign='right';ctx.fillStyle='#92a1b5';ctx.fillText(symbol.toUpperCase()+' · '+nfxEstLiqRange.toUpperCase(),W-right,14);
     if(!candles.length){
-      ctx.textAlign='center';ctx.fillStyle='#a3aec2';ctx.font='12px system-ui,sans-serif';ctx.fillText('Loading Binance Futures historical candles…',left+pw/2,top+ph/2);
-      var empty=$('nfxLiqLiquidationEmpty');if(empty)empty.hidden=true;return;
+      ctx.textAlign='center';ctx.fillStyle='#9aa8bb';ctx.font='12px system-ui,sans-serif';ctx.fillText('Loading verified Binance Futures price data…',left+pw/2,top+ph/2);
+      var empty=$('nfxLiqLiquidationEmpty');if(empty)empty.hidden=false;return;
     }
-    var lows=candles.map(function(c){return c.l;}),highs=candles.map(function(c){return c.h;});
-    var minP=Math.min.apply(null,lows),maxP=Math.max.apply(null,highs),last=candles[candles.length-1].c;
-    var pad=Math.max((maxP-minP)*.24,last*.0025);minP=Math.max(.00000001,minP-pad);maxP+=pad;
-    if(maxP<=minP){minP=last*.99;maxP=last*1.01;}
-    var rows=100,cols=Math.min(150,Math.max(60,candles.length)),cellW=pw/cols,cellH=ph/rows;
-    // Estimated zones are modelled from candle prices and common leverage/liquidation-distance assumptions, not exchange-reported liquidation levels.
+    var lo=Math.min.apply(null,candles.map(function(c){return c.l;}));
+    var hi=Math.max.apply(null,candles.map(function(c){return c.h;}));
+    events.forEach(function(e){lo=Math.min(lo,e.p);hi=Math.max(hi,e.p);});
+    var last=candles[candles.length-1].c,pad=Math.max((hi-lo)*.12,last*.0015);
+    var minP=Math.max(1e-8,lo-pad),maxP=hi+pad;if(maxP<=minP){minP=last*.99;maxP=last*1.01;}
+    var rows=100,cols=Math.min(180,Math.max(60,Math.ceil(pw/5))),cellW=pw/cols,cellH=ph/rows;
     var heat=Array.from({length:rows},function(){return Array(cols).fill(0);});
-    candles.forEach(function(c,i){
-      var x=Math.min(cols-1,Math.floor(i/candles.length*cols));
-      var weights=[{lev:5,dist:.18,w:.24},{lev:10,dist:.09,w:.38},{lev:20,dist:.045,w:.62},{lev:25,dist:.036,w:.78},{lev:50,dist:.018,w:1}];
-      weights.forEach(function(a){
-        [c.c*(1-a.dist),c.c*(1+a.dist)].forEach(function(level,sideIndex){
-          if(level<minP||level>maxP)return;
-          var y=Math.max(0,Math.min(rows-1,Math.floor((maxP-level)/(maxP-minP)*rows)));
-          for(var dy=-3;dy<=3;dy++){var yy=y+dy;if(yy<0||yy>=rows)continue;var v=a.w*Math.exp(-(dy*dy)/4.5);heat[yy][x]+=v;
-            if(x>0)heat[yy][x-1]+=v*.48;if(x+1<cols)heat[yy][x+1]+=v*.48;
-          }
-        });
-      });
+    var maxNotional=0;
+    events.forEach(function(e){maxNotional=Math.max(maxNotional,e.usd);});
+    events.forEach(function(e){
+      var x=Math.max(0,Math.min(cols-1,Math.floor((e.t-cutoff)/span*cols)));
+      var y=Math.max(0,Math.min(rows-1,Math.floor((maxP-e.p)/(maxP-minP)*rows)));
+      var weight=Math.log10(1+e.usd/1000);
+      for(var dx=-1;dx<=1;dx++)for(var dy=-2;dy<=2;dy++){
+        var xx=x+dx,yy=y+dy;if(xx<0||xx>=cols||yy<0||yy>=rows)continue;
+        heat[yy][xx]+=weight*Math.exp(-(dx*dx)/1.6-(dy*dy)/3.2);
+      }
     });
-    var maxHeat=0;for(var r=0;r<rows;r++)for(var c2=0;c2<cols;c2++)maxHeat=Math.max(maxHeat,heat[r][c2]);maxHeat=maxHeat||1;
-    for(var rr=0;rr<rows;rr++)for(var cc=0;cc<cols;cc++){
-      var val=heat[rr][cc],intensity=val/maxHeat;if(intensity<.045)continue;
-      var alpha=Math.min(.9,.12+Math.pow(intensity,.7)*.8);
-      var color=intensity<.25?'83,45,176':intensity<.5?'40,78,205':intensity<.75?'17,174,165':'255,190,55';
-      ctx.fillStyle='rgba('+color+','+alpha+')';ctx.fillRect(left+cc*cellW,top+rr*cellH,Math.ceil(cellW+.3),Math.ceil(cellH+.3));
+    var maxHeat=0;for(var rr=0;rr<rows;rr++)for(var cc=0;cc<cols;cc++)maxHeat=Math.max(maxHeat,heat[rr][cc]);
+    if(maxHeat>0){
+      for(var r0=0;r0<rows;r0++)for(var c0=0;c0<cols;c0++){
+        var intensity=heat[r0][c0]/maxHeat;if(intensity<.035)continue;
+        var color=intensity<.2?'94,35,139':intensity<.42?'49,83,178':intensity<.68?'22,166,139':'238,220,49';
+        ctx.fillStyle='rgba('+color+','+Math.min(.96,.16+Math.pow(intensity,.72)*.8)+')';
+        ctx.fillRect(left+c0*cellW,top+r0*cellH,Math.ceil(cellW+.35),Math.ceil(cellH+.35));
+      }
     }
-    // Draw grid, price axis and time labels.
-    ctx.strokeStyle='rgba(145,163,190,.18)';ctx.lineWidth=1;
+    ctx.strokeStyle='rgba(145,163,190,.16)';ctx.lineWidth=1;
     for(var q=0;q<=6;q++){
-      var gy=top+ph*q/6,price=maxP-(maxP-minP)*q/6;ctx.beginPath();ctx.moveTo(left,gy);ctx.lineTo(W-right,gy);ctx.stroke();
-      ctx.fillStyle='#aebbd0';ctx.textAlign='right';ctx.font='10px ui-monospace,monospace';ctx.fillText(fmt(price),left-8,gy);
+      var gy=top+ph*q/6,price=maxP-(maxP-minP)*q/6;
+      ctx.beginPath();ctx.moveTo(left,gy);ctx.lineTo(W-right,gy);ctx.stroke();
+      ctx.fillStyle='#b3bfce';ctx.textAlign='right';ctx.font='10px ui-monospace,monospace';ctx.fillText(fmt(price),left-9,gy);
       var gx=left+pw*q/6;ctx.beginPath();ctx.moveTo(gx,top);ctx.lineTo(gx,top+ph);ctx.stroke();
-      var dt=new Date(cutoff+span*q/6);ctx.fillStyle='#7f8da3';ctx.textAlign=q===0?'left':q===6?'right':'center';ctx.font='9px ui-monospace,monospace';ctx.fillText(dt.toLocaleDateString([],{month:'short',day:'2-digit'})+' '+dt.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),gx,H-13);
+      var dt=new Date(cutoff+span*q/6);ctx.fillStyle='#8391a5';ctx.textAlign=q===0?'left':q===6?'right':'center';ctx.font='9px ui-monospace,monospace';
+      ctx.fillText(dt.toLocaleDateString([],{month:'short',day:'2-digit'})+' '+dt.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),gx,H-15);
     }
-    // Overlay the Binance candlesticks over the heatmap.
+    // Overlay actual Binance Futures candles; no synthetic liquidation levels are generated.
     var step=pw/candles.length,cw=Math.max(1,Math.min(6,step*.62));
     candles.forEach(function(c,i){
       var x=left+(i+.5)*step,yO=top+(maxP-c.o)/(maxP-minP)*ph,yC=top+(maxP-c.c)/(maxP-minP)*ph,yH=top+(maxP-c.h)/(maxP-minP)*ph,yL=top+(maxP-c.l)/(maxP-minP)*ph;
-      var up=c.c>=c.o,col=up?'#32d6a0':'#ff597a';ctx.strokeStyle=col;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x,yH);ctx.lineTo(x,yL);ctx.stroke();ctx.fillStyle=col;ctx.fillRect(x-cw/2,Math.min(yO,yC),cw,Math.max(1,Math.abs(yC-yO)));
+      var col=c.c>=c.o?'#21d6a0':'#f04469';ctx.strokeStyle=col;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x,yH);ctx.lineTo(x,yL);ctx.stroke();ctx.fillStyle=col;ctx.fillRect(x-cw/2,Math.min(yO,yC),cw,Math.max(1,Math.abs(yC-yO)));
     });
     if(nfxEstLiqPointer&&nfxEstLiqPointer.x>=left&&nfxEstLiqPointer.x<=left+pw&&nfxEstLiqPointer.y>=top&&nfxEstLiqPointer.y<=top+ph){
       var px=nfxEstLiqPointer.x,py=nfxEstLiqPointer.y;
-      ctx.strokeStyle='rgba(226,235,248,.62)';ctx.lineWidth=1;ctx.setLineDash([3,4]);ctx.beginPath();ctx.moveTo(px,top);ctx.lineTo(px,top+ph);ctx.moveTo(left,py);ctx.lineTo(left+pw,py);ctx.stroke();ctx.setLineDash([]);
-      var ci=Math.max(0,Math.min(candles.length-1,Math.floor((px-left)/pw*candles.length))),hc=candles[ci];
-      if(hc){var info='O '+fmt(hc.o)+'  H '+fmt(hc.h)+'  L '+fmt(hc.l)+'  C '+fmt(hc.c);ctx.font='10px ui-monospace,monospace';var iw=Math.min(pw-8,ctx.measureText(info).width+16),ix=Math.max(left,Math.min(left+pw-iw,px+10)),iy=top+6;ctx.fillStyle='rgba(8,13,24,.94)';ctx.fillRect(ix,iy,iw,19);ctx.strokeStyle='rgba(121,145,179,.5)';ctx.strokeRect(ix,iy,iw,19);ctx.fillStyle='#e0e8f6';ctx.textAlign='left';ctx.fillText(info,ix+8,iy+10);var dateLabel=new Date(hc.t).toLocaleString();ctx.fillStyle='#c0cbe0';ctx.fillText(dateLabel,Math.max(left,Math.min(left+pw-ctx.measureText(dateLabel).width,px+8)),top+ph-7);}
+      ctx.strokeStyle='rgba(226,235,248,.65)';ctx.lineWidth=1;ctx.setLineDash([3,4]);ctx.beginPath();ctx.moveTo(px,top);ctx.lineTo(px,top+ph);ctx.moveTo(left,py);ctx.lineTo(left+pw,py);ctx.stroke();ctx.setLineDash([]);
+      var selectedTime=cutoff+(px-left)/pw*span,selectedPrice=maxP-(py-top)/ph*(maxP-minP);
+      var nearest=null,dist=Infinity;events.forEach(function(e){var d=Math.abs(e.t-selectedTime)/span*pw+Math.abs(e.p-selectedPrice)/(maxP-minP)*ph;if(d<dist){dist=d;nearest=e;}});
+      if(nearest&&dist<35){
+        var tip=' '+(nearest.side==='SELL'?'LONG LIQ.':'SHORT LIQ.')+' · '+fmt(nearest.p)+' · '+(nearest.usd/1e6).toFixed(3)+'M USDT ';
+        ctx.font='10px ui-monospace,monospace';var tw=Math.min(pw-8,ctx.measureText(tip).width+10),tx=Math.max(left,Math.min(left+pw-tw,px+8));
+        ctx.fillStyle='rgba(4,8,14,.96)';ctx.fillRect(tx,top+5,tw,20);ctx.strokeStyle='#34465b';ctx.strokeRect(tx,top+5,tw,20);ctx.fillStyle='#e5edf7';ctx.textAlign='left';ctx.fillText(tip,tx+5,top+15);
+      }
     }
-    var currentY=top+(maxP-last)/(maxP-minP)*ph;ctx.setLineDash([4,4]);ctx.strokeStyle='#f8d568';ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(left,currentY);ctx.lineTo(W-right,currentY);ctx.stroke();ctx.setLineDash([]);
-    ctx.fillStyle='#28220d';ctx.fillRect(W-right+4,Math.max(top,Math.min(top+ph-17,currentY-8)),right-5,16);ctx.fillStyle='#f8d568';ctx.textAlign='center';ctx.font='700 9px ui-monospace,monospace';ctx.fillText(fmt(last),W-right/2+1,Math.max(top+8,Math.min(top+ph-9,currentY)));
-    ctx.fillStyle='#8f9db2';ctx.textAlign='left';ctx.font='8px system-ui,sans-serif';ctx.fillText('MODEL ESTIMATE · NOT REPORTED LIQUIDATIONS',left, H-2);
-    var empty=$('nfxLiqLiquidationEmpty');if(empty)empty.hidden=true;
-    var status=$('nfxLiqEstStatus');if(status)status.textContent='Estimated model · Binance candles';
+    var currentY=top+(maxP-last)/(maxP-minP)*ph;ctx.setLineDash([4,4]);ctx.strokeStyle='#f5d84b';ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(left,currentY);ctx.lineTo(W-right,currentY);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle='#29240d';ctx.fillRect(W-right+4,Math.max(top,Math.min(top+ph-17,currentY-8)),right-5,16);ctx.fillStyle='#f5d84b';ctx.textAlign='center';ctx.font='700 9px ui-monospace,monospace';ctx.fillText(fmt(last),W-right/2+1,Math.max(top+8,Math.min(top+ph-9,currentY)));
+    var total=events.reduce(function(sum,e){return sum+e.usd;},0);
+    ctx.fillStyle='#92a0b3';ctx.textAlign='left';ctx.font='8px system-ui,sans-serif';
+    ctx.fillText('EXCHANGE-REPORTED FORCE ORDERS · '+events.length+' EVENTS · '+(total/1e6).toFixed(2)+'M USDT',left,H-3);
+    var empty=$('nfxLiqLiquidationEmpty');if(empty)empty.hidden=events.length>0;
+    if(empty&&events.length===0)empty.textContent='No reported liquidation events in this selected window yet. Live Binance events will appear here as they occur.';
+    var status=$('nfxLiqEstStatus');if(status)status.textContent=liquidationSocket&&liquidationSocket.readyState===WebSocket.OPEN?'LIVE · BINANCE FORCE ORDERS':'WAITING FOR BINANCE FEED';
   }
 
 function bindHeatmapInspector(canvasId,kind){
