@@ -1227,6 +1227,18 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 #page-footprint #nfxFootprintMarket{min-width:130px}
 #page-footprint .nfx-footprint-toolbar input:focus,#page-footprint .nfx-footprint-toolbar select:focus{outline:1px solid #8b4654;border-color:#8b4654}
 @media(max-width:650px){#page-footprint .nfx-footprint-toolbar{display:grid;grid-template-columns:1fr 1fr;gap:12px}#page-footprint .nfx-footprint-toolbar label:first-child{grid-column:1/-1}#page-footprint #nfx-footprint-market-search{width:100%;min-width:0}#page-footprint .nfx-footprint-toolbar>span{margin:0;grid-column:1/-1}}
+#nfx-footprint-coverage{margin:12px 0 16px;padding:16px 18px;border:1px solid #2d4052;border-radius:8px;background:linear-gradient(130deg,#0c1722,#09111a);color:#cbd6e3}
+#nfx-footprint-coverage .nfx-footprint-coverage-title{font-size:10px;letter-spacing:.16em;color:#9aabbe;font-weight:800;margin-bottom:12px}
+#nfx-footprint-coverage .nfx-footprint-coverage-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+#nfx-footprint-coverage .nfx-footprint-coverage-grid>div{display:flex;flex-direction:column;align-items:flex-start;gap:7px;padding:13px;border:1px solid #263849;border-radius:6px;background:#0b141e}
+#nfx-footprint-coverage .nfx-footprint-coverage-grid b{font-size:9px;letter-spacing:.07em;padding:5px 7px;border-radius:4px}
+#nfx-footprint-coverage .nfx-fc-live{color:#76e0b2;background:#103126}
+#nfx-footprint-coverage .nfx-fc-delay{color:#f2c779;background:#332813}
+#nfx-footprint-coverage .nfx-fc-off{color:#ff9ba9;background:#351b24}
+#nfx-footprint-coverage strong{font-size:12px;color:#e5edf6}
+#nfx-footprint-coverage span{font-size:11px;line-height:1.6;color:#91a2b6}
+#nfx-footprint-coverage>p{margin:12px 0 0;color:#7f91a6;font-size:10px;line-height:1.6}
+@media(max-width:760px){#nfx-footprint-coverage .nfx-footprint-coverage-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -1421,10 +1433,10 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 <section id="page-openinterest" class="view nfx-market-page"><div class="nfx-market-page-head"><div><span>DERIVATIVES POSITIONING</span><h1>Open Interest</h1><p>Monitor outstanding Binance USDⓈ-M perpetual contracts.</p></div><b class="nfx-page-source">BINANCE FUTURES API</b></div><div id="nfxOpenInterestMount"></div></section>
 <section id="page-fundingrate" class="view nfx-market-page"><div class="nfx-market-page-head"><div><span>PERPETUAL CONTRACTS</span><h1>Funding Rate</h1><p>Review the latest published funding rate for the selected contract.</p></div><b class="nfx-page-source">BINANCE FUTURES API</b></div><div id="nfxFundingMount"></div></section>
 <section id="page-footprint" class="view nfx-pro-chart-page">
-  <div class="nfx-pro-page-head"><div><span>BINANCE USDⓈ-M · LIVE AGGREGATE TRADES</span><h1>Footprint Chart</h1><p>Price-level buy/sell volume, delta and point of control.</p></div><div class="nfx-pro-live"><i></i> LIVE PUBLIC FEED</div></div>
-  <div class="nfx-pro-toolbar nfx-footprint-toolbar"><label>SEARCH MARKET <input id="nfx-footprint-market-search" type="search" list="nfx-footprint-market-list" placeholder="Search any Binance futures symbol…" autocomplete="off" spellcheck="false" aria-label="Search Binance futures market"></label><datalist id="nfx-footprint-market-list"></datalist><label>SYMBOL <select data-nfx-symbol id="nfxFootprintMarket"><option>BTCUSDT</option><option>ETHUSDT</option><option>BNBUSDT</option><option>SOLUSDT</option><option>XRPUSDT</option></select></label><label>TIMEFRAME <select id="nfxFootprintTf"><option value="60">1 MIN</option><option value="300" selected>5 MIN</option><option value="900">15 MIN</option></select></label><span id="nfxFootprintStatus">Connecting…</span></div>
+  <div class="nfx-pro-page-head"><div><span>MULTI-MARKET COVERAGE · VERIFIED DATA ONLY</span><h1>Footprint Chart</h1><p>Live trade-by-trade footprint wherever a free public trade feed is available.</p></div><div class="nfx-pro-live"><i></i> LIVE · 0s FEED DELAY*</div></div>
+  <div class="nfx-pro-toolbar nfx-footprint-toolbar"><label>SEARCH MARKET <input id="nfx-footprint-market-search" type="search" list="nfx-footprint-market-list" placeholder="Search live crypto symbol (e.g. BTCUSDT)" autocomplete="off" spellcheck="false" aria-label="Search live crypto market"></label><datalist id="nfx-footprint-market-list"></datalist><label>LIVE MARKET <select data-nfx-symbol id="nfxFootprintMarket"><option>BTCUSDT</option><option>ETHUSDT</option><option>BNBUSDT</option><option>SOLUSDT</option><option>XRPUSDT</option></select></label><label>TIMEFRAME <select id="nfxFootprintTf"><option value="60">1 MIN</option><option value="300" selected>5 MIN</option><option value="900">15 MIN</option></select></label><span id="nfxFootprintStatus">Connecting…</span></div><div id="nfx-footprint-coverage" class="nfx-footprint-coverage"><div class="nfx-footprint-coverage-title">DATA SOURCE &amp; DELAY</div><div class="nfx-footprint-coverage-grid"><div><b class="nfx-fc-live">LIVE · 0s</b><strong>Crypto futures</strong><span>Binance USDⓈ-M public aggregate trades · all active USDT perpetual symbols</span></div><div><b class="nfx-fc-delay">DELAYED · 5/15 MIN*</b><strong>Stocks, indices &amp; exchange futures</strong><span>Free delayed candle feeds do not include trade-by-trade bid/ask volume at each price; genuine footprint is not available from those candles alone.</span></div><div><b class="nfx-fc-off">NOT CONNECTED</b><strong>Forex, spot metals &amp; commodities</strong><span>No verified free public trade tape is connected for these markets yet. A quote/candle feed must not be presented as real footprint.</span></div></div><p>*The 5/15-minute labels describe common delayed quote availability on some venues, not a connected footprint feed on this page. Delay is shown only when a provider is actually connected.</p></div>
   <div class="nfx-pro-chart-card"><div class="nfx-pro-legend"><span class="buy">BUY VOLUME</span><span class="sell">SELL VOLUME</span><span>LIVE PRICE-LEVEL AGGREGATION</span></div><canvas id="nfxFootprintChart" height="520"></canvas></div>
-  <p class="nfx-pro-note">Trades are grouped by price from Binance aggregate trades. This is a live-built footprint, not historical exchange footprint data. Price tick aggregation is approximate.</p>
+  <p class="nfx-pro-note">Current live footprint is built from Binance USDⓈ-M aggregate trades received after connection; source-side trade data is live, but the chart starts accumulating only when opened. It is not historical footprint. Price tick aggregation is approximate. Delayed OHLC candles are not treated as genuine bid/ask footprint.</p>
 </section>
 <section id="page-bookmap" class="view nfx-pro-chart-page">
   <div class="nfx-pro-page-head"><div><span>BINANCE USDⓈ-M · LIVE DEPTH STREAM</span><h1>Liquidity Heatmap</h1><p>Resting bid/ask liquidity by price and time, captured from the live order book.</p></div><div class="nfx-pro-live"><i></i> LIVE PUBLIC FEED</div></div>
@@ -5503,9 +5515,9 @@ document.addEventListener('nfx-liquidity-open',start);document.addEventListener(
       select.value=symbols.has(current)?current:(symbols.has('BTCUSDT')?'BTCUSDT':active[0]);
       input.value=select.value;
       loaded=true;
-      if(status)status.textContent='Live feed · '+active.length+' USDT perpetual markets available';
+      if(status)status.textContent='LIVE · 0s source delay · Binance USDⓈ-M · '+active.length+' active USDT perpetual markets';
     }catch(error){
-      if(status)status.textContent='Live feed · default markets only (market list unavailable)';
+      if(status)status.textContent='Market list unavailable · retry later; default symbols remain selectable';
     }
   }
   input.value=select.value||'BTCUSDT';
