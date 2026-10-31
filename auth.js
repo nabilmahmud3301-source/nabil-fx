@@ -185,6 +185,33 @@
         showSignedOut();
         return;
       }
+
+      // A user may have been deleted from Supabase Auth while this browser
+      // still has an old persisted session. Verify the identity with Auth
+      // before treating the cached session as signed in.
+      const verified = await client.auth.getUser();
+      if (verified.error || !verified.data?.user) {
+        const authError = verified.error;
+        const errorCode = String(authError?.code || '').toLowerCase();
+        const errorMessage = String(authError?.message || '').toLowerCase();
+        const invalidIdentity =
+          ['user_not_found', 'session_not_found', 'bad_jwt', 'invalid_jwt'].includes(errorCode) ||
+          /user.*not found|user.*does not exist|invalid.*jwt|session.*not found|jwt.*expired|invalid claim/.test(errorMessage) ||
+          authError?.status === 401 || authError?.status === 403;
+
+        if (invalidIdentity) {
+          // Clear only this browser's stale session; do not affect other users.
+          await client.auth.signOut({ scope: 'local' });
+          showSignedOut();
+          setProfileStatus('Purono login session invalid hoye geche. abar notun account create koro ba valid account diye login koro.');
+          setStatus('Old session cleared. Please sign in again.');
+          return;
+        }
+        if (authError) throw authError;
+        throw new Error('Supabase could not verify the signed-in user.');
+      }
+      currentUser = verified.data.user;
+
       // Authentication can succeed even if the profile table has a separate issue.
       if (details) details.textContent = 'Signed in: ' + (currentUser.email || 'account');
       if (statusTag) statusTag.textContent = 'Cloud account active';
