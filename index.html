@@ -4234,7 +4234,7 @@ function bindHeatmapInspector(canvasId,kind){
     canvas.addEventListener('pointerleave',function(){v.hidden=h.hidden=tip.hidden=true;});
   }
   bindHeatmapInspector('nfxLiqTimelineCanvas','book');
-  bindHeatmapInspector('nfxLiqLiquidationCanvas','liquidation');
+  // Liquidation heatmap uses its own exchange-event-aware canvas inspector.
   document.querySelectorAll('[data-liq-market]').forEach(function(btn){btn.addEventListener('click',function(){selectMarket(btn.dataset.liqMarket);});});
   document.querySelectorAll('[data-liq-fullscreen]').forEach(function(btn){
     btn.addEventListener('click',function(){
