@@ -1219,6 +1219,35 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 </style>
 
 
+
+<style id="nfx-premium-account-auth">
+/* Premium account experience */
+#page-account{max-width:1180px;margin-inline:auto}
+#page-account>.view-heading{font-size:clamp(28px,3vw,40px);letter-spacing:-.035em}
+#page-account>.view-lead{max-width:680px;color:#9eafc2;line-height:1.7}
+#page-account .account-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(300px,.9fr);gap:22px;align-items:start}
+#page-account .account-subview,#page-account .account-grid>.panel{border:1px solid rgba(135,157,183,.2);border-radius:20px;background:linear-gradient(145deg,rgba(17,27,40,.98),rgba(9,15,24,.98));box-shadow:0 18px 50px rgba(0,0,0,.2);padding:clamp(20px,3vw,32px)}
+#page-account .account-subview h2{font-size:clamp(22px,2vw,29px);letter-spacing:-.025em}
+#page-account .account-subview>.muted{line-height:1.65;margin-bottom:24px}
+#page-account .fields{gap:17px}
+#page-account .field label{display:block;font-size:11px;font-weight:750;letter-spacing:.11em;color:#a9bbcf;margin-bottom:8px}
+#page-account .field input,#page-account .field select,#page-account .field textarea{width:100%;min-height:48px;box-sizing:border-box;border:1px solid #2b3b4e;border-radius:11px;background:#080f18;color:#edf4fb;padding:12px 14px;outline:none;transition:border-color .18s,box-shadow .18s}
+#page-account .field input:focus,#page-account .field select:focus,#page-account .field textarea:focus{border-color:#a83c4b;box-shadow:0 0 0 3px rgba(168,60,75,.15)}
+#page-account .field input::placeholder,#page-account .field textarea::placeholder{color:#65788d}
+#page-account .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+#page-account .actions .btn{min-height:44px;border-radius:11px;padding:11px 16px;font-weight:700}
+#page-account .auth-submit{background:linear-gradient(110deg,#a82f43,#d04c5d);border:1px solid rgba(255,255,255,.12);box-shadow:0 8px 22px rgba(168,47,67,.2)}
+#page-account .auth-inline-action{display:inline-flex;margin-top:7px;padding:3px 0;border:0;background:transparent;color:#c5d2e1;font-size:12px;cursor:pointer}
+#page-account .auth-inline-action:hover{color:#fff}
+#page-account .status{margin-top:18px;padding:13px 14px;border-radius:11px;border:1px solid rgba(129,151,177,.2);background:rgba(6,12,20,.55);color:#b9c7d7;line-height:1.55;overflow-wrap:anywhere}
+#page-account .status[data-kind="success"]{border-color:rgba(54,196,142,.35);color:#8ee4bd}
+#page-account .status[data-kind="error"]{border-color:rgba(239,94,112,.4);color:#ffb0ba}
+#page-account .connection-indicator{padding:11px 13px;border-radius:10px;background:rgba(255,255,255,.035)}
+#page-account .profile-grid{gap:24px}
+#page-account .tag{border-radius:999px;padding:7px 11px;background:rgba(168,47,67,.14);border:1px solid rgba(168,47,67,.3)}
+@media(max-width:850px){#page-account .account-grid{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:520px){#page-account .account-subview,#page-account .account-grid>.panel{padding:18px;border-radius:15px}#page-account .actions .btn{width:100%}}
+</style>
 </head>
 <body>
 <header class="site-header">
@@ -1811,12 +1840,14 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
           <input id="createEmail" type="email" autocomplete="email" placeholder="Enter your email">
         </div>
         <div class="field wide">
-          <label>PASSWORD</label>
-          <input id="createPassword" type="password" autocomplete="new-password" placeholder="Create a password">
+          <label for="createPassword">PASSWORD</label>
+          <input id="createPassword" type="password" autocomplete="new-password" minlength="8" placeholder="Create a password">
+          <button class="auth-inline-action" type="button" data-toggle-password="createPassword" aria-pressed="false">Show password</button>
         </div>
         <div class="field wide">
-          <label>CONFIRM PASSWORD</label>
-          <input id="createConfirmPassword" type="password" autocomplete="new-password" placeholder="Confirm your password">
+          <label for="createConfirmPassword">CONFIRM PASSWORD</label>
+          <input id="createConfirmPassword" type="password" autocomplete="new-password" minlength="8" placeholder="Confirm your password">
+          <button class="auth-inline-action" type="button" data-toggle-password="createConfirmPassword" aria-pressed="false">Show password</button>
         </div>
       </div>
       <div class="actions">
@@ -1836,12 +1867,14 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
           <input id="loginEmail" type="email" autocomplete="email" placeholder="Enter your email">
         </div>
         <div class="field wide">
-          <label>PASSWORD</label>
+          <label for="loginPassword">PASSWORD</label>
           <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Enter your password">
+          <button class="auth-inline-action" type="button" data-toggle-password="loginPassword" aria-pressed="false">Show password</button>
         </div>
       </div>
       <div class="actions">
-        <button class="btn primary" id="loginBtn" type="button">Login</button>
+        <button class="btn primary auth-submit" id="loginBtn" type="button">Sign in securely</button>
+        <button class="btn secondary" id="forgotPasswordBtn" type="button">Forgot password?</button>
         <button class="btn secondary" type="button" data-account-page="create">Create Account</button>
       </div>
       <div id="loginStatus" class="status">Enter your registered email and password.</div>
