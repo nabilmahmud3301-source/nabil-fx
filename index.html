@@ -3713,7 +3713,7 @@ document.addEventListener('click', function(event) {
   function historyCacheKey(symbol){return 'nfxLiqHistoryV2:'+symbol;}
   function saveHistoryCache(){
     try{
-      var cache={savedAt:Date.now(),history:liqHistory.slice(-3500),events:liquidationEvents.filter(function(e){return e.symbol===currentSymbol;}).slice(-250)};
+      var cache={savedAt:Date.now(),history:liqHistory.slice(-3500),events:liquidationEvents.filter(function(e){return e.symbol===currentSymbol;}).slice(-10000)};
       localStorage.setItem(historyCacheKey(currentSymbol),JSON.stringify(cache));
     }catch(e){}
   }
