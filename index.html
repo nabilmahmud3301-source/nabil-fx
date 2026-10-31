@@ -4388,7 +4388,7 @@ setInterval(function(){nfxEstLiqLoad(false);},30000);
   futures:[['ES=F','E-mini S&P 500'],['NQ=F','E-mini Nasdaq 100'],['YM=F','E-mini Dow'],['RTY=F','E-mini Russell 2000'],['CL=F','WTI Crude Futures'],['GC=F','Gold Futures'],['SI=F','Silver Futures'],['ZC=F','Corn Futures']],
   commodities:[['GC=F','Gold'],['SI=F','Silver'],['CL=F','WTI Crude Oil'],['BZ=F','Brent Crude Proxy'],['NG=F','Natural Gas'],['HG=F','Copper'],['ZC=F','Corn'],['ZW=F','Wheat'],['ZS=F','Soybeans'],['KC=F','Coffee']]
  };
- let socket=null,activeSymbol='',generation=0,history=[],buy=0,sell=0,resizeTimer=0;
+ let socket=null,reconnectTimer=0,activeSymbol='',generation=0,history=[],buy=0,sell=0,resizeTimer=0;
  const money=n=>{n=Number(n)||0;const a=Math.abs(n);return (n<0?'−':'')+(a>=1e9?(a/1e9).toFixed(2)+'B':a>=1e6?(a/1e6).toFixed(2)+'M':a>=1e3?(a/1e3).toFixed(2)+'K':a.toFixed(2))};
  const price=n=>Number(n).toLocaleString('en-US',{maximumFractionDigits:6});
  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -4396,12 +4396,57 @@ setInterval(function(){nfxEstLiqLoad(false);},30000);
  function draw(){const c=$('nfxOfChart');if(!c)return;const d=Math.min(window.devicePixelRatio||1,2),w=Math.max(280,c.clientWidth||600),h=c.clientHeight||280;c.width=w*d;c.height=h*d;const x=c.getContext('2d');x.setTransform(d,0,0,d,0,0);x.clearRect(0,0,w,h);x.fillStyle='#0b121b';x.fillRect(0,0,w,h);const pad={l:42,r:10,t:15,b:23},iw=w-pad.l-pad.r,ih=h-pad.t-pad.b;x.strokeStyle='#1e2a38';x.lineWidth=1;for(let n=0;n<5;n++){const y=pad.t+n*ih/4;x.beginPath();x.moveTo(pad.l,y);x.lineTo(w-pad.r,y);x.stroke()}if(history.length<1){x.fillStyle='#8093a8';x.font='12px system-ui';x.fillText('Waiting for supported market data…',pad.l+8,pad.t+20);return}const vals=history.map(v=>v.delta),lo=Math.min(0,...vals),hi=Math.max(0,...vals),range=hi-lo||1,y0=pad.t+(hi/range)*ih;x.strokeStyle='#506174';x.setLineDash([4,4]);x.beginPath();x.moveTo(pad.l,y0);x.lineTo(w-pad.r,y0);x.stroke();x.setLineDash([]);x.beginPath();vals.forEach((v,i)=>{const px=pad.l+(history.length===1?.5:i/(history.length-1))*iw,py=pad.t+(hi-v)/range*ih;i?x.lineTo(px,py):x.moveTo(px,py)});x.strokeStyle=(vals[vals.length-1]||0)>=0?'#39d6a0':'#f0788d';x.lineWidth=2;x.stroke();x.fillStyle='#91a3b8';x.font='10px system-ui';x.fillText('NET DELTA',8,11);x.fillText(money(hi),3,pad.t+8);x.fillText(money(lo),3,h-pad.b);x.fillText(history[0].time||'',pad.l,h-6);x.textAlign='right';x.fillText(history[history.length-1].time||'',w-pad.r,h-6);x.textAlign='left';}
  function render(){const total=buy+sell,delta=buy-sell;$('nfxOfDelta').textContent=history.length?((delta>=0?'+':'')+money(delta)):'—';$('nfxOfDelta').className=delta>=0?'nfx-of-positive':'nfx-of-negative';$('nfxOfBuy').textContent=history.length?money(buy):'—';$('nfxOfSell').textContent=history.length?money(sell):'—';$('nfxOfRatio').textContent=total?((buy/total)*100).toFixed(1)+'%':'—';$('nfxOfDeltaNote').textContent=history.length?(delta>=0?'Net buying pressure in captured sample':'Net selling pressure in captured sample'):'No supported volume data';$('nfxOfBuyNote').textContent=activeSymbol?'Captured buy-side notional':'Awaiting feed';$('nfxOfSellNote').textContent=activeSymbol?'Captured sell-side notional':'Awaiting feed';$('nfxOfRatioNote').textContent=total?'Buy share of total classified notional':'No classifiable volume';$('nfxOfBuyBar').style.width=(total?buy/total*100:0)+'%';$('nfxOfSellBar').style.width=(total?sell/total*100:0)+'%';$('nfxOfBuyBarVal').textContent=money(buy);$('nfxOfSellBarVal').textContent=money(sell);draw();}
  function tape(rows){const body=$('nfxOfTape');if(!body)return;body.innerHTML=rows.slice(-60).reverse().map(r=>'<tr class="'+(r.side==='BUY'?'buy':'sell')+'"><td>'+esc(r.time)+'</td><td>'+esc(price(r.price))+'</td><td>'+esc(money(r.size))+'</td><td>'+esc(r.side)+'</td></tr>').join('')||'<tr><td colspan="4">No volume records available for this instrument.</td></tr>';}
- function reset(){generation++;if(socket){try{socket.close()}catch(e){}socket=null}history=[];buy=0;sell=0;render();tape([]);return generation;}
+ function reset(){generation++;clearTimeout(reconnectTimer);reconnectTimer=0;if(socket){const old=socket;socket=null;try{old.onclose=null;old.onerror=null;old.onmessage=null;old.close()}catch(e){}}history=[];buy=0;sell=0;render();tape([]);return generation;}
  function setupSymbols(preserve=false){const market=$('nfxOfMarket').value,sel=$('nfxOfSymbol'),old=preserve?sel.value:'';sel.innerHTML=markets[market].map(([s,label])=>'<option value="'+esc(s)+'">'+esc(label)+'</option>').join('');if(old&&markets[market].some(x=>x[0]===old))sel.value=old;run();}
  function add(side,priceN,qty,time){const n=Number(priceN)*Number(qty);if(!Number.isFinite(n)||n<=0)return;const d=side==='BUY'?n:-n;buy+=side==='BUY'?n:0;sell+=side==='SELL'?n:0;history.push({delta:(history.length?history[history.length-1].delta:0)+d,time,price:Number(priceN),size:n,side});if(history.length>240)history.shift();render();}
- async function cryptoFeed(sym,token){setState('LIVE ORDER FLOW · BINANCE USDⓈ-M','live','Live exchange trade stream · delay not independently certified');$('nfxOfDisclaimer').innerHTML='<strong>Live source:</strong> Binance USDⓈ-M aggregate trades for '+esc(sym.toUpperCase())+'. Buy/sell side is inferred from exchange aggressor flag; data is exchange-specific, not a consolidated market tape.';socket=new WebSocket('wss://fstream.binance.com/ws/'+sym.toLowerCase()+'@aggTrade');socket.onopen=()=>{if(token===generation)setState('LIVE ORDER FLOW · '+sym.toUpperCase(),'live','WebSocket connected · '+new Date().toLocaleTimeString())};socket.onmessage=e=>{if(token!==generation)return;try{const t=JSON.parse(e.data);add(t.m?'SELL':'BUY',t.p,t.q,new Date(Number(t.T||Date.now())).toLocaleTimeString());if(history.length<=8||history.length%4===0)tape(history)}catch(err){}};socket.onerror=()=>{if(token===generation)setState('LIVE FEED ERROR','error','Exchange connection unavailable')};socket.onclose=()=>{if(token===generation)setState('FEED DISCONNECTED','error','Change symbol or retry')};}
+ async function cryptoFeed(sym,token){
+  const pair=sym.toLowerCase();
+  const sources=[
+   {name:'BINANCE USDⓈ-M',url:'wss://fstream.binance.com/ws/'+pair+'@aggTrade'},
+   {name:'BINANCE SPOT',url:'wss://stream.binance.com:9443/ws/'+pair+'@aggTrade'}
+  ];
+  let attempt=0;
+  $('nfxOfDisclaimer').innerHTML='<strong>Data source:</strong> Connecting to Binance live trade stream for '+esc(sym.toUpperCase())+'. Aggressor side is classified from the exchange buyer-maker flag. Spot and perpetual markets are distinct feeds.';
+  function connect(){
+   if(token!==generation)return;
+   const source=sources[attempt%sources.length];
+   setState('CONNECTING · '+source.name,'delay','Opening exchange WebSocket…');
+   let ws;
+   try{ws=new WebSocket(source.url);socket=ws;}
+   catch(err){retry();return;}
+   ws.onopen=()=>{
+    if(token!==generation){try{ws.close()}catch(e){}return;}
+    setState('LIVE ORDER FLOW · '+sym.toUpperCase(),'live',source.name+' connected · '+new Date().toLocaleTimeString());
+    $('nfxOfTapeMode').textContent=source.name+' · live trade tape';
+   };
+   ws.onmessage=e=>{
+    if(token!==generation)return;
+    try{
+     const t=JSON.parse(e.data);
+     if(!t||t.p==null||t.q==null)return;
+     add(t.m?'SELL':'BUY',t.p,t.q,new Date(Number(t.T||Date.now())).toLocaleTimeString());
+     if(history.length<=8||history.length%4===0)tape(history);
+    }catch(err){}
+   };
+   ws.onerror=()=>{if(token===generation){setState('EXCHANGE CONNECTION ISSUE','delay','Trying an alternate public feed…');try{ws.close()}catch(e){}}};
+   ws.onclose=()=>{if(token!==generation)return;retry();};
+  }
+  function retry(){
+   if(token!==generation)return;
+   if(attempt<sources.length-1){
+    attempt++;
+    setState('SWITCHING LIVE DATA SOURCE','delay',sources[attempt].name+' fallback');
+    reconnectTimer=setTimeout(connect,700);
+   }else{
+    setState('LIVE FEED UNAVAILABLE','error','Exchange connection blocked or offline; retrying in 5 seconds');
+    $('nfxOfDisclaimer').innerHTML='<strong>Live feed unavailable:</strong> the browser could not keep a connection to Binance. The chart will not fabricate data. Check the internet connection, browser extensions/firewall, and retry; the app will reconnect automatically.';
+    reconnectTimer=setTimeout(()=>{attempt=0;connect();},5000);
+   }
+  }
+  connect();
+ }
  async function delayedFeed(sym,market,token){const interval=Number($('nfxOfInterval').value),range='1d',iv=interval===1?'1m':interval===5?'5m':interval===15?'15m':'60m';setState('CHECKING DELAYED DATA SOURCE','delay','Requesting public OHLCV feed…');$('nfxOfDisclaimer').innerHTML='<strong>Source limitations:</strong> '+esc(market.toUpperCase())+' uses public Yahoo Finance chart data when available. Reported buy/sell figures are candle-direction volume estimates only, not exchange bid/ask or aggressor-side order flow. If volume is absent or the provider blocks access, metrics remain unavailable.';try{const url='https://query1.finance.yahoo.com/v8/finance/chart/'+encodeURIComponent(sym)+'?range='+range+'&interval='+iv;const res=await fetch(url,{cache:'no-store'});if(!res.ok)throw Error('HTTP '+res.status);const json=await res.json();if(token!==generation)return;const r=json.chart&&json.chart.result&&json.chart.result[0];if(!r)throw Error('No chart data');const q=r.indicators&&r.indicators.quote&&r.indicators.quote[0],ts=r.timestamp||[];if(!q)throw Error('No quote data');const rows=[];for(let i=0;i<ts.length;i++){const o=Number(q.open&&q.open[i]),c=Number(q.close&&q.close[i]),v=Number(q.volume&&q.volume[i]);if(!Number.isFinite(o)||!Number.isFinite(c)||!Number.isFinite(v)||v<=0)continue;const side=c>=o?'BUY':'SELL',notional=v*(c+o)/2;rows.push({side,price:c,size:notional,time:new Date(ts[i]*1000).toLocaleTimeString()})}if(!rows.length){setState('PRICE FEED FOUND · ORDER FLOW UNAVAILABLE','error','Provider returned no usable volume for this instrument');$('nfxOfDisclaimer').innerHTML='<strong>Unavailable honestly:</strong> price data may exist, but the selected provider supplied no usable volume. True aggressor-side order flow cannot be calculated from price-only candles. Connect a supported market-data provider for this instrument.';tape([]);return}rows.forEach(r=>{if(r.side==='BUY')buy+=r.size;else sell+=r.size;history.push({delta:buy-sell,time:r.time,price:r.price,size:r.size,side:r.side})});if(token!==generation)return;render();tape(rows);const meta=r.meta||{},age=meta.regularMarketTime?Math.max(0,Math.floor(Date.now()/1000-meta.regularMarketTime)) : null;setState('DELAYED CANDLE-VOLUME PROXY','delay',age===null?'Provider delay not supplied':'Provider quote timestamp age: '+Math.floor(age/60)+'m '+(age%60)+'s');$('nfxOfChartSub').textContent='Estimated directional volume · '+iv;$('nfxOfTapeMode').textContent='Candle proxy · not bid/ask tape';}catch(e){if(token!==generation)return;setState('DATA SOURCE UNAVAILABLE','error','Public feed blocked or symbol not supported');$('nfxOfDisclaimer').innerHTML='<strong>Feed unavailable:</strong> no valid public data was returned for this symbol. We do not display fabricated live/delayed values. Genuine order flow requires a compatible provider with trade-level or bid/ask volume data; provider credentials must stay server-side, never in public HTML.';tape([]);}}
- function run(){const token=reset(),market=$('nfxOfMarket').value,sym=$('nfxOfSymbol').value;$('nfxOfChartSub').textContent='Recent '+market+' activity';$('nfxOfTapeMode').textContent='Source-specific records';activeSymbol=sym;if(market==='crypto')cryptoFeed(sym,token);else delayedFeed(sym,market,token);}
+ function run(){const token=reset(),market=$('nfxOfMarket').value,sym=$('nfxOfSymbol').value;$('nfxOfChartSub').textContent='Recent '+market+' activity';$('nfxOfTapeMode').textContent='Source-specific records';activeSymbol=sym;if(!sym){setState('SELECT AN INSTRUMENT','error','Choose a symbol to start the feed');return}try{if(market==='crypto')cryptoFeed(sym,token);else delayedFeed(sym,market,token)}catch(err){if(token===generation)setState('ORDER FLOW STARTUP ERROR','error',String(err&&err.message||err))}}
  $('nfxOfMarket').addEventListener('change',()=>{setupSymbols()});$('nfxOfSymbol').addEventListener('change',run);$('nfxOfInterval').addEventListener('change',run);$('nfxOfSearch').addEventListener('input',()=>{const q=$('nfxOfSearch').value.trim().toLowerCase(),sel=$('nfxOfSymbol');for(const o of sel.options)o.hidden=!!q&&!o.textContent.toLowerCase().includes(q)&&!o.value.toLowerCase().includes(q);if(q){const match=[...sel.options].find(o=>!o.hidden);if(match)sel.value=match.value}});
  window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(draw,150)});window.addEventListener('nfx-orderflow-open',()=>{requestAnimationFrame(()=>{draw();render();})});window.addEventListener('pagehide',()=>{if(socket)socket.close()});setupSymbols();
 })();
