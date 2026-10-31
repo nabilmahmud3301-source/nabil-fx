@@ -217,7 +217,8 @@
         setMessage(message, 'Account successfully create hoyeche. Tomar profile ready.', 'success');
         showAccountPage('profile');
       } else {
-        setMessage(message, 'Account request successful. Email inbox/spam check kore confirmation link open koro, tarpor login koro.', 'success');
+        setMessage(message, 'Account request successful. Email inbox/spam check kore confirmation link open koro.', 'success');
+        setMessage($('loginStatus'), 'Account create hoyeche. Email confirmation link open kore tarpor ekhane login koro.', 'success');
         setStatus('Email confirmation is required before login.');
         showAccountPage('login');
       }
