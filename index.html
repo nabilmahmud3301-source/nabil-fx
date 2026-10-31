@@ -1384,7 +1384,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       <div hidden aria-hidden="true"><span id="nfxLiqBidVelocitySub"></span><span id="nfxLiqAskVelocitySub"></span></div>
     </section>
     <section class="nfx-liq-timeline-panel nfx-liq-workspace-card" id="nfxLiqBookHeatmap" aria-label="Liquidity timeline heatmap">
-      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">LIVE CAPTURE</div><h3>Liquidity Heatmap</h3><p>Live resting orders by price and time · Binance Futures 100ms depth · <strong id="nfxLiqTimelineSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><div class="nfx-liq-timeline-actions"><label>WINDOW <select id="nfxLiqWindow"><option value="60">1 MIN</option><option value="300" selected>5 MIN</option><option value="900">15 MIN</option><option value="3600">1 HOUR</option><option value="7200">2 HOURS</option><option value="14400">4 HOURS</option><option value="43200">12 HOURS</option><option value="86400">1 DAY</option><option value="259200">3 DAYS</option><option value="604800">7 DAYS</option></select></label><button id="nfxLiqResetHistory" type="button">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqBookHeatmap" aria-label="Expand liquidity heatmap">⛶ <span>Expand</span></button></div></div>
+      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">LIVE CAPTURE</div><h3>Liquidity Heatmap</h3><p>Live resting orders by price and time · Binance Futures 100ms depth · <strong id="nfxLiqTimelineSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><div class="nfx-liq-timeline-actions"><label>WINDOW <select id="nfxLiqWindow"><option value="60">1 MIN</option><option value="300">5 MIN</option><option value="900">15 MIN</option><option value="3600" selected>1 HOUR</option><option value="7200">2 HOURS</option><option value="14400">4 HOURS</option><option value="43200">12 HOURS</option><option value="86400">1 DAY</option><option value="259200">3 DAYS</option><option value="604800">7 DAYS</option></select></label><button id="nfxLiqResetHistory" type="button">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqBookHeatmap" aria-label="Expand liquidity heatmap">⛶ <span>Expand</span></button></div></div>
       <div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqTimelineCanvas" aria-label="Live order book liquidity by price and time"></canvas><div id="nfxLiqTimelineEmpty" class="nfx-liq-timeline-empty">Building live heatmap… historical columns appear as live snapshots arrive.</div></div>
       <div class="nfx-liq-timeline-axis"><span>OLDER</span><span>PRICE · TIME</span><span>NOW →</span></div>
       <div class="nfx-liq-timeline-note">Binance USDⓈ-M Futures top-20 visible levels. Not a prediction of future liquidation levels.</div>
@@ -3999,6 +3999,9 @@ document.addEventListener('click', function(event) {
     if(!window._nfxHistorySaveTimer)window._nfxHistorySaveTimer=setTimeout(function(){window._nfxHistorySaveTimer=null;saveHistoryCache();},2500);
   }
   function renderTimeline(){
+    var renderNow=Date.now(),lastRender=window._nfxLiqLastTimelineRender||0,wait=900-(renderNow-lastRender);
+    if(wait>0){if(!window._nfxLiqTimelineRenderTimer){window._nfxLiqTimelineRenderTimer=setTimeout(function(){window._nfxLiqTimelineRenderTimer=null;renderTimeline();},wait);}return;}
+    window._nfxLiqLastTimelineRender=renderNow;
     var canvas=$('nfxLiqTimelineCanvas');if(!canvas)return;
     var wrap=canvas.parentElement,rect=wrap.getBoundingClientRect();if(rect.width<40||rect.height<40)return;
     var dpr=Math.min(window.devicePixelRatio||1,2),w=Math.round(rect.width*dpr),h=Math.round(rect.height*dpr);
@@ -4089,7 +4092,7 @@ var nfxEstLiqCandles=[];
     var symbol=String(currentSymbol||'BTCUSDT').toUpperCase();
     if(nfxEstLiqLoading)return;
     var requestedRange=nfxEstLiqRange;
-    if(!force&&nfxEstLiqSymbol===symbol&&nfxEstLiqLoadedRange===requestedRange&&nfxEstLiqCandles.length&&Date.now()-nfxEstLiqFetchedAt<45000)return;
+    if(!force&&nfxEstLiqSymbol===symbol&&nfxEstLiqLoadedRange===requestedRange&&nfxEstLiqCandles.length&&Date.now()-nfxEstLiqFetchedAt<5000)return;
     if(nfxEstLiqLoading)return;
     nfxEstLiqLoading=true;
     var cfg=nfxEstLiqConfig();
