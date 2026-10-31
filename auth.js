@@ -14,6 +14,8 @@
   let currentUser = null;
   let loadedProfile = null;
   let saving = false;
+  let sessionExpiredByInactivity = false;
+  const LAST_AUTHENTICATED_VISIT_KEY = 'nabilFxLastAuthenticatedVisitAt';
 
   function setStatus(message) {
     // The Account Status panel shows a compact connection indicator, not repeated provider text.
@@ -213,6 +215,12 @@
       currentUser = data.session?.user || null;
       if (!currentUser) {
         showSignedOut();
+        if (sessionExpiredByInactivity) {
+          sessionExpiredByInactivity = false;
+          showAccountPage('login');
+          setProfileStatus('You were automatically logged out after 7 days without visiting Nabil FX. Please log in again with the same email address and password you used to create your account.');
+          setStatus('Your 7-day inactive session expired. Please sign in again.');
+        }
         return;
       }
 
@@ -351,6 +359,7 @@
       if (error) throw error;
       if ($('loginPassword')) $('loginPassword').value = '';
       currentUser = data.user;
+      try { localStorage.setItem(LAST_AUTHENTICATED_VISIT_KEY, String(Date.now())); } catch (_) {}
       await refreshAuth();
       setMessage(message, 'You have signed in successfully. Your cloud profile is loading.', 'success');
       showAccountPage('profile');
@@ -476,18 +485,24 @@
       auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
     });
 
-    // Keep the session across refreshes, but expire it after 7 full days without visiting the site.
+    // Expire this browser's saved login after 7 complete days without an actual site visit.
+    // The timer is refreshed only when a signed-in user opens the website or signs in.
     try {
       const now = Date.now();
-      const lastVisit = Number(localStorage.getItem('nabilFxLastVisitAt') || 0);
       const sevenDays = 7 * 24 * 60 * 60 * 1000;
-      if (lastVisit && now - lastVisit >= sevenDays) {
-        const { data } = await client.auth.getSession();
-        if (data.session) await client.auth.signOut({ scope: 'local' });
+      const { data, error } = await client.auth.getSession();
+      if (error) throw error;
+      if (data.session) {
+        const lastVisit = Number(localStorage.getItem(LAST_AUTHENTICATED_VISIT_KEY) || 0);
+        if (lastVisit && now - lastVisit >= sevenDays) {
+          sessionExpiredByInactivity = true;
+          await client.auth.signOut({ scope: 'local' });
+        } else {
+          localStorage.setItem(LAST_AUTHENTICATED_VISIT_KEY, String(now));
+        }
       }
-      localStorage.setItem('nabilFxLastVisitAt', String(now));
     } catch (expiryError) {
-      console.warn('Could not apply inactivity expiry:', expiryError);
+      console.warn('Could not apply 7-day inactivity expiry:', expiryError);
     }
 
     bindAuthEnhancements();
@@ -505,8 +520,11 @@
       if ($('accountProfilePhoto')) $('accountProfilePhoto').src = preview;
     });
 
-    client.auth.onAuthStateChange((_event, session) => {
+    client.auth.onAuthStateChange((event, session) => {
       currentUser = session?.user || null;
+      if (event === 'SIGNED_IN' && session?.user) {
+        try { localStorage.setItem(LAST_AUTHENTICATED_VISIT_KEY, String(Date.now())); } catch (_) {}
+      }
       setTimeout(refreshAuth, 0);
     });
     refreshAuth();
