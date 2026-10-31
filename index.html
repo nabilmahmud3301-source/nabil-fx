@@ -4007,8 +4007,14 @@ document.addEventListener('click', function(event) {
     ctx.textAlign='right';ctx.fillStyle='#73839b';ctx.fillText('LIVE DEPTH  /  '+history.length+' SNAPSHOTS',W-right,15);
     if(!history.length){ctx.fillStyle='#73839b';ctx.textAlign='center';ctx.font='12px system-ui,sans-serif';ctx.fillText('Collecting live order-book snapshots…',left+pw/2,top+ph/2-7);ctx.font='10px system-ui,sans-serif';ctx.fillStyle='#4e6077';ctx.fillText('Heatmap intensity builds from visible Binance Futures depth',left+pw/2,top+ph/2+13);return;}
     var mids=history.map(function(x){return x.mid;}).filter(function(x){return Number.isFinite(x)&&x>0;}),currentMid=mids[mids.length-1];
-    var lo=currentMid*.995,hi=currentMid*1.005;if(!Number.isFinite(lo)||!Number.isFinite(hi)||hi<=lo){lo=currentMid-1;hi=currentMid+1;}
-    var rows=84,cols=Math.max(1,Math.min(220,history.length)),grid=Array.from({length:rows},function(){return Array.from({length:cols},function(){return {bid:0,ask:0};});}),maxQty=0;
+    // Fit the vertical price scale to the actual visible depth levels instead of a fixed +/-0.5% band.
+    // This spreads captured liquidity across the full plot height rather than compressing it into the center.
+    var depthLo=Infinity,depthHi=-Infinity;
+    history.forEach(function(s){[['bid',s.bids||[]],['ask',s.asks||[]]].forEach(function(pair){pair[1].forEach(function(level){var p=Number(level[0]),q=Number(level[1]);if(Number.isFinite(p)&&p>0&&Number.isFinite(q)&&q>0){depthLo=Math.min(depthLo,p);depthHi=Math.max(depthHi,p);}});});});
+    var span=depthHi-depthLo, padding=span>0?span*.10:currentMid*.001;
+    var lo=Number.isFinite(depthLo)?depthLo-padding:currentMid*.995,hi=Number.isFinite(depthHi)?depthHi+padding:currentMid*1.005;
+    if(!Number.isFinite(lo)||!Number.isFinite(hi)||hi<=lo){lo=currentMid-1;hi=currentMid+1;}
+    var rows=100,cols=Math.max(1,Math.min(220,history.length)),grid=Array.from({length:rows},function(){return Array.from({length:cols},function(){return {bid:0,ask:0};});}),maxQty=0;
     history.forEach(function(s,idx){
       var ci=Math.min(cols-1,Math.floor(idx/history.length*cols));
       [['bid',s.bids||[]],['ask',s.asks||[]]].forEach(function(pair){
