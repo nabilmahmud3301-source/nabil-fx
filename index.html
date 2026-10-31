@@ -1892,35 +1892,41 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
     </section>
 
     <!-- Account: Profile -->
-    <section class="panel account-subview" id="account-profile">
-      <h2>Personal Profile</h2>
-      <div class="profile-grid">
-        <div>
+    <section class="panel account-subview nfx-profile-panel" id="account-profile">
+      <div class="profile-page-heading">
+        <div><span class="profile-kicker">NABIL FX / MEMBER SPACE</span><h2>Personal Profile</h2><p>One place for your identity, trading preferences and private workspace notes.</p></div>
+        <span class="profile-member-chip"><span></span> PERSONAL WORKSPACE</span>
+      </div>
+      <div class="profile-identity-card">
+        <div class="profile-identity-main">
           <img class="profile-photo" id="accountProfilePhoto" src="profile-photo.jpg" alt="Your profile photo">
-          <div class="field section">
-            <label for="avatarUpload">PROFILE PICTURE</label>
-            <input id="avatarUpload" type="file" accept="image/png,image/jpeg,image/webp">
-            <p class="hint">PNG, JPG or WebP; maximum 2 MB.</p>
-          </div>
+          <div class="profile-identity-copy"><span class="profile-kicker">TRADER PROFILE</span><h2 id="accountProfileName">Your Profile</h2><p id="accountProfileEmail">Not signed in</p></div>
         </div>
-        <div>
-          <h2 id="accountProfileName" style="font-size:26px;margin-bottom:4px">Your Profile</h2>
-          <p class="muted" id="accountProfileEmail">Not signed in</p>
-          <div class="fields section">
+        <div class="profile-account-mark"><span>ACCOUNT</span><strong id="profileAccountLabel">MEMBER</strong><small>Secure cloud profile</small></div>
+      </div>
+      <div class="profile-grid">
+        <aside class="profile-avatar-card">
+          <div class="profile-card-heading"><span>01</span><div><strong>Profile image</strong><small>Personal identity</small></div></div>
+          <label class="profile-upload-control" for="avatarUpload"><span class="profile-upload-icon">↥</span><strong>Update photo</strong><small>PNG, JPG or WebP · Max 2 MB</small></label>
+          <input id="avatarUpload" class="profile-file-input" type="file" accept="image/png,image/jpeg,image/webp">
+          <p class="profile-private-note">Your profile image is linked to your account.</p>
+        </aside>
+        <div class="profile-editor">
+          <div class="profile-section-heading"><span>02</span><div><strong>Personal information</strong><small>How your profile is identified</small></div></div>
+          <div class="fields">
             <div class="field wide"><label for="profileDisplayName">DISPLAY NAME</label><input id="profileDisplayName" maxlength="80" placeholder="Your name"></div>
             <div class="field"><label for="profileUsername">USERNAME</label><input id="profileUsername" maxlength="30" placeholder="Optional username"></div>
-            <div class="field"><label for="profileMarket">FAVORITE MARKET</label><select id="profileMarket"><option>Forex</option><option>Gold</option><option>Indices</option><option>Stocks</option><option>Crypto</option><option>Futures</option></select></div>
-            <div class="field wide"><label for="profileBio">BIO</label><textarea id="profileBio" maxlength="500" placeholder="Tell people a little about your trading journey..."></textarea></div>
+            <div class="field"><label for="profileMarket">PRIMARY MARKET</label><select id="profileMarket"><option>Forex</option><option>Gold</option><option>Indices</option><option>Stocks</option><option>Crypto</option><option>Futures</option></select></div>
+            <div class="field wide"><label for="profileBio">ABOUT ME</label><textarea id="profileBio" maxlength="500" placeholder="A short introduction to your trading journey..."></textarea></div>
           </div>
-          <div class="section">
-            <label for="profileGoal">TRADING GOAL / PRIVATE NOTES</label>
-            <textarea id="profileGoal" placeholder="Write your trading goals, rules, and review notes here..."></textarea>
+          <div class="profile-section-heading profile-goal-heading"><span>03</span><div><strong>Trading goals & private notes</strong><small>Keep your personal process in one place</small></div></div>
+          <label class="profile-visually-clear" for="profileGoal">PRIVATE WORKSPACE NOTES</label>
+          <textarea id="profileGoal" placeholder="Write your trading goals, rules, and review notes here..."></textarea>
+          <div class="actions profile-actions">
+            <button class="btn primary" id="saveProfile" type="button">Save Changes</button>
+            <button class="btn secondary" id="logoutBtn" type="button">Log Out</button>
           </div>
-          <div class="actions">
-            <button class="btn primary" id="saveProfile" type="button">Save Profile</button>
-            <button class="btn secondary" id="logoutBtn" type="button">Logout</button>
-          </div>
-          <p class="hint">Your profile details and trading goal notes are saved to your cloud profile. Journal notes and saved backtest runs remain local to this browser.</p>
+          <p class="profile-data-note">Profile details are saved to your cloud account. Journal notes and saved backtest runs remain local to this browser.</p>
         </div>
       </div>
       <div id="profileStatus" class="status">Sign in to view and edit your profile.</div>
@@ -2232,6 +2238,14 @@ document.querySelectorAll('[data-account-page]').forEach(btn=>{
   });
 });
 $('accountMenuToggle').addEventListener('click',()=>{
+  if(window.NABIL_IS_AUTHENTICATED){
+    $('accountDropdown').classList.remove('open');
+    $('accountMenuToggle').setAttribute('aria-expanded','false');
+    if(window.showNabilPage)window.showNabilPage('account');
+    if(window.showNabilAccountPage)window.showNabilAccountPage('profile');
+    $('accountMenuToggle').classList.add('active');
+    return;
+  }
   const dropdown=$('accountDropdown');
   const open=dropdown.classList.toggle('open');
   $('accountMenuToggle').setAttribute('aria-expanded',String(open));
@@ -5298,4 +5312,48 @@ setInterval(function(){nfxEstLiqLoad(false);},30000);
 .nfx-global-toast{padding:14px 17px;border:1px solid rgba(255,83,100,.42);border-left:3px solid #ff4054;border-radius:12px;background:linear-gradient(135deg,rgba(35,13,18,.98),rgba(14,14,17,.98));box-shadow:0 16px 42px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.06);color:#f7e9eb;font:600 13px/1.55 system-ui,Arial,sans-serif;overflow-wrap:anywhere;opacity:0;transform:translate3d(0,-8px,0);transition:opacity .22s ease,transform .22s ease}
 .nfx-global-toast.is-visible{opacity:1;transform:translate3d(0,0,0)}
 @media(max-width:600px){.nfx-global-toast-host{top:12px;right:12px;width:calc(100vw - 24px)}.nfx-global-toast{padding:12px 14px;font-size:12px}}
+
+/* NABIL FX — premium personal profile workspace */
+#account-profile{grid-column:1/-1;padding:clamp(18px,3vw,30px);background:radial-gradient(ellipse at 5% 0%,rgba(255,36,56,.09),transparent 34%),linear-gradient(145deg,#111216,#0b0c10 72%);border-color:#30232a}
+#page-account>.account-grid>.panel:not(.account-subview){grid-column:1/-1}
+.profile-page-heading{display:flex;align-items:center;justify-content:space-between;gap:18px;padding-bottom:22px;border-bottom:1px solid rgba(255,255,255,.08)}
+.profile-page-heading h2{margin:5px 0 4px;font-size:clamp(23px,3vw,30px);letter-spacing:-.7px}
+.profile-page-heading p{margin:0;color:#9297a3;font-size:13px}
+.profile-kicker{color:#ff6878;font-size:9px;font-weight:850;letter-spacing:.19em}
+.profile-member-chip{display:inline-flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid rgba(255,67,87,.25);border-radius:999px;background:rgba(255,36,56,.07);color:#e8cbd0;font-size:9px;font-weight:800;letter-spacing:.12em;white-space:nowrap}
+.profile-member-chip span{width:6px;height:6px;border-radius:50%;background:#ff5266;box-shadow:0 0 10px #ff5266}
+.profile-identity-card{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:22px 0;padding:18px 20px;border:1px solid #292b34;border-radius:15px;background:linear-gradient(110deg,rgba(255,255,255,.045),rgba(255,255,255,.012))}
+.profile-identity-main{display:flex;align-items:center;gap:17px;min-width:0}
+.profile-photo{width:88px;height:88px;flex:0 0 88px;border-radius:50%;border:2px solid #9e3444;box-shadow:0 0 0 5px rgba(255,36,56,.07);object-fit:cover}
+.profile-identity-copy{min-width:0}
+.profile-identity-copy h2{margin:4px 0 2px;font-size:21px;overflow-wrap:anywhere}
+.profile-identity-copy p{margin:0;color:#a4a8b2;font-size:12px;overflow-wrap:anywhere}
+.profile-account-mark{text-align:right;display:grid;gap:4px}
+.profile-account-mark span,.profile-account-mark small{color:#858b98;font-size:9px;letter-spacing:.13em}
+.profile-account-mark strong{color:#f1d8dc;font-size:12px;letter-spacing:.1em}
+.profile-grid{grid-template-columns:minmax(190px,.34fr) minmax(0,1fr);gap:18px}
+.profile-avatar-card,.profile-editor{padding:18px;border:1px solid #292b34;border-radius:14px;background:rgba(7,8,11,.62);min-width:0}
+.profile-card-heading,.profile-section-heading{display:flex;align-items:center;gap:11px;margin-bottom:17px}
+.profile-card-heading>span,.profile-section-heading>span{display:grid;place-items:center;width:29px;height:29px;flex:0 0 29px;border:1px solid rgba(255,66,86,.32);border-radius:8px;background:rgba(255,36,56,.08);color:#ff7180;font-size:10px;font-weight:850}
+.profile-card-heading strong,.profile-section-heading strong{display:block;color:#f0f0f3;font-size:13px}
+.profile-card-heading small,.profile-section-heading small{display:block;margin-top:2px;color:#858b98;font-size:10px}
+.profile-upload-control{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-height:126px;padding:15px;border:1px dashed #5a3540;border-radius:12px;background:rgba(255,36,56,.035);cursor:pointer;text-align:center}
+.profile-upload-icon{display:grid;place-items:center;width:32px;height:32px;border-radius:10px;background:rgba(255,36,56,.13);color:#ff6978;font-size:20px}
+.profile-upload-control strong{color:#f0e9eb;font-size:12px}
+.profile-upload-control small{color:#8d929e;font-size:10px}
+.profile-file-input{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none}
+.profile-private-note,.profile-data-note{color:#828895;font-size:10px;line-height:1.6}
+.profile-private-note{margin:12px 0 0}
+.profile-editor .fields{gap:13px}
+.profile-editor input,.profile-editor select,.profile-editor textarea{background:#0b0e14;border-color:#303541;border-radius:9px;color:#edf0f5}
+.profile-editor input:focus,.profile-editor select:focus,.profile-editor textarea:focus{border-color:#a83a4b;box-shadow:0 0 0 3px rgba(255,36,56,.08);outline:none}
+.profile-editor textarea{min-height:96px}
+.profile-goal-heading{margin-top:23px;padding-top:20px;border-top:1px solid rgba(255,255,255,.07)}
+.profile-visually-clear{display:block;margin:0 0 7px;color:#9ca2ae;font-size:10px;font-weight:800;letter-spacing:.1em}
+.profile-actions{margin-top:14px}
+.profile-actions .btn{min-width:130px}
+.profile-data-note{margin:12px 0 0}
+#account-profile .status{border:1px solid #30313b;background:#11141b;color:#d6d8df}
+@media(max-width:760px){.profile-page-heading{align-items:flex-start;flex-direction:column}.profile-identity-card{align-items:flex-start}.profile-account-mark{display:none}.profile-grid{grid-template-columns:1fr}.profile-avatar-card{max-width:none}}
+@media(max-width:520px){#account-profile{padding:15px}.profile-identity-card{padding:14px}.profile-photo{width:68px;height:68px;flex-basis:68px}.profile-identity-main{gap:12px}.profile-identity-copy h2{font-size:17px}.profile-editor,.profile-avatar-card{padding:14px}.profile-actions .btn{flex:1}}
 </style>
