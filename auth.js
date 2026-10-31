@@ -453,7 +453,7 @@
   async function logout() {
     setAuthButtonsBusy(true);
     try {
-      const { error } = await client.auth.signOut();
+      const { error } = await client.auth.signOut({ scope: 'local' });
       if (error) throw error;
       showSignedOut();
       setStatus('You have logged out.');
@@ -483,7 +483,7 @@
       const sevenDays = 7 * 24 * 60 * 60 * 1000;
       if (lastVisit && now - lastVisit >= sevenDays) {
         const { data } = await client.auth.getSession();
-        if (data.session) await client.auth.signOut();
+        if (data.session) await client.auth.signOut({ scope: 'local' });
       }
       localStorage.setItem('nabilFxLastVisitAt', String(now));
     } catch (expiryError) {
