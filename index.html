@@ -3259,6 +3259,9 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 }
 </style>
 
+<style id="nfx-backtest-home-isolation">/* Keep Backtest-only panels off the Home page unless Backtest is selected. */
+#page-backtest.view:not(.active){display:none!important}
+</style>
 </head>
 <body>
 <div id="nfx-page-loader" role="status" aria-live="polite" aria-label="Loading Nabil FX workspace">
