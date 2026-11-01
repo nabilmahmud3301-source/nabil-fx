@@ -2758,15 +2758,23 @@ $('run').onclick=async()=>{
       throw Error('Strategy could not be compiled safely. '+why);
     }
     // The executable condition arrays are authoritative; legacy booleans may be absent.
-    const longConditions=Array.isArray(ai.execution.longConditions)?ai.execution.longConditions:[];
-    const shortConditions=Array.isArray(ai.execution.shortConditions)?ai.execution.shortConditions:[];
-    const targetR=Number(ai.execution.targetR ?? ai.rewardRisk);
-    const rule={type:'custom',execution:{...ai.execution,targetR},long:longConditions.length>0,short:shortConditions.length>0,r:targetR};
+    // Normalize compiler output defensively: accept canonical execution arrays and
+    // common equivalent response shapes, while never inventing entry signals.
+    const rawExecution=ai.execution;
+    const longConditions=Array.isArray(rawExecution.longConditions)?rawExecution.longConditions:
+      (Array.isArray(ai.longConditions)?ai.longConditions:[]);
+    const shortConditions=Array.isArray(rawExecution.shortConditions)?rawExecution.shortConditions:
+      (Array.isArray(ai.shortConditions)?ai.shortConditions:[]);
+    const parsedR=Number(rawExecution.targetR ?? ai.rewardRisk ?? ai.targetR);
+    const explicitR=String(strategyText).match(/(?:TP|take\s*profit|target)\s*[:=]?\s*(?:1\s*:\s*)?([0-9]+(?:\.[0-9]+)?)\s*R?/i);
+    const targetR=Number.isFinite(parsedR)&&parsedR>0?parsedR:
+      (explicitR&&Number(explicitR[1])>0?Number(explicitR[1]):NaN);
+    const rule={type:'custom',execution:{...rawExecution,longConditions,shortConditions,targetR},long:longConditions.length>0,short:shortConditions.length>0,r:targetR};
     if((!rule.long&&!rule.short)||!(Number.isFinite(rule.r)&&rule.r>0)){
       const details=[];
-      if(!rule.long&&!rule.short)details.push('AI returned no executable BUY/SELL conditions.');
-      if(!(Number.isFinite(rule.r)&&rule.r>0))details.push('AI returned invalid targetR: '+String(ai.execution.targetR));
-      throw Error('Strategy compiler output is incomplete. '+details.join(' '));
+      if(!rule.long&&!rule.short)details.push('AI did not produce executable BUY/SELL entry rules. Rewrite the entry trigger clearly (what exact event opens a BUY or SELL).');
+      if(!(Number.isFinite(rule.r)&&rule.r>0))details.push('Take-profit target is missing or invalid. Specify a target such as 2R.');
+      throw Error('Strategy compiler output incomplete. '+details.join(' '));
     }
     status('Step 2/3 · Fetching historical candles…');
     const c=await candles();
