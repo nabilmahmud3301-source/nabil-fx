@@ -3973,7 +3973,7 @@ document.addEventListener('click', function(event) {
     if(activeMarket!=='crypto'||document.hidden)return;
     var sym=String(currentSymbol||'btcusdt').toUpperCase(),bidsMap=new Map(),asksMap=new Map(),pingTimer=null,ready=false;
     var ws;try{ws=new WebSocket('wss://stream.bybit.com/v5/public/linear');}catch(e){scheduleBookReconnect();return;}
-    socket=ws;setStatus('Connecting to Bybit 1000-level order book…','connecting');
+    socket=ws;setStatus('Connecting to Bybit 1000-level order book…','connecting');updateVenueLabels([]);
     function render(){
       var bids=Array.from(bidsMap.entries()).map(function(x){return [Number(x[0]),Number(x[1])];}).filter(function(x){return x[1]>0;}).sort(function(a,b){return b[0]-a[0];}).slice(0,1000);
       var asks=Array.from(asksMap.entries()).map(function(x){return [Number(x[0]),Number(x[1])];}).filter(function(x){return x[1]>0;}).sort(function(a,b){return a[0]-b[0];}).slice(0,1000);
@@ -4324,10 +4324,10 @@ var nfxEstLiqCandles=[];
     var candles=nfxEstLiqCandles.filter(function(c){return c.t>=cutoff&&c.t<=cutoff+span;});
     var events=liquidationEvents.filter(function(e){return e.symbol===symbol&&e.t>=cutoff&&e.t<=cutoff+span&&e.p>0&&e.usd>0;});
     ctx.font='700 10px system-ui,sans-serif';ctx.textBaseline='middle';ctx.textAlign='left';ctx.fillStyle='#dce5f1';
-    ctx.fillText(activeProvider.toUpperCase()+' · VERIFIED EXCHANGE LIQUIDATIONS',left,14);
+    ctx.fillText(activeProvider==='bybit'?'BYBIT · ALL REPORTED LIQUIDATIONS':'BINANCE · FORCE-ORDER SNAPSHOTS',left,14);
     ctx.textAlign='right';ctx.fillStyle='#92a1b5';ctx.fillText(symbol.toUpperCase()+' · '+nfxEstLiqRange.toUpperCase(),W-right,14);
     if(!candles.length){
-      ctx.textAlign='center';ctx.fillStyle='#9aa8bb';ctx.font='12px system-ui,sans-serif';ctx.fillText('Loading verified Binance Futures price data…',left+pw/2,top+ph/2);
+      ctx.textAlign='center';ctx.fillStyle='#9aa8bb';ctx.font='12px system-ui,sans-serif';ctx.fillText('Loading market candle data…',left+pw/2,top+ph/2);
       var empty=$('nfxLiqLiquidationEmpty');if(empty)empty.hidden=false;return;
     }
     var last=candles[candles.length-1].c;
@@ -4510,8 +4510,8 @@ function bindHeatmapInspector(canvasId,kind){
   var searchForm=$('nfxMarketSearchForm'),searchInput=$('nfxMarketSearchInput');
   if(searchForm)searchForm.addEventListener('submit',function(event){event.preventDefault();chooseMarket(searchInput?searchInput.value:'');});
   if(searchInput)searchInput.addEventListener('change',function(){var raw=searchInput.value;if(raw&&symbols[normalizeSymbol(raw).toLowerCase()])chooseMarket(raw);});
-  document.querySelectorAll('[data-nfx-provider]').forEach(function(btn){btn.addEventListener('click',function(){var next=btn.getAttribute('data-nfx-provider');if(next===activeProvider)return;activeProvider=next;document.querySelectorAll('[data-nfx-provider]').forEach(function(b){var on=b===btn;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on?'true':'false');});if(socket){try{socket.onclose=null;socket.close();}catch(e){}socket=null;}if(liquidationSocket){try{liquidationSocket.onclose=null;liquidationSocket.close();}catch(e){}liquidationSocket=null;}liqHistory=[];liquidationEvents=[];lastHistoryAt=0;connect();connectLiquidations();var feed=$('nfxPobSourceName');if(feed)feed.textContent=activeProvider.toUpperCase()+' USDⓈ-M FUTURES';renderTimeline();renderLiquidationHeatmap();});});
-  restoreHistoryCache(currentSymbol);updateMarketSearchUI();loadCryptoMarkets();
+  document.querySelectorAll('[data-nfx-provider]').forEach(function(btn){btn.addEventListener('click',function(){var next=btn.getAttribute('data-nfx-provider');if(next===activeProvider)return;activeProvider=next;updateVenueLabels([]);document.querySelectorAll('[data-nfx-provider]').forEach(function(b){var on=b===btn;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on?'true':'false');});if(socket){try{socket.onclose=null;socket.close();}catch(e){}socket=null;}if(liquidationSocket){try{liquidationSocket.onclose=null;liquidationSocket.close();}catch(e){}liquidationSocket=null;}liqHistory=[];liquidationEvents=[];lastHistoryAt=0;connect();connectLiquidations();var feed=$('nfxPobSourceName');if(feed)feed.textContent=activeProvider.toUpperCase()+' USDⓈ-M FUTURES';renderTimeline();renderLiquidationHeatmap();});});
+  restoreHistoryCache(currentSymbol);updateMarketSearchUI();updateVenueLabels([]);loadCryptoMarkets();
   var bookLiqRanges=[3600,7200,14400,43200,86400,172800,259200,604800];
   function setBookLiqRange(value){
     var win=$('nfxLiqWindow');if(!win)return;
