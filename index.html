@@ -2650,7 +2650,7 @@ function evaluateStrategyExpression(c,expr,i,cache){
  if(expr.indicator){
   const period=Math.max(2,Math.min(500,Math.floor(Number(expr.period)||14)));
   const source={open:'o',high:'h',low:'l',close:'c',volume:'v'}[expr.source||'close']||'c';
-  const cacheKey='expr:'+expr.indicator+':'+period+':'+source+':'+c.length+':'+c[0]?.t+':'+c[1]?.t+':'+c[c.length-1]?.t;
+  const cacheKey='expr:'+expr.indicator+':'+period+':'+source+':'+Number(expr.multiplier||2)+':'+c.length+':'+c[0]?.t+':'+c[1]?.t+':'+c[c.length-1]?.t;
   let values=cache.get(cacheKey);
   if(!values){
    if(expr.indicator==='ema')values=emaValues(c,period,source);
