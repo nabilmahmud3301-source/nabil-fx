@@ -1463,10 +1463,10 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       <div class="nfx-liq-timeline-note">Binance USDⓈ-M Futures top-20 visible levels. Not a prediction of future liquidation levels.</div>
     </section>
     <section class="nfx-liq-timeline-panel nfx-liq-workspace-card" id="nfxLiqLiquidationHeatmap" aria-label="Live futures liquidation heatmap">
-      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">BINANCE FUTURES · LIVE FORCE ORDERS</div><h3>Liquidation Heatmap</h3><p>Exchange-reported liquidations + candlesticks · <strong id="nfxLiqLiquidationSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><span class="nfx-liq-live-tag" id="nfxLiqEstStatus"><i></i> LIVE FEED</span><div class="nfx-est-liq-ranges" role="group" aria-label="Heatmap time range"><button type="button" data-est-liq-range="1h" class="active">1H</button><button type="button" data-est-liq-range="2h">2H</button><button type="button" data-est-liq-range="4h">4H</button><button type="button" data-est-liq-range="12h">12H</button><button type="button" data-est-liq-range="1d">1D</button><button type="button" data-est-liq-range="2d">2D</button><button type="button" data-est-liq-range="3d">3D</button><button type="button" data-est-liq-range="7d">7D</button><button type="button" data-est-liq-zoom="reset">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqLiquidationHeatmap" aria-label="Expand liquidation heatmap">⛶ <span>Expand</span></button></div></div>
-      <div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqLiquidationCanvas" aria-label="Heatmap of actual Binance Futures liquidation events by price and time" style="width:100%;height:100%;display:block"></canvas><div id="nfxLiqLiquidationEmpty" class="nfx-liq-timeline-empty">Waiting for actual futures liquidation events…</div></div>
+      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">BINANCE FUTURES · LIVE FORCE ORDERS</div><h3>Liquidation Heatmap</h3><p>Estimated liquidation zones + live Binance force orders · <strong id="nfxLiqLiquidationSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><span class="nfx-liq-live-tag" id="nfxLiqEstStatus"><i></i> LIVE FEED</span><div class="nfx-est-liq-ranges" role="group" aria-label="Heatmap time range"><button type="button" data-est-liq-range="1h" class="active">1H</button><button type="button" data-est-liq-range="2h">2H</button><button type="button" data-est-liq-range="4h">4H</button><button type="button" data-est-liq-range="12h">12H</button><button type="button" data-est-liq-range="1d">1D</button><button type="button" data-est-liq-range="2d">2D</button><button type="button" data-est-liq-range="3d">3D</button><button type="button" data-est-liq-range="7d">7D</button><button type="button" data-est-liq-zoom="reset">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqLiquidationHeatmap" aria-label="Expand liquidation heatmap">⛶ <span>Expand</span></button></div></div>
+      <div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqLiquidationCanvas" aria-label="Estimated liquidation zones with Binance-reported force-order overlays by price and time" style="width:100%;height:100%;display:block"></canvas><div id="nfxLiqLiquidationEmpty" class="nfx-liq-timeline-empty">Waiting for actual futures liquidation events…</div></div>
       <div class="nfx-liq-timeline-axis"><span>OLDER</span><span>SYMBOL · TIME</span><span>NOW →</span></div>
-      <div class="nfx-liq-timeline-note">Heatmap intensity is built only from Binance USDⓈ-M Futures force-order events and their reported price and notional. Historical events begin accumulating when this page is open; Binance does not provide a public historical liquidation-level map.</div>
+      <div class="nfx-liq-timeline-note">Estimated long/short liquidation clusters are modelled from recent swing highs/lows and traded volume; they are not verified account liquidation prices. Actual Binance USDⓈ-M force-order events overlay the estimates when published. Binance does not provide a public historical liquidation-level map.</div>
     </section>
   </div>
   <article class="nfx-of-card" id="nfxCvdCard"><span class="nfx-of-label">CUMULATIVE VOLUME DELTA</span><strong id="nfxCvdValue">—</strong><div class="nfx-of-sub" id="nfxCvdSub">Waiting for live aggregate trades</div><canvas id="nfxCvdCanvas" height="90"></canvas></article>
@@ -4243,16 +4243,34 @@ var nfxEstLiqCandles=[];
     var candles=nfxEstLiqCandles.filter(function(c){return c.t>=cutoff;});
     var events=liquidationEvents.filter(function(e){return e.symbol===symbol&&e.t>=cutoff&&e.p>0&&e.usd>0;});
     ctx.font='700 10px system-ui,sans-serif';ctx.textBaseline='middle';ctx.textAlign='left';ctx.fillStyle='#dce5f1';
-    ctx.fillText('LIVE REPORTED LIQUIDATIONS',left,14);
+    ctx.fillText('MODELLED LIQUIDATION ZONES · LIVE ESTIMATES',left,14);
     ctx.textAlign='right';ctx.fillStyle='#92a1b5';ctx.fillText(symbol.toUpperCase()+' · '+nfxEstLiqRange.toUpperCase(),W-right,14);
     if(!candles.length){
       ctx.textAlign='center';ctx.fillStyle='#9aa8bb';ctx.font='12px system-ui,sans-serif';ctx.fillText('Loading verified Binance Futures price data…',left+pw/2,top+ph/2);
       var empty=$('nfxLiqLiquidationEmpty');if(empty)empty.hidden=false;return;
     }
+    var last=candles[candles.length-1].c;
+    // Build transparent modelled liquidation clusters from recent swing points and traded volume.
+    // These are estimates, not Binance-reported account liquidation prices.
+    var pivots=[];
+    for(var pi=2;pi<candles.length-2;pi++){
+      var pc=candles[pi],isHigh=true,isLow=true;
+      for(var pj=pi-2;pj<=pi+2;pj++){if(pj===pi)continue;if(candles[pj].h>=pc.h)isHigh=false;if(candles[pj].l<=pc.l)isLow=false;}
+      if(isHigh||isLow)pivots.push({price:isHigh?pc.h:pc.l,side:isHigh?'SHORT':'LONG',volume:Math.max(0,pc.v||0),time:pc.t});
+    }
+    pivots.sort(function(a,b){return b.volume-a.volume;});pivots=pivots.slice(0,22);
+    var estimateLevels=[],offsets=[.005,.01,.015,.02,.03,.05,.08];
+    pivots.forEach(function(p){
+      offsets.forEach(function(offset,oi){
+        var price=p.side==='SHORT'?p.price*(1+offset):p.price*(1-offset);
+        if(price>0)estimateLevels.push({price:price,side:p.side,weight:(1+Math.log1p(p.volume))*Math.exp(-oi*.22),offset:offset,anchor:p.price});
+      });
+    });
     var lo=Math.min.apply(null,candles.map(function(c){return c.l;}));
     var hi=Math.max.apply(null,candles.map(function(c){return c.h;}));
     events.forEach(function(e){lo=Math.min(lo,e.p);hi=Math.max(hi,e.p);});
-    var last=candles[candles.length-1].c,pad=Math.max((hi-lo)*.12,last*.0015);
+    estimateLevels.forEach(function(e){lo=Math.min(lo,e.price);hi=Math.max(hi,e.price);});
+    var pad=Math.max((hi-lo)*.08,last*.0015);
     var minP=Math.max(1e-8,lo-pad),maxP=hi+pad;if(maxP<=minP){minP=last*.99;maxP=last*1.01;}
     var rows=100,cols=Math.min(220,Math.max(80,Math.ceil(pw/4))),cellW=pw/cols,cellH=ph/rows;
     var heat=Array.from({length:rows},function(){return Array(cols).fill(0);});
@@ -4285,6 +4303,26 @@ var nfxEstLiqCandles=[];
       var dt=new Date(cutoff+span*q/6);ctx.fillStyle='#8391a5';ctx.textAlign=q===0?'left':q===6?'right':'center';ctx.font='9px ui-monospace,monospace';
       ctx.fillText(dt.toLocaleDateString([],{month:'short',day:'2-digit'})+' '+dt.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),gx,H-15);
     }
+    // Render modelled long/short liquidation clusters as broad, visible horizontal heat bands.
+    var maxEstimate=estimateLevels.reduce(function(m,e){return Math.max(m,e.weight);},0);
+    estimateLevels.forEach(function(e){
+      var y=top+(maxP-e.price)/(maxP-minP)*ph;if(y<top||y>top+ph)return;
+      var strength=maxEstimate?e.weight/maxEstimate:0;
+      var isLong=e.side==='LONG',rgb=isLong?'255,67,105':'40,220,174';
+      var bandH=5+strength*8,alpha=.12+strength*.28;
+      var fade=ctx.createLinearGradient(left,0,W-right,0);
+      fade.addColorStop(0,'rgba('+rgb+','+(alpha*.45)+')');
+      fade.addColorStop(.55,'rgba('+rgb+','+alpha+')');
+      fade.addColorStop(1,'rgba('+rgb+','+(alpha*.75)+')');
+      ctx.fillStyle=fade;ctx.fillRect(left,y-bandH/2,pw,bandH);
+      ctx.strokeStyle='rgba('+rgb+','+(.35+strength*.5)+')';ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(W-right,y);ctx.stroke();
+      if(strength>.35){
+        ctx.fillStyle='rgba(3,8,14,.88)';ctx.fillRect(left+5,y-8,112,15);
+        ctx.fillStyle='rgb('+rgb+')';ctx.font='700 9px ui-monospace,monospace';ctx.textAlign='left';
+        ctx.fillText((isLong?'EST. LONG LIQ':'EST. SHORT LIQ')+' '+fmt(e.price),left+9,y);
+      }
+    });
     // Overlay actual Binance Futures candles; no synthetic liquidation levels are generated.
     // Place each candle by its actual timestamp across the entire selected window. Candle body width follows the selected candle interval so long ranges remain readable.
     var intervalMs=({ '1h':60000,'2h':60000,'4h':60000,'12h':60000,'1d':60000,'2d':300000,'3d':300000,'7d':600000 })[nfxEstLiqRange]||60000;
@@ -4342,8 +4380,8 @@ var nfxEstLiqCandles=[];
     var total=events.reduce(function(sum,e){return sum+e.usd;},0);
     ctx.fillStyle='#92a0b3';ctx.textAlign='left';ctx.font='8px system-ui,sans-serif';
     ctx.fillText('EXCHANGE-REPORTED FORCE ORDERS · '+events.length+' EVENTS · '+(total/1e6).toFixed(2)+'M USDT',left,H-3);
-    var empty=$('nfxLiqLiquidationEmpty');if(empty)empty.hidden=events.length>0;
-    if(empty&&events.length===0)empty.textContent='Candles and live price are shown. No exchange-reported liquidation events have arrived for this symbol/window yet; actual liquidation bands appear when Binance publishes force-order events.';
+    var empty=$('nfxLiqLiquidationEmpty');if(empty)empty.hidden=true;
+    if(empty&&events.length===0)empty.textContent='Modelled liquidation zones are estimates based on swing structure and volume. Actual Binance force-order events will overlay when received. symbol/window yet; actual liquidation bands appear when Binance publishes force-order events.';
     var status=$('nfxLiqEstStatus');if(status)status.textContent=liquidationSocket&&liquidationSocket.readyState===WebSocket.OPEN?'LIVE · BINANCE FORCE ORDERS':'WAITING FOR BINANCE FEED';
   }
 
