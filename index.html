@@ -3532,6 +3532,62 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 }
 </style>
 
+
+<style id="nfx-backtest-results-polish">
+/* Premium visual system scoped exclusively to the Backtest with AI page */
+#page-backtest.nfx-backtest-page{width:min(1420px,calc(100% - 48px));padding:34px 0 76px}
+#page-backtest .nfx-backtest-hero{min-height:210px;grid-template-columns:minmax(0,1fr) 132px;padding:34px 38px;border:1px solid #563744;border-radius:20px;background:radial-gradient(ellipse at 82% 5%,#c638572e,transparent 34%),radial-gradient(ellipse at 0 100%,#52658a20,transparent 42%),linear-gradient(125deg,#1b202d 0%,#111722 56%,#1b121d 100%);box-shadow:0 24px 64px #0006,inset 0 1px #ffffff0b}
+#page-backtest .nfx-backtest-hero .view-heading{font-size:clamp(34px,4.5vw,48px);letter-spacing:-.055em}
+#page-backtest .nfx-backtest-hero .view-lead{font-size:13px;line-height:1.85;color:#b0b9c8}
+#page-backtest .nfx-backtest-hero-mark{width:104px;height:104px;border-radius:25px;transform:rotate(-5deg);box-shadow:0 16px 40px #0007,0 0 40px #e33e5b20,inset 0 1px #ffffff18}
+#page-backtest .nfx-backtest-hero-meta{gap:10px;margin-top:12px}
+#page-backtest .nfx-backtest-hero-meta span{padding:9px 13px;border-radius:8px;background:#ffffff08;font-size:10px}
+#page-backtest .nfx-backtest-config{border:1px solid #3a465a;border-radius:17px;background:linear-gradient(145deg,#181f2c 0%,#121925 58%,#10151f 100%);box-shadow:0 22px 60px #0006,inset 0 1px #ffffff0a}
+#page-backtest .nfx-backtest-panel-heading{margin-bottom:25px;padding-bottom:21px}
+#page-backtest .nfx-backtest-panel-heading h2{font-size:22px;letter-spacing:-.035em}
+#page-backtest .nfx-backtest-config .field input,#page-backtest .nfx-backtest-config .field select,#page-backtest .nfx-backtest-config .field textarea{min-height:46px;border-radius:9px;border-color:#3b4960;background:#0c121d;color:#f2f4f8}
+#page-backtest .nfx-backtest-config .field textarea{min-height:205px}
+#page-backtest .nfx-backtest-results{position:relative;isolation:isolate;overflow:hidden;margin-top:26px;padding:clamp(20px,2.7vw,34px);border:1px solid #4a3b4b;border-radius:17px;background:radial-gradient(ellipse at 100% 0,#a62d4a18,transparent 34%),linear-gradient(145deg,#171e2b 0%,#111722 68%,#15131d 100%);box-shadow:0 24px 60px #0006,inset 0 1px #ffffff0b}
+#page-backtest .nfx-backtest-results:before{content:"";position:absolute;z-index:-1;inset:0 0 auto;height:2px;background:linear-gradient(90deg,transparent,#e94e6d 25%,#8f405d 72%,transparent)}
+#page-backtest .nfx-results-heading{margin-bottom:23px;padding-bottom:20px;border-bottom:1px solid #ffffff18}
+#page-backtest .nfx-results-heading h2{font-size:25px;letter-spacing:-.045em}
+#page-backtest .nfx-results-heading p:last-child{font-size:12px;color:#9da9ba}
+#page-backtest .nfx-results-state{padding:9px 13px;border-radius:8px;font-size:9px}
+#page-backtest .nfx-results-metrics{grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+#page-backtest .nfx-result-metric{position:relative;min-height:112px;gap:11px;padding:18px 17px;border:1px solid #354256;border-radius:12px;background:linear-gradient(145deg,#1b2635 0%,#141c29 100%);box-shadow:0 9px 24px #0003,inset 0 1px #ffffff08}
+#page-backtest .nfx-result-metric:after{content:"";position:absolute;top:0;left:17px;right:17px;height:1px;background:linear-gradient(90deg,transparent,#ffffff20,transparent)}
+#page-backtest .nfx-result-metric>span{color:#a4afc0;font-size:9px;letter-spacing:.12em}
+#page-backtest .nfx-result-metric strong{font-size:clamp(22px,2.3vw,29px);font-weight:850;letter-spacing:-.05em}
+#page-backtest .nfx-result-metric small{color:#8997aa;font-size:10px}
+#page-backtest .nfx-result-primary{border-color:#814355;background:radial-gradient(ellipse at 100% 0,#e13f602b,transparent 70%),linear-gradient(145deg,#2a202c,#1b1823);box-shadow:0 10px 28px #9d28401c,inset 0 1px #ffffff0c}
+#page-backtest .nfx-result-primary strong{color:#ff8295}
+#page-backtest .nfx-results-trades{margin-top:18px;padding:19px;border:1px solid #354256;border-radius:13px;background:linear-gradient(145deg,#151e2b,#101720)}
+#page-backtest .nfx-results-card-heading{margin-bottom:15px}
+#page-backtest .nfx-results-card-heading strong{font-size:13px;color:#e9edf5}
+#page-backtest .nfx-results-card-heading small{color:#8996a8;font-size:10px}
+#page-backtest .nfx-results-trades table{min-width:790px}
+#page-backtest .nfx-results-trades th{padding:13px 12px;background:#1b2736;color:#aab5c5;font-size:9px}
+#page-backtest .nfx-results-trades td{padding:12px;color:#d1d8e3;font-size:11px}
+#page-backtest .nfx-results-footnote{padding-top:14px;border-top:1px solid #ffffff12;font-size:10px;color:#8995a7}
+@media(max-width:900px){#page-backtest .nfx-results-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){
+ #page-backtest.nfx-backtest-page{width:calc(100% - 24px);padding:15px 0 42px}
+ #page-backtest .nfx-backtest-hero{grid-template-columns:minmax(0,1fr) 58px;gap:8px;padding:20px 16px;border-radius:14px}
+ #page-backtest .nfx-backtest-hero-mark{width:54px;height:54px;border-radius:13px}
+ #page-backtest .nfx-backtest-hero-mark span{font-size:25px}
+ #page-backtest .nfx-backtest-hero-meta span{padding:7px 8px}
+ #page-backtest .nfx-backtest-config{padding:17px 13px}
+ #page-backtest .nfx-backtest-results{padding:17px 12px;border-radius:13px}
+ #page-backtest .nfx-results-heading{align-items:flex-start;flex-direction:column}
+ #page-backtest .nfx-results-metrics{gap:9px}
+ #page-backtest .nfx-result-metric{min-height:100px;padding:13px 11px;gap:8px}
+ #page-backtest .nfx-result-metric strong{font-size:21px}
+ #page-backtest .nfx-result-metric>span{font-size:8px}
+ #page-backtest .nfx-result-metric small{font-size:9px}
+ #page-backtest .nfx-results-trades{padding:13px 9px}
+}
+</style>
+
 </head>
 <body>
 <div id="nfx-page-loader" role="status" aria-live="polite" aria-label="Loading Nabil FX workspace">
