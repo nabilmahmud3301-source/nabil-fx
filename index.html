@@ -3309,6 +3309,63 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 .nfx-home-footer-risk{max-width:760px;margin:9px auto 0;color:#918992;font:500 12px/1.7 system-ui,Arial,sans-serif}
 @media(max-width:600px){.nfx-home-footer{width:calc(100% - 28px);margin:38px auto 20px;padding:20px 10px}.nfx-home-footer-risk{font-size:11px}}
 </style>
+
+<style id="nfx-backtest-premium-ui">
+/* Nabil FX — focused premium backtest workspace */
+#page-backtest.nfx-backtest-page{width:min(1500px,calc(100% - 44px));margin:0 auto;padding:clamp(22px,3.2vw,46px) 0 64px;color:#e9edf4}
+#page-backtest .nfx-backtest-hero{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:16px;align-items:center;overflow:hidden;margin:0 0 22px;padding:clamp(22px,3.2vw,38px);border:1px solid #30303b;border-radius:18px;background:radial-gradient(ellipse at 88% 10%,rgba(179,35,62,.20),transparent 35%),linear-gradient(130deg,#171820 0%,#10131b 58%,#151018 100%);box-shadow:0 18px 50px rgba(0,0,0,.24)}
+#page-backtest .nfx-backtest-hero:after{content:"";position:absolute;inset:auto 0 0;height:2px;background:linear-gradient(90deg,#ef405b,rgba(239,64,91,.08) 65%,transparent)}
+#page-backtest .nfx-backtest-eyebrow{display:flex;align-items:center;gap:9px;margin:0 0 13px;color:#e17b8b;font:800 10px/1.2 system-ui,sans-serif;letter-spacing:.17em}
+#page-backtest .nfx-backtest-live-dot{width:7px;height:7px;border-radius:50%;background:#e84a64;box-shadow:0 0 12px #e84a6480}
+#page-backtest .nfx-backtest-hero .view-heading{margin:0;color:#f6f5f7;font-size:clamp(29px,4vw,43px);font-weight:820;letter-spacing:-.045em;line-height:1.08}
+#page-backtest .nfx-backtest-hero .view-heading span{color:#f06479}
+#page-backtest .nfx-backtest-hero .view-lead{max-width:760px;margin:12px 0 0;color:#a7a9b4;font-size:13px;line-height:1.75}
+#page-backtest .nfx-backtest-hero-mark{width:112px;height:112px;justify-self:center;display:grid;place-items:center;position:relative;border:1px solid #63303d;border-radius:28px;background:linear-gradient(145deg,#2b1821,#171820);box-shadow:inset 0 1px rgba(255,255,255,.06),0 12px 30px #0005;transform:rotate(-7deg)}
+#page-backtest .nfx-backtest-hero-mark span{color:#fff;font:900 43px/1 system-ui,sans-serif;letter-spacing:-.08em}
+#page-backtest .nfx-backtest-hero-mark i{position:absolute;right:13px;top:10px;color:#ff657c;font:700 17px system-ui;font-style:normal}
+#page-backtest .nfx-backtest-hero-meta{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:9px;margin-top:5px;padding-top:18px;border-top:1px solid #ffffff12}
+#page-backtest .nfx-backtest-hero-meta span{display:inline-flex;align-items:center;gap:8px;padding:7px 11px;border:1px solid #ffffff12;border-radius:7px;background:#ffffff06;color:#aeb2bf;font-size:10px;font-weight:650;letter-spacing:.025em}
+#page-backtest .nfx-backtest-hero-meta b{color:#f06a7d;font-size:10px}
+#page-backtest .nfx-backtest-grid{display:block}
+#page-backtest .nfx-backtest-config{padding:clamp(18px,2.4vw,30px);border:1px solid #303746;border-radius:15px;background:linear-gradient(145deg,#151a24,#10141c 70%);box-shadow:0 16px 42px #0003}
+#page-backtest .nfx-backtest-panel-heading{display:flex;justify-content:space-between;align-items:center;gap:16px;margin:0 0 23px;padding:0 0 19px;border-bottom:1px solid #ffffff12}
+#page-backtest .nfx-backtest-step{margin:0 0 7px;color:#e36a7d;font:800 9px/1.2 system-ui,sans-serif;letter-spacing:.16em}
+#page-backtest .nfx-backtest-panel-heading h2{margin:0;color:#f0f2f6;font-size:20px;font-weight:780;letter-spacing:-.025em}
+#page-backtest .nfx-backtest-panel-heading p:last-child{margin:6px 0 0;color:#8993a3;font-size:11px}
+#page-backtest .nfx-backtest-panel-icon{width:42px;height:42px;display:grid;place-items:center;border:1px solid #57303b;border-radius:11px;background:#2b1b24;color:#f07889;font-size:20px}
+#page-backtest .nfx-backtest-config .fields{gap:17px 16px}
+#page-backtest .nfx-backtest-config .field label{display:block;margin-bottom:8px;color:#aeb7c6;font-size:9px;font-weight:800;letter-spacing:.105em}
+#page-backtest .nfx-backtest-config .field input,#page-backtest .nfx-backtest-config .field select,#page-backtest .nfx-backtest-config .field textarea{min-height:43px;border:1px solid #354052;border-radius:7px;background:#0c1119;color:#e9edf5;box-shadow:inset 0 1px 2px #0004;transition:border-color .18s,box-shadow .18s}
+#page-backtest .nfx-backtest-config .field input:focus,#page-backtest .nfx-backtest-config .field select:focus,#page-backtest .nfx-backtest-config .field textarea:focus{outline:none;border-color:#bd5267;box-shadow:0 0 0 3px #bd52671c}
+#page-backtest .nfx-backtest-config .field textarea{min-height:190px;padding:14px;line-height:1.65;resize:vertical}
+#page-backtest .nfx-backtest-config .field textarea::placeholder{color:#687487}
+#page-backtest .nfx-backtest-config .field .hint{margin-top:8px;color:#8994a5;font-size:10px;line-height:1.65}
+#page-backtest .nfx-backtest-config .actions.nfx-backtest-actions{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 20px;padding-top:19px;border-top:1px solid #ffffff12}
+#page-backtest .nfx-backtest-actions .btn{min-height:44px;padding:0 17px;border-radius:7px;font-size:11px;font-weight:750;letter-spacing:.01em}
+#page-backtest .nfx-backtest-actions .btn.primary{border:1px solid #e34b65;background:linear-gradient(135deg,#e34b65,#a92543);color:#fff;box-shadow:0 7px 20px #c52c4b30}
+#page-backtest .nfx-backtest-actions .btn.primary:hover{filter:brightness(1.08);transform:translateY(-1px)}
+#page-backtest .nfx-backtest-actions .btn.secondary{border:1px solid #394456;background:#1a2230;color:#d4dbe6}
+#page-backtest .nfx-backtest-actions .btn.secondary:hover{border-color:#65758c;background:#222e3e}
+#page-backtest .nfx-backtest-depth{margin-top:18px!important;border-color:#303b4b!important;border-radius:10px!important;background:linear-gradient(145deg,#111a25,#0c121b)!important}
+#page-backtest .nfx-backtest-depth>strong{color:#dce4ef;font-size:12px}
+#page-backtest .nfx-backtest-status{margin-top:13px;padding:13px 15px;border:1px solid #344456;border-radius:8px;background:#101a24;color:#c1d2df;font-size:11px;line-height:1.6}
+#page-backtest .nfx-backtest-config>.tiny{margin:14px 0 0;color:#818b9b;font-size:10px;line-height:1.6}
+@media(max-width:760px){
+ #page-backtest.nfx-backtest-page{width:calc(100% - 24px);padding:16px 0 40px}
+ #page-backtest .nfx-backtest-hero{grid-template-columns:minmax(0,1fr) 62px;padding:19px 16px;border-radius:13px}
+ #page-backtest .nfx-backtest-hero-mark{width:58px;height:58px;border-radius:15px}
+ #page-backtest .nfx-backtest-hero-mark span{font-size:25px}
+ #page-backtest .nfx-backtest-hero-mark i{right:7px;top:5px;font-size:12px}
+ #page-backtest .nfx-backtest-hero-meta{gap:6px}
+ #page-backtest .nfx-backtest-hero-meta span{padding:6px 8px;font-size:9px}
+ #page-backtest .nfx-backtest-config{padding:16px 13px}
+ #page-backtest .nfx-backtest-config .fields{gap:13px}
+ #page-backtest .nfx-backtest-config .field.wide{grid-column:1/-1}
+ #page-backtest .nfx-backtest-actions{display:grid!important;grid-template-columns:1fr}
+ #page-backtest .nfx-backtest-actions .btn{width:100%}
+}
+</style>
+
 </head>
 <body>
 <div id="nfx-page-loader" role="status" aria-live="polite" aria-label="Loading Nabil FX workspace">
@@ -3621,12 +3678,21 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 
 <main style="max-width:none;padding:0;margin:0">
 
-<section id="page-backtest" class="view">
-  <h2 class="view-heading">Backtest with AI</h2>
-  <p class="view-lead">Write any strategy in natural language. AI compiles it into executable rules, loads the required historical timeframes and runs the simulation using the selected market data provider.</p>
-  <div class="grid">
-    <section class="panel">
-      <h2>01 / Define your backtest</h2>
+<section id="page-backtest" class="view nfx-backtest-page">
+  <header class="nfx-backtest-hero">
+    <div class="nfx-backtest-hero-copy">
+      <p class="nfx-backtest-eyebrow"><span class="nfx-backtest-live-dot"></span> STRATEGY RESEARCH STUDIO</p>
+      <h2 class="view-heading">Backtest <span>with AI</span></h2>
+      <p class="view-lead">Turn your trading idea into a structured historical test. Define the market, describe your rules, and review the simulation with transparent data limits.</p>
+    </div>
+    <div class="nfx-backtest-hero-mark" aria-hidden="true"><span>AI</span><i>↗</i></div>
+    <div class="nfx-backtest-hero-meta">
+      <span><b>01</b> Define strategy</span><span><b>02</b> Run simulation</span><span><b>03</b> Review results</span>
+    </div>
+  </header>
+  <div class="grid nfx-backtest-grid">
+    <section class="panel nfx-backtest-config">
+      <div class="nfx-backtest-panel-heading"><div><p class="nfx-backtest-step">STEP 01 · CONFIGURATION</p><h2>Build your test</h2><p>Choose your data and execution parameters.</p></div><span class="nfx-backtest-panel-icon" aria-hidden="true">⌘</span></div>
       <div class="fields">
         <div class="field">
           <label>MARKET DATA SOURCE</label>
@@ -3706,7 +3772,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
         <button class="btn secondary" id="reply">Ask AI to Review Strategy</button>
         <button class="btn secondary" id="save">Save Journal</button>
       </div>
-      <div class="section" id="historicalDepthPanel" style="padding:14px;border:1px solid #303a49;border-radius:12px;background:#0b1018">
+      <div class="section nfx-backtest-depth" id="historicalDepthPanel" style="padding:14px;border:1px solid #303a49;border-radius:12px;background:#0b1018">
         <strong>Historical Level-2 / Order Book Data</strong>
         <p class="hint">Fetch real exchange depth messages (MBP-10) for an exchange-listed futures contract. Requires a Databento key and dataset entitlement. This preview does not yet feed order-book conditions into the AI strategy engine.</p>
         <div class="actions"><button class="btn secondary" id="loadHistoricalDepth" type="button">Load Historical L2</button><button class="btn secondary" id="loadHistoricalMbo" type="button">Load L3 / MBO</button></div>
@@ -3714,7 +3780,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
         <pre id="historicalDepthRecords" style="display:none;max-height:300px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;background:#080c12;padding:12px;border-radius:8px;font-size:11px"></pre>
       </div>
       <p class="tiny">Historical data availability depends on provider entitlement and instrument coverage. Verify all results independently before live trading.</p>
-      <div id="status" class="status">Ready. Sign in, describe any strategy, then run the AI-compiled historical simulation.</div>
+      <div id="status" class="status nfx-backtest-status">Ready. Sign in, describe any strategy, then run the AI-compiled historical simulation.</div>
     </section>
 
 
