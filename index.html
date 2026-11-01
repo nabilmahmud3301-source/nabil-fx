@@ -2579,8 +2579,8 @@ function conditionAt(c,cond,i,cache,seriesMap=null){
   const op=String(cond.operator||'all').toLowerCase(),children=Array.isArray(cond.conditions)?cond.conditions:[];
   if(!children.length)return false;
   if(op==='all')return children.every(q=>conditionAt(c,q,i,cache,seriesMap));
-  if(op==='any')return children.some(q=>conditionAt(c,q,i,cache));
-  if(op==='not')return children.length===1&&!conditionAt(c,children[0],i,cache);
+  if(op==='any')return children.some(q=>conditionAt(c,q,i,cache,seriesMap));
+  if(op==='not')return children.length===1&&!conditionAt(c,children[0],i,cache,seriesMap);
   throw Error('Unsupported strategy logic operator: '+op);
  }
  if(cond.type==='session_filter'||cond.type==='session_opening_range_breakout'){
