@@ -4061,7 +4061,7 @@ document.addEventListener('click', function(event) {
   function historyLimit(){var el=$('nfxLiqWindow');return el?Number(el.value)||300:300;}
   // Liquidity Heatmap owns a separate OHLC cache and request lifecycle.
   // It never reads or mutates the Liquidation Heatmap candle/event state.
-  var nfxBookCandles=[],nfxBookCandleSymbol='',nfxBookCandleRange=0,nfxBookCandleInterval=60000,nfxBookCandleLoading=false,nfxBookCandleFetchedAt=0,nfxBookTimeZoom=1,nfxBookPriceZoom=1;
+  var nfxBookCandles=[],nfxBookCandleSymbol='',nfxBookCandleRange=0,nfxBookCandleInterval=60000,nfxBookCandleLoading=false,nfxBookCandleFetchedAt=0,nfxBookTimeZoom=1,nfxBookPriceZoom=1,nfxBookTimePan=0,nfxBookPricePan=0;
   function nfxBookCandleConfig(seconds){
     if(seconds<=86400)return {interval:'1m',intervalMs:60000,limit:Math.min(1500,Math.max(60,Math.ceil(seconds/60)+3))};
     if(seconds<=259200)return {interval:'5m',intervalMs:300000,limit:Math.min(1500,Math.ceil(seconds/300)+3)};
@@ -4114,7 +4114,7 @@ document.addEventListener('click', function(event) {
     var W=rect.width,H=rect.height,left=14,right=78,top=34,bottom=28,pw=W-left-right,ph=H-top-bottom;
     ctx.clearRect(0,0,W,H);
     ctx.fillStyle='#000000';ctx.fillRect(0,0,W,H);
-    var now=Date.now(),windowMs=historyLimit()*1000/nfxBookTimeZoom,cutoff=now-windowMs,history=liqHistory.filter(function(x){return x.t>=cutoff;});
+    var now=Date.now(),windowMs=historyLimit()*1000/nfxBookTimeZoom,cutoff=now-windowMs+nfxBookTimePan,history=liqHistory.filter(function(x){return x.t>=cutoff&&x.t<=cutoff+windowMs;});
     var candleSymbol=String(currentSymbol||'BTCUSDT').toUpperCase();
     if(activeMarket==='crypto')nfxBookCandleLoad(false);
     var chartCandles=activeMarket==='crypto'&&nfxBookCandleSymbol===candleSymbol&&nfxBookCandleRange===historyLimit()?nfxBookCandles.filter(function(c){return c.t>=cutoff&&c.t<=now;}):[];
@@ -4133,7 +4133,7 @@ document.addEventListener('click', function(event) {
     var span=depthHi-depthLo, padding=span>0?span*.06:currentMid*.001;
     var lo=Number.isFinite(depthLo)?depthLo-padding:currentMid*.995,hi=Number.isFinite(depthHi)?depthHi+padding:currentMid*1.005;
     if(!Number.isFinite(lo)||!Number.isFinite(hi)||hi<=lo){lo=currentMid-1;hi=currentMid+1;}
-    var bookHalf=(hi-lo)/(2*Math.max(.25,nfxBookPriceZoom));lo=currentMid-bookHalf;hi=currentMid+bookHalf;
+    var bookHalf=(hi-lo)/(2*Math.max(.25,nfxBookPriceZoom));lo=currentMid-bookHalf+nfxBookPricePan;hi=currentMid+bookHalf+nfxBookPricePan;
     var rows=100,cols=Math.max(1,Math.min(220,history.length)),grid=Array.from({length:rows},function(){return Array.from({length:cols},function(){return {bid:0,ask:0};});}),maxQty=0;
     history.forEach(function(s,idx){
       var ci=Math.min(cols-1,Math.floor(idx/history.length*cols));
@@ -4200,6 +4200,7 @@ var nfxEstLiqCandles=[];
   var nfxEstLiqFetchedAt=0;
   var nfxEstLiqZoom=1;
   var nfxEstLiqPriceZoom=1;
+  var nfxEstLiqTimePan=0,nfxEstLiqPricePan=0;
   var nfxEstLiqPointer=null;
   function nfxEstLiqConfig(){
     var map={'1h':{interval:'1m',limit:65},'2h':{interval:'1m',limit:125},'4h':{interval:'5m',limit:55},'12h':{interval:'15m',limit:55},'1d':{interval:'30m',limit:55},'2d':{interval:'1h',limit:55},'3d':{interval:'2h',limit:42},'7d':{interval:'4h',limit:45}};
@@ -4241,7 +4242,7 @@ var nfxEstLiqCandles=[];
     var symbol=String(currentSymbol||'BTCUSDT').toLowerCase();
     if(nfxEstLiqSymbol!==symbol.toUpperCase()||!nfxEstLiqCandles.length)nfxEstLiqLoad(false);
     var rangeMap={'1h':3600000,'2h':7200000,'4h':14400000,'12h':43200000,'1d':86400000,'2d':172800000,'3d':259200000,'7d':604800000};
-    var span=(rangeMap[nfxEstLiqRange]||3600000)/nfxEstLiqZoom,now=Date.now(),cutoff=now-span;
+    var span=(rangeMap[nfxEstLiqRange]||3600000)/nfxEstLiqZoom,now=Date.now(),cutoff=now-span+nfxEstLiqTimePan;
     var candles=nfxEstLiqCandles.filter(function(c){return c.t>=cutoff;});
     var events=liquidationEvents.filter(function(e){return e.symbol===symbol&&e.t>=cutoff&&e.p>0&&e.usd>0;});
     ctx.font='700 10px system-ui,sans-serif';ctx.textBaseline='middle';ctx.textAlign='left';ctx.fillStyle='#dce5f1';
@@ -4275,7 +4276,7 @@ var nfxEstLiqCandles=[];
     var candleRange=Math.max(hi-lo,last*.0008);
     var pad=Math.max(candleRange*.035,last*.0005);
     var minP=Math.max(1e-8,lo-pad),maxP=hi+pad;if(maxP<=minP){minP=last*.99;maxP=last*1.01;}
-    var liqHalf=(maxP-minP)/(2*Math.max(.25,nfxEstLiqPriceZoom));minP=Math.max(1e-8,last-liqHalf);maxP=last+liqHalf;
+    var liqHalf=(maxP-minP)/(2*Math.max(.25,nfxEstLiqPriceZoom));minP=Math.max(1e-8,last-liqHalf+nfxEstLiqPricePan);maxP=last+liqHalf+nfxEstLiqPricePan;
     var rows=100,cols=Math.min(220,Math.max(80,Math.ceil(pw/4))),cellW=pw/cols,cellH=ph/rows;
     var heat=Array.from({length:rows},function(){return Array(cols).fill(0);});
     var maxNotional=0;
@@ -4514,18 +4515,58 @@ function bindHeatmapInspector(canvasId,kind){
   // TradingView-style pointer zoom: wheel over plot = time zoom; wheel on right price ladder = price zoom. Drag the ladder vertically to scale price.
   function bindNfxChartNavigation(canvasId,kind){
     var canvas=$(canvasId);if(!canvas||canvas.dataset.navZoomReady)return;canvas.dataset.navZoomReady='1';
-    var drag=null;
+    var drag=null,lastPointer=null;
+    function draw(){if(kind==='book')renderTimeline();else renderLiquidationHeatmap();}
+    function zoomTime(step){if(kind==='book'){nfxBookTimeZoom=Math.max(.35,Math.min(12,nfxBookTimeZoom*step));}else{nfxEstLiqZoom=Math.max(.35,Math.min(12,nfxEstLiqZoom*step));}draw();}
+    function zoomPrice(step){if(kind==='book'){nfxBookPriceZoom=Math.max(.35,Math.min(12,nfxBookPriceZoom*step));}else{nfxEstLiqPriceZoom=Math.max(.35,Math.min(12,nfxEstLiqPriceZoom*step));}draw();}
     canvas.addEventListener('wheel',function(ev){
       ev.preventDefault();var rect=canvas.getBoundingClientRect(),onPrice=ev.clientX-rect.left>rect.width-88,step=ev.deltaY<0?1.18:1/1.18;
-      if(kind==='book'){if(onPrice)nfxBookPriceZoom=Math.max(.35,Math.min(12,nfxBookPriceZoom*step));else nfxBookTimeZoom=Math.max(.35,Math.min(12,nfxBookTimeZoom*step));renderTimeline();}
-      else{if(onPrice)nfxEstLiqPriceZoom=Math.max(.35,Math.min(12,nfxEstLiqPriceZoom*step));else nfxEstLiqZoom=Math.max(.35,Math.min(12,nfxEstLiqZoom*step));renderLiquidationHeatmap();}
+      if(onPrice)zoomPrice(step);else zoomTime(step);
     },{passive:false});
-    canvas.addEventListener('pointerdown',function(ev){var r=canvas.getBoundingClientRect();if(ev.clientX-r.left>r.width-88){drag={y:ev.clientY,zoom:kind==='book'?nfxBookPriceZoom:nfxEstLiqPriceZoom};canvas.setPointerCapture(ev.pointerId);canvas.style.cursor='ns-resize';}});
-    canvas.addEventListener('pointermove',function(ev){if(!drag)return;var factor=Math.exp((drag.y-ev.clientY)*.012),z=Math.max(.35,Math.min(12,drag.zoom*factor));if(kind==='book'){nfxBookPriceZoom=z;renderTimeline();}else{nfxEstLiqPriceZoom=z;renderLiquidationHeatmap();}});
+    canvas.addEventListener('pointerdown',function(ev){
+      if(ev.button!==0)return;
+      var r=canvas.getBoundingClientRect(),x=ev.clientX-r.left;
+      var onPrice=x>r.width-88;
+      drag={mode:onPrice?'price':'pan',x:ev.clientX,y:ev.clientY,
+        time:kind==='book'?nfxBookTimePan:nfxEstLiqTimePan,
+        price:kind==='book'?nfxBookPricePan:nfxEstLiqPricePan,
+        width:r.width,height:r.height,
+        timeZoom:kind==='book'?nfxBookTimeZoom:nfxEstLiqZoom,
+        priceZoom:kind==='book'?nfxBookPriceZoom:nfxEstLiqPriceZoom};
+      canvas.setPointerCapture(ev.pointerId);canvas.style.cursor=onPrice?'ns-resize':'grabbing';
+      lastPointer={x:ev.clientX,y:ev.clientY};
+    });
+    canvas.addEventListener('pointermove',function(ev){
+      if(!drag)return;
+      var dx=ev.clientX-drag.x,dy=ev.clientY-drag.y;
+      if(drag.mode==='price'){
+        var factor=Math.exp(-dy*.012);
+        var z=Math.max(.35,Math.min(12,drag.priceZoom*factor));
+        if(kind==='book')nfxBookPriceZoom=z;else nfxEstLiqPriceZoom=z;
+      }else{
+        var windowMs=(kind==='book'?historyLimit()*1000:({'1h':3600000,'2h':7200000,'4h':14400000,'12h':43200000,'1d':86400000,'2d':172800000,'3d':259200000,'7d':604800000}[nfxEstLiqRange]||3600000))/drag.timeZoom;
+        var pan=drag.time-dx/Math.max(1,drag.width-96)*windowMs;
+        if(kind==='book')nfxBookTimePan=pan;else nfxEstLiqTimePan=pan;
+        var priceSpan=kind==='book'?((historyLimit()>0?1:1)):1;
+        if(kind==='book')nfxBookPricePan=drag.price+dy/Math.max(1,drag.height-62)*(Math.abs((nfxBookCandles[0]||{}).c||1)*.01/nfxBookPriceZoom);
+        else{
+          var visible=nfxEstLiqCandles.filter(function(c){return c.t>=Date.now()-windowMs&&c.t<=Date.now();});
+          var lo=visible.length?Math.min.apply(null,visible.map(function(c){return c.l;})):1;
+          var hi=visible.length?Math.max.apply(null,visible.map(function(c){return c.h;})):2;
+          var span=Math.max(hi-lo,visible.length?visible[visible.length-1].c*.001:.001)/drag.priceZoom;
+          nfxEstLiqPricePan=drag.price+dy/Math.max(1,drag.height-64)*span;
+        }
+      }
+      draw();
+    });
     function endDrag(){drag=null;canvas.style.cursor='crosshair';}
     canvas.addEventListener('pointerup',endDrag);canvas.addEventListener('pointercancel',endDrag);
-    canvas.addEventListener('dblclick',function(){if(kind==='book'){nfxBookTimeZoom=1;nfxBookPriceZoom=1;renderTimeline();}else{nfxEstLiqZoom=1;nfxEstLiqPriceZoom=1;renderLiquidationHeatmap();}});
-    canvas.title='Scroll to zoom time · Scroll over price scale to zoom price · Drag price scale to resize · Double-click to reset';
+    canvas.addEventListener('dblclick',function(){
+      if(kind==='book'){nfxBookTimeZoom=1;nfxBookPriceZoom=1;nfxBookTimePan=0;nfxBookPricePan=0;}
+      else{nfxEstLiqZoom=1;nfxEstLiqPriceZoom=1;nfxEstLiqTimePan=0;nfxEstLiqPricePan=0;}
+      draw();
+    });
+    canvas.title='Drag chart to pan · Drag right price scale to adjust price · Scroll to zoom · Double-click to reset';
   }
   bindNfxChartNavigation('nfxLiqTimelineCanvas','book');
   bindNfxChartNavigation('nfxLiqLiquidationCanvas','liq');
