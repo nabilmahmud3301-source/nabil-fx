@@ -3405,103 +3405,151 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 @media(max-width:540px){#page-backtest .nfx-backtest-results{padding:15px 11px}#page-backtest .nfx-results-heading{align-items:flex-start;flex-direction:column}#page-backtest .nfx-result-metric{padding:12px 10px}#page-backtest .nfx-result-metric>span{font-size:8px}#page-backtest .nfx-result-metric strong{font-size:20px}#page-backtest .nfx-results-chart-card,#page-backtest .nfx-results-breakdown,#page-backtest .nfx-results-trades{padding:12px 9px}#page-backtest .nfx-results-card-heading>small{font-size:8px}}
 </style>
 
-<style id="nfx-backtest-premium-polish-v3">
-/* Backtest with AI only — visual layer; no strategy or execution logic changes. */
-#page-backtest.nfx-backtest-page{--bt-line:rgba(151,169,192,.17);--bt-gold:#c9ad78}
-#page-backtest .nfx-backtest-hero{display:grid;grid-template-columns:minmax(0,1fr) 80px;gap:18px;align-items:center;padding:clamp(22px,3vw,36px);border:1px solid rgba(201,173,120,.2);border-radius:18px;background:radial-gradient(ellipse at 88% 0,rgba(201,173,120,.09),transparent 35%),linear-gradient(135deg,#171e29,#101722 60%,#17151d);box-shadow:0 18px 44px #0004,inset 0 1px 0 #ffffff09}
-#page-backtest .nfx-backtest-eyebrow{color:#d5b982;font-size:9px;font-weight:800;letter-spacing:.2em}
-#page-backtest .nfx-backtest-live-dot{background:#d5b982;box-shadow:0 0 10px #d5b98299}
-#page-backtest .nfx-backtest-hero .view-heading{margin:9px 0 10px;color:#f2f4f8;font-size:clamp(29px,4vw,43px);letter-spacing:-.055em}
-#page-backtest .nfx-backtest-hero .view-heading span{color:#e47b8a}
-#page-backtest .nfx-backtest-hero .view-lead{max-width:760px;color:#a9b5c4;line-height:1.75}
-#page-backtest .nfx-backtest-hero-mark{width:70px;height:70px;border:1px solid #c9ad7859;border-radius:17px;background:linear-gradient(145deg,#30291f,#1a1d26);box-shadow:0 12px 28px #0005,inset 0 1px 0 #ffffff12}
-#page-backtest .nfx-backtest-hero-mark span,#page-backtest .nfx-backtest-hero-mark i{color:#e2c58d}
-#page-backtest .nfx-backtest-hero-meta{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:9px;margin-top:3px}
-#page-backtest .nfx-backtest-hero-meta span{padding:8px 11px;border:1px solid #97a9c026;border-radius:8px;background:#ffffff04;color:#b7c1ce;font-size:9px}
-#page-backtest .nfx-backtest-hero-meta b{color:#d8bb83}
-#page-backtest .nfx-backtest-grid{display:block;margin-top:18px}
-#page-backtest .nfx-backtest-config{padding:clamp(18px,2.2vw,27px);border:1px solid var(--bt-line);border-radius:16px;background:radial-gradient(ellipse at 100% 0,#c9ad780b,transparent 36%),linear-gradient(145deg,#151e2a,#0e151f 78%);box-shadow:0 18px 44px #0004,inset 0 1px 0 #ffffff08}
-#page-backtest .nfx-backtest-panel-heading{padding-bottom:17px;border-bottom:1px solid var(--bt-line)}
-#page-backtest .nfx-backtest-step{color:#d4b67d;font-size:9px;font-weight:800;letter-spacing:.17em}
-#page-backtest .nfx-backtest-panel-heading h2{color:#edf1f6;font-size:21px;letter-spacing:-.03em}
-#page-backtest .nfx-backtest-panel-heading p:not(.nfx-backtest-step){color:#9ba8b8}
-#page-backtest .nfx-backtest-panel-icon{width:44px;height:44px;border:1px solid #c9ad7847;border-radius:12px;background:#28251f;color:#e2c58d}
-#page-backtest .nfx-backtest-config .fields{gap:16px}
-#page-backtest .nfx-backtest-config .field label{color:#b7c3d2;font-size:9px;font-weight:800;letter-spacing:.11em}
-#page-backtest .nfx-backtest-config .field input,#page-backtest .nfx-backtest-config .field select,#page-backtest .nfx-backtest-config .field textarea{min-height:43px;border:1px solid #8fa2bb3b;border-radius:9px;background:#0b121b;color:#edf2f7;box-shadow:inset 0 1px 3px #0005}
-#page-backtest .nfx-backtest-config .field textarea{min-height:190px;line-height:1.7;padding:14px}
-#page-backtest .nfx-backtest-config .field input:focus,#page-backtest .nfx-backtest-config .field select:focus,#page-backtest .nfx-backtest-config .field textarea:focus{border-color:#c9ad78;outline:0;box-shadow:0 0 0 3px #c9ad7820}
-#page-backtest .nfx-backtest-config .field .hint{color:#9aa8b9;line-height:1.65}
-#page-backtest .nfx-backtest-actions{display:flex;flex-wrap:wrap;gap:10px;padding-top:19px;border-top:1px solid var(--bt-line)}
-#page-backtest .nfx-backtest-actions .btn{min-height:45px;padding:0 18px;border-radius:9px;font-size:10px;font-weight:800;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
-#page-backtest .nfx-backtest-actions .btn.primary{border:1px solid #e47788;background:linear-gradient(110deg,#df687b,#a92e49);box-shadow:0 8px 20px #a92e4933,inset 0 1px 0 #ffffff26}
-#page-backtest .nfx-backtest-actions .btn.primary:hover{transform:translateY(-1px);box-shadow:0 12px 25px #a92e4947}
-#page-backtest .nfx-backtest-actions .btn.secondary{border:1px solid #8fa2bb3b;background:linear-gradient(145deg,#202b39,#151e29);color:#dbe3ed}
-#page-backtest .nfx-backtest-actions .btn.secondary:hover{border-color:#c9ad7873}
-#page-backtest .nfx-backtest-depth{margin-top:19px!important;border:1px solid var(--bt-line)!important;border-radius:12px!important;background:#0e1722!important}
-#page-backtest .nfx-backtest-depth>strong{color:#e2c58d;font-size:12px}
-#page-backtest .nfx-backtest-status{border:1px solid #8fa2bb33;border-radius:10px;background:#101b28;color:#cbd5e1}
-#page-backtest .nfx-backtest-config>.tiny{color:#8e9bad;line-height:1.65}
-#page-backtest #backtestResults{display:block;width:100%;margin:20px 0 34px;padding:clamp(17px,2.3vw,27px);border:1px solid #c9ad7838;border-radius:17px;background:radial-gradient(ellipse at 100% 0,#c9ad7811,transparent 32%),linear-gradient(145deg,#151e2a,#0c131d 76%);box-shadow:0 20px 50px #0005,inset 0 1px 0 #ffffff09}
-#page-backtest .nfx-results-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:17px;padding-bottom:17px;border-bottom:1px solid var(--bt-line)}
-#page-backtest .nfx-results-heading h2{margin:4px 0 6px;color:#f0f3f7;font-size:23px;font-weight:800;letter-spacing:-.04em}
-#page-backtest .nfx-results-heading p:last-child{margin:0;color:#99a7b8;font-size:10px;line-height:1.6}
-#page-backtest .nfx-results-state{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;padding:8px 12px;border:1px solid #8fa2bb3b;border-radius:999px;background:#111c28;color:#aab6c5;font:800 9px system-ui;letter-spacing:.1em}
-#page-backtest .nfx-results-state i{width:6px;height:6px;border-radius:50%;background:#8b98a8}
-#page-backtest .nfx-results-state.complete{border-color:#28634f;background:#10241e;color:#83dcb8}
-#page-backtest .nfx-results-state.complete i{background:#5ed5a5;box-shadow:0 0 10px #5ed5a580}
-#page-backtest .nfx-results-context{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-bottom:13px}
-#page-backtest .nfx-results-context>div{min-width:0;padding:11px 13px;border:1px solid var(--bt-line);border-radius:9px;background:#101a26}
-#page-backtest .nfx-results-context small{display:block;margin-bottom:5px;color:#8594a8;font-size:8px;font-weight:800;letter-spacing:.12em}
-#page-backtest .nfx-results-context strong{display:block;overflow-wrap:anywhere;color:#e1e8f1;font-size:11px;font-weight:750}
-#page-backtest .nfx-results-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}
-#page-backtest .nfx-result-metric{position:relative;min-width:0;min-height:111px;display:flex;flex-direction:column;justify-content:space-between;gap:9px;padding:15px;overflow:hidden;border:1px solid #8fa2bb30;border-radius:11px;background:linear-gradient(145deg,#1a2634,#111a25 78%);box-shadow:inset 0 1px 0 #ffffff08,0 7px 18px #0003;transition:transform .18s ease,border-color .18s ease}
-#page-backtest .nfx-result-metric:before{content:"";position:absolute;inset:0 0 auto;height:2px;background:linear-gradient(90deg,#c9ad78cc,transparent 85%)}
-#page-backtest .nfx-result-metric:hover{transform:translateY(-2px);border-color:#c9ad7861}
-#page-backtest .nfx-result-metric>span{color:#9eacbd;font:800 8px/1.4 system-ui;letter-spacing:.12em}
-#page-backtest .nfx-result-metric strong{display:block;overflow-wrap:anywhere;color:#f0f3f7;font:800 clamp(19px,2vw,26px)/1.1 system-ui;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
-#page-backtest .nfx-result-metric small{color:#8291a4;font-size:9px;line-height:1.45}
-#page-backtest .nfx-result-primary{border-color:#dc5e7361;background:radial-gradient(ellipse at 100% 0,#dc5e7324,transparent 68%),linear-gradient(145deg,#251a24,#171923)}
-#page-backtest .nfx-result-primary:before{background:linear-gradient(90deg,#e87889,transparent)}
-#page-backtest .nfx-result-primary strong{color:#ff9baa}
-#page-backtest .nfx-results-analysis-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(240px,.85fr);gap:12px;margin-top:13px}
-#page-backtest .nfx-results-chart-card,#page-backtest .nfx-results-breakdown,#page-backtest .nfx-results-trades{min-width:0;padding:16px;border:1px solid var(--bt-line);border-radius:11px;background:linear-gradient(145deg,#121d29,#0d151f)}
-#page-backtest .nfx-results-card-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px}
-#page-backtest .nfx-results-card-heading span{display:block;margin-bottom:4px;color:#d2b47b;font:800 8px system-ui;letter-spacing:.15em}
-#page-backtest .nfx-results-card-heading h3{margin:0;color:#e8edf4;font-size:14px;font-weight:750}
-#page-backtest .nfx-results-card-heading>small{color:#8795a8;font-size:9px}
-#page-backtest .nfx-equity-wrap{position:relative;min-height:220px;overflow:hidden;border:1px solid #8fa2bb29;border-radius:9px;background:linear-gradient(180deg,#111c29,#0b121b)}
-#page-backtest #equityChart{display:block;width:100%;height:220px}
-#page-backtest .nfx-equity-empty{position:absolute;inset:0;display:grid;place-items:center;padding:18px;color:#8291a4;font-size:10px;text-align:center;pointer-events:none}
-#page-backtest .nfx-breakdown-row{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #8fa2bb1a;color:#9aa8b8;font-size:10px}
-#page-backtest .nfx-breakdown-row:last-child{border-bottom:0}
-#page-backtest .nfx-breakdown-row strong{color:#e4eaf2;font-size:10px;font-weight:750;font-variant-numeric:tabular-nums;text-align:right}
-#page-backtest .nfx-results-trades{margin-top:13px}
-#page-backtest .nfx-results-trades .tablewrap{overflow-x:auto}
-#page-backtest .nfx-results-trades table{width:100%;min-width:760px;border-collapse:collapse}
-#page-backtest .nfx-results-trades th{padding:11px 10px;border-bottom:1px solid #344052;background:#172332;color:#a7b4c5;font-size:8px;font-weight:800;letter-spacing:.1em;text-align:left;white-space:nowrap}
-#page-backtest .nfx-results-trades td{padding:10px;border-bottom:1px solid #8fa2bb1a;color:#cbd4df;font-size:10px;font-variant-numeric:tabular-nums;white-space:nowrap}
-#page-backtest .nfx-results-trades tbody tr:hover{background:#ffffff06}
-#page-backtest .nfx-results-footnote{margin:14px 0 0;color:#8492a5;font-size:9px;line-height:1.65}
-@media(max-width:900px){#page-backtest .nfx-results-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}#page-backtest .nfx-results-analysis-grid{grid-template-columns:1fr}}
-@media(max-width:680px){
- #page-backtest .nfx-backtest-hero{grid-template-columns:minmax(0,1fr) 54px;padding:19px 16px;border-radius:14px}
- #page-backtest .nfx-backtest-hero-mark{width:50px;height:50px;border-radius:12px}
- #page-backtest .nfx-backtest-hero-meta{gap:6px}
- #page-backtest .nfx-backtest-hero-meta span{padding:7px 8px;font-size:8px}
- #page-backtest .nfx-backtest-config{padding:16px 13px;border-radius:13px}
- #page-backtest .nfx-backtest-config .field.wide{grid-column:1/-1}
- #page-backtest .nfx-backtest-actions{display:grid;grid-template-columns:1fr}
- #page-backtest .nfx-backtest-actions .btn{width:100%}
- #page-backtest .nfx-results-context{grid-template-columns:repeat(2,minmax(0,1fr))}
- #page-backtest #backtestResults{padding:15px 11px;border-radius:13px}
- #page-backtest .nfx-results-heading{align-items:flex-start;flex-direction:column}
- #page-backtest .nfx-result-metric{min-height:100px;padding:12px 10px}
- #page-backtest .nfx-result-metric strong{font-size:20px}
- #page-backtest .nfx-results-chart-card,#page-backtest .nfx-results-breakdown,#page-backtest .nfx-results-trades{padding:12px 10px}
+<style id="nfx-backtest-premium-polish-v2">
+/* NABIL FX — isolated visual refinement for Backtest with AI only. No layout or engine logic changes. */
+#page-backtest.nfx-backtest-page{
+  --bt-bg:#090d14;--bt-panel:#111925;--bt-panel-hi:#172231;--bt-border:rgba(148,166,190,.19);
+  --bt-muted:#8f9db0;--bt-text:#edf2f8;--bt-accent:#e85b72;--bt-gold:#c9a96b;
+  isolation:isolate;
 }
-@media(max-width:360px){#page-backtest .nfx-results-metrics,#page-backtest .nfx-results-context{grid-template-columns:1fr}}
-@media(prefers-reduced-motion:reduce){#page-backtest .nfx-result-metric,#page-backtest .nfx-backtest-actions .btn{transition:none}}
+#page-backtest .nfx-backtest-hero{
+  border-color:rgba(201,169,107,.24);
+  border-radius:20px;
+  background:radial-gradient(ellipse at 88% 5%,rgba(201,169,107,.12),transparent 32%),radial-gradient(ellipse at 5% 100%,rgba(184,42,69,.13),transparent 38%),linear-gradient(132deg,#171e29 0%,#0d131d 58%,#17131a 100%);
+  box-shadow:0 24px 65px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.045);
+}
+#page-backtest .nfx-backtest-hero:after{
+  height:2px;background:linear-gradient(90deg,var(--bt-gold),var(--bt-accent) 42%,rgba(232,91,114,0) 88%);
+}
+#page-backtest .nfx-backtest-eyebrow{color:#d6b879;letter-spacing:.19em}
+#page-backtest .nfx-backtest-live-dot{background:#d6b879;box-shadow:0 0 12px rgba(214,184,121,.7)}
+#page-backtest .nfx-backtest-hero .view-heading{letter-spacing:-.05em}
+#page-backtest .nfx-backtest-hero .view-heading span{color:#ef8292}
+#page-backtest .nfx-backtest-hero-mark{
+  border-color:rgba(201,169,107,.38);
+  background:linear-gradient(145deg,#30251e,#191a22 72%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 18px 38px rgba(0,0,0,.38),0 0 34px rgba(201,169,107,.08);
+}
+#page-backtest .nfx-backtest-hero-mark i{color:#d7b879}
+#page-backtest .nfx-backtest-hero-meta span{
+  border-color:rgba(201,169,107,.16);border-radius:9px;background:rgba(255,255,255,.025);
+  color:#b7c1cf;padding:8px 12px;
+}
+#page-backtest .nfx-backtest-hero-meta b{color:#d7b879}
+#page-backtest .nfx-backtest-config{
+  border-color:var(--bt-border);border-radius:18px;
+  background:radial-gradient(ellipse at 100% 0,rgba(201,169,107,.055),transparent 34%),linear-gradient(145deg,#151e2b,#0e141e 72%);
+  box-shadow:0 22px 55px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.035);
+}
+#page-backtest .nfx-backtest-panel-heading{border-bottom-color:rgba(148,166,190,.16)}
+#page-backtest .nfx-backtest-step{color:#d7b879;letter-spacing:.18em}
+#page-backtest .nfx-backtest-panel-icon{
+  width:46px;height:46px;border-color:rgba(201,169,107,.32);border-radius:13px;
+  background:linear-gradient(145deg,#30271e,#1c1d25);color:#dfc184;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 8px 20px rgba(0,0,0,.2);
+}
+#page-backtest .nfx-backtest-config .field label{color:#bac5d3;letter-spacing:.12em}
+#page-backtest .nfx-backtest-config .field input,
+#page-backtest .nfx-backtest-config .field select,
+#page-backtest .nfx-backtest-config .field textarea{
+  border:1px solid rgba(139,158,183,.25);border-radius:10px;
+  background:linear-gradient(180deg,#0b121c,#0a1018);color:#edf2f8;
+  box-shadow:inset 0 1px 3px rgba(0,0,0,.34),0 1px 0 rgba(255,255,255,.018);
+}
+#page-backtest .nfx-backtest-config .field input:hover,
+#page-backtest .nfx-backtest-config .field select:hover,
+#page-backtest .nfx-backtest-config .field textarea:hover{border-color:rgba(201,169,107,.38)}
+#page-backtest .nfx-backtest-config .field input:focus,
+#page-backtest .nfx-backtest-config .field select:focus,
+#page-backtest .nfx-backtest-config .field textarea:focus{
+  border-color:#c6a568;box-shadow:0 0 0 3px rgba(198,165,104,.13),inset 0 1px 3px rgba(0,0,0,.3);
+}
+#page-backtest .nfx-backtest-config .field textarea{min-height:205px}
+#page-backtest .nfx-backtest-config .field .hint{color:#9aa7b8}
+#page-backtest .nfx-backtest-actions{border-top-color:rgba(148,166,190,.16)}
+#page-backtest .nfx-backtest-actions .btn{
+  min-height:46px;border-radius:10px;padding:0 19px;font-size:11px;letter-spacing:.025em;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,background .18s ease;
+}
+#page-backtest .nfx-backtest-actions .btn.primary{
+  border:1px solid #e46a7e;background:linear-gradient(115deg,#ed657b 0%,#bd304f 58%,#86243c 100%);
+  box-shadow:0 9px 24px rgba(190,47,77,.24),inset 0 1px 0 rgba(255,255,255,.2);
+}
+#page-backtest .nfx-backtest-actions .btn.primary:hover{transform:translateY(-2px);box-shadow:0 13px 28px rgba(190,47,77,.32),inset 0 1px 0 rgba(255,255,255,.2)}
+#page-backtest .nfx-backtest-actions .btn.secondary{
+  border:1px solid rgba(148,166,190,.25);background:linear-gradient(145deg,#202b3a,#151e2a);color:#e0e7f0;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.045);
+}
+#page-backtest .nfx-backtest-actions .btn.secondary:hover{border-color:rgba(201,169,107,.55);background:linear-gradient(145deg,#293344,#192330)}
+#page-backtest .nfx-backtest-depth{
+  border-color:rgba(148,166,190,.2)!important;border-radius:13px!important;
+  background:linear-gradient(145deg,#131e2b,#0c131d)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035);
+}
+#page-backtest .nfx-backtest-depth>strong{color:#e4c78f;font-size:12px;letter-spacing:.025em}
+#page-backtest .nfx-backtest-status{
+  border-color:rgba(148,166,190,.24);border-radius:11px;
+  background:linear-gradient(110deg,#121e2b,#101722);color:#d0dbe8;
+}
+#page-backtest .nfx-backtest-config>.tiny{color:#8997a9}
+/* Result dashboard: these selectors are deliberately scoped and also cover the existing metric/result components when rendered. */
+#page-backtest .nfx-backtest-results{
+  border-color:rgba(201,169,107,.22);border-radius:18px;
+  background:radial-gradient(ellipse at 100% 0,rgba(201,169,107,.07),transparent 35%),linear-gradient(145deg,#151e2b,#0c131d 76%);
+  box-shadow:0 22px 58px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.035);
+}
+#page-backtest .nfx-results-heading{border-bottom-color:rgba(148,166,190,.16)}
+#page-backtest .nfx-results-heading h2{letter-spacing:-.045em}
+#page-backtest .nfx-results-state{border-radius:999px;border-color:rgba(148,166,190,.24);background:#182230;padding:8px 13px}
+#page-backtest .nfx-results-metrics,
+#page-backtest .metrics{gap:12px}
+#page-backtest .nfx-result-metric,
+#page-backtest .metrics .metric{
+  position:relative;overflow:hidden;min-height:112px;padding:17px 16px;
+  border:1px solid rgba(148,166,190,.2);border-radius:13px;
+  background:linear-gradient(145deg,#1a2635 0%,#111a26 72%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.045),0 8px 22px rgba(0,0,0,.16);
+  transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease;
+}
+#page-backtest .nfx-result-metric:before,
+#page-backtest .metrics .metric:before{
+  content:"";position:absolute;inset:0 0 auto;height:2px;
+  background:linear-gradient(90deg,rgba(201,169,107,.85),rgba(201,169,107,0));
+}
+#page-backtest .nfx-result-metric:hover,
+#page-backtest .metrics .metric:hover{
+  transform:translateY(-2px);border-color:rgba(201,169,107,.42);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.055),0 13px 27px rgba(0,0,0,.23);
+}
+#page-backtest .nfx-result-metric>span,
+#page-backtest .metrics .metric small{color:#9eacbf;font-size:9px;font-weight:800;letter-spacing:.11em}
+#page-backtest .nfx-result-metric strong,
+#page-backtest .metrics .metric strong{color:#f0f4f9;font-size:clamp(20px,2.15vw,28px);font-variant-numeric:tabular-nums}
+#page-backtest .nfx-result-primary{border-color:rgba(232,91,114,.45);background:radial-gradient(ellipse at 100% 0,rgba(232,91,114,.16),transparent 68%),linear-gradient(145deg,#251a25,#171923)}
+#page-backtest .nfx-result-primary:before{background:linear-gradient(90deg,#ed7184,rgba(237,113,132,0))}
+#page-backtest .nfx-result-primary strong{color:#ff9aa8}
+#page-backtest .nfx-results-analysis-grid{gap:14px}
+#page-backtest .nfx-results-chart-card,
+#page-backtest .nfx-results-breakdown,
+#page-backtest .nfx-results-trades{
+  border-color:rgba(148,166,190,.19);border-radius:13px;
+  background:linear-gradient(145deg,#131e2b,#0d151f);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
+}
+#page-backtest .nfx-equity-wrap{border-color:rgba(148,166,190,.2);border-radius:10px;background:linear-gradient(180deg,#111c29,#0a111a)}
+#page-backtest .nfx-results-trades th{background:#182434;color:#a9b7c9}
+#page-backtest .nfx-results-trades td{border-bottom-color:rgba(148,166,190,.1)}
+#page-backtest .nfx-results-footnote{color:#8c9aad}
+@media(max-width:760px){
+  #page-backtest .nfx-backtest-hero{border-radius:15px}
+  #page-backtest .nfx-backtest-config{border-radius:14px}
+  #page-backtest .nfx-backtest-actions .btn{min-height:46px}
+}
+@media(prefers-reduced-motion:reduce){
+  #page-backtest .nfx-backtest-actions .btn,
+  #page-backtest .nfx-result-metric,
+  #page-backtest .metrics .metric{transition:none}
+}
 </style>
 </head>
 <body>
@@ -3919,48 +3967,15 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
       <p class="tiny">Historical data availability depends on provider entitlement and instrument coverage. Verify all results independently before live trading.</p>
       <div id="status" class="status nfx-backtest-status">Ready. Sign in, describe any strategy, then run the AI-compiled historical simulation.</div>
     </section>
-  </div>
-  <section id="backtestResults" class="nfx-backtest-results" aria-live="polite">
-    <div class="nfx-results-heading">
-      <div><p class="nfx-backtest-step">STEP 02 · PERFORMANCE REPORT</p><h2>Backtest Results</h2><p id="nfxResultsSubtitle">Run a strategy simulation to generate your performance report.</p></div>
-      <span id="nfxResultsState" class="nfx-results-state"><i></i> AWAITING TEST</span>
-    </div>
-    <div class="nfx-results-context">
-      <div><small>SYMBOL</small><strong id="nfxResultSymbol">—</strong></div>
-      <div><small>TIMEFRAME</small><strong id="nfxResultTimeframe">—</strong></div>
-      <div><small>DATA SOURCE</small><strong id="nfxResultData">—</strong></div>
-      <div><small>STARTING BALANCE</small><strong id="nfxResultStart">—</strong></div>
-    </div>
-    <div class="nfx-results-metrics">
-      <article class="nfx-result-metric nfx-result-primary"><span>NET PROFIT / LOSS</span><strong id="nfxMetricNetProfit">—</strong><small id="nfxMetricReturn">Account return —</small></article>
-      <article class="nfx-result-metric"><span>WIN RATE</span><strong id="nfxMetricWinRate">—</strong><small id="nfxMetricWinLoss">Wins — · Losses —</small></article>
-      <article class="nfx-result-metric"><span>PROFIT FACTOR</span><strong id="nfxMetricProfitFactor">—</strong><small>Gross profit ÷ gross loss</small></article>
-      <article class="nfx-result-metric"><span>MAX DRAWDOWN</span><strong id="nfxMetricDrawdown">—</strong><small>Peak-to-trough equity decline</small></article>
-      <article class="nfx-result-metric"><span>TOTAL TRADES</span><strong id="nfxMetricTotalTrades">—</strong><small id="nfxMetricBreakeven">Breakeven —</small></article>
-      <article class="nfx-result-metric"><span>AVERAGE R / TRADE</span><strong id="nfxMetricAverageR">—</strong><small>Average gross R multiple</small></article>
-      <article class="nfx-result-metric"><span>EXPECTANCY</span><strong id="nfxMetricExpectancy">—</strong><small>Average net R per trade</small></article>
-      <article class="nfx-result-metric"><span>MAX LOSS STREAK</span><strong id="nfxMetricLossStreak">—</strong><small>Consecutive losing trades</small></article>
-    </div>
-    <div class="nfx-results-analysis-grid">
-      <section class="nfx-results-chart-card">
-        <div class="nfx-results-card-heading"><div><span>ACCOUNT PERFORMANCE</span><h3>Equity curve</h3></div><small>Balance progression</small></div>
-        <div class="nfx-equity-wrap"><canvas id="equityChart" width="960" height="260" aria-label="Backtest account equity curve"></canvas><div id="nfxEquityEmpty" class="nfx-equity-empty">Your equity curve will appear after a completed backtest.</div></div>
-      </section>
-      <section class="nfx-results-breakdown">
-        <div class="nfx-results-card-heading"><div><span>TRADE STATISTICS</span><h3>Performance breakdown</h3></div></div>
-        <div class="nfx-breakdown-row"><span>Gross profit</span><strong id="nfxBreakdownGrossProfit">—</strong></div>
-        <div class="nfx-breakdown-row"><span>Gross loss</span><strong id="nfxBreakdownGrossLoss">—</strong></div>
-        <div class="nfx-breakdown-row"><span>Average winning R</span><strong id="nfxBreakdownAverageWinR">—</strong></div>
-        <div class="nfx-breakdown-row"><span>Average losing R</span><strong id="nfxBreakdownAverageLossR">—</strong></div>
-      </section>
-    </div>
-    <section class="nfx-results-trades">
-      <div class="nfx-results-card-heading"><div><span>EXECUTION LOG</span><h3>Individual trade results</h3></div><small id="nfxResultTradeCount">0 trades</small></div>
-      <div class="tablewrap"><table><thead><tr><th>#</th><th>ENTRY TIME</th><th>SIDE</th><th>ENTRY</th><th>STOP</th><th>TARGET</th><th>EXIT</th><th>NET R</th><th>P/L USD</th></tr></thead><tbody id="backtestResultTrades"><tr><td colspan="9" class="muted">No completed backtest yet.</td></tr></tbody></table></div>
+    
     </section>
-    <p class="nfx-results-footnote">Metrics are calculated from completed trades returned by the selected historical data and execution model. Costs are included in net R and P/L. A missing or unsupported data condition will not be represented as a successful test.</p>
-  </section>
+  </div>
+
+
+
+  
 </section>
+
 <section id="page-journal" class="view">
   <h2 class="view-heading">Backtest Trade Journal</h2>
   <p class="view-lead">Review completed trades from your most recent backtest. Use Notes for your personal trade reviews and screenshots.</p>
@@ -4893,52 +4908,11 @@ function drawEquity(a){
 }
 
 function renderResults(r,timezone='UTC'){
-  const trades=Array.isArray(r.ts)?r.ts:[];
-  const wins=trades.filter(x=>Number(x.netR)>0),losses=trades.filter(x=>Number(x.netR)<0),breakevens=trades.filter(x=>Number(x.netR)===0);
-  const sum=(items,key)=>items.reduce((total,x)=>total+(Number(x[key])||0),0);
-  const grossProfit=sum(wins,'pnl'),grossLoss=Math.abs(sum(losses,'pnl'));
-  const netProfit=Number.isFinite(Number(r.end))&&Number.isFinite(Number(r.start))?Number(r.end)-Number(r.start):sum(trades,'pnl');
-  const returnPct=Number(r.start)>0?netProfit/Number(r.start)*100:0;
-  const winRate=trades.length?wins.length/trades.length*100:0;
-  const averageR=trades.length?sum(trades,'rr')/trades.length:0;
-  const expectancy=trades.length?sum(trades,'netR')/trades.length:0;
-  const profitFactor=grossLoss>0?grossProfit/grossLoss:(grossProfit>0?Infinity:0);
-  let lossStreak=0,maxLossStreak=0;
-  trades.forEach(x=>{if(Number(x.netR)<0){lossStreak++;maxLossStreak=Math.max(maxLossStreak,lossStreak);}else lossStreak=0;});
-  const money=value=>(Number(value)<0?'-':'')+'$'+fmt(Math.abs(Number(value)||0));
-  const put=(id,value)=>{const el=$(id);if(el)el.textContent=String(value);};
-  put('nfxMetricNetProfit',(netProfit>=0?'+':'−')+money(netProfit));
-  put('nfxMetricReturn','Account return '+(returnPct>=0?'+':'')+fmt(returnPct)+'%');
-  put('nfxMetricWinRate',fmt(winRate)+'%');
-  put('nfxMetricWinLoss','Wins '+wins.length+' · Losses '+losses.length);
-  put('nfxMetricProfitFactor',grossProfit>0&&grossLoss===0?'∞':fmt(profitFactor));
-  put('nfxMetricDrawdown',fmt((Number(r.dd)||0)*100)+'%');
-  put('nfxMetricTotalTrades',trades.length);
-  put('nfxMetricBreakeven','Breakeven '+breakevens.length);
-  put('nfxMetricAverageR',(averageR>=0?'+':'')+fmt(averageR)+'R');
-  put('nfxMetricExpectancy',(expectancy>=0?'+':'')+fmt(expectancy)+'R');
-  put('nfxMetricLossStreak',maxLossStreak);
-  put('nfxBreakdownGrossProfit',money(grossProfit));
-  put('nfxBreakdownGrossLoss',money(-grossLoss));
-  put('nfxBreakdownAverageWinR',wins.length?fmt(sum(wins,'rr')/wins.length)+'R':'—');
-  put('nfxBreakdownAverageLossR',losses.length?fmt(sum(losses,'rr')/losses.length)+'R':'—');
-  put('nfxResultSymbol',$('symbol')?.value?.trim().toUpperCase()||'—');
-  put('nfxResultTimeframe',$('interval')?.value||'—');
-  put('nfxResultData',lastDataProvider||'Historical data');
-  put('nfxResultStart',money(r.start));
-  put('nfxResultTradeCount',trades.length+' trades');
-  put('nfxResultsSubtitle',trades.length+' completed trades · '+fmt(winRate)+'% win rate · '+(netProfit>=0?'+':'−')+money(netProfit)+' net result');
-  const state=$('nfxResultsState');
-  if(state){state.classList.add('complete');state.innerHTML='<i></i><span>TEST COMPLETE</span>';}
-  let dateFormatter;
-  try{dateFormatter=new Intl.DateTimeFormat('en-GB',{timeZone:timezone||'UTC',dateStyle:'short',timeStyle:'medium',hour12:false});}
-  catch(e){dateFormatter=new Intl.DateTimeFormat('en-GB',{timeZone:'UTC',dateStyle:'short',timeStyle:'medium',hour12:false});}
-  const rows=trades.length?trades.map((x,i)=>'<tr><td>'+(i+1)+'</td><td>'+dateFormatter.format(new Date(x.t))+'</td><td>'+x.side+'</td><td>'+fmt(x.en)+'</td><td>'+fmt(x.sl)+'</td><td>'+(x.tp===null||x.tp===undefined?'Rule exit':fmt(x.tp))+'</td><td>'+fmt(x.ex)+'</td><td>'+fmt(x.netR)+'R</td><td>'+money(x.pnl)+'</td></tr>').join(''):'<tr><td colspan="9">No completed trades in this data window.</td></tr>';
-  const resultTable=$('backtestResultTrades');if(resultTable)resultTable.innerHTML=rows;
-  const journalTable=$('trades');if(journalTable)journalTable.innerHTML=rows;
-  const chart=$('equityChart'),empty=$('nfxEquityEmpty');
-  if(chart){try{drawEquity(Array.isArray(r.curve)?r.curve:[]);if(empty)empty.style.display=Array.isArray(r.curve)&&r.curve.length>1?'none':'grid';}catch(e){if(empty)empty.textContent='Equity curve could not be drawn in this browser.';}}
+  const t=r.ts;
+  const tradeRows=t.length?t.map((x,i)=>`<tr><td>${i+1}</td><td>${new Intl.DateTimeFormat('en-GB',{timeZone:timezone||'UTC',dateStyle:'short',timeStyle:'medium',hour12:false}).format(new Date(x.t))}</td><td>${x.side}</td><td>${x.en}</td><td>${x.sl}</td><td>${x.tp??'Rule exit'}</td><td>${x.ex}</td><td>${fmt(x.netR)}</td><td>${fmt(x.pnl)}</td></tr>`).join(''):'<tr><td colspan="9">No completed trades in this data window.</td></tr>';
+  if($('trades'))$('trades').innerHTML=tradeRows;
 }
+
 async function loadDatabentoDepth(schema){
   const statusEl=$('historicalDepthStatus'),recordsEl=$('historicalDepthRecords');
   const market=$('market').value,symbol=$('symbol').value.trim().toUpperCase();
@@ -5109,20 +5083,17 @@ document.querySelectorAll('[data-account-page]').forEach(btn=>{
   });
 });
 $('accountMenuToggle').addEventListener('click',()=>{
-  const dropdown=$('accountDropdown'),toggle=$('accountMenuToggle');
-  const open=!dropdown.classList.contains('open');
-  if(open){
-    const rect=toggle.getBoundingClientRect();
-    dropdown.style.setProperty('position','fixed','important');
-    dropdown.style.setProperty('top',Math.min(window.innerHeight-150,rect.bottom+8)+'px','important');
-    dropdown.style.setProperty('right',Math.max(10,window.innerWidth-rect.right)+'px','important');
-    dropdown.style.setProperty('left','auto','important');
-    dropdown.style.setProperty('z-index','2147483000','important');
-    dropdown.style.setProperty('min-width','205px','important');
-    dropdown.style.setProperty('width','max-content','important');
+  if(window.NABIL_IS_AUTHENTICATED){
+    $('accountDropdown').classList.remove('open');
+    $('accountMenuToggle').setAttribute('aria-expanded','false');
+    if(window.showNabilPage)window.showNabilPage('account');
+    if(window.showNabilAccountPage)window.showNabilAccountPage('profile');
+    $('accountMenuToggle').classList.add('active');
+    return;
   }
-  dropdown.classList.toggle('open',open);
-  toggle.setAttribute('aria-expanded',String(open));
+  const dropdown=$('accountDropdown');
+  const open=dropdown.classList.toggle('open');
+  $('accountMenuToggle').setAttribute('aria-expanded',String(open));
 });
 document.addEventListener('click',event=>{
   const menu=$('accountMenu');
@@ -7729,17 +7700,6 @@ setInterval(function(){nfxEstLiqLoad(false);},30000);
 .site-header .account-menu{flex:0 0 88px!important;width:88px!important;min-width:88px!important}
 .site-header #accountMenuToggle{width:88px!important;min-width:88px!important;white-space:nowrap!important}
 .site-header .site-nav .nav-btn,.site-header .site-nav .nav-btn:hover,.site-header .site-nav .nav-btn:active,.site-header .site-nav .nav-btn.active{transform:none!important;animation:none!important}
-</style>
-
-
-<style id="nfx-account-dropdown-final-fix">
-/* Account menu must escape the horizontally scrolling navigation on every viewport. */
-#accountMenu{position:relative!important;z-index:2147482999!important}
-#accountDropdown{display:none!important;position:fixed!important;inset:auto!important;right:10px;left:auto;top:100px;z-index:2147483000!important;width:max-content!important;min-width:205px!important;max-width:calc(100vw - 20px)!important;margin:0!important;padding:8px!important;background:#10131b!important;border:1px solid #8f3445!important;border-radius:12px!important;box-shadow:0 18px 48px #000d!important;overflow:visible!important}
-#accountDropdown.open{display:grid!important;gap:5px!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important}
-#accountDropdown .account-option{display:block!important;width:100%!important;min-height:42px!important;padding:11px 13px!important;text-align:left!important;color:#f4f5f7!important;background:transparent!important;border:1px solid transparent!important;border-radius:8px!important}
-#accountDropdown .account-option:hover,#accountDropdown .account-option:focus-visible{background:#29131b!important;border-color:#873044!important;color:#fff!important}
-@media(max-width:760px){#accountDropdown{max-width:calc(100vw - 20px)!important}}
 </style>
 
 </body>
