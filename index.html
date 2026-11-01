@@ -2394,7 +2394,7 @@ function backtestEma(c,r){
       const x=c[j],stop=side==='LONG'?x.l<=sl:x.h>=sl,target=side==='LONG'?x.h>=tp:x.l<=tp;
       if(stop||target){if(stop){ex=sl;rr=-1}else{ex=tp;rr=r.r;}et=x.t;i=j+1;break;}
     }
-    if(ex===null){i++;continue;}
+    if(ex===null)break;
     const netR=rr-cost,pnl=eq*risk*netR;eq+=pnl;peak=Math.max(peak,eq);dd=Math.max(dd,(peak-eq)/peak);
     ts.push({t:entryBar.t,exitTime:et,side,en,sl,tp,ex,rr,netR,costR:cost,pnl});curve.push(eq);
   }
