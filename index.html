@@ -2328,7 +2328,11 @@ async function analyzeStrategyWithAI(){
   if(sessionError)throw sessionError;
   if(!sessionData?.session)throw Error('Please create an account or log in before using Strategy AI.');
   const {data,error}=await nabilAiClient.functions.invoke('strategy-ai',{body:{strategy:$('rules').value}});
-  if(error)throw Error(error.message||'Could not reach the Strategy AI backend. Check Edge Function deployment.');
+  if(error){
+    let detail=error.message||'Could not reach the Strategy AI backend.';
+    try{const response=error.context;if(response?.clone){const payload=await response.clone().json();if(payload?.error)detail=payload.error;}}catch(e){}
+    throw Error(detail);
+  }
   if(data?.error)throw Error(data.error);
   if(!data||typeof data.supported!=='boolean')throw Error('AI returned an invalid response. Please retry.');
   return data;
