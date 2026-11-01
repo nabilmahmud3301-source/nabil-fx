@@ -7,7 +7,9 @@
 <style id="nfx-stable-refresh">
 /* Nabil FX premium startup and stable navigation */
 html.nfx-booting{background:#050608}
-html.nfx-booting body{overflow:hidden}
+/* Reserve the page scrollbar before and after the loader to prevent header width jumps. */
+html{overflow-y:scroll;scrollbar-gutter:stable}
+html.nfx-booting body{overflow-x:hidden}
 #nfx-page-loader{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:radial-gradient(ellipse at 50% 42%,#241018 0%,#0b090d 38%,#050608 78%);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .42s ease,visibility .42s ease}
 html.nfx-booting #nfx-page-loader{opacity:1;visibility:visible;pointer-events:auto}
 #nfx-page-loader .nfx-loader-card{width:min(360px,calc(100vw - 42px));display:flex;flex-direction:column;align-items:center;text-align:center;padding:34px 28px 27px;border:1px solid #ffffff14;border-radius:18px;background:linear-gradient(145deg,#141116eF,#090a0deF);box-shadow:0 28px 90px #000a,inset 0 1px 0 #ffffff0d;backdrop-filter:blur(18px)}
@@ -1765,6 +1767,18 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
   .site-nav::-webkit-scrollbar{display:none!important}
   .site-nav>.nav-btn,.site-nav>.account-menu>.nav-btn{height:44px!important;min-height:44px!important;max-height:44px!important;display:inline-flex!important;flex:0 0 auto!important;align-items:center!important;justify-content:center!important;white-space:nowrap!important;line-height:20px!important;padding:10px 3px 8px!important;margin:0!important;font-size:clamp(11px,1vw,13px)!important}
   .site-nav>.account-menu{flex:0 0 auto!important;display:flex!important;align-items:center!important;height:44px!important}
+}
+</style>
+
+<style id="nfx-navigation-no-shift-final">
+/* Final override: nav geometry must not animate or reflow during initial paint. */
+@media(min-width:761px){
+ html,body{scrollbar-gutter:stable}
+ .site-header{height:66px!important;min-height:66px!important;max-height:66px!important;box-sizing:border-box!important;flex-wrap:nowrap!important;align-items:center!important}
+ .site-nav{height:66px!important;min-height:66px!important;max-height:66px!important;flex-wrap:nowrap!important;align-items:center!important;overflow-y:hidden!important;scrollbar-width:none!important}
+ .site-nav>.nav-btn,.site-nav>.account-menu>.nav-btn{box-sizing:border-box!important;min-height:42px!important;height:42px!important;max-height:42px!important;flex:0 0 auto!important;align-self:center!important;transform:none!important;transition:none!important;animation:none!important;line-height:20px!important}
+ .site-nav>.nav-btn:hover,.site-nav>.nav-btn:active,.site-nav>.nav-btn.active{transform:none!important;transition:none!important}
+ .site-nav>.account-menu{height:42px!important;min-height:42px!important;align-self:center!important;flex:0 0 auto!important}
 }
 </style>
 </head>
