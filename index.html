@@ -2839,7 +2839,7 @@ function backtestCustom(c,r,seriesMap=null){
   for(;j<c.length&&j<=i+maxBars;j++){
    const bar=c[j],stop=side==='LONG'?bar.l<=sl:bar.h>=sl,target=side==='LONG'?bar.h>=tp:bar.l<=tp;
    // Conservative intrabar ordering: stop first, then target, then close-based custom exit.
-   if(stop||target){exit=stop?sl:tp;grossR=stop?-1:rr;exitTime=bar.t;break;}
+   if(stop||target){exit=stop?(ex.dataMode==='aggregated_trades'?bar.c:sl):tp;grossR=stop?(side==='LONG'?(exit-en):(en-exit))/dist:rr;exitTime=bar.t;break;}
    if(exitRules.length&&exitRules.every(q=>conditionAt(c,q,j,cache,seriesMap))){
     exit=bar.c;grossR=(side==='LONG'?(exit-en):(en-exit))/dist;exitTime=bar.t;break;
    }
@@ -3001,7 +3001,7 @@ $('run').onclick=async()=>{
     const results=backtest(c,rule,seriesMap);renderResults(results,ai.execution.timezone||'UTC');
     const engineName='AI-compiled strategy engine ('+ai.model+')';
     lastRun={at:new Date().toISOString(),symbol:$('symbol').value.toUpperCase(),interval:$('interval').value,candles:c.length,dataMode:tickMode?'Binance aggregated trade events':'OHLCV candles',timeframes:[...seriesMap.keys()],aiModel:engineName,strategy:ai.normalizedRules||strategyText,compiledRules:rule.execution,results};
-    status('Backtest completed using '+engineName+': '+c.length+' selected-timeframe candles; synchronized timeframes: '+[...seriesMap.keys()].join(', ')+'. Provider: '+(lastDataProvider||'connected data provider')+'. Trades: '+results.ts.length+'. Estimated cost: '+($('costR').value||0)+'R per trade. Stop is counted first if stop and target touch in one candle.'+(ai.assumptions?.length?'\nAI assumptions/defaults: '+ai.assumptions.join('; '):''));
+    status('Backtest completed using '+engineName+': '+c.length+' '+(tickMode?'aggregated trade events':'selected-timeframe candles')+'; synchronized timeframes: '+[...seriesMap.keys()].join(', ')+'. Provider: '+(lastDataProvider||'connected data provider')+'. Trades: '+results.ts.length+'. Estimated cost: '+($('costR').value||0)+'R per trade. Stop is counted first if stop and target touch in one candle.'+(ai.assumptions?.length?'\nAI assumptions/defaults: '+ai.assumptions.join('; '):''));
   }catch(e){status('Backtest not run: '+(e?.message||'Unexpected error.'));}
   finally{$('run').disabled=false;$('run').textContent=buttonLabel;}
 };
