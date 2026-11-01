@@ -2593,6 +2593,43 @@ function conditionAt(c,cond,i,cache){
   for(let j=rangeIndex+rangeBars;j<i;j++){if(c[j].h>hi||c[j].l<lo)return false;}
   return cond.direction==='bullish'?bullish:bearish;
  }
+ if(cond.type==='weekday_filter'){
+  const zone=cond.timezone||'UTC';let weekday;
+  try{weekday=new Intl.DateTimeFormat('en-US',{timeZone:zone,weekday:'short'}).format(new Date(x.t));}catch(e){throw Error('Invalid IANA timezone in strategy: '+zone);}
+  const map={Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6};
+  return Array.isArray(cond.days)&&cond.days.map(Number).includes(map[weekday]);
+ }
+ if(cond.type==='clock_time_filter'){
+  const zone=cond.timezone||'UTC';let parts;
+  try{parts=new Intl.DateTimeFormat('en-GB',{timeZone:zone,hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date(x.t));}catch(e){throw Error('Invalid IANA timezone in strategy: '+zone);}
+  const q={};parts.forEach(z=>{if(z.type!=='literal')q[z.type]=z.value;});
+  const mins=Number(q.hour)*60+Number(q.minute),start=Number(cond.startHour)*60+Number(cond.startMinute||0),end=Number(cond.endHour)*60+Number(cond.endMinute||0);
+  return start<=end?(mins>=start&&mins<end):(mins>=start||mins<end);
+ }
+ if(cond.type==='candle_body_percent'){
+  const span=x.h-x.l;if(!(span>0))return false;
+  const body=Math.abs(x.c-x.o)/span*100,threshold=Number(cond.value);
+  return cond.operator==='below'?body<threshold:body>threshold;
+ }
+ if(cond.type==='price_change_percent'){
+  const n=Math.max(1,Math.min(500,Math.floor(Number(cond.lookback)||1)));if(i<n)return false;
+  const base=c[i-n].c;if(!base)return false;
+  const change=(x.c-base)/base*100,threshold=Number(cond.value);
+  return cond.operator==='below'?change<threshold:cond.operator==='above'?change>threshold:cond.direction==='bearish'?change<=-Math.abs(threshold):change>=Math.abs(threshold);
+ }
+ if(cond.type==='range_expansion'){
+  const n=Math.max(2,Math.min(200,Math.floor(Number(cond.lookback)||20)));if(i<n)return false;
+  const avg=c.slice(i-n,i).reduce((sum,z)=>sum+(z.h-z.l),0)/n;
+  return avg>0&&(x.h-x.l)>avg*Number(cond.multiplier||1.5);
+ }
+ if(cond.type==='fair_value_gap'){
+  if(i<2)return false;
+  return cond.direction==='bullish'?x.l>c[i-2].h:x.h<c[i-2].l;
+ }
+ if(cond.type==='gap'){
+  if(i<1)return false;
+  return cond.direction==='bullish'?x.o>c[i-1].h:x.o<c[i-1].l;
+ }
  if(cond.type==='candle_direction')return cond.direction==='bullish'?x.c>x.o:x.c<x.o;
  if(cond.type==='close_vs_open')return cond.operator==='above'?x.c>x.o:x.c<x.o;
  if(cond.type==='close_vs_prev_highlow'){
