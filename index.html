@@ -2453,7 +2453,7 @@ function parseRules(s){
   return long&&short&&s.includes('stop loss at the previous candle low')&&s.includes('stop loss at the previous candle high')&&m&&+m[1]>0?{long:true,short:true,r:+m[1]}:null;
 }
 
-async function candles(){
+async function candles(intervalOverride=null){
   let symbol=$('symbol').value.trim();
   const market=$('market').value;
   const limit=Math.max(50,Math.min(5000,+$('limit').value||500));
@@ -2464,7 +2464,7 @@ async function candles(){
   if(market==='crypto'){
     symbol=symbol.toUpperCase();
     if(!/^[A-Z0-9]{5,20}$/.test(symbol))throw Error('Enter a valid Binance symbol, such as BTCUSDT.');
-    const interval=$('interval').value;
+    const interval=intervalOverride||$('interval').value;
     const allowed=['1m','3m','5m','15m','30m','1h','2h','4h','1d'];
     if(!allowed.includes(interval))throw Error('Unsupported Binance timeframe.');
 
@@ -2510,7 +2510,7 @@ async function candles(){
   if(sessionError)throw sessionError;
   if(!sessionData?.session)throw Error('Please log in to access historical market data.');
   const {data,error}=await client.functions.invoke('market-data',{body:{
-    market,symbol,interval:$('interval').value,limit,
+    market,symbol,interval:intervalOverride||$('interval').value,limit,
     start:$('start').value||null,end:$('end').value||null
   }});
   if(error){
@@ -2562,12 +2562,23 @@ function conditionSeries(c,cond){
  if(cond.type==='macd_cross')return {a:emaValues(c,12),b:emaValues(c,26),signal:null};
  return {};
 }
-function conditionAt(c,cond,i,cache){
+function intervalMilliseconds(tf){const m=String(tf).match(/^(1|3|5|15|30)m$/);if(m)return Number(m[1])*60000;const h=String(tf).match(/^(1|2|4)h$/);if(h)return Number(h[1])*3600000;if(tf==='1d')return 86400000;throw Error('Unsupported timeframe: '+tf);}
+function conditionAt(c,cond,i,cache,seriesMap=null){
+ const requestedTf=cond?.timeframe;
+ if(requestedTf&&seriesMap){
+  const target=seriesMap.get(requestedTf);if(!target)throw Error('Historical data missing for required timeframe '+requestedTf+'.');
+  const signalClose=c[i].t+intervalMilliseconds($('interval').value);
+  let lo=0,hi=target.length-1,idx=-1;
+  while(lo<=hi){const mid=(lo+hi)>>1;if(target[mid].t+intervalMilliseconds(requestedTf)<=signalClose){idx=mid;lo=mid+1;}else hi=mid-1;}
+  if(idx<1)return false;
+  const plain={...cond};delete plain.timeframe;
+  return conditionAt(target,plain,idx,cache,null);
+ }
  const prev=i-1,x=c[i],p=x;
  if(cond.type==='logic'){
   const op=String(cond.operator||'all').toLowerCase(),children=Array.isArray(cond.conditions)?cond.conditions:[];
   if(!children.length)return false;
-  if(op==='all')return children.every(q=>conditionAt(c,q,i,cache));
+  if(op==='all')return children.every(q=>conditionAt(c,q,i,cache,seriesMap));
   if(op==='any')return children.some(q=>conditionAt(c,q,i,cache));
   if(op==='not')return children.length===1&&!conditionAt(c,children[0],i,cache);
   throw Error('Unsupported strategy logic operator: '+op);
@@ -2697,7 +2708,7 @@ function conditionAt(c,cond,i,cache){
   const range=c.slice(i-n,i);
   return cond.direction==='above'?x.c>Math.max(...range.map(z=>z.h)):x.c<Math.min(...range.map(z=>z.l));
  }
- let k=cond.type+':'+JSON.stringify(cond),v=cache.get(k);if(!v){v=conditionSeries(c,cond);cache.set(k,v);}
+ let k=(c[0]?.t||0)+':'+c.length+':'+cond.type+':'+JSON.stringify(cond),v=cache.get(k);if(!v){v=conditionSeries(c,cond);cache.set(k,v);}
  if(cond.type==='ema_cross'||cond.type==='sma_cross'){
   if(v.a[i]==null||v.b[i]==null||v.a[prev]==null||v.b[prev]==null)return false;
   return cond.direction==='bullish'?(v.a[prev]<=v.b[prev]&&v.a[i]>v.b[i]):(v.a[prev]>=v.b[prev]&&v.a[i]<v.b[i]);
@@ -2716,7 +2727,7 @@ function emaRawSeries(values,p){
  const a=new Array(values.length).fill(null);let seed=[],prev=null;const alpha=2/(p+1);
  for(let i=0;i<values.length;i++){if(values[i]==null){seed=[];prev=null;continue;}if(prev==null){seed.push(values[i]);if(seed.length===p){prev=seed.reduce((x,y)=>x+y,0)/p;a[i]=prev;}}else{prev=values[i]*alpha+prev*(1-alpha);a[i]=prev;}}return a;
 }
-function backtestCustom(c,r){
+function backtestCustom(c,r,seriesMap=null){
  const ex=r.execution;if(!ex)throw Error('AI did not return executable rules. Please make entry, stop-loss and take-profit explicit.');
  const bal=+$('balance').value,risk=+$('risk').value/100,cost=Math.max(0,Math.min(1,+$('costR').value||0));
  if(!(bal>0&&risk>0&&risk<=.10))throw Error('Balance must be positive and risk must be between 0.01% and 10%.');
@@ -2752,7 +2763,7 @@ function backtestCustom(c,r){
    const bar=c[j],stop=side==='LONG'?bar.l<=sl:bar.h>=sl,target=side==='LONG'?bar.h>=tp:bar.l<=tp;
    // Conservative intrabar ordering: stop first, then target, then close-based custom exit.
    if(stop||target){exit=stop?sl:tp;grossR=stop?-1:rr;exitTime=bar.t;break;}
-   if(exitRules.length&&exitRules.every(q=>conditionAt(c,q,j,cache))){
+   if(exitRules.length&&exitRules.every(q=>conditionAt(c,q,j,cache,seriesMap))){
     exit=bar.c;grossR=(side==='LONG'?(exit-en):(en-exit))/dist;exitTime=bar.t;break;
    }
   }
@@ -2767,8 +2778,8 @@ function backtestCustom(c,r){
  return {ts,curve,start:bal,end:eq,dd};
 }
 
-function backtest(c,r){
-  if(r.type==='custom')return backtestCustom(c,r);
+function backtest(c,r,seriesMap=null){
+  if(r.type==='custom')return backtestCustom(c,r,seriesMap);
   if(r.type==='emaCrossover')return backtestEma(c,r);
   let bal=+$('balance').value;
   const risk=+$('risk').value/100;
@@ -2890,11 +2901,27 @@ $('run').onclick=async()=>{
     status('Step 2/3 · Fetching historical candles…');
     const c=await candles();
     if(c.some((x,i)=>![x.o,x.h,x.l,x.c,x.t].every(Number.isFinite)||(i>0&&x.t<=c[i-1].t)))throw Error('Candle data failed quality checks.');
-    status('Step 3/3 · Running the historical simulation…');
-    const results=backtest(c,rule);renderResults(results,ai.execution.timezone||'UTC');
+    const seriesMap=new Map([[$('interval').value,c]]);
+    const needed=new Set();
+    const collectTimeframes=items=>(items||[]).forEach(q=>{if(q.timeframe)needed.add(String(q.timeframe));if(q.type==='logic')collectTimeframes(q.conditions);});
+    collectTimeframes(longConditions);collectTimeframes(shortConditions);collectTimeframes(rawExecution.exitLongConditions);collectTimeframes(rawExecution.exitShortConditions);
+    needed.delete($('interval').value);
+    const supportedIntervals=new Set(['1m','3m','5m','15m','30m','1h','2h','4h','1d']);
+    for(const tf of needed)if(!supportedIntervals.has(tf))throw Error('Unsupported requested timeframe: '+tf+'.');
+    if(needed.size){
+      status('Step 2/3 · Loading synchronized multi-timeframe history: '+[...needed].join(', ')+'…');
+      const extra=await Promise.all([...needed].map(async tf=>[tf,await candles(tf)]));
+      for(const [tf,data] of extra){
+        if(data.some((x,i)=>![x.o,x.h,x.l,x.c,x.t].every(Number.isFinite)||(i>0&&x.t<=data[i-1].t)))throw Error('Historical '+tf+' data failed quality checks.');
+        if(data[data.length-1].t+intervalMilliseconds(tf)<c[c.length-1].t+intervalMilliseconds($('interval').value)-intervalMilliseconds(tf)*2)throw Error('Historical '+tf+' data does not cover the end of the selected backtest window. No result was generated.');
+        seriesMap.set(tf,data);
+      }
+    }
+    status('Step 3/3 · Running the synchronized historical simulation…');
+    const results=backtest(c,rule,seriesMap);renderResults(results,ai.execution.timezone||'UTC');
     const engineName='AI-compiled strategy engine ('+ai.model+')';
-    lastRun={at:new Date().toISOString(),symbol:$('symbol').value.toUpperCase(),interval:$('interval').value,candles:c.length,aiModel:engineName,strategy:ai.normalizedRules||strategyText,compiledRules:rule.execution,results};
-    status('Backtest completed using '+engineName+': '+c.length+' historical candles from '+(lastDataProvider||'connected data provider')+'. Trades: '+results.ts.length+'. Estimated cost: '+($('costR').value||0)+'R per trade. Stop is counted first if stop and target touch in one candle.'+(ai.assumptions?.length?'\nAI assumptions/defaults: '+ai.assumptions.join('; '):''));
+    lastRun={at:new Date().toISOString(),symbol:$('symbol').value.toUpperCase(),interval:$('interval').value,candles:c.length,timeframes:[...seriesMap.keys()],aiModel:engineName,strategy:ai.normalizedRules||strategyText,compiledRules:rule.execution,results};
+    status('Backtest completed using '+engineName+': '+c.length+' selected-timeframe candles; synchronized timeframes: '+[...seriesMap.keys()].join(', ')+'. Provider: '+(lastDataProvider||'connected data provider')+'. Trades: '+results.ts.length+'. Estimated cost: '+($('costR').value||0)+'R per trade. Stop is counted first if stop and target touch in one candle.'+(ai.assumptions?.length?'\nAI assumptions/defaults: '+ai.assumptions.join('; '):''));
   }catch(e){status('Backtest not run: '+(e?.message||'Unexpected error.'));}
   finally{$('run').disabled=false;$('run').textContent=buttonLabel;}
 };
