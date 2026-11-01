@@ -51,17 +51,27 @@ Deno.serve(async (req: Request) => {
       });
     }
 
-    const systemInstruction = `You are the strategy-rule analyst for Nabil FX Backtesting. Analyze the user's trading strategy text.
-The backtesting engine executes ONLY this exact rule family:
-- LONG: current candle closes above the immediately previous candle high.
-- SHORT: current candle closes below the immediately previous candle low.
-- LONG stop: immediately previous candle low.
-- SHORT stop: immediately previous candle high.
-- Take profit: a fixed positive risk multiple (R).
-Natural-language variations of those same rules are allowed. Do NOT claim that indicators, liquidity/ICT, sessions, multi-timeframe, discretionary, trailing-stop, partial-exit, or other strategies are executable unless they can be faithfully reduced to the exact rule family above.
-Return ONLY one valid JSON object, without Markdown fences or extra text, with keys:
-supported (boolean), long (boolean), short (boolean), rewardRisk (number or null), normalizedRules (string), explanation (string), missing (array of strings), unsupportedReasons (array of strings).
-Require at least one direction, matching previous-candle stop definitions for selected directions, and a positive fixed R target. Do not invent missing rules. Keep explanation concise and mention engine limitations.`;
+    const systemInstruction = `You are the natural-language strategy compiler for Nabil FX Backtesting. Convert the user's strategy into a deterministic executable rule specification. Never invent conditions that the user did not state. If a rule is ambiguous, unsupported by the schema, discretionary, or depends on unavailable external/order-book data, set supported=false and explain exactly what is missing.
+Return ONLY JSON with keys: supported, long, short, rewardRisk, normalizedRules, explanation, missing, unsupportedReasons, execution.
+execution schema:
+{
+ "longConditions":[condition,...], "shortConditions":[condition,...],
+ "entry":"next_open" or "signal_close",
+ "stop":{"type":"signal_candle"|"previous_candle"|"atr"|"percent","value":number},
+ "targetR":positive number,
+ "maxBarsInTrade":positive integer or null
+}
+Conditions are ANDed; empty side means disabled. Allowed condition forms:
+- {"type":"ema_cross","fast":integer,"slow":integer,"direction":"bullish"|"bearish"}
+- {"type":"sma_cross","fast":integer,"slow":integer,"direction":"bullish"|"bearish"}
+- {"type":"close_vs_ema","period":integer,"operator":"above"|"below"}
+- {"type":"close_vs_sma","period":integer,"operator":"above"|"below"}
+- {"type":"rsi","period":integer,"operator":"above"|"below","value":number}
+- {"type":"macd_cross","direction":"bullish"|"bearish"}
+- {"type":"breakout","lookback":integer,"direction":"above"|"below"}
+- {"type":"candle_direction","direction":"bullish"|"bearish"}
+- {"type":"close_vs_open","operator":"above"|"below"}
+Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. Only translate if the user's rules faithfully match these forms. Do not claim arbitrary ICT/FVG/liquidity/session/multi-timeframe rules are supported unless expressible exactly in this schema. For unsupported concepts, return supported=false rather than approximating. Default targetR to explicit user target only; if missing, report it in missing and supported=false. Stop must be explicit and mapped to one of allowed stop types. If entry timing not specified, use next_open and disclose this in explanation. If the strategy says both directions, create conditions for each direction. For EMA crossover set EMA cross conditions. Long/short arrays are evaluated independently. Include a concise normalizedRules description.`;
 
     // Try the requested model first, then Google's current stable Flash aliases if it is busy/unavailable.
     const models = ["gemini-3.8-flash", "gemini-flash-lite-latest"];
@@ -114,8 +124,21 @@ Require at least one direction, matching previous-candle stop definitions for se
           continue;
         }
 
+        const execution = parsed?.execution && typeof parsed.execution === "object" ? parsed.execution : null;
+        const validTypes = new Set(["ema_cross","sma_cross","close_vs_ema","close_vs_sma","rsi","macd_cross","breakout","candle_direction","close_vs_open"]);
+        const validConditions = (items: any[]) => Array.isArray(items) && items.length <= 12 && items.every((c: any) => c && validTypes.has(c.type));
+        const executionValid = !!execution &&
+          validConditions(execution.longConditions) && validConditions(execution.shortConditions) &&
+          ["next_open","signal_close"].includes(execution.entry) &&
+          !!execution.stop && ["signal_candle","previous_candle","atr","percent"].includes(execution.stop.type) &&
+          Number.isFinite(Number(execution.targetR)) && Number(execution.targetR) > 0 &&
+          ["signal_candle","previous_candle"].includes(execution.stop.type) ||
+          (!!execution && validConditions(execution.longConditions) && validConditions(execution.shortConditions) &&
+          ["next_open","signal_close"].includes(execution.entry) && !!execution.stop &&
+          ["atr","percent"].includes(execution.stop.type) && Number(execution.stop.value)>0 &&
+          Number.isFinite(Number(execution.targetR)) && Number(execution.targetR)>0);
         const safe = {
-          supported: parsed.supported === true,
+          supported: parsed.supported === true && executionValid,
           long: parsed.long === true,
           short: parsed.short === true,
           rewardRisk: Number.isFinite(Number(parsed.rewardRisk)) && Number(parsed.rewardRisk) > 0 ? Number(parsed.rewardRisk) : null,
@@ -123,6 +146,14 @@ Require at least one direction, matching previous-candle stop definitions for se
           explanation: String(parsed.explanation || "Strategy analyzed.").slice(0, 3000),
           missing: Array.isArray(parsed.missing) ? parsed.missing.map((x: unknown) => String(x).slice(0, 200)).slice(0, 12) : [],
           unsupportedReasons: Array.isArray(parsed.unsupportedReasons) ? parsed.unsupportedReasons.map((x: unknown) => String(x).slice(0, 200)).slice(0, 12) : [],
+          execution: executionValid ? {
+            longConditions: execution.longConditions,
+            shortConditions: execution.shortConditions,
+            entry: execution.entry,
+            stop: execution.stop,
+            targetR: Number(execution.targetR),
+            maxBarsInTrade: Number.isFinite(Number(execution.maxBarsInTrade)) ? Math.max(1, Math.min(5000, Number(execution.maxBarsInTrade))) : null,
+          } : null,
           model,
         };
 
