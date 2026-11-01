@@ -3258,6 +3258,13 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
  #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-chart-frame .nfx-liq-timeline-wrap{height:450px!important;min-height:370px!important}
 }
 </style>
+<style id="nfx-home-view-isolation">
+/* A non-selected workspace page must never leak into the Home page. */
+.view:not(.active){display:none!important}
+#page-home{display:none}
+#page-home[style*="display: flex"]{display:flex!important}
+.home-only{display:block}
+</style>
 </head>
 <body>
 <div id="nfx-page-loader" role="status" aria-live="polite" aria-label="Loading Nabil FX workspace">
@@ -3338,7 +3345,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
   </div>
 </section>
 
-<section class="workflow-band home-only"><div><h3>Build a process. Measure progress. Keep improving.</h3><p>Trading involves risk. Nabil Fx supports research and organization; it does not guarantee trading results.</p></div></section>
+
 
     <section class="nfx-contact-page view" id="page-contact" aria-label="Contact Nabil Fx">
       <div class="nfx-contact-header"><p class="nfx-contact-eyebrow">GET IN TOUCH</p><h2>Contact Us</h2><p>Choose your preferred channel to connect with Nabil Fx.</p></div>
