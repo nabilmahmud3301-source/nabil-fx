@@ -2527,6 +2527,14 @@ function conditionSeries(c,cond){
 }
 function conditionAt(c,cond,i,cache){
  const prev=i-1,x=c[i],p=x;
+ if(cond.type==='logic'){
+  const op=String(cond.operator||'all').toLowerCase(),children=Array.isArray(cond.conditions)?cond.conditions:[];
+  if(!children.length)return false;
+  if(op==='all')return children.every(q=>conditionAt(c,q,i,cache));
+  if(op==='any')return children.some(q=>conditionAt(c,q,i,cache));
+  if(op==='not')return children.length===1&&!conditionAt(c,children[0],i,cache);
+  throw Error('Unsupported strategy logic operator: '+op);
+ }
  if(cond.type==='session_filter'||cond.type==='session_opening_range_breakout'){
   const zone=cond.timezone||'UTC';
   let fmt;try{fmt=new Intl.DateTimeFormat('en-GB',{timeZone:zone,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',weekday:'short',hourCycle:'h23'});}catch(e){throw Error('Invalid IANA timezone in strategy: '+zone);}
