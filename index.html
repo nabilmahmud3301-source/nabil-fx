@@ -2489,7 +2489,101 @@ async function candles(){
   return out.slice(-limit);
 }
 
+
+function smaValues(c,p,key='c'){
+ const a=new Array(c.length).fill(null);let sum=0;
+ for(let i=0;i<c.length;i++){sum+=c[i][key];if(i>=p)sum-=c[i-p][key];if(i>=p-1)a[i]=sum/p;}return a;
+}
+function emaValues(c,p,key='c'){
+ const a=new Array(c.length).fill(null);if(c.length<p)return a;
+ let x=0;for(let i=0;i<p;i++)x+=c[i][key];x/=p;a[p-1]=x;const alpha=2/(p+1);
+ for(let i=p;i<c.length;i++){x=c[i][key]*alpha+x*(1-alpha);a[i]=x;}return a;
+}
+function rsiValues(c,p){
+ const a=new Array(c.length).fill(null);if(c.length<=p)return a;
+ let gain=0,loss=0;for(let i=1;i<=p;i++){const d=c[i].c-c[i-1].c;if(d>0)gain+=d;else loss-=d;}
+ let ag=gain/p,al=loss/p;a[p]=al===0?100:100-100/(1+ag/al);
+ for(let i=p+1;i<c.length;i++){const d=c[i].c-c[i-1].c;ag=(ag*(p-1)+Math.max(0,d))/p;al=(al*(p-1)+Math.max(0,-d))/p;a[i]=al===0?100:100-100/(1+ag/al);}return a;
+}
+function atrValues(c,p=14){
+ const tr=c.map((x,i)=>i?Math.max(x.h-x.l,Math.abs(x.h-c[i-1].c),Math.abs(x.l-c[i-1].c)):x.h-x.l);
+ const a=new Array(c.length).fill(null);if(c.length<p)return a;let v=0;for(let i=0;i<p;i++)v+=tr[i];v/=p;a[p-1]=v;
+ for(let i=p;i<c.length;i++){v=(v*(p-1)+tr[i])/p;a[i]=v;}return a;
+}
+function conditionSeries(c,cond){
+ const p=Math.max(2,Math.min(500,Math.floor(Number(cond.period)||14)));
+ if(cond.type==='ema_cross'||cond.type==='sma_cross'){
+  const fn=cond.type==='ema_cross'?emaValues:smaValues;
+  return {a:fn(c,Math.max(2,Math.min(200,Math.floor(Number(cond.fast)||9)))),b:fn(c,Math.max(2,Math.min(200,Math.floor(Number(cond.slow)||21))))};
+ }
+ if(cond.type==='close_vs_ema')return {a:emaValues(c,p)};
+ if(cond.type==='close_vs_sma')return {a:smaValues(c,p)};
+ if(cond.type==='rsi')return {a:rsiValues(c,p)};
+ if(cond.type==='macd_cross')return {a:emaValues(c,12),b:emaValues(c,26),signal:null};
+ return {};
+}
+function conditionAt(c,cond,i,cache){
+ const prev=i-1,x=c[i],p=x;
+ if(cond.type==='candle_direction')return cond.direction==='bullish'?x.c>x.o:x.c<x.o;
+ if(cond.type==='close_vs_open')return cond.operator==='above'?x.c>x.o:x.c<x.o;
+ if(cond.type==='breakout'){
+  const n=Math.max(2,Math.min(500,Math.floor(Number(cond.lookback)||20)));if(i<n)return false;
+  const range=c.slice(i-n,i);
+  return cond.direction==='above'?x.c>Math.max(...range.map(z=>z.h)):x.c<Math.min(...range.map(z=>z.l));
+ }
+ let k=cond.type+':'+JSON.stringify(cond),v=cache.get(k);if(!v){v=conditionSeries(c,cond);cache.set(k,v);}
+ if(cond.type==='ema_cross'||cond.type==='sma_cross'){
+  if(v.a[i]==null||v.b[i]==null||v.a[prev]==null||v.b[prev]==null)return false;
+  return cond.direction==='bullish'?(v.a[prev]<=v.b[prev]&&v.a[i]>v.b[i]):(v.a[prev]>=v.b[prev]&&v.a[i]<v.b[i]);
+ }
+ if(cond.type==='close_vs_ema'||cond.type==='close_vs_sma')return v.a[i]!=null&&(cond.operator==='above'?x.c>v.a[i]:x.c<v.a[i]);
+ if(cond.type==='rsi')return v.a[i]!=null&&(cond.operator==='above'?v.a[i]>Number(cond.value):v.a[i]<Number(cond.value));
+ if(cond.type==='macd_cross'){
+  const macd=c.map((z,j)=>v.a[j]!=null&&v.b[j]!=null?v.a[j]-v.b[j]:null);
+  const signal=emaRawSeries(macd,9);
+  if(macd[i]==null||macd[prev]==null||signal[i]==null||signal[prev]==null)return false;
+  return cond.direction==='bullish'?(macd[prev]<=signal[prev]&&macd[i]>signal[i]):(macd[prev]>=signal[prev]&&macd[i]<signal[i]);
+ }
+ return false;
+}
+function emaRawSeries(values,p){
+ const a=new Array(values.length).fill(null);let seed=[],prev=null;const alpha=2/(p+1);
+ for(let i=0;i<values.length;i++){if(values[i]==null){seed=[];prev=null;continue;}if(prev==null){seed.push(values[i]);if(seed.length===p){prev=seed.reduce((x,y)=>x+y,0)/p;a[i]=prev;}}else{prev=values[i]*alpha+prev*(1-alpha);a[i]=prev;}}return a;
+}
+function backtestCustom(c,r){
+ const ex=r.execution;if(!ex)throw Error('AI did not return executable rules. Please make entry, stop-loss and take-profit explicit.');
+ const bal=+$('balance').value,risk=+$('risk').value/100,cost=Math.max(0,Math.min(1,+$('costR').value||0));
+ if(!(bal>0&&risk>0&&risk<=.10))throw Error('Balance must be positive and risk must be between 0.01% and 10%.');
+ const cache=new Map(),atr=atrValues(c,14);let eq=bal,peak=bal,dd=0;const ts=[],curve=[bal];
+ const longC=ex.longConditions||[],shortC=ex.shortConditions||[];
+ for(let i=1;i<c.length-1;){
+  const long=longC.length>0&&longC.every(q=>conditionAt(c,q,i,cache));
+  const short=shortC.length>0&&shortC.every(q=>conditionAt(c,q,i,cache));
+  if(long===short){i++;continue;}
+  const side=long?'LONG':'SHORT',sig=c[i],entryBar=ex.entry==='signal_close'?sig:c[i+1],en=ex.entry==='signal_close'?sig.c:entryBar.o;
+  let sl;
+  if(ex.stop.type==='signal_candle')sl=side==='LONG'?sig.l:sig.h;
+  else if(ex.stop.type==='previous_candle')sl=side==='LONG'?c[i-1].l:c[i-1].h;
+  else if(ex.stop.type==='atr'){const d=(atr[i]||sig.h-sig.l)*Math.max(.1,Number(ex.stop.value)||1);sl=side==='LONG'?en-d:en+d;}
+  else if(ex.stop.type==='percent'){const d=en*Math.max(.01,Number(ex.stop.value)||1)/100;sl=side==='LONG'?en-d:en+d;}
+  else throw Error('Unsupported stop-loss type in compiled strategy.');
+  const dist=side==='LONG'?en-sl:sl-en;if(!(dist>0)){i++;continue;}
+  const rr=Number(ex.targetR);if(!(rr>0))throw Error('Take-profit R must be positive.');
+  const tp=side==='LONG'?en+dist*rr:en-dist*rr;let exit=null,grossR=0,exitTime=0,j=ex.entry==='signal_close'?i+1:i+1;
+  const maxBars=Number(ex.maxBarsInTrade)||c.length;
+  for(;j<c.length&&j<=i+maxBars;j++){
+   const bar=c[j],stop=side==='LONG'?bar.l<=sl:bar.h>=sl,target=side==='LONG'?bar.h>=tp:bar.l<=tp;
+   if(stop||target){exit=stop?sl:tp;grossR=stop?-1:rr;exitTime=bar.t;break;}
+  }
+  if(exit===null){i++;continue;}
+  const netR=grossR-cost,pnl=eq*risk*netR;eq+=pnl;peak=Math.max(peak,eq);dd=Math.max(dd,(peak-eq)/peak);
+  ts.push({t:entryBar.t,exitTime,side,en,sl,tp,ex:exit,rr:grossR,netR,costR:cost,pnl});curve.push(eq);i=j+1;
+ }
+ return {ts,curve,start:bal,end:eq,dd};
+}
+
 function backtest(c,r){
+  if(r.type==='custom')return backtestCustom(c,r);
   if(r.type==='emaCrossover')return backtestEma(c,r);
   let bal=+$('balance').value;
   const risk=+$('risk').value/100;
@@ -2583,25 +2677,21 @@ $('run').onclick=async()=>{
   try{
     const strategyText=$('rules').value.trim();
     if(!strategyText)throw Error('Write your strategy rules first.');
-    let ai=null,rule=parseEmaRules(strategyText);
-    if(rule)status('Step 1/3 · EMA 9/21 recognized. Using built-in strategy engine…');
-    else{
-      status('Step 1/3 · Reviewing strategy rules. This may take up to 25 seconds…');
-      ai=await analyzeStrategyWithAI();
-      if(!ai.supported){
-        const why=[ai.explanation,...(ai.missing||[]).map(x=>'Missing: '+x),...(ai.unsupportedReasons||[])].filter(Boolean).join(' ');
-        throw Error('This strategy is not supported by the current engine. '+why);
-      }
-      rule={long:ai.long,short:ai.short,r:ai.rewardRisk};
-      if((!rule.long&&!rule.short)||!(rule.r>0))throw Error('AI could not extract valid entry direction and fixed R target. Please clarify your rules.');
+    status('Step 1/3 · AI is converting your strategy into executable rules…');
+    const ai=await analyzeStrategyWithAI();
+    if(!ai.supported||!ai.execution){
+      const why=[ai.explanation,...(ai.missing||[]).map(x=>'Missing: '+x),...(ai.unsupportedReasons||[])].filter(Boolean).join(' ');
+      throw Error('Strategy could not be compiled safely. '+why);
     }
+    const rule={type:'custom',execution:ai.execution,long:ai.long,short:ai.short,r:ai.execution.targetR};
+    if((!rule.long&&!rule.short)||!(rule.r>0))throw Error('Please specify valid entry conditions for BUY/SELL and a positive take-profit target.');
     status('Step 2/3 · Fetching historical candles…');
     const c=await candles();
     if(c.some((x,i)=>![x.o,x.h,x.l,x.c,x.t].every(Number.isFinite)||(i>0&&x.t<=c[i-1].t)))throw Error('Candle data failed quality checks.');
     status('Step 3/3 · Running the historical simulation…');
     const results=backtest(c,rule);renderResults(results);
-    const engineName=rule.type==='emaCrossover'?'Built-in EMA 9/21 engine':ai.model;
-    lastRun={at:new Date().toISOString(),symbol:$('symbol').value.toUpperCase(),interval:$('interval').value,candles:c.length,aiModel:engineName,strategy:ai?.normalizedRules||'EMA 9/21 crossover; next candle open entry; signal candle high/low stop; fixed '+rule.r+'R target.',results};
+    const engineName='AI-compiled strategy engine ('+ai.model+')';
+    lastRun={at:new Date().toISOString(),symbol:$('symbol').value.toUpperCase(),interval:$('interval').value,candles:c.length,aiModel:engineName,strategy:ai.normalizedRules||strategyText,compiledRules:rule.execution,results};
     status('Backtest completed using '+engineName+': '+c.length+' historical candles from '+(lastDataProvider||'connected data provider')+'. Trades: '+results.ts.length+'. Estimated cost: '+($('costR').value||0)+'R per trade. Stop is counted first if stop and target touch in one candle.');
   }catch(e){status('Backtest not run: '+(e?.message||'Unexpected error.'));}
   finally{$('run').disabled=false;$('run').textContent=buttonLabel;}
