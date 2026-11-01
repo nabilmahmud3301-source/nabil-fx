@@ -2355,6 +2355,52 @@ $('reply').onclick=async()=>{
   finally{$('reply').disabled=false;}
 };
 
+function parseEmaRules(raw){
+  const s=String(raw||'').toLowerCase().replace(/\s+/g,' ');
+  const hasFast=/ema\s*9\b/.test(s),hasSlow=/ema\s*21\b/.test(s);
+  const hasCross=/cross(?:es|ed|ing)?\s*(?:above|below)|crossover/.test(s);
+  const hasNext=/next candle (?:open|opening price)|at the next candle open/.test(s);
+  const hasStop=/signal candle (?:low|high)/.test(s);
+  const rr=s.match(/(?:take profit|target)\s*:?\s*(?:at\s*)?([0-9.]+)\s*r/);
+  if(!hasFast||!hasSlow||!hasCross||!hasNext||!hasStop||!rr||!(+rr[1]>0))return null;
+  return {type:'emaCrossover',long:true,short:true,r:+rr[1],fast:9,slow:21};
+}
+function emaSeries(c,period){
+  const out=new Array(c.length).fill(null);if(c.length<period)return out;
+  let seed=0;for(let i=0;i<period;i++)seed+=c[i].c;
+  let prev=seed/period;out[period-1]=prev;const alpha=2/(period+1);
+  for(let i=period;i<c.length;i++){prev=(c[i].c-prev)*alpha+prev;out[i]=prev;}
+  return out;
+}
+function backtestEma(c,r){
+  const bal=+$('balance').value,risk=+$('risk').value/100;
+  if(!(bal>0&&risk>0&&risk<=0.10))throw Error('Balance must be positive and risk must be between 0.01% and 10%.');
+  const cost=Math.max(0,Math.min(1,+$('costR').value||0));
+  const fast=emaSeries(c,r.fast||9),slow=emaSeries(c,r.slow||21);
+  let eq=bal,peak=bal,dd=0,i=(r.slow||21);const ts=[],curve=[bal];
+  while(i<c.length-1){
+    const p=i-1;
+    if(fast[p]===null||slow[p]===null||fast[i]===null||slow[i]===null){i++;continue;}
+    let side=null;
+    if(fast[p]<=slow[p]&&fast[i]>slow[i]&&c[i].c>fast[i])side='LONG';
+    else if(fast[p]>=slow[p]&&fast[i]<slow[i]&&c[i].c<fast[i])side='SHORT';
+    if(!side){i++;continue;}
+    const signal=c[i],entryBar=c[i+1],en=entryBar.o,sl=side==='LONG'?signal.l:signal.h;
+    const dist=side==='LONG'?en-sl:sl-en;
+    if(!(dist>0)){i++;continue;}
+    const tp=side==='LONG'?en+dist*r.r:en-dist*r.r;
+    let ex=null,rr=0,et=0;
+    for(let j=i+1;j<c.length;j++){
+      const x=c[j],stop=side==='LONG'?x.l<=sl:x.h>=sl,target=side==='LONG'?x.h>=tp:x.l<=tp;
+      if(stop||target){if(stop){ex=sl;rr=-1}else{ex=tp;rr=r.r;}et=x.t;i=j+1;break;}
+    }
+    if(ex===null){i++;continue;}
+    const netR=rr-cost,pnl=eq*risk*netR;eq+=pnl;peak=Math.max(peak,eq);dd=Math.max(dd,(peak-eq)/peak);
+    ts.push({t:entryBar.t,exitTime:et,side,en,sl,tp,ex,rr,netR,costR:cost,pnl});curve.push(eq);
+  }
+  return {ts,curve,start:bal,end:eq,dd};
+}
+
 function parseRules(s){
   s=s.toLowerCase();
   const long=/long entry when the last candle closes above the previous candle high/.test(s);
@@ -2440,6 +2486,7 @@ async function candles(){
 }
 
 function backtest(c,r){
+  if(r.type==='emaCrossover')return backtestEma(c,r);
   let bal=+$('balance').value;
   const risk=+$('risk').value/100;
   if(!(bal>0&&risk>0&&risk<=0.10))throw Error('Balance must be positive and risk must be between 0.01% and 10%.');
@@ -2528,26 +2575,32 @@ function renderResults(r){
 
 $('run').onclick=async()=>{
   $('run').disabled=true;
+  const buttonLabel=$('run').textContent;$('run').textContent='Working…';
   try{
-    if(!$('rules').value.trim())throw Error('Write your strategy rules first.');
-    status('Step 1/3 · Gemini is analyzing your strategy...');
-    const ai=await analyzeStrategyWithAI();
-    if(!ai.supported){
-      const why=[ai.explanation,...(ai.missing||[]).map(x=>'Missing: '+x),...(ai.unsupportedReasons||[])].filter(Boolean).join(' ');
-      throw Error('AI reviewed your strategy, but this backtest engine cannot execute it yet. '+why);
+    const strategyText=$('rules').value.trim();
+    if(!strategyText)throw Error('Write your strategy rules first.');
+    let ai=null,rule=parseEmaRules(strategyText);
+    if(rule)status('Step 1/3 · EMA 9/21 recognized. Using built-in strategy engine…');
+    else{
+      status('Step 1/3 · Reviewing strategy rules. This may take up to 25 seconds…');
+      ai=await analyzeStrategyWithAI();
+      if(!ai.supported){
+        const why=[ai.explanation,...(ai.missing||[]).map(x=>'Missing: '+x),...(ai.unsupportedReasons||[])].filter(Boolean).join(' ');
+        throw Error('This strategy is not supported by the current engine. '+why);
+      }
+      rule={long:ai.long,short:ai.short,r:ai.rewardRisk};
+      if((!rule.long&&!rule.short)||!(rule.r>0))throw Error('AI could not extract valid entry direction and fixed R target. Please clarify your rules.');
     }
-    const rule={long:ai.long,short:ai.short,r:ai.rewardRisk};
-    if((!rule.long&&!rule.short)||!(rule.r>0))throw Error('AI could not extract valid entry direction and fixed R target. Please clarify your rules.');
-    status('Step 2/3 · Fetching historical candles...');
+    status('Step 2/3 · Fetching historical candles…');
     const c=await candles();
     if(c.some((x,i)=>![x.o,x.h,x.l,x.c,x.t].every(Number.isFinite)||(i>0&&x.t<=c[i-1].t)))throw Error('Candle data failed quality checks.');
-    status('Step 3/3 · Running the historical simulation...');
-    const r=backtest(c,rule);
-    renderResults(r);
-    lastRun={at:new Date().toISOString(),symbol:$('symbol').value.toUpperCase(),interval:$('interval').value,candles:c.length,aiModel:ai.model,strategy:ai.normalizedRules,results:r};
-    status(`AI analyzed the rules with ${ai.model}. Backtest completed from ${c.length} real candles via ${lastDataProvider||'connected data provider'}. Estimated cost: ${$('costR').value||0}R per trade. If stop and target touch in one candle, stop is counted first.`);
-  }catch(e){status('Backtest not run: '+e.message);}
-  finally{$('run').disabled=false;}
+    status('Step 3/3 · Running the historical simulation…');
+    const results=backtest(c,rule);renderResults(results);
+    const engineName=rule.type==='emaCrossover'?'Built-in EMA 9/21 engine':ai.model;
+    lastRun={at:new Date().toISOString(),symbol:$('symbol').value.toUpperCase(),interval:$('interval').value,candles:c.length,aiModel:engineName,strategy:ai?.normalizedRules||'EMA 9/21 crossover; next candle open entry; signal candle high/low stop; fixed '+rule.r+'R target.',results};
+    status('Backtest completed using '+engineName+': '+c.length+' historical candles from '+(lastDataProvider||'connected data provider')+'. Trades: '+results.ts.length+'. Estimated cost: '+($('costR').value||0)+'R per trade. Stop is counted first if stop and target touch in one candle.');
+  }catch(e){status('Backtest not run: '+(e?.message||'Unexpected error.'));}
+  finally{$('run').disabled=false;$('run').textContent=buttonLabel;}
 };
 
 $('save').onclick=()=>{
