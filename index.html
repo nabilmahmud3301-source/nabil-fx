@@ -2860,8 +2860,8 @@ function backtestCustom(c,r,seriesMap=null){
  const cache=new Map(),atr=atrValues(c,14);let eq=bal,peak=bal,dd=0;const ts=[],curve=[bal];
  const longC=ex.longConditions||[],shortC=ex.shortConditions||[];
  for(let i=1;i<c.length-1;){
-  const long=longC.length>0&&longC.every(q=>conditionAt(c,q,i,cache));
-  const short=shortC.length>0&&shortC.every(q=>conditionAt(c,q,i,cache));
+  const long=longC.length>0&&longC.every(q=>conditionAt(c,q,i,cache,seriesMap));
+  const short=shortC.length>0&&shortC.every(q=>conditionAt(c,q,i,cache,seriesMap));
   if(long===short){i++;continue;}
   const side=long?'LONG':'SHORT',sig=c[i],entryBar=ex.entry==='signal_close'?sig:c[i+1],en=ex.entry==='signal_close'?sig.c:(ex.dataMode==='aggregated_trades'?entryBar.c:entryBar.o);
   let sl;
