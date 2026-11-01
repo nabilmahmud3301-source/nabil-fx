@@ -183,6 +183,7 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
           if (!c || typeof c !== "object" || depth > 5 || !validTypes.has(c.type)) return false;
           if (c.timeframe !== undefined && !["1m","3m","5m","15m","30m","1h","2h","4h","1d"].includes(String(c.timeframe))) return false;
           if (c.type === "logic") return ["all","any","not"].includes(String(c.operator || "all").toLowerCase()) && Array.isArray(c.conditions) && c.conditions.length > 0 && c.conditions.length <= 12 && c.conditions.every((x: any) => validCondition(x, depth + 1));
+          if (c.type === "session_range_sweep") return ["bullish","bearish"].includes(c.direction) && typeof c.timezone === "string" && [c.startHour,c.endHour].every((n:any)=>Number.isInteger(Number(n))&&Number(n)>=0&&Number(n)<=23) && [c.startMinute??0,c.endMinute??0].every((n:any)=>Number.isInteger(Number(n))&&Number(n)>=0&&Number(n)<=59);
           if (["session_filter","session_opening_range_breakout","time_range_breakout","time_range_sweep"].includes(c.type)) {
             const hour=Number(c.startHour ?? c.sessionHour ?? 0), minute=Number(c.startMinute ?? c.sessionMinute ?? 0);
             const duration=Number(c.rangeMinutes ?? 5);
