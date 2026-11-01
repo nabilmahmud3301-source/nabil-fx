@@ -4856,8 +4856,7 @@ document.addEventListener('click',event=>{
 
   window.showNabilPage=show;
 
-  // A normal page load always starts at Home; auth confirmation can still open Profile afterward.
-  show('home');
+  // Home is already the default active view in the HTML; avoid executing navigation before all controls initialize.
 
   document.querySelectorAll('.nav-btn[data-page]').forEach(b=>{
     b.addEventListener('click',()=>show(b.dataset.page));
@@ -7411,12 +7410,11 @@ setInterval(function(){nfxEstLiqLoad(false);},30000);
 
 
 <style id="nfx-navigation-sticky-and-stable-fix">
-.site-header{position:sticky!important;top:0!important;z-index:10000!important;transform:none!important;animation:none!important;transition:none!important;isolation:isolate}
+/* Keep the nav pinned without changing its overflow or click hit-testing. */
+.site-header{position:sticky!important;top:0!important;z-index:1000!important;transform:none!important;animation:none!important}
 .site-header .account-menu{flex:0 0 88px!important;width:88px!important;min-width:88px!important}
-.site-header #accountMenuToggle{width:88px!important;min-width:88px!important;justify-content:center!important;white-space:nowrap!important}
-.site-header .site-nav .nav-btn,.site-header .site-nav .nav-btn:hover,.site-header .site-nav .nav-btn:active,.site-header .site-nav .nav-btn.active{transform:none!important;translate:none!important;animation:none!important}
-@media(min-width:761px){.site-header{overflow:visible!important}.site-header .site-nav{overflow-x:auto!important;overflow-y:visible!important}}
-@media(max-width:760px){.site-header{position:sticky!important;top:0!important;align-items:flex-start!important}.site-header .site-nav{max-height:min(70vh,620px);overscroll-behavior:contain}.site-header .site-nav.app-menu-open{overflow-y:auto!important}}
+.site-header #accountMenuToggle{width:88px!important;min-width:88px!important;white-space:nowrap!important}
+.site-header .site-nav .nav-btn,.site-header .site-nav .nav-btn:hover,.site-header .site-nav .nav-btn:active,.site-header .site-nav .nav-btn.active{transform:none!important;animation:none!important}
 </style>
 
 </body>
