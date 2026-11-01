@@ -3821,23 +3821,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
       <p class="tiny">Historical data availability depends on provider entitlement and instrument coverage. Verify all results independently before live trading.</p>
       <div id="status" class="status nfx-backtest-status">Ready. Sign in, describe any strategy, then run the AI-compiled historical simulation.</div>
     </section>
-    <section class="nfx-backtest-results" id="backtestResults" aria-live="polite">
-      <div class="nfx-results-heading"><div><h2>Backtest results</h2></div><span class="nfx-results-state" id="resultsState"><i></i> AWAITING TEST</span></div>
-      <div class="nfx-results-metrics">
-        <article class="nfx-result-metric nfx-result-primary"><span>NET PROFIT / LOSS</span><strong id="pnl">—</strong></article>
-        <article class="nfx-result-metric"><span>WIN RATE</span><strong id="win">—</strong></article>
-        <article class="nfx-result-metric"><span>PROFIT FACTOR</span><strong id="pf">—</strong></article>
-        <article class="nfx-result-metric"><span>MAX DRAWDOWN</span><strong id="dd">—</strong></article>
-        <article class="nfx-result-metric"><span>TOTAL TRADES</span><strong id="count">—</strong></article>
-        <article class="nfx-result-metric"><span>AVERAGE R / TRADE</span><strong id="avgr">—</strong></article>
-        <article class="nfx-result-metric"><span>EXPECTANCY</span><strong id="expect">—</strong></article>
-        <article class="nfx-result-metric"><span>MAX LOSS STREAK</span><strong id="streak">—</strong></article>
-      </div>
-      <div class="nfx-results-analysis-grid">
-        <section class="nfx-results-chart-card"><div class="nfx-results-card-heading"><div><span>ACCOUNT PERFORMANCE</span><h3>Equity curve</h3></div></div><div class="nfx-equity-wrap"><canvas id="equityChart" width="1200" height="300" aria-label="Backtest equity curve"></canvas></div></section>
-        <section class="nfx-results-breakdown"><div class="nfx-results-card-heading"><div><span>TRADE QUALITY</span><h3>Execution breakdown</h3></div></div><div class="nfx-breakdown-row"><span>Average win / loss</span><strong id="wl">—</strong></div><div class="nfx-breakdown-row"><span>Starting balance</span><strong id="resultsStart">—</strong></div><div class="nfx-breakdown-row"><span>Ending balance</span><strong id="resultsEnd">—</strong></div><div class="nfx-breakdown-row"><span>Net return</span><strong id="resultsReturn">—</strong></div></section>
-      </div>
-      <section class="nfx-results-trades"><div class="nfx-results-card-heading"><div><span>SIMULATION LOG</span><h3>Executed trades</h3></div><small id="resultsTradeCount">0 trades</small></div><div class="tablewrap"><table><thead><tr><th>#</th><th>Entry time</th><th>Side</th><th>Entry</th><th>Stop</th><th>Target</th><th>Exit</th><th>Net R</th><th>P&amp;L USD</th></tr></thead><tbody id="resultsTrades"></tbody></table></div></section>
+    
     </section>
   </div>
 
@@ -4072,7 +4056,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
   
 </section>
 
-<p class="foot">This prototype uses Binance crypto candles and attempts Stooq daily CSV for other selected markets. Data availability and browser CORS may vary. This is not a general AI strategy interpreter and does not guarantee TradingView feed parity.</p>
+
 </main>
 
 <script>
@@ -4779,32 +4763,8 @@ function drawEquity(a){
 
 function renderResults(r,timezone='UTC'){
   const t=r.ts;
-  const wins=t.filter(x=>x.pnl>0);
-  const losses=t.filter(x=>x.pnl<0);
-  const gw=wins.reduce((a,x)=>a+x.pnl,0);
-  const gl=Math.abs(losses.reduce((a,x)=>a+x.pnl,0));
-  $('win').textContent=t.length?fmt(wins.length/t.length*100)+'%':'0%';
-  $('pf').textContent=gl?fmt(gw/gl):(gw?'∞':'—');
-  $('pnl').textContent='$'+fmt(r.end-r.start);
-  $('dd').textContent=fmt(r.dd*100)+'%';
-  $('count').textContent=t.length;
-  $('avgr').textContent=t.length?fmt(t.reduce((a,x)=>a+x.netR,0)/t.length)+'R':'—';
-  $('expect').textContent=t.length?'$'+fmt((r.end-r.start)/t.length):'—';
-  $('wl').textContent=(wins.length?'$'+fmt(gw/wins.length):'—')+' / '+(losses.length?'-$'+fmt(gl/losses.length):'—');
-  let streak=0,maxStreak=0;
-  for(const z of t){if(z.pnl<0){streak++;maxStreak=Math.max(maxStreak,streak)}else streak=0;}
-  $('streak').textContent=maxStreak;
-
   const tradeRows=t.length?t.map((x,i)=>`<tr><td>${i+1}</td><td>${new Intl.DateTimeFormat('en-GB',{timeZone:timezone||'UTC',dateStyle:'short',timeStyle:'medium',hour12:false}).format(new Date(x.t))}</td><td>${x.side}</td><td>${x.en}</td><td>${x.sl}</td><td>${x.tp??'Rule exit'}</td><td>${x.ex}</td><td>${fmt(x.netR)}</td><td>${fmt(x.pnl)}</td></tr>`).join(''):'<tr><td colspan="9">No completed trades in this data window.</td></tr>';
   if($('trades'))$('trades').innerHTML=tradeRows;
-  if($('resultsTrades'))$('resultsTrades').innerHTML=tradeRows;
-  if($('resultsTradeCount'))$('resultsTradeCount').textContent=t.length+' trades';
-  if($('resultsState')){$('resultsState').innerHTML='<i></i> SIMULATION COMPLETE';$('resultsState').classList.add('complete');}
-  if($('resultsStart'))$('resultsStart').textContent='$'+fmt(r.start);
-  if($('resultsEnd'))$('resultsEnd').textContent='$'+fmt(r.end);
-  if($('resultsReturn'))$('resultsReturn').textContent=fmt((r.end-r.start)/r.start*100)+'%';
-  if($('equityEmpty'))$('equityEmpty').style.display=r.curve.length>1?'none':'grid';
-  drawEquity(r.curve);
 }
 
 async function loadDatabentoDepth(schema){
