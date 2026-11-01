@@ -61,6 +61,7 @@ Return ONLY JSON with keys: supported, long, short, rewardRisk, normalizedRules,
 execution schema:
 {
  "longConditions":[condition,...], "shortConditions":[condition,...],
+ "exitLongConditions"?:[condition,...], "exitShortConditions"?:[condition,...],
  "timezone"?: "IANA timezone ID used to display session and trade times (default UTC)",
  "entry":"next_open" or "signal_close",
  "stop":{"type":"signal_candle"|"previous_candle"|"atr"|"percent"|"signal_candle_offset","value":number,"unit"?: "price"|"pip"|"tick"|"point"|"percent","tickSize"?:number},
@@ -191,6 +192,8 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
         const executionValid = !!execution &&
           validConditions(execution.longConditions) &&
           validConditions(execution.shortConditions) &&
+          (execution.exitLongConditions === undefined || validConditions(execution.exitLongConditions)) &&
+          (execution.exitShortConditions === undefined || validConditions(execution.exitShortConditions)) &&
           (execution.longConditions.length > 0 || execution.shortConditions.length > 0) &&
           ["next_open","signal_close"].includes(execution.entry) &&
           stopValid &&
@@ -209,6 +212,8 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
           execution: executionValid ? {
             longConditions: execution.longConditions,
             shortConditions: execution.shortConditions,
+            exitLongConditions: Array.isArray(execution.exitLongConditions) ? execution.exitLongConditions : [],
+            exitShortConditions: Array.isArray(execution.exitShortConditions) ? execution.exitShortConditions : [],
             entry: execution.entry,
             stop: execution.stop,
             targetR: Number(execution.targetR),
