@@ -3,15 +3,31 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<script>/* Startup overlay disabled: keep all page controls immediately interactive. */</script>
+<script>/* Show the branded splash during initial page startup. */document.documentElement.classList.add('nfx-booting');</script>
 <style id="nfx-stable-refresh">
 /* Nabil FX premium startup and stable navigation */
+/* Keep navigation geometry fixed while fonts, auth state and page content initialize. */
+@media(min-width:761px){
+  .site-header{box-sizing:border-box;align-items:center!important;flex-wrap:nowrap!important;min-height:84px!important}
+  .site-header .site-nav{flex-wrap:nowrap!important;align-items:center!important;min-height:48px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none}
+  .site-header .site-nav::-webkit-scrollbar{display:none}
+}
+.site-header .site-nav>.nav-btn,
+.site-header .account-menu>#accountMenuToggle{
+  box-sizing:border-box!important;min-height:42px!important;height:42px!important;
+  line-height:1!important;white-space:nowrap!important;vertical-align:middle!important;
+  transform:none!important;animation:none!important;
+}
+.site-header,.site-brand,.site-nav,.site-nav .nav-btn,.account-menu{animation:none!important}
+.site-header .site-nav .nav-btn{transition:color .18s ease,border-color .18s ease!important}
+
 html.nfx-booting{background:#050608}
 /* Reserve the page scrollbar before and after the loader to prevent header width jumps. */
 html{overflow-y:scroll;scrollbar-gutter:stable}
 html.nfx-booting body{overflow-x:hidden}
 #nfx-page-loader{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:radial-gradient(ellipse at 50% 42%,#241018 0%,#0b090d 38%,#050608 78%);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .42s ease,visibility .42s ease}
-html.nfx-booting #nfx-page-loader{display:none!important;opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+html.nfx-booting #nfx-page-loader{display:grid!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important}
+html:not(.nfx-booting) #nfx-page-loader{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
 #nfx-page-loader .nfx-loader-card{width:min(360px,calc(100vw - 42px));display:flex;flex-direction:column;align-items:center;text-align:center;padding:34px 28px 27px;border:1px solid #ffffff14;border-radius:18px;background:linear-gradient(145deg,#141116eF,#090a0deF);box-shadow:0 28px 90px #000a,inset 0 1px 0 #ffffff0d;backdrop-filter:blur(18px)}
 #nfx-page-loader .nfx-loader-mark{position:relative;width:72px;height:72px;display:grid;place-items:center;margin-bottom:19px;border-radius:50%;background:#100d11;border:1px solid #71303b;box-shadow:0 0 32px #e52c4920,inset 0 0 20px #e52c4912}
 #nfx-page-loader .nfx-loader-mark:before{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid transparent;border-top-color:#ff5368;border-right-color:#a62a40;animation:nfxLoaderSpin 1.15s linear infinite}
@@ -33,7 +49,20 @@ button:focus:not(:focus-visible){outline:none}
 @media(max-width:760px){.site-header{min-height:58px}#nfx-page-loader .nfx-loader-card{padding:29px 23px 23px}}
 @media(prefers-reduced-motion:reduce){#nfx-page-loader,#nfx-page-loader *{animation:none!important;transition:none!important}}
 </style>
-<script id="nfx-refresh-stabilizer">/* Startup overlay disabled; no click-blocking boot state is applied. */</script>
+<script id="nfx-refresh-stabilizer">
+(function(){
+  var released=false;
+  function release(){
+    if(released)return;
+    released=true;
+    document.documentElement.classList.remove('nfx-booting');
+    var loader=document.getElementById('nfx-page-loader');
+    if(loader){loader.style.pointerEvents='none';loader.setAttribute('aria-hidden','true');}
+  }
+  window.addEventListener('load',function(){setTimeout(release,450);},{once:true});
+  setTimeout(release,2200);
+})();
+</script>
 
 <title>Nabil Fx — Pro Trading Workspace</title>
 <link rel="icon" type="image/svg+xml" href="./nabil-fx-logo.svg?v=logo-hd-20261028-v2">
@@ -3563,7 +3592,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
     <p class="hint">Free market-data availability depends on the symbol and provider. Replay Point works on this new chart only; the two charts above remain unchanged.</p>
   </section>
 
-  <section class="workflow-band"><div><h3>Build a process. Measure progress. Keep improving.</h3><p>Trading involves risk. Nabil Fx supports research and organization; it does not guarantee trading results.</p></div></section>
+  
 </section>
 
 <main style="max-width:none;padding:0;margin:0">
@@ -3670,7 +3699,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 
 
 
-  <section class="workflow-band"><div><h3>Build a process. Measure progress. Keep improving.</h3><p>Trading involves risk. Nabil Fx supports research and organization; it does not guarantee trading results.</p></div></section>
+  
 </section>
 
 <section id="page-journal" class="view">
@@ -3685,7 +3714,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
       </table>
     </div>
   </section>
-  <section class="workflow-band"><div><h3>Build a process. Measure progress. Keep improving.</h3><p>Trading involves risk. Nabil Fx supports research and organization; it does not guarantee trading results.</p></div></section>
+  
 </section>
 
 <section id="page-notes" class="view">
@@ -3787,7 +3816,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
       <p class="hint">Notes and screenshots are saved separately in this browser. Export backups regularly to avoid losing data.</p>
     </section>
   </div>
-  <section class="workflow-band"><div><h3>Build a process. Measure progress. Keep improving.</h3><p>Trading involves risk. Nabil Fx supports research and organization; it does not guarantee trading results.</p></div></section>
+  
 </section>
 
 <!-- Account: Create Account -->
@@ -3896,7 +3925,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
       <p id="accountDetails" class="hint">Not signed in</p>
     </section>
   </div>
-  <section class="workflow-band"><div><h3>Build a process. Measure progress. Keep improving.</h3><p>Trading involves risk. Nabil Fx supports research and organization; it does not guarantee trading results.</p></div></section>
+  
 </section>
 
 <p class="foot">This prototype uses Binance crypto candles and attempts Stooq daily CSV for other selected markets. Data availability and browser CORS may vary. This is not a general AI strategy interpreter and does not guarantee TradingView feed parity.</p>
