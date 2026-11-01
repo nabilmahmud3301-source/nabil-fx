@@ -45,23 +45,29 @@ Deno.serve(async (req: Request) => {
 
     const body = await req.json();
     const strategy = String(body?.strategy || "").trim().slice(0, 12000);
+    const market = String(body?.market || "unknown").slice(0,40);
+    const symbol = String(body?.symbol || "unknown").slice(0,40);
+    const interval = String(body?.interval || "unknown").slice(0,12);
     if (strategy.length < 8) {
       return new Response(JSON.stringify({ error: "Please describe your entry, stop-loss and take-profit rules in more detail." }), {
         status: 400, headers: { ...cors, "Content-Type": "application/json" },
       });
     }
 
-    const systemInstruction = `You are the multilingual natural-language strategy compiler for Nabil FX Backtesting. The user may write in ANY human language or mix multiple languages, use transliteration, abbreviations, trading slang, or imperfect grammar. Detect the input language automatically; understand it directly, internally normalize/translate it as needed, and compile the intended trading rules into the deterministic schema below. Do not require the user to write English. Keep normalizedRules and explanation in the same language as the user's input whenever practical (otherwise use clear English). Convert the user's strategy into a deterministic executable rule specification. Never invent conditions that the user did not state. Use best-effort compilation for ordinary strategy descriptions in any language. If stop-loss, take-profit, or entry timing is omitted, apply clearly disclosed defaults: signal-candle stop, 2R target, and next-candle-open entry. Add an assumptions array describing every default or interpretation. Never silently drop a core entry condition. If the idea cannot be represented even approximately by the supported conditions, set supported=false and explain what is needed.
+    const systemInstruction = `You are a professional, multilingual, market-agnostic strategy compiler for Nabil FX. Current test context: market=${market}, symbol=${symbol}, candle timeframe=${interval}. The user may specify a location, exchange, named session, or timezone in ANY language. Resolve named places to valid IANA timezone IDs (examples: Europe/London, America/New_York, Asia/Tokyo, Asia/Dhaka); never assume the browser timezone or Bangladesh timezone when another location is named. If a place/timezone is ambiguous, return supported=false and ask for clarification. Convert the user's rules into a deterministic executable specification. Support broad reusable primitives and compose them; do not restrict strategies to a small list of named templates. The user may write in ANY human language or mix languages, transliteration, abbreviations, trading slang, or imperfect grammar. Detect language and preserve meaning.
+
+You are the multilingual natural-language strategy compiler for Nabil FX Backtesting. The user may write in ANY human language or mix multiple languages, use transliteration, abbreviations, trading slang, or imperfect grammar. Detect the input language automatically; understand it directly, internally normalize/translate it as needed, and compile the intended trading rules into the deterministic schema below. Do not require the user to write English. Keep normalizedRules and explanation in the same language as the user's input whenever practical (otherwise use clear English). Convert the user's strategy into a deterministic executable rule specification. Never invent conditions that the user did not state. Use best-effort compilation for ordinary strategy descriptions in any language. If stop-loss, take-profit, or entry timing is omitted, apply clearly disclosed defaults: signal-candle stop, 2R target, and next-candle-open entry. Add an assumptions array describing every default or interpretation. Never silently drop a core entry condition. If the idea cannot be represented even approximately by the supported conditions, set supported=false and explain what is needed.
 Return ONLY JSON with keys: supported, long, short, rewardRisk, normalizedRules, explanation, missing, unsupportedReasons, assumptions, execution.
 execution schema:
 {
  "longConditions":[condition,...], "shortConditions":[condition,...],
+ "timezone"?: "IANA timezone ID used to display session and trade times (default UTC)",
  "entry":"next_open" or "signal_close",
- "stop":{"type":"signal_candle"|"previous_candle"|"atr"|"percent","value":number},
+ "stop":{"type":"signal_candle"|"previous_candle"|"atr"|"percent"|"signal_candle_offset","value":number,"unit"?: "price"|"pip"|"tick"|"point"|"percent","tickSize"?:number},
  "targetR":positive number,
  "maxBarsInTrade":positive integer or null
 }
-Conditions are ANDed; empty side means disabled. Parse natural-language descriptions in any language, including translated equivalents of buy/long, sell/short, crosses above/below, greater/less than, stop loss, take profit, R-multiple, candle, and lookback. Never reject a strategy merely because its language is not English. Preserve every essential rule the schema can express; if an essential condition cannot be represented exactly, clearly list it and set supported=false rather than silently dropping it or pretending it was tested. Allowed condition forms:
+Conditions are ANDed by default; use {"type":"logic","operator":"all"|"any"|"not","conditions":[...]} to compose nested AND/OR/NOT expressions. Empty side means disabled. Preserve every logical grouping from the user's original strategy. Parse natural-language descriptions in any language, including translated equivalents of buy/long, sell/short, crosses above/below, greater/less than, stop loss, take profit, R-multiple, candle, and lookback. Never reject a strategy merely because its language is not English. Preserve every essential rule the schema can express; if an essential condition cannot be represented exactly, clearly list it and set supported=false rather than silently dropping it or pretending it was tested. Allowed condition forms:
 - {"type":"ema_cross","fast":integer,"slow":integer,"direction":"bullish"|"bearish"}
 - {"type":"sma_cross","fast":integer,"slow":integer,"direction":"bullish"|"bearish"}
 - {"type":"close_vs_ema","period":integer,"operator":"above"|"below"}
@@ -77,7 +83,11 @@ Conditions are ANDed; empty side means disabled. Parse natural-language descript
 - {"type":"inside_bar"}
 - {"type":"liquidity_sweep","lookback":integer,"direction":"bullish"|"bearish"} (bullish means sweep below recent lows then close back above; bearish means sweep above recent highs then close back below)
 - {"type":"volume_above_sma","period":integer}
-Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. Only translate if the user's rules faithfully match these forms. Do not claim arbitrary ICT/FVG/liquidity/session/multi-timeframe rules are supported unless expressible exactly in this schema. For unsupported concepts, return supported=false rather than approximating. If target is missing, use targetR=2 and disclose the 2R default in assumptions and explanation. If stop-loss is missing, use signal_candle and disclose the default. If entry timing is not specified, use next_open and disclose the default. Set supported=true when all core entry conditions can be represented, even when these disclosed risk-management defaults are needed. For unsupported concepts that cannot be represented, clearly identify the limitation rather than pretending the exact strategy was tested. If the strategy says both directions, create conditions for each direction. For EMA crossover set EMA cross conditions. Long/short arrays are evaluated independently. Include a concise normalizedRules description.`;
+- {"type":"logic","operator":"all"|"any"|"not","conditions":[condition,...]} (nest conditions to preserve OR/AND/NOT logic; maximum 5 levels)
+- {"type":"session_filter","timezone":"IANA/Zone","startHour":integer,"startMinute":integer,"endHour":integer,"endMinute":integer,"weekdays"?:[0..6]} (all times are local wall-clock time in the named timezone; supports overnight sessions and DST)
+- {"type":"session_opening_range_breakout","timezone":"IANA/Zone","sessionHour":integer,"sessionMinute":integer,"rangeMinutes":integer,"trigger":"wick"|"close","direction":"bullish"|"bearish"} (construct range from all candles inside the local-time range; test later candles for first breakout; handle timezone DST)
+- stop type signal_candle_offset supports value plus unit price|pip|tick|point|percent; pip is symbol-aware; do not assume a universal tick size
+Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. Only translate if the user's rules faithfully match these forms. Do not claim arbitrary ICT/FVG/liquidity/session/multi-timeframe rules are supported unless expressible exactly in this schema. For unsupported concepts, return supported=false rather than approximating. If target is missing, use targetR=2 and disclose the 2R default in assumptions and explanation. If stop-loss is missing, use signal_candle and disclose the default. If entry timing is not specified, use next_open and disclose the default. Set supported=true when all core entry conditions can be represented, even when these disclosed risk-management defaults are needed. For unsupported concepts that cannot be represented, clearly identify the limitation rather than pretending the exact strategy was tested. When a user specifies a session/location/timezone, put the exact IANA timezone in execution.timezone and in every time condition. For an opening range, faithfully use the specified start time, duration, and wick/close trigger; do not hardcode London or a five-minute timeframe. If the user says one pip beyond the signal candle, use stop={type:"signal_candle_offset",value:1,unit:"pip"}; pip size is calculated from the actual symbol. If a tick/point size is unknown, do not invent it. Preserve entry timing, direction, stop/target, filters, trade frequency, weekdays, and exit rules. If the strategy says both directions, create conditions for each direction. For EMA crossover set EMA cross conditions. Long/short arrays are evaluated independently. Include a concise normalizedRules description.`;
 
     // Try the requested model first, then Google's current stable Flash aliases if it is busy/unavailable.
     const models = ["gemini-3.8-flash", "gemini-flash-lite-latest"];
@@ -131,18 +141,30 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
         }
 
         const execution = parsed?.execution && typeof parsed.execution === "object" ? parsed.execution : null;
-        const validTypes = new Set(["ema_cross","sma_cross","close_vs_ema","close_vs_sma","rsi","macd_cross","breakout","candle_direction","close_vs_open","close_vs_prev_highlow","consecutive_candles","engulfing","inside_bar","liquidity_sweep","volume_above_sma"]);
-        const validConditions = (items: any[]) => Array.isArray(items) && items.length <= 12 && items.every((c: any) => c && validTypes.has(c.type));
+        const validTypes = new Set(["logic","ema_cross","sma_cross","close_vs_ema","close_vs_sma","rsi","macd_cross","breakout","candle_direction","close_vs_open","close_vs_prev_highlow","consecutive_candles","engulfing","inside_bar","liquidity_sweep","volume_above_sma","session_opening_range_breakout","session_filter","logic"]);
+        const validCondition = (c: any, depth = 0): boolean => {
+          if (!c || typeof c !== "object" || depth > 5 || !validTypes.has(c.type)) return false;
+          if (c.type === "logic") {
+            if (!["all","any","not"].includes(String(c.operator)) || !Array.isArray(c.conditions) || c.conditions.length < 1 || c.conditions.length > 12) return false;
+            if (c.operator === "not" && c.conditions.length !== 1) return false;
+            return c.conditions.every((child: any) => validCondition(child, depth + 1));
+          }
+          if (c.type === "session_filter" || c.type === "session_opening_range_breakout") {
+            if (typeof c.timezone !== "string" || c.timezone.length > 80) return false;
+            try { new Intl.DateTimeFormat("en-US", {timeZone:c.timezone}); } catch { return false; }
+          }
+          return true;
+        };
+        const validConditions = (items: any[]) => Array.isArray(items) && items.length <= 12 && items.every((c: any) => validCondition(c));
         const executionValid = !!execution &&
           validConditions(execution.longConditions) && validConditions(execution.shortConditions) &&
+          ((execution.longConditions?.length ?? 0) > 0 || (execution.shortConditions?.length ?? 0) > 0) &&
           ["next_open","signal_close"].includes(execution.entry) &&
-          !!execution.stop && ["signal_candle","previous_candle","atr","percent"].includes(execution.stop.type) &&
-          Number.isFinite(Number(execution.targetR)) && Number(execution.targetR) > 0 &&
-          ["signal_candle","previous_candle"].includes(execution.stop.type) ||
-          (!!execution && validConditions(execution.longConditions) && validConditions(execution.shortConditions) &&
-          ["next_open","signal_close"].includes(execution.entry) && !!execution.stop &&
-          ["atr","percent"].includes(execution.stop.type) && Number(execution.stop.value)>0 &&
-          Number.isFinite(Number(execution.targetR)) && Number(execution.targetR)>0);
+          !!execution.stop &&
+          ["signal_candle","previous_candle","atr","percent","signal_candle_offset"].includes(execution.stop.type) &&
+          (["atr","percent","signal_candle_offset"].includes(execution.stop.type) ? Number(execution.stop.value)>0 : true) &&
+          Number.isFinite(Number(execution.targetR)) && Number(execution.targetR)>0;
+        if (execution?.stop?.type === "signal_candle_offset" && !(Number(execution.stop.value) > 0)) throw new Error("Invalid signal-candle stop offset.");
         const safe = {
           supported: parsed.supported === true && executionValid,
           long: parsed.long === true,
@@ -160,6 +182,7 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
             stop: execution.stop,
             targetR: Number(execution.targetR),
             maxBarsInTrade: Number.isFinite(Number(execution.maxBarsInTrade)) ? Math.max(1, Math.min(5000, Number(execution.maxBarsInTrade))) : null,
+            timezone: typeof execution.timezone === "string" ? execution.timezone.slice(0,80) : "UTC",
           } : null,
           model,
         };
