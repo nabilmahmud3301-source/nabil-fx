@@ -2022,7 +2022,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
         <div class="field wide">
           <label>YOUR STRATEGY RULES</label>
           <textarea id="rules" placeholder="Long entry when the last candle closes above the previous candle high. Stop loss at the previous candle low. Short entry when the last candle closes below the previous candle low. Stop loss at the previous candle high. Take profit at 2R."></textarea>
-          <div class="hint">Gemini 2.5 Flash AI reviews your written rules. Execution is currently limited to the supported previous-candle breakout model; unsupported strategies will be flagged, not simulated.</div>
+          <div class="hint">Gemini 3.8 Flash AI reviews your written rules. Execution is currently limited to the supported previous-candle breakout model; unsupported strategies will be flagged, not simulated.</div>
         </div>
       </div>
       <div class="actions">
@@ -2342,7 +2342,7 @@ $('reply').onclick=async()=>{
   const input=$('rules').value.trim();
   if(!input){status('Write your strategy rules first.');return;}
   $('reply').disabled=true;
-  status('Gemini 2.5 Flash is analyzing your strategy rules...');
+  status('Gemini 3.8 Flash is analyzing your strategy rules...');
   try{
     const ai=await analyzeStrategyWithAI();
     const lines=[ai.explanation||'Strategy review complete.',ai.supported?'Supported by the current backtest engine.':'Not executable by the current backtest engine.',ai.missing?.length?'Missing: '+ai.missing.join(', '):'',ai.unsupportedReasons?.length?'Limitations: '+ai.unsupportedReasons.join('; '):''];
