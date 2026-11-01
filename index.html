@@ -2932,12 +2932,14 @@ function backtestCustom(c,r,seriesMap=null){
   else if(ex.stop.type==='percent'){const d=en*Math.max(.01,Number(ex.stop.value)||1)/100;sl=side==='LONG'?en-d:en+d;}
   else throw Error('Unsupported stop-loss type in compiled strategy.');
   const dist=side==='LONG'?en-sl:sl-en;if(!(dist>0)){i++;continue;}
-  const rr=Number(ex.targetR);if(!(rr>0))throw Error('Take-profit R must be positive.');
-  const tp=side==='LONG'?en+dist*rr:en-dist*rr;let exit=null,grossR=0,exitTime=0,j=ex.entry==='signal_close'?i+1:i+1;
-  const maxBars=Number(ex.maxBarsInTrade)||c.length;
+  const rr=Number(ex.targetR),hasFixedTarget=Number.isFinite(rr)&&rr>0;
   const exitRules=side==='LONG'?(ex.exitLongConditions||[]):(ex.exitShortConditions||[]);
+  if(!hasFixedTarget&&!exitRules.length)throw Error('A fixed R target or a rule-based exit condition is required.');
+  const tp=hasFixedTarget?(side==='LONG'?en+dist*rr:en-dist*rr):(side==='LONG'?Infinity:-Infinity);
+  let exit=null,grossR=0,exitTime=0,j=ex.entry==='signal_close'?i+1:i+1;
+  const maxBars=Number(ex.maxBarsInTrade)||c.length;
   for(;j<c.length&&j<=i+maxBars;j++){
-   const bar=c[j],stop=side==='LONG'?bar.l<=sl:bar.h>=sl,target=side==='LONG'?bar.h>=tp:bar.l<=tp;
+   const bar=c[j],stop=side==='LONG'?bar.l<=sl:bar.h>=sl,target=hasFixedTarget&&(side==='LONG'?bar.h>=tp:bar.l<=tp);
    // Conservative intrabar ordering: stop first, then target, then close-based custom exit.
    if(stop||target){exit=stop?(ex.dataMode==='aggregated_trades'?bar.c:sl):tp;grossR=stop?(side==='LONG'?(exit-en):(en-exit))/dist:rr;exitTime=bar.t;break;}
    if(exitRules.length&&exitRules.every(q=>conditionAt(c,q,j,cache,seriesMap))){
@@ -3066,10 +3068,10 @@ $('run').onclick=async()=>{
       (Array.isArray(ai.shortConditions)?ai.shortConditions:[]);
     const parsedR=Number(rawExecution.targetR ?? ai.rewardRisk ?? ai.targetR);
     const explicitR=String(strategyText).match(/(?:TP|take\s*profit|target)\s*[:=]?\s*(?:1\s*:\s*)?([0-9]+(?:\.[0-9]+)?)\s*R?/i);
-    const targetR=Number.isFinite(parsedR)&&parsedR>0?parsedR:
-      (explicitR&&Number(explicitR[1])>0?Number(explicitR[1]):NaN);
+    const hasRuleExit=(Array.isArray(rawExecution.exitLongConditions)&&rawExecution.exitLongConditions.length>0)||(Array.isArray(rawExecution.exitShortConditions)&&rawExecution.exitShortConditions.length>0);
+    const targetR=rawExecution.targetR===null&&hasRuleExit?null:(Number.isFinite(parsedR)&&parsedR>0?parsedR:(explicitR&&Number(explicitR[1])>0?Number(explicitR[1]):NaN));
     const rule={type:'custom',execution:{...rawExecution,longConditions,shortConditions,targetR},long:longConditions.length>0,short:shortConditions.length>0,r:targetR};
-    if((!rule.long&&!rule.short)||!(Number.isFinite(rule.r)&&rule.r>0)){
+    if((!rule.long&&!rule.short)||!(rule.r===null&&hasRuleExit)&&!(Number.isFinite(rule.r)&&rule.r>0)){
       const details=[];
       if(!rule.long&&!rule.short)details.push('AI did not produce executable BUY/SELL entry rules. Rewrite the entry trigger clearly (what exact event opens a BUY or SELL).');
       if(!(Number.isFinite(rule.r)&&rule.r>0))details.push('Take-profit target is missing or invalid. Specify a target such as 2R.');
