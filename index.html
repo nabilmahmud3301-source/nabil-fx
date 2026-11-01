@@ -3000,8 +3000,8 @@ $('run').onclick=async()=>{
     status('Step 3/3 · Running the synchronized historical simulation…');
     const results=backtest(c,rule,seriesMap);renderResults(results,ai.execution.timezone||'UTC');
     const engineName='AI-compiled strategy engine ('+ai.model+')';
-    lastRun={at:new Date().toISOString(),symbol:$('symbol').value.toUpperCase(),interval:$('interval').value,candles:c.length,dataMode:tickMode?'Binance aggregated trade events':'OHLCV candles',timeframes:[...seriesMap.keys()],aiModel:engineName,strategy:ai.normalizedRules||strategyText,compiledRules:rule.execution,results};
-    status('Backtest completed using '+engineName+': '+c.length+' '+(tickMode?'aggregated trade events':'selected-timeframe candles')+'; synchronized timeframes: '+[...seriesMap.keys()].join(', ')+'. Provider: '+(lastDataProvider||'connected data provider')+'. Trades: '+results.ts.length+'. Estimated cost: '+($('costR').value||0)+'R per trade. Stop is counted first if stop and target touch in one candle.'+(ai.assumptions?.length?'\nAI assumptions/defaults: '+ai.assumptions.join('; '):''));
+    lastRun={at:new Date().toISOString(),symbol:$('symbol').value.toUpperCase(),interval:tickMode?'aggregated-trades':$('interval').value,candles:c.length,dataMode:tickMode?'Binance aggregated trade events':'OHLCV candles',timeframes:tickMode?[]:[...seriesMap.keys()],aiModel:engineName,strategy:ai.normalizedRules||strategyText,compiledRules:rule.execution,results};
+    status('Backtest completed using '+engineName+': '+c.length+' '+(tickMode?'aggregated trade events':'selected-timeframe candles')+(tickMode?'':'; synchronized timeframes: '+[...seriesMap.keys()].join(', '))+'. Provider: '+(lastDataProvider||'connected data provider')+'. Trades: '+results.ts.length+'. Estimated cost: '+($('costR').value||0)+'R per trade. Stop is counted first if stop and target touch in one candle.'+(ai.assumptions?.length?'\nAI assumptions/defaults: '+ai.assumptions.join('; '):''));
   }catch(e){status('Backtest not run: '+(e?.message||'Unexpected error.'));}
   finally{$('run').disabled=false;$('run').textContent=buttonLabel;}
 };
