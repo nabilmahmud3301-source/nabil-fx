@@ -2646,6 +2646,7 @@ function evaluateStrategyExpression(c,expr,i,cache){
  if(!expr||typeof expr!=='object'||i<0)return NaN;
  if(Object.prototype.hasOwnProperty.call(expr,'value'))return Number(expr.value);
  if(expr.field){const key={open:'o',high:'h',low:'l',close:'c',volume:'v'}[expr.field];return key?Number(c[i]?.[key]):NaN;}
+ if(expr.lag!==undefined&&expr.field){const key={open:'o',high:'h',low:'l',close:'c',volume:'v'}[expr.field],idx=i-Math.max(0,Math.floor(Number(expr.lag)||0));return key&&idx>=0?Number(c[idx]?.[key]):NaN;}
  if(expr.indicator){
   const period=Math.max(2,Math.min(500,Math.floor(Number(expr.period)||14)));
   const source={open:'o',high:'h',low:'l',close:'c',volume:'v'}[expr.source||'close']||'c';
@@ -2656,6 +2657,14 @@ function evaluateStrategyExpression(c,expr,i,cache){
    else if(expr.indicator==='sma'||expr.indicator==='volume_sma')values=smaValues(c,period,expr.indicator==='volume_sma'?'v':source);
    else if(expr.indicator==='rsi')values=rsiValues(c,period);
    else if(expr.indicator==='atr')values=atrValues(c,period);
+   else if(expr.indicator==='stdev'||expr.indicator==='bollinger_upper'||expr.indicator==='bollinger_lower'){
+    const means=smaValues(c,period,source);values=new Array(c.length).fill(null);
+    for(let j=period-1;j<c.length;j++){const win=c.slice(j-period+1,j+1),mean=means[j],sd=Math.sqrt(win.reduce((sum,z)=>sum+Math.pow(Number(z[source])-mean,2),0)/period);values[j]=expr.indicator==='stdev'?sd:mean+(expr.indicator==='bollinger_upper'?1:-1)*sd*Number(expr.multiplier||2);}
+   }
+   else if(expr.indicator==='stochastic_k'){
+    values=new Array(c.length).fill(null);
+    for(let j=period-1;j<c.length;j++){const win=c.slice(j-period+1,j+1),lo=Math.min(...win.map(z=>z.l)),hi=Math.max(...win.map(z=>z.h));values[j]=hi===lo?50:(c[j].c-lo)/(hi-lo)*100;}
+   }
    else if(expr.indicator==='highest'||expr.indicator==='lowest'){
     values=new Array(c.length).fill(null);
     for(let j=period-1;j<c.length;j++){const field=expr.indicator==='highest'?'h':'l';const win=c.slice(j-period+1,j+1);values[j]=expr.indicator==='highest'?Math.max(...win.map(z=>z[field])):Math.min(...win.map(z=>z[field]));}
@@ -2668,6 +2677,8 @@ function evaluateStrategyExpression(c,expr,i,cache){
  if(op==='and')return args.length>0&&args.every(a=>!!evaluateStrategyExpression(c,a,i,cache));
  if(op==='or')return args.some(a=>!!evaluateStrategyExpression(c,a,i,cache));
  if(op==='not')return args.length===1&&!evaluateStrategyExpression(c,args[0],i,cache);
+ if(op==='abs')return args.length===1?Math.abs(evaluateStrategyExpression(c,args[0],i,cache)):NaN;
+ if(op==='min'||op==='max'){const vals=args.map(a=>evaluateStrategyExpression(c,a,i,cache));return vals.length>=2?(op==='min'?Math.min(...vals):Math.max(...vals)):NaN;}
  if(op==='crosses_above'||op==='crosses_below'){
   if(args.length!==2||i<1)return false;
   const left=evaluateStrategyExpression(c,args[0],i,cache),right=evaluateStrategyExpression(c,args[1],i,cache);
