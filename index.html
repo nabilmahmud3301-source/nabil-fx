@@ -2710,11 +2710,20 @@ function backtestCustom(c,r){
   const rr=Number(ex.targetR);if(!(rr>0))throw Error('Take-profit R must be positive.');
   const tp=side==='LONG'?en+dist*rr:en-dist*rr;let exit=null,grossR=0,exitTime=0,j=ex.entry==='signal_close'?i+1:i+1;
   const maxBars=Number(ex.maxBarsInTrade)||c.length;
+  const exitRules=side==='LONG'?(ex.exitLongConditions||[]):(ex.exitShortConditions||[]);
   for(;j<c.length&&j<=i+maxBars;j++){
    const bar=c[j],stop=side==='LONG'?bar.l<=sl:bar.h>=sl,target=side==='LONG'?bar.h>=tp:bar.l<=tp;
+   // Conservative intrabar ordering: stop first, then target, then close-based custom exit.
    if(stop||target){exit=stop?sl:tp;grossR=stop?-1:rr;exitTime=bar.t;break;}
+   if(exitRules.length&&exitRules.every(q=>conditionAt(c,q,j,cache))){
+    exit=bar.c;grossR=(side==='LONG'?(exit-en):(en-exit))/dist;exitTime=bar.t;break;
+   }
   }
-  if(exit===null){i++;continue;}
+  if(exit===null){
+   const last=Math.min(c.length-1,i+maxBars);
+   if(last>i){exit=c[last].c;grossR=(side==='LONG'?(exit-en):(en-exit))/dist;exitTime=c[last].t;j=last;}
+   else {i++;continue;}
+  }
   const netR=grossR-cost,pnl=eq*risk*netR;eq+=pnl;peak=Math.max(peak,eq);dd=Math.max(dd,(peak-eq)/peak);
   ts.push({t:entryBar.t,exitTime,side,en,sl,tp,ex:exit,rr:grossR,netR,costR:cost,pnl});curve.push(eq);i=j+1;
  }
