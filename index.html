@@ -3368,7 +3368,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 
 
 <style id="nfx-backtest-results-premium">
-#page-backtest .nfx-backtest-results{margin-top:24px;padding:clamp(18px,2.4vw,30px);border:1px solid #303746;border-radius:15px;background:linear-gradient(145deg,#141a24,#0e131b 75%);box-shadow:0 18px 48px #0004}
+#page-backtest .nfx-backtest-results{margin-top:24px;scroll-margin-top:24px;padding:clamp(18px,2.4vw,30px);border:1px solid #303746;border-radius:15px;background:linear-gradient(145deg,#141a24,#0e131b 75%);box-shadow:0 18px 48px #0004}
 #page-backtest .nfx-results-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid #ffffff12}
 #page-backtest .nfx-results-heading h2{margin:0;color:#f2f4f8;font-size:22px;font-weight:800;letter-spacing:-.035em}
 #page-backtest .nfx-results-heading p:last-child{margin:6px 0 0;color:#8e9aab;font-size:11px}
@@ -4885,7 +4885,7 @@ $('run').onclick=async()=>{
       }
     }
     status('Step 3/3 · Running the synchronized historical simulation…');
-    const results=backtest(c,rule,seriesMap);renderResults(results,ai.execution.timezone||'UTC');
+    const results=backtest(c,rule,seriesMap);renderResults(results,ai.execution.timezone||'UTC');$('backtestResults')?.scrollIntoView({behavior:'smooth',block:'start'});
     const engineName='AI-compiled strategy engine ('+ai.model+')';
     lastRun={at:new Date().toISOString(),symbol:$('symbol').value.toUpperCase(),interval:tickMode?(rawExecution.dataMode==='databento_trades'?'raw-exchange-trades':'aggregated-trades'):$('interval').value,candles:c.length,dataMode:tickMode?(rawExecution.dataMode==='databento_trades'?'Databento raw exchange trade events':'Binance aggregated trade events'):'OHLCV candles',timeframes:tickMode?[]:[...seriesMap.keys()],aiModel:engineName,strategy:ai.normalizedRules||strategyText,compiledRules:rule.execution,results};
     status('Backtest completed using '+engineName+': '+c.length+' '+(tickMode?(rawExecution.dataMode==='databento_trades'?'raw exchange trade events':'aggregated trade events'):'selected-timeframe candles')+(tickMode?'':'; synchronized timeframes: '+[...seriesMap.keys()].join(', '))+'. Provider: '+(lastDataProvider||'connected data provider')+'. Trades: '+results.ts.length+'. Estimated cost: '+($('costR').value||0)+'R per trade. Stop is counted first if stop and target touch in one candle.'+(ai.assumptions?.length?'\nAI assumptions/defaults: '+ai.assumptions.join('; '):''));
