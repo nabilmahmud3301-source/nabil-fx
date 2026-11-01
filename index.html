@@ -2645,8 +2645,8 @@ function intervalMilliseconds(tf){const m=String(tf).match(/^(1|3|5|15|30)m$/);i
 function evaluateStrategyExpression(c,expr,i,cache){
  if(!expr||typeof expr!=='object'||i<0)return NaN;
  if(Object.prototype.hasOwnProperty.call(expr,'value'))return Number(expr.value);
- if(expr.field){const key={open:'o',high:'h',low:'l',close:'c',volume:'v'}[expr.field];return key?Number(c[i]?.[key]):NaN;}
  if(expr.lag!==undefined&&expr.field){const key={open:'o',high:'h',low:'l',close:'c',volume:'v'}[expr.field],idx=i-Math.max(0,Math.floor(Number(expr.lag)||0));return key&&idx>=0?Number(c[idx]?.[key]):NaN;}
+ if(expr.field){const key={open:'o',high:'h',low:'l',close:'c',volume:'v'}[expr.field];return key?Number(c[i]?.[key]):NaN;}
  if(expr.indicator){
   const period=Math.max(2,Math.min(500,Math.floor(Number(expr.period)||14)));
   const source={open:'o',high:'h',low:'l',close:'c',volume:'v'}[expr.source||'close']||'c';
