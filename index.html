@@ -5,34 +5,34 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <script>document.documentElement.classList.add('nfx-booting');</script>
 <style id="nfx-stable-refresh">
-/* Keep navigation and controls visually stable while the app is restoring after refresh. */
-html.nfx-booting button,html.nfx-booting a,html.nfx-booting .nav-btn{
-  animation:none!important;transition:none!important;transform:none!important;translate:none!important;
-  filter:none!important;box-shadow:inherit;
-}
-.site-header{min-height:84px;}
-.site-nav{align-content:center;}
-.site-nav .nav-btn{flex:0 0 auto;transform:none!important;}
-.site-nav .nav-btn:hover,.site-nav .nav-btn:active{transform:none!important;}
-button.click-feedback{animation:none!important;}
-button:focus:not(:focus-visible){outline:none;}
-@media(max-width:760px){.site-header{min-height:58px;}}
+/* Nabil FX premium startup and stable navigation */
+html.nfx-booting{background:#050608}
+html.nfx-booting body{overflow:hidden}
+#nfx-page-loader{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:radial-gradient(ellipse at 50% 42%,#241018 0%,#0b090d 38%,#050608 78%);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .42s ease,visibility .42s ease}
+html.nfx-booting #nfx-page-loader{opacity:1;visibility:visible;pointer-events:auto}
+#nfx-page-loader .nfx-loader-card{width:min(360px,calc(100vw - 42px));display:flex;flex-direction:column;align-items:center;text-align:center;padding:34px 28px 27px;border:1px solid #ffffff14;border-radius:18px;background:linear-gradient(145deg,#141116eF,#090a0deF);box-shadow:0 28px 90px #000a,inset 0 1px 0 #ffffff0d;backdrop-filter:blur(18px)}
+#nfx-page-loader .nfx-loader-mark{position:relative;width:72px;height:72px;display:grid;place-items:center;margin-bottom:19px;border-radius:50%;background:#100d11;border:1px solid #71303b;box-shadow:0 0 32px #e52c4920,inset 0 0 20px #e52c4912}
+#nfx-page-loader .nfx-loader-mark:before{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid transparent;border-top-color:#ff5368;border-right-color:#a62a40;animation:nfxLoaderSpin 1.15s linear infinite}
+#nfx-page-loader .nfx-loader-mark img{width:48px;height:48px;object-fit:cover;border-radius:50%}
+#nfx-page-loader .nfx-loader-brand{font:850 17px/1.2 system-ui,Arial,sans-serif;letter-spacing:2.7px;color:#fff}
+#nfx-page-loader .nfx-loader-brand span{color:#ff5368}
+#nfx-page-loader .nfx-loader-caption{margin-top:9px;color:#9b929b;font:600 10px/1.5 system-ui,Arial,sans-serif;letter-spacing:1.35px;text-transform:uppercase}
+#nfx-page-loader .nfx-loader-track{width:100%;height:3px;margin-top:25px;overflow:hidden;border-radius:20px;background:#ffffff12}
+#nfx-page-loader .nfx-loader-track i{display:block;width:38%;height:100%;border-radius:20px;background:linear-gradient(90deg,#8e1f35,#ff6375,#d22e4c);box-shadow:0 0 12px #ff405b88;animation:nfxLoaderProgress 1.35s ease-in-out infinite}
+#nfx-page-loader .nfx-loader-foot{margin-top:13px;color:#68616b;font:600 9px system-ui,Arial,sans-serif;letter-spacing:1.5px}
+@keyframes nfxLoaderSpin{to{transform:rotate(360deg)}}
+@keyframes nfxLoaderProgress{0%{transform:translateX(-110%)}100%{transform:translateX(290%)}}
+.site-header{min-height:84px}
+.site-nav{align-content:center}
+.site-nav .nav-btn{flex:0 0 auto;transform:none!important}
+.site-nav .nav-btn:hover,.site-nav .nav-btn:active{transform:none!important}
+button.click-feedback{animation:none!important}
+button:focus:not(:focus-visible){outline:none}
+@media(max-width:760px){.site-header{min-height:58px}#nfx-page-loader .nfx-loader-card{padding:29px 23px 23px}}
+@media(prefers-reduced-motion:reduce){#nfx-page-loader,#nfx-page-loader *{animation:none!important;transition:none!important}}
 </style>
 <script id="nfx-refresh-stabilizer">
-(()=>{
- const finish=()=>{
-   document.querySelectorAll('button.click-feedback').forEach(b=>b.classList.remove('click-feedback'));
-   const active=document.activeElement;
-   if(active&&active.tagName==='BUTTON'&&!active.matches(':focus-visible'))active.blur();
-   requestAnimationFrame(()=>requestAnimationFrame(()=>document.documentElement.classList.remove('nfx-booting')));
- };
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',finish,{once:true});
- else finish();
- window.addEventListener('pageshow',()=>{
-   document.querySelectorAll('button.click-feedback').forEach(b=>b.classList.remove('click-feedback'));
-   document.documentElement.classList.remove('nfx-booting');
- });
-})();
+(()=>{let finished=false;const finish=()=>{if(finished)return;finished=true;document.querySelectorAll('button.click-feedback').forEach(b=>b.classList.remove('click-feedback'));const active=document.activeElement;if(active&&active.tagName==='BUTTON'&&!active.matches(':focus-visible'))active.blur();document.documentElement.classList.remove('nfx-booting');};const onReady=()=>window.setTimeout(finish,420);if(document.readyState==='complete')onReady();else window.addEventListener('load',onReady,{once:true});window.setTimeout(finish,8000);window.addEventListener('pageshow',()=>{finished=false;finish();});})();
 </script>
 
 <title>Nabil Fx — Pro Trading Workspace</title>
@@ -1756,6 +1756,15 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 </style>
 </head>
 <body>
+<div id="nfx-page-loader" role="status" aria-live="polite" aria-label="Loading Nabil FX workspace">
+ <div class="nfx-loader-card">
+  <div class="nfx-loader-mark"><img src="./nabil-fx-logo.svg?v=logo-hd-20261028-v2" alt=""></div>
+  <div class="nfx-loader-brand">NABIL <span>FX</span></div>
+  <div class="nfx-loader-caption">Preparing your trading workspace</div>
+  <div class="nfx-loader-track" aria-hidden="true"><i></i></div>
+  <div class="nfx-loader-foot">MARKETS · ANALYSIS · EXECUTION</div>
+ </div>
+</div>
 <header class="site-header">
   <a class="site-brand site-brand-home" href="#home" data-page="home" aria-label="Nabil FX — Go to Home">
     <img class="site-logo" src="./nabil-fx-logo.svg?v=logo-hd-20261028-v2" alt="Nabil FX logo">
