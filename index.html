@@ -2042,8 +2042,13 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
         <div class="field">
           <label>SYMBOL</label>
           <input id="symbol" value="BTCUSDT" list="symbols">
-          <div class="field wide" id="databentoConfig" style="display:none"><label>DATABENTO DATASET (EXCHANGE FEED)</label><input id="databentoDataset" value="GLBX.MDP3" placeholder="GLBX.MDP3"><p class="hint">For exchange-listed futures only. Use the exact expiry contract (e.g. ESM6 or GCZ6), not a CFD/spot alias. Historical API usage may be billable.</p></div>
-          <datalist id="symbols">
+        </div>
+        <div class="field wide" id="databentoConfig" style="display:none">
+          <label>DATABENTO DATASET (EXCHANGE FEED)</label>
+          <input id="databentoDataset" value="GLBX.MDP3" placeholder="GLBX.MDP3">
+          <p class="hint">For exchange-listed futures only. Use the exact expiry contract (e.g. ESZ6 or GCZ6), not a CFD/spot alias. Historical API usage may be billable.</p>
+        </div>
+        <datalist id="symbols">
             <option value="BTCUSDT"><option value="ETHUSDT">
             <option value="EURUSD"><option value="GBPUSD">
             <option value="USDJPY"><option value="XAUUSD">
