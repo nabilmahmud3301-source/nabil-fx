@@ -1523,6 +1523,152 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
  #nfxLiqLiquidationHeatmap .nfx-est-liq-controls{width:100%!important;justify-content:space-between!important}
 }
 </style>
+
+<style id="nfx-liquidation-terminal-redesign-v4">
+/* Full visual reset for the liquidation workspace */
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap{
+  box-sizing:border-box!important;padding:22px!important;margin:18px 0!important;
+  background:#080b11!important;border:1px solid #252d39!important;border-radius:10px!important;
+  box-shadow:0 14px 38px rgba(0,0,0,.34)!important;color:#e7edf5!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap:before{display:none!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head{
+  display:grid!important;grid-template-columns:minmax(230px,1fr) minmax(0,2fr)!important;
+  align-items:end!important;gap:22px!important;padding:3px 0 18px!important;margin:0 0 16px!important;
+  border-bottom:1px solid #252d39!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-kicker{
+  color:#7e9aaa!important;font-size:9px!important;font-weight:800!important;letter-spacing:2.2px!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head h3{
+  margin:9px 0 5px!important;color:#f4f7fb!important;font-size:clamp(23px,2.3vw,31px)!important;
+  line-height:1.08!important;font-weight:750!important;letter-spacing:-1.1px!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head p{
+  max-width:480px!important;color:#8391a2!important;font-size:10px!important;line-height:1.65!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head p strong{color:#e5edf6!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-card-actions{
+  display:grid!important;grid-template-columns:1fr auto!important;grid-template-areas:"toolbar toolbar" "ranges expand"!important;
+  gap:10px!important;align-items:center!important;min-width:0!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-live-tag{
+  grid-area:toolbar!important;justify-self:start!important;display:none!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-liq-toolbar{
+  grid-area:toolbar!important;display:grid!important;grid-template-columns:auto auto minmax(150px,1fr)!important;
+  gap:12px!important;align-items:center!important;width:100%!important;min-width:0!important;
+  padding:10px!important;background:#0d131d!important;border:1px solid #283342!important;
+  border-radius:7px!important;box-shadow:none!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-model-switch,
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-view-switch{display:flex!important;align-items:center!important;gap:3px!important;white-space:nowrap!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-model-switch>span{
+  margin-right:5px!important;color:#77889b!important;font-size:8px!important;letter-spacing:1px!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-model-switch button,
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-view-switch button{
+  min-width:0!important;height:29px!important;padding:0 9px!important;border:1px solid transparent!important;
+  border-radius:4px!important;background:transparent!important;color:#8998aa!important;
+  font-size:8px!important;font-weight:750!important;letter-spacing:.4px!important;box-shadow:none!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-model-switch button.active{
+  color:#f0eaff!important;background:#29243a!important;border-color:#625487!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-view-switch{
+  padding:2px!important;border:1px solid #263242!important;border-radius:5px!important;background:#080d14!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-view-switch button.active{
+  color:#eaf4fb!important;background:#263747!important;border-color:#38546a!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-threshold{
+  display:grid!important;grid-template-columns:auto minmax(55px,1fr) 34px!important;gap:9px!important;
+  align-items:center!important;padding-left:12px!important;border-left:1px solid #263242!important;
+  color:#8191a3!important;font-size:8px!important;letter-spacing:.65px!important;white-space:nowrap!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-threshold input{width:100%!important;accent-color:#a58bdc!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-threshold b{color:#e4dafa!important;font:700 10px ui-monospace,monospace!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-est-liq-ranges{
+  grid-area:ranges!important;display:flex!important;gap:4px!important;align-items:center!important;
+  padding:0!important;background:transparent!important;border:0!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-est-liq-ranges button{
+  min-width:36px!important;height:28px!important;padding:0 8px!important;border:1px solid #263242!important;
+  border-radius:4px!important;background:#0d131d!important;color:#8d9caf!important;
+  font:750 8px system-ui,sans-serif!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-est-liq-ranges button.active{
+  color:#f0eaff!important;background:#28233a!important;border-color:#66568f!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-fullscreen-btn{
+  grid-area:expand!important;justify-self:end!important;height:29px!important;padding:0 11px!important;
+  border:1px solid #2d3a49!important;border-radius:4px!important;background:#111a25!important;
+  color:#b8c5d3!important;font-size:8px!important;font-weight:750!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-heatmap-stats{
+  display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:7px!important;
+  margin:0 0 11px!important;padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-heatmap-stats>div{
+  min-height:67px!important;padding:11px 13px!important;border:1px solid #252f3c!important;
+  border-radius:5px!important;background:#0d131c!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-heatmap-stats span{
+  color:#718296!important;font-size:8px!important;font-weight:750!important;letter-spacing:1.05px!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-heatmap-stats b{
+  margin-top:8px!important;color:#e9eff6!important;font:700 17px ui-monospace,monospace!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-model-legend{
+  display:flex!important;align-items:center!important;gap:16px!important;flex-wrap:wrap!important;
+  margin:0 0 8px!important;padding:8px 11px!important;border:1px solid #252f3c!important;
+  border-radius:5px!important;background:#0c121a!important;color:#93a2b4!important;
+  font-size:8px!important;letter-spacing:.7px!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-model-legend .long{background:#ed5570!important;box-shadow:none!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-model-legend .short{background:#36c9a2!important;box-shadow:none!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-chart-frame{
+  overflow:hidden!important;border:1px solid #283443!important;border-radius:6px!important;background:#070b11!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-chart-topline{
+  min-height:33px!important;padding:0 12px!important;background:#0d141e!important;
+  border-bottom:1px solid #202b38!important;color:#77899d!important;
+  font:750 8px system-ui,sans-serif!important;letter-spacing:1px!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-chart-topline span:first-child{color:#c0cbd8!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-chart-topline i{background:#9b83d3!important;box-shadow:none!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-chart-frame .nfx-liq-timeline-wrap{
+  height:clamp(510px,70vh,760px)!important;min-height:460px!important;margin:0!important;
+  border:0!important;border-radius:0!important;background:#070b11!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-axis{
+  display:flex!important;justify-content:space-between!important;margin:8px 2px 0!important;
+  color:#718296!important;font-size:8px!important;font-weight:750!important;letter-spacing:1px!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-note{
+  margin-top:11px!important;padding:10px 12px!important;border:1px solid #242e3b!important;
+  border-radius:5px!important;background:#0b1119!important;color:#8190a2!important;
+  font-size:9px!important;line-height:1.7!important
+}
+@media(max-width:1050px){
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head{grid-template-columns:1fr!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-liq-toolbar{grid-template-columns:1fr 1fr!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-threshold{grid-column:1/-1;padding:8px 0 0!important;border:0!important}
+}
+@media(max-width:620px){
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap{padding:13px!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head{gap:13px!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-liq-toolbar{grid-template-columns:1fr!important;gap:8px!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-model-switch{width:100%!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-model-switch button{flex:1!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-view-switch{width:100%!important;justify-content:space-between!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-view-switch button{flex:1!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-heatmap-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-chart-frame .nfx-liq-timeline-wrap{height:430px!important;min-height:360px!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-model-legend{gap:8px!important}
+}
+</style>
+
 </head>
 <body>
 <header class="site-header">
