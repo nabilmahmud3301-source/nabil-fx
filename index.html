@@ -1513,7 +1513,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       <footer class="nfx-obx-footer">
         <div class="nfx-obx-legend"><span><i class="ask"></i> Ask liquidity</span><span><i class="bid"></i> Bid liquidity</span><small>Depth bars show relative size at each price level</small></div>
         <div class="nfx-obx-velocity"><span>BID MOVE <b id="nfxLiqBidVelocity">—</b></span><span>ASK MOVE <b id="nfxLiqAskVelocity">—</b></span></div>
-        <div class="nfx-obx-source">FEED <b id="nfxPobSourceName">BINANCE USDⓈ-M FUTURES</b><span>•</span> TOP-20 LIVE DEPTH STREAM</div>
+        <div class="nfx-obx-source">FEED <b id="nfxPobSourceName">BINANCE USDⓈ-M FUTURES</b><span>•</span> TOP-50 LIVE DEPTH</div>
       </footer>
       <div hidden aria-hidden="true"><span id="nfxLiqBidVelocitySub"></span><span id="nfxLiqAskVelocitySub"></span></div>
     </section>
@@ -4025,11 +4025,23 @@ document.addEventListener('click', function(event) {
         .filter(function(x){return Number.isFinite(x[0])&&Number.isFinite(x[1])&&x[0]>0&&x[1]>0;})
         .sort(function(a,b){return isBid?b[0]-a[0]:a[0]-b[0];}).slice(0,100);
     }
+    var bookRenderQueued=false,bookLiveStatusSet=false;
     function renderLive(){
-      var bids=topLevels(bidsMap,true),asks=topLevels(asksMap,false);
-      if(!bids.length||!asks.length)return;
-      paintOrderBook({bids:bids,asks:asks});
-      setStatus('Live depth stream · '+marketLabel(thisSymbol),'connected');
+      // Apply every exchange diff immediately, but paint only once per browser frame.
+      // This prevents bursts of depth messages from rebuilding the ladder repeatedly.
+      if(bookRenderQueued)return;
+      bookRenderQueued=true;
+      requestAnimationFrame(function(){
+        bookRenderQueued=false;
+        if(socket!==ws||!ready||thisSymbol!==currentSymbol||activeProvider!=='binance')return;
+        var bids=topLevels(bidsMap,true),asks=topLevels(asksMap,false);
+        if(!bids.length||!asks.length)return;
+        paintOrderBook({bids:bids,asks:asks});
+        if(!bookLiveStatusSet){
+          setStatus('Live Binance Futures depth · '+marketLabel(thisSymbol),'connected');
+          bookLiveStatusSet=true;
+        }
+      });
     }
     function applyEvent(ev){
       if(!ev||!Array.isArray(ev.b)||!Array.isArray(ev.a))return true;
