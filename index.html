@@ -2101,7 +2101,14 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
         <button class="btn secondary" id="reply">Ask AI to Review Strategy</button>
         <button class="btn secondary" id="save">Save Journal</button>
       </div>
-      <p class="tiny">Historical data availability depends on the provider. Verify all results independently before live trading.</p>
+      <div class="section" id="historicalDepthPanel" style="padding:14px;border:1px solid #303a49;border-radius:12px;background:#0b1018">
+        <strong>Historical Level-2 / Order Book Data</strong>
+        <p class="hint">Fetch real exchange depth messages (MBP-10) for an exchange-listed futures contract. Requires a Databento key and dataset entitlement. This preview does not yet feed order-book conditions into the AI strategy engine.</p>
+        <div class="actions"><button class="btn secondary" id="loadHistoricalDepth" type="button">Load Historical L2</button><button class="btn secondary" id="loadHistoricalMbo" type="button">Load L3 / MBO</button></div>
+        <div id="historicalDepthStatus" class="status">Select Futures, an exact contract and a short date range before requesting licensed depth data.</div>
+        <pre id="historicalDepthRecords" style="display:none;max-height:300px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;background:#080c12;padding:12px;border-radius:8px;font-size:11px"></pre>
+      </div>
+      <p class="tiny">Historical data availability depends on provider entitlement and instrument coverage. Verify all results independently before live trading.</p>
       <div id="status" class="status">Ready. Sign in, describe any strategy, then run the AI-compiled historical simulation.</div>
     </section>
 
@@ -3096,6 +3103,31 @@ function renderResults(r,timezone='UTC'){
   $('trades').innerHTML=t.length?t.map((x,i)=>`<tr><td>${i+1}</td><td>${new Intl.DateTimeFormat('en-GB',{timeZone:timezone||'UTC',dateStyle:'short',timeStyle:'medium',hour12:false}).format(new Date(x.t))}</td><td>${x.side}</td><td>${x.en}</td><td>${x.sl}</td><td>${x.tp??'Rule exit'}</td><td>${x.ex}</td><td>${fmt(x.netR)}</td><td>${fmt(x.pnl)}</td></tr>`).join(''):'<tr><td colspan="9">No completed trades in this data window.</td></tr>';
   drawEquity(r.curve);
 }
+
+async function loadDatabentoDepth(schema){
+  const statusEl=$('historicalDepthStatus'),recordsEl=$('historicalDepthRecords');
+  const market=$('market').value,symbol=$('symbol').value.trim().toUpperCase();
+  if(market!=='futures')throw Error('Historical exchange depth is currently configured for listed futures contracts, not OTC spot FX, XAUUSD or broker CFDs.');
+  const from=$('start').value,to=$('end').value;
+  if(!from||!to)throw Error('Choose both start and end dates for a historical depth request.');
+  const start=new Date(from+'T00:00:00Z'),end=new Date(to+'T23:59:59Z');
+  if(end<start||end-start>24*60*60*1000)throw Error('For safe depth requests, choose a maximum two-calendar-day window.');
+  if(!/^[A-Z0-9._-]{2,24}$/.test(symbol))throw Error('Enter an exact listed contract symbol, such as ESZ6.');
+  statusEl.textContent='Requesting licensed '+schema+' records from Databento…';recordsEl.style.display='none';recordsEl.textContent='';
+  const client=getNabilSupabaseClient(),{data:sessionData,error:sessionError}=await client.auth.getSession();
+  if(sessionError)throw sessionError;if(!sessionData?.session)throw Error('Please log in to access licensed historical order-book data.');
+  const {data,error}=await client.functions.invoke('historical-market-data',{body:{
+    action:'orderbook',dataset:($('databentoDataset')?.value||'GLBX.MDP3').trim(),symbol,schema,
+    start:start.toISOString(),end:new Date(end.getTime()+1000).toISOString(),limit:2000,stype_in:'raw_symbol'
+  }});
+  if(error){let detail=error.message||'Historical depth request failed.';try{const response=error.context;if(response?.clone){const payload=await response.clone().json();if(payload?.error)detail=payload.error;}}catch(e){}throw Error(detail);}
+  if(data?.error)throw Error(data.error);
+  if(!Array.isArray(data?.records)||!data.records.length)throw Error('Provider returned no depth records for this contract and date range.');
+  recordsEl.textContent=JSON.stringify(data.records.slice(0,250),null,2);recordsEl.style.display='block';
+  statusEl.textContent='Loaded '+data.records.length+' real '+schema+' records from '+data.provider+' ('+data.dataset+'). Showing up to 250 raw records. '+(data.truncatedAtLimit?'Provider result reached the requested limit.':'');
+}
+$('loadHistoricalDepth')?.addEventListener('click',async()=>{const b=$('loadHistoricalDepth');b.disabled=true;try{await loadDatabentoDepth('mbp-10');}catch(e){$('historicalDepthStatus').textContent='L2 unavailable: '+String(e.message||e);}finally{b.disabled=false;}});
+$('loadHistoricalMbo')?.addEventListener('click',async()=>{const b=$('loadHistoricalMbo');b.disabled=true;try{await loadDatabentoDepth('mbo');}catch(e){$('historicalDepthStatus').textContent='L3 unavailable: '+String(e.message||e);}finally{b.disabled=false;}});
 
 $('run').onclick=async()=>{
   $('run').disabled=true;
