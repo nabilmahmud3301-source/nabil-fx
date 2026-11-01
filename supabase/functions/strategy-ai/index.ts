@@ -41,21 +41,28 @@ supported (boolean), long (boolean), short (boolean), rewardRisk (number or null
 If supported, require at least one direction, both matching previous-candle stop definitions for the selected directions, and a positive fixed R target. Set unsupported false otherwise. Do not invent missing rules. Keep explanation concise and mention limitations. User strategy:
 ${strategy}`;
 
-    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + encodeURIComponent(apiKey), {
+    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
       body: JSON.stringify({
-        contents: [{ role: "user", parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.1, responseMimeType: "application/json" },
-      }),
+        model: "gemini-3.8-flash",
+        store: false,
+        system_instruction: "You are the strategy-rule analyst for Nabil FX Backtesting. Analyze trading strategy text. The engine executes ONLY: LONG when current candle closes above immediately previous candle high, stop at previous candle low; SHORT when current candle closes below immediately previous candle low, stop at previous candle high; take profit is a fixed positive risk multiple (R). Natural-language variations of those same rules are allowed. Indicators, liquidity/ICT, sessions, multi-timeframe, discretionary, trailing-stop, partial-exit, or any other strategy is unsupported unless faithfully reducible to the exact rule family. Return ONLY valid JSON with keys: supported (boolean), long (boolean), short (boolean), rewardRisk (number or null), normalizedRules (string), explanation (string), missing (array of strings), unsupportedReasons (array of strings). Require at least one direction, matching previous-candle stop definitions for selected directions, and positive fixed R. Do not invent missing rules. Keep explanation concise and mention limitations.",
+        input: strategy
+      })
     });
 
     const result = await response.json();
     if (!response.ok) {
-      const message = result?.error?.message || "Gemini API request failed.";
+      const message = result?.error?.message || "Gemini Interactions API request failed (HTTP " + response.status + ").";
       throw new Error(message);
     }
-    const raw = result?.candidates?.[0]?.content?.parts?.map((p: { text?: string }) => p.text || "").join("") || "";
+    const raw = Array.isArray(result?.steps)
+      ? result.steps.filter((step: { type?: string }) => step.type === "model_output")
+          .flatMap((step: { content?: Array<{ type?: string; text?: string }> }) => Array.isArray(step.content) ? step.content : [])
+          .filter((part: { type?: string; text?: string }) => part.type === "text")
+          .map((part: { text?: string }) => part.text || "").join("")
+      : "";
     if (!raw) throw new Error("Gemini returned an empty response. Please retry.");
     const parsed = JSON.parse(raw);
     const safe = {
@@ -67,7 +74,7 @@ ${strategy}`;
       explanation: String(parsed.explanation || "Strategy analyzed.").slice(0, 3000),
       missing: Array.isArray(parsed.missing) ? parsed.missing.map((x: unknown) => String(x).slice(0, 200)).slice(0, 12) : [],
       unsupportedReasons: Array.isArray(parsed.unsupportedReasons) ? parsed.unsupportedReasons.map((x: unknown) => String(x).slice(0, 200)).slice(0, 12) : [],
-      model: "Gemini 2.5 Flash",
+      model: "Gemini 3.8 Flash",
     };
 
     return new Response(JSON.stringify(safe), {
