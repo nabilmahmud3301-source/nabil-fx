@@ -4155,7 +4155,7 @@ document.addEventListener('click', function(event) {
   }
   function nfxBookCandleLoad(force){
     if(activeMarket!=='crypto')return;
-    var symbol=String(currentSymbol||'BTCUSDT').toUpperCase(),providerKey=activeProvider+':'+symbol,range=historyLimit(),cfg=nfxBookCandleConfig(range);
+    var symbol=String(currentSymbol||'BTCUSDT').toUpperCase(),provider=activeProvider,providerKey=provider+':'+symbol,range=historyLimit(),cfg=nfxBookCandleConfig(range);
     var visibleMs=range*1000/nfxBookTimeZoom,start=Math.max(0,Date.now()-visibleMs+nfxBookTimePan),end=Math.min(Date.now(),start+visibleMs);
     var covered=nfxBookCandles.length&&nfxBookCandles[0].t<=start+cfg.intervalMs&&nfxBookCandles[nfxBookCandles.length-1].t>=end-cfg.intervalMs*2;
     if(nfxBookCandleLoading)return;
@@ -4164,7 +4164,7 @@ document.addEventListener('click', function(event) {
     nfxFetchCandleRows(symbol,cfg,start,end)
       .then(function(rows){
         if(!Array.isArray(rows))throw new Error('Invalid Liquidity Heatmap candle data');
-        if(String(currentSymbol||'BTCUSDT').toUpperCase()!==symbol||historyLimit()!==range)return;
+        if(String(currentSymbol||'BTCUSDT').toUpperCase()!==symbol||activeProvider!==provider||historyLimit()!==range)return;
         nfxBookCandles=rows.map(function(k){return {t:+k[0],o:+k[1],h:+k[2],l:+k[3],c:+k[4],v:+k[5]};}).filter(function(k){return k.t>0&&k.o>0&&k.h>0&&k.l>0&&k.c>0;});
         nfxBookCandleSymbol=providerKey;nfxBookCandleRange=range;nfxBookCandleInterval=cfg.intervalMs;nfxBookCandleFetchedAt=Date.now();
         renderTimeline();
@@ -4298,7 +4298,7 @@ var nfxEstLiqCandles=[];
   function nfxEstLiqLoad(force){
     var symbol=String(currentSymbol||'BTCUSDT').toUpperCase();
     if(nfxEstLiqLoading)return;
-    var requestedRange=nfxEstLiqRange,cfg=nfxEstLiqConfig(),providerKey=activeProvider+':'+symbol;
+    var requestedRange=nfxEstLiqRange,provider=activeProvider,cfg=nfxEstLiqConfig(),providerKey=provider+':'+symbol;
     var rangeMs=({'1h':3600000,'2h':7200000,'4h':14400000,'12h':43200000,'1d':86400000,'2d':172800000,'3d':259200000,'7d':604800000}[requestedRange]||3600000)/nfxEstLiqZoom;
     var start=Math.max(0,Date.now()-rangeMs+nfxEstLiqTimePan),end=Math.min(Date.now(),start+rangeMs);
     var covered=nfxEstLiqCandles.length&&nfxEstLiqCandles[0].t<=start+cfg.intervalMs&&nfxEstLiqCandles[nfxEstLiqCandles.length-1].t>=end-cfg.intervalMs*2;
@@ -4307,7 +4307,7 @@ var nfxEstLiqCandles=[];
     nfxFetchCandleRows(symbol,cfg,start,end)
       .then(function(rows){
         if(!Array.isArray(rows))throw new Error('Invalid candle data');
-        if(String(currentSymbol||'BTCUSDT').toUpperCase()!==symbol||nfxEstLiqRange!==requestedRange)return;
+        if(String(currentSymbol||'BTCUSDT').toUpperCase()!==symbol||activeProvider!==provider||nfxEstLiqRange!==requestedRange)return;
         nfxEstLiqCandles=rows.map(function(k){return {t:+k[0],o:+k[1],h:+k[2],l:+k[3],c:+k[4],v:+k[5]};}).filter(function(k){return k.t>0&&k.o>0&&k.h>0&&k.l>0&&k.c>0;});
         nfxEstLiqSymbol=providerKey;nfxEstLiqLoadedRange=requestedRange;nfxEstLiqFetchedAt=Date.now();
         renderLiquidationHeatmap();
@@ -4520,7 +4520,7 @@ function bindHeatmapInspector(canvasId,kind){
   var searchForm=$('nfxMarketSearchForm'),searchInput=$('nfxMarketSearchInput');
   if(searchForm)searchForm.addEventListener('submit',function(event){event.preventDefault();chooseMarket(searchInput?searchInput.value:'');});
   if(searchInput)searchInput.addEventListener('change',function(){var raw=searchInput.value;if(raw&&symbols[normalizeSymbol(raw).toLowerCase()])chooseMarket(raw);});
-  document.querySelectorAll('[data-nfx-provider]').forEach(function(btn){btn.addEventListener('click',function(){var next=btn.getAttribute('data-nfx-provider');if(next===activeProvider)return;activeProvider=next;updateVenueLabels([]);document.querySelectorAll('[data-nfx-provider]').forEach(function(b){var on=b===btn;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on?'true':'false');});if(socket){try{socket.onclose=null;socket.close();}catch(e){}socket=null;}if(liquidationSocket){try{liquidationSocket.onclose=null;liquidationSocket.close();}catch(e){}liquidationSocket=null;}liqHistory=[];liquidationEvents=[];lastHistoryAt=0;connect();connectLiquidations();var feed=$('nfxPobSourceName');if(feed)feed.textContent=activeProvider.toUpperCase()+' USDⓈ-M FUTURES';renderTimeline();renderLiquidationHeatmap();});});
+  document.querySelectorAll('[data-nfx-provider]').forEach(function(btn){btn.addEventListener('click',function(){var next=btn.getAttribute('data-nfx-provider');if(next===activeProvider)return;activeProvider=next;nfxBookCandles=[];nfxBookCandleSymbol='';nfxEstLiqCandles=[];nfxEstLiqSymbol='';updateVenueLabels([]);document.querySelectorAll('[data-nfx-provider]').forEach(function(b){var on=b===btn;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on?'true':'false');});if(socket){try{socket.onclose=null;socket.close();}catch(e){}socket=null;}if(liquidationSocket){try{liquidationSocket.onclose=null;liquidationSocket.close();}catch(e){}liquidationSocket=null;}liqHistory=[];liquidationEvents=[];lastHistoryAt=0;connect();connectLiquidations();var feed=$('nfxPobSourceName');if(feed)feed.textContent=activeProvider.toUpperCase()+' USDⓈ-M FUTURES';renderTimeline();renderLiquidationHeatmap();});});
   restoreHistoryCache(currentSymbol);updateMarketSearchUI();updateVenueLabels([]);loadCryptoMarkets();
   var bookLiqRanges=[3600,7200,14400,43200,86400,172800,259200,604800];
   function setBookLiqRange(value){
