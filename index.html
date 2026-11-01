@@ -11,7 +11,7 @@ html.nfx-booting{background:#050608}
 html{overflow-y:scroll;scrollbar-gutter:stable}
 html.nfx-booting body{overflow-x:hidden}
 #nfx-page-loader{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:radial-gradient(ellipse at 50% 42%,#241018 0%,#0b090d 38%,#050608 78%);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .42s ease,visibility .42s ease}
-html.nfx-booting #nfx-page-loader{opacity:1;visibility:visible;pointer-events:auto}
+html.nfx-booting #nfx-page-loader{opacity:1;visibility:visible;pointer-events:none!important}
 #nfx-page-loader .nfx-loader-card{width:min(360px,calc(100vw - 42px));display:flex;flex-direction:column;align-items:center;text-align:center;padding:34px 28px 27px;border:1px solid #ffffff14;border-radius:18px;background:linear-gradient(145deg,#141116eF,#090a0deF);box-shadow:0 28px 90px #000a,inset 0 1px 0 #ffffff0d;backdrop-filter:blur(18px)}
 #nfx-page-loader .nfx-loader-mark{position:relative;width:72px;height:72px;display:grid;place-items:center;margin-bottom:19px;border-radius:50%;background:#100d11;border:1px solid #71303b;box-shadow:0 0 32px #e52c4920,inset 0 0 20px #e52c4912}
 #nfx-page-loader .nfx-loader-mark:before{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid transparent;border-top-color:#ff5368;border-right-color:#a62a40;animation:nfxLoaderSpin 1.15s linear infinite}
@@ -34,7 +34,7 @@ button:focus:not(:focus-visible){outline:none}
 @media(prefers-reduced-motion:reduce){#nfx-page-loader,#nfx-page-loader *{animation:none!important;transition:none!important}}
 </style>
 <script id="nfx-refresh-stabilizer">
-(()=>{let finished=false;const finish=()=>{if(finished)return;finished=true;document.querySelectorAll('button.click-feedback').forEach(b=>b.classList.remove('click-feedback'));const active=document.activeElement;if(active&&active.tagName==='BUTTON'&&!active.matches(':focus-visible'))active.blur();document.documentElement.classList.remove('nfx-booting');};const onReady=()=>window.setTimeout(finish,420);if(document.readyState==='complete')onReady();else window.addEventListener('load',onReady,{once:true});window.setTimeout(finish,8000);window.addEventListener('pageshow',()=>{finished=false;finish();});})();
+(()=>{let finished=false;const finish=()=>{if(finished)return;finished=true;document.querySelectorAll('button.click-feedback').forEach(b=>b.classList.remove('click-feedback'));const active=document.activeElement;if(active&&active.tagName==='BUTTON'&&!active.matches(':focus-visible'))active.blur();document.documentElement.classList.remove('nfx-booting');};const onReady=()=>window.setTimeout(finish,180);if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',onReady,{once:true});else onReady();window.addEventListener('load',finish,{once:true});window.setTimeout(finish,2200);window.addEventListener('pageshow',()=>{finished=false;finish();});})();
 </script>
 
 <title>Nabil Fx — Pro Trading Workspace</title>
