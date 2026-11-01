@@ -171,8 +171,6 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
         const mtfCompiled = hasTimeframeTag(execution?.longConditions) || hasTimeframeTag(execution?.shortConditions) || hasTimeframeTag(execution?.exitLongConditions) || hasTimeframeTag(execution?.exitShortConditions);
         if (multiTimeframePattern.test(strategy) && !mtfCompiled) unsupportedDataReasons.push("The strategy describes multiple timeframes, but the AI did not compile explicit timeframe-tagged conditions. Clarify which rule belongs to each timeframe.");
         const allConditions = [...(execution?.longConditions || []), ...(execution?.shortConditions || []), ...(execution?.exitLongConditions || []), ...(execution?.exitShortConditions || [])];
-        const hasThreeMinute = (items:any[]):boolean => Array.isArray(items) && items.some((c:any)=>c?.timeframe==="3m" || (c?.type==="logic" && hasThreeMinute(c.conditions)));
-        if (market !== "crypto" && market !== "futures" && hasThreeMinute(allConditions)) unsupportedDataReasons.push("The connected Twelve Data provider does not supply 3-minute candles for this market. Use a supported timeframe or a market with 3-minute historical coverage.");
         const hasConditionType = (items:any[],types:string[]):boolean => Array.isArray(items) && items.some((c:any)=>types.includes(c?.type) || (c?.type==="logic" && hasConditionType(c.conditions,types)));
         const tickRequested = tickDataPattern.test(strategy) || execution?.dataMode === "aggregated_trades";
         if (orderFlowPattern.test(strategy)) unsupportedDataReasons.push("Historical bid/ask depth, footprint and order-flow event data is not available from the connected free data source.");
