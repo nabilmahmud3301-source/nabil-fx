@@ -2437,7 +2437,7 @@ async function candles(){
   return out.slice(-limit);
 }
 
-function backtest(c,r){function backtest(c,r){
+function backtest(c,r){
   let bal=+$('balance').value;
   const risk=+$('risk').value/100;
   if(!(bal>0&&risk>0&&risk<=0.10))throw Error('Balance must be positive and risk must be between 0.01% and 10%.');
