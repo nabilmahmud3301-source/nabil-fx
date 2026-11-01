@@ -141,30 +141,33 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
         }
 
         const execution = parsed?.execution && typeof parsed.execution === "object" ? parsed.execution : null;
-        const validTypes = new Set(["logic","ema_cross","sma_cross","close_vs_ema","close_vs_sma","rsi","macd_cross","breakout","candle_direction","close_vs_open","close_vs_prev_highlow","consecutive_candles","engulfing","inside_bar","liquidity_sweep","volume_above_sma","session_opening_range_breakout","session_filter","logic"]);
+        const validTypes = new Set(["ema_cross","sma_cross","close_vs_ema","close_vs_sma","rsi","macd_cross","breakout","candle_direction","close_vs_open","close_vs_prev_highlow","consecutive_candles","engulfing","inside_bar","liquidity_sweep","volume_above_sma","session_filter","session_opening_range_breakout","logic"]);
         const validCondition = (c: any, depth = 0): boolean => {
           if (!c || typeof c !== "object" || depth > 5 || !validTypes.has(c.type)) return false;
-          if (c.type === "logic") {
-            if (!["all","any","not"].includes(String(c.operator)) || !Array.isArray(c.conditions) || c.conditions.length < 1 || c.conditions.length > 12) return false;
-            if (c.operator === "not" && c.conditions.length !== 1) return false;
-            return c.conditions.every((child: any) => validCondition(child, depth + 1));
-          }
-          if (c.type === "session_filter" || c.type === "session_opening_range_breakout") {
-            if (typeof c.timezone !== "string" || c.timezone.length > 80) return false;
-            try { new Intl.DateTimeFormat("en-US", {timeZone:c.timezone}); } catch { return false; }
-          }
-          return true;
+          if (c.type === "logic") return ["all","any","not"].includes(String(c.operator || "all").toLowerCase()) && Array.isArray(c.conditions) && c.conditions.length > 0 && c.conditions.length <= 12 && c.conditions.every((x: any) => validCondition(x, depth + 1));
+          if (c.type === "session_filter" || c.type === "session_opening_range_breakout") return Number.isFinite(Number(c.startHour ?? c.sessionHour ?? 0)) && Number(c.startHour ?? c.sessionHour ?? 0) >= 0 && Number(c.startHour ?? c.sessionHour ?? 0) <= 23 && (!c.timezone || typeof c.timezone === "string");
+          if (["ema_cross","sma_cross"].includes(c.type)) return Number.isInteger(c.fast) && Number.isInteger(c.slow) && c.fast >= 2 && c.slow > c.fast && c.slow <= 200 && ["bullish","bearish"].includes(c.direction);
+          if (["close_vs_ema","close_vs_sma","rsi","volume_above_sma"].includes(c.type)) return Number.isInteger(c.period) && c.period >= 2 && c.period <= 200 && (c.type !== "rsi" || (Number.isFinite(Number(c.value)) && Number(c.value) >= 0 && Number(c.value) <= 100));
+          if (c.type === "breakout" || c.type === "liquidity_sweep") return Number.isInteger(c.lookback) && c.lookback >= 2 && c.lookback <= 500 && ["above","below","bullish","bearish"].includes(c.direction);
+          if (c.type === "candle_direction" || c.type === "consecutive_candles" || c.type === "engulfing") return ["bullish","bearish"].includes(c.direction) && (c.type !== "consecutive_candles" || (Number.isInteger(c.count) && c.count >= 2 && c.count <= 50));
+          if (c.type === "close_vs_open") return ["above","below"].includes(c.operator);
+          if (c.type === "close_vs_prev_highlow") return ["high","low"].includes(c.level) && ["above","below"].includes(c.operator);
+          return c.type === "inside_bar" || c.type === "macd_cross";
         };
         const validConditions = (items: any[]) => Array.isArray(items) && items.length <= 12 && items.every((c: any) => validCondition(c));
+        const stop = execution?.stop;
+        const stopValid = !!stop && (
+          ["signal_candle","previous_candle"].includes(stop.type) ||
+          (["atr","percent"].includes(stop.type) && Number.isFinite(Number(stop.value)) && Number(stop.value) > 0)
+        );
         const executionValid = !!execution &&
-          validConditions(execution.longConditions) && validConditions(execution.shortConditions) &&
-          ((execution.longConditions?.length ?? 0) > 0 || (execution.shortConditions?.length ?? 0) > 0) &&
+          validConditions(execution.longConditions) &&
+          validConditions(execution.shortConditions) &&
+          (execution.longConditions.length > 0 || execution.shortConditions.length > 0) &&
           ["next_open","signal_close"].includes(execution.entry) &&
-          !!execution.stop &&
-          ["signal_candle","previous_candle","atr","percent","signal_candle_offset"].includes(execution.stop.type) &&
-          (["atr","percent","signal_candle_offset"].includes(execution.stop.type) ? Number(execution.stop.value)>0 : true) &&
-          Number.isFinite(Number(execution.targetR)) && Number(execution.targetR)>0;
-        if (execution?.stop?.type === "signal_candle_offset" && !(Number(execution.stop.value) > 0)) throw new Error("Invalid signal-candle stop offset.");
+          stopValid &&
+          Number.isFinite(Number(execution.targetR)) &&
+          Number(execution.targetR) > 0;
         const safe = {
           supported: parsed.supported === true && executionValid,
           long: parsed.long === true,
