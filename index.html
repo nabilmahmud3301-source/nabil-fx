@@ -2349,7 +2349,7 @@ $('reply').onclick=async()=>{
   status('Gemini 3.8 Flash is analyzing your strategy rules...');
   try{
     const ai=await analyzeStrategyWithAI();
-    const lines=[ai.explanation||'Strategy review complete.',ai.supported?'Supported by the current backtest engine.':'Not executable by the current backtest engine.',ai.missing?.length?'Missing: '+ai.missing.join(', '):'',ai.unsupportedReasons?.length?'Limitations: '+ai.unsupportedReasons.join('; '):''];
+    const lines=[ai.explanation||'Strategy review complete.',ai.supported?'Executable by the current backtest engine.':'Not executable by the current backtest engine.',ai.assumptions?.length?'Assumptions/defaults: '+ai.assumptions.join('; '):'',ai.missing?.length?'Missing: '+ai.missing.join(', '):'',ai.unsupportedReasons?.length?'Limitations: '+ai.unsupportedReasons.join('; '):''];
     status('AI REVIEW · '+ai.model+'\n'+lines.filter(Boolean).join('\n'));
   }catch(e){status('AI review unavailable: '+e.message);}
   finally{$('reply').disabled=false;}
@@ -2715,7 +2715,7 @@ $('run').onclick=async()=>{
     const results=backtest(c,rule);renderResults(results);
     const engineName='AI-compiled strategy engine ('+ai.model+')';
     lastRun={at:new Date().toISOString(),symbol:$('symbol').value.toUpperCase(),interval:$('interval').value,candles:c.length,aiModel:engineName,strategy:ai.normalizedRules||strategyText,compiledRules:rule.execution,results};
-    status('Backtest completed using '+engineName+': '+c.length+' historical candles from '+(lastDataProvider||'connected data provider')+'. Trades: '+results.ts.length+'. Estimated cost: '+($('costR').value||0)+'R per trade. Stop is counted first if stop and target touch in one candle.');
+    status('Backtest completed using '+engineName+': '+c.length+' historical candles from '+(lastDataProvider||'connected data provider')+'. Trades: '+results.ts.length+'. Estimated cost: '+($('costR').value||0)+'R per trade. Stop is counted first if stop and target touch in one candle.'+(ai.assumptions?.length?'\nAI assumptions/defaults: '+ai.assumptions.join('; '):''));
   }catch(e){status('Backtest not run: '+(e?.message||'Unexpected error.'));}
   finally{$('run').disabled=false;$('run').textContent=buttonLabel;}
 };
