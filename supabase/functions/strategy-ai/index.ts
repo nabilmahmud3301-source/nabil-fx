@@ -66,8 +66,10 @@ execution schema:
  "entry":"next_open" or "signal_close",
  "stop":{"type":"signal_candle"|"previous_candle"|"atr"|"percent"|"signal_candle_offset","value":number,"unit"?: "price"|"pip"|"tick"|"point"|"percent","tickSize"?:number},
  "targetR":positive number,
- "maxBarsInTrade":positive integer or null
+ "maxBarsInTrade":positive integer or null,
+ "dataMode"?: "candles"|"aggregated_trades"
 }
+For Binance crypto only, if the user explicitly requests tick-by-tick or trade-by-trade historical replay, set execution.dataMode="aggregated_trades". This uses Binance compressed aggregate trades: fills at the same time, price and taker order are combined, so it is trade-event replay, not raw individual fills, full order book, footprint or bid/ask depth. If the user needs raw individual fills, quotes, Level 2 or order flow, return supported=false. For any other market, tick replay is unsupported unless an explicitly connected historical tick provider is available. Event replay supports price-sequence rules, volume-per-event, indicators over event prices and clock/session filters; do not compile candle-body, inside-bar, opening-range, candle-range-expansion or ATR rules for event mode. Use price/percent/event-based stops, not ATR or pip-size assumptions.
 Any condition may include optional "timeframe":"1m"|"3m"|"5m"|"15m"|"30m"|"1h"|"2h"|"4h"|"1d". When the user explicitly assigns a rule to a timeframe (for example, 1H trend filter and 5M entry), tag each condition with its own timeframe. Evaluate it on the latest fully closed historical candle of that timeframe at each selected execution-candle close. If timeframe assignment is unclear, return supported=false and ask for clarification. The selected chart timeframe remains the execution/entry/exit timeframe. Preserve timeframe tags on nested conditions. Only set supported=true when every required timeframe is available from historical providers. Tick-level data is not candle data.
 Conditions are ANDed by default; use {"type":"logic","operator":"all"|"any"|"not","conditions":[...]} to compose nested AND/OR/NOT expressions. Empty side means disabled. Preserve every logical grouping from the user's original strategy. Parse natural-language descriptions in any language, including translated equivalents of buy/long, sell/short, crosses above/below, greater/less than, stop loss, take profit, R-multiple, candle, and lookback. Never reject a strategy merely because its language is not English. Preserve every essential rule the schema can express; if an essential condition cannot be represented exactly, clearly list it and set supported=false rather than silently dropping it or pretending it was tested. Allowed condition forms:
 - {"type":"ema_cross","fast":integer,"slow":integer,"direction":"bullish"|"bearish"}
@@ -156,7 +158,8 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
         // The simulator currently loads OHLCV candles for one selected interval only.
         // Reject rules requiring synchronized timeframes or historical event/tick data.
         const multiTimeframePattern = /multi[ -]?timeframe|\bmtf\b|higher[ -]?timeframe|lower[ -]?timeframe|multiple timeframes|timeframe alignment|top[ -]?down analysis|\b(?:1m|3m|5m|15m|30m|1h|2h|4h|1d)\b.{0,60}\b(?:1m|3m|5m|15m|30m|1h|2h|4h|1d)\b/i;
-        const tickDataPattern = /tick[ -]?(?:level|by[ -]?tick|data|chart|feed)|every tick|order[ -]?flow|footprint|time[ -]?and[ -]?sales|tape[ -]?reading|bid[ -]?ask[ -]?stream|level[ -]?2|market[ -]?depth|\bDOM\b/i;
+        const tickDataPattern = /tick[ -]?(?:level|by[ -]?tick|data|chart|feed)|every tick|trade[ -]?by[ -]?trade|each trade event/i;
+        const orderFlowPattern = /order[ -]?flow|footprint|time[ -]?and[ -]?sales|tape[ -]?reading|bid[ -]?ask[ -]?stream|level[ -]?2|market[ -]?depth|\bDOM\b/i;
         const unsupportedDataReasons: string[] = [];
         const hasTimeframeTag = (items: any[]): boolean => Array.isArray(items) && items.some((c:any) => !!c?.timeframe || (c?.type === "logic" && hasTimeframeTag(c.conditions)));
         const mtfCompiled = hasTimeframeTag(execution?.longConditions) || hasTimeframeTag(execution?.shortConditions) || hasTimeframeTag(execution?.exitLongConditions) || hasTimeframeTag(execution?.exitShortConditions);
@@ -164,7 +167,12 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
         const allConditions = [...(execution?.longConditions || []), ...(execution?.shortConditions || []), ...(execution?.exitLongConditions || []), ...(execution?.exitShortConditions || [])];
         const hasThreeMinute = (items:any[]):boolean => Array.isArray(items) && items.some((c:any)=>c?.timeframe==="3m" || (c?.type==="logic" && hasThreeMinute(c.conditions)));
         if (market !== "crypto" && market !== "futures" && hasThreeMinute(allConditions)) unsupportedDataReasons.push("The connected Twelve Data provider does not supply 3-minute candles for this market. Use a supported timeframe or a market with 3-minute historical coverage.");
-        if (tickDataPattern.test(strategy)) unsupportedDataReasons.push("Historical tick/order-flow data is not connected for this market. OHLCV candles cannot reproduce tick sequence, bid/ask, footprint or order-book events.");
+        const hasConditionType = (items:any[],types:string[]):boolean => Array.isArray(items) && items.some((c:any)=>types.includes(c?.type) || (c?.type==="logic" && hasConditionType(c.conditions,types)));
+        const tickRequested = tickDataPattern.test(strategy) || execution?.dataMode === "aggregated_trades";
+        if (orderFlowPattern.test(strategy)) unsupportedDataReasons.push("Historical bid/ask depth, footprint and order-flow event data is not available from the connected free data source.");
+        if (tickRequested && (market !== "crypto" || execution?.dataMode !== "aggregated_trades")) unsupportedDataReasons.push("Tick-event replay is currently available only for Binance crypto aggregated trades. Other markets require a tick-data subscription/provider.");
+        if (execution?.dataMode === "aggregated_trades" && (mtfCompiled || hasConditionType(allConditions,["session_opening_range_breakout","time_range_breakout","time_range_sweep","candle_body_percent","range_expansion","inside_bar","engulfing","fair_value_gap"]) || execution?.stop?.type === "atr")) unsupportedDataReasons.push("This rule uses candle-only or multi-timeframe logic that cannot be faithfully evaluated on individual aggregated trade events. Use candle mode or rewrite it as an event-price rule.");
+        if (execution?.dataMode === "aggregated_trades" && execution?.stop?.unit === "pip") unsupportedDataReasons.push("Pip-based stops are not valid for Binance crypto trade events. Specify a price or a verified tick-size offset.");
         const validTypes = new Set(["ema_cross","sma_cross","close_vs_ema","close_vs_sma","rsi","macd_cross","breakout","candle_direction","close_vs_open","close_vs_prev_highlow","consecutive_candles","engulfing","inside_bar","liquidity_sweep","volume_above_sma","session_filter","session_opening_range_breakout","time_range_breakout","time_range_sweep","weekday_filter","clock_time_filter","candle_body_percent","price_change_percent","range_expansion","fair_value_gap","gap","logic"]);
         const validCondition = (c: any, depth = 0): boolean => {
           if (!c || typeof c !== "object" || depth > 5 || !validTypes.has(c.type)) return false;
@@ -192,6 +200,7 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
           return c.type === "inside_bar" || c.type === "macd_cross";
         };
         const validConditions = (items: any[]) => Array.isArray(items) && items.length <= 12 && items.every((c: any) => validCondition(c));
+        const dataModeValid = execution?.dataMode === undefined || ["candles","aggregated_trades"].includes(String(execution.dataMode));
         const stop = execution?.stop;
         const stopOffsetUnit = String(stop?.unit || "price");
         const stopOffsetValid = stop?.type === "signal_candle_offset" &&
@@ -204,7 +213,7 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
           (["atr","percent"].includes(stop.type) && Number.isFinite(Number(stop.value)) && Number(stop.value) > 0) ||
           stopOffsetValid
         );
-        const executionValid = !!execution &&
+        const executionValid = !!execution && dataModeValid &&
           validConditions(execution.longConditions) &&
           validConditions(execution.shortConditions) &&
           (execution.exitLongConditions === undefined || validConditions(execution.exitLongConditions)) &&
@@ -234,6 +243,7 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
             targetR: Number(execution.targetR),
             maxBarsInTrade: Number.isFinite(Number(execution.maxBarsInTrade)) ? Math.max(1, Math.min(5000, Number(execution.maxBarsInTrade))) : null,
             timezone: typeof execution.timezone === "string" ? execution.timezone.slice(0,80) : "UTC",
+            dataMode: execution.dataMode === "aggregated_trades" ? "aggregated_trades" : "candles",
           } : null,
           model,
         };
