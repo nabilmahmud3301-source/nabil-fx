@@ -3304,6 +3304,10 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 
 <style id="nfx-backtest-home-isolation">/* Keep Backtest-only panels off the Home page unless Backtest is selected. */
 #page-backtest.view:not(.active){display:none!important}
+.nfx-home-footer{width:min(1120px,calc(100% - 40px));margin:clamp(42px,7vw,88px) auto 28px;padding:24px 18px 26px;border-top:1px solid rgba(255,255,255,.10);text-align:center}
+.nfx-home-footer-motto{margin:0;color:#f4edf0;font:750 clamp(15px,2vw,19px)/1.5 system-ui,Arial,sans-serif;letter-spacing:.025em}
+.nfx-home-footer-risk{max-width:760px;margin:9px auto 0;color:#918992;font:500 12px/1.7 system-ui,Arial,sans-serif}
+@media(max-width:600px){.nfx-home-footer{width:calc(100% - 28px);margin:38px auto 20px;padding:20px 10px}.nfx-home-footer-risk{font-size:11px}}
 </style>
 </head>
 <body>
@@ -3385,6 +3389,10 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
   </div>
 </section>
 
+<footer class="nfx-home-footer home-only" aria-label="Home page trading disclaimer">
+  <p class="nfx-home-footer-motto">Build a process. Measure progress. Keep improving.</p>
+  <p class="nfx-home-footer-risk">Trading involves risk. Nabil Fx supports research and organization; it does not guarantee trading results.</p>
+</footer>
 
 
     <section class="nfx-contact-page view" id="page-contact" aria-label="Contact Nabil Fx">
