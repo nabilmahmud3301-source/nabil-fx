@@ -4262,7 +4262,7 @@ var nfxEstLiqCandles=[];
     var rangeMap={'1h':3600000,'2h':7200000,'4h':14400000,'12h':43200000,'1d':86400000,'2d':172800000,'3d':259200000,'7d':604800000};
     var span=(rangeMap[nfxEstLiqRange]||3600000)/nfxEstLiqZoom,now=Date.now(),cutoff=now-span+nfxEstLiqTimePan;
     var candles=nfxEstLiqCandles.filter(function(c){return c.t>=cutoff&&c.t<=cutoff+span;});
-    var events=liquidationEvents.filter(function(e){return e.symbol===symbol&&e.t>=cutoff&&e.p>0&&e.usd>0;});
+    var events=liquidationEvents.filter(function(e){return e.symbol===symbol&&e.t>=cutoff&&e.t<=cutoff+span&&e.p>0&&e.usd>0;});
     ctx.font='700 10px system-ui,sans-serif';ctx.textBaseline='middle';ctx.textAlign='left';ctx.fillStyle='#dce5f1';
     ctx.fillText('MODELLED LIQUIDATION ZONES · LIVE ESTIMATES',left,14);
     ctx.textAlign='right';ctx.fillStyle='#92a1b5';ctx.fillText(symbol.toUpperCase()+' · '+nfxEstLiqRange.toUpperCase(),W-right,14);
