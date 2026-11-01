@@ -4071,10 +4071,12 @@ document.addEventListener('click', function(event) {
   function nfxBookCandleLoad(force){
     if(activeMarket!=='crypto')return;
     var symbol=String(currentSymbol||'BTCUSDT').toUpperCase(),range=historyLimit(),cfg=nfxBookCandleConfig(range);
+    var visibleMs=range*1000/nfxBookTimeZoom,start=Math.max(0,Date.now()-visibleMs+nfxBookTimePan),end=Math.min(Date.now(),start+visibleMs);
+    var covered=nfxBookCandles.length&&nfxBookCandles[0].t<=start+cfg.intervalMs&&nfxBookCandles[nfxBookCandles.length-1].t>=end-cfg.intervalMs*2;
     if(nfxBookCandleLoading)return;
-    if(!force&&nfxBookCandleSymbol===symbol&&nfxBookCandleRange===range&&nfxBookCandleCandlesReady()&&Date.now()-nfxBookCandleFetchedAt<15000)return;
+    if(!force&&nfxBookCandleSymbol===symbol&&nfxBookCandleRange===range&&covered&&Date.now()-nfxBookCandleFetchedAt<15000)return;
     nfxBookCandleLoading=true;
-    fetch('https://fapi.binance.com/fapi/v1/klines?symbol='+encodeURIComponent(symbol)+'&interval='+cfg.interval+'&limit='+cfg.limit,{cache:'no-store'})
+    fetch('https://fapi.binance.com/fapi/v1/klines?symbol='+encodeURIComponent(symbol)+'&interval='+cfg.interval+'&startTime='+Math.floor(start)+'&endTime='+Math.floor(end)+'&limit='+cfg.limit,{cache:'no-store'})
       .then(function(r){if(!r.ok)throw new Error('Liquidity chart candle feed HTTP '+r.status);return r.json();})
       .then(function(rows){
         if(!Array.isArray(rows))throw new Error('Invalid Liquidity Heatmap candle data');
@@ -4209,15 +4211,17 @@ var nfxEstLiqCandles=[];
   function nfxEstLiqLoad(force){
     var symbol=String(currentSymbol||'BTCUSDT').toUpperCase();
     if(nfxEstLiqLoading)return;
-    var requestedRange=nfxEstLiqRange;
-    if(!force&&nfxEstLiqSymbol===symbol&&nfxEstLiqLoadedRange===requestedRange&&nfxEstLiqCandles.length&&Date.now()-nfxEstLiqFetchedAt<5000)return;
-    if(nfxEstLiqLoading)return;
+    var requestedRange=nfxEstLiqRange,cfg=nfxEstLiqConfig();
+    var rangeMs=({'1h':3600000,'2h':7200000,'4h':14400000,'12h':43200000,'1d':86400000,'2d':172800000,'3d':259200000,'7d':604800000}[requestedRange]||3600000)/nfxEstLiqZoom;
+    var start=Math.max(0,Date.now()-rangeMs+nfxEstLiqTimePan),end=Math.min(Date.now(),start+rangeMs);
+    var covered=nfxEstLiqCandles.length&&nfxEstLiqCandles[0].t<=start+cfg.intervalMs&&nfxEstLiqCandles[nfxEstLiqCandles.length-1].t>=end-cfg.intervalMs*2;
+    if(!force&&nfxEstLiqSymbol===symbol&&nfxEstLiqLoadedRange===requestedRange&&covered&&Date.now()-nfxEstLiqFetchedAt<5000)return;
     nfxEstLiqLoading=true;
-    var cfg=nfxEstLiqConfig();
-    fetch('https://fapi.binance.com/fapi/v1/klines?symbol='+encodeURIComponent(symbol)+'&interval='+cfg.interval+'&limit='+cfg.limit,{cache:'no-store'})
+    fetch('https://fapi.binance.com/fapi/v1/klines?symbol='+encodeURIComponent(symbol)+'&interval='+cfg.interval+'&startTime='+Math.floor(start)+'&endTime='+Math.floor(end)+'&limit='+cfg.limit,{cache:'no-store'})
       .then(function(r){if(!r.ok)throw new Error('Binance candle feed HTTP '+r.status);return r.json();})
       .then(function(rows){
         if(!Array.isArray(rows))throw new Error('Invalid candle data');
+        if(String(currentSymbol||'BTCUSDT').toUpperCase()!==symbol||nfxEstLiqRange!==requestedRange)return;
         nfxEstLiqCandles=rows.map(function(k){return {t:+k[0],o:+k[1],h:+k[2],l:+k[3],c:+k[4],v:+k[5]};}).filter(function(k){return k.t>0&&k.o>0&&k.h>0&&k.l>0&&k.c>0;});
         nfxEstLiqSymbol=symbol;nfxEstLiqLoadedRange=requestedRange;nfxEstLiqFetchedAt=Date.now();
         renderLiquidationHeatmap();
@@ -4226,8 +4230,6 @@ var nfxEstLiqCandles=[];
         console.warn('Nabil FX estimated liquidation heatmap:',err);
       }).finally(function(){
         nfxEstLiqLoading=false;
-        // If the user changed the range while this request was in flight,
-        // immediately fetch candles for the newly selected range.
         if(nfxEstLiqRange!==requestedRange||String(currentSymbol||'BTCUSDT').toUpperCase()!==symbol)nfxEstLiqLoad(true);
       });
   }
@@ -4545,7 +4547,7 @@ function bindHeatmapInspector(canvasId,kind){
         if(kind==='book')nfxBookPriceZoom=z;else nfxEstLiqPriceZoom=z;
       }else{
         var windowMs=(kind==='book'?historyLimit()*1000:({'1h':3600000,'2h':7200000,'4h':14400000,'12h':43200000,'1d':86400000,'2d':172800000,'3d':259200000,'7d':604800000}[nfxEstLiqRange]||3600000))/drag.timeZoom;
-        var pan=drag.time-dx/Math.max(1,drag.width-96)*windowMs;
+        var pan=drag.time+dx/Math.max(1,drag.width-96)*windowMs;
         if(kind==='book')nfxBookTimePan=pan;else nfxEstLiqTimePan=pan;
         var priceSpan=kind==='book'?((historyLimit()>0?1:1)):1;
         if(kind==='book')nfxBookPricePan=drag.price+dy/Math.max(1,drag.height-62)*(Math.abs((nfxBookCandles[0]||{}).c||1)*.01/nfxBookPriceZoom);
