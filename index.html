@@ -1936,6 +1936,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       <input type="checkbox" id="nfxIndEma9" data-indicator="ema9"><input type="checkbox" id="nfxIndEma20" data-indicator="ema20"><input type="checkbox" id="nfxIndEma50" data-indicator="ema50"><input type="checkbox" id="nfxIndEma100" data-indicator="ema100"><input type="checkbox" id="nfxIndEma200" data-indicator="ema200">
       <input type="checkbox" id="nfxIndSma20" data-indicator="sma20"><input type="checkbox" id="nfxIndSma50" data-indicator="sma50"><input type="checkbox" id="nfxIndSma100" data-indicator="sma100"><input type="checkbox" id="nfxIndSma200" data-indicator="sma200">
       <input type="checkbox" id="nfxIndBollinger" data-indicator="bollinger"><input type="checkbox" id="nfxIndRsi" data-indicator="rsi"><input type="checkbox" id="nfxIndMacd" data-indicator="macd">
+      <input type="checkbox" id="nfxIndVwap" data-indicator="vwap"><input type="checkbox" id="nfxIndAtr" data-indicator="atr"><input type="checkbox" id="nfxIndStoch" data-indicator="stoch">
     </div>
     <div class="nfx-point-meta"><span id="nfxPointStatus">Choose a symbol and click Load Data.</span><span id="nfxPointCount">0 candles</span></div>
     <div id="nfxPointChart" class="nfx-point-chart" aria-label="Nabil custom replay point candle chart">
@@ -4255,6 +4256,21 @@ document.addEventListener('click', function(event) {
       if(!indicatorSeries.rsi){indicatorSeries.rsi=chart.addLineSeries({color:'#ff9b62',lineWidth:2,priceScaleId:'rsi',lastValueVisible:true,priceLineVisible:false});chart.priceScale('rsi').applyOptions({scaleMargins:{top:.78,bottom:.02},autoScale:true});}
       indicatorSeries.rsi.setData(d);
     }else if(indicatorSeries.rsi){chart.removeSeries(indicatorSeries.rsi);delete indicatorSeries.rsi;}
+    if($('nfxIndVwap')?.checked){
+      let cumulativePV=0,cumulativeVolume=0;
+      const vwap=visible.map((bar,i)=>{const typical=(bar.high+bar.low+bar.close)/3,volume=Number(bar.volume)>0?Number(bar.volume):1;cumulativePV+=typical*volume;cumulativeVolume+=volume;return {time:bar.time,value:cumulativePV/cumulativeVolume};});
+      setLine('vwap',vwap,'#e5b85c',2);
+    }else if(indicatorSeries.vwap){chart.removeSeries(indicatorSeries.vwap);delete indicatorSeries.vwap;}
+    if($('nfxIndAtr')?.checked){
+      const atr=[];let previous=null,average=0;
+      visible.forEach((bar,i)=>{const tr=previous===null?bar.high-bar.low:Math.max(bar.high-bar.low,Math.abs(bar.high-previous),Math.abs(bar.low-previous));average=i===0?tr:(i<14?(average*i+tr)/(i+1):(average*13+tr)/14);if(i>=13)atr.push({time:bar.time,value:average});previous=bar.close;});
+      setLine('atr',atr,'#c792ea',1,'atr');chart.priceScale('atr').applyOptions({scaleMargins:{top:.82,bottom:.02},autoScale:true});
+    }else if(indicatorSeries.atr){chart.removeSeries(indicatorSeries.atr);delete indicatorSeries.atr;}
+    if($('nfxIndStoch')?.checked){
+      const k=[],d=[];
+      visible.forEach((bar,i)=>{if(i<13)return;const windowBars=visible.slice(i-13,i+1),high=Math.max(...windowBars.map(x=>x.high)),low=Math.min(...windowBars.map(x=>x.low));k.push({time:bar.time,value:high===low?50:100*(bar.close-low)/(high-low)});if(k.length>=3)d.push({time:bar.time,value:(k[k.length-1].value+k[k.length-2].value+k[k.length-3].value)/3});});
+      setLine('stochK',k,'#42a5f5',1,'stoch');setLine('stochD',d,'#ffb74d',1,'stoch');chart.priceScale('stoch').applyOptions({scaleMargins:{top:.82,bottom:.02},autoScale:true});
+    }else ['stochK','stochD'].forEach(id=>{if(indicatorSeries[id]){chart.removeSeries(indicatorSeries[id]);delete indicatorSeries[id];}});
     if($('nfxIndMacd')?.checked){
       const e12=ema(closes,12),e26=ema(closes,26),map12=new Map(e12.map(p=>[p.index,p.value])),map26=new Map(e26.map(p=>[p.index,p.value]));
       const line=[];closes.forEach((v,i)=>{if(map12.has(i)&&map26.has(i))line.push({index:i,value:map12.get(i)-map26.get(i)});});
@@ -4295,7 +4311,8 @@ document.addEventListener('click', function(event) {
     const catalog=[
       ['ema9','EMA 9','Moving average'],['ema20','EMA 20','Moving average'],['ema50','EMA 50','Moving average'],['ema100','EMA 100','Moving average'],['ema200','EMA 200','Moving average'],
       ['sma20','SMA 20','Moving average'],['sma50','SMA 50','Moving average'],['sma100','SMA 100','Moving average'],['sma200','SMA 200','Moving average'],
-      ['bollinger','Bollinger Bands','Volatility'],['rsi','Relative Strength Index (RSI) 14','Momentum'],['macd','MACD 12/26/9','Momentum']
+      ['bollinger','Bollinger Bands','Volatility'],['rsi','Relative Strength Index (RSI) 14','Momentum'],['macd','MACD 12/26/9','Momentum'],
+      ['vwap','Volume Weighted Average Price (VWAP)','Volume / Price'],['atr','Average True Range (ATR) 14','Volatility'],['stoch','Stochastic Oscillator 14/3','Momentum']
     ];
     const renderIndicatorResults=()=>{
       const query=($('nfxIndicatorSearch').value||'').trim().toLowerCase(),box=$('nfxIndicatorResults');box.innerHTML='';
@@ -4303,7 +4320,7 @@ document.addEventListener('click', function(event) {
       if(!filtered.length){box.innerHTML='<p style="padding:10px;color:#aab0bd;font-size:12px">No matching indicator in this chart’s current library.</p>';return;}
       filtered.forEach(([id,name,category])=>{const row=document.createElement('button');row.type='button';row.className='nfx-indicator-result'+($(indicatorId(id)).checked?' applied':'');row.innerHTML='<span>'+name+'</span><small>'+($(indicatorId(id)).checked?'✓ Applied · click to remove':category+' · click to apply')+'</small>';row.addEventListener('click',()=>{const input=$(indicatorId(id));input.checked=!input.checked;row.classList.toggle('applied',input.checked);if(allBars.length)updateIndicators(allBars.slice(0,visibleIndex+1));renderIndicatorResults();updateIndicatorCount();});box.appendChild(row);});
     };
-    function indicatorId(id){return ({bollinger:'nfxIndBollinger',rsi:'nfxIndRsi',macd:'nfxIndMacd'})[id]||('nfxInd'+id.charAt(0).toUpperCase()+id.slice(1));}
+    function indicatorId(id){return ({bollinger:'nfxIndBollinger',rsi:'nfxIndRsi',macd:'nfxIndMacd',vwap:'nfxIndVwap',atr:'nfxIndAtr',stoch:'nfxIndStoch'})[id]||('nfxInd'+id.charAt(0).toUpperCase()+id.slice(1));}
     function updateIndicatorCount(){$('nfxActiveIndicatorCount').textContent=catalog.filter(x=>$(indicatorId(x[0])).checked).length;}
     $('nfxOpenIndicators').addEventListener('click',()=>{$('nfxIndicatorDialog').hidden=!$('nfxIndicatorDialog').hidden;if(!$('nfxIndicatorDialog').hidden){$('nfxIndicatorSearch').focus();renderIndicatorResults();}});
     $('nfxCloseIndicators').addEventListener('click',()=>$('nfxIndicatorDialog').hidden=true);
