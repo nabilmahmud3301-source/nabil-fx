@@ -4595,9 +4595,9 @@ function bindHeatmapInspector(canvasId,kind){
     canvas.style.touchAction='none';
     canvas.addEventListener('pointerdown',function(ev){
       if(ev.button!==0)return;
-      var r=canvas.getBoundingClientRect(),x=ev.clientX-r.left;
-      var onPrice=x>r.width-88;
-      drag={mode:onPrice?'price':'pan',x:ev.clientX,y:ev.clientY,
+      var r=canvas.getBoundingClientRect(),x=ev.clientX-r.left,y=ev.clientY-r.top;
+      var onPrice=x>r.width-88,onTime=y>r.height-28;
+      drag={mode:onPrice?'price':onTime?'time':'pan',x:ev.clientX,y:ev.clientY,
         time:kind==='book'?nfxBookTimePan:nfxEstLiqTimePan,
         price:kind==='book'?nfxBookPricePan:nfxEstLiqPricePan,
         width:r.width,height:r.height,
@@ -4613,6 +4613,13 @@ function bindHeatmapInspector(canvasId,kind){
         var factor=Math.exp(-dy*.012);
         var z=Math.max(.35,Math.min(12,drag.priceZoom*factor));
         if(kind==='book')nfxBookPriceZoom=z;else nfxEstLiqPriceZoom=z;
+      }else if(drag.mode==='time'){
+        var baseWindow=kind==='book'?historyLimit()*1000:({'1h':3600000,'2h':7200000,'4h':14400000,'12h':43200000,'1d':86400000,'2d':172800000,'3d':259200000,'7d':604800000}[nfxEstLiqRange]||3600000);
+        var rect=canvas.getBoundingClientRect(),ratio=Math.max(0,Math.min(1,(drag.x-rect.left-14)/Math.max(1,rect.width-(kind==='book'?92:96))));
+        var oldWindow=baseWindow/drag.timeZoom,anchorTime=Date.now()-oldWindow+drag.time+ratio*oldWindow;
+        var nextZoom=Math.max(.35,Math.min(12,drag.timeZoom*Math.exp(-dx*.006))),nextWindow=baseWindow/nextZoom;
+        if(kind==='book'){nfxBookTimeZoom=nextZoom;nfxBookTimePan=anchorTime-ratio*nextWindow-(Date.now()-nextWindow);}
+        else{nfxEstLiqZoom=nextZoom;nfxEstLiqTimePan=anchorTime-ratio*nextWindow-(Date.now()-nextWindow);nfxEstLiqLoad(false);}
       }else{
         var windowMs=(kind==='book'?historyLimit()*1000:({'1h':3600000,'2h':7200000,'4h':14400000,'12h':43200000,'1d':86400000,'2d':172800000,'3d':259200000,'7d':604800000}[nfxEstLiqRange]||3600000))/drag.timeZoom;
         var pan=drag.time-dx/Math.max(1,drag.width-96)*windowMs;
