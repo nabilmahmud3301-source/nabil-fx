@@ -6044,3 +6044,162 @@ setInterval(function(){nfxEstLiqLoad(false);},30000);
 #nfxLiqDashboard .nfx-feed-switch{border-color:#2b3b50!important;background:linear-gradient(145deg,#121d2b,#0d131d)!important;box-shadow:0 8px 24px rgba(0,0,0,.2)!important}
 @media(max-width:760px){#nfxLiqDashboard .nfx-liq-timeline-head{gap:12px!important}#nfxLiqDashboard .nfx-liq-card-actions{width:100%!important;justify-content:flex-start!important}}
 </style>
+
+<style id="nfx-liquidation-pro-terminal-v2">
+/* NABIL FX — refined institutional liquidation terminal */
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap{
+  position:relative!important;isolation:isolate!important;
+  padding:clamp(18px,2.1vw,28px)!important;
+  border:1px solid #293346!important;border-radius:16px!important;
+  background:linear-gradient(145deg,#101722 0%,#0b1019 48%,#090d14 100%)!important;
+  box-shadow:0 24px 65px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.045)!important;
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap:before{
+  content:"";position:absolute;inset:0 0 auto;height:2px;z-index:-1;
+  background:linear-gradient(90deg,#8c6af0 0%,#5a83d7 48%,transparent 100%);
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head{
+  display:flex!important;flex-direction:column!important;align-items:stretch!important;
+  gap:17px!important;padding:0 0 18px!important;margin:0 0 16px!important;
+  border-bottom:1px solid rgba(153,174,205,.14)!important;
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-kicker{
+  color:#a88bf7!important;font-size:9px!important;font-weight:850!important;
+  letter-spacing:2px!important;
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head h3{
+  margin:6px 0 5px!important;color:#f3f5fb!important;
+  font-size:clamp(23px,2.4vw,30px)!important;font-weight:780!important;
+  letter-spacing:-.9px!important;
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head p{
+  margin:0!important;color:#929db0!important;font-size:12px!important;line-height:1.6!important;
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-card-actions{
+  display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;
+  grid-template-areas:"status status" "toolbar toolbar" "ranges expand"!important;
+  align-items:center!important;gap:12px!important;width:100%!important;
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-live-tag{
+  grid-area:status!important;justify-self:start!important;padding:5px 10px!important;
+  font-size:9px!important;letter-spacing:1px!important;border-radius:5px!important;
+  background:#10251f!important;border:1px solid #285b4b!important;color:#8be0ba!important;
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-liq-toolbar{
+  grid-area:toolbar!important;display:flex!important;justify-content:space-between!important;
+  gap:14px!important;padding:12px 14px!important;margin:0!important;
+  border:1px solid #2a3446!important;border-radius:10px!important;
+  background:linear-gradient(110deg,#151c2a,#111722)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-model-switch,
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-view-switch{gap:5px!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-model-switch>span{
+  color:#8997ac!important;font-size:9px!important;letter-spacing:1.3px!important;margin-right:8px!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-model-switch button{
+  min-width:76px!important;height:34px!important;border:1px solid #303b4f!important;
+  border-radius:6px!important;background:#111925!important;color:#9eabc0!important;
+  font-size:10px!important;letter-spacing:.5px!important;transition:all .16s ease!important;
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-model-switch button:hover{
+  border-color:#7661b2!important;color:#eee8ff!important;background:#201c31!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-model-switch button.active{
+  border-color:#8068c4!important;background:linear-gradient(135deg,#392e58,#29223f)!important;
+  color:#f0eaff!important;box-shadow:0 0 0 1px rgba(158,132,235,.12),0 4px 14px #0004!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-view-switch{
+  padding:4px!important;border:1px solid #30394a!important;border-radius:7px!important;background:#0b111a!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-view-switch button{
+  min-width:54px!important;height:29px!important;border-radius:5px!important;
+  color:#8996aa!important;font-size:9px!important;letter-spacing:.5px!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-view-switch button.active{
+  border-color:#4f5680!important;background:#252b43!important;color:#e5e9ff!important;
+  box-shadow:inset 0 1px 0 #ffffff12!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-threshold{
+  padding-left:12px!important;border-left:1px solid #30394a!important;
+  color:#a0abc0!important;font-size:9px!important;white-space:nowrap!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-threshold input{accent-color:#a78bfa!important;width:112px!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-est-liq-ranges{
+  grid-area:ranges!important;display:flex!important;gap:5px!important;align-items:center!important;
+  padding:0!important;background:transparent!important;border:0!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-est-liq-ranges button{
+  min-width:39px!important;height:30px!important;padding:0 9px!important;
+  border:1px solid #2c3749!important;border-radius:6px!important;
+  background:#111925!important;color:#9ba8bc!important;font-size:9px!important;
+  letter-spacing:.35px!important;transition:all .15s ease!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-est-liq-ranges button:hover{
+  border-color:#6e5ca7!important;color:#e7ddff!important;background:#211d30!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-est-liq-ranges button.active{
+  border-color:#66579b!important;background:#28223e!important;color:#e8ddff!important;
+  box-shadow:inset 0 1px 0 #ffffff0b!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-fullscreen-btn{
+  grid-area:expand!important;justify-self:end!important;min-height:31px!important;
+  padding:0 12px!important;border:1px solid #344257!important;border-radius:6px!important;
+  background:#121c29!important;color:#c2cee0!important;font-size:10px!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-heatmap-stats{
+  gap:9px!important;margin:0 0 14px!important;border:0!important;background:transparent!important;
+  box-shadow:none!important;overflow:visible!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-heatmap-stats>div{
+  padding:13px 15px!important;border:1px solid #273448!important;border-radius:9px!important;
+  background:linear-gradient(145deg,#141e2c,#101722)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025)!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-heatmap-stats span{
+  color:#8797ad!important;font-size:8px!important;letter-spacing:1.2px!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-heatmap-stats b{
+  margin-top:7px!important;color:#e6edf8!important;font-size:clamp(14px,1.3vw,18px)!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-model-legend{
+  display:flex!important;align-items:center!important;gap:18px!important;flex-wrap:wrap!important;
+  padding:10px 13px!important;margin:0 0 10px!important;
+  border:1px solid #263246!important;border-radius:8px!important;background:#0d141f!important;
+  color:#aab6c9!important;font-size:9px!important;letter-spacing:.65px!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap{
+  margin-top:0!important;height:clamp(510px,68vh,790px)!important;min-height:480px!important;
+  border:1px solid #29384d!important;border-radius:10px!important;
+  background:#080e17!important;box-shadow:inset 0 0 24px #0005!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-axis{
+  display:flex!important;justify-content:space-between!important;margin-top:9px!important;
+  color:#8190a6!important;font-size:8px!important;letter-spacing:1.2px!important
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-note{
+  margin-top:12px!important;padding:11px 13px!important;border:1px solid #263246!important;
+  border-radius:8px!important;background:#0d141e!important;color:#8998ad!important;
+  font-size:10px!important;line-height:1.65!important
+}
+@media(max-width:900px){
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-liq-toolbar{flex-wrap:wrap!important;justify-content:flex-start!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-threshold{border-left:0!important;padding-left:0!important}
+}
+@media(max-width:620px){
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap{padding:13px!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-card-actions{grid-template-columns:minmax(0,1fr) auto!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-liq-toolbar{gap:10px!important;padding:10px!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-model-switch{width:100%!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-model-switch button{flex:1!important;min-width:0!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-view-switch{flex:1!important;justify-content:space-between!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-view-switch button{flex:1!important;min-width:0!important;padding:0 7px!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-threshold{width:100%!important;display:grid!important;grid-template-columns:auto minmax(60px,1fr) 34px!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-threshold input{width:100%!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-est-liq-ranges{flex-wrap:wrap!important;gap:4px!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-est-liq-ranges button{min-width:34px!important;padding:0 6px!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-heatmap-stats{gap:6px!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-heatmap-stats>div{padding:10px!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap{height:470px!important;min-height:390px!important}
+}
+</style>
