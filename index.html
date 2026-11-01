@@ -4405,7 +4405,7 @@ var nfxEstLiqCandles=[];
     // These are modelled levels, not observed exchange positions or verified liquidation notionals.
     var modelEl=$('nfxEstLiqModel'),model=Number(modelEl&&modelEl.value||1);
     var leverageSets={1:[10,20,25,50,75,100],2:[25,50,75,100,125],3:[5,10,20,25,50]};
-    var leverages=leverageSets[model]||leverageSets[1],mmr=.005;
+    var leverages=leverageSets[model]||leverageSets[1],mmr=.005,intervalMs=nfxEstLiqConfig().intervalMs||60000;
     candles.forEach(function(c){
       var x=Math.max(0,Math.min(cols-1,Math.floor((c.t+intervalMs/2-cutoff)/span*cols)));
       var volume=Math.max(0,Number(c.v)||0);
