@@ -1440,7 +1440,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
     <button type="button" class="nfx-liq-market-tab active" data-liq-market="crypto" role="tab" aria-selected="true">Crypto</button>
   </div>
   <section class="nfx-market-search" aria-label="Search crypto markets">
-    <div class="nfx-market-search-copy"><span class="nfx-market-search-kicker">MARKET FINDER</span><h2>Find a market</h2><p>Search all available Binance USDⓈ-M perpetual contracts.</p></div>
+    <div class="nfx-market-search-copy"><span class="nfx-market-search-kicker">MARKET FINDER</span><h2>Find a market</h2><p>Search USDT perpetual contracts supported by the connected exchange.</p></div>
     <form class="nfx-market-search-form" id="nfxMarketSearchForm" autocomplete="off">
       <label class="nfx-market-search-input-wrap" for="nfxMarketSearchInput"><span aria-hidden="true">⌕</span><input id="nfxMarketSearchInput" type="search" list="nfxMarketSuggestions" placeholder="Search symbol or coin — e.g. BTC, ETHUSDT" spellcheck="false" aria-label="Search crypto market"><datalist id="nfxMarketSuggestions"></datalist></label>
       <button type="submit" class="nfx-market-search-button">View heatmap <span aria-hidden="true">↗</span></button>
@@ -3833,7 +3833,7 @@ document.addEventListener('click', function(event) {
   var symbols={btcusdt:'BTC/USDT',ethusdt:'ETH/USDT',bnbusdt:'BNB/USDT',solusdt:'SOL/USDT',xrpusdt:'XRP/USDT',dogeusdt:'DOGE/USDT',adausdt:'ADA/USDT',linkusdt:'LINK/USDT'},marketSymbolsLoaded=false;
   function normalizeSymbol(value){return String(value||'').toUpperCase().replace(/[^A-Z0-9]/g,'').replace(/USDT$/,'')+'USDT';}
   function marketLabel(symbol){symbol=String(symbol||'').toUpperCase();return symbol.slice(0,-4)+'/USDT';}
-  function updateMarketSearchUI(){var list=$('nfxMarketSuggestions'),count=$('nfxMarketCount');if(list){list.replaceChildren();Object.keys(symbols).sort().forEach(function(key){var opt=document.createElement('option');opt.value=symbols[key];list.appendChild(opt);});}if(count)count.textContent=Object.keys(symbols).length.toLocaleString()+' USDT perpetual markets available · Binance Futures';var label=(symbols[currentSymbol]||marketLabel(currentSymbol)).replace('/',' / ');['nfxMarketCurrent','nfxLiqSelectedMarket','nfxLiqTimelineSymbol','nfxLiqLiquidationSymbol'].forEach(function(id){var el=$(id);if(el)el.textContent=label;});}
+  function updateMarketSearchUI(){var list=$('nfxMarketSuggestions'),count=$('nfxMarketCount');if(list){list.replaceChildren();Object.keys(symbols).sort().forEach(function(key){var opt=document.createElement('option');opt.value=symbols[key];list.appendChild(opt);});}if(count)count.textContent=Object.keys(symbols).length.toLocaleString()+' USDT perpetual markets available';var label=(symbols[currentSymbol]||marketLabel(currentSymbol)).replace('/',' / ');['nfxMarketCurrent','nfxLiqSelectedMarket','nfxLiqTimelineSymbol','nfxLiqLiquidationSymbol'].forEach(function(id){var el=$(id);if(el)el.textContent=label;});}
   function loadCryptoMarkets(){var cacheKey='nfxBinanceUsdtPerpetualMarketsV1',cached=null;try{cached=JSON.parse(sessionStorage.getItem(cacheKey)||'null');}catch(e){}if(cached&&cached.savedAt&&Date.now()-cached.savedAt<21600000&&Array.isArray(cached.markets)){cached.markets.forEach(function(item){if(item&&item.symbol&&item.label)symbols[item.symbol]=item.label;});marketSymbolsLoaded=true;updateMarketSearchUI();return;}fetch('https://fapi.binance.com/fapi/v1/exchangeInfo').then(function(r){if(!r.ok)throw new Error('Market list unavailable');return r.json();}).then(function(data){var markets=[];(data.symbols||[]).forEach(function(item){if(item.status==='TRADING'&&item.contractType==='PERPETUAL'&&item.quoteAsset==='USDT'&&item.symbol){var key=item.symbol.toLowerCase(),label=item.baseAsset+'/USDT';symbols[key]=label;markets.push({symbol:key,label:label});}});marketSymbolsLoaded=true;try{sessionStorage.setItem(cacheKey,JSON.stringify({savedAt:Date.now(),markets:markets}));}catch(e){}updateMarketSearchUI();}).catch(function(){var count=$('nfxMarketCount');if(count)count.textContent=Object.keys(symbols).length+' popular markets loaded · full list temporarily unavailable';});}
   function historyCacheKey(symbol){return 'nfxLiqHistoryV2:'+symbol;}
   function saveHistoryCache(){
@@ -4324,34 +4324,16 @@ var nfxEstLiqCandles=[];
     var candles=nfxEstLiqCandles.filter(function(c){return c.t>=cutoff&&c.t<=cutoff+span;});
     var events=liquidationEvents.filter(function(e){return e.symbol===symbol&&e.t>=cutoff&&e.t<=cutoff+span&&e.p>0&&e.usd>0;});
     ctx.font='700 10px system-ui,sans-serif';ctx.textBaseline='middle';ctx.textAlign='left';ctx.fillStyle='#dce5f1';
-    ctx.fillText('MODELLED LIQUIDATION ZONES · LIVE ESTIMATES',left,14);
+    ctx.fillText(activeProvider.toUpperCase()+' · VERIFIED EXCHANGE LIQUIDATIONS',left,14);
     ctx.textAlign='right';ctx.fillStyle='#92a1b5';ctx.fillText(symbol.toUpperCase()+' · '+nfxEstLiqRange.toUpperCase(),W-right,14);
     if(!candles.length){
       ctx.textAlign='center';ctx.fillStyle='#9aa8bb';ctx.font='12px system-ui,sans-serif';ctx.fillText('Loading verified Binance Futures price data…',left+pw/2,top+ph/2);
       var empty=$('nfxLiqLiquidationEmpty');if(empty)empty.hidden=false;return;
     }
     var last=candles[candles.length-1].c;
-    // Build transparent modelled liquidation clusters from recent swing points and traded volume.
-    // These are estimates, not Binance-reported account liquidation prices.
-    var pivots=[];
-    for(var pi=2;pi<candles.length-2;pi++){
-      var pc=candles[pi],isHigh=true,isLow=true;
-      for(var pj=pi-2;pj<=pi+2;pj++){if(pj===pi)continue;if(candles[pj].h>=pc.h)isHigh=false;if(candles[pj].l<=pc.l)isLow=false;}
-      if(isHigh||isLow)pivots.push({price:isHigh?pc.h:pc.l,side:isHigh?'SHORT':'LONG',volume:Math.max(0,pc.v||0),time:pc.t});
-    }
-    pivots.sort(function(a,b){return b.volume-a.volume;});pivots=pivots.slice(0,22);
-    var estimateLevels=[],offsets=[.005,.01,.015,.02,.03,.05,.08];
-    pivots.forEach(function(p){
-      offsets.forEach(function(offset,oi){
-        var price=p.side==='SHORT'?p.price*(1+offset):p.price*(1-offset);
-        if(price>0)estimateLevels.push({price:price,side:p.side,weight:(1+Math.log1p(p.volume))*Math.exp(-oi*.22),offset:offset,anchor:p.price});
-      });
-    });
-    // Fit the default scale to candles, estimated liquidation clusters and verified force-order prices.
-    // This prevents modelled levels from being clipped outside the visible chart.
+    // Price scale is based only on verified exchange events and actual candles.
     var lo=Math.min.apply(null,candles.map(function(c){return c.l;}));
     var hi=Math.max.apply(null,candles.map(function(c){return c.h;}));
-    estimateLevels.forEach(function(level){lo=Math.min(lo,level.price);hi=Math.max(hi,level.price);});
     events.forEach(function(e){lo=Math.min(lo,e.p);hi=Math.max(hi,e.p);});
     var candleRange=Math.max(hi-lo,last*.0008);
     var pad=Math.max(candleRange*.035,last*.0005);
@@ -4388,26 +4370,6 @@ var nfxEstLiqCandles=[];
       var dt=new Date(cutoff+span*q/6);ctx.fillStyle='#8391a5';ctx.textAlign=q===0?'left':q===6?'right':'center';ctx.font='9px ui-monospace,monospace';
       ctx.fillText(dt.toLocaleDateString([],{month:'short',day:'2-digit'})+' '+dt.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),gx,H-15);
     }
-    // Render modelled long/short liquidation clusters as broad, visible horizontal heat bands.
-    var maxEstimate=estimateLevels.reduce(function(m,e){return Math.max(m,e.weight);},0);
-    estimateLevels.forEach(function(e){
-      var y=top+(maxP-e.price)/(maxP-minP)*ph;if(y<top||y>top+ph)return;
-      var strength=maxEstimate?e.weight/maxEstimate:0;
-      var isLong=e.side==='LONG',rgb=isLong?'255,67,105':'40,220,174';
-      var bandH=5+strength*8,alpha=.12+strength*.28;
-      var fade=ctx.createLinearGradient(left,0,W-right,0);
-      fade.addColorStop(0,'rgba('+rgb+','+(alpha*.45)+')');
-      fade.addColorStop(.55,'rgba('+rgb+','+alpha+')');
-      fade.addColorStop(1,'rgba('+rgb+','+(alpha*.75)+')');
-      ctx.fillStyle=fade;ctx.fillRect(left,y-bandH/2,pw,bandH);
-      ctx.strokeStyle='rgba('+rgb+','+(.35+strength*.5)+')';ctx.lineWidth=1;
-      ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(W-right,y);ctx.stroke();
-      if(strength>.35){
-        ctx.fillStyle='rgba(3,8,14,.88)';ctx.fillRect(left+5,y-8,112,15);
-        ctx.fillStyle='rgb('+rgb+')';ctx.font='700 9px ui-monospace,monospace';ctx.textAlign='left';
-        ctx.fillText((isLong?'EST. LONG LIQ':'EST. SHORT LIQ')+' '+fmt(e.price),left+9,y);
-      }
-    });
     // Aggregate verified exchange liquidation events into visible horizontal price bands.
     // Band width starts at the first event in that price zone and extends to the live edge.
     // No synthetic liquidation levels are generated.
