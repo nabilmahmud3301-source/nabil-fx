@@ -1682,7 +1682,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 
     </section>
     <section class="nfx-liq-timeline-panel nfx-liq-workspace-card" id="nfxLiqLiquidationHeatmap" aria-label="Live futures liquidation heatmap">
-      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">ESTIMATED LIQUIDATION LEVELS · LIVE MARKET MODEL</div><h3>Liquidation Heatmap</h3><p>Modelled liquidation clusters + actual exchange prints · <strong id="nfxLiqLiquidationSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><span class="nfx-liq-live-tag" id="nfxLiqEstStatus"><i></i> LIVE FEED</span><div class="nfx-est-liq-controls"><label>MODEL <select id="nfxEstLiqModel"><option value="1">MODEL 1 · BALANCED</option><option value="2">MODEL 2 · HIGH LEVERAGE</option><option value="3">MODEL 3 · BROAD RANGE</option></select></label><label>THRESHOLD <input id="nfxEstLiqThreshold" type="range" min="20" max="95" step="5" value="45"><b id="nfxEstLiqThresholdValue">45%</b></label></div><div class="nfx-est-liq-ranges" role="group" aria-label="Heatmap time range"><button type="button" data-est-liq-range="1h" class="active">1H</button><button type="button" data-est-liq-range="2h">2H</button><button type="button" data-est-liq-range="4h">4H</button><button type="button" data-est-liq-range="12h">12H</button><button type="button" data-est-liq-range="1d">1D</button><button type="button" data-est-liq-range="2d">2D</button><button type="button" data-est-liq-range="3d">3D</button><button type="button" data-est-liq-range="7d">7D</button><button type="button" data-est-liq-zoom="reset">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqLiquidationHeatmap" aria-label="Expand liquidation heatmap">⛶ <span>Expand</span></button></div></div>
+      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">ESTIMATED LIQUIDATION LEVELS · LIVE MARKET MODEL</div><h3>Liquidation Heatmap</h3><p>Modelled liquidation clusters + actual exchange prints · <strong id="nfxLiqLiquidationSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><span class="nfx-liq-live-tag" id="nfxLiqEstStatus"><i></i> LIVE FEED</span><div class="nfx-cg-liq-toolbar"><div class="nfx-cg-model-switch" role="group" aria-label="Liquidation model"><span>MODEL</span><button type="button" data-nfx-model="1" class="active" aria-pressed="true">MODEL 1</button><button type="button" data-nfx-model="2" aria-pressed="false">MODEL 2</button><button type="button" data-nfx-model="3" aria-pressed="false">MODEL 3</button></div><div class="nfx-cg-view-switch" role="group" aria-label="Liquidation side view"><button type="button" data-nfx-liq-view="all" class="active" aria-pressed="true">ALL</button><button type="button" data-nfx-liq-view="long" aria-pressed="false">LONG</button><button type="button" data-nfx-liq-view="short" aria-pressed="false">SHORT</button><button type="button" data-nfx-liq-view="trade" aria-pressed="false">TRADE</button></div><label class="nfx-cg-threshold">LIQUIDITY THRESHOLD <input id="nfxEstLiqThreshold" type="range" min="20" max="95" step="5" value="45"><b id="nfxEstLiqThresholdValue">45%</b></label><select id="nfxEstLiqModel" aria-label="Liquidation model" hidden><option value="1">MODEL 1 · BALANCED</option><option value="2">MODEL 2 · HIGH LEVERAGE</option><option value="3">MODEL 3 · BROAD RANGE</option></select></div><div class="nfx-est-liq-ranges" role="group" aria-label="Heatmap time range"><button type="button" data-est-liq-range="1h" class="active">1H</button><button type="button" data-est-liq-range="2h">2H</button><button type="button" data-est-liq-range="4h">4H</button><button type="button" data-est-liq-range="12h">12H</button><button type="button" data-est-liq-range="1d">1D</button><button type="button" data-est-liq-range="2d">2D</button><button type="button" data-est-liq-range="3d">3D</button><button type="button" data-est-liq-range="7d">7D</button><button type="button" data-est-liq-zoom="reset">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqLiquidationHeatmap" aria-label="Expand liquidation heatmap">⛶ <span>Expand</span></button></div></div>
       <div class="nfx-heatmap-stats nfx-liquidation-stats" id="nfxLiquidationHeatmapStats"><div><span>ACTUAL PRINTS</span><b id="nfxLiqStatEvents">0</b></div><div><span>ACTUAL NOTIONAL</span><b id="nfxLiqStatNotional">—</b></div><div><span>LONG PRINTS</span><b id="nfxLiqStatLong">—</b></div><div><span>SHORT PRINTS</span><b id="nfxLiqStatShort">—</b></div></div><div class="nfx-liq-model-legend"><span><i class="long"></i> LONG LIQUIDATION ZONES</span><span><i class="short"></i> SHORT LIQUIDATION ZONES</span><span class="intensity"><i></i> RELATIVE CLUSTER INTENSITY</span></div><div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqLiquidationCanvas" aria-label="Verified exchange liquidation executions by price and time" style="width:100%;height:100%;display:block"></canvas><div id="nfxLiqLiquidationEmpty" class="nfx-liq-timeline-empty">Waiting for actual futures liquidation events…</div></div>
       <div class="nfx-liq-timeline-axis"><span>OLDER</span><span>SYMBOL · TIME</span><span>NOW →</span></div>
       <div class="nfx-liq-timeline-note">Estimated clusters are modelled from public open-interest history, nearby market prices and leverage assumptions. Public OI does not disclose account-side positioning or entry prices, so levels and intensity are estimates—not CoinGlass data or verified liquidation USD. Actual exchange liquidation prints are overlaid separately.</div>
@@ -4482,6 +4482,7 @@ var nfxEstLiqCandles=[];
   var nfxEstLiqPriceZoom=1;
   var nfxEstLiqTimePan=0,nfxEstLiqPricePan=0;
   var nfxEstLiqPointer=null;
+  var nfxEstLiqView="all";
   function nfxEstLiqConfig(){
     var map={'1h':{interval:'1m',intervalMs:60000,limit:65},'2h':{interval:'1m',intervalMs:60000,limit:125},'4h':{interval:'3m',intervalMs:180000,limit:85},'12h':{interval:'15m',intervalMs:900000,limit:55},'1d':{interval:'30m',intervalMs:1800000,limit:55},'2d':{interval:'1h',intervalMs:3600000,limit:55},'3d':{interval:'2h',intervalMs:7200000,limit:42},'7d':{interval:'4h',intervalMs:14400000,limit:45}};
     return map[nfxEstLiqRange]||map['1h'];
@@ -4602,8 +4603,8 @@ var nfxEstLiqCandles=[];
     for(var r0=0;r0<rows;r0++)for(var c0=0;c0<cols;c0++){
       var lv=longHeat[r0][c0]/maxLong,sv=shortHeat[r0][c0]/maxShort;
       var threshold=Number(($('nfxEstLiqThreshold')||{}).value||45)/100;
-      if(lv>threshold){ctx.fillStyle='rgba(255,65,105,'+(.10+Math.pow(lv,.7)*.84)+')';ctx.fillRect(left+c0*cellW,top+r0*cellH,Math.ceil(cellW+.35),Math.ceil(cellH+.35));}
-      if(sv>threshold){ctx.fillStyle='rgba(35,220,174,'+(.10+Math.pow(sv,.7)*.84)+')';ctx.fillRect(left+c0*cellW,top+r0*cellH,Math.ceil(cellW+.35),Math.ceil(cellH+.35));}
+      if(lv>threshold&&nfxEstLiqView!=='short'&&nfxEstLiqView!=='trade'){var li=Math.pow(lv,.72),lr=Math.round(68+(255-68)*li),lg=Math.round(42+(218-42)*li),lb=Math.round(139+(91-139)*li);ctx.fillStyle='rgba('+lr+','+lg+','+lb+','+(.12+li*.82)+')';ctx.fillRect(left+c0*cellW,top+r0*cellH,Math.ceil(cellW+.35),Math.ceil(cellH+.35));}
+      if(sv>threshold&&nfxEstLiqView!=='long'&&nfxEstLiqView!=='trade'){var si=Math.pow(sv,.72),sr=Math.round(40+(255-40)*si),sg=Math.round(91+(218-91)*si),sb=Math.round(174+(91-174)*si);ctx.fillStyle='rgba('+sr+','+sg+','+sb+','+(.12+si*.82)+')';ctx.fillRect(left+c0*cellW,top+r0*cellH,Math.ceil(cellW+.35),Math.ceil(cellH+.35));}
     }
     ctx.strokeStyle='rgba(174,197,226,.22)';ctx.lineWidth=1;
     for(var q=0;q<=6;q++){
@@ -4616,7 +4617,7 @@ var nfxEstLiqCandles=[];
     }
     // Render only observed event time spans; never project executions into future time.
     var eventBins=Object.create(null),priceStep=(maxP-minP)/rows;
-    events.forEach(function(e){
+    events.filter(function(e){return nfxEstLiqView==='all'||nfxEstLiqView==='trade'||(nfxEstLiqView==='long'&&e.side==='SELL')||(nfxEstLiqView==='short'&&e.side!=='SELL');}).forEach(function(e){
       var bin=Math.max(0,Math.min(rows-1,Math.floor((maxP-e.p)/Math.max(priceStep,1e-10))));
       var key=bin+':'+(e.side==='SELL'?'LONG':'SHORT'),entry=eventBins[key];
       if(!entry)entry=eventBins[key]={side:e.side,usd:0,weightedPrice:0,firstTime:e.t,lastTime:e.t,count:0};
@@ -4792,7 +4793,10 @@ function bindHeatmapInspector(canvasId,kind){
     });
     btn.setAttribute('aria-pressed',btn.classList.contains('active')?'true':'false');
   });
-  var modelControl=$('nfxEstLiqModel');if(modelControl)modelControl.addEventListener('change',function(){renderLiquidationHeatmap();});
+  var modelControl=$('nfxEstLiqModel');
+  document.querySelectorAll('[data-nfx-model]').forEach(function(btn){btn.addEventListener('click',function(){var v=btn.getAttribute('data-nfx-model');if(modelControl)modelControl.value=v;document.querySelectorAll('[data-nfx-model]').forEach(function(x){var active=x===btn;x.classList.toggle('active',active);x.setAttribute('aria-pressed',active?'true':'false');});renderLiquidationHeatmap();});});
+  document.querySelectorAll('[data-nfx-liq-view]').forEach(function(btn){btn.addEventListener('click',function(){nfxEstLiqView=btn.getAttribute('data-nfx-liq-view')||'all';document.querySelectorAll('[data-nfx-liq-view]').forEach(function(x){var active=x===btn;x.classList.toggle('active',active);x.setAttribute('aria-pressed',active?'true':'false');});renderLiquidationHeatmap();});});
+  if(modelControl)modelControl.addEventListener('change',function(){document.querySelectorAll('[data-nfx-model]').forEach(function(x){var active=x.getAttribute('data-nfx-model')===modelControl.value;x.classList.toggle('active',active);x.setAttribute('aria-pressed',active?'true':'false');});renderLiquidationHeatmap();});
   var thresholdControl=$('nfxEstLiqThreshold');if(thresholdControl)thresholdControl.addEventListener('input',function(){var out=$('nfxEstLiqThresholdValue');if(out)out.textContent=this.value+'%';renderLiquidationHeatmap();});
   document.querySelectorAll('[data-est-liq-zoom]').forEach(function(btn){
     btn.addEventListener('click',function(){
@@ -5313,6 +5317,32 @@ setInterval(function(){nfxEstLiqLoad(false);},30000);
 }
 </style>
 
+
+<style id="nfx-coinglass-reference-liquidation-ui">
+/* CoinGlass-referenced liquidation heatmap controls and plotting surface */
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap{background:#0b0d13!important;border:1px solid #242838!important;border-top:2px solid #8b68e8!important;border-radius:8px!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head{align-items:center!important;border-bottom:1px solid #25283a!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head h3{font-size:23px!important;letter-spacing:-.45px!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap{height:clamp(510px,66vh,760px)!important;min-height:470px!important;background:#080910!important;border-color:#25283a!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-liq-toolbar{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;flex-wrap:wrap!important;padding:11px 12px!important;margin:0 0 12px!important;background:#11131d!important;border:1px solid #292c3b!important;border-radius:6px!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-model-switch,#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-view-switch{display:flex!important;align-items:center!important;gap:4px!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-model-switch>span{margin-right:7px!important;color:#8f94a7!important;font:800 9px ui-monospace,monospace!important;letter-spacing:1px!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-model-switch button,#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-view-switch button{height:31px!important;min-width:58px!important;padding:0 11px!important;border:1px solid transparent!important;border-radius:4px!important;background:transparent!important;color:#9298aa!important;font:800 9px ui-monospace,monospace!important;letter-spacing:.4px!important;cursor:pointer!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-model-switch button.active{background:#28213f!important;border-color:#59458b!important;color:#d7c6ff!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-view-switch{padding:3px!important;background:#090b12!important;border:1px solid #292c3b!important;border-radius:5px!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-view-switch button{min-width:48px!important;height:27px!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-view-switch button.active{background:#32284f!important;color:#f0eaff!important;border-color:#66519b!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-threshold{display:flex!important;align-items:center!important;gap:9px!important;color:#9298aa!important;font:800 9px ui-monospace,monospace!important;letter-spacing:.6px!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-threshold input{width:100px!important;accent-color:#a78bfa!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-threshold b{min-width:32px!important;color:#e7dcff!important;font:800 10px ui-monospace,monospace!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-est-liq-controls{display:none!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-est-liq-ranges{background:#0b0d14!important;border-color:#292c3b!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-est-liq-ranges button.active{background:#30264b!important;border-color:#655092!important;color:#e5d8ff!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liquidation-stats{border-color:#292c3b!important;background:#292c3b!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liquidation-stats>div{background:#11131d!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-model-legend{background:#10121b!important;border-color:#292c3b!important}
+@media(max-width:700px){#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-liq-toolbar{justify-content:flex-start!important}#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-threshold{width:100%!important}#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap{height:470px!important}}
+</style>
 </body>
 </html>
 <style>
