@@ -2022,16 +2022,16 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
         <div class="field wide">
           <label>YOUR STRATEGY RULES</label>
           <textarea id="rules" placeholder="Long entry when the last candle closes above the previous candle high. Stop loss at the previous candle low. Short entry when the last candle closes below the previous candle low. Stop loss at the previous candle high. Take profit at 2R."></textarea>
-          <div class="hint">Only the exact previous-candle breakout template is supported. This version does not call an AI model.</div>
+          <div class="hint">Gemini 2.5 Flash AI reviews your written rules. Execution is currently limited to the supported previous-candle breakout model; unsupported strategies will be flagged, not simulated.</div>
         </div>
       </div>
       <div class="actions">
-        <button class="btn primary" id="run">Analyze Rules & Run Backtest</button>
-        <button class="btn secondary" id="reply">Check / Clarify Rules</button>
+        <button class="btn primary" id="run">Analyze with Gemini & Run Backtest</button>
+        <button class="btn secondary" id="reply">Ask AI to Review Strategy</button>
         <button class="btn secondary" id="save">Save Journal</button>
       </div>
       <p class="tiny">Historical data availability depends on the provider. Verify all results independently before live trading.</p>
-      <div id="status" class="status">Ready. Enter the supported strategy rules and run a backtest.</div>
+      <div id="status" class="status">Ready. Sign in, enter your strategy, then ask Gemini to review it or run a supported backtest.</div>
     </section>
 
     <section class="panel">
@@ -2319,15 +2319,32 @@ $('market').onchange=()=>{
   status(m==='crypto'?'Crypto uses Binance public candles.':'This source attempt supports daily candles only; symbol coverage and browser access may vary.');
 };
 
-$('reply').onclick=()=>{
-  const s=$('rules').value.toLowerCase();
-  const missing=[];
-  if(!s.includes('long entry when the last candle closes above the previous candle high'))missing.push('exact long entry rule');
-  if(!s.includes('short entry when the last candle closes below the previous candle low'))missing.push('exact short entry rule');
-  if(!s.includes('stop loss at the previous candle low'))missing.push('long stop-loss rule');
-  if(!s.includes('stop loss at the previous candle high'))missing.push('short stop-loss rule');
-  if(!/take profit at [0-9.]+r/.test(s))missing.push('take-profit in R');
-  status(missing.length?'Clarification needed: '+missing.join(', ')+'.':'Required fields detected. This version supports only the exact previous-candle breakout template.');
+let nabilAiClient=null;
+async function analyzeStrategyWithAI(){
+  const cfg=window.NABIL_SUPABASE_CONFIG;
+  if(!cfg?.url||!cfg?.anonKey||!window.supabase?.createClient)throw Error('Supabase client/config not loaded. Refresh the page and try again.');
+  if(!nabilAiClient)nabilAiClient=window.supabase.createClient(cfg.url,cfg.anonKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+  const {data:sessionData,error:sessionError}=await nabilAiClient.auth.getSession();
+  if(sessionError)throw sessionError;
+  if(!sessionData?.session)throw Error('Please create an account or log in before using Strategy AI.');
+  const {data,error}=await nabilAiClient.functions.invoke('strategy-ai',{body:{strategy:$('rules').value}});
+  if(error)throw Error(error.message||'Could not reach the Strategy AI backend. Check Edge Function deployment.');
+  if(data?.error)throw Error(data.error);
+  if(!data||typeof data.supported!=='boolean')throw Error('AI returned an invalid response. Please retry.');
+  return data;
+}
+
+$('reply').onclick=async()=>{
+  const input=$('rules').value.trim();
+  if(!input){status('Write your strategy rules first.');return;}
+  $('reply').disabled=true;
+  status('Gemini 2.5 Flash is analyzing your strategy rules...');
+  try{
+    const ai=await analyzeStrategyWithAI();
+    const lines=[ai.explanation||'Strategy review complete.',ai.supported?'Supported by the current backtest engine.':'Not executable by the current backtest engine.',ai.missing?.length?'Missing: '+ai.missing.join(', '):'',ai.unsupportedReasons?.length?'Limitations: '+ai.unsupportedReasons.join('; '):''];
+    status('AI REVIEW · '+ai.model+'\n'+lines.filter(Boolean).join('\n'));
+  }catch(e){status('AI review unavailable: '+e.message);}
+  finally{$('reply').disabled=false;}
 };
 
 function parseRules(s){
@@ -2496,17 +2513,27 @@ function renderResults(r){
 }
 
 $('run').onclick=async()=>{
+  $('run').disabled=true;
   try{
-    const rule=parseRules($('rules').value);
-    if(!rule)throw Error('Use the supported template: long and short previous-candle breakout, stops at previous candle low/high, and take profit at a number such as 2R.');
-    status('Fetching historical candles...');
+    if(!$('rules').value.trim())throw Error('Write your strategy rules first.');
+    status('Step 1/3 · Gemini is analyzing your strategy...');
+    const ai=await analyzeStrategyWithAI();
+    if(!ai.supported){
+      const why=[ai.explanation,...(ai.missing||[]).map(x=>'Missing: '+x),...(ai.unsupportedReasons||[])].filter(Boolean).join(' ');
+      throw Error('AI reviewed your strategy, but this backtest engine cannot execute it yet. '+why);
+    }
+    const rule={long:ai.long,short:ai.short,r:ai.rewardRisk};
+    if((!rule.long&&!rule.short)||!(rule.r>0))throw Error('AI could not extract valid entry direction and fixed R target. Please clarify your rules.');
+    status('Step 2/3 · Fetching historical candles...');
     const c=await candles();
     if(c.some((x,i)=>![x.o,x.h,x.l,x.c,x.t].every(Number.isFinite)||(i>0&&x.t<=c[i-1].t)))throw Error('Candle data failed quality checks.');
+    status('Step 3/3 · Running the historical simulation...');
     const r=backtest(c,rule);
     renderResults(r);
-    lastRun={at:new Date().toISOString(),symbol:$('symbol').value.toUpperCase(),interval:$('interval').value,candles:c.length,results:r};
-    status(`Completed from ${c.length} real candles via ${$('market').value==='crypto'?'Binance':'Stooq daily CSV'}. Estimated cost: ${$('costR').value||0}R per trade. If stop and target touch in one candle, stop is counted first.`);
+    lastRun={at:new Date().toISOString(),symbol:$('symbol').value.toUpperCase(),interval:$('interval').value,candles:c.length,aiModel:ai.model,strategy:ai.normalizedRules,results:r};
+    status(`AI analyzed the rules with ${ai.model}. Backtest completed from ${c.length} real candles via ${$('market').value==='crypto'?'Binance':'Stooq daily CSV'}. Estimated cost: ${$('costR').value||0}R per trade. If stop and target touch in one candle, stop is counted first.`);
   }catch(e){status('Backtest not run: '+e.message);}
+  finally{$('run').disabled=false;}
 };
 
 $('save').onclick=()=>{
