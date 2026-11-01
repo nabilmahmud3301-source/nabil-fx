@@ -4267,24 +4267,21 @@ document.addEventListener('click', function(event) {
         });
       });
     });
-    // Light temporal smoothing makes persistent resting liquidity read as continuous bands without inventing new levels.
-    var smoothed=Array.from({length:rows},function(){return Array(cols).fill(0);}),maxSmooth=0;
+    // Independent bid/ask intensity layers. Green-cyan = bids; red-orange = asks.
+    var smoothBid=Array.from({length:rows},function(){return Array(cols).fill(0);}),smoothAsk=Array.from({length:rows},function(){return Array(cols).fill(0);}),maxBid=0,maxAsk=0;
     for(var r0=0;r0<rows;r0++)for(var c0=0;c0<cols;c0++){
-      var val=0,weight=0;
-      for(var dc=-2;dc<=2;dc++){var cc=c0+dc;if(cc<0||cc>=cols)continue;var wt=dc===0?1:Math.abs(dc)===1?.48:.18;val+=Math.max(grid[r0][cc].bid,grid[r0][cc].ask)*wt;weight+=wt;}
-      smoothed[r0][c0]=val/Math.max(weight,.01);maxSmooth=Math.max(maxSmooth,smoothed[r0][c0]);
+      var vb=0,va=0,weight=0;
+      for(var dc=-2;dc<=2;dc++){var cc=c0+dc;if(cc<0||cc>=cols)continue;var wt=dc===0?1:Math.abs(dc)===1?.42:.12;vb+=grid[r0][cc].bid*wt;va+=grid[r0][cc].ask*wt;weight+=wt;}
+      smoothBid[r0][c0]=vb/Math.max(weight,.01);smoothAsk[r0][c0]=va/Math.max(weight,.01);
+      maxBid=Math.max(maxBid,smoothBid[r0][c0]);maxAsk=Math.max(maxAsk,smoothAsk[r0][c0]);
     }
-    maxSmooth=Math.max(maxSmooth,1e-9);
+    maxBid=Math.max(maxBid,1e-9);maxAsk=Math.max(maxAsk,1e-9);
     var cellW=pw/cols,cellH=ph/rows;
     for(var rr=0;rr<rows;rr++)for(var cc2=0;cc2<cols;cc2++){
-      var cell=grid[rr][Math.min(cols-1,Math.floor(cc2/Math.max(1,cols)*cols))],raw=Math.max(cell.bid,cell.ask),smooth=smoothed[rr][cc2];
-      // Keep a subtle, continuous base tint across the entire plot; stronger color still comes only from captured resting depth.
-      var intensity=Math.max(0,Math.min(1,Math.log1p(smooth*8)/Math.log1p(maxSmooth*8)));
-      var alpha=.055+intensity*.88;
-      // CoinGlass-inspired dark-to-purple/blue/teal/yellow liquidity palette.
-      var hue=intensity<.35?'76,54,176':intensity<.62?'37,104,220':intensity<.82?'16,190,177':'255,202,65';
-      ctx.fillStyle='rgba('+hue+','+alpha+')';
-      ctx.fillRect(left+cc2*cellW,top+rr*cellH,Math.ceil(cellW+.25),Math.max(1,cellH+.1));
+      var bi=Math.max(0,Math.min(1,Math.log1p(smoothBid[rr][cc2]*8)/Math.log1p(maxBid*8)));
+      var ai=Math.max(0,Math.min(1,Math.log1p(smoothAsk[rr][cc2]*8)/Math.log1p(maxAsk*8)));
+      if(bi>.025){ctx.fillStyle='rgba(25,205,177,'+(.07+Math.pow(bi,.72)*.78)+')';ctx.fillRect(left+cc2*cellW,top+rr*cellH,Math.ceil(cellW+.25),Math.max(1,cellH+.1));}
+      if(ai>.025){ctx.fillStyle='rgba(255,91,112,'+(.07+Math.pow(ai,.72)*.78)+')';ctx.fillRect(left+cc2*cellW,top+rr*cellH,Math.ceil(cellW+.25),Math.max(1,cellH+.1));}
     }
     // Plot area and readable price/time ladder.
     ctx.strokeStyle='rgba(144,164,194,.15)';ctx.lineWidth=1;
@@ -4388,26 +4385,19 @@ var nfxEstLiqCandles=[];
     var minP=Math.max(1e-8,lo-pad),maxP=hi+pad;if(maxP<=minP){minP=last*.99;maxP=last*1.01;}
     var liqHalf=(maxP-minP)/(2*Math.max(.25,nfxEstLiqPriceZoom));minP=Math.max(1e-8,last-liqHalf+nfxEstLiqPricePan);maxP=last+liqHalf+nfxEstLiqPricePan;
     var rows=100,cols=Math.min(220,Math.max(80,Math.ceil(pw/4))),cellW=pw/cols,cellH=ph/rows;
-    var heat=Array.from({length:rows},function(){return Array(cols).fill(0);});
-    var maxNotional=0;
-    events.forEach(function(e){maxNotional=Math.max(maxNotional,e.usd);});
+    // Compact, separate long/short liquidation clusters from reported executions.
+    var longHeat=Array.from({length:rows},function(){return Array(cols).fill(0);}),shortHeat=Array.from({length:rows},function(){return Array(cols).fill(0);});
     events.forEach(function(e){
-      var x=Math.max(0,Math.min(cols-1,Math.floor((e.t-cutoff)/span*cols)));
-      var y=Math.max(0,Math.min(rows-1,Math.floor((maxP-e.p)/(maxP-minP)*rows)));
-      var weight=Math.log10(1+e.usd/1000),timeRadius=Math.min(cols,Math.max(5,Math.round(cols*.12)));
-      for(var dx=-timeRadius;dx<=timeRadius;dx++)for(var dy=-4;dy<=4;dy++){
-        var xx=x+dx,yy=y+dy;if(xx<0||xx>=cols||yy<0||yy>=rows)continue;
-        heat[yy][xx]+=weight*Math.exp(-(dx*dx)/Math.max(24,cols*cols*.012))*Math.exp(-(dy*dy)/7.5);
-      }
+      var x=Math.max(0,Math.min(cols-1,Math.floor((e.t-cutoff)/span*cols))),y=Math.max(0,Math.min(rows-1,Math.floor((maxP-e.p)/(maxP-minP)*rows)));
+      var target=e.side==='SELL'?longHeat:shortHeat,weight=Math.log1p(e.usd/1000),radius=Math.min(12,Math.max(2,Math.round(cols*.025)));
+      for(var dx=-radius;dx<=radius;dx++)for(var dy=-2;dy<=2;dy++){var xx=x+dx,yy=y+dy;if(xx<0||xx>=cols||yy<0||yy>=rows)continue;target[yy][xx]+=weight*Math.exp(-(dx*dx)/Math.max(5,radius*radius*.48))*Math.exp(-(dy*dy)/3.2);}
     });
-    var maxHeat=0;for(var rr=0;rr<rows;rr++)for(var cc=0;cc<cols;cc++)maxHeat=Math.max(maxHeat,heat[rr][cc]);
-    if(maxHeat>0){
-      for(var r0=0;r0<rows;r0++)for(var c0=0;c0<cols;c0++){
-        var intensity=heat[r0][c0]/maxHeat;if(intensity<.012)continue;
-        var color=intensity<.2?'112,91,232':intensity<.42?'49,145,255':intensity<.68?'20,226,190':'255,229,92';
-        ctx.fillStyle='rgba('+color+','+Math.min(.98,.34+Math.pow(intensity,.62)*.66)+')';
-        ctx.fillRect(left+c0*cellW,top+r0*cellH,Math.ceil(cellW+.35),Math.ceil(cellH+.35));
-      }
+    var maxLong=0,maxShort=0;for(var rr=0;rr<rows;rr++)for(var cc=0;cc<cols;cc++){maxLong=Math.max(maxLong,longHeat[rr][cc]);maxShort=Math.max(maxShort,shortHeat[rr][cc]);}
+    maxLong=Math.max(maxLong,1e-9);maxShort=Math.max(maxShort,1e-9);
+    for(var r0=0;r0<rows;r0++)for(var c0=0;c0<cols;c0++){
+      var lv=longHeat[r0][c0]/maxLong,sv=shortHeat[r0][c0]/maxShort;
+      if(lv>.025){ctx.fillStyle='rgba(255,65,105,'+(.07+Math.pow(lv,.7)*.82)+')';ctx.fillRect(left+c0*cellW,top+r0*cellH,Math.ceil(cellW+.35),Math.ceil(cellH+.35));}
+      if(sv>.025){ctx.fillStyle='rgba(35,220,174,'+(.07+Math.pow(sv,.7)*.82)+')';ctx.fillRect(left+c0*cellW,top+r0*cellH,Math.ceil(cellW+.35),Math.ceil(cellH+.35));}
     }
     ctx.strokeStyle='rgba(174,197,226,.22)';ctx.lineWidth=1;
     for(var q=0;q<=6;q++){
@@ -4418,36 +4408,22 @@ var nfxEstLiqCandles=[];
       var dt=new Date(cutoff+span*q/6);ctx.fillStyle='#8391a5';ctx.textAlign=q===0?'left':q===6?'right':'center';ctx.font='9px ui-monospace,monospace';
       ctx.fillText(dt.toLocaleDateString([],{month:'short',day:'2-digit'})+' '+dt.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),gx,H-15);
     }
-    // Aggregate verified exchange liquidation events into visible horizontal price bands.
-    // Band width starts at the first event in that price zone and extends to the live edge.
-    // No synthetic liquidation levels are generated.
-    var levelBins=Object.create(null),priceStep=(maxP-minP)/rows;
+    // Render only observed event time spans; never project executions into future time.
+    var eventBins=Object.create(null),priceStep=(maxP-minP)/rows;
     events.forEach(function(e){
       var bin=Math.max(0,Math.min(rows-1,Math.floor((maxP-e.p)/Math.max(priceStep,1e-10))));
-      var key=bin+':'+(e.side==='SELL'?'LONG':'SHORT'),entry=levelBins[key];
-      if(!entry)entry=levelBins[key]={bin:bin,side:e.side,usd:0,weightedPrice:0,firstTime:e.t,count:0};
-      entry.usd+=e.usd;entry.weightedPrice+=e.p*e.usd;entry.firstTime=Math.min(entry.firstTime,e.t);entry.count++;
+      var key=bin+':'+(e.side==='SELL'?'LONG':'SHORT'),entry=eventBins[key];
+      if(!entry)entry=eventBins[key]={side:e.side,usd:0,weightedPrice:0,firstTime:e.t,lastTime:e.t,count:0};
+      entry.usd+=e.usd;entry.weightedPrice+=e.p*e.usd;entry.firstTime=Math.min(entry.firstTime,e.t);entry.lastTime=Math.max(entry.lastTime,e.t);entry.count++;
     });
-    var levels=Object.keys(levelBins).map(function(k){var v=levelBins[k];v.price=v.weightedPrice/Math.max(v.usd,1);return v;});
-    var maxLevelUsd=levels.reduce(function(m,v){return Math.max(m,v.usd);},0);
-    levels.sort(function(a,b){return a.price-b.price;}).forEach(function(level){
-      var y=top+(maxP-level.price)/(maxP-minP)*ph;
+    Object.keys(eventBins).forEach(function(key){
+      var v=eventBins[key],price=v.weightedPrice/Math.max(v.usd,1),y=top+(maxP-price)/(maxP-minP)*ph;
       if(y<top||y>top+ph)return;
-      var longLiq=level.side==='SELL',color=longLiq?'255,70,105':'38,218,174';
-      var x=left+Math.max(0,Math.min(1,(level.firstTime-cutoff)/span))*pw;
-      var strength=maxLevelUsd>0?level.usd/maxLevelUsd:0;
-      var bandH=Math.max(4,Math.min(12,4+Math.sqrt(strength)*8));
-      ctx.save();
-      var grad=ctx.createLinearGradient(x,0,W-right,0);
-      grad.addColorStop(0,'rgba('+color+','+(0.22+strength*.35)+')');
-      grad.addColorStop(1,'rgba('+color+','+(0.10+strength*.24)+')');
-      ctx.fillStyle=grad;ctx.fillRect(x,y-bandH/2,Math.max(1,W-right-x),bandH);
-      ctx.strokeStyle='rgba('+color+','+(0.65+strength*.3)+')';ctx.lineWidth=1;
-      ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(W-right,y);ctx.stroke();
-      ctx.fillStyle='rgba(4,8,14,.94)';ctx.fillRect(W-right-2,y-8,right-2,16);
-      ctx.fillStyle='rgb('+color+')';ctx.font='700 9px ui-monospace,monospace';ctx.textAlign='left';ctx.textBaseline='middle';
-      ctx.fillText((longLiq?'LONG':'SHORT')+' '+fmt(level.price)+' '+(level.usd/1e6).toFixed(2)+'M',W-right+3,y);
-      ctx.restore();
+      var color=v.side==='SELL'?'255,65,105':'35,220,174';
+      var x1=left+Math.max(0,Math.min(1,(v.firstTime-cutoff)/span))*pw,x2=left+Math.max(0,Math.min(1,(v.lastTime-cutoff)/span))*pw;
+      var bandW=Math.max(3,Math.min(24,x2-x1+3));
+      ctx.fillStyle='rgba('+color+',.9)';ctx.fillRect(x1,y-1.2,bandW,2.4);
+      if(v.count>1){ctx.fillStyle='rgba('+color+',.16)';ctx.fillRect(x1,y-3,bandW,6);}
     });
     // Use chart-like candle density: fewer, larger interval candles on wider time ranges.
     var intervalMs=nfxEstLiqConfig().intervalMs||60000;
