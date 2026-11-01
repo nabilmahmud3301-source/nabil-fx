@@ -51,8 +51,8 @@ Deno.serve(async (req: Request) => {
       });
     }
 
-    const systemInstruction = `You are the multilingual natural-language strategy compiler for Nabil FX Backtesting. The user may write in ANY human language or mix multiple languages, use transliteration, abbreviations, trading slang, or imperfect grammar. Detect the input language automatically; understand it directly, internally normalize/translate it as needed, and compile the intended trading rules into the deterministic schema below. Do not require the user to write English. Keep normalizedRules and explanation in the same language as the user's input whenever practical (otherwise use clear English). Convert the user's strategy into a deterministic executable rule specification. Never invent conditions that the user did not state. If a rule is ambiguous, unsupported by the schema, discretionary, or depends on unavailable external/order-book data, set supported=false and explain exactly what is missing.
-Return ONLY JSON with keys: supported, long, short, rewardRisk, normalizedRules, explanation, missing, unsupportedReasons, execution.
+    const systemInstruction = `You are the multilingual natural-language strategy compiler for Nabil FX Backtesting. The user may write in ANY human language or mix multiple languages, use transliteration, abbreviations, trading slang, or imperfect grammar. Detect the input language automatically; understand it directly, internally normalize/translate it as needed, and compile the intended trading rules into the deterministic schema below. Do not require the user to write English. Keep normalizedRules and explanation in the same language as the user's input whenever practical (otherwise use clear English). Convert the user's strategy into a deterministic executable rule specification. Never invent conditions that the user did not state. Use best-effort compilation for ordinary strategy descriptions in any language. If stop-loss, take-profit, or entry timing is omitted, apply clearly disclosed defaults: signal-candle stop, 2R target, and next-candle-open entry. Add an assumptions array describing every default or interpretation. Never silently drop a core entry condition. If the idea cannot be represented even approximately by the supported conditions, set supported=false and explain what is needed.
+Return ONLY JSON with keys: supported, long, short, rewardRisk, normalizedRules, explanation, missing, unsupportedReasons, assumptions, execution.
 execution schema:
 {
  "longConditions":[condition,...], "shortConditions":[condition,...],
@@ -71,6 +71,12 @@ Conditions are ANDed; empty side means disabled. Parse natural-language descript
 - {"type":"breakout","lookback":integer,"direction":"above"|"below"}
 - {"type":"candle_direction","direction":"bullish"|"bearish"}
 - {"type":"close_vs_open","operator":"above"|"below"}
+- {"type":"close_vs_prev_highlow","level":"high"|"low","operator":"above"|"below"}
+- {"type":"consecutive_candles","count":integer,"direction":"bullish"|"bearish"}
+- {"type":"engulfing","direction":"bullish"|"bearish"}
+- {"type":"inside_bar"}
+- {"type":"liquidity_sweep","lookback":integer,"direction":"bullish"|"bearish"} (bullish means sweep below recent lows then close back above; bearish means sweep above recent highs then close back below)
+- {"type":"volume_above_sma","period":integer}
 Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. Only translate if the user's rules faithfully match these forms. Do not claim arbitrary ICT/FVG/liquidity/session/multi-timeframe rules are supported unless expressible exactly in this schema. For unsupported concepts, return supported=false rather than approximating. Default targetR to explicit user target only; if missing, report it in missing and supported=false. Stop must be explicit and mapped to one of allowed stop types. If entry timing not specified, use next_open and disclose this in explanation. If the strategy says both directions, create conditions for each direction. For EMA crossover set EMA cross conditions. Long/short arrays are evaluated independently. Include a concise normalizedRules description.`;
 
     // Try the requested model first, then Google's current stable Flash aliases if it is busy/unavailable.
@@ -125,7 +131,7 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
         }
 
         const execution = parsed?.execution && typeof parsed.execution === "object" ? parsed.execution : null;
-        const validTypes = new Set(["ema_cross","sma_cross","close_vs_ema","close_vs_sma","rsi","macd_cross","breakout","candle_direction","close_vs_open"]);
+        const validTypes = new Set(["ema_cross","sma_cross","close_vs_ema","close_vs_sma","rsi","macd_cross","breakout","candle_direction","close_vs_open","close_vs_prev_highlow","consecutive_candles","engulfing","inside_bar","liquidity_sweep","volume_above_sma"]);
         const validConditions = (items: any[]) => Array.isArray(items) && items.length <= 12 && items.every((c: any) => c && validTypes.has(c.type));
         const executionValid = !!execution &&
           validConditions(execution.longConditions) && validConditions(execution.shortConditions) &&
@@ -145,6 +151,7 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
           normalizedRules: String(parsed.normalizedRules || "").slice(0, 3000),
           explanation: String(parsed.explanation || "Strategy analyzed.").slice(0, 3000),
           missing: Array.isArray(parsed.missing) ? parsed.missing.map((x: unknown) => String(x).slice(0, 200)).slice(0, 12) : [],
+          assumptions: Array.isArray(parsed.assumptions) ? parsed.assumptions.map((x: unknown) => String(x).slice(0, 300)).slice(0, 12) : [],
           unsupportedReasons: Array.isArray(parsed.unsupportedReasons) ? parsed.unsupportedReasons.map((x: unknown) => String(x).slice(0, 200)).slice(0, 12) : [],
           execution: executionValid ? {
             longConditions: execution.longConditions,
