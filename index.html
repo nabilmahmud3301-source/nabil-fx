@@ -1234,6 +1234,26 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 
 
 
+<style id="nfx-replay-toolbar-upgrade">
+#page-chart #nabilReplayPointLab .nfx-point-chart{position:relative!important;isolation:isolate!important}
+#page-chart #nabilReplayPointLab .nfx-replay-topbar{position:absolute;z-index:12;left:56px;right:12px;top:8px;height:36px;display:flex;align-items:center;gap:9px;padding:0 9px;border:1px solid #2a2e39;border-radius:6px;background:rgba(19,23,34,.96);box-shadow:0 5px 18px #0005;color:#d1d4dc;backdrop-filter:blur(10px)}
+#page-chart #nabilReplayPointLab .nfx-replay-topbar-group{display:flex;align-items:center;gap:3px}
+#page-chart #nabilReplayPointLab .nfx-replay-topbar button{height:27px;min-width:29px;padding:0 8px;border:1px solid transparent;border-radius:4px;background:transparent;color:#aeb6c4;font-size:13px;font-weight:650;cursor:pointer}
+#page-chart #nabilReplayPointLab .nfx-replay-topbar button:hover{background:#252e3e;border-color:#3b4659;color:#fff}
+#page-chart #nabilReplayPointLab .nfx-replay-topbar button.active{background:#263b5c;border-color:#3d5f91;color:#8db8ff}
+#page-chart #nabilReplayPointLab .nfx-replay-toolbar-divider{height:18px;width:1px;background:#343b49}
+#page-chart #nabilReplayPointLab .nfx-replay-toolbar-spacer{flex:1}
+#page-chart #nabilReplayPointLab .nfx-replay-toolbar-label{font-size:8px;font-weight:850;letter-spacing:.13em;color:#68768b;white-space:nowrap}
+#page-chart #nabilReplayPointLab .nfx-drawing-overlay{pointer-events:none}
+#page-chart #nabilReplayPointLab .nfx-drawing-overlay.drawing-active{pointer-events:auto}
+#page-chart #nabilReplayPointLab .nfx-chart-indicator-float{top:52px!important}
+@media(max-width:700px){
+ #page-chart #nabilReplayPointLab .nfx-replay-topbar{left:48px;right:6px;top:6px;gap:4px;padding:0 5px}
+ #page-chart #nabilReplayPointLab .nfx-replay-topbar button{min-width:25px;padding:0 5px}
+ #page-chart #nabilReplayPointLab .nfx-replay-toolbar-label{display:none}
+ #page-chart #nabilReplayPointLab .nfx-chart-indicator-float{top:48px!important}
+}
+</style>
 <style id="nfx-premium-account-auth">
 /* Premium account experience */
 #page-account{max-width:1180px;margin-inline:auto}
@@ -1942,6 +1962,12 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 <button type="button" data-draw="clear" title="Remove All Drawings" aria-label="Remove All Drawings"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13"/></svg></button></div>
         <div class="nfx-toolbar-brand" title="Nabil Fx chart tools">NFX</div>
       </aside>
+      <div class="nfx-replay-topbar" role="toolbar" aria-label="Replay chart controls">
+        <div class="nfx-replay-topbar-group"><button type="button" data-nfx-replay-action="cursor" class="active" title="Cursor / Crosshair">↖</button><button type="button" data-nfx-replay-action="magnet" aria-pressed="false" title="Magnet mode">⌁</button><button type="button" data-nfx-replay-action="hide" aria-pressed="false" title="Hide drawings">◉</button></div>
+        <span class="nfx-replay-toolbar-divider"></span>
+        <div class="nfx-replay-topbar-group"><button type="button" data-nfx-replay-action="undo" title="Undo drawing">↶</button><button type="button" data-nfx-replay-action="redo" title="Redo drawing">↷</button><button type="button" data-nfx-replay-action="fit" title="Fit chart to data">⤢</button></div>
+        <span class="nfx-replay-toolbar-divider"></span><button type="button" data-nfx-replay-action="indicators" title="Open indicators">ƒx&nbsp; Indicators</button><span class="nfx-replay-toolbar-spacer"></span><span class="nfx-replay-toolbar-label">NABIL FX · REPLAY</span>
+      </div>
       <div class="nfx-chart-indicator-float">
         <button id="nfxOpenIndicators" type="button" class="nfx-indicators-open">▥ &nbsp; Indicators <span id="nfxActiveIndicatorCount">0</span></button>
         <div id="nfxIndicatorDialog" class="nfx-indicator-dialog" hidden>
@@ -4112,7 +4138,7 @@ document.addEventListener('click', function(event) {
   };
   if(!el.chart) return;
   let libPromise=null, chart=null, candles=null, emaSeries=null, smaSeries=null, allBars=[], visibleIndex=-1, selecting=false, timer=null, cursor=null, currentSymbol='', currentInterval='';
-  let indicatorSeries={}, drawCanvas=null, drawCtx=null, drawMode='cursor', drawings=[], draftDrawing=null, drawingStart=null;
+  let indicatorSeries={}, drawCanvas=null, drawCtx=null, drawMode='cursor', drawings=[], redoDrawings=[], draftDrawing=null, drawingStart=null, magnetEnabled=false, drawingsVisible=true;
 
   function status(msg){el.status.textContent=msg;}
   function stop(){if(timer){clearInterval(timer);timer=null;}el.play.textContent='▶ Play';}
@@ -4138,7 +4164,7 @@ document.addEventListener('click', function(event) {
     const visible=allBars.slice(0,visibleIndex+1);
     candles.setData(visible);
     updateIndicators(visible);
-    chart.timeScale().fitContent();
+    if(!chart.timeScale().getVisibleLogicalRange())chart.timeScale().fitContent();
     drawAll();
     if(visible.length>90)chart.timeScale().setVisibleLogicalRange({from:Math.max(0,visible.length-100),to:visible.length+8});
     el.count.textContent=visible.length+' / '+allBars.length+' candles';
@@ -4167,6 +4193,7 @@ document.addEventListener('click', function(event) {
     });
     candles=chart.addCandlestickSeries({upColor:'#089981',downColor:'#f23645',borderUpColor:'#089981',borderDownColor:'#f23645',wickUpColor:'#089981',wickDownColor:'#f23645',borderVisible:true,wickVisible:true,priceLineVisible:true,lastValueVisible:true,priceLineColor:'#26a69a',priceLineStyle:LightweightCharts.LineStyle.Dashed});
     setupReplayTools();
+    chart.timeScale().subscribeVisibleLogicalRangeChange(()=>drawAll());
 
     cursor=document.createElement('div');
     cursor.style.cssText='position:absolute;top:0;bottom:22px;width:1px;background:#f6b73c;display:none;pointer-events:none;z-index:5';
@@ -4244,13 +4271,24 @@ document.addEventListener('click', function(event) {
   function setupReplayTools(){
     const wrap=$('nfxPointChart');if(!wrap||drawCanvas)return;
     drawCanvas=document.createElement('canvas');drawCanvas.className='nfx-drawing-overlay';drawCanvas.setAttribute('aria-label','Chart drawing layer');wrap.appendChild(drawCanvas);drawCtx=drawCanvas.getContext('2d');
+    document.querySelectorAll('[data-nfx-replay-action]').forEach(button=>button.addEventListener('click',()=>{
+      const action=button.dataset.nfxReplayAction;
+      if(action==='cursor'){drawMode='cursor';document.querySelectorAll('[data-draw]').forEach(b=>b.classList.toggle('active',b.dataset.draw==='cursor'));document.querySelectorAll('[data-nfx-replay-action="cursor"]').forEach(b=>b.classList.add('active'));drawCanvas.classList.remove('drawing-active');}
+      if(action==='magnet'){magnetEnabled=!magnetEnabled;button.classList.toggle('active',magnetEnabled);button.setAttribute('aria-pressed',String(magnetEnabled));}
+      if(action==='hide'){drawingsVisible=!drawingsVisible;button.classList.toggle('active',!drawingsVisible);button.setAttribute('aria-pressed',String(!drawingsVisible));drawAll();}
+      if(action==='undo'&&drawings.length){redoDrawings.push(drawings.pop());drawAll();status('Last drawing undone.');}
+      if(action==='redo'&&redoDrawings.length){drawings.push(redoDrawings.pop());drawAll();status('Drawing restored.');}
+      if(action==='fit'&&chart){chart.timeScale().fitContent();drawAll();}
+      if(action==='indicators')$('nfxOpenIndicators')?.click();
+    }));
     function sizeCanvas(){const r=wrap.getBoundingClientRect(),dpr=window.devicePixelRatio||1;drawCanvas.width=Math.max(1,Math.floor(r.width*dpr));drawCanvas.height=Math.max(1,Math.floor(r.height*dpr));drawCanvas.style.width=r.width+'px';drawCanvas.style.height=r.height+'px';drawCtx.setTransform(dpr,0,0,dpr,0,0);drawAll();}
     if(window.ResizeObserver)new ResizeObserver(sizeCanvas).observe(wrap);window.addEventListener('resize',sizeCanvas);sizeCanvas();
     document.querySelectorAll('[data-draw]').forEach(btn=>btn.addEventListener('click',()=>{
       const mode=btn.dataset.draw;
-      if(mode==='clear'){drawings=[];draftDrawing=null;drawAll();return;}
-      if(mode==='undo'){drawings.pop();draftDrawing=null;drawAll();status('Last drawing removed.');return;}
+      if(mode==='clear'){drawings=[];redoDrawings=[];draftDrawing=null;drawAll();return;}
+      if(mode==='undo'){if(drawings.length)redoDrawings.push(drawings.pop());draftDrawing=null;drawAll();status('Last drawing removed.');return;}
       drawMode=mode;document.querySelectorAll('[data-draw]').forEach(b=>b.classList.toggle('active',b===btn));
+      document.querySelectorAll('[data-nfx-replay-action="cursor"]').forEach(b=>b.classList.toggle('active',mode==='cursor'));
       drawCanvas.classList.toggle('drawing-active',drawMode!=='cursor');
       status(drawMode==='cursor'?'Cursor selected.':drawMode+' selected — click or drag on the chart to draw.');
     }));
@@ -4276,13 +4314,13 @@ document.addEventListener('click', function(event) {
     drawCanvas.addEventListener('pointerdown',e=>{if(drawMode==='cursor'||!allBars.length)return;const p=pointAt(e);if(!p)return;if(drawMode==='undo'){drawings.pop();drawAll();return;}if(drawMode==='clear'){drawings=[];drawAll();return;}if(drawMode==='text'){const textValue=window.prompt('Text note:');if(textValue){drawings.push({type:'text',p1:p,p2:p,text:textValue});drawAll();}return;}drawingStart=p;draftDrawing={type:drawMode,p1:p,p2:p,points:drawMode==='brush'?[p]:[]};drawCanvas.setPointerCapture(e.pointerId);drawAll();});
     drawCanvas.addEventListener('pointermove',e=>{if(!drawingStart||!draftDrawing)return;const p=pointAt(e);if(p){draftDrawing.p2=p;if(draftDrawing.type==='brush')draftDrawing.points.push(p);}drawAll();});
     drawCanvas.addEventListener('pointerup',e=>{if(!drawingStart||!draftDrawing)return;draftDrawing.p2=pointAt(e)||draftDrawing.p2;drawings.push(draftDrawing);draftDrawing=null;drawingStart=null;drawAll();});
-    function pointAt(e){const rect=drawCanvas.getBoundingClientRect(),x=e.clientX-rect.left,y=e.clientY-rect.top,time=chart.timeScale().coordinateToTime(x),price=candles.coordinateToPrice(y);if(time==null||price==null)return null;const unix=typeof time==='number'?time:Date.UTC(time.year,time.month-1,time.day)/1000;return {time:unix,price,x,y};}
+    function pointAt(e){const rect=drawCanvas.getBoundingClientRect(),x=e.clientX-rect.left,y=e.clientY-rect.top,time=chart.timeScale().coordinateToTime(x);let price=candles.coordinateToPrice(y);if(time==null||price==null)return null;const unix=typeof time==='number'?time:Date.UTC(time.year,time.month-1,time.day)/1000;if(magnetEnabled&&allBars.length){let nearest=null,distance=Infinity;for(const bar of allBars.slice(0,Math.max(0,visibleIndex+1))){const d=Math.abs(bar.time-unix);if(d<distance){distance=d;nearest=bar;}}if(nearest){price=[nearest.open,nearest.high,nearest.low,nearest.close].reduce((best,value)=>Math.abs(value-price)<Math.abs(best-price)?value:best,nearest.close);}}return {time:unix,price,x,y};}
   }
   function drawAll(){
     if(!drawCanvas||!drawCtx||!chart||!candles)return;
     const r=drawCanvas.getBoundingClientRect(),w=r.width,h=r.height,dpr=window.devicePixelRatio||1;
     if(drawCanvas.width!==Math.floor(w*dpr)||drawCanvas.height!==Math.floor(h*dpr)){drawCanvas.width=Math.max(1,Math.floor(w*dpr));drawCanvas.height=Math.max(1,Math.floor(h*dpr));drawCtx.setTransform(dpr,0,0,dpr,0,0);}
-    drawCtx.clearRect(0,0,w,h);drawCtx.lineWidth=1.6;drawCtx.strokeStyle='#2962ff';drawCtx.fillStyle='rgba(41,98,255,.12)';
+    drawCtx.clearRect(0,0,w,h);if(!drawingsVisible)return;drawCtx.lineWidth=1.6;drawCtx.strokeStyle='#2962ff';drawCtx.fillStyle='rgba(41,98,255,.12)';
     const items=draftDrawing?[...drawings,draftDrawing]:drawings;
     items.forEach(d=>{
       const x1=d.type==='horizontal'?0:chart.timeScale().timeToCoordinate(d.p1.time);
