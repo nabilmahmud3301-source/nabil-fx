@@ -2491,7 +2491,8 @@ async function binanceAggregatedTradeEvents(){
   if($('market').value!=='crypto')throw Error('Aggregated trade-event replay is currently available only for Binance spot crypto symbols.');
   const symbol=$('symbol').value.trim().toUpperCase();
   if(!/^[A-Z0-9]{5,20}$/.test(symbol))throw Error('Enter a valid Binance symbol, such as BTCUSDT.');
-  const from=$('start').value?Date.parse($('start').value+'T00:00:00Z'):null;
+  const effectiveStart=startOverride||$('start').value||null;
+  const from=effectiveStart?Date.parse(effectiveStart+'T00:00:00Z'):null;
   const to=$('end').value?Date.parse($('end').value+'T23:59:59Z'):Date.now();
   if(from&&from>to)throw Error('Start date must be on or before end date.');
   const startTime=from??Math.max(0,to-6*60*60*1000);
@@ -2529,7 +2530,7 @@ async function binanceAggregatedTradeEvents(){
   return events;
 }
 
-async function candles(intervalOverride=null){
+async function candles(intervalOverride=null,startOverride=null){
   let symbol=$('symbol').value.trim();
   const market=$('market').value;
   const limit=Math.max(50,Math.min(5000,+$('limit').value||500));
@@ -2587,7 +2588,7 @@ async function candles(intervalOverride=null){
   if(!sessionData?.session)throw Error('Please log in to access historical market data.');
   const {data,error}=await client.functions.invoke('market-data',{body:{
     market,symbol,interval:intervalOverride||$('interval').value,limit,
-    start:$('start').value||null,end:$('end').value||null
+    start:effectiveStart,end:$('end').value||null
   }});
   if(error){
     let detail=error.message||'Could not reach the market data service.';
@@ -2990,7 +2991,7 @@ $('run').onclick=async()=>{
     for(const tf of needed)if(!supportedIntervals.has(tf))throw Error('Unsupported requested timeframe: '+tf+'.');
     if(needed.size){
       status('Step 2/3 · Loading synchronized multi-timeframe history: '+[...needed].join(', ')+'…');
-      const extra=await Promise.all([...needed].map(async tf=>[tf,await candles(tf)]));
+      const extra=await Promise.all([...needed].map(async tf=>{const warmStart=new Date(c[0].t-intervalMilliseconds(tf)*220).toISOString().slice(0,10);return [tf,await candles(tf,warmStart)];}));
       for(const [tf,data] of extra){
         if(data.some((x,i)=>![x.o,x.h,x.l,x.c,x.t].every(Number.isFinite)||(i>0&&x.t<=data[i-1].t)))throw Error('Historical '+tf+' data failed quality checks.');
         if(data[data.length-1].t+intervalMilliseconds(tf)<c[c.length-1].t+intervalMilliseconds($('interval').value)-intervalMilliseconds(tf)*2)throw Error('Historical '+tf+' data does not cover the end of the selected backtest window. No result was generated.');
