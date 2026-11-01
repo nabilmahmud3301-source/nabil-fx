@@ -2650,7 +2650,7 @@ function evaluateStrategyExpression(c,expr,i,cache){
  if(expr.indicator){
   const period=Math.max(2,Math.min(500,Math.floor(Number(expr.period)||14)));
   const source={open:'o',high:'h',low:'l',close:'c',volume:'v'}[expr.source||'close']||'c';
-  const cacheKey='expr:'+expr.indicator+':'+period+':'+source+':'+c.length+':'+c[0]?.t+':'+c[c.length-1]?.t;
+  const cacheKey='expr:'+expr.indicator+':'+period+':'+source+':'+c.length+':'+c[0]?.t+':'+c[1]?.t+':'+c[c.length-1]?.t;
   let values=cache.get(cacheKey);
   if(!values){
    if(expr.indicator==='ema')values=emaValues(c,period,source);
@@ -2885,7 +2885,7 @@ function conditionAt(c,cond,i,cache,seriesMap=null){
   const range=c.slice(i-n,i);
   return cond.direction==='above'?x.c>Math.max(...range.map(z=>z.h)):x.c<Math.min(...range.map(z=>z.l));
  }
- let k=(c[0]?.t||0)+':'+c.length+':'+cond.type+':'+JSON.stringify(cond),v=cache.get(k);if(!v){v=conditionSeries(c,cond);cache.set(k,v);}
+ let k=(c[0]?.t||0)+':'+c[1]?.t+':'+c[c.length-1]?.t+':'+c.length+':'+cond.type+':'+JSON.stringify(cond),v=cache.get(k);if(!v){v=conditionSeries(c,cond);cache.set(k,v);}
  if(cond.type==='ema_cross'||cond.type==='sma_cross'){
   if(v.a[i]==null||v.b[i]==null||v.a[prev]==null||v.b[prev]==null)return false;
   return cond.direction==='bullish'?(v.a[prev]<=v.b[prev]&&v.a[i]>v.b[i]):(v.a[prev]>=v.b[prev]&&v.a[i]<v.b[i]);
