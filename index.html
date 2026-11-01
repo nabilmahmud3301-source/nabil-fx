@@ -2757,8 +2757,17 @@ $('run').onclick=async()=>{
       const why=[ai.explanation,...(ai.missing||[]).map(x=>'Missing: '+x),...(ai.unsupportedReasons||[])].filter(Boolean).join(' ');
       throw Error('Strategy could not be compiled safely. '+why);
     }
-    const rule={type:'custom',execution:ai.execution,long:ai.long,short:ai.short,r:ai.execution.targetR};
-    if((!rule.long&&!rule.short)||!(rule.r>0))throw Error('Please specify valid entry conditions for BUY/SELL and a positive take-profit target.');
+    // The executable condition arrays are authoritative; legacy booleans may be absent.
+    const longConditions=Array.isArray(ai.execution.longConditions)?ai.execution.longConditions:[];
+    const shortConditions=Array.isArray(ai.execution.shortConditions)?ai.execution.shortConditions:[];
+    const targetR=Number(ai.execution.targetR ?? ai.rewardRisk);
+    const rule={type:'custom',execution:{...ai.execution,targetR},long:longConditions.length>0,short:shortConditions.length>0,r:targetR};
+    if((!rule.long&&!rule.short)||!(Number.isFinite(rule.r)&&rule.r>0)){
+      const details=[];
+      if(!rule.long&&!rule.short)details.push('AI returned no executable BUY/SELL conditions.');
+      if(!(Number.isFinite(rule.r)&&rule.r>0))details.push('AI returned invalid targetR: '+String(ai.execution.targetR));
+      throw Error('Strategy compiler output is incomplete. '+details.join(' '));
+    }
     status('Step 2/3 · Fetching historical candles…');
     const c=await candles();
     if(c.some((x,i)=>![x.o,x.h,x.l,x.c,x.t].every(Number.isFinite)||(i>0&&x.t<=c[i-1].t)))throw Error('Candle data failed quality checks.');
