@@ -4633,6 +4633,7 @@ document.addEventListener('click', function(event) {
     }
     var input=$('nfxMarketSearchInput');if(input)input.value=symbols[key];
     updateMarketSearchUI();
+    try{window.dispatchEvent(new CustomEvent('nfx-market-changed',{detail:{symbol:currentSymbol,market:activeMarket}}));}catch(e){}
     if(activeMarket!=='crypto')selectMarket('crypto');
     else {connect();connectLiquidations();}
     return true;
@@ -5090,7 +5091,7 @@ var nfxEstLiqCandles=[];
         nfxEstLiqLoad(false);
       });
   }
-  function renderLiquidationHeatmap(){
+  function renderLiquidationHeatmapNow(){
     var canvas=$('nfxLiqLiquidationCanvas');if(!canvas)return;
     var rect=canvas.getBoundingClientRect();if(rect.width<40||rect.height<40)return;
     var dpr=Math.min(window.devicePixelRatio||1,2),w=Math.round(rect.width*dpr),h=Math.round(rect.height*dpr);
@@ -5141,7 +5142,15 @@ var nfxEstLiqCandles=[];
     var leverageSets={1:[{lev:10,w:.12},{lev:20,w:.20},{lev:25,w:.20},{lev:50,w:.24},{lev:75,w:.14},{lev:100,w:.10}],2:[{lev:25,w:.16},{lev:50,w:.24},{lev:75,w:.24},{lev:100,w:.22},{lev:125,w:.14}],3:[{lev:5,w:.16},{lev:10,w:.20},{lev:20,w:.24},{lev:25,w:.20},{lev:50,w:.20}]};
     var leverages=leverageSets[model]||leverageSets[1],mmr=.005,intervalMs=nfxEstLiqConfig().intervalMs||60000;
     var oiPoints=nfxEstLiqOI.filter(function(v){return v.t>=cutoff&&v.t<=cutoff+span;});
-    function priceAt(t){
+    // Coalesce bursty exchange updates into a single canvas paint per animation frame.
+  var liquidationPaintQueued=false;
+  function renderLiquidationHeatmap(){
+    if(liquidationPaintQueued)return;
+    liquidationPaintQueued=true;
+    var paint=function(){liquidationPaintQueued=false;renderLiquidationHeatmapNow();};
+    if(window.requestAnimationFrame)requestAnimationFrame(paint);else setTimeout(paint,32);
+  }
+  function priceAt(t){
       if(!candles.length)return last;
       var best=candles[0],distance=Math.abs(best.t-t);
       for(var ci=1;ci<candles.length;ci++){var d=Math.abs(candles[ci].t-t);if(d<distance){best=candles[ci];distance=d;}}
@@ -5941,10 +5950,39 @@ setInterval(function(){nfxEstLiqLoad(false);},30000);
  function paint(){const delta=buy-sell,ratio=buy+sell?buy/(buy+sell)*100:50;$('nfxOfdBuy').textContent=money(buy);$('nfxOfdSell').textContent=money(sell);$('nfxOfdDelta').textContent=(delta>=0?'+':'−')+money(Math.abs(delta));$('nfxOfdCvd').textContent=(cvd>=0?'+':'−')+money(Math.abs(cvd));$('nfxOfdCount').textContent=count.toLocaleString();$('nfxOfdBuyPct').textContent=ratio.toFixed(1)+'% of traded notional';$('nfxOfdSellPct').textContent=(100-ratio).toFixed(1)+'% of traded notional';$('nfxOfdDeltaPct').textContent=(delta>=0?'BUYERS + ':'SELLERS + ')+money(Math.abs(delta));$('nfxOfdDelta').className=delta>=0?'positive':'negative';$('nfxOfdCvd').className=cvd>=0?'positive':'negative';$('nfxOfdTapeCount').textContent=events.length+' RECENT PRINTS';const tape=$('nfxOfdTape');if(events.length){tape.replaceChildren();events.forEach(t=>{const row=document.createElement('div');row.className='nfx-ofd-tape-row';[new Date(t.t).toLocaleTimeString('en-GB',{hour12:false}),t.side,fmt(t.p),fmt(t.q),money(t.n)].forEach((v,i)=>{const s=document.createElement('span');s.textContent=v;if(i===1)s.className=t.side.toLowerCase();row.appendChild(s)});tape.appendChild(row)})}draw()}
  function draw(){const c=$('nfxOfdChart');if(!c)return;const w=Math.max(320,c.clientWidth||900),h=270,dpr=window.devicePixelRatio||1;c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);const x=c.getContext('2d');x.setTransform(dpr,0,0,dpr,0,0);x.fillStyle='#0a111a';x.fillRect(0,0,w,h);const pad={l:48,r:18,t:20,b:28},cw=w-pad.l-pad.r,ch=h-pad.t-pad.b,visible=bars.slice(-45);x.strokeStyle='#233244';for(let i=0;i<=4;i++){const y=pad.t+i*ch/4;x.beginPath();x.moveTo(pad.l,y);x.lineTo(w-pad.r,y);x.stroke()}if(!visible.length){x.fillStyle='#778ba2';x.font='11px system-ui';x.fillText('Waiting for live aggressor-side trades…',pad.l+8,pad.t+24);return}const max=Math.max(1,...visible.map(b=>Math.max(b.buy,b.sell))),slot=cw/visible.length,barW=Math.max(2,slot*.64);visible.forEach((b,i)=>{const xx=pad.l+i*slot+(slot-barW)/2,bh=b.buy/max*(ch*.42),sh=b.sell/max*(ch*.42),mid=pad.t+ch*.52;x.fillStyle='#24c997';x.fillRect(xx,mid-bh,barW,bh);x.fillStyle='#ed6179';x.fillRect(xx,mid,barW,sh)});let run=visible[0].cvd;const vals=visible.map(b=>(run+=b.delta)),lo=Math.min(...vals),hi=Math.max(...vals),span=hi-lo||1;x.strokeStyle='#d8b56e';x.lineWidth=1.7;x.beginPath();vals.forEach((v,i)=>{const xx=pad.l+i*slot+slot/2,yy=pad.t+ch*.08+(hi-v)/span*ch*.25;i?x.lineTo(xx,yy):x.moveTo(xx,yy)});x.stroke();x.fillStyle='#8294a9';x.font='8px ui-monospace,monospace';x.fillText('BUY ↑',pad.l,11);x.fillText('SELL ↓',pad.l+54,11);x.fillText('LIVE',Math.max(pad.l,w-55),11)}
  $('nfxOfdExpand').addEventListener('click',()=>{if(!document.fullscreenElement)panel.requestFullscreen?.().catch(()=>{});else document.exitFullscreen?.()});
- $('nfxMarketSearchForm')?.addEventListener('submit',()=>setTimeout(connect,300));$('nfxMarketSearchInput')?.addEventListener('change',()=>setTimeout(connect,300));window.addEventListener('nfx-liquidity-open',connect);document.addEventListener('visibilitychange',()=>{if(document.hidden)disconnect();else connect()});window.addEventListener('online',connect);window.addEventListener('resize',draw);document.addEventListener('fullscreenchange',()=>setTimeout(draw,120));if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',connect,{once:true});else connect();
+ $('nfxMarketSearchForm')?.addEventListener('submit',()=>setTimeout(connect,300));$('nfxMarketSearchInput')?.addEventListener('change',()=>setTimeout(connect,300));window.addEventListener('nfx-liquidity-open',connect);window.addEventListener('nfx-market-changed',()=>setTimeout(connect,0));document.addEventListener('visibilitychange',()=>{if(document.hidden)disconnect();else connect()});window.addEventListener('online',connect);window.addEventListener('resize',draw);document.addEventListener('fullscreenchange',()=>setTimeout(draw,120));if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',connect,{once:true});else connect();
 })();
 </script>
 
+<style id="nfx-premium-terminal-unified-v1">
+/* NABIL FX — unified premium market microstructure terminal */
+#nfxLiqDashboard{--nfx-surface:#0b111b;--nfx-surface-raised:#101a27;--nfx-line:rgba(148,169,197,.17);--nfx-text:#e8eef7;--nfx-muted:#8494aa}
+#nfxLiqDashboard #nfxLiqLivePanel,#nfxLiqDashboard #nfxLiqLiquidationHeatmap,#nfxLiqDashboard #nfxOrderFlowDesk{
+ color:var(--nfx-text)!important;border:1px solid #29384b!important;border-radius:14px!important;
+ background:linear-gradient(155deg,#111b29 0%,#0b121c 58%,#090f17 100%)!important;
+ box-shadow:0 18px 48px rgba(0,0,0,.30),inset 0 1px 0 rgba(255,255,255,.045)!important;overflow:hidden
+}
+#nfxLiqDashboard #nfxLiqLivePanel,#nfxLiqDashboard #nfxLiqLiquidationHeatmap{position:relative}
+#nfxLiqDashboard #nfxLiqLivePanel:before,#nfxLiqDashboard #nfxLiqLiquidationHeatmap:before,#nfxLiqDashboard #nfxOrderFlowDesk:before{
+ content:"";display:block;position:absolute;z-index:2;top:0;left:0;right:0;height:2px;
+ background:linear-gradient(90deg,#d8b56e 0%,#668bb9 48%,rgba(102,139,185,0) 100%);pointer-events:none
+}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-pob-header{padding:20px 22px!important;background:linear-gradient(110deg,#152234,#0d1520 74%)!important;border-bottom:1px solid var(--nfx-line)!important}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-pob-logo{border-radius:11px!important;box-shadow:0 8px 24px rgba(216,181,110,.15)!important}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-row{min-height:24px!important;border-bottom:1px solid rgba(139,158,183,.055)!important;transition:background .12s ease}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-row:hover{background:rgba(117,151,190,.10)!important}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-bar{opacity:.17!important}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-ob-row-price,#nfxLiqDashboard #nfxLiqLivePanel .nfx-ob-row-size,#nfxLiqDashboard #nfxLiqLivePanel .nfx-ob-row-total{font-variant-numeric:tabular-nums!important;font-feature-settings:"tnum"!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap{border:1px solid rgba(145,165,192,.17)!important;border-radius:9px!important;background:#070d15!important;box-shadow:inset 0 1px 12px rgba(0,0,0,.22)!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-cg-liq-toolbar{border:1px solid rgba(145,165,192,.16)!important;border-radius:9px!important;background:linear-gradient(110deg,#121d2b,#0d1520)!important}
+#nfxLiqDashboard #nfxOrderFlowDesk .nfx-ofd-metrics>div{border:1px solid rgba(145,165,192,.16)!important;border-radius:9px!important;background:linear-gradient(145deg,#121e2c,#0c141e)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.035)!important}
+#nfxLiqDashboard #nfxOrderFlowDesk .nfx-ofd-main{gap:14px!important}
+#nfxLiqDashboard #nfxOrderFlowDesk canvas{display:block;width:100%;max-width:100%;border:1px solid rgba(145,165,192,.13);border-radius:8px;background:#080f18}
+#nfxLiqDashboard button,#nfxLiqDashboard select,#nfxLiqDashboard input{transition:border-color .15s ease,background-color .15s ease,box-shadow .15s ease}
+#nfxLiqDashboard button:focus-visible,#nfxLiqDashboard select:focus-visible,#nfxLiqDashboard input:focus-visible{outline:2px solid rgba(216,181,110,.8)!important;outline-offset:2px!important}
+@media(max-width:760px){#nfxLiqDashboard #nfxLiqLivePanel .nfx-pob-header{padding:15px!important}#nfxLiqDashboard #nfxOrderFlowDesk .nfx-ofd-main{gap:9px!important}}
+@media(prefers-reduced-motion:reduce){#nfxLiqDashboard *{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+</style>
 </body>
 </html>
 <style>
