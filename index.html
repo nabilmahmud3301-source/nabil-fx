@@ -2583,7 +2583,7 @@ async function databentoHistoricalTradeEvents(){
   if(!startDate||!endDate)throw Error('Raw exchange tick replay requires both START DATE and END DATE. Select a short date window to control data volume and provider charges.');
   const from=new Date(startDate+'T00:00:00Z'),to=new Date(endDate+'T23:59:59Z');
   if(!Number.isFinite(from.getTime())||!Number.isFinite(to.getTime())||from>to)throw Error('Invalid raw tick date range.');
-  if(to-from>24*60*60*1000)throw Error('For safe raw tick replay, choose a maximum two-calendar-day window. Longer periods should be downloaded in provider-sized batches.');
+  if(to-from>48*60*60*1000)throw Error('For safe raw tick replay, choose a maximum two-calendar-day window. Longer periods should be downloaded in provider-sized batches.');
   const client=getNabilSupabaseClient();
   const {data:sessionData,error:sessionError}=await client.auth.getSession();
   if(sessionError)throw sessionError;
