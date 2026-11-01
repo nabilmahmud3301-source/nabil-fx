@@ -156,9 +156,16 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
         };
         const validConditions = (items: any[]) => Array.isArray(items) && items.length <= 12 && items.every((c: any) => validCondition(c));
         const stop = execution?.stop;
+        const stopOffsetUnit = String(stop?.unit || "price");
+        const stopOffsetValid = stop?.type === "signal_candle_offset" &&
+          Number.isFinite(Number(stop.value)) && Number(stop.value) > 0 &&
+          ["price","pip","tick","point","percent"].includes(stopOffsetUnit) &&
+          (!["tick","point"].includes(stopOffsetUnit) ||
+            (Number.isFinite(Number(stop.tickSize ?? stop.pointSize)) && Number(stop.tickSize ?? stop.pointSize) > 0));
         const stopValid = !!stop && (
           ["signal_candle","previous_candle"].includes(stop.type) ||
-          (["atr","percent"].includes(stop.type) && Number.isFinite(Number(stop.value)) && Number(stop.value) > 0)
+          (["atr","percent"].includes(stop.type) && Number.isFinite(Number(stop.value)) && Number(stop.value) > 0) ||
+          stopOffsetValid
         );
         const executionValid = !!execution &&
           validConditions(execution.longConditions) &&
