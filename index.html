@@ -3,6 +3,38 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<script>document.documentElement.classList.add('nfx-booting');</script>
+<style id="nfx-stable-refresh">
+/* Keep navigation and controls visually stable while the app is restoring after refresh. */
+html.nfx-booting button,html.nfx-booting a,html.nfx-booting .nav-btn{
+  animation:none!important;transition:none!important;transform:none!important;translate:none!important;
+  filter:none!important;box-shadow:inherit;
+}
+.site-header{min-height:84px;}
+.site-nav{align-content:center;}
+.site-nav .nav-btn{flex:0 0 auto;transform:none!important;}
+.site-nav .nav-btn:hover,.site-nav .nav-btn:active{transform:none!important;}
+button.click-feedback{animation:none!important;}
+button:focus:not(:focus-visible){outline:none;}
+@media(max-width:760px){.site-header{min-height:58px;}}
+</style>
+<script id="nfx-refresh-stabilizer">
+(()=>{
+ const finish=()=>{
+   document.querySelectorAll('button.click-feedback').forEach(b=>b.classList.remove('click-feedback'));
+   const active=document.activeElement;
+   if(active&&active.tagName==='BUTTON'&&!active.matches(':focus-visible'))active.blur();
+   requestAnimationFrame(()=>requestAnimationFrame(()=>document.documentElement.classList.remove('nfx-booting')));
+ };
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',finish,{once:true});
+ else finish();
+ window.addEventListener('pageshow',()=>{
+   document.querySelectorAll('button.click-feedback').forEach(b=>b.classList.remove('click-feedback'));
+   document.documentElement.classList.remove('nfx-booting');
+ });
+})();
+</script>
+
 <title>Nabil Fx — Pro Trading Workspace</title>
 <link rel="icon" type="image/svg+xml" href="./nabil-fx-logo.svg?v=logo-hd-20261028-v2">
 <link rel="shortcut icon" type="image/svg+xml" href="./nabil-fx-logo.svg?v=logo-hd-20261028-v2">
