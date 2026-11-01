@@ -2042,6 +2042,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
         <div class="field">
           <label>SYMBOL</label>
           <input id="symbol" value="BTCUSDT" list="symbols">
+          <div class="field wide" id="databentoConfig" style="display:none"><label>DATABENTO DATASET (EXCHANGE FEED)</label><input id="databentoDataset" value="GLBX.MDP3" placeholder="GLBX.MDP3"><p class="hint">For exchange-listed futures only. Use the exact expiry contract (e.g. ESM6 or GCZ6), not a CFD/spot alias. Historical API usage may be billable.</p></div>
           <datalist id="symbols">
             <option value="BTCUSDT"><option value="ETHUSDT">
             <option value="EURUSD"><option value="GBPUSD">
@@ -2529,6 +2530,56 @@ async function binanceAggregatedTradeEvents(){
   return events;
 }
 
+async function databentoHistoricalTradeEvents(){
+  if($('market').value!=='futures')throw Error('Databento historical raw trade replay is currently configured for exchange-listed futures contracts. OTC spot Forex, XAUUSD and broker CFD symbols are not exchange-traded contracts.');
+  const symbol=$('symbol').value.trim().toUpperCase();
+  if(!/^[A-Z0-9._-]{2,24}$/.test(symbol))throw Error('Enter the exact exchange-listed futures contract symbol, for example ESM6 or GCZ6.');
+  const startDate=$('start').value,endDate=$('end').value;
+  if(!startDate||!endDate)throw Error('Raw exchange tick replay requires both START DATE and END DATE. Select a short date window to control data volume and provider charges.');
+  const from=new Date(startDate+'T00:00:00Z'),to=new Date(endDate+'T23:59:59Z');
+  if(!Number.isFinite(from.getTime())||!Number.isFinite(to.getTime())||from>to)throw Error('Invalid raw tick date range.');
+  if(to-from>24*60*60*1000)throw Error('For safe raw tick replay, choose a maximum two-calendar-day window. Longer periods should be downloaded in provider-sized batches.');
+  const client=getNabilSupabaseClient();
+  const {data:sessionData,error:sessionError}=await client.auth.getSession();
+  if(sessionError)throw sessionError;
+  if(!sessionData?.session)throw Error('Please log in to access licensed historical exchange tick data.');
+  const {data,error}=await client.functions.invoke('historical-market-data',{body:{
+    action:'ticks',dataset:($('databentoDataset')?.value||'GLBX.MDP3').trim(),
+    symbol,schema:'trades',start:from.toISOString(),end:new Date(to.getTime()+1000).toISOString(),
+    limit:Math.max(100,Math.min(50000,+$('limit').value*100||10000)),stype_in:'raw_symbol'
+  }});
+  if(error){
+    let detail=error.message||'Could not reach historical exchange data service.';
+    try{const response=error.context;if(response?.clone){const payload=await response.clone().json();if(payload?.error)detail=payload.error;}}catch(e){}
+    throw Error(detail);
+  }
+  if(data?.error)throw Error(data.error);
+  if(!Array.isArray(data?.records)||!data.records.length)throw Error('No exchange tick records were returned. Check dataset entitlement, contract symbol and selected dates.');
+  const timestampMs=value=>{
+    const n=Number(value);
+    if(Number.isFinite(n)){
+      if(n>1e17)return n/1e6;
+      if(n>1e14)return n/1e3;
+      if(n>1e11)return n;
+      if(n>1e8)return n*1000;
+    }
+    const parsed=Date.parse(String(value||''));return Number.isFinite(parsed)?parsed:NaN;
+  };
+  const events=[];
+  for(const row of data.records){
+    // Databento trade action 'T' represents a trade; ignore book/control messages.
+    if(row.action&&String(row.action).toUpperCase()!=='T')continue;
+    const t=timestampMs(row.ts_event??row.ts_recv??row.timestamp);
+    const price=Number(row.price),size=Number(row.size??row.volume??0);
+    if(!Number.isFinite(t)||!Number.isFinite(price)||price<=0)continue;
+    events.push({t,o:price,h:price,l:price,c:price,v:Number.isFinite(size)?size:0,tradeId:Number(row.sequence??row.ts_event??events.length),exchangeSide:row.side||null});
+  }
+  events.sort((x,y)=>x.t-y.t||x.tradeId-y.tradeId);
+  if(events.length<20)throw Error('Fewer than 20 valid Databento trade records were returned. No synthetic events were added.');
+  lastDataProvider='Databento '+data.dataset+' raw exchange trades ('+data.schema+'); '+events.length+' records';
+  return events;
+}
+
 async function candles(intervalOverride=null,startOverride=null){
   let symbol=$('symbol').value.trim();
   const market=$('market').value;
@@ -2915,7 +2966,7 @@ function backtestCustom(c,r,seriesMap=null){
   const long=longC.length>0&&longC.every(q=>conditionAt(c,q,i,cache,seriesMap));
   const short=shortC.length>0&&shortC.every(q=>conditionAt(c,q,i,cache,seriesMap));
   if(long===short){i++;continue;}
-  const side=long?'LONG':'SHORT',sig=c[i],entryBar=ex.entry==='signal_close'?sig:c[i+1],en=ex.entry==='signal_close'?sig.c:(ex.dataMode==='aggregated_trades'?entryBar.c:entryBar.o);
+  const side=long?'LONG':'SHORT',sig=c[i],entryBar=ex.entry==='signal_close'?sig:c[i+1],en=ex.entry==='signal_close'?sig.c:(['aggregated_trades','databento_trades'].includes(ex.dataMode)?entryBar.c:entryBar.o);
   let sl;
   if(ex.stop.type==='signal_candle')sl=side==='LONG'?sig.l:sig.h;
   else if(ex.stop.type==='signal_candle_offset'){
@@ -2940,7 +2991,7 @@ function backtestCustom(c,r,seriesMap=null){
   for(;j<c.length&&j<=i+maxBars;j++){
    const bar=c[j],stop=side==='LONG'?bar.l<=sl:bar.h>=sl,target=hasFixedTarget&&(side==='LONG'?bar.h>=tp:bar.l<=tp);
    // Conservative intrabar ordering: stop first, then target, then close-based custom exit.
-   if(stop||target){exit=stop?(ex.dataMode==='aggregated_trades'?bar.c:sl):tp;grossR=stop?(side==='LONG'?(exit-en):(en-exit))/dist:rr;exitTime=bar.t;break;}
+   if(stop||target){exit=stop?(['aggregated_trades','databento_trades'].includes(ex.dataMode)?bar.c:sl):tp;grossR=stop?(side==='LONG'?(exit-en):(en-exit))/dist:rr;exitTime=bar.t;break;}
    if(exitRules.length&&exitRules.every(q=>conditionAt(c,q,j,cache,seriesMap))){
     exit=bar.c;grossR=(side==='LONG'?(exit-en):(en-exit))/dist;exitTime=bar.t;break;
    }
@@ -3077,10 +3128,10 @@ $('run').onclick=async()=>{
       throw Error('Strategy compiler output incomplete. '+details.join(' '));
     }
     status('Step 2/3 · Fetching historical candles…');
-    const tickMode=rawExecution.dataMode==='aggregated_trades';
-    const c=tickMode?await binanceAggregatedTradeEvents():await candles();
+    const tickMode=['aggregated_trades','databento_trades'].includes(rawExecution.dataMode);
+    const c=rawExecution.dataMode==='databento_trades'?await databentoHistoricalTradeEvents():(rawExecution.dataMode==='aggregated_trades'?await binanceAggregatedTradeEvents():await candles());
     if(c.some((x,i)=>![x.o,x.h,x.l,x.c,x.t].every(Number.isFinite)||(i>0&&(tickMode?x.t<c[i-1].t:x.t<=c[i-1].t))))throw Error('Historical data failed ordering/quality checks.');
-    if(tickMode&&rawExecution.stop.type==='atr')throw Error('ATR stop-loss is not valid on aggregated trade events. Use a price, pip, percent or previous-event stop.');
+    if(tickMode&&rawExecution.stop.type==='atr')throw Error('ATR stop-loss is not valid on raw trade events. Use a price, tick/point, percent or previous-event stop.');
     const seriesMap=tickMode?new Map():new Map([[$('interval').value,c]]);
     const needed=new Set();
     const collectTimeframes=items=>(items||[]).forEach(q=>{if(q.timeframe)needed.add(String(q.timeframe));if(q.type==='logic')collectTimeframes(q.conditions);});
@@ -3100,8 +3151,8 @@ $('run').onclick=async()=>{
     status('Step 3/3 · Running the synchronized historical simulation…');
     const results=backtest(c,rule,seriesMap);renderResults(results,ai.execution.timezone||'UTC');
     const engineName='AI-compiled strategy engine ('+ai.model+')';
-    lastRun={at:new Date().toISOString(),symbol:$('symbol').value.toUpperCase(),interval:tickMode?'aggregated-trades':$('interval').value,candles:c.length,dataMode:tickMode?'Binance aggregated trade events':'OHLCV candles',timeframes:tickMode?[]:[...seriesMap.keys()],aiModel:engineName,strategy:ai.normalizedRules||strategyText,compiledRules:rule.execution,results};
-    status('Backtest completed using '+engineName+': '+c.length+' '+(tickMode?'aggregated trade events':'selected-timeframe candles')+(tickMode?'':'; synchronized timeframes: '+[...seriesMap.keys()].join(', '))+'. Provider: '+(lastDataProvider||'connected data provider')+'. Trades: '+results.ts.length+'. Estimated cost: '+($('costR').value||0)+'R per trade. Stop is counted first if stop and target touch in one candle.'+(ai.assumptions?.length?'\nAI assumptions/defaults: '+ai.assumptions.join('; '):''));
+    lastRun={at:new Date().toISOString(),symbol:$('symbol').value.toUpperCase(),interval:tickMode?(rawExecution.dataMode==='databento_trades'?'raw-exchange-trades':'aggregated-trades'):$('interval').value,candles:c.length,dataMode:tickMode?(rawExecution.dataMode==='databento_trades'?'Databento raw exchange trade events':'Binance aggregated trade events'):'OHLCV candles',timeframes:tickMode?[]:[...seriesMap.keys()],aiModel:engineName,strategy:ai.normalizedRules||strategyText,compiledRules:rule.execution,results};
+    status('Backtest completed using '+engineName+': '+c.length+' '+(tickMode?(rawExecution.dataMode==='databento_trades'?'raw exchange trade events':'aggregated trade events'):'selected-timeframe candles')+(tickMode?'':'; synchronized timeframes: '+[...seriesMap.keys()].join(', '))+'. Provider: '+(lastDataProvider||'connected data provider')+'. Trades: '+results.ts.length+'. Estimated cost: '+($('costR').value||0)+'R per trade. Stop is counted first if stop and target touch in one candle.'+(ai.assumptions?.length?'\nAI assumptions/defaults: '+ai.assumptions.join('; '):''));
   }catch(e){status('Backtest not run: '+(e?.message||'Unexpected error.'));}
   finally{$('run').disabled=false;$('run').textContent=buttonLabel;}
 };
