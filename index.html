@@ -1,6 +1,22 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script>
+/* Always reopen Nabil FX at the top of Home after a refresh or page restore. */
+(function(){
+  try{if('scrollRestoration' in history)history.scrollRestoration='manual';}catch(e){}
+  function resetToHome(){
+    try{
+      if(typeof window.showNabilPage==='function')window.showNabilPage('home');
+      window.scrollTo(0,0);
+      document.documentElement.scrollTop=0;
+      if(document.body)document.body.scrollTop=0;
+    }catch(e){}
+  }
+  window.addEventListener('pageshow',resetToHome);
+  document.addEventListener('DOMContentLoaded',resetToHome,{once:true});
+})();
+</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <script>/* Show the branded splash during initial page startup. */document.documentElement.classList.add('nfx-booting');</script>
