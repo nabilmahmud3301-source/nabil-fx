@@ -5160,6 +5160,159 @@ setInterval(function(){nfxEstLiqLoad(false);},30000);
  #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-card-actions{justify-content:flex-start}
 }
 </style>
+
+<style id="nfx-heatmap-terminal-final">
+/* NABIL FX — final full-width market-terminal layout */
+#nfxLiqDashboard.nfx-liq-dashboard{
+  display:grid!important;grid-template-columns:minmax(0,1fr)!important;
+  gap:18px!important;align-items:stretch!important;
+}
+#nfxLiqDashboard .nfx-liq-workspace-card{
+  display:block;grid-column:1/-1!important;width:100%!important;min-width:0!important;
+  min-height:0!important;margin:0!important;padding:clamp(16px,2vw,24px)!important;
+  border:1px solid #27313d!important;border-radius:10px!important;
+  background:#0b0e13!important;box-shadow:0 12px 34px rgba(0,0,0,.24)!important;
+  overflow:hidden!important;color:#e8edf4!important;
+}
+#nfxLiqDashboard #nfxLiqLivePanel{border-top:2px solid #d34b5b!important}
+#nfxLiqDashboard #nfxLiqBookHeatmap{border-top:2px solid #21c6a2!important}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap{border-top:2px solid #e5b94f!important}
+#nfxLiqDashboard .nfx-liq-timeline-head{
+  display:flex!important;align-items:flex-start!important;justify-content:space-between!important;
+  gap:18px!important;min-height:0!important;margin:0 0 16px!important;
+  padding:0 0 15px!important;border-bottom:1px solid #252d37!important;
+}
+#nfxLiqDashboard .nfx-liq-kicker{
+  color:#8995a4!important;font:700 9px/1.4 ui-monospace,monospace!important;
+  letter-spacing:1.5px!important;text-transform:uppercase!important;
+}
+#nfxLiqDashboard .nfx-liq-timeline-head h3{
+  margin:6px 0 5px!important;color:#f2f5f8!important;
+  font:750 clamp(21px,2.2vw,27px)/1.15 system-ui,sans-serif!important;
+  letter-spacing:-.65px!important;
+}
+#nfxLiqDashboard .nfx-liq-timeline-head p{
+  margin:0!important;color:#929eac!important;font:400 11px/1.6 system-ui,sans-serif!important;
+}
+#nfxLiqDashboard .nfx-liq-timeline-head p strong{color:#c9d2dd!important;font-weight:700!important}
+#nfxLiqDashboard .nfx-liq-card-actions{
+  display:flex!important;align-items:center!important;justify-content:flex-end!important;
+  gap:8px!important;flex-wrap:wrap!important;max-width:100%!important;
+}
+#nfxLiqDashboard .nfx-liq-live-tag{
+  min-height:28px!important;padding:0 10px!important;border-radius:5px!important;
+  background:#0d211c!important;border:1px solid #245a49!important;color:#78dfba!important;
+  font:750 9px/1 ui-monospace,monospace!important;letter-spacing:.65px!important;
+}
+#nfxLiqDashboard .nfx-est-liq-ranges{
+  display:flex!important;align-items:center!important;gap:3px!important;flex-wrap:wrap!important;
+  padding:4px!important;border:1px solid #29323d!important;border-radius:6px!important;
+  background:#080b10!important;
+}
+#nfxLiqDashboard .nfx-est-liq-ranges button{
+  min-width:34px!important;height:27px!important;padding:0 8px!important;
+  border:1px solid transparent!important;border-radius:4px!important;
+  background:transparent!important;color:#9ba7b5!important;
+  font:750 9px/1 ui-monospace,monospace!important;cursor:pointer!important;
+}
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-est-liq-ranges button.active,
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-est-liq-ranges button[aria-pressed="true"]{
+  background:#123128!important;border-color:#23634f!important;color:#8ce6c7!important;
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-est-liq-ranges button.active{
+  background:#302714!important;border-color:#745b27!important;color:#f2d27d!important;
+}
+#nfxLiqDashboard .nfx-liq-fullscreen-btn{
+  min-height:30px!important;padding:0 11px!important;border:1px solid #35404d!important;
+  border-radius:5px!important;background:#141a22!important;color:#d7e0e9!important;
+  font:700 10px system-ui,sans-serif!important;
+}
+#nfxLiqDashboard .nfx-liq-fullscreen-btn:hover{background:#1b2530!important;border-color:#69798b!important}
+#nfxLiqDashboard .nfx-heatmap-stats{
+  display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:1px!important;margin:0 0 12px!important;padding:1px!important;
+  border:1px solid #27313d!important;border-radius:6px!important;
+  background:#27313d!important;box-shadow:none!important;overflow:hidden!important;
+}
+#nfxLiqDashboard .nfx-heatmap-stats>div{
+  min-width:0!important;padding:12px 15px!important;background:#10151c!important;
+}
+#nfxLiqDashboard .nfx-heatmap-stats span{
+  color:#8b98a8!important;font:750 9px/1.35 system-ui,sans-serif!important;
+  letter-spacing:.9px!important;white-space:nowrap!important;
+}
+#nfxLiqDashboard .nfx-heatmap-stats b{
+  display:block!important;margin-top:7px!important;color:#edf2f7!important;
+  font:750 clamp(14px,1.3vw,18px)/1.15 ui-monospace,monospace!important;
+  font-variant-numeric:tabular-nums!important;
+}
+#nfxLiqDashboard .nfx-liq-timeline-wrap{
+  position:relative!important;width:100%!important;height:clamp(470px,62vh,690px)!important;
+  min-height:470px!important;overflow:hidden!important;border:1px solid #293440!important;
+  border-radius:6px!important;background:#070a0f!important;
+}
+#nfxLiqDashboard #nfxLiqTimelineCanvas,
+#nfxLiqDashboard #nfxLiqLiquidationCanvas{
+  display:block!important;width:100%!important;height:100%!important;
+  min-width:0!important;min-height:0!important;touch-action:none!important;
+  user-select:none!important;-webkit-user-select:none!important;cursor:crosshair!important;
+}
+#nfxLiqDashboard .nfx-liq-timeline-axis{
+  display:flex!important;justify-content:space-between!important;gap:12px!important;
+  margin:9px 2px 0!important;color:#7d8998!important;
+  font:750 8px/1.4 ui-monospace,monospace!important;letter-spacing:1px!important;
+}
+#nfxLiqDashboard .nfx-liq-timeline-note{
+  margin:12px 0 0!important;padding:11px 12px!important;
+  border:1px solid #252f3a!important;border-radius:5px!important;
+  background:#0e131a!important;color:#8d9aa9!important;
+  font:400 10px/1.65 system-ui,sans-serif!important;
+}
+#nfxLiqDashboard .nfx-liq-model-legend{
+  display:flex!important;align-items:center!important;gap:18px!important;flex-wrap:wrap!important;
+  margin:0 0 11px!important;padding:10px 12px!important;
+  border:1px solid #293440!important;border-radius:5px!important;background:#0e131a!important;
+  color:#aeb9c6!important;font:750 9px/1.4 ui-monospace,monospace!important;letter-spacing:.45px!important;
+}
+#nfxLiqDashboard .nfx-est-liq-controls{
+  display:flex!important;align-items:center!important;gap:10px!important;flex-wrap:wrap!important;
+  padding:5px 8px!important;border:1px solid #293440!important;border-radius:5px!important;
+  background:#0d1218!important;
+}
+#nfxLiqDashboard .nfx-est-liq-controls label{
+  display:flex!important;align-items:center!important;gap:7px!important;
+  color:#9ba7b5!important;font:750 9px/1.3 ui-monospace,monospace!important;letter-spacing:.5px!important;
+}
+#nfxLiqDashboard .nfx-est-liq-controls select{
+  height:28px!important;padding:0 8px!important;border:1px solid #35404c!important;
+  border-radius:4px!important;background:#151c25!important;color:#e2e9f0!important;
+  font:700 9px system-ui,sans-serif!important;
+}
+#nfxLiqDashboard .nfx-est-liq-controls input[type=range]{accent-color:#e5b94f!important;width:86px!important}
+#nfxLiqDashboard .nfx-est-liq-controls b{color:#f0d17a!important;font:750 10px ui-monospace,monospace!important}
+#nfxLiqDashboard .nfx-liq-timeline-panel:fullscreen{
+  width:100vw!important;height:100vh!important;max-height:100vh!important;
+  padding:22px!important;overflow:auto!important;background:#080b10!important;
+}
+#nfxLiqDashboard .nfx-liq-timeline-panel:fullscreen .nfx-liq-timeline-wrap{
+  height:calc(100vh - 250px)!important;min-height:360px!important;
+}
+@media(max-width:850px){
+ #nfxLiqDashboard .nfx-liq-timeline-head{flex-direction:column!important;align-items:stretch!important}
+ #nfxLiqDashboard .nfx-liq-card-actions{justify-content:flex-start!important}
+ #nfxLiqDashboard .nfx-liq-timeline-wrap{height:480px!important;min-height:380px!important}
+}
+@media(max-width:560px){
+ #nfxLiqDashboard .nfx-liq-workspace-card{padding:12px!important}
+ #nfxLiqDashboard .nfx-heatmap-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #nfxLiqDashboard .nfx-heatmap-stats>div{padding:10px!important}
+ #nfxLiqDashboard .nfx-liq-timeline-wrap{height:390px!important;min-height:340px!important}
+ #nfxLiqDashboard .nfx-liq-card-actions{align-items:flex-start!important}
+ #nfxLiqDashboard .nfx-est-liq-controls{width:100%!important}
+ #nfxLiqDashboard .nfx-liq-model-legend{gap:10px!important;font-size:8px!important}
+}
+</style>
+
 </body>
 </html>
 <style>
