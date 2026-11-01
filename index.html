@@ -2524,6 +2524,16 @@ function conditionSeries(c,cond){
 }
 function conditionAt(c,cond,i,cache){
  const prev=i-1,x=c[i],p=x;
+ if(cond.type==='session_opening_range_breakout'){
+  const zone=cond.timezone||'Europe/London',hour=Number.isInteger(cond.sessionHour)?cond.sessionHour:8,minute=Number.isInteger(cond.sessionMinute)?cond.sessionMinute:0;
+  const parts=t=>{const q=new Intl.DateTimeFormat('en-GB',{timeZone:zone,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date(t));const o={};q.forEach(z=>o[z.type]=z.value);return o;};
+  const now=parts(x.t),day=now.year+'-'+now.month+'-'+now.day;let rangeIndex=-1;
+  for(let j=i-1;j>=0;j--){const z=parts(c[j].t),d=z.year+'-'+z.month+'-'+z.day;if(d!==day)break;if(Number(z.hour)===hour&&Number(z.minute)===minute){rangeIndex=j;break;}}
+  if(rangeIndex<0||i<=rangeIndex)return false;
+  const range=c[rangeIndex],bull=x.h>range.h,bear=x.l<range.l;if(bull===bear)return false;
+  for(let j=rangeIndex+1;j<i;j++){if(c[j].h>range.h||c[j].l<range.l)return false;}
+  return cond.direction==='bullish'?bull:bear;
+ }
  if(cond.type==='candle_direction')return cond.direction==='bullish'?x.c>x.o:x.c<x.o;
  if(cond.type==='close_vs_open')return cond.operator==='above'?x.c>x.o:x.c<x.o;
  if(cond.type==='close_vs_prev_highlow'){
@@ -2577,6 +2587,8 @@ function backtestCustom(c,r){
  const ex=r.execution;if(!ex)throw Error('AI did not return executable rules. Please make entry, stop-loss and take-profit explicit.');
  const bal=+$('balance').value,risk=+$('risk').value/100,cost=Math.max(0,Math.min(1,+$('costR').value||0));
  if(!(bal>0&&risk>0&&risk<=.10))throw Error('Balance must be positive and risk must be between 0.01% and 10%.');
+ const hasSessionRule=[...(ex.longConditions||[]),...(ex.shortConditions||[])].some(q=>q.type==='session_opening_range_breakout');
+ if(hasSessionRule&&$('interval').value!=='5m')throw Error('London opening-range breakout requires the 5-minute timeframe.');
  const cache=new Map(),atr=atrValues(c,14);let eq=bal,peak=bal,dd=0;const ts=[],curve=[bal];
  const longC=ex.longConditions||[],shortC=ex.shortConditions||[];
  for(let i=1;i<c.length-1;){
@@ -2586,6 +2598,7 @@ function backtestCustom(c,r){
   const side=long?'LONG':'SHORT',sig=c[i],entryBar=ex.entry==='signal_close'?sig:c[i+1],en=ex.entry==='signal_close'?sig.c:entryBar.o;
   let sl;
   if(ex.stop.type==='signal_candle')sl=side==='LONG'?sig.l:sig.h;
+  else if(ex.stop.type==='signal_candle_offset'){const offset=Number(ex.stop.value);if(!(offset>0))throw Error('Signal-candle stop offset must be positive.');sl=side==='LONG'?sig.l-offset:sig.h+offset;}
   else if(ex.stop.type==='previous_candle')sl=side==='LONG'?c[i-1].l:c[i-1].h;
   else if(ex.stop.type==='atr'){const d=(atr[i]||sig.h-sig.l)*Math.max(.1,Number(ex.stop.value)||1);sl=side==='LONG'?en-d:en+d;}
   else if(ex.stop.type==='percent'){const d=en*Math.max(.01,Number(ex.stop.value)||1)/100;sl=side==='LONG'?en-d:en+d;}
