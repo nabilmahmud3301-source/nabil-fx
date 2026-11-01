@@ -245,7 +245,9 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
           ["next_open","signal_close"].includes(execution.entry) &&
           stopValid &&
           ((Number.isFinite(Number(execution.targetR)) && Number(execution.targetR) > 0) ||
-            (execution.targetR === null && ((Array.isArray(execution.exitLongConditions) && execution.exitLongConditions.length > 0) || (Array.isArray(execution.exitShortConditions) && execution.exitShortConditions.length > 0))));
+            (execution.targetR === null &&
+              (execution.longConditions.length === 0 || (Array.isArray(execution.exitLongConditions) && execution.exitLongConditions.length > 0)) &&
+              (execution.shortConditions.length === 0 || (Array.isArray(execution.exitShortConditions) && execution.exitShortConditions.length > 0))));
         const safe = {
           supported: parsed.supported === true && executionValid && unsupportedDataReasons.length === 0 && !(Array.isArray(parsed.unsupportedReasons) && parsed.unsupportedReasons.length > 0),
           long: parsed.long === true,
