@@ -4243,7 +4243,7 @@ document.addEventListener('click', function(event) {
     var chartCandles=activeMarket==='crypto'&&nfxBookCandleSymbol===activeProvider+':'+candleSymbol&&nfxBookCandleRange===historyLimit()?nfxBookCandles.filter(function(c){return c.t>=cutoff&&c.t<=cutoff+windowMs;}):[];
     var empty=$('nfxLiqTimelineEmpty');if(empty)empty.hidden=history.length>0||chartCandles.length>0;
     ctx.font='700 9px system-ui,sans-serif';ctx.textBaseline='middle';ctx.textAlign='left';ctx.fillStyle='#a6b2c5';ctx.fillText('ASK',left,15);
-    ctx.fillStyle='#8b5cf6';ctx.fillRect(left+27,11,8,8);ctx.fillStyle='#a6b2c5';ctx.fillText('BID',left+43,15);ctx.fillStyle='#27c7b8';ctx.fillRect(left+65,11,8,8);
+    ctx.fillStyle='#ff5b70';ctx.fillRect(left+27,11,8,8);ctx.fillStyle='#a6b2c5';ctx.fillText('BID',left+43,15);ctx.fillStyle='#19cdb1';ctx.fillRect(left+65,11,8,8);
     ctx.textAlign='right';ctx.fillStyle='#73839b';ctx.fillText('LIVE DEPTH · 250MS CAPTURE  /  '+history.length+' SNAPSHOTS',W-right,15);
     if(!history.length&&!chartCandles.length){ctx.fillStyle='#73839b';ctx.textAlign='center';ctx.font='12px system-ui,sans-serif';ctx.fillText('Loading independent market candles and collecting live depth…',left+pw/2,top+ph/2);return;}
     if(!history.length){ctx.fillStyle='#8293aa';ctx.textAlign='center';ctx.font='10px system-ui,sans-serif';ctx.fillText('LIVE DEPTH SNAPSHOTS ARE COLLECTING',left+pw/2,top+13);}
@@ -4470,19 +4470,25 @@ function bindHeatmapInspector(canvasId,kind){
     v.hidden=h.hidden=tip.hidden=true;wrap.appendChild(v);wrap.appendChild(h);wrap.appendChild(tip);
     canvas.addEventListener('pointermove',function(ev){
       var rect=canvas.getBoundingClientRect(),x=ev.clientX-rect.left,y=ev.clientY-rect.top;
-      var W=rect.width,H=rect.height,left=68,right=14,top=34,bottom=28,pw=W-left-right,ph=H-top-bottom;
+      var W=rect.width,H=rect.height,left=14,right=kind==='book'?78:82,top=kind==='book'?34:30,bottom=kind==='book'?28:34,pw=W-left-right,ph=H-top-bottom;
       if(x<left||x>W-right||y<top||y>H-bottom){v.hidden=h.hidden=tip.hidden=true;return;}
-      var now=Date.now(),windowMs=historyLimit()*1000,cutoff=now-windowMs,price=NaN,detail='',displayTime='';
+      var now=Date.now(),windowMs=kind==='book'?historyLimit()*1000/nfxBookTimeZoom:historyLimit()*1000,cutoff=now-windowMs+(kind==='book'?nfxBookTimePan:0),price=NaN,detail='',displayTime='';
       if(kind==='book'){
-        var hist=liqHistory.filter(function(z){return z.t>=cutoff;});
-        if(!hist.length)return;
-        var mid=hist[hist.length-1].mid,lo=mid*.995,hi=mid*1.005;
+        var hist=liqHistory.filter(function(z){return z.t>=cutoff&&z.t<=cutoff+windowMs;});
+        var bookCandles=nfxBookCandles.filter(function(c){return c.t>=cutoff&&c.t<=cutoff+windowMs;});
+        if(!hist.length&&!bookCandles.length){v.hidden=h.hidden=tip.hidden=true;return;}
+        var mid=(hist.length?hist[hist.length-1].mid:(bookCandles.length?bookCandles[bookCandles.length-1].c:NaN));
+        var lo=Infinity,hi=-Infinity;
+        hist.forEach(function(z){(z.bids||[]).concat(z.asks||[]).forEach(function(level){lo=Math.min(lo,Number(level[0]));hi=Math.max(hi,Number(level[0]));});});
+        bookCandles.forEach(function(c){lo=Math.min(lo,c.l);hi=Math.max(hi,c.h);});
+        var pad=Math.max((hi-lo)*.06,mid*.0001),half=(hi-lo+2*pad)/(2*Math.max(.25,nfxBookPriceZoom));
+        lo=mid-half+nfxBookPricePan;hi=mid+half+nfxBookPricePan;
         price=hi-(y-top)/ph*(hi-lo);
         var snap=hist[Math.max(0,Math.min(hist.length-1,Math.floor((x-left)/pw*hist.length)))];
         var nearest=null,dist=Infinity;
-        snap.bids.concat(snap.asks).forEach(function(level){var d=Math.abs(level[0]-price);if(d<dist){dist=d;nearest=level;}});
-        detail=nearest?'Nearest depth: '+fmt(nearest[0])+' · '+Number(nearest[1]).toLocaleString('en-US',{maximumFractionDigits:4})+' contracts':'Live order-book depth';
-        displayTime=new Date(snap.t).toLocaleString();
+        if(snap)(snap.bids||[]).concat(snap.asks||[]).forEach(function(level){var d=Math.abs(Number(level[0])-price);if(d<dist){dist=d;nearest=level;}});
+        detail=nearest?'Nearest depth: '+fmt(nearest[0])+' · '+Number(nearest[1]).toLocaleString('en-US',{maximumFractionDigits:4})+' contracts':'Captured live depth';
+        var selectedTime=cutoff+(x-left)/pw*windowMs;displayTime=new Date(selectedTime).toLocaleString();
       }else{
         var rangeMs=({'1h':3600000,'2h':2*3600000,'4h':4*3600000,'12h':12*3600000,'1d':86400000,'2d':2*86400000,'3d':3*86400000,'7d':7*86400000}[nfxEstLiqRange]||3600000)/nfxEstLiqZoom;
         var liqCutoff=Date.now()-rangeMs;
