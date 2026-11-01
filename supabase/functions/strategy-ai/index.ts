@@ -56,7 +56,7 @@ Deno.serve(async (req: Request) => {
 
     const systemInstruction = `You are a professional, multilingual, market-agnostic strategy compiler for Nabil FX. Current test context: market=${market}, symbol=${symbol}, candle timeframe=${interval}. The user may specify a location, exchange, named session, or timezone in ANY language. Resolve named places to valid IANA timezone IDs (examples: Europe/London, America/New_York, Asia/Tokyo, Asia/Dhaka); never assume the browser timezone or Bangladesh timezone when another location is named. If a place/timezone is ambiguous, return supported=false and ask for clarification. Convert the user's rules into a deterministic executable specification. Support broad reusable primitives and compose them; do not restrict strategies to a small list of named templates. The user may write in ANY human language or mix languages, transliteration, abbreviations, trading slang, or imperfect grammar. Detect language and preserve meaning.
 
-You are the multilingual natural-language strategy compiler for Nabil FX Backtesting. The user may write in ANY human language or mix multiple languages, use transliteration, abbreviations, trading slang, or imperfect grammar. Detect the input language automatically; understand it directly, internally normalize/translate it as needed, and compile the intended trading rules into the deterministic schema below. Do not require the user to write English. Keep normalizedRules and explanation in the same language as the user's input whenever practical (otherwise use clear English). Convert the user's strategy into a deterministic executable rule specification. Never invent conditions that the user did not state. Use best-effort compilation for ordinary strategy descriptions in any language. If stop-loss, take-profit, or entry timing is omitted, apply clearly disclosed defaults: signal-candle stop, 2R target, and next-candle-open entry. For aggregated-trade event replay only, default the stop to previous_candle because each event has no candle range; disclose this assumption. Add an assumptions array describing every default or interpretation. Never silently drop a core entry condition. If the idea cannot be represented even approximately by the supported conditions, set supported=false and explain what is needed.
+You are the multilingual natural-language strategy compiler for Nabil FX Backtesting. The user may write in ANY human language or mix multiple languages, use transliteration, abbreviations, trading slang, or imperfect grammar. Detect the input language automatically; understand it directly, internally normalize/translate it as needed, and compile the intended trading rules into the deterministic schema below. Do not require the user to write English. Keep normalizedRules and explanation in the same language as the user's input whenever practical (otherwise use clear English). Convert the user's strategy into a deterministic executable rule specification. Never invent conditions that the user did not state. Use best-effort compilation for ordinary strategy descriptions in any language. If stop-loss, take-profit, or entry timing is omitted, apply clearly disclosed defaults: signal-candle stop, 2R target when no rule-based exit is supplied, and next-candle-open entry. If the user explicitly defines exitLongConditions or exitShortConditions as the take-profit/exit logic and gives no fixed R target, set targetR=null so the simulator exits by those rules rather than inventing a 2R cap. For aggregated-trade event replay only, default the stop to previous_candle because each event has no candle range; disclose this assumption. Add an assumptions array describing every default or interpretation. Never silently drop a core entry condition. If the idea cannot be represented even approximately by the supported conditions, set supported=false and explain what is needed.
 Return ONLY JSON with keys: supported, long, short, rewardRisk, normalizedRules, explanation, missing, unsupportedReasons, assumptions, execution.
 execution schema:
 {
@@ -65,7 +65,7 @@ execution schema:
  "timezone"?: "IANA timezone ID used to display session and trade times (default UTC)",
  "entry":"next_open" or "signal_close",
  "stop":{"type":"signal_candle"|"previous_candle"|"atr"|"percent"|"signal_candle_offset","value":number,"unit"?: "price"|"pip"|"tick"|"point"|"percent","tickSize"?:number},
- "targetR":positive number,
+ "targetR":positive number or null when rule-based exit conditions are supplied,
  "maxBarsInTrade":positive integer or null,
  "dataMode"?: "candles"|"aggregated_trades"
 }
@@ -244,8 +244,8 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
           (execution.longConditions.length > 0 || execution.shortConditions.length > 0) &&
           ["next_open","signal_close"].includes(execution.entry) &&
           stopValid &&
-          Number.isFinite(Number(execution.targetR)) &&
-          Number(execution.targetR) > 0;
+          ((Number.isFinite(Number(execution.targetR)) && Number(execution.targetR) > 0) ||
+            (execution.targetR === null && ((Array.isArray(execution.exitLongConditions) && execution.exitLongConditions.length > 0) || (Array.isArray(execution.exitShortConditions) && execution.exitShortConditions.length > 0))));
         const safe = {
           supported: parsed.supported === true && executionValid && unsupportedDataReasons.length === 0 && !(Array.isArray(parsed.unsupportedReasons) && parsed.unsupportedReasons.length > 0),
           long: parsed.long === true,
@@ -263,7 +263,7 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
             exitShortConditions: Array.isArray(execution.exitShortConditions) ? execution.exitShortConditions : [],
             entry: execution.entry,
             stop: execution.stop,
-            targetR: Number(execution.targetR),
+            targetR: execution.targetR === null ? null : Number(execution.targetR),
             maxBarsInTrade: Number.isFinite(Number(execution.maxBarsInTrade)) ? Math.max(1, Math.min(5000, Number(execution.maxBarsInTrade))) : null,
             timezone: typeof execution.timezone === "string" ? execution.timezone.slice(0,80) : "UTC",
             dataMode: execution.dataMode === "aggregated_trades" ? "aggregated_trades" : "candles",
