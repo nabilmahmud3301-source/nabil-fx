@@ -2534,7 +2534,8 @@ async function candles(intervalOverride=null,startOverride=null){
   let symbol=$('symbol').value.trim();
   const market=$('market').value;
   const limit=Math.max(50,Math.min(5000,+$('limit').value||500));
-  const from=$('start').value?Date.parse($('start').value+'T00:00:00Z'):null;
+  const effectiveStart=startOverride||$('start').value||null;
+  const from=effectiveStart?Date.parse(effectiveStart+'T00:00:00Z'):null;
   const to=$('end').value?Date.parse($('end').value+'T23:59:59Z'):null;
   if(from&&to&&from>to)throw Error('Start date must be on or before end date.');
 
@@ -2644,7 +2645,7 @@ function conditionAt(c,cond,i,cache,seriesMap=null){
  const requestedTf=cond?.timeframe;
  if(requestedTf&&seriesMap){
   const target=seriesMap.get(requestedTf);if(!target)throw Error('Historical data missing for required timeframe '+requestedTf+'.');
-  const signalClose=c[i].t+intervalMilliseconds($('interval').value);
+  const signalClose=c[i].t+(c[i].tradeId!==undefined?0:intervalMilliseconds($('interval').value));
   let lo=0,hi=target.length-1,idx=-1;
   while(lo<=hi){const mid=(lo+hi)>>1;if(target[mid].t+intervalMilliseconds(requestedTf)<=signalClose){idx=mid;lo=mid+1;}else hi=mid-1;}
   if(idx<0)return false;
@@ -3027,12 +3028,11 @@ $('run').onclick=async()=>{
     const c=tickMode?await binanceAggregatedTradeEvents():await candles();
     if(c.some((x,i)=>![x.o,x.h,x.l,x.c,x.t].every(Number.isFinite)||(i>0&&(tickMode?x.t<c[i-1].t:x.t<=c[i-1].t))))throw Error('Historical data failed ordering/quality checks.');
     if(tickMode&&rawExecution.stop.type==='atr')throw Error('ATR stop-loss is not valid on aggregated trade events. Use a price, pip, percent or previous-event stop.');
-    const seriesMap=new Map([[$('interval').value,c]]);
+    const seriesMap=tickMode?new Map():new Map([[$('interval').value,c]]);
     const needed=new Set();
     const collectTimeframes=items=>(items||[]).forEach(q=>{if(q.timeframe)needed.add(String(q.timeframe));if(q.type==='logic')collectTimeframes(q.conditions);});
     collectTimeframes(longConditions);collectTimeframes(shortConditions);collectTimeframes(rawExecution.exitLongConditions);collectTimeframes(rawExecution.exitShortConditions);
-    if(tickMode&&needed.size)throw Error('Aggregated trade-event replay cannot be combined with candle timeframes in this run. Choose candle mode for multi-timeframe strategies.');
-    needed.delete($('interval').value);
+    if(!tickMode)needed.delete($('interval').value);
     const supportedIntervals=new Set(['1m','3m','5m','15m','30m','1h','2h','4h','1d']);
     for(const tf of needed)if(!supportedIntervals.has(tf))throw Error('Unsupported requested timeframe: '+tf+'.');
     if(needed.size){
@@ -3040,7 +3040,7 @@ $('run').onclick=async()=>{
       const extra=await Promise.all([...needed].map(async tf=>{const warmStart=new Date(c[0].t-intervalMilliseconds(tf)*220).toISOString().slice(0,10);return [tf,await candles(tf,warmStart)];}));
       for(const [tf,data] of extra){
         if(data.some((x,i)=>![x.o,x.h,x.l,x.c,x.t].every(Number.isFinite)||(i>0&&x.t<=data[i-1].t)))throw Error('Historical '+tf+' data failed quality checks.');
-        if(data[data.length-1].t+intervalMilliseconds(tf)<c[c.length-1].t+intervalMilliseconds($('interval').value)-intervalMilliseconds(tf)*2)throw Error('Historical '+tf+' data does not cover the end of the selected backtest window. No result was generated.');
+        if(data[data.length-1].t+intervalMilliseconds(tf)<c[c.length-1].t+(tickMode?0:intervalMilliseconds($('interval').value))-intervalMilliseconds(tf)*2)throw Error('Historical '+tf+' data does not cover the end of the selected backtest window. No result was generated.');
         seriesMap.set(tf,data);
       }
     }
