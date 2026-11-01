@@ -5063,6 +5063,15 @@ $('saveProfile').onclick=()=>{
 try{$('profileGoal').value=localStorage.getItem('nabilFxProfileNotes')||'';}catch(e){}
 
 /* Account authentication is handled by auth.js with Supabase. */
+function closeAccountDropdown(){
+  const dropdown=$('accountDropdown');
+  const menu=$('accountMenu');
+  if(!dropdown||!menu)return;
+  dropdown.classList.remove('open');
+  dropdown.removeAttribute('style');
+  if(dropdown.parentElement!==menu)menu.appendChild(dropdown);
+  $('accountMenuToggle').setAttribute('aria-expanded','false');
+}
 function showAccountPage(page){
   const valid=['create','login','profile'];
   if(!valid.includes(page)) page='create';
@@ -5072,8 +5081,7 @@ function showAccountPage(page){
   document.querySelectorAll('[data-account-page]').forEach(btn=>{
     btn.classList.toggle('active',btn.dataset.accountPage===page);
   });
-  $('accountDropdown').classList.remove('open');
-  $('accountMenuToggle').setAttribute('aria-expanded','false');
+  closeAccountDropdown();
 }
 window.showNabilAccountPage=showAccountPage;
 document.querySelectorAll('[data-account-page]').forEach(btn=>{
@@ -5087,32 +5095,39 @@ $('accountMenuToggle').addEventListener('click',event=>{
   event.stopPropagation();
   const dropdown=$('accountDropdown');
   const toggle=$('accountMenuToggle');
-  const willOpen=!dropdown.classList.contains('open');
-  if(willOpen){
-    const rect=toggle.getBoundingClientRect();
-    const width=Math.min(220,window.innerWidth-24);
-    const left=Math.max(12,Math.min(rect.left,window.innerWidth-width-12));
-    dropdown.style.setProperty('position','fixed','important');
-    dropdown.style.setProperty('top',Math.min(rect.bottom+8,window.innerHeight-120)+'px','important');
-    dropdown.style.setProperty('left',left+'px','important');
-    dropdown.style.setProperty('right','auto','important');
-    dropdown.style.setProperty('width',width+'px','important');
-    dropdown.style.setProperty('z-index','100000','important');
-    dropdown.classList.add('open');
-  }else{
-    dropdown.classList.remove('open');
-    dropdown.removeAttribute('style');
-  }
-  toggle.setAttribute('aria-expanded',String(willOpen));
+  if(dropdown.classList.contains('open')){closeAccountDropdown();return;}
+  /* Render outside the horizontally scrolling nav so no ancestor can clip it. */
+  document.body.appendChild(dropdown);
+  const rect=toggle.getBoundingClientRect();
+  const width=Math.min(230,window.innerWidth-24);
+  const left=Math.max(12,Math.min(rect.left,window.innerWidth-width-12));
+  dropdown.style.setProperty('display','grid','important');
+  dropdown.style.setProperty('position','fixed','important');
+  dropdown.style.setProperty('top',Math.max(8,Math.min(rect.bottom+8,window.innerHeight-112))+'px','important');
+  dropdown.style.setProperty('left',left+'px','important');
+  dropdown.style.setProperty('right','auto','important');
+  dropdown.style.setProperty('width',width+'px','important');
+  dropdown.style.setProperty('min-width',width+'px','important');
+  dropdown.style.setProperty('z-index','2147483000','important');
+  dropdown.style.setProperty('visibility','visible','important');
+  dropdown.style.setProperty('opacity','1','important');
+  dropdown.style.setProperty('pointer-events','auto','important');
+  dropdown.style.setProperty('padding','8px','important');
+  dropdown.style.setProperty('background','#101116','important');
+  dropdown.style.setProperty('border','1px solid rgba(255,65,83,.55)','important');
+  dropdown.style.setProperty('border-radius','12px','important');
+  dropdown.style.setProperty('box-shadow','0 16px 40px rgba(0,0,0,.75)','important');
+  dropdown.classList.add('open');
+  toggle.setAttribute('aria-expanded','true');
 });
 document.addEventListener('click',event=>{
-  const menu=$('accountMenu');
-  if(menu&&!menu.contains(event.target)){
-    $('accountDropdown').classList.remove('open');
-    $('accountMenuToggle').setAttribute('aria-expanded','false');
+  const dropdown=$('accountDropdown');
+  const toggle=$('accountMenuToggle');
+  if(dropdown?.classList.contains('open')&&!dropdown.contains(event.target)&&!toggle.contains(event.target)){
+    closeAccountDropdown();
   }
 });
-
+window.addEventListener('resize',closeAccountDropdown);
 /* Trading chart and page navigation */
 (function(){
   const pages=['home','chart','liquidity','news','cvd','openinterest','fundingrate','bookmap','volumeprofile','backtest','notes','journal','account','contact'];
@@ -5136,10 +5151,7 @@ document.addEventListener('click',event=>{
     });
     document.querySelectorAll('.nfx-market-tab').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
     document.querySelectorAll('.nav-btn[data-page="liquidity"]').forEach(b=>b.classList.toggle('active',page==='liquidity'||['cvd','openinterest','fundingrate','bookmap','volumeprofile'].includes(page)));
-    if(page!=='account'){
-      $('accountDropdown').classList.remove('open');
-      $('accountMenuToggle').setAttribute('aria-expanded','false');
-    }
+    if(page!=='account')closeAccountDropdown();
     window.scrollTo({top:0,behavior:'smooth'});
     if(page==='chart')loadTradingView();
 
