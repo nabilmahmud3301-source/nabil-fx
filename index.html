@@ -2641,6 +2641,46 @@ function conditionSeries(c,cond){
  return {};
 }
 function intervalMilliseconds(tf){const m=String(tf).match(/^(1|3|5|15|30)m$/);if(m)return Number(m[1])*60000;const h=String(tf).match(/^(1|2|4)h$/);if(h)return Number(h[1])*3600000;if(tf==='1d')return 86400000;throw Error('Unsupported timeframe: '+tf);}
+
+function evaluateStrategyExpression(c,expr,i,cache){
+ if(!expr||typeof expr!=='object'||i<0)return NaN;
+ if(Object.prototype.hasOwnProperty.call(expr,'value'))return Number(expr.value);
+ if(expr.field){const key={open:'o',high:'h',low:'l',close:'c',volume:'v'}[expr.field];return key?Number(c[i]?.[key]):NaN;}
+ if(expr.indicator){
+  const period=Math.max(2,Math.min(500,Math.floor(Number(expr.period)||14)));
+  const source={open:'o',high:'h',low:'l',close:'c',volume:'v'}[expr.source||'close']||'c';
+  const cacheKey='expr:'+expr.indicator+':'+period+':'+source+':'+c.length+':'+c[0]?.t+':'+c[c.length-1]?.t;
+  let values=cache.get(cacheKey);
+  if(!values){
+   if(expr.indicator==='ema')values=emaValues(c,period,source);
+   else if(expr.indicator==='sma'||expr.indicator==='volume_sma')values=smaValues(c,period,expr.indicator==='volume_sma'?'v':source);
+   else if(expr.indicator==='rsi')values=rsiValues(c,period);
+   else if(expr.indicator==='atr')values=atrValues(c,period);
+   else if(expr.indicator==='highest'||expr.indicator==='lowest'){
+    values=new Array(c.length).fill(null);
+    for(let j=period-1;j<c.length;j++){const field=expr.indicator==='highest'?'h':'l';const win=c.slice(j-period+1,j+1);values[j]=expr.indicator==='highest'?Math.max(...win.map(z=>z[field])):Math.min(...win.map(z=>z[field]));}
+   } else throw Error('Unsupported expression indicator: '+expr.indicator);
+   cache.set(cacheKey,values);
+  }
+  return Number(values[i]);
+ }
+ const op=String(expr.op||'').toLowerCase(),args=Array.isArray(expr.args)?expr.args:[];
+ if(op==='and')return args.length>0&&args.every(a=>!!evaluateStrategyExpression(c,a,i,cache));
+ if(op==='or')return args.some(a=>!!evaluateStrategyExpression(c,a,i,cache));
+ if(op==='not')return args.length===1&&!evaluateStrategyExpression(c,args[0],i,cache);
+ if(op==='crosses_above'||op==='crosses_below'){
+  if(args.length!==2||i<1)return false;
+  const left=evaluateStrategyExpression(c,args[0],i,cache),right=evaluateStrategyExpression(c,args[1],i,cache);
+  const pl=evaluateStrategyExpression(c,args[0],i-1,cache),pr=evaluateStrategyExpression(c,args[1],i-1,cache);
+  return op==='crosses_above'?pl<=pr&&left>right:pl>=pr&&left<right;
+ }
+ if(args.length!==2)return NaN;
+ const a=evaluateStrategyExpression(c,args[0],i,cache),b=evaluateStrategyExpression(c,args[1],i,cache);
+ if(op==='gt')return a>b;if(op==='gte')return a>=b;if(op==='lt')return a<b;if(op==='lte')return a<=b;
+ if(op==='eq')return a===b;if(op==='neq')return a!==b;
+ if(op==='add')return a+b;if(op==='sub')return a-b;if(op==='mul')return a*b;if(op==='div')return b===0?NaN:a/b;
+ throw Error('Unsupported strategy expression operator: '+op);
+}
 function conditionAt(c,cond,i,cache,seriesMap=null){
  const requestedTf=cond?.timeframe;
  if(requestedTf&&seriesMap){
@@ -2653,6 +2693,7 @@ function conditionAt(c,cond,i,cache,seriesMap=null){
   return conditionAt(target,plain,idx,cache,null);
  }
  const prev=i-1,x=c[i],p=x;
+ if(cond.type==='expression')return !!evaluateStrategyExpression(c,cond.expr,i,cache);
  if(cond.type==='logic'){
   const op=String(cond.operator||'all').toLowerCase(),children=Array.isArray(cond.conditions)?cond.conditions:[];
   if(!children.length)return false;
