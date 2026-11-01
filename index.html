@@ -2747,6 +2747,52 @@ function conditionAt(c,cond,i,cache,seriesMap=null){
   const avg=c.slice(i-n,i).reduce((sum,z)=>sum+(z.h-z.l),0)/n;
   return avg>0&&(x.h-x.l)>avg*Number(cond.multiplier||1.5);
  }
+
+ if(cond.type==='market_structure_shift'){
+  const n=Math.max(3,Math.min(500,Math.floor(Number(cond.lookback)||10)));if(i<n)return false;
+  const prior=c.slice(i-n,i),hi=Math.max(...prior.map(z=>z.h)),lo=Math.min(...prior.map(z=>z.l));
+  return cond.direction==='bullish'?x.c>hi:x.c<lo;
+ }
+ if(cond.type==='fair_value_gap_return'){
+  const n=Math.max(3,Math.min(500,Math.floor(Number(cond.lookback)||30))),from=Math.max(2,i-n);
+  for(let j=i-1;j>=from;j--){
+   if(cond.direction==='bullish'&&c[j].l>c[j-2].h){const lower=c[j-2].h,upper=c[j].l;if(x.l<=upper&&x.h>=lower)return true;}
+   if(cond.direction==='bearish'&&c[j].h<c[j-2].l){const lower=c[j].h,upper=c[j-2].l;if(x.h>=lower&&x.l<=upper)return true;}
+  }
+  return false;
+ }
+ if(cond.type==='order_block_return'){
+  const n=Math.max(3,Math.min(500,Math.floor(Number(cond.lookback)||30))),from=Math.max(1,i-n);
+  for(let j=i-2;j>=from;j--){
+   const z=c[j],d=c[j+1],opposite=cond.direction==='bullish'?z.c<z.o:z.c>z.o;
+   const displacement=cond.direction==='bullish'?d.c>z.h:d.c<z.l;
+   if(!opposite||!displacement)continue;
+   const lower=Math.min(z.o,z.c),upper=Math.max(z.o,z.c);
+   return x.l<=upper&&x.h>=lower;
+  }
+  return false;
+ }
+ if(cond.type==='previous_day_sweep'){
+  const zone=cond.timezone||'UTC';let fmt;
+  try{fmt=new Intl.DateTimeFormat('en-CA',{timeZone:zone,year:'numeric',month:'2-digit',day:'2-digit'});}catch(e){throw Error('Invalid timezone for previous-day levels: '+zone);}
+  const day=fmt.format(new Date(x.t)),priorDay=new Date(new Date(day+'T12:00:00Z').getTime()-86400000);
+  const prevKey=fmt.format(priorDay);let hi=-Infinity,lo=Infinity;
+  for(let j=i-1;j>=0;j--){const key=fmt.format(new Date(c[j].t));if(key===prevKey){hi=Math.max(hi,c[j].h);lo=Math.min(lo,c[j].l);}else if(key<prevKey)break;}
+  if(!Number.isFinite(hi)||!Number.isFinite(lo))return false;
+  return cond.direction==='bullish'?(x.l<lo&&x.c>lo):(x.h>hi&&x.c<hi);
+ }
+ if(cond.type==='session_range_sweep'){
+  const zone=cond.timezone||'UTC';let fmt;
+  try{fmt=new Intl.DateTimeFormat('en-GB',{timeZone:zone,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'});}catch(e){throw Error('Invalid timezone for session range: '+zone);}
+  const parts=t=>{const o={};fmt.formatToParts(new Date(t)).forEach(z=>{if(z.type!=='literal')o[z.type]=z.value});return o;};
+  const now=parts(x.t),day=now.year+'-'+now.month+'-'+now.day,mins=Number(now.hour)*60+Number(now.minute);
+  const start=Number(cond.startHour)*60+Number(cond.startMinute||0),end=Number(cond.endHour)*60+Number(cond.endMinute||0);
+  if(mins<end||start>=end)return false;
+  let hi=-Infinity,lo=Infinity,found=false;
+  for(let j=i-1;j>=0;j--){const q=parts(c[j].t),key=q.year+'-'+q.month+'-'+q.day;if(key!==day)break;const m=Number(q.hour)*60+Number(q.minute);if(m>=start&&m<end){hi=Math.max(hi,c[j].h);lo=Math.min(lo,c[j].l);found=true;}}
+  if(!found)return false;
+  return cond.direction==='bullish'?(x.l<lo&&x.c>lo):(x.h>hi&&x.c<hi);
+ }
  if(cond.type==='fair_value_gap'){
   if(i<2)return false;
   return cond.direction==='bullish'?x.l>c[i-2].h:x.h<c[i-2].l;
