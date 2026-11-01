@@ -2565,6 +2565,34 @@ function conditionAt(c,cond,i,cache){
   for(let j=rangeIndex+rangeBars;j<i;j++){if(c[j].h>hi||c[j].l<lo)return false;}
   return cond.direction==='bullish'?bull:bear;
  }
+ if(cond.type==='time_range_breakout'||cond.type==='time_range_sweep'){
+  const zone=cond.timezone||'UTC';
+  let fmt;try{fmt=new Intl.DateTimeFormat('en-GB',{timeZone:zone,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',weekday:'short',hourCycle:'h23'});}catch(e){throw Error('Invalid IANA timezone in strategy: '+zone);}
+  const parts=t=>{const o={};fmt.formatToParts(new Date(t)).forEach(z=>{if(z.type!=='literal')o[z.type]=z.value});return o;};
+  const now=parts(x.t),day=now.year+'-'+now.month+'-'+now.day,mins=Number(now.hour)*60+Number(now.minute);
+  const sh=Number(cond.startHour??7),sm=Number(cond.startMinute??0),duration=Math.max(1,Math.min(1440,Number(cond.rangeMinutes)||5));
+  const start=sh*60+sm,end=start+duration;
+  if(mins<end)return false;
+  let rangeIndex=-1;
+  for(let j=i-1;j>=0;j--){const z=parts(c[j].t),d=z.year+'-'+z.month+'-'+z.day;if(d!==day)break;if(Number(z.hour)*60+Number(z.minute)===start){rangeIndex=j;break;}}
+  if(rangeIndex<0)return false;
+  const tfMs=Number(cond.timeframeMs)||((i>0)?c[i].t-c[i-1].t:300000);
+  const rangeBars=Math.max(1,Math.ceil(duration*60000/tfMs));
+  if(rangeIndex+rangeBars>i)return false;
+  const range=c.slice(rangeIndex,rangeIndex+rangeBars);
+  const hi=Math.max(...range.map(z=>z.h)),lo=Math.min(...range.map(z=>z.l));
+  if(cond.type==='time_range_sweep'){
+   const bullish=x.l<lo&&x.c>lo,bearish=x.h>hi&&x.c<hi;
+   return cond.direction==='bullish'?bullish:bearish;
+  }
+  const trigger=cond.trigger||'close';
+  const bullish=trigger==='wick'?x.h>hi:x.c>hi;
+  const bearish=trigger==='wick'?x.l<lo:x.c<lo;
+  if(bullish===bearish)return false;
+  // Only the first breakout of this range is a valid signal.
+  for(let j=rangeIndex+rangeBars;j<i;j++){if(c[j].h>hi||c[j].l<lo)return false;}
+  return cond.direction==='bullish'?bullish:bearish;
+ }
  if(cond.type==='candle_direction')return cond.direction==='bullish'?x.c>x.o:x.c<x.o;
  if(cond.type==='close_vs_open')return cond.operator==='above'?x.c>x.o:x.c<x.o;
  if(cond.type==='close_vs_prev_highlow'){
