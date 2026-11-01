@@ -2387,7 +2387,8 @@ $('market').onchange=()=>{
   const m=$('market').value;
   const defaults={crypto:'BTCUSDT',forex:'EURUSD',indices:'SPX',stocks:'AAPL',commodities:'XAUUSD',futures:'ESZ6'};
   $('symbol').value=defaults[m];
-  status(m==='crypto'?'Historical crypto candles: Binance.':m==='futures'?'Futures candles: Massive API; enter a listed expiry contract (example ESZ6).':'Historical candles: Twelve Data. Symbol and timeframe availability depends on provider access.');
+  const db=$('databentoConfig');if(db)db.style.display=m==='futures'?'block':'none';
+  status(m==='crypto'?'Historical crypto candles: Binance.':m==='futures'?'Futures candles: Massive API. For raw exchange trade replay, choose a listed expiry contract and Databento dataset; a separate licensed API key is required.':'Historical candles: Twelve Data. Spot FX/Gold and broker CFD prices are not exchange-wide tick/order-book feeds.');
 };
 
 let nabilAiClient=null;
