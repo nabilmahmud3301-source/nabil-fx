@@ -6402,10 +6402,10 @@ setInterval(function(){nfxEstLiqLoad(false);},30000);
 }
 @media(min-width:761px){.app-menu-toggle{display:none!important}}
 </style>
-</body>
 
 
-</html>
+
+
 <style>
 /* Balanced premium Home showcase: four equally sized visual cards. */
 #page-home .video-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-template-rows:repeat(2,minmax(230px,clamp(230px,25vw,330px)))!important;gap:16px!important;align-items:stretch!important}
@@ -7407,3 +7407,15 @@ setInterval(function(){nfxEstLiqLoad(false);},30000);
  #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-chart-frame .nfx-liq-timeline-wrap{height:450px!important;min-height:370px!important}
 }
 </style>
+<style id="nfx-document-visibility-layout-fix">
+/* Keep each single-page view isolated; the home showcase is routed by the same nav controller. */
+.view:not(.active){display:none!important}
+#page-home:not(.active){display:none!important}
+.view.active{display:block!important}
+#page-home.active{display:flex!important}
+/* Prevent market workspaces and their cards from inheriting accidental cross-page layout rules. */
+#page-liquidity.active,#page-news.active,#page-cvd.active,#page-openinterest.active,#page-fundingrate.active,#page-bookmap.active,#page-volumeprofile.active,#page-chart.active,#page-backtest.active,#page-journal.active,#page-notes.active,#page-account.active,#page-contact.active{box-sizing:border-box;min-width:0;width:100%}
+.view .panel,.view .grid,.view .metrics{min-width:0;box-sizing:border-box}
+</style>
+</body>
+</html>
