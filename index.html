@@ -2604,7 +2604,7 @@ function conditionAt(c,cond,i,cache,seriesMap=null){
   const signalClose=c[i].t+intervalMilliseconds($('interval').value);
   let lo=0,hi=target.length-1,idx=-1;
   while(lo<=hi){const mid=(lo+hi)>>1;if(target[mid].t+intervalMilliseconds(requestedTf)<=signalClose){idx=mid;lo=mid+1;}else hi=mid-1;}
-  if(idx<1)return false;
+  if(idx<0)return false;
   const plain={...cond};delete plain.timeframe;
   return conditionAt(target,plain,idx,cache,null);
  }
@@ -2715,6 +2715,7 @@ function conditionAt(c,cond,i,cache,seriesMap=null){
  if(cond.type==='candle_direction')return cond.direction==='bullish'?x.c>x.o:x.c<x.o;
  if(cond.type==='close_vs_open')return cond.operator==='above'?x.c>x.o:x.c<x.o;
  if(cond.type==='close_vs_prev_highlow'){
+  if(prev<0)return false;
   const key=cond.level==='high'?'h':'l';
   return cond.operator==='above'?x.c>c[prev][key]:x.c<c[prev][key];
  }
@@ -2726,7 +2727,7 @@ function conditionAt(c,cond,i,cache,seriesMap=null){
   if(i<1)return false;const a=c[prev],bull=x.c>x.o,bear=x.c<x.o,pa=a.c>a.o,pb=a.c<a.o;
   return cond.direction==='bullish'?(bull&&pb&&x.o<=a.c&&x.c>=a.o):(bear&&pa&&x.o>=a.c&&x.c<=a.o);
  }
- if(cond.type==='inside_bar')return x.h<c[prev].h&&x.l>c[prev].l;
+ if(cond.type==='inside_bar')return prev>=0&&x.h<c[prev].h&&x.l>c[prev].l;
  if(cond.type==='liquidity_sweep'){
   const n=Math.max(2,Math.min(500,Math.floor(Number(cond.lookback)||20)));if(i<n)return false;
   const range=c.slice(i-n,i),hi=Math.max(...range.map(z=>z.h)),lo=Math.min(...range.map(z=>z.l));
