@@ -1537,7 +1537,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">ESTIMATED LIQUIDATION LEVELS · LIVE MARKET MODEL</div><h3>Liquidation Heatmap</h3><p>Modelled liquidation clusters + actual exchange prints · <strong id="nfxLiqLiquidationSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><span class="nfx-liq-live-tag" id="nfxLiqEstStatus"><i></i> LIVE FEED</span><div class="nfx-est-liq-controls"><label>MODEL <select id="nfxEstLiqModel"><option value="1">MODEL 1 · BALANCED</option><option value="2">MODEL 2 · HIGH LEVERAGE</option><option value="3">MODEL 3 · BROAD RANGE</option></select></label><label>THRESHOLD <input id="nfxEstLiqThreshold" type="range" min="20" max="95" step="5" value="45"><b id="nfxEstLiqThresholdValue">45%</b></label></div><div class="nfx-est-liq-ranges" role="group" aria-label="Heatmap time range"><button type="button" data-est-liq-range="1h" class="active">1H</button><button type="button" data-est-liq-range="2h">2H</button><button type="button" data-est-liq-range="4h">4H</button><button type="button" data-est-liq-range="12h">12H</button><button type="button" data-est-liq-range="1d">1D</button><button type="button" data-est-liq-range="2d">2D</button><button type="button" data-est-liq-range="3d">3D</button><button type="button" data-est-liq-range="7d">7D</button><button type="button" data-est-liq-zoom="reset">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqLiquidationHeatmap" aria-label="Expand liquidation heatmap">⛶ <span>Expand</span></button></div></div>
       <div class="nfx-heatmap-stats nfx-liquidation-stats" id="nfxLiquidationHeatmapStats"><div><span>ACTUAL PRINTS</span><b id="nfxLiqStatEvents">0</b></div><div><span>ACTUAL NOTIONAL</span><b id="nfxLiqStatNotional">—</b></div><div><span>LONG PRINTS</span><b id="nfxLiqStatLong">—</b></div><div><span>SHORT PRINTS</span><b id="nfxLiqStatShort">—</b></div></div><div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqLiquidationCanvas" aria-label="Verified exchange liquidation executions by price and time" style="width:100%;height:100%;display:block"></canvas><div id="nfxLiqLiquidationEmpty" class="nfx-liq-timeline-empty">Waiting for actual futures liquidation events…</div></div>
       <div class="nfx-liq-timeline-axis"><span>OLDER</span><span>SYMBOL · TIME</span><span>NOW →</span></div>
-      <div class="nfx-liq-timeline-note">Estimated clusters are calculated from public open-interest history, nearby market prices and the selected leverage distribution. Public OI does not disclose long/short account allocation or each trader’s entry price, so cluster location and intensity are model estimates—not CoinGlass data or verified liquidation USD. Actual exchange liquidation prints are overlaid separately.</div>
+      <div class="nfx-liq-timeline-note">Estimated clusters are modelled from public open-interest history, nearby market prices and leverage assumptions. Public OI does not disclose account-side positioning or entry prices, so levels and intensity are estimates—not CoinGlass data or verified liquidation USD. Actual exchange liquidation prints are overlaid separately.</div>
 
     </section>
   </div>
@@ -4347,9 +4347,11 @@ var nfxEstLiqCandles=[];
     var covered=nfxEstLiqCandles.length&&nfxEstLiqCandles[0].t<=start+cfg.intervalMs&&nfxEstLiqCandles[nfxEstLiqCandles.length-1].t>=end-cfg.intervalMs*2;
     if(!force&&nfxEstLiqSymbol===providerKey&&nfxEstLiqLoadedRange===requestedRange&&covered&&Date.now()-nfxEstLiqFetchedAt<5000)return;
     nfxEstLiqLoading=true;
+    var oiPeriod=({'1h':'5m','2h':'5m','4h':'5m','12h':'5m','1d':'15m','2d':'30m','3d':'30m','7d':'1h'}[requestedRange]||'5m');
+    var bybitOiPeriod=({'5m':'5min','15m':'15min','30m':'30min','1h':'1h'}[oiPeriod]||'5min');
     var oiUrl=provider==='bybit'
-      ?'https://api.bybit.com/v5/market/open-interest?category=linear&symbol='+encodeURIComponent(symbol)+'&intervalTime=5min&limit=200'
-      :'https://fapi.binance.com/futures/data/openInterestHist?symbol='+encodeURIComponent(symbol)+'&period=5m&limit=500';
+      ?'https://api.bybit.com/v5/market/open-interest?category=linear&symbol='+encodeURIComponent(symbol)+'&intervalTime='+bybitOiPeriod+'&limit=200'
+      :'https://fapi.binance.com/futures/data/openInterestHist?symbol='+encodeURIComponent(symbol)+'&period='+oiPeriod+'&limit=500';
     var oiRequest=fetch(oiUrl,{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('Open interest HTTP '+r.status);return r.json();}).then(function(data){
       var rows=provider==='bybit'?(data&&data.result&&data.result.list||[]):(Array.isArray(data)?data:[]);
       return rows.map(function(v){return {t:Number(provider==='bybit'?v.timestamp:v.timestamp),oi:Number(provider==='bybit'?v.openInterest:v.sumOpenInterest)};})
@@ -4404,7 +4406,11 @@ var nfxEstLiqCandles=[];
     events.forEach(function(e){lo=Math.min(lo,e.p);hi=Math.max(hi,e.p);});
     var candleRange=Math.max(hi-lo,last*.0008);
     var pad=Math.max(candleRange*.035,last*.0005);
-    var minP=Math.max(1e-8,lo-pad),maxP=hi+pad;if(maxP<=minP){minP=last*.99;maxP=last*1.01;}
+    var modelNow=Number(($('nfxEstLiqModel')||{}).value||1);
+    var leverageSetsForScale={1:[10,20,25,50,75,100],2:[25,50,75,100,125],3:[5,10,20,25,50]};
+    var modelLeverages=leverageSetsForScale[modelNow]||leverageSetsForScale[1],minLev=Math.min.apply(null,modelLeverages),mmrScale=.005;
+    var minP=Math.max(1e-8,Math.min(lo-pad,last*(1-1/minLev+mmrScale))),maxP=Math.max(hi+pad,last*(1+1/minLev-mmrScale));
+    if(maxP<=minP){minP=last*.99;maxP=last*1.01;}
     var liqHalf=(maxP-minP)/(2*Math.max(.25,nfxEstLiqPriceZoom));minP=Math.max(1e-8,last-liqHalf+nfxEstLiqPricePan);maxP=last+liqHalf+nfxEstLiqPricePan;
     var rows=100,cols=Math.min(220,Math.max(80,Math.ceil(pw/4))),cellW=pw/cols,cellH=ph/rows;
     // Compact, separate long/short liquidation clusters from reported executions.
