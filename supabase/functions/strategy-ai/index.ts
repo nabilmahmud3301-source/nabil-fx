@@ -151,6 +151,14 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
         }
 
         const execution = parsed?.execution && typeof parsed.execution === "object" ? parsed.execution : null;
+
+        // The simulator currently loads OHLCV candles for one selected interval only.
+        // Reject rules requiring synchronized timeframes or historical event/tick data.
+        const multiTimeframePattern = /multi[ -]?timeframe|\\bmtf\\b|higher[ -]?timeframe|lower[ -]?timeframe|multiple timeframes|timeframe alignment|top[ -]?down analysis|1\\s*(?:m|min|minute)s?\\s*(?:and|\\+|,)\\s*5\\s*(?:m|min|minute)s?|5\\s*(?:m|min|minute)s?\\s*(?:and|\\+|,)\\s*1\\s*(?:h|hr|hour)s?/i;
+        const tickDataPattern = /tick[ -]?(?:level|by[ -]?tick|data|chart|feed)|every tick|order[ -]?flow|footprint|time[ -]?and[ -]?sales|tape[ -]?reading|bid[ -]?ask[ -]?stream|level[ -]?2|market[ -]?depth|\\bDOM\\b/i;
+        const unsupportedDataReasons: string[] = [];
+        if (multiTimeframePattern.test(strategy)) unsupportedDataReasons.push("Multi-timeframe rules need synchronized historical candles for each timeframe; this run only loads the selected chart interval.");
+        if (tickDataPattern.test(strategy)) unsupportedDataReasons.push("Tick/order-flow rules need historical tick or order-book events; OHLCV candles cannot reproduce them.");
         const validTypes = new Set(["ema_cross","sma_cross","close_vs_ema","close_vs_sma","rsi","macd_cross","breakout","candle_direction","close_vs_open","close_vs_prev_highlow","consecutive_candles","engulfing","inside_bar","liquidity_sweep","volume_above_sma","session_filter","session_opening_range_breakout","time_range_breakout","time_range_sweep","weekday_filter","clock_time_filter","candle_body_percent","price_change_percent","range_expansion","fair_value_gap","gap","logic"]);
         const validCondition = (c: any, depth = 0): boolean => {
           if (!c || typeof c !== "object" || depth > 5 || !validTypes.has(c.type)) return false;
@@ -200,7 +208,7 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
           Number.isFinite(Number(execution.targetR)) &&
           Number(execution.targetR) > 0;
         const safe = {
-          supported: parsed.supported === true && executionValid,
+          supported: parsed.supported === true && executionValid && unsupportedDataReasons.length === 0 && !(Array.isArray(parsed.unsupportedReasons) && parsed.unsupportedReasons.length > 0),
           long: parsed.long === true,
           short: parsed.short === true,
           rewardRisk: Number.isFinite(Number(parsed.rewardRisk)) && Number(parsed.rewardRisk) > 0 ? Number(parsed.rewardRisk) : null,
@@ -208,8 +216,8 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
           explanation: String(parsed.explanation || "Strategy analyzed.").slice(0, 3000),
           missing: Array.isArray(parsed.missing) ? parsed.missing.map((x: unknown) => String(x).slice(0, 200)).slice(0, 12) : [],
           assumptions: Array.isArray(parsed.assumptions) ? parsed.assumptions.map((x: unknown) => String(x).slice(0, 300)).slice(0, 12) : [],
-          unsupportedReasons: Array.isArray(parsed.unsupportedReasons) ? parsed.unsupportedReasons.map((x: unknown) => String(x).slice(0, 200)).slice(0, 12) : [],
-          execution: executionValid ? {
+          unsupportedReasons: [...(Array.isArray(parsed.unsupportedReasons) ? parsed.unsupportedReasons.map((x: unknown) => String(x).slice(0, 200)).slice(0, 12) : []), ...unsupportedDataReasons].slice(0, 12),
+          execution: executionValid && unsupportedDataReasons.length === 0 && !(Array.isArray(parsed.unsupportedReasons) && parsed.unsupportedReasons.length > 0) ? {
             longConditions: execution.longConditions,
             shortConditions: execution.shortConditions,
             exitLongConditions: Array.isArray(execution.exitLongConditions) ? execution.exitLongConditions : [],
