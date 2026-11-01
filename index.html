@@ -2526,6 +2526,29 @@ function conditionAt(c,cond,i,cache){
  const prev=i-1,x=c[i],p=x;
  if(cond.type==='candle_direction')return cond.direction==='bullish'?x.c>x.o:x.c<x.o;
  if(cond.type==='close_vs_open')return cond.operator==='above'?x.c>x.o:x.c<x.o;
+ if(cond.type==='close_vs_prev_highlow'){
+  const key=cond.level==='high'?'h':'l';
+  return cond.operator==='above'?x.c>c[prev][key]:x.c<c[prev][key];
+ }
+ if(cond.type==='consecutive_candles'){
+  const n=Math.max(2,Math.min(50,Math.floor(Number(cond.count)||3)));if(i<n-1)return false;
+  for(let j=i-n+1;j<=i;j++){if(cond.direction==='bullish'?c[j].c<=c[j].o:c[j].c>=c[j].o)return false;}return true;
+ }
+ if(cond.type==='engulfing'){
+  if(i<1)return false;const a=c[prev],bull=x.c>x.o,bear=x.c<x.o,pa=a.c>a.o,pb=a.c<a.o;
+  return cond.direction==='bullish'?(bull&&pb&&x.o<=a.c&&x.c>=a.o):(bear&&pa&&x.o>=a.c&&x.c<=a.o);
+ }
+ if(cond.type==='inside_bar')return x.h<c[prev].h&&x.l>c[prev].l;
+ if(cond.type==='liquidity_sweep'){
+  const n=Math.max(2,Math.min(500,Math.floor(Number(cond.lookback)||20)));if(i<n)return false;
+  const range=c.slice(i-n,i),hi=Math.max(...range.map(z=>z.h)),lo=Math.min(...range.map(z=>z.l));
+  return cond.direction==='bullish'?(x.l<lo&&x.c>lo):(x.h>hi&&x.c<hi);
+ }
+ if(cond.type==='volume_above_sma'){
+  const n=Math.max(2,Math.min(200,Math.floor(Number(cond.period)||20)));if(i<n||!Number.isFinite(x.v))return false;
+  const avg=c.slice(i-n,i).reduce((sum,z)=>sum+(Number(z.v)||0),0)/n;
+  return x.v>avg;
+ }
  if(cond.type==='breakout'){
   const n=Math.max(2,Math.min(500,Math.floor(Number(cond.lookback)||20)));if(i<n)return false;
   const range=c.slice(i-n,i);
