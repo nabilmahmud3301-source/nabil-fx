@@ -64,7 +64,7 @@ supported (boolean), long (boolean), short (boolean), rewardRisk (number or null
 Require at least one direction, matching previous-candle stop definitions for selected directions, and a positive fixed R target. Do not invent missing rules. Keep explanation concise and mention engine limitations.`;
 
     // Try the requested model first, then Google's current stable Flash aliases if it is busy/unavailable.
-    const models = ["gemini-3.8-flash", "gemini-flash-lite-latest", "gemini-flash-latest"];
+    const models = ["gemini-3.8-flash", "gemini-flash-lite-latest"];
     const failures: string[] = [];
 
     for (const model of models) {
@@ -72,6 +72,7 @@ Require at least one direction, matching previous-candle stop definitions for se
         const response = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
           method: "POST",
           headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
+          signal: AbortSignal.timeout(10000),
           body: JSON.stringify({
             model,
             store: false,
@@ -131,12 +132,13 @@ Require at least one direction, matching previous-candle stop definitions for se
       } catch (modelError) {
         const message = modelError instanceof Error ? modelError.message : "Unknown model error";
         failures.push(model + ": " + message);
-        if (modelError instanceof Error && !/HTTP (408|429|500|502|503|504|404)/.test(message)) throw modelError;
+        const timedOut = modelError instanceof Error && (modelError.name === "TimeoutError" || modelError.name === "AbortError");
+        if (modelError instanceof Error && !timedOut && !/HTTP (408|429|500|502|503|504|404)/.test(message)) throw modelError;
       }
     }
 
     console.error("strategy-ai: all Gemini model attempts failed:", failures.join(" | "));
-    throw new Error("Gemini is temporarily busy or returned an unreadable response. Automatic model fallback was attempted. Please try again shortly.");
+    throw new Error("Gemini is temporarily busy or returned an unreadable response. Both AI attempts timed out or failed. Please try again shortly; the request is now capped at about 20 seconds.");
   } catch (error) {
     console.error("strategy-ai error:", error);
     return new Response(JSON.stringify({ error: error instanceof Error ? error.message : "Unexpected AI error." }), {
