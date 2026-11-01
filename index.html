@@ -2357,12 +2357,15 @@ $('reply').onclick=async()=>{
 
 function parseEmaRules(raw){
   const s=String(raw||'').toLowerCase().replace(/\s+/g,' ');
-  const hasFast=/ema\s*9\b/.test(s),hasSlow=/ema\s*21\b/.test(s);
-  const hasCross=/cross(?:es|ed|ing)?\s*(?:above|below)|crossover/.test(s);
-  const hasNext=/next candle (?:open|opening price)|at the next candle open/.test(s);
-  const hasStop=/signal candle (?:low|high)/.test(s);
-  const rr=s.match(/(?:take profit|target)\s*:?\s*(?:at\s*)?([0-9.]+)\s*r/);
-  if(!hasFast||!hasSlow||!hasCross||!hasNext||!hasStop||!rr||!(+rr[1]>0))return null;
+  const hasFast=/ema\s*9\b/.test(s)||/ema\s*9\s*\/\s*21/.test(s)||/9\s*\/\s*21\s*(?:ema|crossover)/.test(s);
+  const hasSlow=/ema\s*21\b/.test(s)||/ema\s*9\s*\/\s*21/.test(s)||/9\s*\/\s*21\s*(?:ema|crossover)/.test(s);
+  const hasCross=/cross(?:es|ed|ing)?\s*(?:above|below)|cross(?:over|under)|(?:above|below)\s+(?:the\s+)?(?:other\s+)?ema/.test(s);
+  const hasNext=/(?:at\s+)?(?:the\s+)?next candle\s+(?:open|opening price)|next candle open/.test(s);
+  const hasLongStop=/(?:buy|long)[^.;\n]{0,100}(?:signal candle|candle)[^.;\n]{0,35}low/.test(s)||/signal candle low/.test(s);
+  const hasShortStop=/(?:sell|short)[^.;\n]{0,100}(?:signal candle|candle)[^.;\n]{0,35}high/.test(s)||/signal candle high/.test(s);
+  const rr=s.match(/(?:take profit|target)\s*:?\s*(?:at\s*)?([0-9]+(?:\.[0-9]+)?)\s*r\b/);
+  const bothStops=hasLongStop&&hasShortStop;
+  if(!hasFast||!hasSlow||!hasCross||!hasNext||!bothStops||!rr||!(+rr[1]>0))return null;
   return {type:'emaCrossover',long:true,short:true,r:+rr[1],fast:9,slow:21};
 }
 function emaSeries(c,period){
