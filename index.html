@@ -1436,6 +1436,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 
 <section id="page-liquidity" class="view nfx-liquidity-page" aria-label="Liquidity Heatmap">
   <div class="nfx-liq-market-tabs" role="tablist" aria-label="Market type">
+    <div class="nfx-feed-switch" aria-label="Market data provider"><span>DATA FEED</span><button type="button" class="active" data-nfx-provider="bybit">BYBIT · 1000 LEVEL</button><button type="button" data-nfx-provider="binance">BINANCE</button></div>
     <button type="button" class="nfx-liq-market-tab active" data-liq-market="crypto" role="tab" aria-selected="true">Crypto</button>
   </div>
   <section class="nfx-market-search" aria-label="Search crypto markets">
@@ -3820,10 +3821,15 @@ document.addEventListener('click', function(event) {
 @media(max-width:800px){.nfx-liq-book{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.nfx-liq-mid{grid-column:1/-1;grid-row:1;padding:12px}.nfx-liq-provider-grid{grid-template-columns:1fr}.nfx-liq-stat{min-width:85px}.nfx-liq-panel-head{flex-direction:column}.nfx-liq-status{align-self:flex-start}}
 @media(max-width:520px){.nfx-liquidity-page{padding:14px!important}.nfx-liq-hero{align-items:flex-start}.nfx-liq-hero-badge{display:none}.nfx-liq-market-tabs{gap:4px}.nfx-liq-market-tab{padding:9px 10px;font-size:11px}.nfx-liq-controls{gap:9px}.nfx-liq-stat{padding:3px 7px;min-width:calc(50% - 12px);border-left:0}.nfx-liq-book{grid-template-columns:1fr}.nfx-liq-mid{grid-column:auto;grid-row:auto;min-height:75px}.nfx-liq-book-title{font-size:8px}.nfx-liq-row{font-size:10px}.nfx-liq-legend .nfx-liq-legend-note{margin-left:0}}
 .nfx-market-search{position:relative;display:grid;grid-template-columns:minmax(220px,.8fr) minmax(320px,1.4fr);gap:12px 24px;align-items:center;margin:0 0 22px;padding:24px 26px;border:1px solid rgba(212,165,92,.28);border-radius:18px;background:radial-gradient(ellipse at 5% 0%,rgba(212,165,92,.12),transparent 42%),linear-gradient(135deg,#11151e 0%,#0b0e14 70%);box-shadow:0 16px 38px rgba(0,0,0,.22),inset 0 1px rgba(255,255,255,.035)}.nfx-market-search-copy{min-width:0}.nfx-market-search-kicker{font-size:9px;letter-spacing:.2em;font-weight:800;color:#d6b174}.nfx-market-search-copy h2{margin:7px 0 4px;color:#f2f4f8;font-size:22px;letter-spacing:-.04em}.nfx-market-search-copy p{margin:0;color:#8994a6;font-size:11px;line-height:1.55}.nfx-market-search-form{display:flex;align-items:stretch;gap:9px;min-width:0}.nfx-market-search-input-wrap{display:flex;align-items:center;gap:10px;flex:1;min-width:0;padding:0 14px;border:1px solid #303847;border-radius:11px;background:#080b11;color:#d7b779;transition:border-color .2s,box-shadow .2s}.nfx-market-search-input-wrap:focus-within{border-color:#bda16b;box-shadow:0 0 0 3px rgba(189,161,107,.11)}.nfx-market-search-input-wrap>span{font-size:24px;line-height:1}.nfx-market-search-input-wrap input{width:100%;min-width:0;height:48px;border:0;outline:0;background:transparent;color:#f1f4f8;font:inherit;font-size:12px}.nfx-market-search-input-wrap input::placeholder{color:#687486}.nfx-market-search-button{display:flex;align-items:center;justify-content:center;gap:10px;padding:0 17px;border:1px solid #d8b878;border-radius:11px;background:linear-gradient(135deg,#e5c98e,#b9914f);color:#17130c;font-size:11px;font-weight:850;white-space:nowrap;cursor:pointer;box-shadow:0 5px 16px rgba(185,145,79,.13);transition:filter .2s,transform .2s}.nfx-market-search-button:hover{filter:brightness(1.08);transform:translateY(-1px)}.nfx-market-search-meta{grid-column:1/-1;display:flex;align-items:center;gap:8px;min-width:0;color:#8d98a9;font-size:10px}.nfx-market-dot{width:6px;height:6px;border-radius:50%;background:#54d6a0;box-shadow:0 0 10px #54d6a066}.nfx-market-search-current{margin-left:auto;color:#8d98a9}.nfx-market-search-current strong{margin-left:5px;color:#e5c98e;font-weight:750}.nfx-liq-selected-market{display:flex;flex-direction:column;justify-content:center;gap:5px;min-width:130px;padding:0 10px}.nfx-liq-selected-market span{font-size:8px;letter-spacing:.12em;color:#8792a4}.nfx-liq-selected-market strong{font-size:13px;color:#e6c98d;white-space:nowrap}.nfx-liq-controls{align-items:center}@media(max-width:700px){.nfx-market-search{grid-template-columns:1fr;padding:19px 16px;gap:15px}.nfx-market-search-copy h2{font-size:20px}.nfx-market-search-form{flex-direction:column}.nfx-market-search-button{height:45px}.nfx-market-search-meta{flex-wrap:wrap}.nfx-market-search-current{margin-left:0;width:100%}.nfx-liq-selected-market{min-width:0;padding:4px 0 8px}}
+.nfx-feed-switch{display:flex;align-items:center;gap:7px;margin-left:auto;padding:5px 7px;border:1px solid #293446;border-radius:10px;background:#0c1119}
+.nfx-feed-switch>span{padding:0 7px;color:#8292a9;font-size:9px;font-weight:900;letter-spacing:.1em}
+.nfx-feed-switch button{padding:8px 12px;border:1px solid transparent;border-radius:7px;background:transparent;color:#8d9bb0;font-size:10px;font-weight:850;cursor:pointer}
+.nfx-feed-switch button.active{border-color:#285c4e;background:#10251f;color:#7ee2b5;box-shadow:inset 0 0 0 1px #1b4439}
+@media(max-width:620px){.nfx-feed-switch{margin:8px 0 0;width:100%;justify-content:flex-start}.nfx-liq-market-tabs{flex-wrap:wrap}}
 </style>
 <script id="nfx-liquidity-heatmap-app">
 (function(){
-  var socket=null, liquidationSocket=null, reconnectTimer=null, liquidationReconnectTimer=null, currentSymbol='btcusdt', activeMarket='crypto', manuallyClosed=false, lastPayload=null, liquidationEvents=[], liquidationRenderFrame=0;
+  var activeProvider="bybit", socket=null, liquidationSocket=null, reconnectTimer=null, liquidationReconnectTimer=null, currentSymbol='btcusdt', activeMarket='crypto', manuallyClosed=false, lastPayload=null, liquidationEvents=[], liquidationRenderFrame=0;
   var symbols={btcusdt:'BTC/USDT',ethusdt:'ETH/USDT',bnbusdt:'BNB/USDT',solusdt:'SOL/USDT',xrpusdt:'XRP/USDT',dogeusdt:'DOGE/USDT',adausdt:'ADA/USDT',linkusdt:'LINK/USDT'},marketSymbolsLoaded=false;
   function normalizeSymbol(value){return String(value||'').toUpperCase().replace(/[^A-Z0-9]/g,'').replace(/USDT$/,'')+'USDT';}
   function marketLabel(symbol){symbol=String(symbol||'').toUpperCase();return symbol.slice(0,-4)+'/USDT';}
@@ -3914,8 +3920,8 @@ document.addEventListener('click', function(event) {
   function paintOrderBook(data,fromHistory){
     if(!data||!Array.isArray(data.bids)||!Array.isArray(data.asks)||!data.bids.length||!data.asks.length)return;
     lastPayload=data;
-    var bids=data.bids.slice(0,100).map(function(x){return [Number(x[0]),Number(x[1])];}).filter(function(x){return x[1]>0;});
-    var asks=data.asks.slice(0,100).map(function(x){return [Number(x[0]),Number(x[1])];}).filter(function(x){return x[1]>0;});
+    var bids=data.bids.slice(0,1000).map(function(x){return [Number(x[0]),Number(x[1])];}).filter(function(x){return x[1]>0;});
+    var asks=data.asks.slice(0,1000).map(function(x){return [Number(x[0]),Number(x[1])];}).filter(function(x){return x[1]>0;});
     if(!bids.length||!asks.length)return;
     var bestBid=bids.reduce(function(a,b){return b[0]>a[0]?b:a;},bids[0]),bestAsk=asks.reduce(function(a,b){return b[0]<a[0]?b:a;},asks[0]);
     var mid=(bestBid[0]+bestAsk[0])/2,spread=bestAsk[0]-bestBid[0],maxQty=Math.max.apply(null,bids.concat(asks).map(function(x){return x[1];}).concat([0]));
@@ -3962,13 +3968,29 @@ document.addEventListener('click', function(event) {
     if(!fromHistory)setStatus('Live depth stream · '+marketLabel(currentSymbol),'connected');
   }
   var fullDepthTimer=null,fullDepthBusy=false,lastVenueCount=1,lastVenueNames=['Binance USDⓈ-M Futures'];
-  function updateVenueLabels(names){var source=$('nfxPobSourceName');if(source)source.textContent='BINANCE USDⓈ-M FUTURES';var feed=$('nfxPobFeedName');if(feed)feed.textContent='BINANCE FUTURES · LIVE DEPTH';var tag=$('nfxPobFeedTag');if(tag)tag.textContent='100 MS STREAM';}
+  function updateVenueLabels(names){var source=$('nfxPobSourceName');if(source)source.textContent=activeProvider.toUpperCase()+' USDⓈ-M FUTURES';var feed=$('nfxPobFeedName');if(feed)feed.textContent=activeProvider.toUpperCase()+' FUTURES · LIVE DEPTH';var tag=$('nfxPobFeedTag');if(tag)tag.textContent=activeProvider==='bybit'?'200 MS · 1000 LEVEL':'100 MS STREAM';}
+  function connectBybitBook(){
+    if(activeMarket!=='crypto'||document.hidden)return;
+    var sym=String(currentSymbol||'btcusdt').toUpperCase(),bidsMap=new Map(),asksMap=new Map(),pingTimer=null,ready=false;
+    var ws;try{ws=new WebSocket('wss://stream.bybit.com/v5/public/linear');}catch(e){scheduleBookReconnect();return;}
+    socket=ws;setStatus('Connecting to Bybit 1000-level order book…','connecting');
+    function render(){
+      var bids=Array.from(bidsMap.entries()).map(function(x){return [Number(x[0]),Number(x[1])];}).filter(function(x){return x[1]>0;}).sort(function(a,b){return b[0]-a[0];}).slice(0,1000);
+      var asks=Array.from(asksMap.entries()).map(function(x){return [Number(x[0]),Number(x[1])];}).filter(function(x){return x[1]>0;}).sort(function(a,b){return a[0]-b[0];}).slice(0,1000);
+      if(bids.length&&asks.length)paintOrderBook({bids:bids,asks:asks});
+    }
+    ws.onopen=function(){if(socket!==ws)return;ws.send(JSON.stringify({op:'subscribe',args:['orderbook.1000.'+sym]}));pingTimer=setInterval(function(){if(ws.readyState===WebSocket.OPEN)ws.send(JSON.stringify({op:'ping'}));},20000);};
+    ws.onmessage=function(ev){if(socket!==ws)return;try{var msg=JSON.parse(ev.data);if(msg.op==='subscribe'&&!msg.success){setStatus('Bybit does not list '+marketLabel(sym),'disconnected');return;}if(!msg.topic||msg.topic.indexOf('orderbook.1000.')!==0||!msg.data)return;var d=msg.data;if(msg.type==='snapshot'){bidsMap.clear();asksMap.clear();ready=true;}if(!ready)return;function apply(rows,map){(rows||[]).forEach(function(x){var p=String(Number(x[0])),q=Number(x[1]);if(!Number.isFinite(Number(p))||!Number.isFinite(q)||Number(p)<=0)return;if(q===0)map.delete(p);else map.set(p,q);});}apply(d.b,bidsMap);apply(d.a,asksMap);render();}catch(e){console.warn('NFX Bybit orderbook:',e);}};
+    ws.onerror=function(){if(socket===ws)setStatus('Bybit order book connection issue','disconnected');};
+    ws.onclose=function(){if(pingTimer)clearInterval(pingTimer);if(socket===ws)socket=null;if(activeProvider==='bybit'&&activeMarket==='crypto')scheduleBookReconnect();};
+  }
   function connect(){
     if(activeMarket!=='crypto'||document.hidden)return;
     manuallyClosed=false;
     if(wsConnectTimer){clearTimeout(wsConnectTimer);wsConnectTimer=null;}
     if(fullDepthTimer){clearInterval(fullDepthTimer);fullDepthTimer=null;}
     if(socket){try{socket.onclose=null;socket.onerror=null;socket.close();}catch(e){}socket=null;}
+    if(activeProvider==="bybit"){connectBybitBook();return;}
     var thisSymbol=currentSymbol,buffer=[],ready=false,lastUpdateId=0,bidsMap=new Map(),asksMap=new Map(),snapshotStarted=false,snapshotLoaded=false,sequenceBroken=false,firstEventSynced=false;
     setStatus('Connecting to Binance Futures depth stream…','connecting');
     var ws;
@@ -4064,11 +4086,22 @@ document.addEventListener('click', function(event) {
       scheduleBookReconnect();
     };
   }
+  function connectBybitLiquidations(){
+    if(activeMarket!=='crypto'||!window.WebSocket||document.hidden)return;
+    var sym=String(currentSymbol||'btcusdt').toUpperCase(),ws,pingTimer=null;
+    try{ws=new WebSocket('wss://stream.bybit.com/v5/public/linear');}catch(e){scheduleLiquidationReconnect();return;}
+    liquidationSocket=ws;
+    ws.onopen=function(){if(liquidationSocket!==ws)return;ws.send(JSON.stringify({op:'subscribe',args:['allLiquidation.'+sym]}));pingTimer=setInterval(function(){if(ws.readyState===WebSocket.OPEN)ws.send(JSON.stringify({op:'ping'}));},20000);};
+    ws.onmessage=function(ev){if(liquidationSocket!==ws)return;try{var msg=JSON.parse(ev.data);if(!msg.topic||msg.topic.indexOf('allLiquidation.')!==0||!Array.isArray(msg.data))return;msg.data.forEach(function(o){if(!o||String(o.s||'').toUpperCase()!==sym)return;var p=Number(o.p),qty=Number(o.v),usd=p*qty,t=Number(o.T||msg.ts||Date.now());if(!(p>0&&qty>0&&usd>0&&Number.isFinite(t)))return;liquidationEvents.push({symbol:sym.toLowerCase(),p:p,usd:usd,side:String(o.S).toUpperCase()==='BUY'?'SELL':'BUY',t:t,venue:'BYBIT'});});var cutoff=Date.now()-7*24*60*60*1000;liquidationEvents=liquidationEvents.filter(function(e){return e.t>=cutoff;}).slice(-10000);if(!window._nfxHistorySaveTimer)window._nfxHistorySaveTimer=setTimeout(function(){window._nfxHistorySaveTimer=null;saveHistoryCache();},2500);renderLiquidationHeatmap();}catch(e){console.warn('NFX Bybit liquidation event:',e);}};
+    ws.onerror=function(){};
+    ws.onclose=function(){if(pingTimer)clearInterval(pingTimer);if(liquidationSocket===ws)liquidationSocket=null;if(activeProvider==='bybit'&&activeMarket==='crypto')scheduleLiquidationReconnect();};
+  }
   function connectLiquidations(){
     if(activeMarket!=='crypto'||!window.WebSocket||document.hidden)return;
     manuallyClosed=false;
     if(liqConnectTimer){clearTimeout(liqConnectTimer);liqConnectTimer=null;}
     if(liquidationSocket&&(liquidationSocket.readyState===WebSocket.OPEN||liquidationSocket.readyState===WebSocket.CONNECTING))return;
+    if(activeProvider==="bybit"){connectBybitLiquidations();return;}
     var ws;
     try{ws=new WebSocket('wss://fstream.binance.com/ws/'+String(currentSymbol||'btcusdt').toLowerCase()+'@forceOrder');}catch(e){scheduleLiquidationReconnect();return;}
     liquidationSocket=ws;var timeout=setTimeout(function(){if(ws.readyState===WebSocket.CONNECTING){try{ws.close();}catch(e){}}},7000);
@@ -4134,7 +4167,7 @@ document.addEventListener('click', function(event) {
     if(currentSymbol!==historySymbol){liqHistory=[];historySymbol=currentSymbol;lastHistoryAt=0;}
     if(now-lastHistoryAt<250)return;
     lastHistoryAt=now;
-    liqHistory.push({t:now,mid:mid,bids:data.bids.slice(0,20).map(x=>[Number(x[0]),Number(x[1])]),asks:data.asks.slice(0,20).map(x=>[Number(x[0]),Number(x[1])])});
+    liqHistory.push({t:now,mid:mid,bids:data.bids.slice(0,100).map(x=>[Number(x[0]),Number(x[1])]),asks:data.asks.slice(0,100).map(x=>[Number(x[0]),Number(x[1])])});
     // Keep a fixed 15-minute capture buffer so switching the visible window
     // from 1m/5m to 15m never destroys snapshots needed by the wider view.
     var cutoff=now-7*24*60*60*1000;
@@ -4515,6 +4548,7 @@ function bindHeatmapInspector(canvasId,kind){
   var searchForm=$('nfxMarketSearchForm'),searchInput=$('nfxMarketSearchInput');
   if(searchForm)searchForm.addEventListener('submit',function(event){event.preventDefault();chooseMarket(searchInput?searchInput.value:'');});
   if(searchInput)searchInput.addEventListener('change',function(){var raw=searchInput.value;if(raw&&symbols[normalizeSymbol(raw).toLowerCase()])chooseMarket(raw);});
+  document.querySelectorAll('[data-nfx-provider]').forEach(function(btn){btn.addEventListener('click',function(){var next=btn.getAttribute('data-nfx-provider');if(next===activeProvider)return;activeProvider=next;document.querySelectorAll('[data-nfx-provider]').forEach(function(b){var on=b===btn;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on?'true':'false');});if(socket){try{socket.onclose=null;socket.close();}catch(e){}socket=null;}if(liquidationSocket){try{liquidationSocket.onclose=null;liquidationSocket.close();}catch(e){}liquidationSocket=null;}liqHistory=[];liquidationEvents=[];lastHistoryAt=0;connect();connectLiquidations();var feed=$('nfxPobSourceName');if(feed)feed.textContent=activeProvider.toUpperCase()+' USDⓈ-M FUTURES';renderTimeline();renderLiquidationHeatmap();});});
   restoreHistoryCache(currentSymbol);updateMarketSearchUI();loadCryptoMarkets();
   var bookLiqRanges=[3600,7200,14400,43200,86400,172800,259200,604800];
   function setBookLiqRange(value){
