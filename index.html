@@ -4097,34 +4097,29 @@ document.addEventListener('click', function(event) {
   const nav=document.querySelector('.site-nav');
   if(!toggle||!nav)return;
   const isInstalled=()=>window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;
-  function sync(){ document.body.classList.toggle('nabil-fx-installed-app',isInstalled()); }
-  sync();
-  toggle.addEventListener('click',function(){
-    const open=nav.classList.toggle('app-menu-open');
-    toggle.setAttribute('aria-expanded',String(open));
+  function setMenu(open){
+    nav.classList.toggle('app-menu-open',!!open);
+    toggle.setAttribute('aria-expanded',String(!!open));
     toggle.setAttribute('aria-label',open?'Close navigation menu':'Open navigation menu');
     toggle.textContent=open?'×':'☰';
+  }
+  function sync(){document.body.classList.toggle('nabil-fx-installed-app',isInstalled());}
+  sync();
+  toggle.addEventListener('click',function(e){
+    e.preventDefault();e.stopPropagation();
+    setMenu(!nav.classList.contains('app-menu-open'));
   });
   nav.addEventListener('click',function(e){
-    /* Close the mobile hamburger after choosing any destination, including Account sub-pages. */
-    if(e.target.closest('[data-page], [data-account-page]')){
-      nav.classList.remove('app-menu-open');
-      toggle.setAttribute('aria-expanded','false');
-      toggle.setAttribute('aria-label','Open navigation menu');
-      toggle.textContent='☰';
-    }
+    const target=e.target instanceof Element?e.target:null;
+    if(target&&target.closest('[data-page], [data-account-page]'))setMenu(false);
   });
   document.addEventListener('click',function(e){
-    /* Range and zoom controls are wired inside the liquidity engine scope. */
+    if(!nav.contains(e.target)&&!toggle.contains(e.target))setMenu(false);
   });
-  document.addEventListener('pointermove',function(e){var c=e.target.closest('#nfxLiqLiquidationCanvas');if(!c){if(nfxEstLiqPointer){nfxEstLiqPointer=null;renderLiquidationHeatmap();}return;}var r=c.getBoundingClientRect();nfxEstLiqPointer={x:e.clientX-r.left,y:e.clientY-r.top};renderLiquidationHeatmap();},{passive:true});
-  document.addEventListener('pointerleave',function(e){if(e.target&&e.target.id==='nfxLiqLiquidationCanvas'){nfxEstLiqPointer=null;renderLiquidationHeatmap();}},true);
-  document.addEventListener('click',function(e){
-    if(!nav.contains(e.target)&&!toggle.contains(e.target)){
-      nav.classList.remove('app-menu-open');toggle.setAttribute('aria-expanded','false');toggle.textContent='☰';
-    }
-  });
-  window.matchMedia('(display-mode: standalone)').addEventListener?.('change',sync);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')setMenu(false);});
+  const displayMode=window.matchMedia('(display-mode: standalone)');
+  if(displayMode.addEventListener)displayMode.addEventListener('change',sync);
+  else if(displayMode.addListener)displayMode.addListener(sync);
 })();
 </script>
 
@@ -6047,7 +6042,20 @@ setInterval(function(){nfxEstLiqLoad(false);},30000);
 @media(max-width:760px){#nfxLiqDashboard #nfxLiqLivePanel .nfx-pob-header{padding:15px!important}#nfxLiqDashboard #nfxOrderFlowDesk .nfx-ofd-main{gap:9px!important}}
 @media(prefers-reduced-motion:reduce){#nfxLiqDashboard *{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 </style>
-<script id="nfx-ai-client">(()=>{const $=id=>document.getElementById(id),KEY="nfxFxAiHistory";let chats=[],active=null,busy=false,sb=null;function save(){try{localStorage.setItem(KEY,JSON.stringify(chats.slice(0,30)))}catch(e){}}function getClient(){if(sb)return sb;const c=window.NABIL_SUPABASE_CONFIG;if(!c?.url||!c?.anonKey||!window.supabase?.createClient)throw Error("Secure AI connection is unavailable. Refresh and try again.");sb=window.supabase.createClient(c.url,c.anonKey,{auth:{persistSession:true,autoRefreshToken:true}});return sb}function current(){return chats.find(c=>c.id===active)}function history(){const box=$("nfxAiHistory");box.replaceChildren();chats.forEach(c=>{const b=document.createElement("button");b.textContent=c.title;b.className=c.id===active?"active":"";b.onclick=()=>{active=c.id;history();render()};box.append(b)})}function bubble(role,content){const row=document.createElement("div");row.className="nfx-ai-msg "+role;const av=document.createElement("span");av.textContent=role==="user"?"YOU":"NFX";const body=document.createElement("div");const label=document.createElement("label");label.textContent=role==="user"?"YOU":"NABIL FX AI";const txt=document.createElement("div");txt.textContent=content;body.append(label,txt);row.append(av,body);$("nfxAiMessages").append(row);$("nfxAiMessages").scrollTop=$("nfxAiMessages").scrollHeight;return row}function render(){const box=$("nfxAiMessages");box.replaceChildren();const c=current();if(!c||!c.messages.length){const w=document.createElement("div");w.className="nfx-ai-welcome";w.innerHTML="<div class=\"nfx-ai-orb\">NFX</div><small>YOUR TRADING COPILOT</small><h3>Think clearly.<br><em>Trade with a plan.</em></h3><p>Ask about forex, crypto, gold, indices, market structure, liquidity, order flow, risk or your strategy.</p>";box.append(w);return}c.messages.forEach(m=>bubble(m.role,m.content))}function fresh(){const c={id:Date.now().toString(36),title:"New conversation",messages:[]};chats.unshift(c);active=c.id;save();history();render();$("nfxAiInput").focus()}async function send(raw){const msg=String(raw||"").trim();if(!msg||busy)return;if(!current())fresh();const c=current();if(!c.messages.length)c.title=msg.slice(0,42);c.messages.push({role:"user",content:msg});save();history();render();$("nfxAiInput").value="";$("nfxAiError").textContent="";busy=true;$("nfxAiSend").disabled=true;const wait=bubble("assistant","Thinking…");wait.querySelector("div>div").className="nfx-ai-typing";try{const client=getClient();const {data:s,error:se}=await client.auth.getSession();if(se)throw se;if(!s?.session)throw Error("Please log in to your Nabil FX account to use AI Assistant.");const {data,error}=await client.functions.invoke("nabil-ai-chat",{body:{messages:c.messages.slice(-16)}});if(error)throw error;if(data?.error)throw Error(data.error);if(typeof data?.reply!=="string"||!data.reply)throw Error("AI returned an empty response. Please try again.");wait.remove();c.messages.push({role:"assistant",content:data.reply});save();bubble("assistant",data.reply);history()}catch(e){wait.remove();$("nfxAiError").textContent=e?.message||"Could not connect to AI. Please try again."}finally{busy=false;$("nfxAiSend").disabled=false;$("nfxAiInput").focus()}}function init(){if(!$("nfxAiForm"))return;try{const v=JSON.parse(localStorage.getItem(KEY)||"[]");if(Array.isArray(v))chats=v}catch(e){}active=chats[0]?.id||null;history();render();$("nfxAiNew").onclick=fresh;$("nfxAiForm").onsubmit=e=>{e.preventDefault();send($("nfxAiInput").value)};$("nfxAiInput").onkeydown=e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("nfxAiForm").requestSubmit()}};document.querySelectorAll("[data-prompt]").forEach(b=>b.onclick=()=>send(b.dataset.prompt))}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init()})();</script></body>
+<script id="nfx-ai-client">(()=>{const $=id=>document.getElementById(id),KEY="nfxFxAiHistory";let chats=[],active=null,busy=false,sb=null;function save(){try{localStorage.setItem(KEY,JSON.stringify(chats.slice(0,30)))}catch(e){}}function getClient(){if(sb)return sb;const c=window.NABIL_SUPABASE_CONFIG;if(!c?.url||!c?.anonKey||!window.supabase?.createClient)throw Error("Secure AI connection is unavailable. Refresh and try again.");sb=window.supabase.createClient(c.url,c.anonKey,{auth:{persistSession:true,autoRefreshToken:true}});return sb}function current(){return chats.find(c=>c.id===active)}function history(){const box=$("nfxAiHistory");box.replaceChildren();chats.forEach(c=>{const b=document.createElement("button");b.textContent=c.title;b.className=c.id===active?"active":"";b.onclick=()=>{active=c.id;history();render()};box.append(b)})}function bubble(role,content){const row=document.createElement("div");row.className="nfx-ai-msg "+role;const av=document.createElement("span");av.textContent=role==="user"?"YOU":"NFX";const body=document.createElement("div");const label=document.createElement("label");label.textContent=role==="user"?"YOU":"NABIL FX AI";const txt=document.createElement("div");txt.textContent=content;body.append(label,txt);row.append(av,body);$("nfxAiMessages").append(row);$("nfxAiMessages").scrollTop=$("nfxAiMessages").scrollHeight;return row}function render(){const box=$("nfxAiMessages");box.replaceChildren();const c=current();if(!c||!c.messages.length){const w=document.createElement("div");w.className="nfx-ai-welcome";w.innerHTML="<div class=\"nfx-ai-orb\">NFX</div><small>YOUR TRADING COPILOT</small><h3>Think clearly.<br><em>Trade with a plan.</em></h3><p>Ask about forex, crypto, gold, indices, market structure, liquidity, order flow, risk or your strategy.</p>";box.append(w);return}c.messages.forEach(m=>bubble(m.role,m.content))}function fresh(){const c={id:Date.now().toString(36),title:"New conversation",messages:[]};chats.unshift(c);active=c.id;save();history();render();$("nfxAiInput").focus()}async function send(raw){const msg=String(raw||"").trim();if(!msg||busy)return;if(!current())fresh();const c=current();if(!c.messages.length)c.title=msg.slice(0,42);c.messages.push({role:"user",content:msg});save();history();render();$("nfxAiInput").value="";$("nfxAiError").textContent="";busy=true;$("nfxAiSend").disabled=true;const wait=bubble("assistant","Thinking…");wait.querySelector("div>div").className="nfx-ai-typing";try{const client=getClient();const {data:s,error:se}=await client.auth.getSession();if(se)throw se;if(!s?.session)throw Error("Please log in to your Nabil FX account to use AI Assistant.");const {data,error}=await client.functions.invoke("nabil-ai-chat",{body:{messages:c.messages.slice(-16)}});if(error)throw error;if(data?.error)throw Error(data.error);if(typeof data?.reply!=="string"||!data.reply)throw Error("AI returned an empty response. Please try again.");wait.remove();c.messages.push({role:"assistant",content:data.reply});save();bubble("assistant",data.reply);history()}catch(e){wait.remove();$("nfxAiError").textContent=e?.message||"Could not connect to AI. Please try again."}finally{busy=false;$("nfxAiSend").disabled=false;$("nfxAiInput").focus()}}function init(){if(!$("nfxAiForm"))return;try{const v=JSON.parse(localStorage.getItem(KEY)||"[]");if(Array.isArray(v))chats=v}catch(e){}active=chats[0]?.id||null;history();render();$("nfxAiNew").onclick=fresh;$("nfxAiForm").onsubmit=e=>{e.preventDefault();send($("nfxAiInput").value)};$("nfxAiInput").onkeydown=e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("nfxAiForm").requestSubmit()}};document.querySelectorAll("[data-prompt]").forEach(b=>b.onclick=()=>send(b.dataset.prompt))}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init()})();</script><style id="nfx-hamburger-final-fix">
+@media(max-width:760px){
+ .site-header{position:sticky!important;top:0!important;z-index:1200!important;display:flex!important;align-items:center!important;flex-wrap:nowrap!important}
+ .app-menu-toggle{display:inline-flex!important;align-items:center!important;justify-content:center!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;position:relative!important;z-index:1301!important;flex:0 0 42px!important;width:42px!important;height:42px!important;margin-left:auto!important;border:1px solid rgba(255,255,255,.2)!important;border-radius:11px!important;background:linear-gradient(145deg,#20232b,#101116)!important;color:#fff!important;font-size:22px!important;line-height:1!important}
+ .site-nav{display:none!important;position:absolute!important;top:calc(100% + 8px)!important;left:10px!important;right:10px!important;z-index:1300!important;width:auto!important;max-height:calc(100dvh - 84px)!important;overflow-y:auto!important;overscroll-behavior:contain!important;flex-direction:column!important;align-items:stretch!important;gap:3px!important;padding:9px!important;border:1px solid rgba(255,255,255,.16)!important;border-radius:14px!important;background:rgba(8,10,14,.985)!important;box-shadow:0 18px 48px rgba(0,0,0,.7)!important;backdrop-filter:blur(18px)!important}
+ .site-nav.app-menu-open{display:flex!important}
+ .site-nav>.nav-btn,.site-nav .account-menu{display:flex!important;width:100%!important;min-height:44px!important;flex:0 0 auto!important}
+ .site-nav>.nav-btn{align-items:center!important;justify-content:flex-start!important;padding:12px 14px!important;border:0!important;border-radius:9px!important;text-align:left!important;white-space:normal!important}
+ .site-nav .account-menu{display:block!important}
+ .site-nav .account-dropdown{position:static!important;width:100%!important;max-height:none!important;box-shadow:none!important}
+}
+@media(min-width:761px){.app-menu-toggle{display:none!important}}
+</style>
+</body>
 </html>
 <style>
 /* Balanced premium Home showcase: four equally sized visual cards. */
@@ -6066,7 +6074,7 @@ setInterval(function(){nfxEstLiqLoad(false);},30000);
 
 <style id="nfx-mobile-app-layout-and-image-visuals">
 /* Mobile browser mode: app-like home-first layout with hamburger navigation. Desktop mode remains unchanged. */
-@media(max-width:760px) and (display-mode:browser){
+@media(max-width:760px){
   .site-header{display:flex!important;align-items:center!important;justify-content:space-between!important;flex-direction:row!important;gap:10px!important;min-height:66px;padding:9px 12px!important;position:sticky;top:0;z-index:1200}
   .site-brand{font-size:18px!important;gap:8px!important;white-space:nowrap}
   .site-logo{width:38px!important;height:38px!important;border-radius:9px!important}
