@@ -71,6 +71,7 @@ Deno.serve(async (req: Request) => {
       return json({candles,provider:"Massive Futures",timezone:"UTC",symbol,interval});
     }
 
+    if (interval === "3m") throw new Error("Twelve Data does not provide 3-minute candles. Use 1m, 5m, 15m, 30m, 1h, 2h, 4h or 1d for this market.");
     const key = Deno.env.get("TWELVEDATA_API_KEY");
     if (!key) return json({error:"Market data provider is not configured. Add TWELVEDATA_API_KEY in Supabase Edge Function Secrets. Crypto can still use the direct Binance feed."},503);
     let tdSymbol = symbol;
