@@ -2935,7 +2935,7 @@ function backtestCustom(c,r,seriesMap=null){
   const rr=Number(ex.targetR),hasFixedTarget=Number.isFinite(rr)&&rr>0;
   const exitRules=side==='LONG'?(ex.exitLongConditions||[]):(ex.exitShortConditions||[]);
   if(!hasFixedTarget&&!exitRules.length)throw Error('A fixed R target or a rule-based exit condition is required.');
-  const tp=hasFixedTarget?(side==='LONG'?en+dist*rr:en-dist*rr):(side==='LONG'?Infinity:-Infinity);
+  const tp=hasFixedTarget?(side==='LONG'?en+dist*rr:en-dist*rr):null;
   let exit=null,grossR=0,exitTime=0,j=ex.entry==='signal_close'?i+1:i+1;
   const maxBars=Number(ex.maxBarsInTrade)||c.length;
   for(;j<c.length&&j<=i+maxBars;j++){
@@ -3042,7 +3042,7 @@ function renderResults(r,timezone='UTC'){
   for(const z of t){if(z.pnl<0){streak++;maxStreak=Math.max(maxStreak,streak)}else streak=0;}
   $('streak').textContent=maxStreak;
 
-  $('trades').innerHTML=t.length?t.map((x,i)=>`<tr><td>${i+1}</td><td>${new Intl.DateTimeFormat('en-GB',{timeZone:timezone||'UTC',dateStyle:'short',timeStyle:'medium',hour12:false}).format(new Date(x.t))}</td><td>${x.side}</td><td>${x.en}</td><td>${x.sl}</td><td>${x.tp}</td><td>${x.ex}</td><td>${fmt(x.netR)}</td><td>${fmt(x.pnl)}</td></tr>`).join(''):'<tr><td colspan="9">No completed trades in this data window.</td></tr>';
+  $('trades').innerHTML=t.length?t.map((x,i)=>`<tr><td>${i+1}</td><td>${new Intl.DateTimeFormat('en-GB',{timeZone:timezone||'UTC',dateStyle:'short',timeStyle:'medium',hour12:false}).format(new Date(x.t))}</td><td>${x.side}</td><td>${x.en}</td><td>${x.sl}</td><td>${x.tp??'Rule exit'}</td><td>${x.ex}</td><td>${fmt(x.netR)}</td><td>${fmt(x.pnl)}</td></tr>`).join(''):'<tr><td colspan="9">No completed trades in this data window.</td></tr>';
   drawEquity(r.curve);
 }
 
