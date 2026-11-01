@@ -4061,7 +4061,7 @@ document.addEventListener('click', function(event) {
   function historyLimit(){var el=$('nfxLiqWindow');return el?Number(el.value)||300:300;}
   // Liquidity Heatmap owns a separate OHLC cache and request lifecycle.
   // It never reads or mutates the Liquidation Heatmap candle/event state.
-  var nfxBookCandles=[],nfxBookCandleSymbol='',nfxBookCandleRange=0,nfxBookCandleInterval=60000,nfxBookCandleLoading=false,nfxBookCandleFetchedAt=0;
+  var nfxBookCandles=[],nfxBookCandleSymbol='',nfxBookCandleRange=0,nfxBookCandleInterval=60000,nfxBookCandleLoading=false,nfxBookCandleFetchedAt=0,nfxBookTimeZoom=1,nfxBookPriceZoom=1;
   function nfxBookCandleConfig(seconds){
     if(seconds<=86400)return {interval:'1m',intervalMs:60000,limit:Math.min(1500,Math.max(60,Math.ceil(seconds/60)+3))};
     if(seconds<=259200)return {interval:'5m',intervalMs:300000,limit:Math.min(1500,Math.ceil(seconds/300)+3)};
@@ -4114,7 +4114,7 @@ document.addEventListener('click', function(event) {
     var W=rect.width,H=rect.height,left=14,right=78,top=34,bottom=28,pw=W-left-right,ph=H-top-bottom;
     ctx.clearRect(0,0,W,H);
     ctx.fillStyle='#000000';ctx.fillRect(0,0,W,H);
-    var now=Date.now(),windowMs=historyLimit()*1000,cutoff=now-windowMs,history=liqHistory.filter(function(x){return x.t>=cutoff;});
+    var now=Date.now(),windowMs=historyLimit()*1000/nfxBookTimeZoom,cutoff=now-windowMs,history=liqHistory.filter(function(x){return x.t>=cutoff;});
     var candleSymbol=String(currentSymbol||'BTCUSDT').toUpperCase();
     if(activeMarket==='crypto')nfxBookCandleLoad(false);
     var chartCandles=activeMarket==='crypto'&&nfxBookCandleSymbol===candleSymbol&&nfxBookCandleRange===historyLimit()?nfxBookCandles.filter(function(c){return c.t>=cutoff&&c.t<=now;}):[];
@@ -4133,6 +4133,7 @@ document.addEventListener('click', function(event) {
     var span=depthHi-depthLo, padding=span>0?span*.06:currentMid*.001;
     var lo=Number.isFinite(depthLo)?depthLo-padding:currentMid*.995,hi=Number.isFinite(depthHi)?depthHi+padding:currentMid*1.005;
     if(!Number.isFinite(lo)||!Number.isFinite(hi)||hi<=lo){lo=currentMid-1;hi=currentMid+1;}
+    var bookHalf=(hi-lo)/(2*Math.max(.25,nfxBookPriceZoom));lo=currentMid-bookHalf;hi=currentMid+bookHalf;
     var rows=100,cols=Math.max(1,Math.min(220,history.length)),grid=Array.from({length:rows},function(){return Array.from({length:cols},function(){return {bid:0,ask:0};});}),maxQty=0;
     history.forEach(function(s,idx){
       var ci=Math.min(cols-1,Math.floor(idx/history.length*cols));
@@ -4198,6 +4199,7 @@ var nfxEstLiqCandles=[];
   var nfxEstLiqLoading=false;
   var nfxEstLiqFetchedAt=0;
   var nfxEstLiqZoom=1;
+  var nfxEstLiqPriceZoom=1;
   var nfxEstLiqPointer=null;
   function nfxEstLiqConfig(){
     var map={'1h':{interval:'1m',limit:65},'2h':{interval:'1m',limit:125},'4h':{interval:'5m',limit:55},'12h':{interval:'15m',limit:55},'1d':{interval:'30m',limit:55},'2d':{interval:'1h',limit:55},'3d':{interval:'2h',limit:42},'7d':{interval:'4h',limit:45}};
@@ -4273,6 +4275,7 @@ var nfxEstLiqCandles=[];
     var candleRange=Math.max(hi-lo,last*.0008);
     var pad=Math.max(candleRange*.035,last*.0005);
     var minP=Math.max(1e-8,lo-pad),maxP=hi+pad;if(maxP<=minP){minP=last*.99;maxP=last*1.01;}
+    var liqHalf=(maxP-minP)/(2*Math.max(.25,nfxEstLiqPriceZoom));minP=Math.max(1e-8,last-liqHalf);maxP=last+liqHalf;
     var rows=100,cols=Math.min(220,Math.max(80,Math.ceil(pw/4))),cellW=pw/cols,cellH=ph/rows;
     var heat=Array.from({length:rows},function(){return Array(cols).fill(0);});
     var maxNotional=0;
@@ -4508,6 +4511,24 @@ function bindHeatmapInspector(canvasId,kind){
       renderLiquidationHeatmap();renderTimeline();
     });
   });
+  // TradingView-style pointer zoom: wheel over plot = time zoom; wheel on right price ladder = price zoom. Drag the ladder vertically to scale price.
+  function bindNfxChartNavigation(canvasId,kind){
+    var canvas=$(canvasId);if(!canvas||canvas.dataset.navZoomReady)return;canvas.dataset.navZoomReady='1';
+    var drag=null;
+    canvas.addEventListener('wheel',function(ev){
+      ev.preventDefault();var rect=canvas.getBoundingClientRect(),onPrice=ev.clientX-rect.left>rect.width-88,step=ev.deltaY<0?1.18:1/1.18;
+      if(kind==='book'){if(onPrice)nfxBookPriceZoom=Math.max(.35,Math.min(12,nfxBookPriceZoom*step));else nfxBookTimeZoom=Math.max(.35,Math.min(12,nfxBookTimeZoom*step));renderTimeline();}
+      else{if(onPrice)nfxEstLiqPriceZoom=Math.max(.35,Math.min(12,nfxEstLiqPriceZoom*step));else nfxEstLiqZoom=Math.max(.35,Math.min(12,nfxEstLiqZoom*step));renderLiquidationHeatmap();}
+    },{passive:false});
+    canvas.addEventListener('pointerdown',function(ev){var r=canvas.getBoundingClientRect();if(ev.clientX-r.left>r.width-88){drag={y:ev.clientY,zoom:kind==='book'?nfxBookPriceZoom:nfxEstLiqPriceZoom};canvas.setPointerCapture(ev.pointerId);canvas.style.cursor='ns-resize';}});
+    canvas.addEventListener('pointermove',function(ev){if(!drag)return;var factor=Math.exp((drag.y-ev.clientY)*.012),z=Math.max(.35,Math.min(12,drag.zoom*factor));if(kind==='book'){nfxBookPriceZoom=z;renderTimeline();}else{nfxEstLiqPriceZoom=z;renderLiquidationHeatmap();}});
+    function endDrag(){drag=null;canvas.style.cursor='crosshair';}
+    canvas.addEventListener('pointerup',endDrag);canvas.addEventListener('pointercancel',endDrag);
+    canvas.addEventListener('dblclick',function(){if(kind==='book'){nfxBookTimeZoom=1;nfxBookPriceZoom=1;renderTimeline();}else{nfxEstLiqZoom=1;nfxEstLiqPriceZoom=1;renderLiquidationHeatmap();}});
+    canvas.title='Scroll to zoom time · Scroll over price scale to zoom price · Drag price scale to resize · Double-click to reset';
+  }
+  bindNfxChartNavigation('nfxLiqTimelineCanvas','book');
+  bindNfxChartNavigation('nfxLiqLiquidationCanvas','liq');
   var resetBtn=$('nfxLiqResetHistory');if(resetBtn)resetBtn.addEventListener('click',function(){liqHistory=[];lastHistoryAt=0;try{localStorage.removeItem(historyCacheKey(currentSymbol));}catch(e){}renderTimeline();});
   window.addEventListener('resize',function(){if(!renderFrame)renderFrame=requestAnimationFrame(function(){renderFrame=0;renderTimeline();renderLiquidationHeatmap();});});
   window.addEventListener('nfx-liquidity-open',function(){if(activeMarket==='crypto'){connect();connectLiquidations();}renderTimeline();renderLiquidationHeatmap();});
