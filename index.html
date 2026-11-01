@@ -1535,9 +1535,9 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
     </section>
     <section class="nfx-liq-timeline-panel nfx-liq-workspace-card" id="nfxLiqLiquidationHeatmap" aria-label="Live futures liquidation heatmap">
       <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">ESTIMATED LIQUIDATION LEVELS · LIVE MARKET MODEL</div><h3>Liquidation Heatmap</h3><p>Modelled liquidation clusters + actual exchange prints · <strong id="nfxLiqLiquidationSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><span class="nfx-liq-live-tag" id="nfxLiqEstStatus"><i></i> LIVE FEED</span><div class="nfx-est-liq-controls"><label>MODEL <select id="nfxEstLiqModel"><option value="1">MODEL 1 · BALANCED</option><option value="2">MODEL 2 · HIGH LEVERAGE</option><option value="3">MODEL 3 · BROAD RANGE</option></select></label><label>THRESHOLD <input id="nfxEstLiqThreshold" type="range" min="20" max="95" step="5" value="45"><b id="nfxEstLiqThresholdValue">45%</b></label></div><div class="nfx-est-liq-ranges" role="group" aria-label="Heatmap time range"><button type="button" data-est-liq-range="1h" class="active">1H</button><button type="button" data-est-liq-range="2h">2H</button><button type="button" data-est-liq-range="4h">4H</button><button type="button" data-est-liq-range="12h">12H</button><button type="button" data-est-liq-range="1d">1D</button><button type="button" data-est-liq-range="2d">2D</button><button type="button" data-est-liq-range="3d">3D</button><button type="button" data-est-liq-range="7d">7D</button><button type="button" data-est-liq-zoom="reset">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqLiquidationHeatmap" aria-label="Expand liquidation heatmap">⛶ <span>Expand</span></button></div></div>
-      <div class="nfx-heatmap-stats nfx-liquidation-stats" id="nfxLiquidationHeatmapStats"><div><span>REPORTED EVENTS</span><b id="nfxLiqStatEvents">0</b></div><div><span>LIQUIDATED NOTIONAL</span><b id="nfxLiqStatNotional">—</b></div><div><span>LONG LIQUIDATIONS</span><b id="nfxLiqStatLong">—</b></div><div><span>SHORT LIQUIDATIONS</span><b id="nfxLiqStatShort">—</b></div></div><div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqLiquidationCanvas" aria-label="Verified exchange liquidation executions by price and time" style="width:100%;height:100%;display:block"></canvas><div id="nfxLiqLiquidationEmpty" class="nfx-liq-timeline-empty">Waiting for actual futures liquidation events…</div></div>
+      <div class="nfx-heatmap-stats nfx-liquidation-stats" id="nfxLiquidationHeatmapStats"><div><span>ACTUAL PRINTS</span><b id="nfxLiqStatEvents">0</b></div><div><span>ACTUAL NOTIONAL</span><b id="nfxLiqStatNotional">—</b></div><div><span>LONG PRINTS</span><b id="nfxLiqStatLong">—</b></div><div><span>SHORT PRINTS</span><b id="nfxLiqStatShort">—</b></div></div><div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqLiquidationCanvas" aria-label="Verified exchange liquidation executions by price and time" style="width:100%;height:100%;display:block"></canvas><div id="nfxLiqLiquidationEmpty" class="nfx-liq-timeline-empty">Waiting for actual futures liquidation events…</div></div>
       <div class="nfx-liq-timeline-axis"><span>OLDER</span><span>SYMBOL · TIME</span><span>NOW →</span></div>
-      <div class="nfx-liq-timeline-note">Heatmap levels are model estimates derived from public candle price/volume and leverage assumptions, not exchange-published positions. Actual exchange liquidation prints are overlaid separately where the public stream reports them. Estimated intensity is relative, not a verified USD liquidation amount.</div>
+      <div class="nfx-liq-timeline-note">Estimated clusters are calculated from public open-interest history, nearby market prices and the selected leverage distribution. Public OI does not disclose long/short account allocation or each trader’s entry price, so cluster location and intensity are model estimates—not CoinGlass data or verified liquidation USD. Actual exchange liquidation prints are overlaid separately.</div>
 
     </section>
   </div>
@@ -4323,6 +4323,8 @@ document.addEventListener('click', function(event) {
   }
 
 var nfxEstLiqCandles=[];
+  var nfxEstLiqOI=[];
+  var nfxEstLiqOIStatus='WAITING FOR OPEN INTEREST HISTORY';
   var nfxEstLiqSymbol='';
   var nfxEstLiqRange='1h';
   var nfxEstLiqLoadedRange='';
@@ -4345,19 +4347,30 @@ var nfxEstLiqCandles=[];
     var covered=nfxEstLiqCandles.length&&nfxEstLiqCandles[0].t<=start+cfg.intervalMs&&nfxEstLiqCandles[nfxEstLiqCandles.length-1].t>=end-cfg.intervalMs*2;
     if(!force&&nfxEstLiqSymbol===providerKey&&nfxEstLiqLoadedRange===requestedRange&&covered&&Date.now()-nfxEstLiqFetchedAt<5000)return;
     nfxEstLiqLoading=true;
-    nfxFetchCandleRows(symbol,cfg,start,end)
-      .then(function(rows){
+    var oiUrl=provider==='bybit'
+      ?'https://api.bybit.com/v5/market/open-interest?category=linear&symbol='+encodeURIComponent(symbol)+'&intervalTime=5min&limit=200'
+      :'https://fapi.binance.com/futures/data/openInterestHist?symbol='+encodeURIComponent(symbol)+'&period=5m&limit=500';
+    var oiRequest=fetch(oiUrl,{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('Open interest HTTP '+r.status);return r.json();}).then(function(data){
+      var rows=provider==='bybit'?(data&&data.result&&data.result.list||[]):(Array.isArray(data)?data:[]);
+      return rows.map(function(v){return {t:Number(provider==='bybit'?v.timestamp:v.timestamp),oi:Number(provider==='bybit'?v.openInterest:v.sumOpenInterest)};})
+        .filter(function(v){return Number.isFinite(v.t)&&v.t>0&&Number.isFinite(v.oi)&&v.oi>0;}).sort(function(a,b){return a.t-b.t;});
+    });
+    Promise.all([nfxFetchCandleRows(symbol,cfg,start,end),oiRequest.catch(function(err){console.warn('NFX open-interest history unavailable:',err);return [];})])
+      .then(function(results){
+        var rows=results[0],oiRows=results[1];
         if(!Array.isArray(rows))throw new Error('Invalid candle data');
         if(String(currentSymbol||'BTCUSDT').toUpperCase()!==symbol||activeProvider!==provider||nfxEstLiqRange!==requestedRange)return;
         nfxEstLiqCandles=rows.map(function(k){return {t:+k[0],o:+k[1],h:+k[2],l:+k[3],c:+k[4],v:+k[5]};}).filter(function(k){return k.t>0&&k.o>0&&k.h>0&&k.l>0&&k.c>0;});
+        nfxEstLiqOI=oiRows.filter(function(v){return v.t>=start-cfg.intervalMs*2&&v.t<=end+cfg.intervalMs*2;});
+        nfxEstLiqOIStatus=nfxEstLiqOI.length?'OPEN INTEREST HISTORY · '+nfxEstLiqOI.length+' POINTS':'OPEN INTEREST HISTORY UNAVAILABLE';
         nfxEstLiqSymbol=providerKey;nfxEstLiqLoadedRange=requestedRange;nfxEstLiqFetchedAt=Date.now();
         renderLiquidationHeatmap();
       }).catch(function(err){
-        var status=$('nfxLiqEstStatus');if(status)status.textContent='Candle feed unavailable';
-        console.warn('Nabil FX estimated liquidation heatmap:',err);
+        var status=$('nfxLiqEstStatus');if(status)status.textContent='Market data unavailable';
+        console.warn('Nabil FX liquidation heatmap:',err);
       }).finally(function(){
         nfxEstLiqLoading=false;
-        nfxEstLiqLoad(false); // Fetch again if the viewport moved while the previous request was in flight.
+        nfxEstLiqLoad(false);
       });
   }
   function renderLiquidationHeatmap(){
@@ -4378,7 +4391,7 @@ var nfxEstLiqCandles=[];
     var eventNotional=events.reduce(function(a,e){return a+e.usd;},0),longNotional=longEvents.reduce(function(a,e){return a+e.usd;},0),shortNotional=shortEvents.reduce(function(a,e){return a+e.usd;},0);
     var statMap={nfxLiqStatEvents:events.length.toLocaleString(),nfxLiqStatNotional:eventNotional>=1e6?(eventNotional/1e6).toFixed(2)+'M USDT':eventNotional>=1e3?(eventNotional/1e3).toFixed(1)+'K USDT':eventNotional.toFixed(0)+' USDT',nfxLiqStatLong:longEvents.length+' · '+(longNotional/1e6).toFixed(2)+'M',nfxLiqStatShort:shortEvents.length+' · '+(shortNotional/1e6).toFixed(2)+'M'};Object.keys(statMap).forEach(function(id){var el=$(id);if(el)el.textContent=statMap[id];});
     ctx.font='700 10px system-ui,sans-serif';ctx.textBaseline='middle';ctx.textAlign='left';ctx.fillStyle='#dce5f1';
-    ctx.fillText(activeProvider==='bybit'?'BYBIT · ALL REPORTED LIQUIDATIONS':'BINANCE · FORCE-ORDER SNAPSHOTS',left,14);
+    ctx.fillText(activeProvider.toUpperCase()+' · OPEN-INTEREST LIQUIDATION MODEL',left,14);
     ctx.textAlign='right';ctx.fillStyle='#92a1b5';ctx.fillText(symbol.toUpperCase()+' · '+nfxEstLiqRange.toUpperCase(),W-right,14);
     if(!candles.length){
       ctx.textAlign='center';ctx.fillStyle='#9aa8bb';ctx.font='12px system-ui,sans-serif';ctx.fillText('Loading market candle data…',left+pw/2,top+ph/2);
@@ -4401,23 +4414,31 @@ var nfxEstLiqCandles=[];
       var target=e.side==='SELL'?longHeat:shortHeat,weight=Math.log1p(e.usd/1000),radius=Math.min(12,Math.max(2,Math.round(cols*.025)));
       for(var dx=-radius;dx<=radius;dx++)for(var dy=-2;dy<=2;dy++){var xx=x+dx,yy=y+dy;if(xx<0||xx>=cols||yy<0||yy>=rows)continue;target[yy][xx]+=weight*Math.exp(-(dx*dx)/Math.max(5,radius*radius*.48))*Math.exp(-(dy*dy)/3.2);}
     });
-    // Estimated liquidation clusters: a transparent price/volume proxy using leverage-based liquidation formulas.
-    // These are modelled levels, not observed exchange positions or verified liquidation notionals.
+    // Modelled liquidation clusters use historical open-interest snapshots, candle prices and explicit leverage assumptions.
+    // Long/short allocation is an equal-weight assumption because public OI does not reveal account-side positioning.
     var modelEl=$('nfxEstLiqModel'),model=Number(modelEl&&modelEl.value||1);
-    var leverageSets={1:[10,20,25,50,75,100],2:[25,50,75,100,125],3:[5,10,20,25,50]};
+    var leverageSets={1:[{lev:10,w:.12},{lev:20,w:.20},{lev:25,w:.20},{lev:50,w:.24},{lev:75,w:.14},{lev:100,w:.10}],2:[{lev:25,w:.16},{lev:50,w:.24},{lev:75,w:.24},{lev:100,w:.22},{lev:125,w:.14}],3:[{lev:5,w:.16},{lev:10,w:.20},{lev:20,w:.24},{lev:25,w:.20},{lev:50,w:.20}]};
     var leverages=leverageSets[model]||leverageSets[1],mmr=.005,intervalMs=nfxEstLiqConfig().intervalMs||60000;
-    candles.forEach(function(c){
-      var x=Math.max(0,Math.min(cols-1,Math.floor((c.t+intervalMs/2-cutoff)/span*cols)));
-      var volume=Math.max(0,Number(c.v)||0);
-      if(!volume||!c.c)return;
-      leverages.forEach(function(lev){
-        var longPrice=c.c*(1-1/lev+mmr),shortPrice=c.c*(1+1/lev-mmr);
-        var weight=Math.log1p(volume/10000)*(1+Math.log10(lev)/5);
+    var oiPoints=nfxEstLiqOI.filter(function(v){return v.t>=cutoff&&v.t<=cutoff+span;});
+    function priceAt(t){
+      if(!candles.length)return last;
+      var best=candles[0],distance=Math.abs(best.t-t);
+      for(var ci=1;ci<candles.length;ci++){var d=Math.abs(candles[ci].t-t);if(d<distance){best=candles[ci];distance=d;}}
+      return best.c;
+    }
+    oiPoints.forEach(function(point){
+      var reference=priceAt(point.t),x=Math.max(0,Math.min(cols-1,Math.floor((point.t-cutoff)/span*cols)));
+      var oiNotional=point.oi*reference;
+      if(!(oiNotional>0))return;
+      leverages.forEach(function(bucket){
+        var lev=bucket.lev,weight=Math.log1p(oiNotional/1e6)*bucket.w;
+        var longPrice=reference*(1-1/lev+mmr),shortPrice=reference*(1+1/lev-mmr);
         [[longHeat,longPrice],[shortHeat,shortPrice]].forEach(function(pair){
           var target=pair[0],y=Math.max(0,Math.min(rows-1,Math.floor((maxP-pair[1])/(maxP-minP)*rows)));
-          for(var dx=-4;dx<=4;dx++)for(var dy=-2;dy<=2;dy++){
+          var timeRadius=Math.max(5,Math.round(cols*.055));
+          for(var dx=-timeRadius;dx<=timeRadius;dx++)for(var dy=-2;dy<=2;dy++){
             var xx=x+dx,yy=y+dy;if(xx<0||xx>=cols||yy<0||yy>=rows)continue;
-            target[yy][xx]+=weight*Math.exp(-(dx*dx)/8)*Math.exp(-(dy*dy)/3.2);
+            target[yy][xx]+=weight*Math.exp(-(dx*dx)/(timeRadius*timeRadius*.42))*Math.exp(-(dy*dy)/3.2);
           }
         });
       });
@@ -4488,9 +4509,9 @@ var nfxEstLiqCandles=[];
     ctx.fillStyle='#29240d';ctx.fillRect(W-right+4,Math.max(top,Math.min(top+ph-17,currentY-8)),right-5,16);ctx.fillStyle='#f5d84b';ctx.textAlign='center';ctx.font='700 9px ui-monospace,monospace';ctx.fillText(fmt(last),W-right/2+1,Math.max(top+8,Math.min(top+ph-9,currentY)));
     var total=events.reduce(function(sum,e){return sum+e.usd;},0);
     ctx.fillStyle='#92a0b3';ctx.textAlign='left';ctx.font='8px system-ui,sans-serif';
-    ctx.fillText('MODEL ESTIMATE · '+(model===1?'BALANCED':model===2?'HIGH LEVERAGE':'BROAD RANGE')+'  |  ACTUAL PRINTS: '+events.length+'  |  '+(total/1e6).toFixed(2)+'M USDT',left,H-3);
-    var empty=$('nfxLiqLiquidationEmpty');if(empty){empty.hidden=candles.length>0;empty.textContent='Waiting for public candle data to calculate estimated liquidation levels…';}
-    var status=$('nfxLiqEstStatus');if(status){var live=liquidationSocket&&liquidationSocket.readyState===WebSocket.OPEN;status.textContent=live?'LIVE FEED · MODEL + REPORTED PRINTS':'MODEL ACTIVE · WAITING FOR LIVE PRINTS';}
+    ctx.fillText('ESTIMATED CLUSTERS · '+(model===1?'BALANCED':model===2?'HIGH LEVERAGE':'BROAD RANGE')+'  |  ACTUAL EXCHANGE PRINTS: '+events.length+'  |  OI SNAPSHOTS: '+oiPoints.length,left,H-3);
+    var empty=$('nfxLiqLiquidationEmpty');if(empty){empty.hidden=candles.length>0&&oiPoints.length>0;empty.textContent=oiPoints.length?'':'Open-interest history is unavailable for this contract. Estimated liquidation clusters are hidden rather than fabricated.';}
+    var status=$('nfxLiqEstStatus');if(status){var live=liquidationSocket&&liquidationSocket.readyState===WebSocket.OPEN;status.textContent=oiPoints.length?(live?'LIVE · OI MODEL + ACTUAL PRINTS':'OI MODEL ACTIVE'):'WAITING · OPEN INTEREST DATA';}
   }
 
 function bindHeatmapInspector(canvasId,kind){
