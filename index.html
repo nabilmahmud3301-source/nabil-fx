@@ -1386,133 +1386,141 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 @media(max-width:700px){#nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap,#nfxLiqLiquidationHeatmap #nfxLiqLiquidationCanvas{min-height:340px}}
 </style>
 <style id="nfx-heatmap-premium-ui">
-/* Unified institutional-style heatmap workspace */
+/* NABIL FX — institutional heatmap terminal refresh */
 #nfxLiqBookHeatmap,#nfxLiqLiquidationHeatmap{
  position:relative!important;isolation:isolate!important;overflow:hidden!important;
- padding:clamp(16px,2vw,25px)!important;margin:0 0 22px!important;
- border:1px solid #26384d!important;border-radius:16px!important;
- background:radial-gradient(ellipse at 8% 0%,#14283a 0%,#0b1420 34%,#080d15 78%)!important;
- box-shadow:0 18px 48px #0008,inset 0 1px #ffffff0a!important;
+ margin:0 0 18px!important;padding:22px!important;border:1px solid #252b33!important;
+ border-radius:5px!important;background:#090c10!important;box-shadow:none!important;
+ color:#e8edf3!important;
 }
 #nfxLiqBookHeatmap:before,#nfxLiqLiquidationHeatmap:before{
- content:"";position:absolute;z-index:-1;left:0;right:0;top:0;height:2px;
- background:linear-gradient(90deg,#36cbb0 0%,#36cbb0 28%,#31465e 68%,transparent 100%);
+ content:"";position:absolute;left:0;top:0;right:0;height:2px;z-index:1;
+ background:#27c6a2!important;
 }
-#nfxLiqLiquidationHeatmap:before{background:linear-gradient(90deg,#f1c75a 0%,#f1c75a 28%,#31465e 68%,transparent 100%)}
+#nfxLiqLiquidationHeatmap:before{background:#e4b84d!important}
 #nfxLiqBookHeatmap .nfx-liq-timeline-head,#nfxLiqLiquidationHeatmap .nfx-liq-timeline-head{
  display:flex!important;align-items:flex-start!important;justify-content:space-between!important;
- gap:20px!important;padding:2px 1px 17px!important;margin:0 0 15px!important;
- border-bottom:1px solid #26384b!important;
+ gap:22px!important;margin:0 0 17px!important;padding:2px 0 16px!important;
+ border-bottom:1px solid #252b33!important;
 }
 #nfxLiqBookHeatmap .nfx-liq-kicker,#nfxLiqLiquidationHeatmap .nfx-liq-kicker{
- color:#7f9ab4!important;font-size:9px!important;font-weight:850!important;letter-spacing:1.65px!important;
+ color:#788493!important;font:700 9px/1.4 ui-monospace,monospace!important;letter-spacing:1.35px!important;
 }
 #nfxLiqBookHeatmap .nfx-liq-timeline-head h3,#nfxLiqLiquidationHeatmap .nfx-liq-timeline-head h3{
- margin:5px 0 6px!important;font-size:clamp(21px,2.25vw,29px)!important;
- line-height:1.12!important;letter-spacing:-.8px!important;font-weight:850!important;color:#f1f6fd!important;
+ margin:5px 0 5px!important;color:#f3f6f9!important;
+ font:700 23px/1.2 system-ui,sans-serif!important;letter-spacing:-.55px!important;
 }
 #nfxLiqBookHeatmap .nfx-liq-timeline-head p,#nfxLiqLiquidationHeatmap .nfx-liq-timeline-head p{
- margin:0!important;font-size:11px!important;line-height:1.65!important;color:#91a5bb!important;
+ margin:0!important;color:#8d98a6!important;font:400 11px/1.6 system-ui,sans-serif!important;
 }
-#nfxLiqBookHeatmap .nfx-liq-timeline-head p strong,#nfxLiqLiquidationHeatmap .nfx-liq-timeline-head p strong{color:#dce8f5!important}
+#nfxLiqBookHeatmap .nfx-liq-timeline-head p strong,#nfxLiqLiquidationHeatmap .nfx-liq-timeline-head p strong{color:#cbd4de!important;font-weight:650!important}
 #nfxLiqBookHeatmap .nfx-liq-card-actions,#nfxLiqLiquidationHeatmap .nfx-liq-card-actions{
- display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:9px!important;flex-wrap:wrap!important;
- max-width: min(100%,780px)!important;
+ display:flex!important;align-items:center!important;justify-content:flex-end!important;
+ gap:7px!important;flex-wrap:wrap!important;max-width: min(100%,820px)!important;
 }
 #nfxLiqBookHeatmap .nfx-liq-live-tag,#nfxLiqLiquidationHeatmap .nfx-liq-live-tag{
- display:inline-flex!important;align-items:center!important;gap:7px!important;padding:7px 10px!important;
- border:1px solid #24695d!important;border-radius:6px!important;background:#0b2522!important;
- color:#75e5c8!important;font-size:9px!important;font-weight:850!important;letter-spacing:.8px!important;white-space:nowrap!important;
+ display:inline-flex!important;align-items:center!important;gap:6px!important;
+ padding:6px 8px!important;border:1px solid #245e50!important;border-radius:3px!important;
+ background:#0b211c!important;color:#6fe0bd!important;
+ font:700 8px/1 ui-monospace,monospace!important;letter-spacing:.8px!important;white-space:nowrap!important;
 }
 #nfxLiqBookHeatmap .nfx-liq-live-tag i,#nfxLiqLiquidationHeatmap .nfx-liq-live-tag i{
- width:6px!important;height:6px!important;border-radius:50%!important;background:#39d6a7!important;
- box-shadow:0 0 9px #39d6a7!important;
+ width:5px!important;height:5px!important;border-radius:50%!important;background:#39d6a7!important;box-shadow:0 0 7px #39d6a7!important;
 }
 #nfxLiqBookHeatmap .nfx-est-liq-ranges,#nfxLiqLiquidationHeatmap .nfx-est-liq-ranges{
- display:flex!important;gap:4px!important;align-items:center!important;flex-wrap:wrap!important;
- padding:4px!important;border:1px solid #273a50!important;border-radius:8px!important;background:#080f19!important;
+ display:flex!important;align-items:center!important;gap:2px!important;flex-wrap:wrap!important;
+ padding:3px!important;border:1px solid #252c35!important;border-radius:3px!important;background:#0c1015!important;
 }
 #nfxLiqBookHeatmap .nfx-est-liq-ranges button,#nfxLiqLiquidationHeatmap .nfx-est-liq-ranges button{
- min-width:34px!important;padding:7px 9px!important;border:1px solid transparent!important;border-radius:5px!important;
- background:transparent!important;color:#91a4b9!important;font:800 9px/1 system-ui,sans-serif!important;
- transition:all .16s ease!important;
+ min-width:32px!important;padding:7px 8px!important;border:1px solid transparent!important;border-radius:2px!important;
+ background:transparent!important;color:#8793a1!important;font:700 9px/1 ui-monospace,monospace!important;
 }
 #nfxLiqBookHeatmap .nfx-est-liq-ranges button.active,#nfxLiqBookHeatmap .nfx-est-liq-ranges button:hover{
- border-color:#286b61!important;background:#10312e!important;color:#8ff0d8!important;
+ border-color:#276b5a!important;background:#102b24!important;color:#7ce4c3!important;
 }
 #nfxLiqLiquidationHeatmap .nfx-est-liq-ranges button.active,#nfxLiqLiquidationHeatmap .nfx-est-liq-ranges button:hover{
- border-color:#78612c!important;background:#302714!important;color:#f4d77e!important;
+ border-color:#76602e!important;background:#2a2314!important;color:#f0ce72!important;
 }
 #nfxLiqBookHeatmap .nfx-liq-fullscreen-btn,#nfxLiqLiquidationHeatmap .nfx-liq-fullscreen-btn{
- padding:8px 11px!important;border:1px solid #344a61!important;border-radius:7px!important;
- background:#101c2a!important;color:#d5e2f0!important;font-size:10px!important;font-weight:750!important;
+ padding:7px 9px!important;border:1px solid #303944!important;border-radius:3px!important;
+ background:#11171e!important;color:#c5ced8!important;font:650 9px/1.2 system-ui,sans-serif!important;
 }
 #nfxLiqBookHeatmap .nfx-liq-fullscreen-btn:hover,#nfxLiqLiquidationHeatmap .nfx-liq-fullscreen-btn:hover{
- border-color:#7895b3!important;background:#17283a!important;color:#fff!important;
+ border-color:#718092!important;background:#18212b!important;color:#fff!important;
 }
 #nfxLiqBookHeatmap .nfx-heatmap-stats,#nfxLiqLiquidationHeatmap .nfx-heatmap-stats{
- display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:1px!important;
- margin:0 0 14px!important;padding:1px!important;overflow:hidden!important;
- border:1px solid #27394d!important;border-radius:10px!important;background:#27394d!important;box-shadow:none!important;
+ display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:0!important;
+ margin:0 0 13px!important;padding:0!important;border:1px solid #242b34!important;
+ border-radius:3px!important;background:#0b0f14!important;box-shadow:none!important;overflow:hidden!important;
 }
 #nfxLiqBookHeatmap .nfx-heatmap-stats>div,#nfxLiqLiquidationHeatmap .nfx-heatmap-stats>div{
- min-width:0!important;padding:12px 14px!important;background:linear-gradient(145deg,#111e2c,#0c1520)!important;
+ min-width:0!important;padding:10px 14px!important;background:transparent!important;
+ border-right:1px solid #242b34!important;
 }
+#nfxLiqBookHeatmap .nfx-heatmap-stats>div:last-child,#nfxLiqLiquidationHeatmap .nfx-heatmap-stats>div:last-child{border-right:0!important}
 #nfxLiqBookHeatmap .nfx-heatmap-stats span,#nfxLiqLiquidationHeatmap .nfx-heatmap-stats span{
- color:#8196ad!important;font-size:8px!important;letter-spacing:1.15px!important;font-weight:850!important;
+ color:#758190!important;font:700 8px/1.4 ui-monospace,monospace!important;letter-spacing:1px!important;
 }
 #nfxLiqBookHeatmap .nfx-heatmap-stats b,#nfxLiqLiquidationHeatmap .nfx-heatmap-stats b{
- margin-top:6px!important;color:#eef5fd!important;font-size:clamp(14px,1.35vw,19px)!important;
- font-weight:800!important;letter-spacing:-.3px!important;
+ display:block!important;margin-top:5px!important;color:#e5ebf1!important;
+ font:700 16px/1.2 ui-monospace,SFMono-Regular,monospace!important;letter-spacing:-.3px!important;
 }
 #nfxLiqBookHeatmap .nfx-liq-timeline-wrap,#nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap{
- position:relative!important;min-height:420px!important;height:420px!important;
- border:1px solid #26394e!important;border-radius:10px!important;overflow:hidden!important;
- background-color:#050b13!important;
- background-image:linear-gradient(#23364a22 1px,transparent 1px),linear-gradient(90deg,#23364a22 1px,transparent 1px)!important;
- background-size:48px 48px!important;
+ position:relative!important;height:510px!important;min-height:510px!important;
+ border:1px solid #252d37!important;border-radius:3px!important;overflow:hidden!important;
+ background:#05080c!important;background-image:
+ linear-gradient(#7180960c 1px,transparent 1px),
+ linear-gradient(90deg,#7180960c 1px,transparent 1px)!important;background-size:64px 64px!important;
 }
 #nfxLiqBookHeatmap #nfxLiqTimelineCanvas,#nfxLiqLiquidationHeatmap #nfxLiqLiquidationCanvas{
- display:block!important;width:100%!important;height:100%!important;min-height:420px!important;
+ display:block!important;width:100%!important;height:100%!important;min-height:510px!important;
 }
 #nfxLiqBookHeatmap .nfx-liq-timeline-axis,#nfxLiqLiquidationHeatmap .nfx-liq-timeline-axis{
  display:flex!important;justify-content:space-between!important;gap:10px!important;
- padding:9px 3px 2px!important;color:#71859b!important;font:800 8px/1.3 ui-monospace,monospace!important;letter-spacing:1px!important;
+ padding:8px 2px 0!important;color:#667382!important;
+ font:700 8px/1.3 ui-monospace,monospace!important;letter-spacing:1px!important;
 }
 #nfxLiqBookHeatmap .nfx-liq-timeline-note,#nfxLiqLiquidationHeatmap .nfx-liq-timeline-note{
- margin:10px 0 0!important;padding:11px 12px!important;border:1px solid #26384b!important;border-radius:7px!important;
- background:#09121c!important;color:#91a4b9!important;font-size:10px!important;line-height:1.65!important;
+ margin:9px 0 0!important;padding:9px 0 0!important;border:0!important;border-top:1px solid #222a33!important;
+ border-radius:0!important;background:transparent!important;color:#778493!important;
+ font:400 9px/1.65 system-ui,sans-serif!important;
 }
 #nfxLiqLiquidationHeatmap .nfx-est-liq-controls{
- margin:0!important;padding:7px 9px!important;border:1px solid #3a3b35!important;border-radius:8px!important;
- background:#111710!important;gap:10px!important;
+ display:flex!important;align-items:center!important;gap:12px!important;margin:0!important;padding:6px 8px!important;
+ border:1px solid #2b3034!important;border-radius:3px!important;background:#0d1115!important;
 }
-#nfxLiqLiquidationHeatmap .nfx-est-liq-controls label{font-size:8px!important;color:#aeb8a8!important}
-#nfxLiqLiquidationHeatmap .nfx-est-liq-controls select{height:29px!important;border-color:#48513c!important;background:#0a100c!important;border-radius:5px!important}
+#nfxLiqLiquidationHeatmap .nfx-est-liq-controls label{
+ color:#84909c!important;font:700 8px/1.3 ui-monospace,monospace!important;letter-spacing:.6px!important;
+}
+#nfxLiqLiquidationHeatmap .nfx-est-liq-controls select{
+ height:27px!important;padding:3px 22px 3px 7px!important;border:1px solid #343d43!important;
+ border-radius:2px!important;background:#080c10!important;color:#d7dfe6!important;font-size:9px!important;
+}
 #nfxLiqLiquidationHeatmap .nfx-est-liq-controls input{accent-color:#d9b64e!important}
 #nfxLiqLiquidationHeatmap .nfx-liq-model-legend{
  display:flex!important;align-items:center!important;gap:18px!important;flex-wrap:wrap!important;
- margin:0 0 10px!important;padding:10px 12px!important;border:1px solid #26394e!important;border-radius:8px!important;
- background:#09121c!important;color:#a9b9cb!important;font:800 8px/1.3 system-ui,sans-serif!important;letter-spacing:.8px!important;
+ margin:0 0 9px!important;padding:7px 0!important;border:0!important;border-bottom:1px solid #242b34!important;
+ border-radius:0!important;background:transparent!important;color:#8c98a5!important;
+ font:700 8px/1.3 ui-monospace,monospace!important;letter-spacing:.65px!important;
 }
 #nfxLiqLiquidationHeatmap .nfx-liq-model-legend span{display:inline-flex!important;align-items:center!important;gap:7px!important}
-#nfxLiqLiquidationHeatmap .nfx-liq-model-legend i{display:inline-block!important;width:17px!important;height:7px!important;border-radius:3px!important}
-#nfxLiqLiquidationHeatmap .nfx-liq-model-legend .long{background:#ff4169!important;box-shadow:0 0 9px #ff416966!important}
-#nfxLiqLiquidationHeatmap .nfx-liq-model-legend .short{background:#23dcae!important;box-shadow:0 0 9px #23dcae66!important}
-#nfxLiqLiquidationHeatmap .nfx-liq-model-legend .intensity i{width:62px!important;background:linear-gradient(90deg,#263b70,#167f9c,#25c69a,#f1c75a)!important}
-@media(max-width:900px){
+#nfxLiqLiquidationHeatmap .nfx-liq-model-legend i{display:inline-block!important;width:17px!important;height:5px!important;border-radius:1px!important}
+#nfxLiqLiquidationHeatmap .nfx-liq-model-legend .long{background:#f04d68!important;box-shadow:none!important}
+#nfxLiqLiquidationHeatmap .nfx-liq-model-legend .short{background:#27c6a2!important;box-shadow:none!important}
+#nfxLiqLiquidationHeatmap .nfx-liq-model-legend .intensity i{width:58px!important;background:linear-gradient(90deg,#263b70,#167f9c,#25c69a,#f1c75a)!important}
+@media(max-width:1000px){
  #nfxLiqBookHeatmap .nfx-liq-timeline-head,#nfxLiqLiquidationHeatmap .nfx-liq-timeline-head{flex-direction:column!important;align-items:stretch!important}
  #nfxLiqBookHeatmap .nfx-liq-card-actions,#nfxLiqLiquidationHeatmap .nfx-liq-card-actions{justify-content:flex-start!important;max-width:100%!important}
 }
 @media(max-width:600px){
- #nfxLiqBookHeatmap,#nfxLiqLiquidationHeatmap{padding:12px!important;border-radius:12px!important}
- #nfxLiqBookHeatmap .nfx-liq-card-actions,#nfxLiqLiquidationHeatmap .nfx-liq-card-actions{gap:7px!important}
- #nfxLiqBookHeatmap .nfx-est-liq-ranges,#nfxLiqLiquidationHeatmap .nfx-est-liq-ranges{width:100%!important}
- #nfxLiqBookHeatmap .nfx-est-liq-ranges button,#nfxLiqLiquidationHeatmap .nfx-est-liq-ranges button{flex:1!important}
+ #nfxLiqBookHeatmap,#nfxLiqLiquidationHeatmap{padding:13px!important}
+ #nfxLiqBookHeatmap .nfx-liq-timeline-head h3,#nfxLiqLiquidationHeatmap .nfx-liq-timeline-head h3{font-size:20px!important}
  #nfxLiqBookHeatmap .nfx-heatmap-stats,#nfxLiqLiquidationHeatmap .nfx-heatmap-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
- #nfxLiqBookHeatmap .nfx-liq-timeline-wrap,#nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap{height:350px!important;min-height:350px!important}
- #nfxLiqBookHeatmap #nfxLiqTimelineCanvas,#nfxLiqLiquidationHeatmap #nfxLiqLiquidationCanvas{min-height:350px!important}
- #nfxLiqLiquidationHeatmap .nfx-liq-model-legend{gap:9px 14px!important}
+ #nfxLiqBookHeatmap .nfx-heatmap-stats>div:nth-child(2),#nfxLiqLiquidationHeatmap .nfx-heatmap-stats>div:nth-child(2){border-right:0!important}
+ #nfxLiqBookHeatmap .nfx-heatmap-stats>div:nth-child(-n+2),#nfxLiqLiquidationHeatmap .nfx-heatmap-stats>div:nth-child(-n+2){border-bottom:1px solid #242b34!important}
+ #nfxLiqBookHeatmap .nfx-liq-timeline-wrap,#nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap{height:390px!important;min-height:390px!important}
+ #nfxLiqBookHeatmap #nfxLiqTimelineCanvas,#nfxLiqLiquidationHeatmap #nfxLiqLiquidationCanvas{min-height:390px!important}
+ #nfxLiqLiquidationHeatmap .nfx-est-liq-controls{width:100%!important;justify-content:space-between!important}
 }
 </style>
 </head>
