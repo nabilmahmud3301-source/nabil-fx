@@ -3973,7 +3973,7 @@ document.addEventListener('click', function(event) {
     if(activeMarket!=='crypto'||document.hidden)return;
     var sym=String(currentSymbol||'btcusdt').toUpperCase(),bidsMap=new Map(),asksMap=new Map(),pingTimer=null,ready=false;
     var ws;try{ws=new WebSocket('wss://stream.bybit.com/v5/public/linear');}catch(e){scheduleBookReconnect();return;}
-    socket=ws;setStatus('Connecting to Bybit 1000-level order book…','connecting');updateVenueLabels([]);
+    socket=ws;setStatus('Connecting to Bybit 1000-level order book…','connecting');updateVenueLabels([]);ws.addEventListener('close',function(){if(pingTimer)clearInterval(pingTimer);});
     function render(){
       var bids=Array.from(bidsMap.entries()).map(function(x){return [Number(x[0]),Number(x[1])];}).filter(function(x){return x[1]>0;}).sort(function(a,b){return b[0]-a[0];}).slice(0,1000);
       var asks=Array.from(asksMap.entries()).map(function(x){return [Number(x[0]),Number(x[1])];}).filter(function(x){return x[1]>0;}).sort(function(a,b){return a[0]-b[0];}).slice(0,1000);
@@ -4090,7 +4090,7 @@ document.addEventListener('click', function(event) {
     if(activeMarket!=='crypto'||!window.WebSocket||document.hidden)return;
     var sym=String(currentSymbol||'btcusdt').toUpperCase(),ws,pingTimer=null;
     try{ws=new WebSocket('wss://stream.bybit.com/v5/public/linear');}catch(e){scheduleLiquidationReconnect();return;}
-    liquidationSocket=ws;
+    liquidationSocket=ws;ws.addEventListener('close',function(){if(pingTimer)clearInterval(pingTimer);});
     ws.onopen=function(){if(liquidationSocket!==ws)return;ws.send(JSON.stringify({op:'subscribe',args:['allLiquidation.'+sym]}));pingTimer=setInterval(function(){if(ws.readyState===WebSocket.OPEN)ws.send(JSON.stringify({op:'ping'}));},20000);};
     ws.onmessage=function(ev){if(liquidationSocket!==ws)return;try{var msg=JSON.parse(ev.data);if(!msg.topic||msg.topic.indexOf('allLiquidation.')!==0||!Array.isArray(msg.data))return;msg.data.forEach(function(o){if(!o||String(o.s||'').toUpperCase()!==sym)return;var p=Number(o.p),qty=Number(o.v),usd=p*qty,t=Number(o.T||msg.ts||Date.now());if(!(p>0&&qty>0&&usd>0&&Number.isFinite(t)))return;liquidationEvents.push({symbol:sym.toLowerCase(),p:p,usd:usd,side:String(o.S).toUpperCase()==='BUY'?'SELL':'BUY',t:t,venue:'BYBIT'});});var cutoff=Date.now()-7*24*60*60*1000;liquidationEvents=liquidationEvents.filter(function(e){return e.t>=cutoff;}).slice(-10000);if(!window._nfxHistorySaveTimer)window._nfxHistorySaveTimer=setTimeout(function(){window._nfxHistorySaveTimer=null;saveHistoryCache();},2500);renderLiquidationHeatmap();}catch(e){console.warn('NFX Bybit liquidation event:',e);}};
     ws.onerror=function(){};
