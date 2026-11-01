@@ -2320,10 +2320,14 @@ $('market').onchange=()=>{
 };
 
 let nabilAiClient=null;
-async function analyzeStrategyWithAI(){
+function getNabilSupabaseClient(){
   const cfg=window.NABIL_SUPABASE_CONFIG;
   if(!cfg?.url||!cfg?.anonKey||!window.supabase?.createClient)throw Error('Supabase client/config not loaded. Refresh the page and try again.');
   if(!nabilAiClient)nabilAiClient=window.supabase.createClient(cfg.url,cfg.anonKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+  return nabilAiClient;
+}
+async function analyzeStrategyWithAI(){
+  const nabilAiClient=getNabilSupabaseClient();
   const {data:sessionData,error:sessionError}=await nabilAiClient.auth.getSession();
   if(sessionError)throw sessionError;
   if(!sessionData?.session)throw Error('Please create an account or log in before using Strategy AI.');
@@ -2409,27 +2413,31 @@ async function candles(){
     return out;
   }
 
-  if($('interval').value!=='1d')throw Error('This experimental Stooq route supports daily candles only. Select 1d.');
-  const stooq=symbol.toLowerCase();
-  const url='https://stooq.com/q/d/l/?s='+encodeURIComponent(stooq)+'&i=d';
-  let res;
-  try{res=await fetch(url)}catch(e){throw Error('Stooq request was blocked or unavailable. No test was run.')}
-  if(!res.ok)throw Error('Stooq returned HTTP '+res.status+'. Verify the symbol.');
-  const csvText=await res.text();
-  const rows=csvText.trim().split(/\r?\n/);
-  if(rows.length<11||!/^Date,Open,High,Low,Close/i.test(rows[0]))throw Error('Stooq returned no usable daily candles for this symbol.');
-  let out=rows.slice(1).map(line=>{
-    const a=line.split(',');
-    return{t:Date.parse(a[0]+'T00:00:00Z'),o:+a[1],h:+a[2],l:+a[3],c:+a[4]};
-  }).filter(x=>Number.isFinite(x.t)&&[x.o,x.h,x.l,x.c].every(Number.isFinite));
-  if(from)out=out.filter(x=>x.t>=from);
-  if(to)out=out.filter(x=>x.t<=to);
-  out=out.slice(-limit);
-  if(out.length<10)throw Error('Fewer than 10 valid daily candles returned after date filtering.');
-  return out;
+  // All non-crypto markets use the secure multi-market data gateway.
+  const client=getNabilSupabaseClient();
+  const {data:sessionData,error:sessionError}=await client.auth.getSession();
+  if(sessionError)throw sessionError;
+  if(!sessionData?.session)throw Error('Please log in to access historical market data.');
+  const {data,error}=await client.functions.invoke('market-data',{body:{
+    market,symbol,interval:$('interval').value,limit,
+    start:$('start').value||null,end:$('end').value||null
+  }});
+  if(error){
+    let detail=error.message||'Could not reach the market data service.';
+    try{const response=error.context;if(response?.clone){const payload=await response.clone().json();if(payload?.error)detail=payload.error;}}catch(e){}
+    throw Error(detail);
+  }
+  if(data?.error)throw Error(data.error);
+  if(!Array.isArray(data?.candles))throw Error('Market data service returned an invalid candle response.');
+  const out=data.candles.map(x=>({t:+x.t,o:+x.o,h:+x.h,l:+x.l,c:+x.c,v:+(x.v||0)}))
+    .filter(x=>Number.isFinite(x.t)&&[x.o,x.h,x.l,x.c].every(Number.isFinite))
+    .sort((a,b)=>a.t-b.t);
+  if(out.length<10)throw Error('Not enough valid historical candles were returned for this market/timeframe.');
+  status('Loaded '+out.length+' candles from '+(data.provider||'market data provider')+'.');
+  return out.slice(-limit);
 }
 
-function backtest(c,r){
+function backtest(c,r){function backtest(c,r){
   let bal=+$('balance').value;
   const risk=+$('risk').value/100;
   if(!(bal>0&&risk>0&&risk<=0.10))throw Error('Balance must be positive and risk must be between 0.01% and 10%.');
