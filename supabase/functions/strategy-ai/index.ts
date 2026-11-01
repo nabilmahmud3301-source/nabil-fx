@@ -186,7 +186,8 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
           if(node.indicator!==undefined)return ["ema","sma","rsi","atr","highest","lowest","volume_sma","stdev","bollinger_upper","bollinger_lower","stochastic_k"].includes(String(node.indicator))&&Number.isInteger(node.period)&&node.period>=2&&node.period<=500&&["open","high","low","close","volume"].includes(String(node.source||"close"))&&(node.multiplier===undefined||(Number.isFinite(Number(node.multiplier))&&Number(node.multiplier)>0&&Number(node.multiplier)<=10));
           const op=String(node.op||"").toLowerCase(),args=node.args;
           if(!Array.isArray(args))return false;
-          if(["and","or","min","max"].includes(op))return args.length>=1&&args.length<=12&&args.every((x:any)=>validExpression(x,depth+1));
+          if(["and","or"].includes(op))return args.length>=1&&args.length<=12&&args.every((x:any)=>validExpression(x,depth+1));
+          if(["min","max"].includes(op))return args.length>=2&&args.length<=12&&args.every((x:any)=>validExpression(x,depth+1));
           if(op==="not"||op==="abs")return args.length===1&&validExpression(args[0],depth+1);
           if(["gt","gte","lt","lte","eq","neq","crosses_above","crosses_below","add","sub","mul","div"].includes(op))return args.length===2&&args.every((x:any)=>validExpression(x,depth+1));
           return false;
