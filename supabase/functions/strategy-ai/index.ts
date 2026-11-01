@@ -68,6 +68,7 @@ execution schema:
  "targetR":positive number,
  "maxBarsInTrade":positive integer or null
 }
+Any condition may include optional "timeframe":"1m"|"3m"|"5m"|"15m"|"30m"|"1h"|"2h"|"4h"|"1d". Evaluate it on the latest fully closed historical candle of that timeframe at each selected execution-candle close. The selected chart timeframe remains the execution/entry/exit timeframe. Preserve timeframe tags on nested conditions. Only set supported=true when every required timeframe is available from historical providers. Tick-level data is not candle data.
 Conditions are ANDed by default; use {"type":"logic","operator":"all"|"any"|"not","conditions":[...]} to compose nested AND/OR/NOT expressions. Empty side means disabled. Preserve every logical grouping from the user's original strategy. Parse natural-language descriptions in any language, including translated equivalents of buy/long, sell/short, crosses above/below, greater/less than, stop loss, take profit, R-multiple, candle, and lookback. Never reject a strategy merely because its language is not English. Preserve every essential rule the schema can express; if an essential condition cannot be represented exactly, clearly list it and set supported=false rather than silently dropping it or pretending it was tested. Allowed condition forms:
 - {"type":"ema_cross","fast":integer,"slow":integer,"direction":"bullish"|"bearish"}
 - {"type":"sma_cross","fast":integer,"slow":integer,"direction":"bullish"|"bearish"}
@@ -162,6 +163,7 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
         const validTypes = new Set(["ema_cross","sma_cross","close_vs_ema","close_vs_sma","rsi","macd_cross","breakout","candle_direction","close_vs_open","close_vs_prev_highlow","consecutive_candles","engulfing","inside_bar","liquidity_sweep","volume_above_sma","session_filter","session_opening_range_breakout","time_range_breakout","time_range_sweep","weekday_filter","clock_time_filter","candle_body_percent","price_change_percent","range_expansion","fair_value_gap","gap","logic"]);
         const validCondition = (c: any, depth = 0): boolean => {
           if (!c || typeof c !== "object" || depth > 5 || !validTypes.has(c.type)) return false;
+          if (c.timeframe !== undefined && !["1m","3m","5m","15m","30m","1h","2h","4h","1d"].includes(String(c.timeframe))) return false;
           if (c.type === "logic") return ["all","any","not"].includes(String(c.operator || "all").toLowerCase()) && Array.isArray(c.conditions) && c.conditions.length > 0 && c.conditions.length <= 12 && c.conditions.every((x: any) => validCondition(x, depth + 1));
           if (["session_filter","session_opening_range_breakout","time_range_breakout","time_range_sweep"].includes(c.type)) {
             const hour=Number(c.startHour ?? c.sessionHour ?? 0), minute=Number(c.startMinute ?? c.sessionMinute ?? 0);
