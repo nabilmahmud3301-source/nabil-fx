@@ -2457,7 +2457,7 @@ async function candles(){
     }
 
     const seen=new Map();
-    all.forEach(x=>seen.set(x[0],{t:+x[0],o:+x[1],h:+x[2],l:+x[3],c:+x[4]}));
+    all.forEach(x=>seen.set(x[0],{t:+x[0],o:+x[1],h:+x[2],l:+x[3],c:+x[4],v:+x[5]}));
     let out=[...seen.values()].sort((a,b)=>a.t-b.t);
     if(from)out=out.filter(x=>x.t>=from);
     if(to)out=out.filter(x=>x.t<=to);
@@ -2556,7 +2556,7 @@ function conditionAt(c,cond,i,cache){
   if(rangeIndex<0)return false;
   const tfMs=Number(cond.timeframeMs)||((i>0)?c[i].t-c[i-1].t:300000);
   const rangeBars=Math.max(1,Math.ceil(duration*60000/tfMs));
-  if(rangeIndex+rangeBars>=i)return false;
+  if(rangeIndex+rangeBars>i)return false;
   const range=c.slice(rangeIndex,rangeIndex+rangeBars);
   const hi=Math.max(...range.map(z=>z.h)),lo=Math.min(...range.map(z=>z.l));
   const trigger=cond.trigger||'wick';
