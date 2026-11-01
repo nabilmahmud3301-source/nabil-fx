@@ -71,17 +71,17 @@ Deno.serve(async (req: Request) => {
       return json({candles,provider:"Massive Futures",timezone:"UTC",symbol,interval});
     }
 
-    if (interval === "3m") throw new Error("Twelve Data does not provide 3-minute candles. Use 1m, 5m, 15m, 30m, 1h, 2h, 4h or 1d for this market.");
+
     const key = Deno.env.get("TWELVEDATA_API_KEY");
     if (!key) return json({error:"Market data provider is not configured. Add TWELVEDATA_API_KEY in Supabase Edge Function Secrets. Crypto can still use the direct Binance feed."},503);
     let tdSymbol = symbol;
     if (market === "forex" && /^[A-Z]{6}$/.test(symbol)) tdSymbol = symbol.slice(0,3)+"/"+symbol.slice(3);
     if (market === "commodities" && /^(XAU|XAG|XPT|XPD)USD$/.test(symbol)) tdSymbol = symbol.slice(0,3)+"/USD";
-    const tdInterval: Record<string,string> = {"1m":"1min","3m":"3min","5m":"5min","15m":"15min","30m":"30min","1h":"1h","2h":"2h","4h":"4h","1d":"1day"};
+    const tdInterval: Record<string,string> = {"1m":"1min","3m":"1min","5m":"5min","15m":"15min","30m":"30min","1h":"1h","2h":"2h","4h":"4h","1d":"1day"};
     const url = new URL("https://api.twelvedata.com/time_series");
     url.searchParams.set("symbol",tdSymbol);
     url.searchParams.set("interval",tdInterval[interval] || interval);
-    url.searchParams.set("outputsize",String(Math.min(limit,5000)));
+    url.searchParams.set("outputsize",String(Math.min(interval==="3m"?limit*3:limit,5000)));
     url.searchParams.set("order","ASC");
     url.searchParams.set("format","JSON");
     url.searchParams.set("apikey",key);
@@ -97,13 +97,23 @@ Deno.serve(async (req: Request) => {
     const type = String(meta?.type || "").toLowerCase();
     const fxOrCrypto = market === "forex" || market === "crypto" || type.includes("forex") || type.includes("currency") || type.includes("crypto");
     const timezone = String(meta?.exchange_timezone || "UTC");
-    const candles = payload.values.map((x:any)=>({
+    let candles = payload.values.map((x:any)=>({
       t:parseTwelveDate(String(x.datetime),timezone,fxOrCrypto),
       o:+x.open,h:+x.high,l:+x.low,c:+x.close,v:+(x.volume||0)
     })).filter((x:any)=>Number.isFinite(x.t)&&[x.o,x.h,x.l,x.c].every(Number.isFinite))
       .sort((a:any,b:any)=>a.t-b.t);
-    if (candles.length < 10) throw new Error("Fewer than 10 historical candles returned. The symbol/timeframe may not be available on your provider plan.");
-    return json({candles,provider:"Twelve Data",timezone,symbol:tdSymbol,interval,meta});
+    if (interval === "3m") {
+      const buckets = new Map<number,any>();
+      for (const bar of candles) {
+        const bucket = Math.floor(bar.t/180000)*180000;
+        const current = buckets.get(bucket);
+        if (!current) buckets.set(bucket,{t:bucket,o:bar.o,h:bar.h,l:bar.l,c:bar.c,v:bar.v,count:1});
+        else {current.h=Math.max(current.h,bar.h);current.l=Math.min(current.l,bar.l);current.c=bar.c;current.v+=bar.v;current.count++;}
+      }
+      candles=[...buckets.values()].filter(x=>x.count===3).map(({t,o,h,l,c,v})=>({t,o,h,l,c,v}));
+    }
+    if (candles.length < 10) throw new Error("Fewer than 10 complete historical candles returned. The symbol/timeframe may not be available on your provider plan.");
+    return json({candles:candles.slice(-limit),provider:interval==="3m"?"Twelve Data 1m → 3m aggregation":"Twelve Data",timezone,symbol:tdSymbol,interval,meta});
   } catch (error) {
     console.error("market-data error:",error);
     return json({error:error instanceof Error?error.message:"Unexpected market data error."},502);
