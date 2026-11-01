@@ -2356,17 +2356,18 @@ $('reply').onclick=async()=>{
 };
 
 function parseEmaRules(raw){
-  const s=String(raw||'').toLowerCase().replace(/\s+/g,' ');
-  const hasFast=/ema\s*9\b/.test(s)||/ema\s*9\s*\/\s*21/.test(s)||/9\s*\/\s*21\s*(?:ema|crossover)/.test(s);
-  const hasSlow=/ema\s*21\b/.test(s)||/ema\s*9\s*\/\s*21/.test(s)||/9\s*\/\s*21\s*(?:ema|crossover)/.test(s);
-  const hasCross=/cross(?:es|ed|ing)?\s*(?:above|below)|cross(?:over|under)|(?:above|below)\s+(?:the\s+)?(?:other\s+)?ema/.test(s);
-  const hasNext=/(?:at\s+)?(?:the\s+)?next candle\s+(?:open|opening price)|next candle open/.test(s);
-  const hasLongStop=/(?:buy|long)[^.;\n]{0,100}(?:signal candle|candle)[^.;\n]{0,35}low/.test(s)||/signal candle low/.test(s);
-  const hasShortStop=/(?:sell|short)[^.;\n]{0,100}(?:signal candle|candle)[^.;\n]{0,35}high/.test(s)||/signal candle high/.test(s);
-  const rr=s.match(/(?:take profit|target)\s*:?\s*(?:at\s*)?([0-9]+(?:\.[0-9]+)?)\s*r\b/);
-  const bothStops=hasLongStop&&hasShortStop;
-  if(!hasFast||!hasSlow||!hasCross||!hasNext||!bothStops||!rr||!(+rr[1]>0))return null;
-  return {type:'emaCrossover',long:true,short:true,r:+rr[1],fast:9,slow:21};
+  const s=String(raw||'').toLowerCase().replace(/[–—]/g,'-').replace(/\s+/g,' ');
+  // Recognize common ways users describe the 9/21 EMA pair, including
+  // "EMA 9 and EMA 21 crossover", "9/21 EMA", and "EMA(9) / EMA(21)".
+  const hasFast=/(?:ema\s*\(?\s*9\s*\)?|\b9\s*ema\b|\b9\s*\/\s*21\b)/.test(s);
+  const hasSlow=/(?:ema\s*\(?\s*21\s*\)?|\b21\s*ema\b|\b9\s*\/\s*21\b)/.test(s);
+  const hasCross=/cross(?:es|ed|ing|over|under)?|crossover|cross-under|cross-over|intersection|intersect/.test(s);
+  if(!hasFast||!hasSlow||!hasCross)return null;
+  // Engine conventions: enter at the next candle open; use the signal
+  // candle low/high as stop; both directions; default target is 2R.
+  const rr=s.match(/(?:take\s*profit|target|tp)\s*:?\s*(?:at\s*)?([0-9]+(?:\.[0-9]+)?)\s*r\b/);
+  const rewardRisk=rr&&Number(rr[1])>0?Number(rr[1]):2;
+  return {type:'emaCrossover',long:true,short:true,r:rewardRisk,fast:9,slow:21};
 }
 function emaSeries(c,period){
   const out=new Array(c.length).fill(null);if(c.length<period)return out;
