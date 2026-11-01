@@ -154,8 +154,8 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
 
         // The simulator currently loads OHLCV candles for one selected interval only.
         // Reject rules requiring synchronized timeframes or historical event/tick data.
-        const multiTimeframePattern = /multi[ -]?timeframe|\\bmtf\\b|higher[ -]?timeframe|lower[ -]?timeframe|multiple timeframes|timeframe alignment|top[ -]?down analysis|1\\s*(?:m|min|minute)s?\\s*(?:and|\\+|,)\\s*5\\s*(?:m|min|minute)s?|5\\s*(?:m|min|minute)s?\\s*(?:and|\\+|,)\\s*1\\s*(?:h|hr|hour)s?/i;
-        const tickDataPattern = /tick[ -]?(?:level|by[ -]?tick|data|chart|feed)|every tick|order[ -]?flow|footprint|time[ -]?and[ -]?sales|tape[ -]?reading|bid[ -]?ask[ -]?stream|level[ -]?2|market[ -]?depth|\\bDOM\\b/i;
+        const multiTimeframePattern = /multi[ -]?timeframe|\bmtf\b|higher[ -]?timeframe|lower[ -]?timeframe|multiple timeframes|timeframe alignment|top[ -]?down analysis|1\s*(?:m|min|minute)s?\s*(?:and|\+|,)\s*5\s*(?:m|min|minute)s?|5\s*(?:m|min|minute)s?\s*(?:and|\+|,)\s*1\s*(?:h|hr|hour)s?/i;
+        const tickDataPattern = /tick[ -]?(?:level|by[ -]?tick|data|chart|feed)|every tick|order[ -]?flow|footprint|time[ -]?and[ -]?sales|tape[ -]?reading|bid[ -]?ask[ -]?stream|level[ -]?2|market[ -]?depth|\bDOM\b/i;
         const unsupportedDataReasons: string[] = [];
         if (multiTimeframePattern.test(strategy)) unsupportedDataReasons.push("Multi-timeframe rules need synchronized historical candles for each timeframe; this run only loads the selected chart interval.");
         if (tickDataPattern.test(strategy)) unsupportedDataReasons.push("Tick/order-flow rules need historical tick or order-book events; OHLCV candles cannot reproduce them.");
