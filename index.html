@@ -2715,7 +2715,7 @@ function drawEquity(a){
   x.stroke();
 }
 
-function renderResults(r){
+function renderResults(r,timezone='UTC'){
   const t=r.ts;
   const wins=t.filter(x=>x.pnl>0);
   const losses=t.filter(x=>x.pnl<0);
@@ -2733,7 +2733,7 @@ function renderResults(r){
   for(const z of t){if(z.pnl<0){streak++;maxStreak=Math.max(maxStreak,streak)}else streak=0;}
   $('streak').textContent=maxStreak;
 
-  $('trades').innerHTML=t.length?t.map((x,i)=>`<tr><td>${i+1}</td><td>${new Intl.DateTimeFormat('en-GB',{timeZone:lastRun?.compiledRules?.timezone||'UTC',dateStyle:'short',timeStyle:'medium',hour12:false}).format(new Date(x.t))}</td><td>${x.side}</td><td>${x.en}</td><td>${x.sl}</td><td>${x.tp}</td><td>${x.ex}</td><td>${fmt(x.netR)}</td><td>${fmt(x.pnl)}</td></tr>`).join(''):'<tr><td colspan="9">No completed trades in this data window.</td></tr>';
+  $('trades').innerHTML=t.length?t.map((x,i)=>`<tr><td>${i+1}</td><td>${new Intl.DateTimeFormat('en-GB',{timeZone:timezone||'UTC',dateStyle:'short',timeStyle:'medium',hour12:false}).format(new Date(x.t))}</td><td>${x.side}</td><td>${x.en}</td><td>${x.sl}</td><td>${x.tp}</td><td>${x.ex}</td><td>${fmt(x.netR)}</td><td>${fmt(x.pnl)}</td></tr>`).join(''):'<tr><td colspan="9">No completed trades in this data window.</td></tr>';
   drawEquity(r.curve);
 }
 
@@ -2755,7 +2755,7 @@ $('run').onclick=async()=>{
     const c=await candles();
     if(c.some((x,i)=>![x.o,x.h,x.l,x.c,x.t].every(Number.isFinite)||(i>0&&x.t<=c[i-1].t)))throw Error('Candle data failed quality checks.');
     status('Step 3/3 · Running the historical simulation…');
-    const results=backtest(c,rule);renderResults(results);
+    const results=backtest(c,rule);renderResults(results,ai.execution.timezone||'UTC');
     const engineName='AI-compiled strategy engine ('+ai.model+')';
     lastRun={at:new Date().toISOString(),symbol:$('symbol').value.toUpperCase(),interval:$('interval').value,candles:c.length,aiModel:engineName,strategy:ai.normalizedRules||strategyText,compiledRules:rule.execution,results};
     status('Backtest completed using '+engineName+': '+c.length+' historical candles from '+(lastDataProvider||'connected data provider')+'. Trades: '+results.ts.length+'. Estimated cost: '+($('costR').value||0)+'R per trade. Stop is counted first if stop and target touch in one candle.'+(ai.assumptions?.length?'\nAI assumptions/defaults: '+ai.assumptions.join('; '):''));
