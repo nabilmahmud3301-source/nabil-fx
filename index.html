@@ -3822,22 +3822,22 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
       <div id="status" class="status nfx-backtest-status">Ready. Sign in, describe any strategy, then run the AI-compiled historical simulation.</div>
     </section>
     <section class="nfx-backtest-results" id="backtestResults" aria-live="polite">
-      <div class="nfx-results-heading"><div><p class="nfx-backtest-step">STEP 02 · PERFORMANCE REPORT</p><h2>Backtest results</h2><p>Your performance breakdown will appear here after a simulation.</p></div><span class="nfx-results-state" id="resultsState"><i></i> AWAITING TEST</span></div>
+      <div class="nfx-results-heading"><div><h2>Backtest results</h2></div><span class="nfx-results-state" id="resultsState"><i></i> AWAITING TEST</span></div>
       <div class="nfx-results-metrics">
-        <article class="nfx-result-metric nfx-result-primary"><span>NET PROFIT / LOSS</span><strong id="pnl">—</strong><small>Account currency · USD</small></article>
-        <article class="nfx-result-metric"><span>WIN RATE</span><strong id="win">—</strong><small>Winning trades / total trades</small></article>
-        <article class="nfx-result-metric"><span>PROFIT FACTOR</span><strong id="pf">—</strong><small>Gross profit / gross loss</small></article>
-        <article class="nfx-result-metric"><span>MAX DRAWDOWN</span><strong id="dd">—</strong><small>Peak-to-trough decline</small></article>
-        <article class="nfx-result-metric"><span>TOTAL TRADES</span><strong id="count">—</strong><small>Completed positions</small></article>
-        <article class="nfx-result-metric"><span>AVERAGE R / TRADE</span><strong id="avgr">—</strong><small>Net reward-to-risk</small></article>
-        <article class="nfx-result-metric"><span>EXPECTANCY</span><strong id="expect">—</strong><small>Average P&amp;L per trade</small></article>
-        <article class="nfx-result-metric"><span>MAX LOSS STREAK</span><strong id="streak">—</strong><small>Consecutive losing trades</small></article>
+        <article class="nfx-result-metric nfx-result-primary"><span>NET PROFIT / LOSS</span><strong id="pnl">—</strong></article>
+        <article class="nfx-result-metric"><span>WIN RATE</span><strong id="win">—</strong></article>
+        <article class="nfx-result-metric"><span>PROFIT FACTOR</span><strong id="pf">—</strong></article>
+        <article class="nfx-result-metric"><span>MAX DRAWDOWN</span><strong id="dd">—</strong></article>
+        <article class="nfx-result-metric"><span>TOTAL TRADES</span><strong id="count">—</strong></article>
+        <article class="nfx-result-metric"><span>AVERAGE R / TRADE</span><strong id="avgr">—</strong></article>
+        <article class="nfx-result-metric"><span>EXPECTANCY</span><strong id="expect">—</strong></article>
+        <article class="nfx-result-metric"><span>MAX LOSS STREAK</span><strong id="streak">—</strong></article>
       </div>
       <div class="nfx-results-analysis-grid">
-        <section class="nfx-results-chart-card"><div class="nfx-results-card-heading"><div><span>ACCOUNT PERFORMANCE</span><h3>Equity curve</h3></div><small>Trade-by-trade balance</small></div><div class="nfx-equity-wrap"><canvas id="equityChart" width="1200" height="300" aria-label="Backtest equity curve"></canvas><div class="nfx-equity-empty" id="equityEmpty">Run a backtest to generate your equity curve.</div></div></section>
-        <section class="nfx-results-breakdown"><div class="nfx-results-card-heading"><div><span>TRADE QUALITY</span><h3>Execution breakdown</h3></div></div><div class="nfx-breakdown-row"><span>Average win / loss</span><strong id="wl">—</strong></div><div class="nfx-breakdown-row"><span>Starting balance</span><strong id="resultsStart">—</strong></div><div class="nfx-breakdown-row"><span>Ending balance</span><strong id="resultsEnd">—</strong></div><div class="nfx-breakdown-row"><span>Net return</span><strong id="resultsReturn">—</strong></div><p class="nfx-results-footnote">Metrics use the historical records returned by the selected data provider. They are not a forecast of future performance.</p></section>
+        <section class="nfx-results-chart-card"><div class="nfx-results-card-heading"><div><span>ACCOUNT PERFORMANCE</span><h3>Equity curve</h3></div></div><div class="nfx-equity-wrap"><canvas id="equityChart" width="1200" height="300" aria-label="Backtest equity curve"></canvas></div></section>
+        <section class="nfx-results-breakdown"><div class="nfx-results-card-heading"><div><span>TRADE QUALITY</span><h3>Execution breakdown</h3></div></div><div class="nfx-breakdown-row"><span>Average win / loss</span><strong id="wl">—</strong></div><div class="nfx-breakdown-row"><span>Starting balance</span><strong id="resultsStart">—</strong></div><div class="nfx-breakdown-row"><span>Ending balance</span><strong id="resultsEnd">—</strong></div><div class="nfx-breakdown-row"><span>Net return</span><strong id="resultsReturn">—</strong></div></section>
       </div>
-      <section class="nfx-results-trades"><div class="nfx-results-card-heading"><div><span>SIMULATION LOG</span><h3>Executed trades</h3></div><small id="resultsTradeCount">0 trades</small></div><div class="tablewrap"><table><thead><tr><th>#</th><th>Entry time</th><th>Side</th><th>Entry</th><th>Stop</th><th>Target</th><th>Exit</th><th>Net R</th><th>P&amp;L USD</th></tr></thead><tbody id="resultsTrades"><tr><td colspan="9" class="muted">No simulation results yet. Configure a strategy and run a backtest.</td></tr></tbody></table></div></section>
+      <section class="nfx-results-trades"><div class="nfx-results-card-heading"><div><span>SIMULATION LOG</span><h3>Executed trades</h3></div><small id="resultsTradeCount">0 trades</small></div><div class="tablewrap"><table><thead><tr><th>#</th><th>Entry time</th><th>Side</th><th>Entry</th><th>Stop</th><th>Target</th><th>Exit</th><th>Net R</th><th>P&amp;L USD</th></tr></thead><tbody id="resultsTrades"></tbody></table></div></section>
     </section>
   </div>
 
