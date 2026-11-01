@@ -1306,6 +1306,22 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 
 <style id="nfx-book-liq-timeframe-style">.nfx-book-liq-ranges{display:flex;align-items:center;gap:3px;flex-wrap:nowrap}.nfx-book-liq-ranges button{min-width:31px}.nfx-liq-timeline-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}@media(max-width:760px){.nfx-book-liq-ranges{gap:1px}.nfx-book-liq-ranges button{min-width:27px;padding-left:6px!important;padding-right:6px!important}}</style>
 
+
+<style id="nfx-heatmap-tradingview-interaction">
+/* Trading-terminal chart interaction and legibility */
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-wrap,
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap{height:clamp(390px,52vh,620px)!important;min-height:390px!important;cursor:grab!important;overscroll-behavior:contain!important}
+#nfxLiqDashboard #nfxLiqTimelineCanvas,
+#nfxLiqDashboard #nfxLiqLiquidationCanvas{display:block!important;width:100%!important;height:100%!important;touch-action:none!important;user-select:none!important;-webkit-user-select:none!important;cursor:grab!important}
+#nfxLiqDashboard #nfxLiqTimelineCanvas:active,
+#nfxLiqDashboard #nfxLiqLiquidationCanvas:active{cursor:grabbing!important}
+#nfxLiqDashboard .nfx-liq-timeline-panel{min-width:0!important}
+@media(max-width:760px){
+ #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-wrap,
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap{height:360px!important;min-height:360px!important}
+}
+</style>
+
 </head>
 <body>
 <header class="site-header">
@@ -4063,10 +4079,10 @@ document.addEventListener('click', function(event) {
   // It never reads or mutates the Liquidation Heatmap candle/event state.
   var nfxBookCandles=[],nfxBookCandleSymbol='',nfxBookCandleRange=0,nfxBookCandleInterval=60000,nfxBookCandleLoading=false,nfxBookCandleFetchedAt=0,nfxBookTimeZoom=1,nfxBookPriceZoom=1,nfxBookTimePan=0,nfxBookPricePan=0;
   function nfxBookCandleConfig(seconds){
-    if(seconds<=86400)return {interval:'1m',intervalMs:60000,limit:Math.min(1500,Math.max(60,Math.ceil(seconds/60)+3))};
-    if(seconds<=259200)return {interval:'5m',intervalMs:300000,limit:Math.min(1500,Math.ceil(seconds/300)+3)};
-    // Binance Futures does not support a 10m kline interval. Use its valid 15m interval for the 7D window.
-    return {interval:'15m',intervalMs:900000,limit:Math.min(1500,Math.ceil(seconds/900)+3)};
+    // Match candle density to the selected window so bodies remain readable at every range.
+    var cfg=seconds<=3600?{interval:'1m',intervalMs:60000}:seconds<=14400?{interval:'3m',intervalMs:180000}:seconds<=43200?{interval:'5m',intervalMs:300000}:seconds<=86400?{interval:'15m',intervalMs:900000}:seconds<=259200?{interval:'30m',intervalMs:1800000}:{interval:'1h',intervalMs:3600000};
+    cfg.limit=Math.min(1500,Math.max(60,Math.ceil(seconds/(cfg.intervalMs/1000))+4));
+    return cfg;
   }
   function nfxBookCandleLoad(force){
     if(activeMarket!=='crypto')return;
@@ -4119,7 +4135,7 @@ document.addEventListener('click', function(event) {
     var now=Date.now(),windowMs=historyLimit()*1000/nfxBookTimeZoom,cutoff=now-windowMs+nfxBookTimePan,history=liqHistory.filter(function(x){return x.t>=cutoff&&x.t<=cutoff+windowMs;});
     var candleSymbol=String(currentSymbol||'BTCUSDT').toUpperCase();
     if(activeMarket==='crypto')nfxBookCandleLoad(false);
-    var chartCandles=activeMarket==='crypto'&&nfxBookCandleSymbol===candleSymbol&&nfxBookCandleRange===historyLimit()?nfxBookCandles.filter(function(c){return c.t>=cutoff&&c.t<=now;}):[];
+    var chartCandles=activeMarket==='crypto'&&nfxBookCandleSymbol===candleSymbol&&nfxBookCandleRange===historyLimit()?nfxBookCandles.filter(function(c){return c.t>=cutoff&&c.t<=cutoff+windowMs;}):[];
     var empty=$('nfxLiqTimelineEmpty');if(empty)empty.hidden=history.length>0||chartCandles.length>0;
     ctx.font='700 9px system-ui,sans-serif';ctx.textBaseline='middle';ctx.textAlign='left';ctx.fillStyle='#a6b2c5';ctx.fillText('ASK',left,15);
     ctx.fillStyle='#8b5cf6';ctx.fillRect(left+27,11,8,8);ctx.fillStyle='#a6b2c5';ctx.fillText('BID',left+43,15);ctx.fillStyle='#27c7b8';ctx.fillRect(left+65,11,8,8);
@@ -4180,11 +4196,11 @@ document.addEventListener('click', function(event) {
      ctx.textBaseline='middle';
     // Overlay verified Binance Futures OHLC candles on the same price/time scale.
     if(chartCandles.length){
-      var intervalMs=nfxBookCandleInterval,candleStep=pw*intervalMs/windowMs,bodyW=Math.max(1,Math.min(7,candleStep*.72));
+      var intervalMs=nfxBookCandleInterval,candleStep=pw*intervalMs/windowMs,bodyW=Math.max(2,Math.min(9,candleStep*.82));
       chartCandles.forEach(function(c){
         var x=left+((c.t+intervalMs/2-cutoff)/windowMs)*pw;if(x<left-bodyW||x>left+pw+bodyW)return;
         var yO=top+(hi-c.o)/(hi-lo)*ph,yC=top+(hi-c.c)/(hi-lo)*ph,yH=top+(hi-c.h)/(hi-lo)*ph,yL=top+(hi-c.l)/(hi-lo)*ph;
-        var color=c.c>=c.o?'#21d6a0':'#ff5575';ctx.globalAlpha=.96;ctx.strokeStyle=color;ctx.lineWidth=1.15;ctx.beginPath();ctx.moveTo(x,yH);ctx.lineTo(x,yL);ctx.stroke();ctx.fillStyle=color;ctx.fillRect(x-bodyW/2,Math.min(yO,yC),bodyW,Math.max(1.4,Math.abs(yC-yO)));
+        var color=c.c>=c.o?'#21d6a0':'#ff5575';ctx.globalAlpha=.98;ctx.strokeStyle=color;ctx.lineWidth=1.35;ctx.beginPath();ctx.moveTo(Math.round(x)+.5,yH);ctx.lineTo(Math.round(x)+.5,yL);ctx.stroke();ctx.fillStyle=color;ctx.fillRect(Math.round(x-bodyW/2),Math.min(yO,yC),Math.max(2,Math.round(bodyW)),Math.max(2,Math.abs(yC-yO)));
       });ctx.globalAlpha=1;
     }
     var currentY=top+(hi-currentMid)/(hi-lo)*ph;
@@ -4205,7 +4221,7 @@ var nfxEstLiqCandles=[];
   var nfxEstLiqTimePan=0,nfxEstLiqPricePan=0;
   var nfxEstLiqPointer=null;
   function nfxEstLiqConfig(){
-    var map={'1h':{interval:'1m',limit:65},'2h':{interval:'1m',limit:125},'4h':{interval:'5m',limit:55},'12h':{interval:'15m',limit:55},'1d':{interval:'30m',limit:55},'2d':{interval:'1h',limit:55},'3d':{interval:'2h',limit:42},'7d':{interval:'4h',limit:45}};
+    var map={'1h':{interval:'1m',intervalMs:60000,limit:65},'2h':{interval:'1m',intervalMs:60000,limit:125},'4h':{interval:'3m',intervalMs:180000,limit:85},'12h':{interval:'15m',intervalMs:900000,limit:55},'1d':{interval:'30m',intervalMs:1800000,limit:55},'2d':{interval:'1h',intervalMs:3600000,limit:55},'3d':{interval:'2h',intervalMs:7200000,limit:42},'7d':{interval:'4h',intervalMs:14400000,limit:45}};
     return map[nfxEstLiqRange]||map['1h'];
   }
   function nfxEstLiqLoad(force){
@@ -4245,7 +4261,7 @@ var nfxEstLiqCandles=[];
     if(nfxEstLiqSymbol!==symbol.toUpperCase()||!nfxEstLiqCandles.length)nfxEstLiqLoad(false);
     var rangeMap={'1h':3600000,'2h':7200000,'4h':14400000,'12h':43200000,'1d':86400000,'2d':172800000,'3d':259200000,'7d':604800000};
     var span=(rangeMap[nfxEstLiqRange]||3600000)/nfxEstLiqZoom,now=Date.now(),cutoff=now-span+nfxEstLiqTimePan;
-    var candles=nfxEstLiqCandles.filter(function(c){return c.t>=cutoff;});
+    var candles=nfxEstLiqCandles.filter(function(c){return c.t>=cutoff&&c.t<=cutoff+span;});
     var events=liquidationEvents.filter(function(e){return e.symbol===symbol&&e.t>=cutoff&&e.p>0&&e.usd>0;});
     ctx.font='700 10px system-ui,sans-serif';ctx.textBaseline='middle';ctx.textAlign='left';ctx.fillStyle='#dce5f1';
     ctx.fillText('MODELLED LIQUIDATION ZONES · LIVE ESTIMATES',left,14);
@@ -4271,10 +4287,12 @@ var nfxEstLiqCandles=[];
         if(price>0)estimateLevels.push({price:price,side:p.side,weight:(1+Math.log1p(p.volume))*Math.exp(-oi*.22),offset:offset,anchor:p.price});
       });
     });
-    // Keep the candle price scale anchored to actual traded prices; modelled levels outside it are clipped.
+    // Fit the default scale to candles, estimated liquidation clusters and verified force-order prices.
+    // This prevents modelled levels from being clipped outside the visible chart.
     var lo=Math.min.apply(null,candles.map(function(c){return c.l;}));
     var hi=Math.max.apply(null,candles.map(function(c){return c.h;}));
-    events.forEach(function(e){if(e.p>=lo&&e.p<=hi){lo=Math.min(lo,e.p);hi=Math.max(hi,e.p);}});
+    estimateLevels.forEach(function(level){lo=Math.min(lo,level.price);hi=Math.max(hi,level.price);});
+    events.forEach(function(e){lo=Math.min(lo,e.p);hi=Math.max(hi,e.p);});
     var candleRange=Math.max(hi-lo,last*.0008);
     var pad=Math.max(candleRange*.035,last*.0005);
     var minP=Math.max(1e-8,lo-pad),maxP=hi+pad;if(maxP<=minP){minP=last*.99;maxP=last*1.01;}
@@ -4362,20 +4380,20 @@ var nfxEstLiqCandles=[];
       ctx.restore();
     });
     // Use chart-like candle density: fewer, larger interval candles on wider time ranges.
-    var intervalMs=({ '1h':60000,'2h':60000,'4h':300000,'12h':900000,'1d':1800000,'2d':3600000,'3d':7200000,'7d':14400000 })[nfxEstLiqRange]||60000;
+    var intervalMs=nfxEstLiqConfig().intervalMs||60000;
     var candleStep=pw*intervalMs/span;
-    var candleW=Math.max(3,Math.min(14,candleStep*.82));
+    var candleW=Math.max(3,Math.min(12,candleStep*.86));
     candles.forEach(function(c){
       var x=left+((c.t+intervalMs/2-cutoff)/span)*pw;
       if(x<left-candleW||x>left+pw+candleW)return;
       var yO=top+(maxP-c.o)/(maxP-minP)*ph,yC=top+(maxP-c.c)/(maxP-minP)*ph;
       var yH=top+(maxP-c.h)/(maxP-minP)*ph,yL=top+(maxP-c.l)/(maxP-minP)*ph;
       var bullish=c.c>=c.o,col=bullish?'#20d9a2':'#ff5576';
-      ctx.save();ctx.globalAlpha=.98;ctx.strokeStyle=col;ctx.lineWidth=Math.max(1,candleW>.2?1.15:1);
+      ctx.save();ctx.globalAlpha=1;ctx.strokeStyle=col;ctx.lineWidth=1.35;
       ctx.beginPath();ctx.moveTo(Math.round(x)+.5,yH);ctx.lineTo(Math.round(x)+.5,yL);ctx.stroke();
-      var bodyTop=Math.min(yO,yC),bodyHeight=Math.max(2,Math.abs(yC-yO));
-      ctx.fillStyle=col;ctx.fillRect(Math.round(x-candleW/2),bodyTop,Math.max(1.35,candleW),bodyHeight);
-      ctx.strokeStyle=bullish?'#7ff5d1':'#ff9bad';ctx.lineWidth=.65;ctx.strokeRect(Math.round(x-candleW/2)+.5,bodyTop+.5,Math.max(1,candleW-1),Math.max(1,bodyHeight-1));
+      var bodyTop=Math.min(yO,yC),bodyHeight=Math.max(2.2,Math.abs(yC-yO)),bodyLeft=Math.round(x-candleW/2),bodyWidth=Math.max(2,Math.round(candleW));
+      ctx.fillStyle=col;ctx.fillRect(bodyLeft,bodyTop,bodyWidth,bodyHeight);
+      ctx.strokeStyle=bullish?'#9bffe0':'#ffb1bf';ctx.lineWidth=.8;ctx.strokeRect(bodyLeft+.5,bodyTop+.5,Math.max(1,bodyWidth-1),Math.max(1,bodyHeight-1));
       ctx.restore();
     });
     if(nfxEstLiqPointer&&nfxEstLiqPointer.x>=left&&nfxEstLiqPointer.x<=left+pw&&nfxEstLiqPointer.y>=top&&nfxEstLiqPointer.y<=top+ph){
@@ -4525,6 +4543,7 @@ function bindHeatmapInspector(canvasId,kind){
       ev.preventDefault();var rect=canvas.getBoundingClientRect(),onPrice=ev.clientX-rect.left>rect.width-88,step=ev.deltaY<0?1.18:1/1.18;
       if(onPrice)zoomPrice(step);else zoomTime(step);
     },{passive:false});
+    canvas.style.touchAction='none';
     canvas.addEventListener('pointerdown',function(ev){
       if(ev.button!==0)return;
       var r=canvas.getBoundingClientRect(),x=ev.clientX-r.left;
@@ -4547,11 +4566,15 @@ function bindHeatmapInspector(canvasId,kind){
         if(kind==='book')nfxBookPriceZoom=z;else nfxEstLiqPriceZoom=z;
       }else{
         var windowMs=(kind==='book'?historyLimit()*1000:({'1h':3600000,'2h':7200000,'4h':14400000,'12h':43200000,'1d':86400000,'2d':172800000,'3d':259200000,'7d':604800000}[nfxEstLiqRange]||3600000))/drag.timeZoom;
-        var pan=drag.time+dx/Math.max(1,drag.width-96)*windowMs;
+        var pan=drag.time-dx/Math.max(1,drag.width-96)*windowMs;
         if(kind==='book')nfxBookTimePan=pan;else nfxEstLiqTimePan=pan;
-        var priceSpan=kind==='book'?((historyLimit()>0?1:1)):1;
-        if(kind==='book')nfxBookPricePan=drag.price+dy/Math.max(1,drag.height-62)*(Math.abs((nfxBookCandles[0]||{}).c||1)*.01/nfxBookPriceZoom);
-        else{
+        if(kind==='book'){
+          var bookVisible=nfxBookCandles.filter(function(c){return c.t>=Date.now()-windowMs&&c.t<=Date.now();});
+          var bookLo=bookVisible.length?Math.min.apply(null,bookVisible.map(function(c){return c.l;})):((nfxBookCandles[0]||{}).c||1)*.995;
+          var bookHi=bookVisible.length?Math.max.apply(null,bookVisible.map(function(c){return c.h;})):((nfxBookCandles[0]||{}).c||1)*1.005;
+          var bookSpan=Math.max(bookHi-bookLo,Math.abs(bookHi)*.001)/drag.priceZoom;
+          nfxBookPricePan=drag.price+dy/Math.max(1,drag.height-64)*bookSpan;
+        }else{
           var visible=nfxEstLiqCandles.filter(function(c){return c.t>=Date.now()-windowMs&&c.t<=Date.now();});
           var lo=visible.length?Math.min.apply(null,visible.map(function(c){return c.l;})):1;
           var hi=visible.length?Math.max.apply(null,visible.map(function(c){return c.h;})):2;
@@ -4561,14 +4584,14 @@ function bindHeatmapInspector(canvasId,kind){
       }
       draw();
     });
-    function endDrag(){drag=null;canvas.style.cursor='crosshair';}
-    canvas.addEventListener('pointerup',endDrag);canvas.addEventListener('pointercancel',endDrag);
+    function endDrag(){drag=null;canvas.style.cursor='grab';}
+    canvas.addEventListener('pointerup',endDrag);canvas.addEventListener('pointercancel',endDrag);canvas.addEventListener('lostpointercapture',endDrag);
     canvas.addEventListener('dblclick',function(){
       if(kind==='book'){nfxBookTimeZoom=1;nfxBookPriceZoom=1;nfxBookTimePan=0;nfxBookPricePan=0;}
       else{nfxEstLiqZoom=1;nfxEstLiqPriceZoom=1;nfxEstLiqTimePan=0;nfxEstLiqPricePan=0;}
       draw();
     });
-    canvas.title='Drag chart to pan · Drag right price scale to adjust price · Scroll to zoom · Double-click to reset';
+    canvas.style.cursor='grab';canvas.title='Drag chart body to pan horizontally and vertically · Drag right price scale to resize · Mouse wheel to zoom time · Double-click to reset';
   }
   bindNfxChartNavigation('nfxLiqTimelineCanvas','book');
   bindNfxChartNavigation('nfxLiqLiquidationCanvas','liq');
