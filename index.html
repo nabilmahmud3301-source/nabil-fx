@@ -4231,7 +4231,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
         <div class="field wide">
           <label>CHART SCREENSHOTS (UP TO 10 IMAGES)</label>
           <input id="noteImages" type="file" accept="image/*" multiple>
-          <p class="hint">Each image must be 5 MB or smaller. Existing images stay attached when editing a note unless you remove them.</p>
+          <p class="hint">Each image must be 10 MB or smaller. Existing images stay attached when editing a note unless you remove them.</p>
           <div id="noteImagePreview" class="note-images"></div>
         </div>
       </div>
@@ -5914,7 +5914,7 @@ function renderNoteImages(){
 
 $('noteImages').addEventListener('change',async event=>{
   const files=Array.from(event.target.files||[]);
-  const maxEach=5*1024*1024;
+  const maxEach=10*1024*1024;
   const maxImages=10;
   let added=0;
 
@@ -5924,7 +5924,7 @@ $('noteImages').addEventListener('change',async event=>{
       continue;
     }
     if(file.size>maxEach){
-      noteStatus('Image is too large. Each image must be 5 MB or smaller: '+file.name);
+      noteStatus('Image is too large. Each image must be 10 MB or smaller: '+file.name);
       continue;
     }
     if(noteImages.length>=maxImages){
