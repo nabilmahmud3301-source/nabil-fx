@@ -4167,7 +4167,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
         <section class="nfx-results-chart-card"><div class="nfx-results-card-heading"><div><span>EQUITY CURVE</span><h3>Account performance</h3></div><small id="nfxResultEquityLabel">Starting balance → ending balance</small></div><div class="nfx-equity-wrap"><canvas id="equityChart" width="1000" height="280" aria-label="Backtest equity curve"></canvas></div></section>
         <section class="nfx-results-breakdown"><div class="nfx-results-card-heading"><div><span>EXECUTION SUMMARY</span><h3>Run details</h3></div></div><dl class="nfx-results-summary"><div><dt>Starting balance</dt><dd id="nfxResultStart">—</dd></div><div><dt>Ending balance</dt><dd id="nfxResultEnd">—</dd></div><div><dt>Winning / losing</dt><dd id="nfxResultWL">—</dd></div><div><dt>Average net R</dt><dd id="nfxResultR">—</dd></div></dl></section>
       </div>
-      <section class="nfx-results-trades"><div class="nfx-results-card-heading"><div><span>TRADE-BY-TRADE</span><h3>Execution history</h3></div><small>Most recent completed run</small></div><div class="tablewrap"><table><thead><tr><th>#</th><th>ENTRY TIME</th><th>SIDE</th><th>ENTRY</th><th>STOP</th><th>TARGET</th><th>EXIT</th><th>NET R</th><th>P/L USD</th></tr></thead><tbody id="trades"><tr><td colspan="9">No completed backtest yet.</td></tr></tbody></table></div></section>
+      <section class="nfx-results-trades"><div class="nfx-results-card-heading"><div><span>TRADE-BY-TRADE</span><h3>Execution history</h3></div><small>Most recent completed run</small></div><div class="tablewrap"><table><thead><tr><th>#</th><th>ENTRY TIME</th><th>SIDE</th><th>ENTRY</th><th>STOP</th><th>TARGET</th><th>EXIT</th><th>NET R</th><th>P/L USD</th></tr></thead><tbody id="nfxResultsTradesBody"><tr><td colspan="9">No completed backtest yet.</td></tr></tbody></table></div></section>
       <p class="nfx-results-footnote">Results are historical simulations, not a guarantee of future performance. Fees, spread, slippage, data coverage and intrabar assumptions can materially affect outcomes.</p>
     </section>
   </div>
@@ -5121,7 +5121,7 @@ function renderResults(r,timezone='UTC'){
   set('nfxResultEquityLabel',money(r.start)+' → '+money(r.end));
   const state=$('nfxResultsState');if(state){state.classList.add('complete');state.innerHTML='<i></i> BACKTEST COMPLETE';}
   const rows=t.length?t.map((x,i)=>'<tr><td>'+(i+1)+'</td><td>'+new Intl.DateTimeFormat('en-GB',{timeZone:timezone||'UTC',dateStyle:'short',timeStyle:'medium',hour12:false}).format(new Date(x.t))+'</td><td>'+x.side+'</td><td>'+x.en+'</td><td>'+x.sl+'</td><td>'+(x.tp??'Rule exit')+'</td><td>'+x.ex+'</td><td>'+fmt(x.netR)+'</td><td>'+fmt(x.pnl)+'</td></tr>').join(''):'<tr><td colspan="9">No completed trades in this data window.</td></tr>';
-  if($('trades'))$('trades').innerHTML=rows;
+  if($('nfxResultsTradesBody'))$('nfxResultsTradesBody').innerHTML=rows;if($('trades'))$('trades').innerHTML=rows;
   if(typeof drawEquity==='function')drawEquity(r.curve||[]);
 }
 
