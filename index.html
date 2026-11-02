@@ -5093,6 +5093,13 @@ document.querySelectorAll('[data-account-page]').forEach(btn=>{
 $('accountMenuToggle').addEventListener('click',event=>{
   event.preventDefault();
   event.stopPropagation();
+  // Signed-in users should open their personal profile directly, not an empty account dropdown.
+  if(window.NABIL_IS_AUTHENTICATED){
+    closeAccountDropdown();
+    if(typeof window.showNabilPage==='function') window.showNabilPage('account');
+    if(typeof window.showNabilAccountPage==='function') window.showNabilAccountPage('profile');
+    return;
+  }
   const dropdown=$('accountDropdown');
   const toggle=$('accountMenuToggle');
   if(dropdown.classList.contains('open')){closeAccountDropdown();return;}
