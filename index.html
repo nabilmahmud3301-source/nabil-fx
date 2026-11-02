@@ -3719,22 +3719,6 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 }
 @media(prefers-reduced-motion:reduce){#page-notes .saved-note,#page-notes input,#page-notes select,#page-notes textarea{transition:none!important}}
 </style>
-<style id="nfx-backtest-results-layout-fix">
-#page-backtest .nfx-backtest-grid{display:grid;grid-template-columns:minmax(0,1fr)!important;gap:22px}
-#page-backtest .nfx-backtest-config{min-width:0}
-#page-backtest .nfx-backtest-results{grid-column:1/-1;width:100%;min-width:0}
-#page-backtest .nfx-results-metrics{grid-template-columns:repeat(4,minmax(0,1fr))}
-#page-backtest .nfx-results-summary{margin:0;display:grid;gap:0}
-#page-backtest .nfx-results-summary>div{display:flex;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid rgba(148,166,190,.13)}
-#page-backtest .nfx-results-summary dt{color:#93a1b3;font-size:11px}
-#page-backtest .nfx-results-summary dd{margin:0;color:#edf2f8;font-size:12px;font-weight:750;font-variant-numeric:tabular-nums;text-align:right}
-#page-backtest .nfx-equity-wrap{padding:10px;min-height:220px}
-#page-backtest #equityChart{display:block;width:100%;height:220px}
-#page-backtest .nfx-results-trades{margin-top:14px}
-#page-backtest .nfx-results-footnote{margin:14px 0 0;font-size:10px;line-height:1.6}
-@media(max-width:900px){#page-backtest .nfx-results-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:600px){#page-backtest .nfx-results-analysis-grid{grid-template-columns:1fr}#page-backtest .nfx-results-metrics{gap:8px}#page-backtest .nfx-result-metric{min-height:96px;padding:13px 11px}#page-backtest .nfx-result-metric strong{font-size:20px}}
-</style>
 </head>
 <body>
 <div id="nfx-page-loader" role="status" aria-live="polite" aria-label="Loading Nabil FX workspace">
@@ -4151,26 +4135,13 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
       <p class="tiny">Historical data availability depends on provider entitlement and instrument coverage. Verify all results independently before live trading.</p>
       <div id="status" class="status nfx-backtest-status">Ready. Sign in, describe any strategy, then run the AI-compiled historical simulation.</div>
     </section>
-    <section class="nfx-backtest-results" id="backtestResults" aria-live="polite">
-      <div class="nfx-results-heading"><div><p class="nfx-backtest-step">STEP 02 · PERFORMANCE</p><h2>Backtest Results</h2><p>Verified metrics from the most recently completed historical simulation.</p></div><span class="nfx-results-state" id="nfxResultsState"><i></i> AWAITING TEST</span></div>
-      <div class="nfx-results-metrics">
-        <article class="nfx-result-metric nfx-result-primary"><span>NET PROFIT / LOSS</span><strong id="nfxResultNet">—</strong><small id="nfxResultReturn">Run a backtest to calculate performance</small></article>
-        <article class="nfx-result-metric"><span>WIN RATE</span><strong id="nfxResultWin">—</strong><small id="nfxResultWinCount">Winning trades</small></article>
-        <article class="nfx-result-metric"><span>PROFIT FACTOR</span><strong id="nfxResultPF">—</strong><small>Gross profit ÷ gross loss</small></article>
-        <article class="nfx-result-metric"><span>MAX DRAWDOWN</span><strong id="nfxResultDD">—</strong><small>Peak-to-trough equity decline</small></article>
-        <article class="nfx-result-metric"><span>TOTAL TRADES</span><strong id="nfxResultTrades">—</strong><small id="nfxResultTradeSplit">Completed positions</small></article>
-        <article class="nfx-result-metric"><span>AVERAGE R / TRADE</span><strong id="nfxResultAvgR">—</strong><small>Average net risk multiple</small></article>
-        <article class="nfx-result-metric"><span>EXPECTANCY</span><strong id="nfxResultExpectancy">—</strong><small>Average net P/L per trade</small></article>
-        <article class="nfx-result-metric"><span>MAX LOSS STREAK</span><strong id="nfxResultStreak">—</strong><small>Consecutive losing trades</small></article>
-      </div>
-      <div class="nfx-results-analysis-grid">
-        <section class="nfx-results-chart-card"><div class="nfx-results-card-heading"><div><span>EQUITY CURVE</span><h3>Account performance</h3></div><small id="nfxResultEquityLabel">Starting balance → ending balance</small></div><div class="nfx-equity-wrap"><canvas id="equityChart" width="1000" height="280" aria-label="Backtest equity curve"></canvas></div></section>
-        <section class="nfx-results-breakdown"><div class="nfx-results-card-heading"><div><span>EXECUTION SUMMARY</span><h3>Run details</h3></div></div><dl class="nfx-results-summary"><div><dt>Starting balance</dt><dd id="nfxResultStart">—</dd></div><div><dt>Ending balance</dt><dd id="nfxResultEnd">—</dd></div><div><dt>Winning / losing</dt><dd id="nfxResultWL">—</dd></div><div><dt>Average net R</dt><dd id="nfxResultR">—</dd></div></dl></section>
-      </div>
-      <section class="nfx-results-trades"><div class="nfx-results-card-heading"><div><span>TRADE-BY-TRADE</span><h3>Execution history</h3></div><small>Most recent completed run</small></div><div class="tablewrap"><table><thead><tr><th>#</th><th>ENTRY TIME</th><th>SIDE</th><th>ENTRY</th><th>STOP</th><th>TARGET</th><th>EXIT</th><th>NET R</th><th>P/L USD</th></tr></thead><tbody id="nfxResultsTradesBody"><tr><td colspan="9">No completed backtest yet.</td></tr></tbody></table></div></section>
-      <p class="nfx-results-footnote">Results are historical simulations, not a guarantee of future performance. Fees, spread, slippage, data coverage and intrabar assumptions can materially affect outcomes.</p>
+    
     </section>
   </div>
+
+
+
+  
 </section>
 
 <section id="page-journal" class="view">
@@ -5105,24 +5076,9 @@ function drawEquity(a){
 }
 
 function renderResults(r,timezone='UTC'){
-  const t=r.ts||[],wins=t.filter(x=>x.netR>0),losses=t.filter(x=>x.netR<0);
-  const grossWin=wins.reduce((a,x)=>a+x.pnl,0),grossLoss=Math.abs(losses.reduce((a,x)=>a+x.pnl,0));
-  const net=r.end-r.start,avgR=t.length?t.reduce((a,x)=>a+x.netR,0)/t.length:0,avgPnl=t.length?net/t.length:0;
-  let streak=0,maxStreak=0;t.forEach(x=>{if(x.netR<0){streak++;maxStreak=Math.max(maxStreak,streak)}else streak=0});
-  const money=v=>(v<0?'-':'')+'$'+Math.abs(v).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
-  const pct=v=>(v*100).toFixed(2)+'%';
-  const set=(id,v)=>{const e=$(id);if(e)e.textContent=v};
-  set('nfxResultNet',(net>=0?'+':'')+money(net));set('nfxResultReturn',(r.start>0?pct(net/r.start)+' return':'—'));
-  set('nfxResultWin',t.length?pct(wins.length/t.length):'0.00%');set('nfxResultWinCount',wins.length+' wins · '+losses.length+' losses');
-  set('nfxResultPF',grossLoss?(grossWin/grossLoss).toFixed(2):grossWin?'∞':'0.00');set('nfxResultDD',pct(r.dd||0));
-  set('nfxResultTrades',String(t.length));set('nfxResultTradeSplit',wins.length+' wins / '+losses.length+' losses');
-  set('nfxResultAvgR',(avgR>=0?'+':'')+avgR.toFixed(2)+'R');set('nfxResultExpectancy',money(avgPnl));set('nfxResultStreak',String(maxStreak));
-  set('nfxResultStart',money(r.start));set('nfxResultEnd',money(r.end));set('nfxResultWL',wins.length+' / '+losses.length);set('nfxResultR',(avgR>=0?'+':'')+avgR.toFixed(2)+'R');
-  set('nfxResultEquityLabel',money(r.start)+' → '+money(r.end));
-  const state=$('nfxResultsState');if(state){state.classList.add('complete');state.innerHTML='<i></i> BACKTEST COMPLETE';}
-  const rows=t.length?t.map((x,i)=>'<tr><td>'+(i+1)+'</td><td>'+new Intl.DateTimeFormat('en-GB',{timeZone:timezone||'UTC',dateStyle:'short',timeStyle:'medium',hour12:false}).format(new Date(x.t))+'</td><td>'+x.side+'</td><td>'+x.en+'</td><td>'+x.sl+'</td><td>'+(x.tp??'Rule exit')+'</td><td>'+x.ex+'</td><td>'+fmt(x.netR)+'</td><td>'+fmt(x.pnl)+'</td></tr>').join(''):'<tr><td colspan="9">No completed trades in this data window.</td></tr>';
-  if($('nfxResultsTradesBody'))$('nfxResultsTradesBody').innerHTML=rows;if($('trades'))$('trades').innerHTML=rows;
-  if(typeof drawEquity==='function')drawEquity(r.curve||[]);
+  const t=r.ts;
+  const tradeRows=t.length?t.map((x,i)=>`<tr><td>${i+1}</td><td>${new Intl.DateTimeFormat('en-GB',{timeZone:timezone||'UTC',dateStyle:'short',timeStyle:'medium',hour12:false}).format(new Date(x.t))}</td><td>${x.side}</td><td>${x.en}</td><td>${x.sl}</td><td>${x.tp??'Rule exit'}</td><td>${x.ex}</td><td>${fmt(x.netR)}</td><td>${fmt(x.pnl)}</td></tr>`).join(''):'<tr><td colspan="9">No completed trades in this data window.</td></tr>';
+  if($('trades'))$('trades').innerHTML=tradeRows;
 }
 
 async function loadDatabentoDepth(schema){
