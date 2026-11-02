@@ -3652,6 +3652,73 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
   #page-backtest .metrics .metric{transition:none}
 }
 </style>
+<style id="nfx-premium-journal-design">
+/* Nabil FX — premium Journal workspace. Visual-only: preserve all journal behavior and data. */
+#page-notes,#page-journal{--journal-border:#29232a;--journal-muted:#9c969f;--journal-red:#ff5368;--journal-surface:#0d0c10;--journal-raised:#121116}
+#page-notes,#page-journal{padding:clamp(20px,3vw,38px) clamp(12px,2.5vw,28px) 54px}
+#page-notes .view-heading,#page-journal .view-heading{font-size:clamp(27px,3vw,38px);font-weight:850;letter-spacing:-.8px;line-height:1.15;margin:0 0 10px;color:#fbf8fa}
+#page-notes .view-heading:before{content:"PERSONAL WORKSPACE  /  ";display:block;margin-bottom:12px;color:#ff6477;font-size:10px;font-weight:850;letter-spacing:2px;line-height:1.5}
+#page-journal .view-heading:before{content:"PERFORMANCE LOG  /  ";display:block;margin-bottom:12px;color:#ff6477;font-size:10px;font-weight:850;letter-spacing:2px;line-height:1.5}
+#page-notes .view-lead,#page-journal .view-lead{max-width:760px;margin:0 0 27px;color:#a7a0a9;font-size:13px;line-height:1.8}
+#page-notes>.grid{gap:18px!important;align-items:stretch!important}
+#page-notes>.grid>.panel,#page-journal>.panel{position:relative;overflow:hidden;padding:clamp(16px,2vw,25px);border:1px solid var(--journal-border);border-radius:16px;background:linear-gradient(150deg,#141218 0%,#0c0b0f 72%);box-shadow:0 16px 40px #0003,inset 0 1px 0 #ffffff08}
+#page-notes>.grid>.panel:before,#page-journal>.panel:before{content:"";position:absolute;left:0;top:0;width:100%;height:2px;background:linear-gradient(90deg,#ff5368 0%,#9d263c 26%,transparent 78%);opacity:.85}
+#page-notes>.grid>.panel>h2,#page-journal>.panel>h2{margin:2px 0 18px;font-size:17px;font-weight:800;letter-spacing:-.2px;color:#f7f3f6}
+#page-notes .fields{gap:15px!important}
+#page-notes .field{gap:7px}
+#page-notes .field label{color:#b6aeb8;font-size:10px;font-weight:800;letter-spacing:.85px}
+#page-notes input:not([type=file]),#page-notes select,#page-notes textarea,#page-notes #noteSearch{border:1px solid #302a34!important;border-radius:10px!important;background:#09090c!important;color:#f7f3f6!important;box-shadow:inset 0 1px 3px #0005;transition:border-color .18s ease,box-shadow .18s ease,background .18s ease}
+#page-notes input:not([type=file]),#page-notes select,#page-notes #noteSearch{min-height:43px;padding:10px 12px}
+#page-notes textarea{min-height:126px;padding:12px;line-height:1.65}
+#page-notes input::placeholder,#page-notes textarea::placeholder,#page-notes #noteSearch::placeholder{color:#69636d}
+#page-notes input:focus,#page-notes select:focus,#page-notes textarea:focus,#page-notes #noteSearch:focus{border-color:#a73549!important;box-shadow:0 0 0 3px #ff536817,inset 0 1px 3px #0005;background:#0d0b10!important;outline:none}
+#page-notes input[type=file]{display:block;width:100%;padding:12px;border:1px dashed #49313b;border-radius:10px;background:#0a090d;color:#c8c0c9}
+#page-notes .hint{color:#88818c;font-size:11px;line-height:1.7}
+#page-notes .actions{gap:9px!important;margin-top:18px}
+#page-notes .actions .btn{min-height:40px;padding:10px 14px;border-radius:9px;font-size:12px;letter-spacing:.1px}
+#page-notes .btn.primary{background:linear-gradient(135deg,#f0445d,#b51f3a)!important;color:#fff;border:1px solid #ff6577;box-shadow:0 7px 18px #d82a431f}
+#page-notes .btn.secondary{background:linear-gradient(180deg,#1b181f,#121015)!important;color:#e5dfe7;border:1px solid #39313d}
+#page-notes .btn:hover:not(:disabled){filter:brightness(1.12);box-shadow:0 5px 18px #0005}
+#page-notes .status{border:1px solid #352b38;border-radius:10px;background:#0b0a0f;color:#bcb3c0;line-height:1.7}
+#page-notes #noteSearch{margin:0 0 13px}
+#page-notes .saved-notes{gap:11px!important;margin-top:0}
+#page-notes .saved-note{padding:16px;border:1px solid #302934;border-radius:12px;background:linear-gradient(145deg,#151219,#0d0c10);box-shadow:inset 0 1px 0 #ffffff06;transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease}
+#page-notes .saved-note:hover{border-color:#6d303d;box-shadow:0 10px 24px #0003,inset 0 1px 0 #ffffff08}
+#page-notes .saved-note h3{font-size:15px;line-height:1.45;font-weight:800;color:#f5f0f5}
+#page-notes .saved-note p{color:#a8a0ac;font-size:12px;line-height:1.75}
+#page-notes .note-badge{padding:4px 9px;border-color:#67303b;border-radius:6px;background:#291018;color:#ff8494;font-size:10px;font-weight:800;letter-spacing:.25px}
+#page-notes .saved-note-actions button{min-height:34px;padding:8px 11px;border:1px solid #39313c;border-radius:8px;background:#1a171e;color:#e8e1e9;font-size:11px;font-weight:750}
+#page-notes .saved-note-actions button:hover{border-color:#a73549}
+#page-notes .note-empty{padding:28px 16px;border:1px dashed #443641;border-radius:12px;background:#0b0a0e;color:#938a97;font-size:12px;line-height:1.7}
+#page-notes .note-images{gap:9px}
+#page-notes .note-image-item{width:clamp(88px,9vw,120px);height:88px}
+#page-notes .note-image-item img,#page-notes .note-detail-images img{border-color:#3b303d;border-radius:9px}
+#page-notes .note-detail-images a{width:clamp(82px,8vw,105px);height:76px}
+#page-notes .actions .btn:focus-visible,#page-notes .saved-note-actions button:focus-visible{outline:2px solid #ff5368;outline-offset:3px}
+#page-journal>.panel{padding:clamp(15px,2vw,24px)}
+#page-journal>.panel>h2{font-size:16px}
+#page-journal .tablewrap{max-height:520px;border:1px solid #29232e;border-radius:11px;background:#09090c}
+#page-journal table{min-width:880px;border-collapse:separate;border-spacing:0;font-variant-numeric:tabular-nums}
+#page-journal th{position:sticky;top:0;z-index:2;padding:13px 14px;background:#17131b;color:#aaa0ae;border-bottom:1px solid #3b2d3c;font-size:10px;font-weight:850;letter-spacing:.7px;text-transform:uppercase}
+#page-journal td{padding:13px 14px;border-bottom:1px solid #211d25;color:#ddd6e0;font-size:12px}
+#page-journal tbody tr:nth-child(even){background:#ffffff03}
+#page-journal tbody tr:hover{background:#ff53680a}
+#page-journal tbody tr:last-child td{border-bottom:0}
+#page-journal tbody td[colspan]{padding:32px 18px;text-align:center;color:#8e8692;white-space:normal}
+#page-journal .muted{color:#8e8692}
+@media(max-width:900px){#page-notes>.grid{grid-template-columns:minmax(0,1fr)!important;gap:15px!important}#page-notes>.grid>.panel{padding:18px}}
+@media(max-width:560px){
+ #page-notes,#page-journal{padding:20px 11px 38px}
+ #page-notes .view-heading,#page-journal .view-heading{font-size:27px}
+ #page-notes .view-lead,#page-journal .view-lead{font-size:12px;margin-bottom:20px}
+ #page-notes>.grid>.panel,#page-journal>.panel{padding:15px;border-radius:13px}
+ #page-notes .fields{grid-template-columns:minmax(0,1fr)!important;gap:13px!important}
+ #page-notes .fields .wide{grid-column:1!important}
+ #page-notes .actions .btn{flex:1 1 auto}
+ #page-notes .note-image-item{width:88px;height:76px}
+}
+@media(prefers-reduced-motion:reduce){#page-notes .saved-note,#page-notes input,#page-notes select,#page-notes textarea{transition:none!important}}
+</style>
 </head>
 <body>
 <div id="nfx-page-loader" role="status" aria-live="polite" aria-label="Loading Nabil FX workspace">
