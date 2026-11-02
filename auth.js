@@ -110,8 +110,6 @@
     document.querySelectorAll('[data-account-page="create"],[data-account-page="login"]').forEach(button => {
       button.hidden = !!signedIn;
     });
-    const dropdownLogout = $('accountDropdownLogout');
-    if (dropdownLogout) dropdownLogout.hidden = !signedIn;
     const pageTitle = document.querySelector('#page-account > .view-heading');
     const pageLead = document.querySelector('#page-account > .view-lead');
     if (pageTitle) pageTitle.textContent = signedIn ? 'Personal Profile' : 'Account';
@@ -512,10 +510,6 @@
     $('loginBtn')?.addEventListener('click', login);
     $('saveProfile')?.addEventListener('click', saveProfile);
     $('logoutBtn')?.addEventListener('click', logout);
-    $('accountDropdownLogout')?.addEventListener('click', () => {
-      if (typeof window.showNabilAccountPage === 'function') window.showNabilAccountPage('login');
-      logout();
-    });
     $('avatarUpload')?.addEventListener('change', () => {
       const file = $('avatarUpload').files?.[0];
       if (!file || !['image/png', 'image/jpeg', 'image/webp'].includes(file.type) || file.size > 20 * 1024 * 1024) {
