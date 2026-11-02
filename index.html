@@ -2982,6 +2982,107 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 @media(max-width:760px){.profile-page-heading{align-items:flex-start;flex-direction:column}.profile-identity-card{align-items:flex-start}.profile-account-mark{display:none}.profile-grid{grid-template-columns:1fr}.profile-avatar-card{max-width:none}}
 @media(max-width:520px){#account-profile{padding:15px}.profile-identity-card{padding:14px}.profile-photo{width:68px;height:68px;flex-basis:68px}.profile-identity-main{gap:12px}.profile-identity-copy h2{font-size:17px}.profile-editor,.profile-avatar-card{padding:14px}.profile-actions .btn{flex:1}}
 
+/* NABIL FX — personal profile premium polish */
+#page-account>.account-grid{gap:18px}
+#account-profile{
+  position:relative;isolation:isolate;overflow:hidden;
+  border:1px solid rgba(255,76,96,.23)!important;
+  border-radius:20px!important;
+  box-shadow:0 24px 70px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.035);
+}
+#account-profile:before{
+  content:"";position:absolute;inset:0 0 auto;height:2px;z-index:-1;
+  background:linear-gradient(90deg,#ff344e 0%,rgba(255,91,111,.42) 34%,transparent 78%);
+}
+#account-profile:after{
+  content:"";position:absolute;top:-130px;right:-110px;width:300px;height:300px;
+  border-radius:50%;pointer-events:none;z-index:-1;
+  background:radial-gradient(circle,rgba(255,52,78,.075),transparent 70%);
+}
+#account-profile .profile-page-heading{padding:4px 2px 24px}
+#account-profile .profile-page-heading h2{font-weight:780;line-height:1.15;color:#f7f7fa}
+#account-profile .profile-page-heading p{max-width:620px;line-height:1.7;margin-top:8px}
+#account-profile .profile-identity-card{
+  position:relative;margin:22px 0;padding:22px;
+  border-color:#34313a;border-radius:16px;
+  background:linear-gradient(112deg,rgba(255,255,255,.055),rgba(255,255,255,.018) 58%,rgba(255,48,72,.035));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
+}
+#account-profile .profile-photo{
+  border:2px solid #ff596d;box-shadow:0 0 0 5px rgba(255,52,78,.09),0 8px 24px rgba(0,0,0,.3);
+  background:#171920;
+}
+#account-profile .profile-identity-copy .profile-kicker{font-size:9px}
+#account-profile .profile-identity-copy h2{font-size:clamp(20px,2.2vw,26px);font-weight:780;letter-spacing:-.45px}
+#account-profile .profile-identity-copy p{margin-top:5px;color:#a8adba}
+#account-profile .profile-account-mark{padding:12px 15px;border:1px solid #34313a;border-radius:12px;background:rgba(5,6,9,.35)}
+#account-profile .profile-account-mark strong{color:#ff9aa5}
+#account-profile .profile-avatar-card,#account-profile .profile-editor{
+  border-color:#30323c;border-radius:16px;
+  background:linear-gradient(155deg,rgba(20,22,29,.96),rgba(10,11,15,.94));
+  box-shadow:0 12px 32px rgba(0,0,0,.15),inset 0 1px 0 rgba(255,255,255,.025);
+}
+#account-profile .profile-card-heading,#account-profile .profile-section-heading{margin-bottom:19px}
+#account-profile .profile-upload-control{
+  min-height:145px;border-color:rgba(255,83,103,.38);
+  background:linear-gradient(145deg,rgba(255,48,72,.075),rgba(255,255,255,.012));
+  transition:border-color .18s ease,background .18s ease,transform .18s ease;
+}
+#account-profile .profile-upload-control:hover{
+  border-color:rgba(255,104,123,.8);background:rgba(255,48,72,.09);transform:translateY(-1px)
+}
+#account-profile .profile-editor .fields{row-gap:16px}
+#account-profile .profile-editor .field label,
+#account-profile .profile-visually-clear{letter-spacing:.12em;font-size:9px;color:#aeb3bf}
+#account-profile .profile-editor input,
+#account-profile .profile-editor select,
+#account-profile .profile-editor textarea{
+  min-height:43px;padding:11px 12px;border:1px solid #343845;
+  background:rgba(7,9,14,.82);transition:border-color .18s ease,box-shadow .18s ease;
+}
+#account-profile .profile-editor textarea{min-height:108px;resize:vertical}
+#account-profile .profile-editor input:hover,
+#account-profile .profile-editor select:hover,
+#account-profile .profile-editor textarea:hover{border-color:#4b3a43}
+#account-profile .profile-editor input:focus,
+#account-profile .profile-editor select:focus,
+#account-profile .profile-editor textarea:focus{
+  border-color:#d94a5d;box-shadow:0 0 0 3px rgba(255,52,78,.1);outline:none
+}
+#account-profile .profile-goal-heading{margin-top:26px;padding-top:23px}
+#account-profile .profile-actions{display:flex;gap:10px;flex-wrap:wrap}
+#account-profile .profile-actions .btn{min-height:42px;border-radius:10px;font-weight:750;letter-spacing:.01em}
+#account-profile .profile-actions #saveProfile{
+  border:1px solid rgba(255,103,121,.45);
+  box-shadow:0 7px 20px rgba(255,35,58,.12);
+}
+#account-profile .profile-actions #saveProfile:hover{filter:brightness(1.08);transform:translateY(-1px)}
+#account-profile .profile-actions #logoutBtn{border-color:#393b46;background:#15171e}
+#account-profile .profile-data-note{padding-top:11px;border-top:1px solid rgba(255,255,255,.06)}
+#account-profile #profileStatus{margin-top:18px;border-radius:10px;line-height:1.6}
+#page-account>.account-grid>.panel:not(.account-subview){
+  border:1px solid #2e3039;border-radius:16px;
+  background:linear-gradient(145deg,#111319,#0b0c10);
+  box-shadow:0 14px 35px rgba(0,0,0,.16);
+}
+@media(max-width:760px){
+  #account-profile{border-radius:15px!important}
+  #account-profile .profile-identity-card{padding:16px}
+  #account-profile .profile-account-mark{display:none}
+  #account-profile .profile-grid{gap:12px}
+}
+@media(max-width:520px){
+  #account-profile .profile-page-heading{padding-bottom:18px}
+  #account-profile .profile-member-chip{white-space:normal;line-height:1.4}
+  #account-profile .profile-identity-card{gap:12px;margin:16px 0}
+  #account-profile .profile-photo{width:64px;height:64px;flex-basis:64px}
+  #account-profile .profile-actions{display:grid;grid-template-columns:1fr 1fr}
+  #account-profile .profile-actions .btn{min-width:0;width:100%;padding-inline:10px}
+}
+@media(prefers-reduced-motion:reduce){
+  #account-profile *{transition:none!important;scroll-behavior:auto!important}
+}
+
 /* NFX News and heatmap viewport refinements */
 #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-wrap,#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap{height:clamp(420px,58vh,720px)!important;min-height:420px}#nfxLiqDashboard #nfxLiqTimelineCanvas,#nfxLiqDashboard #nfxLiqLiquidationCanvas{display:block!important;width:100%!important;height:100%!important;min-width:0;min-height:0}#nfxLiqDashboard #nfxLiqLiquidationEmpty{background:rgba(3,6,11,.45)}
 .nfx-news-page{max-width:1450px!important;color:#eef1f6}.nfx-news-hero{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:30px;border:1px solid #39222a;border-radius:18px;background:radial-gradient(ellipse at 10% 0%,#ff243825,transparent 48%),linear-gradient(135deg,#111319,#090a0e);margin-bottom:18px}.nfx-news-hero span,.nfx-news-sidecard>span{font-size:10px;letter-spacing:.16em;font-weight:850;color:#ff7180}.nfx-news-hero h1{font-size:clamp(30px,4vw,42px);margin:7px 0}.nfx-news-hero p,.nfx-news-sidecard p{color:#9da5b3;font-size:12px}.nfx-news-hero b{font-size:10px;color:#aaf0c8;border:1px solid #245a43;border-radius:30px;padding:12px}.nfx-news-controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}.nfx-news-controls input{flex:1 1 260px;width:auto}.nfx-news-controls select,.nfx-news-controls button,.nfx-news-sidecard button{border:1px solid #303541;border-radius:9px;background:#11141b;color:#eee;padding:11px 13px;font:700 12px system-ui;cursor:pointer}.nfx-news-controls button:last-child{border-color:#78303b;background:#241117}.nfx-news-status{padding:12px;border:1px solid #292e38;border-radius:9px;background:#0d1016;color:#aab2c0;font-size:12px;margin-bottom:12px}.nfx-news-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:22px}.nfx-news-stats>div,.nfx-news-sidecard{padding:15px;border:1px solid #292d37;border-radius:12px;background:linear-gradient(145deg,#11141b,#0b0d12)}.nfx-news-stats small{display:block;font-size:9px;color:#8992a2;letter-spacing:.12em}.nfx-news-stats strong{display:block;font-size:17px;margin-top:5px}.nfx-news-layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(270px,.8fr);gap:18px}.nfx-news-layout h2{font-size:20px}.nfx-news-layout h2 small{font-size:10px;color:#929aa8}.nfx-news-list{display:grid;gap:10px}.nfx-news-card{padding:16px;border:1px solid #292d37;border-radius:12px;background:linear-gradient(135deg,#11141a,#0b0d12)}.nfx-news-card header{display:flex;justify-content:space-between;gap:12px;color:#ff8794;font-size:9px;font-weight:800;text-transform:uppercase}.nfx-news-card time{color:#8d96a5;font-weight:500}.nfx-news-card h3{font-size:15px;line-height:1.5;margin:8px 0}.nfx-news-card h3 a{color:#f1f3f8;text-decoration:none}.nfx-news-card h3 a:hover{color:#ff9ba5}.nfx-news-card p{color:#a0a8b6;font-size:12px;line-height:1.65}.nfx-news-card footer{font-size:10px;color:#828b9a;display:flex;justify-content:space-between;gap:8px}.nfx-news-card footer a,.nfx-news-sidecard>a{color:#ff8290;text-decoration:none}.nfx-news-layout aside{display:grid;gap:13px;align-content:start}.nfx-news-sidecard h2{margin:5px 0 12px}.nfx-news-sidecard>a{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #292d37;font-size:12px}.nfx-news-calendar{display:grid;gap:8px;margin:12px 0}.nfx-news-event{padding:10px;border:1px solid #292d37;border-left:2px solid #b64b5b;border-radius:8px;background:#0b0e14}.nfx-news-event small{display:block;color:#929baa;font-size:9px}.nfx-news-event strong{display:block;font-size:11px;margin:5px 0}.nfx-news-event span{font-size:9px;color:#ff8794}.nfx-news-empty{padding:24px;text-align:center;border:1px dashed #343945;border-radius:10px;color:#929baa;font-size:12px}.nfx-news-disclaimer{font-size:10px!important;line-height:1.65}.nfx-news-sidecard button{width:100%}@media(max-width:850px){.nfx-news-layout{grid-template-columns:1fr}}@media(max-width:600px){.nfx-news-hero{align-items:flex-start;flex-direction:column;padding:20px}.nfx-news-stats{gap:6px}.nfx-news-stats>div{padding:10px}.nfx-news-stats strong{font-size:14px}.nfx-news-controls select,.nfx-news-controls button{flex:1}}
