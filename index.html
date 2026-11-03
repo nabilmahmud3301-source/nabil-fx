@@ -4464,7 +4464,7 @@ $('reply').onclick=async()=>{
   const input=$('rules').value.trim();
   if(!input){status('Write your strategy rules first.');return;}
   $('reply').disabled=true;
-  status('Gemini 3.8 Flash is analyzing your strategy rules...');
+  status('Gemini Flash-Lite is analyzing your strategy rules...');
   try{
     const ai=await analyzeStrategyWithAI();
     window.renderBacktestReview(ai);
