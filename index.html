@@ -8278,6 +8278,12 @@ window.renderBacktestMetrics=function(r,meta={}){
 #page-backtest.nfxbt-page #btAiReviewState{color:#bdc9d8!important}
 #page-backtest.nfxbt-page :is(input,select,textarea,button):focus-visible{outline:2px solid #9eafc3!important;outline-offset:2px}
 
+/* Extend the same red hierarchy to the requested Backtest result headings. */
+#page-backtest.nfxbt-page .nfxbt-results-head>div>small,
+#page-backtest.nfxbt-page .nfxbt-state,
+#page-backtest.nfxbt-page .nfxbt-card-head>div>small{color:#e34b5c!important}
+#page-backtest.nfxbt-page .nfxbt-state{border-color:#e34b5c66!important;background:#e34b5c0d!important}
+
 /* User-requested red hierarchy — only the named Backtest headings and labels. */
 #page-backtest.nfxbt-page .nfxbt-hero>div>small,
 #page-backtest.nfxbt-page .nfxbt-tags b,
