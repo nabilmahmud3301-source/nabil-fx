@@ -108,8 +108,9 @@ Conditions are ANDed by default; use {"type":"logic","operator":"all"|"any"|"not
 - stop type signal_candle_offset supports value plus unit price|pip|tick|point|percent; pip is symbol-aware; do not assume a universal tick size
 Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. Only translate if the user's rules faithfully match these forms. Do not claim arbitrary ICT/FVG/liquidity/session/multi-timeframe rules are supported unless expressible exactly in this schema. For unsupported concepts, return supported=false rather than approximating. If target is missing, use targetR=2 and disclose the 2R default in assumptions and explanation. If stop-loss is missing, use signal_candle and disclose the default. If entry timing is not specified, use next_open and disclose the default. Set supported=true when all core entry conditions can be represented, even when these disclosed risk-management defaults are needed. For unsupported concepts that cannot be represented, clearly identify the limitation rather than pretending the exact strategy was tested. When a user specifies a session/location/timezone, put the exact IANA timezone in execution.timezone and in every time condition. For an opening range, faithfully use the specified start time, duration, and wick/close trigger; do not hardcode London or a five-minute timeframe. If the user says one pip beyond the signal candle, use stop={type:"signal_candle_offset",value:1,unit:"pip"}; pip size is calculated from the actual symbol. If a tick/point size is unknown, do not invent it. If the user specifies a rule-based exit (e.g. close a BUY when RSI crosses below a threshold, or close a SELL when an opposite candle pattern appears), compile it into execution.exitLongConditions or execution.exitShortConditions using the same condition schema. These exit conditions are checked on each later candle close; all conditions in each exit array are ANDed unless nested logic is used. Do not put entry triggers in exit arrays. If no custom exit rule is stated, return empty arrays. Preserve entry timing, direction, stop/target, filters, trade frequency, weekdays, and exit rules. If the strategy says both directions, create conditions for each direction. For EMA crossover set EMA cross conditions. Long/short arrays are evaluated independently. Include a concise normalizedRules description.`;
 
-    // Try the requested model first, then Google's current stable Flash aliases if it is busy/unavailable.
-    const models = ["gemini-3.8-flash", "gemini-flash-lite-latest"];
+    // Prefer Google's low-latency Flash-Lite models for reliable strategy compilation.
+    // Keep both model IDs current and supported by the Gemini Interactions API.
+    const models = ["gemini-3.5-flash-lite", "gemini-3.1-flash-lite"];
     const failures: string[] = [];
 
     for (const model of models) {
@@ -117,7 +118,7 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
         const response = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
           method: "POST",
           headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
-          signal: AbortSignal.timeout(10000),
+          signal: AbortSignal.timeout(15000),
           body: JSON.stringify({
             model,
             store: false,
@@ -287,7 +288,7 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
     }
 
     console.error("strategy-ai: all Gemini model attempts failed:", failures.join(" | "));
-    throw new Error("Gemini is temporarily busy or returned an unreadable response. Both AI attempts timed out or failed. Please try again shortly; the request is now capped at about 20 seconds.");
+    throw new Error("Gemini is temporarily busy or returned an unreadable response. Both supported Flash-Lite attempts failed. Please retry shortly; each model attempt is limited to 15 seconds.");
   } catch (error) {
     console.error("strategy-ai error:", error);
     return new Response(JSON.stringify({ error: error instanceof Error ? error.message : "Unexpected AI error." }), {
