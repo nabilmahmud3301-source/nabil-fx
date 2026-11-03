@@ -5019,57 +5019,102 @@ function backtestCustom(c,r,seriesMap=null){
  const ex=r.execution;if(!ex)throw Error('AI did not return executable rules. Please make entry, stop-loss and take-profit explicit.');
  const bal=+$('balance').value,risk=+$('risk').value/100,cost=Math.max(0,Math.min(1,+$('costR').value||0));
  if(!(bal>0&&risk>0&&risk<=.10))throw Error('Balance must be positive and risk must be between 0.01% and 10%.');
- const hasSessionRule=[...(ex.longConditions||[]),...(ex.shortConditions||[])].some(q=>q.type==='session_opening_range_breakout');
- if(hasSessionRule&&ex.longConditions.concat(ex.shortConditions).some(q=>q.type==='session_opening_range_breakout'&&q.rangeMinutes===5)&&$('interval').value!=='5m')throw Error('This opening range is defined as five minutes; choose the 5m timeframe or specify a range compatible with the selected timeframe.');
- const cache=new Map(),atr=atrValues(c,14);let eq=bal,peak=bal,dd=0;const ts=[],curve=[bal];
  const longC=ex.longConditions||[],shortC=ex.shortConditions||[];
- for(let i=1;i<c.length-1;){
-  const long=longC.length>0&&longC.every(q=>conditionAt(c,q,i,cache,seriesMap));
-  const short=shortC.length>0&&shortC.every(q=>conditionAt(c,q,i,cache,seriesMap));
-  if(long===short){i++;continue;}
-  const side=long?'LONG':'SHORT',sig=c[i],entryBar=ex.entry==='signal_close'?sig:c[i+1],en=ex.entry==='signal_close'?sig.c:(['aggregated_trades','databento_trades'].includes(ex.dataMode)?entryBar.c:entryBar.o);
+ const allConditions=longC.concat(shortC);
+ const hasSessionRule=allConditions.some(q=>q.type==='session_opening_range_breakout');
+ if(hasSessionRule&&allConditions.some(q=>q.type==='session_opening_range_breakout'&&q.rangeMinutes===5)&&$('interval').value!=='5m')throw Error('This opening range is defined as five minutes; choose the 5m timeframe or specify a range compatible with the selected timeframe.');
+ const cache=new Map(),atr=atrValues(c,14);
+ let eq=bal,peak=bal,dd=0;
+ const ts=[],curve=[bal],active=[];
+ const isLong=(i)=>longC.length>0&&longC.every(q=>conditionAt(c,q,i,cache,seriesMap));
+ const isShort=(i)=>shortC.length>0&&shortC.every(q=>conditionAt(c,q,i,cache,seriesMap));
+ const closePosition=(pos,bar,exit,reason)=>{
+  const grossR=pos.side==='LONG'?(exit-pos.en)/pos.dist:(pos.en-exit)/pos.dist;
+  const netR=grossR-cost,pnl=pos.riskAmount*netR;
+  eq+=pnl;peak=Math.max(peak,eq);dd=Math.max(dd,(peak-eq)/peak);
+  ts.push({t:pos.t,exitTime:bar.t,side:pos.side,en:pos.en,sl:pos.sl,tp:pos.tp,ex:exit,rr:grossR,netR,costR:cost,pnl,open:false,exitReason:reason});
+  curve.push(eq);
+ };
+ const checkPosition=(pos,bar)=>{
+  const stop=pos.side==='LONG'?bar.l<=pos.sl:bar.h>=pos.sl;
+  const target=pos.tp!==null&&(pos.side==='LONG'?bar.h>=pos.tp:bar.l<=pos.tp);
+  // Conservative OHLC rule: if SL and TP are both touched in one candle, SL is first.
+  if(stop||target){
+   const exit=stop?pos.sl:pos.tp;
+   closePosition(pos,bar,exit,stop?'Stop Loss':'Take Profit');
+   return true;
+  }
+  if(pos.exitRules.length&&pos.exitRules.every(q=>conditionAt(c,q,pos.index,cache,seriesMap))){
+   closePosition(pos,bar,bar.c,'Strategy Exit');
+   return true;
+  }
+  if(pos.maxBars>0&&pos.index-pos.entryIndex>=pos.maxBars){
+   closePosition(pos,bar,bar.c,'Maximum Holding Bars');
+   return true;
+  }
+  return false;
+ };
+ for(let i=1;i<c.length;i++){
+  const bar=c[i];
+  // Manage every existing position independently. An open trade does NOT block
+  // a later valid signal; each position keeps its own SL, TP and exit rules.
+  for(let k=active.length-1;k>=0;k--){
+   const pos=active[k];
+   if(i<pos.entryIndex)continue;
+   if(checkPosition(pos,bar))active.splice(k,1);
+   else pos.index=i;
+  }
+  const signalIndex=i-1;
+  if(signalIndex<1||i>=c.length)continue;
+  const longNow=isLong(signalIndex),shortNow=isShort(signalIndex);
+  const longPrev=isLong(signalIndex-1),shortPrev=isShort(signalIndex-1);
+  // Treat a continuously true condition as one signal, not one new trade per candle.
+  // Once it resets and triggers again, a new trade is allowed even if earlier trades remain open.
+  const long=longNow&&!longPrev,short=shortNow&&!shortPrev;
+  if(long===short)continue;
+  const side=long?'LONG':'SHORT',sig=c[signalIndex],entryBar=c[i];
+  const en=ex.entry==='signal_close'?sig.c:(['aggregated_trades','databento_trades'].includes(ex.dataMode)?entryBar.c:entryBar.o);
   let sl;
   if(ex.stop.type==='signal_candle')sl=side==='LONG'?sig.l:sig.h;
   else if(ex.stop.type==='signal_candle_offset'){
    let offset=Number(ex.stop.value);if(!(offset>0))throw Error('Signal-candle stop offset must be positive.');
    const sym=$('symbol').value.trim().toUpperCase(),unit=ex.stop.unit||'price';
-   if(unit==='pip'){offset*=/JPY/.test(sym)?0.01:0.0001;}
-   else if(unit==='tick'||unit==='point'){offset*=Number(ex.stop.tickSize||ex.stop.pointSize||1);}
-   else if(unit==='percent'){offset*=en/100;}
+   if(unit==='pip')offset*=/JPY/.test(sym)?0.01:0.0001;
+   else if(unit==='tick'||unit==='point')offset*=Number(ex.stop.tickSize||ex.stop.pointSize||1);
+   else if(unit==='percent')offset*=en/100;
    sl=side==='LONG'?sig.l-offset:sig.h+offset;
-  }
-  else if(ex.stop.type==='previous_candle')sl=side==='LONG'?c[i-1].l:c[i-1].h;
-  else if(ex.stop.type==='atr'){const d=(atr[i]||sig.h-sig.l)*Math.max(.1,Number(ex.stop.value)||1);sl=side==='LONG'?en-d:en+d;}
-  else if(ex.stop.type==='percent'){const d=en*Math.max(.01,Number(ex.stop.value)||1)/100;sl=side==='LONG'?en-d:en+d;}
-  else throw Error('Unsupported stop-loss type in compiled strategy.');
-  const dist=side==='LONG'?en-sl:sl-en;if(!(dist>0)){i++;continue;}
+  } else if(ex.stop.type==='previous_candle')sl=side==='LONG'?c[signalIndex-1].l:c[signalIndex-1].h;
+  else if(ex.stop.type==='atr'){
+   const d=(atr[signalIndex]||sig.h-sig.l)*Math.max(.1,Number(ex.stop.value)||1);
+   sl=side==='LONG'?en-d:en+d;
+  } else if(ex.stop.type==='percent'){
+   const d=en*Math.max(.01,Number(ex.stop.value)||1)/100;
+   sl=side==='LONG'?en-d:en+d;
+  } else throw Error('Unsupported stop-loss type in compiled strategy.');
+  const dist=side==='LONG'?en-sl:sl-en;
+  if(!(dist>0))continue;
   const rr=Number(ex.targetR),hasFixedTarget=Number.isFinite(rr)&&rr>0;
   const exitRules=side==='LONG'?(ex.exitLongConditions||[]):(ex.exitShortConditions||[]);
   if(!hasFixedTarget&&!exitRules.length)throw Error('A fixed R target or a rule-based exit condition is required.');
   const tp=hasFixedTarget?(side==='LONG'?en+dist*rr:en-dist*rr):null;
-  let exit=null,grossR=0,exitTime=0,j=ex.entry==='signal_close'?i+1:i+1;
-  const maxBars=Number(ex.maxBarsInTrade)||c.length;
-  for(;j<c.length&&j<=i+maxBars;j++){
-   const bar=c[j],stop=side==='LONG'?bar.l<=sl:bar.h>=sl,target=hasFixedTarget&&(side==='LONG'?bar.h>=tp:bar.l<=tp);
-   // Conservative intrabar ordering: stop first, then target, then close-based custom exit.
-   if(stop||target){exit=stop?(['aggregated_trades','databento_trades'].includes(ex.dataMode)?bar.c:sl):tp;grossR=stop?(side==='LONG'?(exit-en):(en-exit))/dist:rr;exitTime=bar.t;break;}
-   if(exitRules.length&&exitRules.every(q=>conditionAt(c,q,j,cache,seriesMap))){
-    exit=bar.c;grossR=(side==='LONG'?(exit-en):(en-exit))/dist;exitTime=bar.t;break;
-   }
-  }
-  let open=false;if(exit===null){
-   const last=Math.min(c.length-1,i+maxBars);
-   if(last>i){exit=c[last].c;grossR=(side==='LONG'?(exit-en):(en-exit))/dist;exitTime=c[last].t;j=last;open=last===c.length-1;}
-   else {i++;continue;}
-  }
-  const netR=grossR-cost,pnl=eq*risk*netR;eq+=pnl;peak=Math.max(peak,eq);dd=Math.max(dd,(peak-eq)/peak);
-  ts.push({t:entryBar.t,exitTime,side,en,sl,tp,ex:exit,rr:grossR,netR,costR:cost,pnl,open});curve.push(eq);
-  // One position at a time: do not open another trade while this trade is still active.
-  // This prevents every candle in a sustained signal from creating overlapping duplicate positions.
-  if(open)break;
-  i=Math.max(i+1,j+1);
+  active.push({t:entryBar.t,side,en,sl,tp,dist,riskAmount:eq*risk,entryIndex:i,index:i,exitRules,maxBars:Math.max(0,Number(ex.maxBarsInTrade)||0)});
+  // Also test the entry candle: price may hit SL/TP after the opening fill.
+  const opened=active[active.length-1];
+  if(checkPosition(opened,entryBar))active.pop();
  }
- return {ts,curve,start:bal,end:eq,dd};
+ // Positions not exited by the final historical candle stay OPEN. Mark them to
+ // the last available close; do not fabricate an exit or silently block later entries.
+ const last=c[c.length-1],unrealized=0;
+ for(const pos of active){
+  const grossR=pos.side==='LONG'?(last.c-pos.en)/pos.dist:(pos.en-last.c)/pos.dist;
+  const netR=grossR-cost,pnl=pos.riskAmount*netR;
+  ts.push({t:pos.t,exitTime:last.t,side:pos.side,en:pos.en,sl:pos.sl,tp:pos.tp,ex:last.c,rr:grossR,netR,costR:cost,pnl,open:true,exitReason:'OPEN · Mark to Market'});
+ }
+ const floating=ts.filter(x=>x.open).reduce((sum,x)=>sum+x.pnl,0);
+ const end=eq+floating;
+ if(active.length)curve.push(end);
+ ts.sort((x,y)=>x.t-y.t);
+ return {ts,curve,start:bal,end,dd,openPositions:active.length,realizedEnd:eq,unrealizedPnl:floating};
 }
 
 function backtest(c,r,seriesMap=null){
