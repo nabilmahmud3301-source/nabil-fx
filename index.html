@@ -3719,6 +3719,48 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 }
 @media(prefers-reduced-motion:reduce){#page-notes .saved-note,#page-notes input,#page-notes select,#page-notes textarea{transition:none!important}}
 </style>
+
+<style id="nfx-news-controls-premium-responsive">
+#page-news .nfx-news-toolbar{padding:18px;border-color:#293241;background:linear-gradient(145deg,#121823 0%,#0a0e15 100%);box-shadow:0 14px 36px #0003,inset 0 1px #ffffff08}
+#page-news .nfx-news-controls{display:grid;grid-template-columns:minmax(220px,1.6fr) minmax(190px,1fr) auto auto;align-items:stretch;gap:10px;margin:0 0 13px}
+#page-news .nfx-news-controls input,#page-news .nfx-news-controls select,#page-news .nfx-news-controls button{box-sizing:border-box;min-width:0;min-height:46px;border:1px solid #303b4b;border-radius:11px;background-color:#0d131d;color:#eef2f8;font:600 12px system-ui;box-shadow:inset 0 1px #ffffff08;transition:border-color .18s,background .18s,box-shadow .18s}
+#page-news .nfx-news-controls input{width:100%;padding:0 15px;background-image:linear-gradient(transparent,transparent);font-size:12px}
+#page-news .nfx-news-controls input::placeholder{color:#8491a3;opacity:1}
+#page-news .nfx-news-controls select{width:100%;padding:0 38px 0 13px;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='m1 1 5 5 5-5' fill='none' stroke='%23aeb9c9' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;cursor:pointer}
+#page-news .nfx-news-controls .nfx-news-action{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:0 16px;white-space:nowrap;font-weight:800;letter-spacing:.01em;cursor:pointer}
+#page-news .nfx-news-refresh{border-color:#35465b;background:linear-gradient(145deg,#1a293b,#111b29)}
+#page-news .nfx-news-alerts{border-color:#69313d;background:linear-gradient(145deg,#351923,#211119);color:#ffdce1}
+#page-news .nfx-news-refresh:before{content:"↻";font-size:18px;line-height:1;color:#9dc8ff}
+#page-news .nfx-news-alerts:before{content:"♧";font-size:17px;line-height:1;color:#ff8796}
+#page-news .nfx-news-controls input:focus-visible,#page-news .nfx-news-controls select:focus-visible,#page-news .nfx-news-controls button:focus-visible{outline:2px solid #d65a6b;outline-offset:2px;border-color:#a84b5b;box-shadow:0 0 0 3px #e9435a20}
+#page-news .nfx-news-controls button:hover{border-color:#a44a5a;background-color:#24151c;box-shadow:0 7px 18px #0004}
+#page-news .nfx-news-status{border-color:#293342;border-radius:10px;padding:10px 13px}
+@media(max-width:900px){#page-news .nfx-news-controls{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}#page-news .nfx-news-controls input{grid-column:1/-1}}
+@media(max-width:560px){
+ #page-news .nfx-news-toolbar{padding:12px;border-radius:13px}
+ #page-news .nfx-news-controls{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
+ #page-news .nfx-news-controls input,#page-news .nfx-news-controls select{grid-column:1/-1;min-height:48px;font-size:13px}
+ #page-news .nfx-news-controls .nfx-news-action{min-height:46px;padding:0 9px;font-size:11px}
+ #page-news .nfx-news-controls .nfx-news-action:before{font-size:16px}
+ #page-news .nfx-news-status{font-size:10px}
+}
+@media(prefers-reduced-motion:reduce){#page-news .nfx-news-controls input,#page-news .nfx-news-controls select,#page-news .nfx-news-controls button{transition:none}}
+</style>
+<style id="nfx-installed-app-mobile-viewport">
+@media(display-mode:standalone){
+ html,body{width:100%;min-width:0!important;max-width:100%;overflow-x:hidden!important}
+ body.nabil-fx-installed-app{min-width:0!important;width:100%!important}
+ .site-header,.site-nav,.view,#page-news{max-width:100%;min-width:0}
+ .site-header{box-sizing:border-box;width:100%}
+ img,video,iframe,canvas{max-width:100%}
+}
+@media(display-mode:standalone) and (max-width:760px){
+ .site-header{display:flex!important;flex-direction:row!important;align-items:center!important;flex-wrap:nowrap!important}
+ .site-brand{min-width:0}
+ .site-nav{display:none!important}
+ .site-nav.app-menu-open{display:flex!important}
+}
+</style>
 </head>
 <body>
 <div id="nfx-page-loader" role="status" aria-live="polite" aria-label="Loading Nabil FX workspace">
@@ -3920,7 +3962,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
   <p class="nfx-liq-disclaimer">Market depth is venue-specific. Binance Futures depth shows only visible orders on that venue, not total global liquidity; orders can change or be cancelled rapidly.</p>
 </section>
 
-<section id="page-news" class="view nfx-news-page"><div class="nfx-news-hero"><div><span>NABIL FX / MARKET INTELLIGENCE</span><h1>Market News</h1><p>Fast-updating coverage across forex, crypto, stocks, indices, commodities, futures, bonds and the global economy.</p></div><b id="nfxNewsConnection">CONNECTING TO LIVE FEEDS</b></div><div class="nfx-news-toolbar"><div class="nfx-news-controls"><input id="nfxNewsSearch" type="search" placeholder="Search market headlines, topics or publishers…"><select id="nfxNewsCategory"><option value="all">All markets & trading</option><option value="forex">Forex & currencies</option><option value="crypto">Crypto</option><option value="stocks">Stocks & equities</option><option value="indices">Indices</option><option value="commodities">Commodities</option><option value="bonds">Bonds & rates</option><option value="macro">Economy & central banks</option><option value="markets">Global markets</option></select><button id="nfxNewsRefresh" type="button">↻ Refresh feed</button><button id="nfxNewsNotify" type="button">♧ Enable alerts</button></div><div id="nfxNewsStatus" class="nfx-news-status">Loading public news feeds…</div></div><div class="nfx-news-stats"><div><small>AVAILABLE HEADLINES</small><strong id="nfxNewsCount">—</strong></div><div><small>LAST UPDATED</small><strong id="nfxNewsUpdated">—</strong></div><div><small>NEWS ALERTS</small><strong id="nfxNewsAlertState">OFF</strong></div></div><div class="nfx-news-section-head"><div><span>THE LATEST</span><h2>Latest Headlines</h2></div><small id="nfxNewsResultCount"></small></div><main><div id="nfxNewsList" class="nfx-news-list"><div class="nfx-news-empty">Connecting to news providers…</div></div></main><div class="nfx-news-footnote">Coverage spans major tradable markets and macroeconomic events. Public-feed availability and publisher delays vary; this is not a guaranteed real-time institutional newswire. Select a story for details and the original publisher link.</div><div id="nfxNewsDetail" class="nfx-news-detail" hidden><div class="nfx-news-detail-backdrop" data-news-close></div><section class="nfx-news-detail-panel" role="dialog" aria-modal="true" aria-labelledby="nfxNewsDetailTitle"><button id="nfxNewsDetailClose" class="nfx-news-detail-close" type="button" data-news-close aria-label="Close article details">×</button><span class="nfx-news-detail-kicker">NABIL FX / NEWS BRIEFING</span><div id="nfxNewsDetailMeta" class="nfx-news-detail-meta"></div><h2 id="nfxNewsDetailTitle"></h2><div class="nfx-news-detail-rule"></div><p id="nfxNewsDetailSummary"></p><div class="nfx-news-detail-footer"><span id="nfxNewsDetailDate"></span><a id="nfxNewsDetailSource" href="#" target="_blank" rel="noopener noreferrer">READ FULL ARTICLE ↗</a></div><small class="nfx-news-detail-note">This briefing displays the summary provided by the news feed. The complete article remains on the original publisher’s website.</small></section></div></section>
+<section id="page-news" class="view nfx-news-page"><div class="nfx-news-hero"><div><span>NABIL FX / MARKET INTELLIGENCE</span><h1>Market News</h1><p>Fast-updating coverage across forex, crypto, stocks, indices, commodities, futures, bonds and the global economy.</p></div><b id="nfxNewsConnection">CONNECTING TO LIVE FEEDS</b></div><div class="nfx-news-toolbar"><div class="nfx-news-controls"><input id="nfxNewsSearch" type="search" placeholder="Search market headlines, topics or publishers…"><select id="nfxNewsCategory"><option value="all">All markets & trading</option><option value="forex">Forex & currencies</option><option value="crypto">Crypto</option><option value="stocks">Stocks & equities</option><option value="indices">Indices</option><option value="commodities">Commodities</option><option value="bonds">Bonds & rates</option><option value="macro">Economy & central banks</option><option value="markets">Global markets</option></select><button id="nfxNewsRefresh" class="nfx-news-action nfx-news-refresh" type="button">Refresh Feed</button><button id="nfxNewsNotify" class="nfx-news-action nfx-news-alerts" type="button">Enable Alerts</button></div><div id="nfxNewsStatus" class="nfx-news-status">Loading public news feeds…</div></div><div class="nfx-news-stats"><div><small>AVAILABLE HEADLINES</small><strong id="nfxNewsCount">—</strong></div><div><small>LAST UPDATED</small><strong id="nfxNewsUpdated">—</strong></div><div><small>NEWS ALERTS</small><strong id="nfxNewsAlertState">OFF</strong></div></div><div class="nfx-news-section-head"><div><span>THE LATEST</span><h2>Latest Headlines</h2></div><small id="nfxNewsResultCount"></small></div><main><div id="nfxNewsList" class="nfx-news-list"><div class="nfx-news-empty">Connecting to news providers…</div></div></main><div class="nfx-news-footnote">Coverage spans major tradable markets and macroeconomic events. Public-feed availability and publisher delays vary; this is not a guaranteed real-time institutional newswire. Select a story for details and the original publisher link.</div><div id="nfxNewsDetail" class="nfx-news-detail" hidden><div class="nfx-news-detail-backdrop" data-news-close></div><section class="nfx-news-detail-panel" role="dialog" aria-modal="true" aria-labelledby="nfxNewsDetailTitle"><button id="nfxNewsDetailClose" class="nfx-news-detail-close" type="button" data-news-close aria-label="Close article details">×</button><span class="nfx-news-detail-kicker">NABIL FX / NEWS BRIEFING</span><div id="nfxNewsDetailMeta" class="nfx-news-detail-meta"></div><h2 id="nfxNewsDetailTitle"></h2><div class="nfx-news-detail-rule"></div><p id="nfxNewsDetailSummary"></p><div class="nfx-news-detail-footer"><span id="nfxNewsDetailDate"></span><a id="nfxNewsDetailSource" href="#" target="_blank" rel="noopener noreferrer">READ FULL ARTICLE ↗</a></div><small class="nfx-news-detail-note">This briefing displays the summary provided by the news feed. The complete article remains on the original publisher’s website.</small></section></div></section>
 <section id="page-cvd" class="view nfx-market-page"><div class="nfx-market-page-head"><div><span>BUYER VS SELLER INITIATIVE</span><h1>Cumulative Volume Delta</h1><p>Track net aggressive buying and selling pressure from live exchange trades.</p></div><b class="nfx-page-source">LIVE TRADE STREAM</b></div><div id="nfxCvdMount"></div></section>
 <section id="page-openinterest" class="view nfx-market-page"><div class="nfx-market-page-head"><div><span>DERIVATIVES POSITIONING</span><h1>Open Interest</h1><p>Monitor outstanding Binance USDⓈ-M perpetual contracts.</p></div><b class="nfx-page-source">BINANCE FUTURES API</b></div><div id="nfxOpenInterestMount"></div></section>
 <section id="page-fundingrate" class="view nfx-market-page"><div class="nfx-market-page-head"><div><span>PERPETUAL CONTRACTS</span><h1>Funding Rate</h1><p>Review the latest published funding rate for the selected contract.</p></div><b class="nfx-page-source">BINANCE FUTURES API</b></div><div id="nfxFundingMount"></div></section>
@@ -5256,6 +5298,15 @@ document.querySelectorAll('[data-account-page]').forEach(btn=>{
   btn.addEventListener('click',()=>{
     if(window.showNabilPage) window.showNabilPage('account');
     showAccountPage(btn.dataset.accountPage);
+    /* Account options are portalled to body; explicitly collapse the installed-app menu too. */
+    const nav=document.querySelector('.site-nav');
+    const menuToggle=document.getElementById('appMenuToggle');
+    if(nav)nav.classList.remove('app-menu-open');
+    if(menuToggle){
+      menuToggle.setAttribute('aria-expanded','false');
+      menuToggle.setAttribute('aria-label','Open navigation menu');
+      menuToggle.textContent='☰';
+    }
   });
 });
 $('accountMenuToggle').addEventListener('click',event=>{
