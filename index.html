@@ -3790,7 +3790,11 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 #page-backtest .nfxbt-break-row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #8293aa20;color:#91a0b3;font-size:10px}#page-backtest .nfxbt-break-row b{color:#e1e8f0;font-size:10px}#page-backtest .nfxbt-trades-card{margin-top:12px}#page-backtest .nfxbt-table-wrap{overflow:auto;max-width:100%}#page-backtest .nfxbt-table-wrap table{width:100%;min-width:760px;border-collapse:collapse;font-size:9px}#page-backtest .nfxbt-table-wrap th{padding:11px 9px;background:#1a2737;color:#9eafc3;text-align:left;font-size:8px;white-space:nowrap}#page-backtest .nfxbt-table-wrap td{padding:10px 9px;border-bottom:1px solid #8293aa1c;color:#c5cfdb;white-space:nowrap;font-variant-numeric:tabular-nums}#page-backtest .nfxbt-positive,#page-backtest .nfxbt-long{color:#70d5a7!important}#page-backtest .nfxbt-negative,#page-backtest .nfxbt-short{color:#f0808d!important}
 @media(max-width:1050px){#page-backtest .nfxbt-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}#page-backtest .nfxbt-workspace{grid-template-columns:1fr}#page-backtest .nfxbt-side{grid-template-columns:repeat(2,minmax(0,1fr))}#page-backtest #btAiReview{grid-column:1/-1}}@media(max-width:700px){#page-backtest .nfxbt-hero{padding:22px 17px}#page-backtest .nfxbt-mark{flex-basis:68px;width:68px;height:68px}#page-backtest .nfxbt-side{grid-template-columns:1fr}#page-backtest .nfxbt-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}#page-backtest .nfxbt-results-grid{grid-template-columns:1fr}#page-backtest .nfxbt-fields.compact{grid-template-columns:repeat(2,minmax(0,1fr))}#page-backtest .nfxbt-actions .btn.primary{margin-left:0;flex:1 1 100%}}@media(max-width:420px){#page-backtest .nfxbt-fields,#page-backtest .nfxbt-fields.compact{grid-template-columns:1fr}#page-backtest .nfxbt-fields .field.wide{grid-column:auto}#page-backtest .nfxbt-mark{display:none}}
 </style><style id="nfx-backtest-metrics-refinement">
-#page-backtest .nfxbt-label,#page-backtest .field>label,#page-backtest .nfxbt-panel>small,#page-backtest .nfxbt-results-head>div>small{color:#d6b879!important;letter-spacing:.13em}
+#page-backtest .nfxbt-hero small,#page-backtest .nfxbt-tags b,#page-backtest .nfxbt-panel>small,#page-backtest .nfxbt-card-head small,#page-backtest .nfxbt-result-card>small,#page-backtest .nfxbt-metric>span,#page-backtest .nfxbt-label,#page-backtest .field>label,#page-backtest .nfxbt-results-head>div>small{color:#ff6477!important}
+#page-backtest .nfxbt-market-off td{color:#ff6477!important}
+#page-backtest .nfxbt-open{color:#ff6477!important;font-weight:800;letter-spacing:.08em}
+#page-backtest .nfxbt-table-wrap table{min-width:850px}
+#page-backtest .nfxbt-label,#page-backtest .field>label,#page-backtest .nfxbt-panel>small,#page-backtest .nfxbt-results-head>div>small{color:#ff6477!important;letter-spacing:.13em}
 #page-backtest .nfxbt-panel h3,#page-backtest .nfxbt-result-card h3{color:#edf2f8!important}
 #page-backtest .hint,#page-backtest .nfxbt-muted,#page-backtest .nfxbt-footnote,#page-backtest .nfxbt-results-head p{color:#91a0b4!important}
 #page-backtest .nfxbt-status{color:#c8d2df!important}
@@ -4133,7 +4137,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 <section id="backtestResults" class="nfxbt-results" hidden><header class="nfxbt-results-head"><div><small>04 / SIMULATION OUTPUT</small><h2>Backtest performance</h2><p id="btResultMeta">Results appear after a completed simulation.</p></div><b id="btResultState" class="nfxbt-state">NO TEST RUN</b></header>
 <div class="nfxbt-metrics"><article class="nfxbt-metric primary"><span>NET PROFIT / LOSS</span><strong id="btNetProfit">—</strong><small>After estimated costs</small></article><article class="nfxbt-metric"><span>WIN RATE</span><strong id="btWinRate">—</strong><small id="btWinLoss">Wins / losses</small></article><article class="nfxbt-metric"><span>PROFIT FACTOR</span><strong id="btProfitFactor">—</strong><small>Gross profit ÷ gross loss</small></article><article class="nfxbt-metric"><span>MAX DRAWDOWN</span><strong id="btMaxDrawdown">—</strong><small>Peak-to-trough equity</small></article><article class="nfxbt-metric"><span>TOTAL TRADES</span><strong id="btTradeCount">—</strong><small>Closed positions</small></article><article class="nfxbt-metric"><span>AVERAGE NET R</span><strong id="btAverageR">—</strong><small>Per completed trade</small></article><article class="nfxbt-metric"><span>EXPECTANCY</span><strong id="btExpectancy">—</strong><small>Average net R per trade</small></article><article class="nfxbt-metric"><span>MAX LOSS STREAK</span><strong id="btLossStreak">—</strong><small>Consecutive losses</small></article><article class="nfxbt-metric nfxbt-win-metric"><span>WIN TRADES</span><strong id="btWinningTrades">—</strong><small>Profitable closed trades</small></article><article class="nfxbt-metric nfxbt-loss-metric"><span>LOSS TRADES</span><strong id="btLosingTrades">—</strong><small>Unprofitable closed trades</small></article><article class="nfxbt-metric nfxbt-win-metric nfxbt-cash-metric"><span>TOTAL WON · USD</span><strong id="btTotalWinUsd">—</strong><small>Sum of profitable trade P&amp;L</small></article><article class="nfxbt-metric nfxbt-loss-metric nfxbt-cash-metric"><span>TOTAL LOST · USD</span><strong id="btTotalLossUsd">—</strong><small>Absolute value of losing trade P&amp;L</small></article></div>
 <div class="nfxbt-results-grid"><section class="nfxbt-result-card"><div class="nfxbt-card-head"><div><small>EQUITY PERFORMANCE</small><h3>Account growth curve</h3></div><b id="btEquityEnd">—</b></div><canvas id="btEquityChart" width="1100" height="300"></canvas></section><section class="nfxbt-result-card"><small>TRADE DISTRIBUTION</small><div class="nfxbt-break-row"><span>Gross profit</span><b id="btGrossProfit">—</b></div><div class="nfxbt-break-row"><span>Gross loss</span><b id="btGrossLoss">—</b></div><div class="nfxbt-break-row"><span>Average winner</span><b id="btAverageWin">—</b></div><div class="nfxbt-break-row"><span>Average loser</span><b id="btAverageLoss">—</b></div><div class="nfxbt-break-row"><span>Best trade</span><b id="btBestTrade">—</b></div><div class="nfxbt-break-row"><span>Worst trade</span><b id="btWorstTrade">—</b></div><div class="nfxbt-break-row"><span>Long / short</span><b id="btDirections">—</b></div></section></div>
-<section class="nfxbt-result-card nfxbt-trades-card"><div class="nfxbt-card-head"><div><small>EXECUTION LOG</small><h3>Individual trade results</h3></div></div><div class="nfxbt-table-wrap"><table><thead><tr><th>#</th><th>ENTRY TIME</th><th>SIDE</th><th>ENTRY</th><th>STOP</th><th>TARGET</th><th>EXIT</th><th>NET R</th><th>P&amp;L USD</th></tr></thead><tbody id="btTrades"><tr><td colspan="9">No completed test yet.</td></tr></tbody></table></div></section><p class="nfxbt-results-note">If stop-loss and take-profit are both touched within one candle, the engine conservatively counts the stop first. Actual spreads, swaps, funding and market impact may differ.</p></section></section>
+<section class="nfxbt-result-card nfxbt-trades-card"><div class="nfxbt-card-head"><div><small>EXECUTION LOG</small><h3>Individual trade results</h3></div></div><div class="nfxbt-table-wrap"><table><thead><tr><th>#</th><th>ENTRY TIME</th><th>SIDE</th><th>ENTRY</th><th>STOP</th><th>TARGET</th><th>EXIT / MARK</th><th>STATUS</th><th>NET R</th><th>P&amp;L USD</th></tr></thead><tbody id="btTrades"><tr><td colspan="9">No completed test yet.</td></tr></tbody></table></div></section><p class="nfxbt-results-note">If stop-loss and take-profit are both touched within one candle, the engine conservatively counts the stop first. Actual spreads, swaps, funding and market impact may differ.</p></section></section>
 <section id="page-journal" class="view">
   <h2 class="view-heading">Backtest Trade Journal</h2>
   <p class="view-lead">Review completed trades from your most recent backtest. Use Notes for your personal trade reviews and screenshots.</p>
@@ -4464,9 +4468,9 @@ function backtestEma(c,r){
       const x=c[j],stop=side==='LONG'?x.l<=sl:x.h>=sl,target=side==='LONG'?x.h>=tp:x.l<=tp;
       if(stop||target){if(stop){ex=sl;rr=-1}else{ex=tp;rr=r.r;}et=x.t;break;}
     }
-    if(ex===null){i++;continue;}
+    let open=false;if(ex===null){const last=c.length-1;if(last<=i){i++;continue;}ex=c[last].c;rr=(side==='LONG'?(ex-en):(en-ex))/dist;et=c[last].t;open=true;}
     const netR=rr-cost,pnl=bal*risk*netR;eq+=pnl;peak=Math.max(peak,eq);dd=Math.max(dd,(peak-eq)/peak);
-    ts.push({t:entryBar.t,exitTime:et,side,en,sl,tp,ex,rr,netR,costR:cost,pnl});curve.push(eq);i++;
+    ts.push({t:entryBar.t,exitTime:et,side,en,sl,tp,ex,rr,netR,costR:cost,pnl,open});curve.push(eq);i++;
   }
   return {ts,curve,start:bal,end:eq,dd};
 }
@@ -4988,13 +4992,13 @@ function backtestCustom(c,r,seriesMap=null){
     exit=bar.c;grossR=(side==='LONG'?(exit-en):(en-exit))/dist;exitTime=bar.t;break;
    }
   }
-  if(exit===null){
+  let open=false;if(exit===null){
    const last=Math.min(c.length-1,i+maxBars);
-   if(last>i){exit=c[last].c;grossR=(side==='LONG'?(exit-en):(en-exit))/dist;exitTime=c[last].t;j=last;}
+   if(last>i){exit=c[last].c;grossR=(side==='LONG'?(exit-en):(en-exit))/dist;exitTime=c[last].t;j=last;open=last===c.length-1;}
    else {i++;continue;}
   }
   const netR=grossR-cost,pnl=bal*risk*netR;eq+=pnl;peak=Math.max(peak,eq);dd=Math.max(dd,(peak-eq)/peak);
-  ts.push({t:entryBar.t,exitTime,side,en,sl,tp,ex:exit,rr:grossR,netR,costR:cost,pnl});curve.push(eq);i++;
+  ts.push({t:entryBar.t,exitTime,side,en,sl,tp,ex:exit,rr:grossR,netR,costR:cost,pnl,open});curve.push(eq);i++;
  }
  return {ts,curve,start:bal,end:eq,dd};
 }
@@ -5034,14 +5038,14 @@ function backtest(c,r,seriesMap=null){
         et=x.t;break;
       }
     }
-    if(ex===null){i++;continue;}
+    let open=false;if(ex===null){const last=c.length-1;if(last<=i){i++;continue;}ex=last>=i+1?c[last].c:c[i].c;rr=(side==='LONG'?(ex-en):(en-ex))/dist;et=c[last].t;open=true;}
 
     const netR=rr-cost;
     const pnl=startBalance*risk*netR;
     eq+=pnl;
     peak=Math.max(peak,eq);
     dd=Math.max(dd,(peak-eq)/peak);
-    ts.push({t:b.t,exitTime:et,side,en,sl,tp,ex,rr,netR,costR:cost,pnl});
+    ts.push({t:b.t,exitTime:et,side,en,sl,tp,ex,rr,netR,costR:cost,pnl,open});
     curve.push(eq);i++;
   }
   return{ts,curve,start:startBalance,end:eq,dd};
@@ -5068,7 +5072,7 @@ function drawEquity(a){
 
 function renderResults(r,timezone='UTC'){
   const t=r.ts;
-  const tradeRows=t.length?t.map((x,i)=>`<tr><td>${i+1}</td><td>${new Intl.DateTimeFormat('en-GB',{timeZone:timezone||'UTC',dateStyle:'short',timeStyle:'medium',hour12:false}).format(new Date(x.t))}</td><td>${x.side}</td><td>${x.en}</td><td>${x.sl}</td><td>${x.tp??'Rule exit'}</td><td>${x.ex}</td><td>${fmt(x.netR)}</td><td>${fmt(x.pnl)}</td></tr>`).join(''):'<tr><td colspan="9">No completed trades in this data window.</td></tr>';
+  const tradeRows=t.length?t.map((x,i)=>`<tr><td>${i+1}</td><td>${new Intl.DateTimeFormat('en-GB',{timeZone:timezone||'UTC',dateStyle:'short',timeStyle:'medium',hour12:false}).format(new Date(x.t))}</td><td>${x.side}</td><td>${x.en}</td><td>${x.sl}</td><td>${x.tp??'Rule exit'}</td><td>${x.ex}</td><td>${fmt(x.netR)}</td><td>${fmt(x.pnl)}</td></tr>`).join(''):'<tr><td colspan="10">No valid entry signals were generated in this historical window. Check the compiled rules, symbol, timeframe and date coverage.</td></tr>';
   if($('trades'))$('trades').innerHTML=tradeRows;
 }
 
@@ -8061,17 +8065,17 @@ window.renderBacktestReview=function(ai){
  document.getElementById('btAiReviewNotes').innerHTML=notes.length?notes.map(x=>'<div>'+esc(x)+'</div>').join(''):'<div>No additional assumptions or limitations were returned.</div>';p.hidden=false;
 };
 window.renderBacktestMetrics=function(r,meta={}){
- const t=Array.isArray(r.ts)?r.ts:[],wins=t.filter(x=>x.netR>0),losses=t.filter(x=>x.netR<0),pnl=x=>Number(x.pnl)||0,rr=x=>Number(x.netR)||0,avg=a=>a.length?a.reduce((s,x)=>s+x,0)/a.length:0;
- const gp=wins.reduce((s,x)=>s+pnl(x),0),gl=Math.abs(losses.reduce((s,x)=>s+pnl(x),0)),pf=gl?gp/gl:(gp>0?Infinity:NaN),net=Number(r.end)-Number(r.start),exp=avg(t.map(rr));
+ const t=Array.isArray(r.ts)?r.ts:[],closed=t.filter(x=>!x.open),openCount=t.length-closed.length,wins=closed.filter(x=>x.netR>0),losses=closed.filter(x=>x.netR<0),pnl=x=>Number(x.pnl)||0,rr=x=>Number(x.netR)||0,avg=a=>a.length?a.reduce((s,x)=>s+x,0)/a.length:0;
+ const gp=wins.reduce((s,x)=>s+pnl(x),0),gl=Math.abs(losses.reduce((s,x)=>s+pnl(x),0)),pf=gl?gp/gl:(gp>0?Infinity:NaN),net=Number(r.end)-Number(r.start),exp=avg(closed.map(rr));
  let streak=0,maxStreak=0;t.forEach(x=>{if(rr(x)<0){streak++;maxStreak=Math.max(maxStreak,streak);}else streak=0;});
  const money=v=>(Number(v)||0).toLocaleString('en-US',{style:'currency',currency:'USD',maximumFractionDigits:2}),pct=v=>(Number(v)||0).toFixed(2)+'%',put=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
- put('btNetProfit',(net>=0?'+':'')+money(net));put('btWinRate',t.length?pct(wins.length/t.length*100):'0.00%');put('btWinLoss',wins.length+' wins / '+losses.length+' losses');put('btProfitFactor',Number.isFinite(pf)?pf.toFixed(2):(pf===Infinity?'∞':'—'));put('btMaxDrawdown',pct((Number(r.dd)||0)*100));put('btTradeCount',t.length);put('btAverageR',(exp>=0?'+':'')+exp.toFixed(2)+'R');put('btExpectancy',(exp>=0?'+':'')+exp.toFixed(3)+'R');put('btLossStreak',maxStreak);put('btWinningTrades',wins.length);put('btLosingTrades',losses.length);put('btTotalWinUsd',money(gp));put('btTotalLossUsd',money(gl));
+ put('btNetProfit',(net>=0?'+':'')+money(net));put('btWinRate',closed.length?pct(wins.length/closed.length*100):'—');put('btWinLoss',wins.length+' wins / '+losses.length+' losses'+(openCount?' · '+openCount+' open':''));put('btProfitFactor',Number.isFinite(pf)?pf.toFixed(2):(pf===Infinity?'∞':'—'));put('btMaxDrawdown',pct((Number(r.dd)||0)*100));put('btTradeCount',t.length);put('btAverageR',closed.length?(exp>=0?'+':'')+exp.toFixed(2)+'R':'—');put('btExpectancy',closed.length?(exp>=0?'+':'')+exp.toFixed(3)+'R':'—');put('btLossStreak',maxStreak);put('btWinningTrades',wins.length);put('btLosingTrades',losses.length);put('btTotalWinUsd',money(gp));put('btTotalLossUsd',money(gl));
  put('btEquityEnd',money(r.end));put('btGrossProfit',money(gp));put('btGrossLoss',money(-gl));put('btAverageWin',wins.length?money(avg(wins.map(pnl))):'—');put('btAverageLoss',losses.length?money(avg(losses.map(pnl))):'—');put('btBestTrade',t.length?'+'+Math.max(...t.map(rr)).toFixed(2)+'R':'—');put('btWorstTrade',t.length?Math.min(...t.map(rr)).toFixed(2)+'R':'—');put('btDirections',t.filter(x=>x.side==='LONG').length+' long / '+t.filter(x=>x.side==='SHORT').length+' short');
  put('btResultMeta',[meta.symbol,meta.interval,meta.bars?meta.bars.toLocaleString()+' bars':null,meta.provider].filter(Boolean).join(' · '));put('btResultState','SIMULATION COMPLETE');
  const p=document.getElementById('backtestResults');if(p)p.hidden=false;
  const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const fmt=x=>Number(x).toLocaleString('en-US',{maximumFractionDigits:8});
- const rows=t.length?t.map((x,i)=>{let d='';try{d=new Intl.DateTimeFormat('en-GB',{timeZone:'UTC',dateStyle:'short',timeStyle:'medium'}).format(new Date(x.t));}catch(e){d=new Date(x.t).toISOString();}return '<tr><td>'+(i+1)+'</td><td>'+esc(d)+'</td><td class="'+(x.side==='LONG'?'nfxbt-long':'nfxbt-short')+'">'+esc(x.side)+'</td><td>'+esc(fmt(x.en))+'</td><td>'+esc(fmt(x.sl))+'</td><td>'+esc(x.tp==null?'Rule exit':fmt(x.tp))+'</td><td>'+esc(fmt(x.ex))+'</td><td class="'+(rr(x)>=0?'nfxbt-positive':'nfxbt-negative')+'">'+(rr(x)>=0?'+':'')+esc(fmt(rr(x)))+'</td><td class="'+(pnl(x)>=0?'nfxbt-positive':'nfxbt-negative')+'">'+esc(money(pnl(x)))+'</td></tr>';}).join(''):'<tr><td colspan="9">No completed trades in this historical window.</td></tr>';
+ const rows=t.length?t.map((x,i)=>{let d='';try{d=new Intl.DateTimeFormat('en-GB',{timeZone:'UTC',dateStyle:'short',timeStyle:'medium'}).format(new Date(x.t));}catch(e){d=new Date(x.t).toISOString();}return '<tr><td>'+(i+1)+'</td><td>'+esc(d)+'</td><td class="'+(x.side==='LONG'?'nfxbt-long':'nfxbt-short')+'">'+esc(x.side)+'</td><td>'+esc(fmt(x.en))+'</td><td>'+esc(fmt(x.sl))+'</td><td>'+esc(x.tp==null?'Rule exit':fmt(x.tp))+'</td><td>'+esc(fmt(x.ex))+'</td><td class="'+(x.open?'nfxbt-open':'')+'">'+(x.open?'OPEN · MARKED TO MARKET':'CLOSED')+'</td><td class="'+(rr(x)>=0?'nfxbt-positive':'nfxbt-negative')+'">'+(rr(x)>=0?'+':'')+esc(fmt(rr(x)))+'</td><td class="'+(pnl(x)>=0?'nfxbt-positive':'nfxbt-negative')+'">'+esc(money(pnl(x)))+'</td></tr>';}).join(''):'<tr><td colspan="10">No valid entry signals were generated in this historical window. Check the compiled rules, symbol, timeframe and date coverage.</td></tr>';
  const tbody=document.getElementById('btTrades');if(tbody){let offRows='';const market=document.getElementById('market')?.value||'';const from=document.getElementById('start')?.value,to=document.getElementById('end')?.value;if(market!=='crypto'&&from&&to){const closedDays=market==='stocks'||market==='indices'?[0,6]:[6];const d=new Date(from+'T12:00:00Z'),last=new Date(to+'T12:00:00Z');for(;d<=last;d.setUTCDate(d.getUTCDate()+1)){if(closedDays.includes(d.getUTCDay())){const date=d.toISOString().slice(0,10);offRows+='<tr class="nfxbt-market-off"><td colspan="9">'+date+' · MARKET OFF · WEEKEND SCHEDULE</td></tr>';}}}tbody.innerHTML=rows+offRows;}
  const cv=document.getElementById('btEquityChart'),v=Array.isArray(r.curve)?r.curve:[];if(cv&&v.length>1){const c=cv.getContext('2d'),w=cv.width,h=cv.height,mn=Math.min(...v),mx=Math.max(...v),range=mx===mn?1:mx-mn;c.clearRect(0,0,w,h);c.strokeStyle='rgba(154,171,193,.16)';for(let n=1;n<5;n++){const y=n*h/5;c.beginPath();c.moveTo(0,y);c.lineTo(w,y);c.stroke();}c.strokeStyle=net>=0?'#58c99a':'#ef7180';c.lineWidth=3;c.beginPath();v.forEach((z,i)=>{const x=16+i/(v.length-1)*(w-32),y=h-18-(z-mn)/range*(h-36);i?c.lineTo(x,y):c.moveTo(x,y);});c.stroke();}
 };
