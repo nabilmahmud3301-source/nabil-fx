@@ -8038,46 +8038,69 @@ body{
 }
 </style>
 
-<script id="nfx-installed-app-force-mobile-layout">
-/* The installed phone app always uses its mobile responsive layout.
-   Chrome's "Desktop site" option can widen the CSS viewport; replay the
-   page's responsive max-width rules only inside the installed touch app. */
-(function(){
-  var standalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches)
-    || window.navigator.standalone === true;
-  var touchDevice = (navigator.maxTouchPoints > 0)
-    || (window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
-  if (!standalone || !touchDevice) return;
 
-  var responsiveRules = [];
-  function collect(rules, forceResponsive){
-    for (var i = 0; i < rules.length; i++) {
-      var rule = rules[i];
-      if (rule.type === 4 && /max-width\s*:/i.test(rule.conditionText || '')) {
-        collect(rule.cssRules, true);
-      } else if (forceResponsive) {
-        if (rule.type === 4 && /max-width\s*:/i.test(rule.conditionText || '')) {
-          collect(rule.cssRules, true);
-        } else {
-          responsiveRules.push(rule.cssText);
-        }
-      } else if (rule.cssRules && rule.type !== 4) {
-        collect(rule.cssRules, false);
-      }
-    }
+<style id="nfx-installed-app-desktop-mode-and-splash-fix">
+/* App only: keep the menu button hidden beneath the branded startup splash. */
+html.nfx-booting .site-header .app-menu-toggle{
+  visibility:hidden!important;
+  opacity:0!important;
+  pointer-events:none!important;
+}
+/* App only: when Chrome requests Desktop site, use the same full desktop
+   navigation/header layout as the website instead of the compact app menu. */
+@media (display-mode: standalone) and (min-width:761px){
+  .site-header{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+    flex-direction:row!important;
+    flex-wrap:nowrap!important;
+    gap:14px!important;
+    min-height:84px!important;
+    padding:10px 18px!important;
+    width:100%!important;
+    box-sizing:border-box!important;
   }
-
-  Array.prototype.forEach.call(document.styleSheets, function(sheet){
-    try { collect(sheet.cssRules, false); } catch (e) {}
-  });
-
-  if (!responsiveRules.length) return;
-  var style = document.createElement('style');
-  style.id = 'nfx-installed-app-responsive-overrides';
-  style.textContent = responsiveRules.join('\n');
-  document.head.appendChild(style);
-  document.documentElement.classList.add('nfx-installed-mobile-layout');
-})();
-</script>
+  .site-header .site-brand{
+    order:0!important;
+    flex:0 0 auto!important;
+    margin-right:12px!important;
+    align-self:center!important;
+  }
+  .site-header .site-nav{
+    display:flex!important;
+    position:static!important;
+    inset:auto!important;
+    flex:1 1 auto!important;
+    flex-direction:row!important;
+    align-items:center!important;
+    justify-content:flex-end!important;
+    flex-wrap:nowrap!important;
+    gap:4px!important;
+    width:auto!important;
+    max-height:none!important;
+    overflow:visible!important;
+    padding:0!important;
+    border:0!important;
+    border-radius:0!important;
+    background:transparent!important;
+    box-shadow:none!important;
+  }
+  .site-header .site-nav .nav-btn{
+    display:inline-flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    width:auto!important;
+    white-space:nowrap!important;
+    text-align:center!important;
+    padding:12px 10px!important;
+    border:0!important;
+    border-radius:8px!important;
+    font-size:12px!important;
+  }
+  .site-header .site-nav .account-menu{width:auto!important}
+  .site-header .app-menu-toggle{display:none!important}
+}
+</style>
 </body>
 </html>
