@@ -76,7 +76,7 @@ html:not(.nfx-booting) #nfx-page-loader{opacity:0!important;visibility:hidden!im
 button.click-feedback{animation:none!important}
 button:focus:not(:focus-visible){outline:none}
 @media(max-width:760px){.site-header{min-height:58px}#nfx-page-loader .nfx-loader-card{padding:29px 23px 23px}}
-@media(prefers-reduced-motion:reduce){#nfx-page-loader,#nfx-page-loader *{animation:none!important;transition:none!important}}
+@media(prefers-reduced-motion:reduce){#nfx-page-loader,#nfx-page-loader *{transition:none!important}#nfx-page-loader .nfx-loader-mark:before{animation:none!important}#nfx-page-loader .nfx-loader-track i{animation:nfxLoaderProgress 1.35s linear infinite!important;will-change:transform}}
 </style>
 <script id="nfx-refresh-stabilizer">
 (function(){
