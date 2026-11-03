@@ -3856,6 +3856,22 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 #page-backtest .nfxbt-card-head small{letter-spacing:.14em}
 #page-backtest .nfxbt-result-card{border-color:rgba(148,166,190,.2)}
 </style>
+
+<style id="nfx-backtest-result-label-fix">
+/* Keep these four labels red in the rendered results, above all Backtest theme overrides. */
+#page-backtest #backtestResults .nfxbt-results-head>div>small,
+#page-backtest #backtestResults #btResultState,
+#page-backtest #backtestResults .nfxbt-card-head>div>small {
+  color:#ff2638 !important;
+  -webkit-text-fill-color:#ff2638 !important;
+  background:none !important;
+  background-image:none !important;
+}
+#page-backtest #backtestResults #btResultState {
+  border-color:#ff2638 !important;
+  background:rgba(255,38,56,.08) !important;
+}
+</style>
 </head>
 <body>
 <div id="nfx-page-loader" role="status" aria-live="polite" aria-label="Loading Nabil FX workspace">
@@ -8308,17 +8324,3 @@ window.renderBacktestMetrics=function(r,meta={}){
 </style>
 </body>
 </html>
-
-
-/* Backtest result labels: force solid red even when theme text uses transparent gradient fill. */
-#page-backtest #backtestResults .nfxbt-results-head>div>small,
-#page-backtest #backtestResults #btResultState,
-#page-backtest #backtestResults .nfxbt-card-head>div>small{
-  color:#ff2638!important;
-  -webkit-text-fill-color:#ff2638!important;
-  background-image:none!important;
-}
-#page-backtest #backtestResults #btResultState{
-  border-color:#ff2638!important;
-  background:rgba(255,38,56,.08)!important;
-}
