@@ -8235,45 +8235,48 @@ window.renderBacktestMetrics=function(r,meta={}){
 
 
 <style id="nabil-fx-backtest-premium-v4">
-/* Full-page typography and component palette: scoped so other NABIL FX pages remain untouched. */
-#page-backtest.nfxbt-page{color:#e8edf5!important;font-family:inherit}
-#page-backtest.nfxbt-page :is(h1,h2,h3,h4,strong,b){color:#edf2f8}
-#page-backtest.nfxbt-page :is(p,.hint,.nfxbt-muted,.nfxbt-footnote,.nfxbt-results-note){color:#9baabd!important}
-#page-backtest.nfxbt-page :is(label,.nfxbt-label,.nfxbt-panel>small,.nfxbt-panel-head small,.nfxbt-results-head small,.nfxbt-card-head small,.nfxbt-metric>span){color:#d4b77a!important}
-#page-backtest.nfxbt-page :is(.nfxbt-hero h1,.nfxbt-results-head h2){color:#f3f5f9!important}
-#page-backtest.nfxbt-page .nfxbt-hero h1 em{color:#ed8293!important}
-#page-backtest.nfxbt-page .nfxbt-hero p{color:#aebaca!important}
-#page-backtest.nfxbt-page .nfxbt-tags b{color:#d5deea!important;border-color:#d5b77838!important;background:#d5b7780b!important}
-#page-backtest.nfxbt-page .nfxbt-panel,#page-backtest.nfxbt-page .nfxbt-result-card,#page-backtest.nfxbt-page .nfxbt-results{color:#dce4ee!important}
-#page-backtest.nfxbt-page .nfxbt-panel-head h2,#page-backtest.nfxbt-page .nfxbt-panel h3,#page-backtest.nfxbt-page .nfxbt-card-head h3{color:#edf2f8!important}
-#page-backtest.nfxbt-page .nfxbt-panel-head p,#page-backtest.nfxbt-page .nfxbt-list li small,#page-backtest.nfxbt-page .nfxbt-muted{color:#9aa9bb!important}
-#page-backtest.nfxbt-page .nfxbt-list li>b{color:#d8bd87!important}
-#page-backtest.nfxbt-page .nfxbt-list li strong,#page-backtest.nfxbt-page .nfxbt-source b{color:#e5ebf4!important}
-#page-backtest.nfxbt-page .nfxbt-source small{color:#d6b97e!important}
-#page-backtest.nfxbt-page .nfxbt-page .field label{color:#c6d0dd!important}
-#page-backtest.nfxbt-page .field input,#page-backtest.nfxbt-page .field select,#page-backtest.nfxbt-page .field textarea{color:#f0f3f8!important;background:#0b121b!important;border-color:#64748b55!important}
-#page-backtest.nfxbt-page .field input::placeholder,#page-backtest.nfxbt-page .field textarea::placeholder{color:#718096!important}
-#page-backtest.nfxbt-page .field .hint{color:#95a4b7!important}
-#page-backtest.nfxbt-page .nfxbt-actions .btn.secondary{color:#e5ebf3!important}
-#page-backtest.nfxbt-page .nfxbt-actions .btn.primary{color:#fff!important}
-#page-backtest.nfxbt-page .nfxbt-status{color:#d7e0eb!important;background:linear-gradient(100deg,#d5b77812,#e45d7510)!important;border-color:#d5b7783d!important}
-#page-backtest.nfxbt-page .nfxbt-results-head p{color:#a5b2c2!important}
-#page-backtest.nfxbt-page .nfxbt-state{color:#e0c58e!important}
-#page-backtest.nfxbt-page .nfxbt-metric{background:linear-gradient(145deg,#1a2736,#111a25)!important}
-#page-backtest.nfxbt-page .nfxbt-metric>span{color:#aebaca!important}
-#page-backtest.nfxbt-page .nfxbt-metric strong{color:#eef3f8!important}
-#page-backtest.nfxbt-page .nfxbt-metric.primary strong{color:#f08a9a!important}
-#page-backtest.nfxbt-page .nfxbt-win-metric strong{color:#62d5a5!important}
-#page-backtest.nfxbt-page .nfxbt-loss-metric strong{color:#ef8492!important}
-#page-backtest.nfxbt-page .nfxbt-metric small{color:#94a2b4!important}
+/* Nabil FX terminal palette — restrained slate, cool white and the site's red active accent. Scoped to Backtest only. */
+#page-backtest.nfxbt-page{color:#e5eaf1!important;font-family:inherit}
+#page-backtest.nfxbt-page :is(h1,h2,h3,h4,strong,b){color:#e9eef5}
+#page-backtest.nfxbt-page :is(p,.hint,.nfxbt-muted,.nfxbt-footnote,.nfxbt-results-note){color:#98a6b8!important}
+#page-backtest.nfxbt-page :is(label,.nfxbt-label,.nfxbt-panel>small,.nfxbt-panel-head small,.nfxbt-results-head small,.nfxbt-card-head small){color:#9eafc3!important}
+#page-backtest.nfxbt-page .nfxbt-hero{border-color:#344153!important;background:radial-gradient(ellipse at 90% 0,#7890ad12,transparent 42%),linear-gradient(130deg,#151e2a,#0b1119 72%,#121821)!important}
+#page-backtest.nfxbt-page .nfxbt-hero h1,#page-backtest.nfxbt-page .nfxbt-results-head h2{color:#f2f5f9!important}
+#page-backtest.nfxbt-page .nfxbt-hero h1 em{color:#dbe4ef!important}
+#page-backtest.nfxbt-page .nfxbt-hero p{color:#aab6c5!important}
+#page-backtest.nfxbt-page .nfxbt-tags b{color:#b8c4d3!important;border-color:#46556980!important;background:#ffffff04!important}
+#page-backtest.nfxbt-page .nfxbt-mark{color:#e4ebf4!important;border-color:#526176!important;background:linear-gradient(145deg,#1c2735,#101720)!important}
+#page-backtest.nfxbt-page .nfxbt-panel,#page-backtest.nfxbt-page .nfxbt-result-card,#page-backtest.nfxbt-page .nfxbt-results{color:#dce4ee!important;border-color:#354255!important}
+#page-backtest.nfxbt-page .nfxbt-panel-head h2,#page-backtest.nfxbt-page .nfxbt-panel h3,#page-backtest.nfxbt-page .nfxbt-card-head h3{color:#e9eef5!important}
+#page-backtest.nfxbt-page .nfxbt-panel-head p,#page-backtest.nfxbt-page .nfxbt-list li small,#page-backtest.nfxbt-page .nfxbt-muted{color:#98a6b8!important}
+#page-backtest.nfxbt-page .nfxbt-list li>b{color:#a9b8ca!important}
+#page-backtest.nfxbt-page .nfxbt-list li strong,#page-backtest.nfxbt-page .nfxbt-source b{color:#dfe6ef!important}
+#page-backtest.nfxbt-page .nfxbt-source small{color:#9eafc3!important}
+#page-backtest.nfxbt-page .field label{color:#b7c3d1!important}
+#page-backtest.nfxbt-page .field input,#page-backtest.nfxbt-page .field select,#page-backtest.nfxbt-page .field textarea{color:#edf2f7!important;background:#090f16!important;border-color:#39485a!important}
+#page-backtest.nfxbt-page .field input::placeholder,#page-backtest.nfxbt-page .field textarea::placeholder{color:#6f7f92!important}
+#page-backtest.nfxbt-page .field .hint{color:#8f9eb0!important}
+#page-backtest.nfxbt-page .nfxbt-actions .btn.secondary{color:#dce5ef!important;border-color:#3e4d60!important;background:#121b26!important}
+#page-backtest.nfxbt-page .nfxbt-actions .btn.primary{color:#fff!important;background:#b72d40!important;border-color:#c33b4d!important}
+#page-backtest.nfxbt-page .nfxbt-actions .btn.primary:hover{background:#cc354b!important}
+#page-backtest.nfxbt-page .nfxbt-status{color:#cbd5e1!important;background:#101923!important;border-color:#3b4a5d!important}
+#page-backtest.nfxbt-page .nfxbt-results-head p{color:#a1afc0!important}
+#page-backtest.nfxbt-page .nfxbt-state{color:#bdc9d8!important}
+#page-backtest.nfxbt-page .nfxbt-metric{background:linear-gradient(145deg,#172230,#101720)!important;border-color:#354255!important}
+#page-backtest.nfxbt-page .nfxbt-metric>span{color:#9eafc3!important}
+#page-backtest.nfxbt-page .nfxbt-metric strong{color:#e9eef5!important}
+#page-backtest.nfxbt-page .nfxbt-metric.primary strong{color:#e9eef5!important}
+#page-backtest.nfxbt-page .nfxbt-win-metric strong{color:#72c9a4!important}
+#page-backtest.nfxbt-page .nfxbt-loss-metric strong{color:#e77b87!important}
+#page-backtest.nfxbt-page .nfxbt-metric small{color:#8f9eb0!important}
 #page-backtest.nfxbt-page .nfxbt-break-row{color:#aab6c5!important}
-#page-backtest.nfxbt-page .nfxbt-break-row b,#page-backtest.nfxbt-page .nfxbt-card-head>b{color:#e3c88f!important}
-#page-backtest.nfxbt-page .nfxbt-table-wrap th{color:#e0c58e!important;background:#1a2838!important}
-#page-backtest.nfxbt-page .nfxbt-table-wrap td{color:#d5deea!important}
+#page-backtest.nfxbt-page .nfxbt-break-row b,#page-backtest.nfxbt-page .nfxbt-card-head>b{color:#c2cedc!important}
+#page-backtest.nfxbt-page .nfxbt-table-wrap th{color:#dce5ef!important;background:#182331!important}
+#page-backtest.nfxbt-page .nfxbt-table-wrap td{color:#cbd5e1!important}
 #page-backtest.nfxbt-page .nfxbt-table-wrap tbody tr:nth-child(even){background:#ffffff04!important}
-#page-backtest.nfxbt-page .nfxbt-review-rules,#page-backtest.nfxbt-page .nfxbt-review-notes{color:#c1ccda!important}
-#page-backtest.nfxbt-page #btAiReviewState{color:#d8bd87!important}
-#page-backtest.nfxbt-page :is(input,select,textarea,button):focus-visible{outline:2px solid #d5b778!important;outline-offset:2px}
+#page-backtest.nfxbt-page .nfxbt-review-rules,#page-backtest.nfxbt-page .nfxbt-review-notes{color:#b8c4d3!important}
+#page-backtest.nfxbt-page #btAiReviewState{color:#bdc9d8!important}
+#page-backtest.nfxbt-page :is(input,select,textarea,button):focus-visible{outline:2px solid #9eafc3!important;outline-offset:2px}
 </style>
 </body>
 </html>
