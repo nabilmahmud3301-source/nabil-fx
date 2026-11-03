@@ -5160,7 +5160,30 @@ $('run').onclick=async()=>{
     const strategyText=$('rules').value.trim();
     if(!strategyText)throw Error('Write your strategy rules first.');
     status('Step 1/3 · AI is converting your strategy into executable rules…');
-    const ai=await analyzeStrategyWithAI();
+    let ai;
+    try{
+      ai=await analyzeStrategyWithAI();
+    }catch(aiError){
+      // Safe offline fallback: only compile the explicitly recognized 9/21 EMA crossover model.
+      // All other natural-language strategies still require the AI compiler; never guess their rules.
+      const offline=parseEmaRules(strategyText);
+      if(!offline)throw aiError;
+      ai={
+        supported:true,long:true,short:true,rewardRisk:offline.r,
+        normalizedRules:'9/21 EMA crossover · both directions · next-candle-open entry',
+        explanation:'Gemini was unavailable. A deterministic local 9/21 EMA crossover rule was used instead.',
+        assumptions:['Entry at the next candle open.','Stop at the signal candle high/low.','Take profit at '+offline.r+'R.','Both long and short crossover signals are enabled.'],
+        missing:[],unsupportedReasons:[],
+        execution:{
+          longConditions:[{type:'ema_cross',fast:9,slow:21,direction:'bullish'}],
+          shortConditions:[{type:'ema_cross',fast:9,slow:21,direction:'bearish'}],
+          exitLongConditions:[],exitShortConditions:[],entry:'next_open',
+          stop:{type:'signal_candle'},targetR:offline.r,timezone:'UTC',dataMode:'candles'
+        },
+        model:'Local deterministic fallback'
+      };
+      status('AI unavailable · Running the explicitly recognized 9/21 EMA rule with the local deterministic engine…');
+    }
     if(!ai.supported||!ai.execution){
       const why=[ai.explanation,...(ai.missing||[]).map(x=>'Missing: '+x),...(ai.unsupportedReasons||[])].filter(Boolean).join(' ');
       throw Error('Strategy could not be compiled safely. '+why);
@@ -8130,5 +8153,85 @@ window.renderBacktestMetrics=function(r,meta={}){
  const tbody=document.getElementById('btTrades');if(tbody){let offRows='';const market=document.getElementById('market')?.value||'';const from=document.getElementById('start')?.value,to=document.getElementById('end')?.value;if(market!=='crypto'&&from&&to){const closedDays=market==='stocks'||market==='indices'?[0,6]:[6];const d=new Date(from+'T12:00:00Z'),last=new Date(to+'T12:00:00Z');for(;d<=last;d.setUTCDate(d.getUTCDate()+1)){if(closedDays.includes(d.getUTCDay())){const date=d.toISOString().slice(0,10);offRows+='<tr class="nfxbt-market-off"><td colspan="9">'+date+' · MARKET OFF · WEEKEND SCHEDULE</td></tr>';}}}tbody.innerHTML=rows+offRows;}
  const cv=document.getElementById('btEquityChart'),v=Array.isArray(r.curve)?r.curve:[];if(cv&&v.length>1){const c=cv.getContext('2d'),w=cv.width,h=cv.height,mn=Math.min(...v),mx=Math.max(...v),range=mx===mn?1:mx-mn;c.clearRect(0,0,w,h);c.strokeStyle='rgba(154,171,193,.16)';for(let n=1;n<5;n++){const y=n*h/5;c.beginPath();c.moveTo(0,y);c.lineTo(w,y);c.stroke();}c.strokeStyle=net>=0?'#58c99a':'#ef7180';c.lineWidth=3;c.beginPath();v.forEach((z,i)=>{const x=16+i/(v.length-1)*(w-32),y=h-18-(z-mn)/range*(h-36);i?c.lineTo(x,y):c.moveTo(x,y);});c.stroke();}
 };
-</script></body>
+</script>
+<style id="nabil-fx-backtest-premium-v3">
+/* NABIL FX — cohesive premium styling for the actual Backtest with AI markup */
+#page-backtest.nfxbt-page{--bt-gold:#d5b778;--bt-red:#e45d75;--bt-text:#edf2f8;--bt-muted:#8f9caf;color:var(--bt-text);padding-bottom:38px}
+#page-backtest .nfxbt-hero{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:30px 32px;margin:0 0 18px;border:1px solid rgba(213,183,120,.25);border-radius:19px;background:radial-gradient(ellipse at 88% 0,rgba(213,183,120,.13),transparent 36%),radial-gradient(ellipse at 0 100%,rgba(190,45,70,.15),transparent 42%),linear-gradient(135deg,#192331,#0d141e 68%,#19151c);box-shadow:0 22px 55px #0005,inset 0 1px #ffffff0c}
+#page-backtest .nfxbt-hero:after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,var(--bt-gold),var(--bt-red),transparent 85%)}
+#page-backtest .nfxbt-hero>div>small,#page-backtest .nfxbt-panel-head small,#page-backtest .nfxbt-panel>small,#page-backtest .nfxbt-results-head small,#page-backtest .nfxbt-card-head small{color:var(--bt-gold);font-size:9px;font-weight:850;letter-spacing:.17em}
+#page-backtest .nfxbt-hero h1{margin:9px 0;color:#f4f6fa;font-size:clamp(27px,4vw,42px);font-weight:850;letter-spacing:-.055em}
+#page-backtest .nfxbt-hero h1 em{color:#ed8292;font-style:normal}
+#page-backtest .nfxbt-hero p{max-width:720px;color:#aab6c5;font-size:12px;line-height:1.75}
+#page-backtest .nfxbt-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:17px}
+#page-backtest .nfxbt-tags b{padding:7px 10px;border:1px solid #d5b77826;border-radius:7px;background:#ffffff05;color:#c4ceda;font-size:8px;letter-spacing:.1em}
+#page-backtest .nfxbt-mark{display:grid;place-items:center;flex:0 0 78px;width:78px;height:78px;border:1px solid #d5b77855;border-radius:18px;background:linear-gradient(145deg,#34291e,#171e29);color:var(--bt-gold);font-size:21px;letter-spacing:-.07em;box-shadow:0 12px 28px #0006,inset 0 1px #ffffff15}
+#page-backtest .nfxbt-workspace{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(260px,.85fr);gap:15px;align-items:start}
+#page-backtest .nfxbt-panel,#page-backtest .nfxbt-results{min-width:0;border:1px solid rgba(148,166,190,.19);border-radius:16px;background:radial-gradient(ellipse at 100% 0,rgba(213,183,120,.055),transparent 35%),linear-gradient(145deg,#151f2c,#0e151f 78%);box-shadow:0 18px 44px #0005,inset 0 1px #ffffff08}
+#page-backtest .nfxbt-panel{padding:21px}
+#page-backtest .nfxbt-panel-head{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-bottom:17px;margin-bottom:17px;border-bottom:1px solid #ffffff14}
+#page-backtest .nfxbt-panel-head h2,#page-backtest .nfxbt-panel h3{margin:6px 0;color:#eef2f8;font-size:17px;font-weight:800;letter-spacing:-.025em}
+#page-backtest .nfxbt-panel-head p,#page-backtest .nfxbt-muted{color:#91a0b2;font-size:10px;line-height:1.7}
+#page-backtest .nfxbt-panel-head>b{display:grid;place-items:center;width:42px;height:42px;border:1px solid #d5b7783c;border-radius:12px;background:#d5b77810;color:var(--bt-gold)}
+#page-backtest .nfxbt-label{margin:20px 0 11px;color:#d5b778;font-size:9px;font-weight:850;letter-spacing:.14em}
+#page-backtest .nfxbt-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+#page-backtest .nfxbt-fields.compact{grid-template-columns:repeat(3,minmax(0,1fr))}
+#page-backtest .nfxbt-page .field{min-width:0}
+#page-backtest .nfxbt-page .field label{display:block;margin-bottom:7px;color:#b9c5d3;font-size:9px;font-weight:800;letter-spacing:.1em}
+#page-backtest .nfxbt-page .field input,#page-backtest .nfxbt-page .field select,#page-backtest .nfxbt-page .field textarea{width:100%;min-width:0;border:1px solid #8798b329;border-radius:9px;background:linear-gradient(180deg,#0b121c,#0a1018);color:#edf2f8;padding:11px 12px;outline:none;box-shadow:inset 0 1px 3px #0005;transition:border-color .18s,box-shadow .18s}
+#page-backtest .nfxbt-page .field input:focus,#page-backtest .nfxbt-page .field select:focus,#page-backtest .nfxbt-page .field textarea:focus{border-color:#c7a66a;box-shadow:0 0 0 3px #c7a66a20}
+#page-backtest .nfxbt-page .field textarea{min-height:190px;resize:vertical;line-height:1.7}
+#page-backtest .nfxbt-page .field .hint{color:#8d9bad;font-size:10px;line-height:1.65}
+#page-backtest .nfxbt-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px;padding-top:17px;border-top:1px solid #ffffff16}
+#page-backtest .nfxbt-actions .btn{min-height:42px;border-radius:9px;padding:0 15px;font-size:10px;font-weight:800;letter-spacing:.02em}
+#page-backtest .nfxbt-actions .btn.primary{border:1px solid #e8798a;background:linear-gradient(115deg,#ed6c81,#b72e4d 65%,#84243c);color:white;box-shadow:0 8px 22px #bd315044,inset 0 1px #ffffff30}
+#page-backtest .nfxbt-actions .btn.secondary{border:1px solid #95a5ba38;background:linear-gradient(145deg,#202c3b,#151e29);color:#dce4ee}
+#page-backtest .nfxbt-actions .btn:disabled{opacity:.55;cursor:wait}
+#page-backtest .nfxbt-status{white-space:pre-wrap;margin-top:13px;padding:12px 13px;border:1px solid #d5b77824;border-radius:9px;background:#d5b77808;color:#c6d0dc;font-size:10px;line-height:1.7}
+#page-backtest .nfxbt-footnote,#page-backtest .nfxbt-results-note{color:#7f8da0;font-size:9px;line-height:1.7}
+#page-backtest .nfxbt-side{display:grid;gap:13px}
+#page-backtest .nfxbt-side .nfxbt-panel{padding:17px}
+#page-backtest .nfxbt-list{display:grid;gap:13px;padding:0;margin:15px 0 0;list-style:none}
+#page-backtest .nfxbt-list li{display:flex;gap:11px;align-items:flex-start}
+#page-backtest .nfxbt-list li>b{color:var(--bt-gold);font-size:10px}
+#page-backtest .nfxbt-list li strong{display:block;color:#e5ebf3;font-size:10px}
+#page-backtest .nfxbt-list li small{display:block;margin-top:4px;color:#8998aa;font-size:9px;line-height:1.6}
+#page-backtest .nfxbt-source{display:flex;flex-direction:column;gap:5px;padding:11px 0;border-bottom:1px solid #ffffff12}
+#page-backtest .nfxbt-source small{color:#d5b778;font-size:8px;font-weight:800;letter-spacing:.12em}
+#page-backtest .nfxbt-source b{color:#dce4ed;font-size:10px}
+#page-backtest .nfxbt-results{margin-top:16px;padding:21px}
+#page-backtest .nfxbt-results-head{display:flex;justify-content:space-between;align-items:center;gap:14px;padding-bottom:17px;margin-bottom:16px;border-bottom:1px solid #ffffff17}
+#page-backtest .nfxbt-results-head h2{margin:6px 0;color:#f0f3f8;font-size:23px;font-weight:850;letter-spacing:-.04em}
+#page-backtest .nfxbt-results-head p{margin:5px 0 0;color:#92a0b1;font-size:10px}
+#page-backtest .nfxbt-state{display:inline-flex;align-items:center;padding:8px 11px;border:1px solid #d5b77836;border-radius:999px;background:#d5b7780c;color:#d9bf88;font-size:8px;font-weight:850;letter-spacing:.1em}
+#page-backtest .nfxbt-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+#page-backtest .nfxbt-metric{display:flex;min-width:0;flex-direction:column;gap:7px;padding:14px;border:1px solid #8798b326;border-radius:10px;background:linear-gradient(145deg,#182332,#111a25)}
+#page-backtest .nfxbt-metric>span{color:#91a0b2;font-size:8px;font-weight:850;letter-spacing:.1em}
+#page-backtest .nfxbt-metric strong{overflow-wrap:anywhere;color:#eef2f8;font-size:clamp(18px,2vw,25px);font-weight:850;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+#page-backtest .nfxbt-metric small{color:#8291a4;font-size:8px;line-height:1.5}
+#page-backtest .nfxbt-metric.primary{border-color:#e45d7548;background:radial-gradient(ellipse at 100% 0,#e45d7520,transparent 75%),#1b1b26}
+#page-backtest .nfxbt-metric.primary strong{color:#f07f91}
+#page-backtest .nfxbt-win-metric strong{color:#68d4a7}
+#page-backtest .nfxbt-loss-metric strong{color:#ed8290}
+#page-backtest .nfxbt-results-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(240px,.85fr);gap:12px;margin-top:13px}
+#page-backtest .nfxbt-result-card{min-width:0;padding:16px;border:1px solid #8798b326;border-radius:11px;background:#101923}
+#page-backtest .nfxbt-card-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+#page-backtest .nfxbt-card-head h3{margin:5px 0 0;color:#eaf0f7;font-size:14px}
+#page-backtest .nfxbt-card-head>b{color:var(--bt-gold);font-size:13px;font-variant-numeric:tabular-nums}
+#page-backtest #btEquityChart{display:block;width:100%;height:auto;min-height:150px;border:1px solid #8798b322;border-radius:8px;background:linear-gradient(180deg,#121e2a,#0c141d)}
+#page-backtest .nfxbt-break-row{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid #ffffff10;color:#95a3b4;font-size:9px}
+#page-backtest .nfxbt-break-row b{color:#e4eaf2;font-size:10px;text-align:right;font-variant-numeric:tabular-nums}
+#page-backtest .nfxbt-trades-card{margin-top:13px}
+#page-backtest .nfxbt-table-wrap{overflow-x:auto}
+#page-backtest .nfxbt-table-wrap table{width:100%;min-width:850px;border-collapse:collapse}
+#page-backtest .nfxbt-table-wrap th{padding:11px 9px;border-bottom:1px solid #d5b77832;background:#172331;color:#d0b77f;font-size:8px;font-weight:850;letter-spacing:.09em;text-align:left;white-space:nowrap}
+#page-backtest .nfxbt-table-wrap td{padding:10px 9px;border-bottom:1px solid #ffffff10;color:#c6d0dc;font-size:9px;white-space:nowrap;font-variant-numeric:tabular-nums}
+#page-backtest .nfxbt-table-wrap tbody tr:hover{background:#ffffff07}
+#page-backtest .nfxbt-results-note{margin:14px 0 0}
+#page-backtest .nfxbt-review-rules,#page-backtest .nfxbt-review-notes{color:#aebaca;font-size:10px;line-height:1.7}
+@media(max-width:980px){#page-backtest .nfxbt-workspace{grid-template-columns:1fr}#page-backtest .nfxbt-side{grid-template-columns:repeat(2,minmax(0,1fr))}#page-backtest .nfxbt-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:620px){#page-backtest .nfxbt-hero{padding:22px 18px}#page-backtest .nfxbt-mark{flex-basis:54px;width:54px;height:54px;border-radius:13px}#page-backtest .nfxbt-panel,#page-backtest .nfxbt-results{padding:14px}#page-backtest .nfxbt-fields.compact{grid-template-columns:1fr 1fr}#page-backtest .nfxbt-side{grid-template-columns:1fr}#page-backtest .nfxbt-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}#page-backtest .nfxbt-results-grid{grid-template-columns:1fr}#page-backtest .nfxbt-actions .btn{flex:1 1 auto}}
+</style>
+
+</body>
 </html>
