@@ -5216,6 +5216,22 @@ $('loadHistoricalDepth')?.addEventListener('click',async()=>{const b=$('loadHist
 $('loadHistoricalMbo')?.addEventListener('click',async()=>{const b=$('loadHistoricalMbo');b.disabled=true;try{await loadDatabentoDepth('mbo');}catch(e){$('historicalDepthStatus').textContent='L3 unavailable: '+String(e.message||e);}finally{b.disabled=false;}});
 
 $('run').onclick=async()=>{
+  // Backtesting is a members-only feature: route visitors to account creation before starting.
+  try{
+    const authClient=getNabilSupabaseClient();
+    const {data:authState,error:authError}=await authClient.auth.getSession();
+    if(authError)throw authError;
+    if(!authState?.session){
+      if(typeof window.showNabilPage==='function')window.showNabilPage('account');
+      if(typeof window.showNabilAccountPage==='function')window.showNabilAccountPage('create');
+      const createStatus=document.getElementById('createAccountStatus');
+      if(createStatus)createStatus.textContent='Create a free account or log in to run a backtest.';
+      return;
+    }
+  }catch(authCheckError){
+    status('Could not verify your account. Please refresh and try again. '+(authCheckError?.message||''));
+    return;
+  }
   const fromDate=$('start').value,toDate=$('end').value;
   if(!fromDate||!toDate){status('Select both From Date and To Date before running a backtest.');$('start').focus();return;}
   if(!/^\d{4}-\d{2}-\d{2}$/.test(fromDate)||!/^\d{4}-\d{2}-\d{2}$/.test(toDate)||fromDate>toDate){status('Invalid date range. From Date must be on or before To Date.');$('start').focus();return;}
