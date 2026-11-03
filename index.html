@@ -7997,5 +7997,45 @@ setInterval(function(){nfxEstLiqLoad(false);},30000);
 }
 </style>
 
+
+<style id="nfx-app-scroll-persistent-header-fix">
+/* Keep the app header attached to the viewport while the app content scrolls.
+   clip avoids creating an extra scroll container that disables position:sticky. */
+html,body{
+  overflow-x:clip!important;
+}
+body{
+  overflow-y:visible!important;
+}
+.site-header{
+  position:sticky!important;
+  top:0!important;
+  z-index:2147483000!important;
+  overflow:visible!important;
+  align-self:stretch!important;
+  transform:none!important;
+}
+/* In the installed Nabil FX app, keep the hamburger available at every
+   viewport width, including phones using desktop-site layout. */
+@media (display-mode: standalone){
+  .site-header{
+    position:sticky!important;
+    top:0!important;
+    z-index:2147483000!important;
+  }
+  .site-header .app-menu-toggle{
+    display:inline-flex!important;
+    visibility:visible!important;
+    opacity:1!important;
+    pointer-events:auto!important;
+    position:relative!important;
+    flex:0 0 42px!important;
+    width:42px!important;
+    height:42px!important;
+    margin-left:auto!important;
+    z-index:2147483001!important;
+  }
+}
+</style>
 </body>
 </html>
