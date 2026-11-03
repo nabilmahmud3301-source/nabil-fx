@@ -3811,6 +3811,21 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 @media(max-width:1050px){#page-backtest .nfxbt-metrics{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
 @media(max-width:620px){#page-backtest .nfxbt-metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important}#page-backtest .nfxbt-metric{padding:11px!important}}
 </style>
+
+<style id="nfx-backtest-white-box-titles-and-required-dates">
+/* Keep Backtest panel/box titles crisp and white across the page. */
+#page-backtest .nfxbt-label,
+#page-backtest .nfxbt-panel-head small,
+#page-backtest .nfxbt-side>section>small,
+#page-backtest .nfxbt-results-head small,
+#page-backtest .nfx-backtest-eyebrow,
+#page-backtest .nfx-results-card-heading span,
+#page-backtest .nfx-backtest-hero-meta b,
+#page-backtest .nfx-backtest-hero-mark i{color:#fff!important}
+#page-backtest .nfxbt-label:after{background:linear-gradient(90deg,rgba(255,255,255,.25),transparent)!important}
+#page-backtest #start:invalid,
+#page-backtest #end:invalid{border-color:rgba(255,100,119,.45)}
+</style>
 </head>
 <body>
 <div id="nfx-page-loader" role="status" aria-live="polite" aria-label="Loading Nabil FX workspace">
@@ -4130,7 +4145,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 <div class="field"><label for="market">ASSET CLASS</label><select id="market"><option value="crypto">Crypto · Binance public data</option><option value="forex">Forex · Twelve Data</option><option value="indices">Indices · Twelve Data</option><option value="stocks">Stocks & ETFs · Twelve Data</option><option value="commodities">Commodities & Metals · Twelve Data</option><option value="futures">Exchange Futures · Massive</option></select></div>
 <div class="field"><label for="symbol">INSTRUMENT / SYMBOL</label><input id="symbol" value="BTCUSDT" list="symbols" autocomplete="off" spellcheck="false" placeholder="EURUSD · XAUUSD · BTCUSDT · AAPL"><datalist id="symbols"><option value="BTCUSDT"><option value="ETHUSDT"><option value="EURUSD"><option value="GBPUSD"><option value="USDJPY"><option value="XAUUSD"><option value="XAGUSD"><option value="US30"><option value="NAS100"><option value="SPX"><option value="AAPL"><option value="MSFT"><option value="ESZ6"><option value="GCZ6"></datalist></div>
 <div class="field"><label for="interval">EXECUTION TIMEFRAME</label><select id="interval"><option>1m</option><option>3m</option><option selected>5m</option><option>15m</option><option>30m</option><option>1h</option><option>2h</option><option>4h</option><option>1d</option></select></div><div class="field"><label for="limit">HISTORICAL BARS</label><input id="limit" type="number" min="50" max="50000" step="500" value="50000"></div>
-<div class="field"><label for="start">FROM DATE · OPTIONAL</label><input id="start" type="date"></div><div class="field"><label for="end">TO DATE · OPTIONAL</label><input id="end" type="date"></div>
+<div class="field"><label for="start">FROM DATE <span aria-hidden="true" style="color:#ff6477">*</span></label><input id="start" type="date" required aria-required="true"></div><div class="field"><label for="end">TO DATE <span aria-hidden="true" style="color:#ff6477">*</span></label><input id="end" type="date" required aria-required="true"></div>
 <div class="field wide" id="databentoConfig" style="display:none"><label for="databentoDataset">FUTURES EXCHANGE DATASET</label><input id="databentoDataset" value="GLBX.MDP3"><p class="hint">Use an exact listed expiry contract (e.g. ESZ6 or GCZ6). Raw exchange replay requires Databento entitlement and a server-side key.</p></div></div>
 <div class="nfxbt-label">ACCOUNT & EXECUTION MODEL</div><div class="nfxbt-fields compact"><div class="field"><label for="balance">INITIAL CAPITAL · USD</label><input id="balance" type="number" min="1" value="10000"></div><div class="field"><label for="risk">RISK PER TRADE · %</label><input id="risk" type="number" min="0.01" max="10" step="0.01" value="1"></div><div class="field"><label for="costR">TRADING COST · R / TRADE</label><input id="costR" type="number" min="0" max="1" step="0.01" value="0.05"><p class="hint">Estimated spread, commission and slippage.</p></div></div>
 <div class="nfxbt-label">STRATEGY DEFINITION</div><div class="field nfxbt-rules"><label for="rules">DESCRIBE YOUR COMPLETE STRATEGY</label><textarea id="rules" lang="und" spellcheck="true" placeholder="Describe entry, exit, stop-loss, take-profit, timeframe, session and risk rules in any language.&#10;&#10;Example: Use 1H market structure for directional bias. During London, wait for price to sweep the previous day low. On 5M, require a bullish market structure shift and fair value gap. Enter on the first return to the gap. Stop below the sweep low. Take profit at 3R. Risk 1% per trade.&#10;&#10;You can describe price-action, liquidity, indicator, breakout, multi-timeframe or custom rule combinations."></textarea><p class="hint">Write in Bangla, Banglish, English or another language. AI compiles your description into deterministic rules. Unsupported rules or missing historical data will be flagged instead of ignored.</p></div>
@@ -4649,7 +4664,7 @@ async function candles(intervalOverride=null,startOverride=null){
   if(data?.error)throw Error(data.error);
   if(!Array.isArray(data?.candles))throw Error('Market data service returned an invalid candle response.');
   const out=data.candles.map(x=>({t:+x.t,o:+x.o,h:+x.h,l:+x.l,c:+x.c,v:+(x.v||0)}))
-    .filter(x=>Number.isFinite(x.t)&&[x.o,x.h,x.l,x.c].every(Number.isFinite))
+    .filter(x=>Number.isFinite(x.t)&&[x.o,x.h,x.l,x.c].every(Number.isFinite)&&(!from||x.t>=from)&&(!to||x.t<=to))
     .sort((a,b)=>a.t-b.t);
   if(out.length<10)throw Error('Not enough valid historical candles were returned for this market/timeframe.');
   lastDataProvider=data.provider||'Market data provider';
@@ -5106,10 +5121,12 @@ $('loadHistoricalDepth')?.addEventListener('click',async()=>{const b=$('loadHist
 $('loadHistoricalMbo')?.addEventListener('click',async()=>{const b=$('loadHistoricalMbo');b.disabled=true;try{await loadDatabentoDepth('mbo');}catch(e){$('historicalDepthStatus').textContent='L3 unavailable: '+String(e.message||e);}finally{b.disabled=false;}});
 
 $('run').onclick=async()=>{
+  const fromDate=$('start').value,toDate=$('end').value;
+  if(!fromDate||!toDate){status('Select both From Date and To Date before running a backtest.');$('start').focus();return;}
+  if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(fromDate)||!/^\\d{4}-\\d{2}-\\d{2}$/.test(toDate)||fromDate>toDate){status('Invalid date range. From Date must be on or before To Date.');$('start').focus();return;}
   $('run').disabled=true;
   const buttonLabel=$('run').textContent;$('run').textContent='Working…';
   try{
-    if(!$('start').value||!$('end').value){const now=new Date(),end=new Date(now.getFullYear(),now.getMonth(),now.getDate()),start=new Date(end);start.setMonth(start.getMonth()-2);const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');if(!$('start').value)$('start').value=iso(start);if(!$('end').value)$('end').value=iso(end);}
     const strategyText=$('rules').value.trim();
     if(!strategyText)throw Error('Write your strategy rules first.');
     status('Step 1/3 · AI is converting your strategy into executable rules…');
