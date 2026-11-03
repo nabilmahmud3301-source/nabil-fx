@@ -7951,6 +7951,50 @@ setInterval(function(){nfxEstLiqLoad(false);},30000);
 .site-header .account-menu{flex:0 0 88px!important;width:88px!important;min-width:88px!important}
 .site-header #accountMenuToggle{width:88px!important;min-width:88px!important;white-space:nowrap!important}
 .site-header .site-nav .nav-btn,.site-header .site-nav .nav-btn:hover,.site-header .site-nav .nav-btn:active,.site-header .site-nav .nav-btn.active{transform:none!important;animation:none!important}
+
+<style id="nfx-final-persistent-navigation">
+/* Keep the complete desktop navigation pinned in desktop layout, and the
+   brand + hamburger pinned in the normal phone layout while scrolling. */
+.site-header{
+  position:sticky!important;
+  top:0!important;
+  z-index:50000!important;
+  width:100%!important;
+  align-self:stretch!important;
+  transform:none!important;
+  animation:none!important;
+}
+@media(max-width:760px){
+  .site-header{
+    position:sticky!important;
+    top:0!important;
+    display:flex!important;
+    flex-direction:row!important;
+    align-items:center!important;
+    flex-wrap:nowrap!important;
+    min-height:62px!important;
+    z-index:50000!important;
+  }
+  .app-menu-toggle{
+    display:inline-flex!important;
+    visibility:visible!important;
+    opacity:1!important;
+    position:relative!important;
+    flex:0 0 42px!important;
+    width:42px!important;
+    height:42px!important;
+    z-index:50001!important;
+    margin-left:auto!important;
+  }
+}
+/* Desktop-site mode uses the browser's desktop layout viewport, so it keeps
+   the same full navigation and desktop page layout as a computer. */
+@media(min-width:761px){
+  .site-header{flex-direction:row!important;flex-wrap:nowrap!important}
+  .site-header .site-nav{display:flex!important}
+  .app-menu-toggle{display:none!important}
+}
+</style>
 </style>
 
 </body>
