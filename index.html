@@ -8037,5 +8037,47 @@ body{
   }
 }
 </style>
+
+<script id="nfx-installed-app-force-mobile-layout">
+/* The installed phone app always uses its mobile responsive layout.
+   Chrome's "Desktop site" option can widen the CSS viewport; replay the
+   page's responsive max-width rules only inside the installed touch app. */
+(function(){
+  var standalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches)
+    || window.navigator.standalone === true;
+  var touchDevice = (navigator.maxTouchPoints > 0)
+    || (window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+  if (!standalone || !touchDevice) return;
+
+  var responsiveRules = [];
+  function collect(rules, forceResponsive){
+    for (var i = 0; i < rules.length; i++) {
+      var rule = rules[i];
+      if (rule.type === 4 && /max-width\s*:/i.test(rule.conditionText || '')) {
+        collect(rule.cssRules, true);
+      } else if (forceResponsive) {
+        if (rule.type === 4 && /max-width\s*:/i.test(rule.conditionText || '')) {
+          collect(rule.cssRules, true);
+        } else {
+          responsiveRules.push(rule.cssText);
+        }
+      } else if (rule.cssRules && rule.type !== 4) {
+        collect(rule.cssRules, false);
+      }
+    }
+  }
+
+  Array.prototype.forEach.call(document.styleSheets, function(sheet){
+    try { collect(sheet.cssRules, false); } catch (e) {}
+  });
+
+  if (!responsiveRules.length) return;
+  var style = document.createElement('style');
+  style.id = 'nfx-installed-app-responsive-overrides';
+  style.textContent = responsiveRules.join('\n');
+  document.head.appendChild(style);
+  document.documentElement.classList.add('nfx-installed-mobile-layout');
+})();
+</script>
 </body>
 </html>
