@@ -41,6 +41,9 @@ html.nfx-booting{background:#050608}
 /* Reserve the page scrollbar before and after the loader to prevent header width jumps. */
 html{overflow-y:scroll;scrollbar-gutter:stable}
 html.nfx-booting body{overflow-x:hidden}
+/* Keep every page element completely hidden behind the opaque branded startup screen. */
+html.nfx-booting body>*:not(#nfx-page-loader){visibility:hidden!important}
+html.nfx-booting #nfx-page-loader{visibility:visible!important}
 #nfx-page-loader{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:radial-gradient(ellipse at 50% 42%,#241018 0%,#0b090d 38%,#050608 78%);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .42s ease,visibility .42s ease}
 html.nfx-booting #nfx-page-loader{display:grid!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important}
 html:not(.nfx-booting) #nfx-page-loader{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
@@ -75,8 +78,8 @@ button:focus:not(:focus-visible){outline:none}
     var loader=document.getElementById('nfx-page-loader');
     if(loader){loader.style.pointerEvents='none';loader.setAttribute('aria-hidden','true');}
   }
-  window.addEventListener('load',function(){setTimeout(release,450);},{once:true});
-  setTimeout(release,2200);
+  window.addEventListener('load',function(){setTimeout(release,900);},{once:true});
+  setTimeout(release,3500);
 })();
 </script>
 
@@ -3759,6 +3762,27 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
  .site-brand{min-width:0}
  .site-nav{display:none!important}
  .site-nav.app-menu-open{display:flex!important}
+}
+</style>
+<style id="nfx-standalone-force-mobile-layout">
+/* Installed Nabil FX must stay in app/mobile layout even if Chrome's desktop-site
+   preference changes the reported viewport width in the browser. */
+@media (display-mode:standalone){
+ html,body{width:100%!important;min-width:0!important;max-width:100%!important;overflow-x:hidden!important}
+ body{margin:0!important}
+ .site-header{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;justify-content:space-between!important;width:100%!important;min-width:0!important;min-height:62px!important;padding:9px 12px!important;gap:9px!important}
+ .site-brand{display:flex!important;flex:0 1 auto!important;min-width:0!important;max-width:calc(100% - 104px)!important;margin:0 auto 0 0!important;font-size:18px!important;gap:8px!important;white-space:nowrap!important}
+ .site-logo{width:38px!important;height:38px!important;flex:0 0 38px!important}
+ .app-menu-toggle{display:inline-flex!important;position:relative!important;inset:auto!important;z-index:1300!important;flex:0 0 42px!important;width:42px!important;height:42px!important;margin:0 0 0 auto!important}
+ .site-nav{display:none!important;position:absolute!important;top:calc(100% + 7px)!important;left:10px!important;right:10px!important;width:auto!important;max-width:none!important;max-height:calc(100dvh - 86px)!important;overflow:auto!important;flex-direction:column!important;flex-wrap:nowrap!important;align-items:stretch!important;justify-content:flex-start!important;gap:2px!important;padding:8px!important}
+ .site-nav.app-menu-open{display:flex!important}
+ .site-nav .nav-btn{display:flex!important;width:100%!important;min-width:0!important;text-align:left!important;padding:13px!important;white-space:normal!important}
+ main,.view,#page-home,#page-news{width:100%!important;max-width:100%!important;min-width:0!important;margin-left:auto!important;margin-right:auto!important}
+ main,.view{padding-left:12px!important;padding-right:12px!important}
+ .grid,.fields,.profile-grid,.account-grid{grid-template-columns:minmax(0,1fr)!important}
+ .panel,.chart-workspace,.chart-shell,.tv-frame,.nfx-news-toolbar,.nfx-news-controls{min-width:0!important;max-width:100%!important}
+ img,video,iframe,canvas,svg{max-width:100%}
+ .tablewrap{max-width:100%!important;overflow-x:auto!important}
 }
 </style>
 </head>
