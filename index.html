@@ -5123,7 +5123,7 @@ $('loadHistoricalMbo')?.addEventListener('click',async()=>{const b=$('loadHistor
 $('run').onclick=async()=>{
   const fromDate=$('start').value,toDate=$('end').value;
   if(!fromDate||!toDate){status('Select both From Date and To Date before running a backtest.');$('start').focus();return;}
-  if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(fromDate)||!/^\\d{4}-\\d{2}-\\d{2}$/.test(toDate)||fromDate>toDate){status('Invalid date range. From Date must be on or before To Date.');$('start').focus();return;}
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(fromDate)||!/^\d{4}-\d{2}-\d{2}$/.test(toDate)||fromDate>toDate){status('Invalid date range. From Date must be on or before To Date.');$('start').focus();return;}
   $('run').disabled=true;
   const buttonLabel=$('run').textContent;$('run').textContent='Working…';
   try{
