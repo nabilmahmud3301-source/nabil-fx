@@ -5062,8 +5062,12 @@ function backtestCustom(c,r,seriesMap=null){
    if(last>i){exit=c[last].c;grossR=(side==='LONG'?(exit-en):(en-exit))/dist;exitTime=c[last].t;j=last;open=last===c.length-1;}
    else {i++;continue;}
   }
-  const netR=grossR-cost,pnl=bal*risk*netR;eq+=pnl;peak=Math.max(peak,eq);dd=Math.max(dd,(peak-eq)/peak);
-  ts.push({t:entryBar.t,exitTime,side,en,sl,tp,ex:exit,rr:grossR,netR,costR:cost,pnl,open});curve.push(eq);i++;
+  const netR=grossR-cost,pnl=eq*risk*netR;eq+=pnl;peak=Math.max(peak,eq);dd=Math.max(dd,(peak-eq)/peak);
+  ts.push({t:entryBar.t,exitTime,side,en,sl,tp,ex:exit,rr:grossR,netR,costR:cost,pnl,open});curve.push(eq);
+  // One position at a time: do not open another trade while this trade is still active.
+  // This prevents every candle in a sustained signal from creating overlapping duplicate positions.
+  if(open)break;
+  i=Math.max(i+1,j+1);
  }
  return {ts,curve,start:bal,end:eq,dd};
 }
