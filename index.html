@@ -5035,7 +5035,8 @@ function backtestCustom(c,r,seriesMap=null){
   ts.push({t:pos.t,exitTime:bar.t,side:pos.side,en:pos.en,sl:pos.sl,tp:pos.tp,ex:exit,rr:grossR,netR,costR:cost,pnl,open:false,exitReason:reason});
   curve.push(eq);
  };
- const checkPosition=(pos,bar)=>{
+ const checkPosition=(pos,bar,index)=>{
+  pos.index=index;
   const stop=pos.side==='LONG'?bar.l<=pos.sl:bar.h>=pos.sl;
   const target=pos.tp!==null&&(pos.side==='LONG'?bar.h>=pos.tp:bar.l<=pos.tp);
   // Conservative OHLC rule: if SL and TP are both touched in one candle, SL is first.
@@ -5061,8 +5062,7 @@ function backtestCustom(c,r,seriesMap=null){
   for(let k=active.length-1;k>=0;k--){
    const pos=active[k];
    if(i<pos.entryIndex)continue;
-   if(checkPosition(pos,bar))active.splice(k,1);
-   else pos.index=i;
+   if(checkPosition(pos,bar,i))active.splice(k,1);
   }
   const signalIndex=i-1;
   if(signalIndex<1||i>=c.length)continue;
@@ -5100,7 +5100,7 @@ function backtestCustom(c,r,seriesMap=null){
   active.push({t:entryBar.t,side,en,sl,tp,dist,riskAmount:eq*risk,entryIndex:i,index:i,exitRules,maxBars:Math.max(0,Number(ex.maxBarsInTrade)||0)});
   // Also test the entry candle: price may hit SL/TP after the opening fill.
   const opened=active[active.length-1];
-  if(checkPosition(opened,entryBar))active.pop();
+  if(checkPosition(opened,entryBar,i))active.pop();
  }
  // Positions not exited by the final historical candle stay OPEN. Mark them to
  // the last available close; do not fabricate an exit or silently block later entries.
@@ -5186,7 +5186,7 @@ function drawEquity(a){
 
 function renderResults(r,timezone='UTC'){
   const t=r.ts;
-  const tradeRows=t.length?t.map((x,i)=>`<tr><td>${i+1}</td><td>${new Intl.DateTimeFormat('en-GB',{timeZone:timezone||'UTC',dateStyle:'short',timeStyle:'medium',hour12:false}).format(new Date(x.t))}</td><td>${x.side}</td><td>${x.en}</td><td>${x.sl}</td><td>${x.tp??'Rule exit'}</td><td>${x.ex}</td><td>${fmt(x.netR)}</td><td>${fmt(x.pnl)}</td></tr>`).join(''):'<tr><td colspan="10">No valid entry signals were generated in this historical window. Check the compiled rules, symbol, timeframe and date coverage.</td></tr>';
+  const tradeRows=t.length?t.map((x,i)=>`<tr><td>${i+1}</td><td>${new Intl.DateTimeFormat('en-GB',{timeZone:timezone||'UTC',dateStyle:'short',timeStyle:'medium',hour12:false}).format(new Date(x.t))}</td><td>${x.side}${x.open?' · OPEN':''}</td><td>${x.en}</td><td>${x.sl}</td><td>${x.tp??'Rule exit'}</td><td>${x.open?'MARK '+x.ex:x.ex}</td><td>${fmt(x.netR)}</td><td>${fmt(x.pnl)}</td></tr>`).join(''):'<tr><td colspan="10">No valid entry signals were generated in this historical window. Check the compiled rules, symbol, timeframe and date coverage.</td></tr>';
   if($('trades'))$('trades').innerHTML=tradeRows;
 }
 
