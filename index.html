@@ -3812,6 +3812,36 @@ html.nfx-mobile-app-layout .panel,html.nfx-mobile-app-layout .chart-workspace,ht
 html.nfx-mobile-app-layout img,html.nfx-mobile-app-layout video,html.nfx-mobile-app-layout iframe,html.nfx-mobile-app-layout canvas,html.nfx-mobile-app-layout svg{max-width:100%}
 html.nfx-mobile-app-layout .tablewrap{max-width:100%!important;overflow-x:auto!important}
 </style>
+<style id="nfx-phone-desktop-mode-navigation-fix">
+/* On a physical phone, Chrome Desktop Site must show the full navigation bar,
+   never the hamburger. Keep the header pinned while the page scrolls. */
+html.nfx-mobile-app-layout body>.site-header{
+ position:sticky!important;position:-webkit-sticky!important;top:0!important;z-index:99990!important;
+ display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;
+ width:100%!important;min-width:0!important;max-width:100%!important;
+ background:rgba(5,5,7,.97)!important;backdrop-filter:blur(18px)!important;
+}
+html.nfx-mobile-app-layout .site-header .app-menu-toggle{display:none!important;visibility:hidden!important}
+html.nfx-mobile-app-layout .site-header .site-nav{
+ display:flex!important;visibility:visible!important;opacity:1!important;position:static!important;
+ flex:1 1 auto!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;
+ justify-content:flex-start!important;gap:clamp(4px,1vw,10px)!important;
+ width:auto!important;min-width:0!important;max-width:none!important;max-height:none!important;
+ margin-left:auto!important;padding:0!important;overflow-x:auto!important;overflow-y:hidden!important;
+ white-space:nowrap!important;border:0!important;border-radius:0!important;background:transparent!important;
+ box-shadow:none!important;scrollbar-width:none!important;
+}
+html.nfx-mobile-app-layout .site-header .site-nav::-webkit-scrollbar{display:none!important}
+html.nfx-mobile-app-layout .site-header .site-nav>.nav-btn,
+html.nfx-mobile-app-layout .site-header .site-nav .account-menu>.nav-btn{
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ flex:0 0 auto!important;width:auto!important;min-width:max-content!important;
+ min-height:38px!important;height:38px!important;padding:7px clamp(5px,1vw,10px)!important;
+ font-size:clamp(10px,1.15vw,13px)!important;white-space:nowrap!important;text-align:center!important;
+}
+html.nfx-mobile-app-layout .site-header .site-nav .account-menu{display:block!important;flex:0 0 auto!important;width:auto!important}
+html.nfx-mobile-app-layout .site-header .site-nav .account-dropdown{position:fixed!important;top:70px!important;right:10px!important;left:auto!important;z-index:99999!important}
+</style>
 </head>
 <body>
 <div id="nfx-page-loader" role="status" aria-live="polite" aria-label="Loading Nabil FX workspace">
