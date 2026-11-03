@@ -110,7 +110,7 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
 
     // Prefer Google's low-latency Flash-Lite models for reliable strategy compilation.
     // Keep both model IDs current and supported by the Gemini Interactions API.
-    const models = ["gemini-2.5-flash-lite", "gemini-2.5-flash"];
+    const models = ["gemini-3.5-flash-lite", "gemini-3.8-flash", "gemini-3.6-flash"];
     const failures: string[] = [];
 
     for (const model of models) {
@@ -118,7 +118,7 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
         const response = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
           method: "POST",
           headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
-          signal: AbortSignal.timeout(25000),
+          signal: AbortSignal.timeout(20000),
           body: JSON.stringify({
             model,
             store: false,
@@ -288,7 +288,8 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
     }
 
     console.error("strategy-ai: all Gemini model attempts failed:", failures.join(" | "));
-    throw new Error("Gemini is temporarily busy or returned an unreadable response. Both supported Gemini model attempts failed. Please retry shortly; each model attempt is limited to 25 seconds.");
+    const details = failures.map((item) => item.slice(0, 260)).join(" | ").slice(0, 1100);
+    throw new Error("Gemini strategy compiler could not complete. " + (details || "No usable response was returned by the configured models.") + " Please retry shortly.");
   } catch (error) {
     console.error("strategy-ai error:", error);
     return new Response(JSON.stringify({ error: error instanceof Error ? error.message : "Unexpected AI error." }), {
