@@ -8147,6 +8147,17 @@ window.renderBacktestMetrics=function(r,meta={}){
  put('btEquityEnd',money(r.end));put('btGrossProfit',money(gp));put('btGrossLoss',money(-gl));put('btAverageWin',wins.length?money(avg(wins.map(pnl))):'—');put('btAverageLoss',losses.length?money(avg(losses.map(pnl))):'—');put('btBestTrade',closed.length?'+'+Math.max(...closed.map(rr)).toFixed(2)+'R':'—');put('btWorstTrade',closed.length?Math.min(...closed.map(rr)).toFixed(2)+'R':'—');put('btDirections',t.filter(x=>x.side==='LONG').length+' long / '+t.filter(x=>x.side==='SHORT').length+' short');
  put('btResultMeta',[meta.symbol,meta.interval,meta.bars?meta.bars.toLocaleString()+' bars':null,meta.provider].filter(Boolean).join(' · '));put('btResultState','SIMULATION COMPLETE');
  const p=document.getElementById('backtestResults');if(p)p.hidden=false;
+ // Apply the requested result-heading red directly after each successful render.
+ const red='#e34b5c';
+ ['.nfxbt-results-head>div>small','#btResultState','.nfxbt-card-head>div>small'].forEach(sel=>{
+   document.querySelectorAll('#page-backtest '+sel).forEach(el=>{
+     el.style.setProperty('color',red,'important');
+     if(el.id==='btResultState'){
+       el.style.setProperty('border-color','#e34b5c66','important');
+       el.style.setProperty('background','#e34b5c0d','important');
+     }
+   });
+ });
  const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const fmt=x=>Number(x).toLocaleString('en-US',{maximumFractionDigits:8});
  const rows=t.length?t.map((x,i)=>{let d='';try{d=new Intl.DateTimeFormat('en-GB',{timeZone:'UTC',dateStyle:'short',timeStyle:'medium'}).format(new Date(x.t));}catch(e){d=new Date(x.t).toISOString();}return '<tr><td>'+(i+1)+'</td><td>'+esc(d)+'</td><td class="'+(x.side==='LONG'?'nfxbt-long':'nfxbt-short')+'">'+esc(x.side)+'</td><td>'+esc(fmt(x.en))+'</td><td>'+esc(fmt(x.sl))+'</td><td>'+esc(x.tp==null?'Rule exit':fmt(x.tp))+'</td><td>'+esc(fmt(x.ex))+'</td><td class="'+(x.open?'nfxbt-open':'')+'">'+(x.open?'OPEN · MARKED TO MARKET':'CLOSED')+'</td><td class="'+(rr(x)>=0?'nfxbt-positive':'nfxbt-negative')+'">'+(rr(x)>=0?'+':'')+esc(fmt(rr(x)))+'</td><td class="'+(pnl(x)>=0?'nfxbt-positive':'nfxbt-negative')+'">'+esc(money(pnl(x)))+'</td></tr>';}).join(''):'<tr><td colspan="10">No valid entry signals were generated in this historical window. Check the compiled rules, symbol, timeframe and date coverage.</td></tr>';
