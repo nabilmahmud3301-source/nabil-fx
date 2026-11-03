@@ -41,6 +41,9 @@ html.nfx-booting{background:#050608}
 /* Reserve the page scrollbar before and after the loader to prevent header width jumps. */
 html{overflow-y:scroll;scrollbar-gutter:stable}
 html.nfx-booting body{overflow-x:hidden}
+/* On refresh, keep the actual site completely hidden until the branded splash is dismissed. */
+html.nfx-booting body>:not(#nfx-page-loader){visibility:hidden!important}
+html.nfx-booting body{min-height:100vh;background:#050608!important}
 #nfx-page-loader{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:radial-gradient(ellipse at 50% 42%,#241018 0%,#0b090d 38%,#050608 78%);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .42s ease,visibility .42s ease}
 html.nfx-booting #nfx-page-loader{display:grid!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important}
 html:not(.nfx-booting) #nfx-page-loader{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
