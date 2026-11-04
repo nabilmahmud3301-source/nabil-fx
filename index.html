@@ -4604,10 +4604,11 @@ async function databentoHistoricalTradeEvents(){
   const {data:sessionData,error:sessionError}=await client.auth.getSession();
   if(sessionError)throw sessionError;
   if(!sessionData?.session)throw Error('Please log in to access licensed historical exchange tick data.');
+  const requestLimit=Math.max(100,Math.min(50000,+$('limit').value*100||10000));
   const {data,error}=await client.functions.invoke('historical-market-data',{body:{
     action:'ticks',dataset:($('databentoDataset')?.value||'GLBX.MDP3').trim(),
     symbol,schema:'trades',start:from.toISOString(),end:new Date(to.getTime()+1000).toISOString(),
-    limit:Math.max(100,Math.min(50000,+$('limit').value*100||10000)),stype_in:'raw_symbol'
+    limit:requestLimit,stype_in:'raw_symbol'
   }});
   if(error){
     let detail=error.message||'Could not reach historical exchange data service.';
@@ -4616,6 +4617,7 @@ async function databentoHistoricalTradeEvents(){
   }
   if(data?.error)throw Error(data.error);
   if(!Array.isArray(data?.records)||!data.records.length)throw Error('No exchange tick records were returned. Check dataset entitlement, contract symbol and selected dates.');
+  if(data.truncatedAtLimit||data.records.length>=requestLimit)throw Error('The historical tick provider reached the requested record limit. Narrow the selected date range; no partial backtest was run.');
   const timestampMs=value=>{
     const n=Number(value);
     if(Number.isFinite(n)){
@@ -4683,6 +4685,7 @@ async function candles(intervalOverride=null,startOverride=null){
       if(cursor>endTime||all.length>=limit)break;
     }
 
+    if(all.length>=limit&&Number(all[all.length-1]?.[0])+intervalMilliseconds(interval)<=to)throw Error('The selected date window contains more candles than the configured MAXIMUM BARS. Increase MAXIMUM BARS or narrow the date range. No partial backtest was run.');
     const seen=new Map();
     all.forEach(x=>seen.set(x[0],{t:+x[0],o:+x[1],h:+x[2],l:+x[3],c:+x[4],v:+x[5]}));
     let out=[...seen.values()].sort((a,b)=>a.t-b.t);
