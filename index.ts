@@ -48,7 +48,7 @@ Deno.serve(async (req: Request) => {
     const selectedStart = String(body?.start || "").slice(0, 10);
     const selectedEnd = String(body?.end || "").slice(0, 10);
     const hasDateWindow = !!selectedStart || !!selectedEnd;
-    if (hasDateWindow && (!/^\\d{4}-\\d{2}-\\d{2}$/.test(selectedStart) || !/^\\d{4}-\\d{2}-\\d{2}$/.test(selectedEnd) || selectedStart > selectedEnd)) {
+    if (hasDateWindow && (!/^\d{4}-\d{2}-\d{2}$/.test(selectedStart) || !/^\d{4}-\d{2}-\d{2}$/.test(selectedEnd) || selectedStart > selectedEnd)) {
       return new Response(JSON.stringify({ error: "Select both valid start and end dates, with start on or before end." }), { status: 400, headers: { ...cors, "Content-Type": "application/json" } });
     }
     const market = String(body?.market || "unknown").slice(0,40);
