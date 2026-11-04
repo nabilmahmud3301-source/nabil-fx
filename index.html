@@ -5279,8 +5279,10 @@ $('run').onclick=async()=>{
     const selectedStartMs=Date.parse(fromDate+'T00:00:00.000Z');
     const selectedEndExclusiveMs=Date.parse(toDate+'T00:00:00.000Z')+86400000;
     if(!Number.isFinite(selectedStartMs)||!Number.isFinite(selectedEndExclusiveMs)||selectedEndExclusiveMs<=selectedStartMs)throw Error('The selected historical date window is invalid.');
-    const c=fetched.filter(x=>x.t>=selectedStartMs&&x.t<selectedEndExclusiveMs);
-    if(c.length!==fetched.length)status('Excluded '+(fetched.length-c.length)+' records outside the selected date window.');
+    if(toDate>new Date().toISOString().slice(0,10))throw Error('The selected To Date is in the future. Choose a historical date or today.');
+    const executionIntervalMs=tickMode?0:intervalMilliseconds($('interval').value);
+    const c=fetched.filter(x=>x.t>=selectedStartMs&&x.t<selectedEndExclusiveMs&&(tickMode||x.t+executionIntervalMs<=Date.now()));
+    if(c.length!==fetched.length)status('Excluded '+(fetched.length-c.length)+' records outside the selected date window or still-forming candles.');
     if(c.some((x,i)=>![x.o,x.h,x.l,x.c,x.t].every(Number.isFinite)||(i>0&&(tickMode?x.t<c[i-1].t:x.t<=c[i-1].t))))throw Error('Historical data failed ordering/quality checks.');
     if(c.length<10)throw Error('Fewer than 10 historical records exist inside the exact selected date window. No result was generated.');
     if(tickMode&&rawExecution.stop.type==='atr')throw Error('ATR stop-loss is not valid on raw trade events. Use a price, tick/point, percent or previous-event stop.');
