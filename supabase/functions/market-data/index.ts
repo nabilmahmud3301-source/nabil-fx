@@ -65,6 +65,7 @@ Deno.serve(async (req: Request) => {
         throw new Error(payload?.error || payload?.message || "Futures provider returned HTTP " + response.status + ". Check contract symbol, plan access and date range.");
       }
       const rows = Array.isArray(payload?.results) ? payload.results : [];
+      if (rows.length >= limit) throw new Error("The futures provider reached the requested candle limit. Narrow the selected date range; no partial backtest was run.");
       const candles = rows.map((x:any)=>({t:Math.floor(Number(x.window_start)/1e6),o:+x.open,h:+x.high,l:+x.low,c:+x.close,v:+(x.volume||0)}))
         .filter((x:any)=>Number.isFinite(x.t)&&[x.o,x.h,x.l,x.c].every(Number.isFinite)).sort((a:any,b:any)=>a.t-b.t);
       if (candles.length < 10) throw new Error("Fewer than 10 futures candles returned. Check the expiry contract and selected date range.");
@@ -78,10 +79,11 @@ Deno.serve(async (req: Request) => {
     if (market === "forex" && /^[A-Z]{6}$/.test(symbol)) tdSymbol = symbol.slice(0,3)+"/"+symbol.slice(3);
     if (market === "commodities" && /^(XAU|XAG|XPT|XPD)USD$/.test(symbol)) tdSymbol = symbol.slice(0,3)+"/USD";
     const tdInterval: Record<string,string> = {"1m":"1min","3m":"1min","5m":"5min","15m":"15min","30m":"30min","1h":"1h","2h":"2h","4h":"4h","1d":"1day"};
+    const requestedOutputSize = Math.min(interval==="3m" ? limit*3 : limit, 5000);
     const url = new URL("https://api.twelvedata.com/time_series");
     url.searchParams.set("symbol",tdSymbol);
     url.searchParams.set("interval",tdInterval[interval] || interval);
-    url.searchParams.set("outputsize",String(Math.min(interval==="3m"?limit*3:limit,5000)));
+    url.searchParams.set("outputsize",String(requestedOutputSize));
     url.searchParams.set("order","ASC");
     url.searchParams.set("format","JSON");
     url.searchParams.set("apikey",key);
@@ -93,6 +95,7 @@ Deno.serve(async (req: Request) => {
       const message = payload?.message || payload?.code || "Twelve Data returned HTTP " + response.status + ".";
       throw new Error(String(message) + " Check symbol spelling, plan access and interval availability.");
     }
+    if (payload.values.length >= requestedOutputSize) throw new Error("Twelve Data reached its maximum historical response size for this request. Narrow the selected date range; no partial backtest was run.");
     const meta = payload?.meta || {};
     const type = String(meta?.type || "").toLowerCase();
     const fxOrCrypto = market === "forex" || market === "crypto" || type.includes("forex") || type.includes("currency") || type.includes("crypto");
