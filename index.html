@@ -4552,9 +4552,9 @@ async function binanceAggregatedTradeEvents(){
   if($('market').value!=='crypto')throw Error('Aggregated trade-event replay is currently available only for Binance spot crypto symbols.');
   const symbol=$('symbol').value.trim().toUpperCase();
   if(!/^[A-Z0-9]{5,20}$/.test(symbol))throw Error('Enter a valid Binance symbol, such as BTCUSDT.');
-  const effectiveStart=startOverride||$('start').value||null;
+  const effectiveStart=$('start').value||null;
   const from=effectiveStart?Date.parse(effectiveStart+'T00:00:00Z'):null;
-  const to=$('end').value?Date.parse($('end').value+'T23:59:59Z'):Date.now();
+  const to=$('end').value?Date.parse($('end').value+'T23:59:59.999Z'):Date.now();
   if(from&&from>to)throw Error('Start date must be on or before end date.');
   const startTime=from??Math.max(0,to-6*60*60*1000);
   const maxEvents=50000,all=[];let fromId=null;
@@ -4597,7 +4597,7 @@ async function databentoHistoricalTradeEvents(){
   if(!/^[A-Z0-9._-]{2,24}$/.test(symbol))throw Error('Enter the exact exchange-listed futures contract symbol, for example ESM6 or GCZ6.');
   const startDate=$('start').value,endDate=$('end').value;
   if(!startDate||!endDate)throw Error('Raw exchange tick replay requires both START DATE and END DATE. Select a short date window to control data volume and provider charges.');
-  const from=new Date(startDate+'T00:00:00Z'),to=new Date(endDate+'T23:59:59Z');
+  const from=new Date(startDate+'T00:00:00Z'),to=new Date(endDate+'T23:59:59.999Z');
   if(!Number.isFinite(from.getTime())||!Number.isFinite(to.getTime())||from>to)throw Error('Invalid raw tick date range.');
   if(to-from>48*60*60*1000)throw Error('For safe raw tick replay, choose a maximum two-calendar-day window. Longer periods should be downloaded in provider-sized batches.');
   const client=getNabilSupabaseClient();
@@ -4633,6 +4633,7 @@ async function databentoHistoricalTradeEvents(){
     const t=timestampMs(row.ts_event??row.ts_recv??row.timestamp);
     const price=Number(row.price),size=Number(row.size??row.volume??0);
     if(!Number.isFinite(t)||!Number.isFinite(price)||price<=0)continue;
+    if(t<from.getTime()||t>to.getTime())continue;
     events.push({t,o:price,h:price,l:price,c:price,v:Number.isFinite(size)?size:0,tradeId:Number(row.sequence??row.ts_event??events.length),exchangeSide:row.side||null});
   }
   events.sort((x,y)=>x.t-y.t||x.tradeId-y.tradeId);
@@ -4647,7 +4648,7 @@ async function candles(intervalOverride=null,startOverride=null){
   const limit=Math.max(50,Math.min(50000,+$('limit').value||50000));
   const effectiveStart=startOverride||$('start').value||null;
   const from=effectiveStart?Date.parse(effectiveStart+'T00:00:00Z'):null;
-  const to=$('end').value?Date.parse($('end').value+'T23:59:59Z'):null;
+  const to=$('end').value?Date.parse($('end').value+'T23:59:59.999Z'):null;
   if(from&&to&&from>to)throw Error('Start date must be on or before end date.');
 
   if(market==='crypto'){
@@ -5241,46 +5242,27 @@ $('run').onclick=async()=>{
     const strategyText=$('rules').value.trim();
     if(!strategyText)throw Error('Write your strategy rules first.');
     status('Step 1/3 · AI is converting your strategy into executable rules…');
-    let ai;
-    try{
-      ai=await analyzeStrategyWithAI();
-    }catch(aiError){
-      // Safe offline fallback: only compile the explicitly recognized 9/21 EMA crossover model.
-      // All other natural-language strategies still require the AI compiler; never guess their rules.
-      const offline=parseEmaRules(strategyText);
-      if(!offline)throw aiError;
-      ai={
-        supported:true,long:true,short:true,rewardRisk:offline.r,
-        normalizedRules:'9/21 EMA crossover · both directions · next-candle-open entry',
-        explanation:'Gemini was unavailable. A deterministic local 9/21 EMA crossover rule was used instead.',
-        assumptions:['Entry at the next candle open.','Stop at the signal candle high/low.','Take profit at '+offline.r+'R.','Both long and short crossover signals are enabled.'],
-        missing:[],unsupportedReasons:[],
-        execution:{
-          longConditions:[{type:'ema_cross',fast:9,slow:21,direction:'bullish'}],
-          shortConditions:[{type:'ema_cross',fast:9,slow:21,direction:'bearish'}],
-          exitLongConditions:[],exitShortConditions:[],entry:'next_open',
-          stop:{type:'signal_candle'},targetR:offline.r,timezone:'UTC',dataMode:'candles'
-        },
-        model:'Local deterministic fallback'
-      };
-      status('AI unavailable · Running the explicitly recognized 9/21 EMA rule with the local deterministic engine…');
-    }
+    const ai=await analyzeStrategyWithAI();
     if(!ai.supported||!ai.execution){
       const why=[ai.explanation,...(ai.missing||[]).map(x=>'Missing: '+x),...(ai.unsupportedReasons||[])].filter(Boolean).join(' ');
-      throw Error('Strategy could not be compiled safely. '+why);
+      throw Error('Strategy could not be compiled exactly. '+why);
+    }
+    if((Array.isArray(ai.assumptions)&&ai.assumptions.length>0)||(Array.isArray(ai.missing)&&ai.missing.length>0)||(Array.isArray(ai.unsupportedReasons)&&ai.unsupportedReasons.length>0)){
+      throw Error('The AI introduced an assumption, omitted a rule, or found an unsupported condition. No backtest was run. Clarify the strategy so every rule can be tested exactly.');
+    }
+    if(!Array.isArray(rawExecution.longConditions)||!Array.isArray(rawExecution.shortConditions)||!Array.isArray(rawExecution.exitLongConditions)||!Array.isArray(rawExecution.exitShortConditions)){
+      throw Error('The AI did not return the complete executable rule set. No backtest was run.');
     }
     // The executable condition arrays are authoritative; legacy booleans may be absent.
     // Normalize compiler output defensively: accept canonical execution arrays and
     // common equivalent response shapes, while never inventing entry signals.
     const rawExecution=ai.execution;
-    const longConditions=Array.isArray(rawExecution.longConditions)?rawExecution.longConditions:
-      (Array.isArray(ai.longConditions)?ai.longConditions:[]);
-    const shortConditions=Array.isArray(rawExecution.shortConditions)?rawExecution.shortConditions:
-      (Array.isArray(ai.shortConditions)?ai.shortConditions:[]);
-    const parsedR=Number(rawExecution.targetR ?? ai.rewardRisk ?? ai.targetR);
-    const explicitR=String(strategyText).match(/(?:TP|take\s*profit|target)\s*[:=]?\s*(?:1\s*:\s*)?([0-9]+(?:\.[0-9]+)?)\s*R?/i);
-    const hasRuleExit=(Array.isArray(rawExecution.exitLongConditions)&&rawExecution.exitLongConditions.length>0)||(Array.isArray(rawExecution.exitShortConditions)&&rawExecution.exitShortConditions.length>0);
-    const targetR=rawExecution.targetR===null&&hasRuleExit?null:(Number.isFinite(parsedR)&&parsedR>0?parsedR:(explicitR&&Number(explicitR[1])>0?Number(explicitR[1]):NaN));
+    const longConditions=Array.isArray(rawExecution.longConditions)?rawExecution.longConditions:[];
+    const shortConditions=Array.isArray(rawExecution.shortConditions)?rawExecution.shortConditions:[];
+    const parsedR=rawExecution.targetR===null?NaN:Number(rawExecution.targetR);
+    const hasRuleExit=(longConditions.length===0||(Array.isArray(rawExecution.exitLongConditions)&&rawExecution.exitLongConditions.length>0))&&
+      (shortConditions.length===0||(Array.isArray(rawExecution.exitShortConditions)&&rawExecution.exitShortConditions.length>0));
+    const targetR=rawExecution.targetR===null&&hasRuleExit?null:(Number.isFinite(parsedR)&&parsedR>0?parsedR:NaN);
     const rule={type:'custom',execution:{...rawExecution,longConditions,shortConditions,targetR},long:longConditions.length>0,short:shortConditions.length>0,r:targetR};
     if((!rule.long&&!rule.short)||!(rule.r===null&&hasRuleExit)&&!(Number.isFinite(rule.r)&&rule.r>0)){
       const details=[];
@@ -5290,8 +5272,14 @@ $('run').onclick=async()=>{
     }
     status('Step 2/3 · Fetching historical candles…');
     const tickMode=['aggregated_trades','databento_trades'].includes(rawExecution.dataMode);
-    const c=rawExecution.dataMode==='databento_trades'?await databentoHistoricalTradeEvents():(rawExecution.dataMode==='aggregated_trades'?await binanceAggregatedTradeEvents():await candles());
+    const fetched=rawExecution.dataMode==='databento_trades'?await databentoHistoricalTradeEvents():(rawExecution.dataMode==='aggregated_trades'?await binanceAggregatedTradeEvents():await candles());
+    const selectedStartMs=Date.parse(fromDate+'T00:00:00.000Z');
+    const selectedEndExclusiveMs=Date.parse(toDate+'T00:00:00.000Z')+86400000;
+    if(!Number.isFinite(selectedStartMs)||!Number.isFinite(selectedEndExclusiveMs)||selectedEndExclusiveMs<=selectedStartMs)throw Error('The selected historical date window is invalid.');
+    const c=fetched.filter(x=>x.t>=selectedStartMs&&x.t<selectedEndExclusiveMs);
+    if(c.length!==fetched.length)status('Excluded '+(fetched.length-c.length)+' records outside the selected date window.');
     if(c.some((x,i)=>![x.o,x.h,x.l,x.c,x.t].every(Number.isFinite)||(i>0&&(tickMode?x.t<c[i-1].t:x.t<=c[i-1].t))))throw Error('Historical data failed ordering/quality checks.');
+    if(c.length<10)throw Error('Fewer than 10 historical records exist inside the exact selected date window. No result was generated.');
     if(tickMode&&rawExecution.stop.type==='atr')throw Error('ATR stop-loss is not valid on raw trade events. Use a price, tick/point, percent or previous-event stop.');
     const seriesMap=tickMode?new Map():new Map([[$('interval').value,c]]);
     const needed=new Set();
@@ -5312,7 +5300,7 @@ $('run').onclick=async()=>{
     status('Step 3/3 · Running the synchronized historical simulation…');
     const results=backtest(c,rule,seriesMap);renderResults(results,ai.execution.timezone||'UTC');window.renderBacktestMetrics(results,{symbol:$('symbol').value.toUpperCase(),interval:tickMode?(rawExecution.dataMode==='databento_trades'?'Raw exchange trades':'Aggregated trades'):$('interval').value,bars:c.length,provider:lastDataProvider});$('backtestResults')?.scrollIntoView({behavior:'smooth',block:'start'});
     const engineName='AI-compiled strategy engine ('+ai.model+')';
-    lastRun={at:new Date().toISOString(),symbol:$('symbol').value.toUpperCase(),interval:tickMode?(rawExecution.dataMode==='databento_trades'?'raw-exchange-trades':'aggregated-trades'):$('interval').value,candles:c.length,dataMode:tickMode?(rawExecution.dataMode==='databento_trades'?'Databento raw exchange trade events':'Binance aggregated trade events'):'OHLCV candles',timeframes:tickMode?[]:[...seriesMap.keys()],aiModel:engineName,strategy:ai.normalizedRules||strategyText,compiledRules:rule.execution,results};
+    lastRun={at:new Date().toISOString(),startDate:fromDate,endDate:toDate,symbol:$('symbol').value.toUpperCase(),interval:tickMode?(rawExecution.dataMode==='databento_trades'?'raw-exchange-trades':'aggregated-trades'):$('interval').value,candles:c.length,dataMode:tickMode?(rawExecution.dataMode==='databento_trades'?'Databento raw exchange trade events':'Binance aggregated trade events'):'OHLCV candles',timeframes:tickMode?[]:[...seriesMap.keys()],aiModel:engineName,strategy:ai.normalizedRules||strategyText,compiledRules:rule.execution,results};
     status('Backtest completed using '+engineName+': '+c.length+' '+(tickMode?(rawExecution.dataMode==='databento_trades'?'raw exchange trade events':'aggregated trade events'):'selected-timeframe candles')+(tickMode?'':'; synchronized timeframes: '+[...seriesMap.keys()].join(', '))+'. Provider: '+(lastDataProvider||'connected data provider')+'. Trades: '+results.ts.length+'. Estimated cost: '+($('costR').value||0)+'R per trade. Stop is counted first if stop and target touch in one candle.'+(ai.assumptions?.length?'\nAI assumptions/defaults: '+ai.assumptions.join('; '):''));
   }catch(e){status('Backtest not run: '+(e?.message||'Unexpected error.'));}
   finally{$('run').disabled=false;$('run').textContent=buttonLabel;}
