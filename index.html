@@ -4538,8 +4538,11 @@ function compileStrategyLocally(raw){
   const rr=s.match(/(?:take\s*profit|target|\btp\b)[^0-9]{0,24}([0-9]+(?:\.[0-9]+)?)\s*r\b/);
   if(!rr||!(Number(rr[1])>0))throw Error('Offline compiler recognized '+name+', but an explicit Take Profit target in R (for example, TP 2R) is required.');
   let stop=null;
-  if(/(?:signal|entry) candle[^.!;]*(?:low|high)[^.!;]*(?:stop.?loss|\bsl\b)|(?:stop.?loss|\bsl\b)[^.!;]*(?:signal|entry) candle[^.!;]*(?:low|high)/.test(s))stop={type:'signal_candle'};
-  else if(/previous candle[^.!;]*(?:low|high)[^.!;]*(?:stop.?loss|\bsl\b)|(?:stop.?loss|\bsl\b)[^.!;]*previous candle[^.!;]*(?:low|high)/.test(s))stop={type:'previous_candle'};
+  const hasStop=/(?:stop.?loss|\bsl\b)/.test(s);
+  const signalLow=/(?:signal|entry) candle[^.!;]*low/.test(s),signalHigh=/(?:signal|entry) candle[^.!;]*high/.test(s);
+  const previousLow=/previous candle[^.!;]*low/.test(s),previousHigh=/previous candle[^.!;]*high/.test(s);
+  if(hasStop&&signalLow&&signalHigh)stop={type:'signal_candle'};
+  else if(hasStop&&previousLow&&previousHigh)stop={type:'previous_candle'};
   else {
     const atr=s.match(/(?:stop.?loss|\bsl\b)[^.!;]*atr\s*([0-9]+(?:\.[0-9]+)?)/);
     const pct=s.match(/(?:stop.?loss|\bsl\b)[^.!;]*([0-9]+(?:\.[0-9]+)?)\s*%/);
@@ -4571,6 +4574,13 @@ async function analyzeStrategyWithAI(){
     }
     if(data?.error)throw Error(data.error);
     if(!data||typeof data.supported!=='boolean')throw Error('AI returned an invalid response. Please retry.');
+    if(!data.supported){
+      try{
+        const local=compileStrategyLocally($('rules').value);
+        local.providerNotice='Gemini could not compile this strategy; the offline compiler matched it instead.';
+        return local;
+      }catch(localError){return data;}
+    }
     return data;
   }catch(providerError){
     // Fall back only to a narrowly defined, deterministic local grammar.
