@@ -4457,23 +4457,59 @@ function getNabilSupabaseClient(){
   if(!nabilAiClient)nabilAiClient=window.supabase.createClient(cfg.url,cfg.anonKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
   return nabilAiClient;
 }
+function compileStrategyLocally(raw){
+  // Deterministic no-API fallback: intentionally supports only a fully explicit
+  // 9/21 EMA crossover specification. It never invents SL, TP, entry timing or side.
+  const s=String(raw||'').toLowerCase().replace(/[–—]/g,'-').replace(/\\s+/g,' ').trim();
+  const has9=/(?:ema\\s*\\(?\\s*9\\s*\\)?|\\b9\\s*ema\\b|\\b9\\s*\\/\\s*21\\b)/.test(s);
+  const has21=/(?:ema\\s*\\(?\\s*21\\s*\\)?|\\b21\\s*ema\\b|\\b9\\s*\\/\\s*21\\b)/.test(s);
+  const crossover=/cross(?:es|ed|ing|over)?|crossover/.test(s);
+  const long=/(?:buy|long|bullish)/.test(s);
+  const short=/(?:sell|short|bearish)/.test(s);
+  const signalStop=/(?:stop.?loss|\\bsl\\b)[^.!;]*signal\\s*candle[^.!;]*(?:low|high)|(?:signal\\s*candle)[^.!;]*(?:low|high)[^.!;]*(?:stop.?loss|\\bsl\\b)/.test(s);
+  const nextOpen=/(?:next|following)\\s*candle\\s*(?:open|opening)|enter\\s+at\\s+the\\s+(?:next|following)\\s+candle\\s+open/.test(s);
+  const rr=s.match(/(?:take.?profit|target|\\btp\\b)[^0-9]{0,20}([0-9]+(?:\\.[0-9]+)?)\\s*r\\b/);
+  if(!(has9&&has21&&crossover&&long&&short&&signalStop&&nextOpen&&rr&&Number(rr[1])>0)){
+    throw Error('Gemini is temporarily unavailable. The offline compiler currently supports only a fully specified 9/21 EMA crossover: BUY on bullish cross and SELL on bearish cross, signal-candle high/low stop, next-candle-open entry, and an explicit R target. No fallback rules were assumed and no backtest was run.');
+  }
+  const targetR=Number(rr[1]);
+  return {
+    supported:true,model:'Nabil FX Offline Rule Compiler',
+    normalizedRules:'9/21 EMA crossover: BUY on bullish cross, SELL on bearish cross; enter at next candle open; stop at signal candle low/high; take profit at '+targetR+'R.',
+    explanation:'Compiled locally without an external AI provider. Only the explicitly stated 9/21 EMA crossover rules were used.',
+    missing:[],unsupportedReasons:[],assumptions:[],
+    execution:{longConditions:[{type:'ema_cross',fast:9,slow:21,direction:'bullish'}],
+      shortConditions:[{type:'ema_cross',fast:9,slow:21,direction:'bearish'}],
+      exitLongConditions:[],exitShortConditions:[],entry:'next_open',
+      stop:{type:'signal_candle'},targetR,maxBarsInTrade:null,timezone:'UTC',dataMode:'candles'}
+  };
+}
+
 async function analyzeStrategyWithAI(){
   const nabilAiClient=getNabilSupabaseClient();
   const {data:sessionData,error:sessionError}=await nabilAiClient.auth.getSession();
   if(sessionError)throw sessionError;
   if(!sessionData?.session)throw Error('Please create an account or log in before using Strategy AI.');
-  const {data,error}=await nabilAiClient.functions.invoke('strategy-ai',{body:{
-    strategy:$('rules').value,market:$('market').value,symbol:$('symbol').value.trim().toUpperCase(),
-    interval:$('interval').value,start:$('start').value||null,end:$('end').value||null
-  }});
-  if(error){
-    let detail=error.message||'Could not reach the Strategy AI backend.';
-    try{const response=error.context;if(response?.clone){const payload=await response.clone().json();if(payload?.error)detail=payload.error;}}catch(e){}
-    throw Error(detail);
+  try{
+    const {data,error}=await nabilAiClient.functions.invoke('strategy-ai',{body:{
+      strategy:$('rules').value,market:$('market').value,symbol:$('symbol').value.trim().toUpperCase(),
+      interval:$('interval').value,start:$('start').value||null,end:$('end').value||null
+    }});
+    if(error){
+      let detail=error.message||'Could not reach the Strategy AI backend.';
+      try{const response=error.context;if(response?.clone){const payload=await response.clone().json();if(payload?.error)detail=payload.error;}}catch(e){}
+      throw Error(detail);
+    }
+    if(data?.error)throw Error(data.error);
+    if(!data||typeof data.supported!=='boolean')throw Error('AI returned an invalid response. Please retry.');
+    return data;
+  }catch(providerError){
+    // Fall back only to a narrowly defined, deterministic local grammar.
+    // Arbitrary natural-language rules are rejected rather than guessed.
+    const local=compileStrategyLocally($('rules').value);
+    local.providerNotice='Gemini unavailable: '+String(providerError?.message||providerError);
+    return local;
   }
-  if(data?.error)throw Error(data.error);
-  if(!data||typeof data.supported!=='boolean')throw Error('AI returned an invalid response. Please retry.');
-  return data;
 }
 
 $('reply').onclick=async()=>{
