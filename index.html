@@ -4458,7 +4458,7 @@ function getNabilSupabaseClient(){
   return nabilAiClient;
 }
 function compileStrategyLocally(raw){
-  const s=String(raw||'').toLowerCase().replace(/[–—]/g,'-').replace(/\\s+/g,' ').trim();
+  const s=String(raw||'').toLowerCase().replace(/[–—]/g,'-').replace(/\s+/g,' ').trim();
   const pair=(type,params={})=>[
     [{type,...params,direction:'bullish'}],
     [{type,...params,direction:'bearish'}]
@@ -4468,81 +4468,81 @@ function compileStrategyLocally(raw){
     [{type:'rsi',period,operator:'below',value:low}],
     [{type:'rsi',period,operator:'above',value:high}]
   ];
-  const breakout=n=>pair('breakout',{lookback:n,direction:'above'});
+  const breakout=n=>[[{type:'breakout',lookback:n,direction:'above'}],[{type:'breakout',lookback:n,direction:'below'}]];
   const sweep=n=>pair('liquidity_sweep',{lookback:n});
   const structure=n=>pair('market_structure_shift',{lookback:n});
   const fvg=()=>pair('fair_value_gap');
   const fvgReturn=n=>pair('fair_value_gap_return',{lookback:n});
   const ob=n=>pair('order_block_return',{lookback:n});
+  const insideBar=()=>[[{type:'inside_bar'},{type:'candle_direction',direction:'bullish'}],[{type:'inside_bar'},{type:'candle_direction',direction:'bearish'}]];
+  const volumeTrend=()=>[[{type:'volume_above_sma',period:20},{type:'candle_direction',direction:'bullish'}],[{type:'volume_above_sma',period:20},{type:'candle_direction',direction:'bearish'}]];
+  const rangeTrend=()=>[[{type:'range_expansion',lookback:20,multiplier:1.5},{type:'candle_direction',direction:'bullish'}],[{type:'range_expansion',lookback:20,multiplier:1.5},{type:'candle_direction',direction:'bearish'}]];
+  const bodyTrend=()=>[[{type:'candle_body_percent',operator:'above',value:70},{type:'candle_direction',direction:'bullish'}],[{type:'candle_body_percent',operator:'above',value:70},{type:'candle_direction',direction:'bearish'}]];
+  const momentum=(n)=>[[{type:'price_change_percent',lookback:1,value:n,operator:'above'}],[{type:'price_change_percent',lookback:1,value:-n,operator:'below'}]];
+  const prevBreak=()=>[[{type:'close_vs_prev_highlow',level:'high',operator:'above'}],[{type:'close_vs_prev_highlow',level:'low',operator:'below'}]];
   const templates=[
-    ['EMA 9/21 crossover',/\\b9\\s*\\/\\s*21\\s*ema\\b|\\bema\\s*9\\s*(?:and|&)\\s*21\\b/,cross('ema_cross',9,21)],
-    ['EMA 5/20 crossover',/\\b5\\s*\\/\\s*20\\s*ema\\b|\\bema\\s*5\\s*(?:and|&)\\s*20\\b/,cross('ema_cross',5,20)],
-    ['EMA 12/26 crossover',/\\b12\\s*\\/\\s*26\\s*ema\\b|\\bema\\s*12\\s*(?:and|&)\\s*26\\b/,cross('ema_cross',12,26)],
-    ['EMA 20/50 crossover',/\\b20\\s*\\/\\s*50\\s*ema\\b|\\bema\\s*20\\s*(?:and|&)\\s*50\\b/,cross('ema_cross',20,50)],
-    ['EMA 50/200 crossover',/\\b50\\s*\\/\\s*200\\s*ema\\b|\\bema\\s*50\\s*(?:and|&)\\s*200\\b/,cross('ema_cross',50,200)],
-    ['SMA 5/20 crossover',/\\b5\\s*\\/\\s*20\\s*sma\\b|\\bsma\\s*5\\s*(?:and|&)\\s*20\\b/,cross('sma_cross',5,20)],
-    ['SMA 9/21 crossover',/\\b9\\s*\\/\\s*21\\s*sma\\b|\\bsma\\s*9\\s*(?:and|&)\\s*21\\b/,cross('sma_cross',9,21)],
-    ['SMA 20/50 crossover',/\\b20\\s*\\/\\s*50\\s*sma\\b|\\bsma\\s*20\\s*(?:and|&)\\s*50\\b/,cross('sma_cross',20,50)],
-    ['SMA 50/200 crossover',/\\b50\\s*\\/\\s*200\\s*sma\\b|\\bsma\\s*50\\s*(?:and|&)\\s*200\\b/,cross('sma_cross',50,200)],
-    ['SMA 10/30 crossover',/\\b10\\s*\\/\\s*30\\s*sma\\b|\\bsma\\s*10\\s*(?:and|&)\\s*30\\b/,cross('sma_cross',10,30)],
-    ['RSI 14 overbought/oversold',/\\brsi\\s*14\\b[^.!;]*(?:overbought|oversold)|(?:overbought|oversold)[^.!;]*\\brsi\\s*14\\b/,rsi(14,30,70)],
-    ['RSI 7 overbought/oversold',/\\brsi\\s*7\\b[^.!;]*(?:overbought|oversold)|(?:overbought|oversold)[^.!;]*\\brsi\\s*7\\b/,rsi(7,30,70)],
-    ['RSI 21 overbought/oversold',/\\brsi\\s*21\\b[^.!;]*(?:overbought|oversold)|(?:overbought|oversold)[^.!;]*\\brsi\\s*21\\b/,rsi(21,30,70)],
-    ['RSI 14 20/80 reversal',/\\brsi\\s*14\\b[^.!;]*\\b20\\b[^.!;]*\\b80\\b/,rsi(14,20,80)],
-    ['RSI 14 40/60 momentum',/\\brsi\\s*14\\b[^.!;]*\\b40\\b[^.!;]*\\b60\\b/,rsi(14,40,60)],
-    ['MACD standard crossover',/\\bmacd\\b[^.!;]*(?:signal|crossover|cross over)|(?:signal|crossover|cross over)[^.!;]*\\bmacd\\b/,pair('macd_cross')],
-    ['MACD bullish/bearish zero-line momentum',/\\bmacd\\b[^.!;]*zero.?line/,pair('macd_cross')],
-    ['Price breakout 10 bars',/\\b10\\s*(?:bar|candle)s?\\b[^.!;]*breakout|breakout[^.!;]*\\b10\\s*(?:bar|candle)s?\\b/,breakout(10)],
-    ['Price breakout 20 bars',/\\b20\\s*(?:bar|candle)s?\\b[^.!;]*breakout|breakout[^.!;]*\\b20\\s*(?:bar|candle)s?\\b/,breakout(20)],
-    ['Price breakout  Donchian 20',/donchian[^.!;]*\\b20\\b|\\b20\\b[^.!;]*donchian/,breakout(20)],
-    ['Price breakout  Donchian 55',/donchian[^.!;]*\\b55\\b|\\b55\\b[^.!;]*donchian/,breakout(55)],
-    ['Price breakout 50 bars',/\\b50\\s*(?:bar|candle)s?\\b[^.!;]*breakout|breakout[^.!;]*\\b50\\s*(?:bar|candle)s?\\b/,breakout(50)],
-    ['Liquidity sweep 10 bars',/liquidity sweep[^.!;]*\\b10\\b|\\b10\\b[^.!;]*liquidity sweep/,sweep(10)],
-    ['Liquidity sweep 20 bars',/liquidity sweep[^.!;]*\\b20\\b|\\b20\\b[^.!;]*liquidity sweep/,sweep(20)],
-    ['Liquidity sweep 30 bars',/liquidity sweep[^.!;]*\\b30\\b|\\b30\\b[^.!;]*liquidity sweep/,sweep(30)],
-    ['Liquidity sweep 50 bars',/liquidity sweep[^.!;]*\\b50\\b|\\b50\\b[^.!;]*liquidity sweep/,sweep(50)],
-    ['Liquidity sweep 100 bars',/liquidity sweep[^.!;]*\\b100\\b|\\b100\\b[^.!;]*liquidity sweep/,sweep(100)],
-    ['Market structure shift 10 bars',/\\b(?:mss|market structure shift)\\b[^.!;]*\\b10\\b|\\b10\\b[^.!;]*\\b(?:mss|market structure shift)\\b/,structure(10)],
-    ['Market structure shift 20 bars',/\\b(?:mss|market structure shift)\\b[^.!;]*\\b20\\b|\\b20\\b[^.!;]*\\b(?:mss|market structure shift)\\b/,structure(20)],
-    ['Fair value gap formation',/\\b(?:fvg|fair value gap)\\b[^.!;]*(?:formation|form|create|appear)|(?:formation|form|create|appear)[^.!;]*\\b(?:fvg|fair value gap)\\b/,fvg()],
-    ['Fair value gap return 20 bars',/\\b(?:fvg|fair value gap)\\b[^.!;]*(?:return|retest|mitigation)[^.!;]*\\b20\\b/,fvgReturn(20)],
-    ['Fair value gap return 30 bars',/\\b(?:fvg|fair value gap)\\b[^.!;]*(?:return|retest|mitigation)[^.!;]*\\b30\\b/,fvgReturn(30)],
-    ['Order block return 20 bars',/\\border block\\b[^.!;]*(?:return|retest|mitigation)[^.!;]*\\b20\\b/,ob(20)],
-    ['Order block return 30 bars',/\\border block\\b[^.!;]*(?:return|retest|mitigation)[^.!;]*\\b30\\b/,ob(30)],
-    ['Bullish/bearish engulfing',/\\bengulfing\\b|\\bengulf\\b/,pair('engulfing')],
-    ['Bullish/bearish fair value gap',/\\b(?:bullish|bearish)\\b[^.!;]*\\b(?:fvg|fair value gap)\\b/,fvg()],
-    ['Previous day high/low sweep',/previous day[^.!;]*(?:high|low)[^.!;]*sweep|\\bpdh\\b[^.!;]*\\bpdl\\b[^.!;]*sweep/,pair('previous_day_sweep',{timezone:'UTC'})],
-    ['Asia session range sweep',/asia[^.!;]*(?:range|high|low)[^.!;]*sweep|sweep[^.!;]*asia[^.!;]*(?:range|high|low)/,pair('session_range_sweep',{startHour:0,startMinute:0,endHour:8,endMinute:0,timezone:'UTC'})],
-    ['London session range sweep',/london[^.!;]*(?:range|high|low)[^.!;]*sweep|sweep[^.!;]*london[^.!;]*(?:range|high|low)/,pair('session_range_sweep',{startHour:7,startMinute:0,endHour:12,endMinute:0,timezone:'UTC'})],
-    ['Opening range breakout 15 minutes',/opening range[^.!;]*\\b15\\s*(?:m|min|minute)/,pair('session_opening_range_breakout',{sessionHour:9,rangeMinutes:15,timezone:'UTC',trigger:'close'})],
-    ['Opening range breakout 30 minutes',/opening range[^.!;]*\\b30\\s*(?:m|min|minute)/,pair('session_opening_range_breakout',{sessionHour:9,rangeMinutes:30,timezone:'UTC',trigger:'close'})],
-    ['Consecutive 3 bullish/bearish candles',/\\b3\\s*(?:consecutive|successive)\\s*(?:bullish|bearish)?\\s*candles?/,pair('consecutive_candles',{count:3})],
-    ['Consecutive 4 bullish/bearish candles',/\\b4\\s*(?:consecutive|successive)\\s*(?:bullish|bearish)?\\s*candles?/,pair('consecutive_candles',{count:4})],
-    ['Consecutive 5 bullish/bearish candles',/\\b5\\s*(?:consecutive|successive)\\s*(?:bullish|bearish)?\\s*candles?/,pair('consecutive_candles',{count:5})],
+    ['EMA 9/21 crossover',/\b9\s*\/\s*21\s*ema\b|\bema\s*9\s*(?:and|&)\s*21\b/,cross('ema_cross',9,21)],
+    ['EMA 5/20 crossover',/\b5\s*\/\s*20\s*ema\b|\bema\s*5\s*(?:and|&)\s*20\b/,cross('ema_cross',5,20)],
+    ['EMA 12/26 crossover',/\b12\s*\/\s*26\s*ema\b|\bema\s*12\s*(?:and|&)\s*26\b/,cross('ema_cross',12,26)],
+    ['EMA 20/50 crossover',/\b20\s*\/\s*50\s*ema\b|\bema\s*20\s*(?:and|&)\s*50\b/,cross('ema_cross',20,50)],
+    ['EMA 50/200 crossover',/\b50\s*\/\s*200\s*ema\b|\bema\s*50\s*(?:and|&)\s*200\b/,cross('ema_cross',50,200)],
+    ['SMA 5/20 crossover',/\b5\s*\/\s*20\s*sma\b|\bsma\s*5\s*(?:and|&)\s*20\b/,cross('sma_cross',5,20)],
+    ['SMA 9/21 crossover',/\b9\s*\/\s*21\s*sma\b|\bsma\s*9\s*(?:and|&)\s*21\b/,cross('sma_cross',9,21)],
+    ['SMA 20/50 crossover',/\b20\s*\/\s*50\s*sma\b|\bsma\s*20\s*(?:and|&)\s*50\b/,cross('sma_cross',20,50)],
+    ['SMA 50/200 crossover',/\b50\s*\/\s*200\s*sma\b|\bsma\s*50\s*(?:and|&)\s*200\b/,cross('sma_cross',50,200)],
+    ['SMA 10/30 crossover',/\b10\s*\/\s*30\s*sma\b|\bsma\s*10\s*(?:and|&)\s*30\b/,cross('sma_cross',10,30)],
+    ['RSI 14 overbought/oversold',/\brsi\s*14\b[^.!;]*(?:overbought|oversold)|(?:overbought|oversold)[^.!;]*\brsi\s*14\b/,rsi(14,30,70)],
+    ['RSI 7 overbought/oversold',/\brsi\s*7\b[^.!;]*(?:overbought|oversold)|(?:overbought|oversold)[^.!;]*\brsi\s*7\b/,rsi(7,30,70)],
+    ['RSI 21 overbought/oversold',/\brsi\s*21\b[^.!;]*(?:overbought|oversold)|(?:overbought|oversold)[^.!;]*\brsi\s*21\b/,rsi(21,30,70)],
+    ['RSI 14 20/80 reversal',/\brsi\s*14\b[^.!;]*\b20\b[^.!;]*\b80\b/,rsi(14,20,80)],
+    ['RSI 14 40/60 momentum',/\brsi\s*14\b[^.!;]*\b40\b[^.!;]*\b60\b/,rsi(14,40,60)],
+    ['MACD standard crossover',/\bmacd\b[^.!;]*(?:signal|crossover|cross over)|(?:signal|crossover|cross over)[^.!;]*\bmacd\b/,pair('macd_cross')],
+    ['MACD bullish/bearish zero-line momentum',/\bmacd\b[^.!;]*zero.?line/,pair('macd_cross')],
+    ['Price breakout 10 bars',/\b10\s*(?:bar|candle)s?\b[^.!;]*breakout|breakout[^.!;]*\b10\s*(?:bar|candle)s?\b/,breakout(10)],
+    ['Price breakout 20 bars',/\b20\s*(?:bar|candle)s?\b[^.!;]*breakout|breakout[^.!;]*\b20\s*(?:bar|candle)s?\b/,breakout(20)],
+    ['Price breakout  Donchian 20',/donchian[^.!;]*\b20\b|\b20\b[^.!;]*donchian/,breakout(20)],
+    ['Price breakout  Donchian 55',/donchian[^.!;]*\b55\b|\b55\b[^.!;]*donchian/,breakout(55)],
+    ['Price breakout 50 bars',/\b50\s*(?:bar|candle)s?\b[^.!;]*breakout|breakout[^.!;]*\b50\s*(?:bar|candle)s?\b/,breakout(50)],
+    ['Liquidity sweep 10 bars',/liquidity sweep[^.!;]*\b10\b|\b10\b[^.!;]*liquidity sweep/,sweep(10)],
+    ['Liquidity sweep 20 bars',/liquidity sweep[^.!;]*\b20\b|\b20\b[^.!;]*liquidity sweep/,sweep(20)],
+    ['Liquidity sweep 30 bars',/liquidity sweep[^.!;]*\b30\b|\b30\b[^.!;]*liquidity sweep/,sweep(30)],
+    ['Liquidity sweep 50 bars',/liquidity sweep[^.!;]*\b50\b|\b50\b[^.!;]*liquidity sweep/,sweep(50)],
+    ['Liquidity sweep 100 bars',/liquidity sweep[^.!;]*\b100\b|\b100\b[^.!;]*liquidity sweep/,sweep(100)],
+    ['Market structure shift 10 bars',/\b(?:mss|market structure shift)\b[^.!;]*\b10\b|\b10\b[^.!;]*\b(?:mss|market structure shift)\b/,structure(10)],
+    ['Market structure shift 20 bars',/\b(?:mss|market structure shift)\b[^.!;]*\b20\b|\b20\b[^.!;]*\b(?:mss|market structure shift)\b/,structure(20)],
+    ['Fair value gap formation',/\b(?:fvg|fair value gap)\b[^.!;]*(?:formation|form|create|appear)|(?:formation|form|create|appear)[^.!;]*\b(?:fvg|fair value gap)\b/,fvg()],
+    ['Fair value gap return 20 bars',/\b(?:fvg|fair value gap)\b[^.!;]*(?:return|retest|mitigation)[^.!;]*\b20\b/,fvgReturn(20)],
+    ['Fair value gap return 30 bars',/\b(?:fvg|fair value gap)\b[^.!;]*(?:return|retest|mitigation)[^.!;]*\b30\b/,fvgReturn(30)],
+    ['Order block return 20 bars',/\border block\b[^.!;]*(?:return|retest|mitigation)[^.!;]*\b20\b/,ob(20)],
+    ['Order block return 30 bars',/\border block\b[^.!;]*(?:return|retest|mitigation)[^.!;]*\b30\b/,ob(30)],
+    ['Bullish/bearish engulfing',/\bengulfing\b|\bengulf\b/,pair('engulfing')],
+    ['Bullish/bearish fair value gap',/\b(?:bullish|bearish)\b[^.!;]*\b(?:fvg|fair value gap)\b/,fvg()],
+    ['Consecutive 3 bullish/bearish candles',/\b3\s*(?:consecutive|successive)\s*(?:bullish|bearish)?\s*candles?/,pair('consecutive_candles',{count:3})],
+    ['Consecutive 4 bullish/bearish candles',/\b4\s*(?:consecutive|successive)\s*(?:bullish|bearish)?\s*candles?/,pair('consecutive_candles',{count:4})],
+    ['Consecutive 5 bullish/bearish candles',/\b5\s*(?:consecutive|successive)\s*(?:bullish|bearish)?\s*candles?/,pair('consecutive_candles',{count:5})],
     ['Three-candle FVG retest',/three.?candle[^.!;]*(?:fvg|gap)|(?:fvg|fair value gap)[^.!;]*three.?candle/,fvgReturn(30)],
-    ['Volume expansion trend',/volume[^.!;]*(?:above|greater than)[^.!;]*(?:sma|average)|(?:sma|average)[^.!;]*volume/,pair('volume_above_sma',{period:20})],
-    ['Range expansion breakout',/range expansion[^.!;]*breakout|breakout[^.!;]*range expansion/,pair('range_expansion',{lookback:20,multiplier:1.5})],
-    ['Large candle body momentum',/candle body[^.!;]*(?:70|80)\\s*%|body[^.!;]*(?:70|80)\\s*percent/,pair('candle_body_percent',{operator:'above',value:70})],
-    ['Inside bar volatility contraction',/inside bar[^.!;]*(?:break|volatility|contraction)|(?:break|volatility|contraction)[^.!;]*inside bar/,pair('inside_bar')],
+    ['Volume expansion trend',/volume[^.!;]*(?:above|greater than)[^.!;]*(?:sma|average)|(?:sma|average)[^.!;]*volume/,volumeTrend()],
+    ['Range expansion breakout',/range expansion[^.!;]*breakout|breakout[^.!;]*range expansion/,rangeTrend()],
+    ['Large candle body momentum',/candle body[^.!;]*(?:70|80)\s*%|body[^.!;]*(?:70|80)\s*percent/,bodyTrend()],
+    ['Inside bar volatility contraction',/inside bar[^.!;]*(?:break|volatility|contraction)|(?:break|volatility|contraction)[^.!;]*inside bar/,insideBar()],
     ['Bullish/bearish gap continuation',/gap[^.!;]*(?:continuation|follow.?through)|(?:continuation|follow.?through)[^.!;]*gap/,pair('gap')],
     ['Three-bar momentum',/three.?bar momentum|3.?bar momentum/,pair('consecutive_candles',{count:3})],
-    ['Price change momentum 1 percent',/price change[^.!;]*1\\s*%|momentum[^.!;]*1\\s*%/,pair('price_change_percent',{lookback:1,value:1,operator:'above'})],
-    ['Price change momentum 2 percent',/price change[^.!;]*2\\s*%|momentum[^.!;]*2\\s*%/,pair('price_change_percent',{lookback:1,value:2,operator:'above'})],
-    ['Previous candle high/low close break',/previous candle[^.!;]*(?:high|low)[^.!;]*(?:close|break)|close[^.!;]*previous candle[^.!;]*(?:high|low)/,pair('close_vs_prev_highlow',{level:'high',operator:'above'})],
+    ['Price change momentum 1 percent',/price change[^.!;]*1\s*%|momentum[^.!;]*1\s*%/,momentum(1)],
+    ['Price change momentum 2 percent',/price change[^.!;]*2\s*%|momentum[^.!;]*2\s*%/,momentum(2)],
+    ['Previous candle high/low close break',/previous candle[^.!;]*(?:high|low)[^.!;]*(?:close|break)|close[^.!;]*previous candle[^.!;]*(?:high|low)/,prevBreak()],
     ['Bullish/bearish candle direction filter',/candle direction|bullish candle close|bearish candle close/,pair('candle_direction')],
-    ['Clock-time filtered breakout',/time filter[^.!;]*breakout|breakout[^.!;]*time filter/,pair('clock_time_filter',{startHour:8,startMinute:0,endHour:17,endMinute:0,timezone:'UTC'})]
   ];
   const matches=templates.filter(t=>t[1].test(s));
   if(matches.length!==1)throw Error(matches.length?'Offline compiler found more than one possible strategy template. Clarify the strategy so only one setup is described.':'Gemini is unavailable and this strategy does not match one of the 50+ supported offline templates. No rules were guessed and no backtest was run.');
   const [name,,sides]=matches[0],longConditions=sides[0],shortConditions=sides[1];
-  const rr=s.match(/(?:take\\s*profit|target|\\btp\\b)[^0-9]{0,24}([0-9]+(?:\\.[0-9]+)?)\\s*r\\b/);
+  const rr=s.match(/(?:take\s*profit|target|\btp\b)[^0-9]{0,24}([0-9]+(?:\.[0-9]+)?)\s*r\b/);
   if(!rr||!(Number(rr[1])>0))throw Error('Offline compiler recognized '+name+', but an explicit Take Profit target in R (for example, TP 2R) is required.');
   let stop=null;
-  if(/(?:signal|entry) candle[^.!;]*(?:low|high)[^.!;]*(?:stop.?loss|\\bsl\\b)|(?:stop.?loss|\\bsl\\b)[^.!;]*(?:signal|entry) candle[^.!;]*(?:low|high)/.test(s))stop={type:'signal_candle'};
-  else if(/previous candle[^.!;]*(?:low|high)[^.!;]*(?:stop.?loss|\\bsl\\b)|(?:stop.?loss|\\bsl\\b)[^.!;]*previous candle[^.!;]*(?:low|high)/.test(s))stop={type:'previous_candle'};
+  if(/(?:signal|entry) candle[^.!;]*(?:low|high)[^.!;]*(?:stop.?loss|\bsl\b)|(?:stop.?loss|\bsl\b)[^.!;]*(?:signal|entry) candle[^.!;]*(?:low|high)/.test(s))stop={type:'signal_candle'};
+  else if(/previous candle[^.!;]*(?:low|high)[^.!;]*(?:stop.?loss|\bsl\b)|(?:stop.?loss|\bsl\b)[^.!;]*previous candle[^.!;]*(?:low|high)/.test(s))stop={type:'previous_candle'};
   else {
-    const atr=s.match(/(?:stop.?loss|\\bsl\\b)[^.!;]*atr\\s*([0-9]+(?:\\.[0-9]+)?)/);
-    const pct=s.match(/(?:stop.?loss|\\bsl\\b)[^.!;]*([0-9]+(?:\\.[0-9]+)?)\\s*%/);
+    const atr=s.match(/(?:stop.?loss|\bsl\b)[^.!;]*atr\s*([0-9]+(?:\.[0-9]+)?)/);
+    const pct=s.match(/(?:stop.?loss|\bsl\b)[^.!;]*([0-9]+(?:\.[0-9]+)?)\s*%/);
     if(atr&&Number(atr[1])>0)stop={type:'atr',value:Number(atr[1])};
     else if(pct&&Number(pct[1])>0)stop={type:'percent',value:Number(pct[1])};
   }
