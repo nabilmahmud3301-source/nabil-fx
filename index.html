@@ -5247,16 +5247,16 @@ $('run').onclick=async()=>{
       const why=[ai.explanation,...(ai.missing||[]).map(x=>'Missing: '+x),...(ai.unsupportedReasons||[])].filter(Boolean).join(' ');
       throw Error('Strategy could not be compiled exactly. '+why);
     }
-    if((Array.isArray(ai.assumptions)&&ai.assumptions.length>0)||(Array.isArray(ai.missing)&&ai.missing.length>0)||(Array.isArray(ai.unsupportedReasons)&&ai.unsupportedReasons.length>0)){
+    // The executable condition arrays are authoritative; legacy booleans may be absent.
+    // Normalize compiler output defensively: accept canonical execution arrays and
+    // common equivalent response shapes, while never inventing entry signals.
+    const rawExecution=ai.execution;
+    if(!Array.isArray(ai.assumptions)||ai.assumptions.length>0||(Array.isArray(ai.missing)&&ai.missing.length>0)||(Array.isArray(ai.unsupportedReasons)&&ai.unsupportedReasons.length>0)){
       throw Error('The AI introduced an assumption, omitted a rule, or found an unsupported condition. No backtest was run. Clarify the strategy so every rule can be tested exactly.');
     }
     if(!Array.isArray(rawExecution.longConditions)||!Array.isArray(rawExecution.shortConditions)||!Array.isArray(rawExecution.exitLongConditions)||!Array.isArray(rawExecution.exitShortConditions)){
       throw Error('The AI did not return the complete executable rule set. No backtest was run.');
     }
-    // The executable condition arrays are authoritative; legacy booleans may be absent.
-    // Normalize compiler output defensively: accept canonical execution arrays and
-    // common equivalent response shapes, while never inventing entry signals.
-    const rawExecution=ai.execution;
     const longConditions=Array.isArray(rawExecution.longConditions)?rawExecution.longConditions:[];
     const shortConditions=Array.isArray(rawExecution.shortConditions)?rawExecution.shortConditions:[];
     const parsedR=rawExecution.targetR===null?NaN:Number(rawExecution.targetR);
