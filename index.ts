@@ -116,7 +116,7 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
 
     // Prefer Google's low-latency Flash-Lite models for reliable strategy compilation.
     // Keep both model IDs current and supported by the Gemini Interactions API.
-    const models = ["gemini-3.5-flash-lite", "gemini-3.8-flash", "gemini-3.6-flash"];
+    const models = ["gemini-3.8-flash", "gemini-3.6-flash", "gemini-3.5-flash-lite"];
     const failures: string[] = [];
 
     for (const model of models) {
@@ -124,7 +124,7 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
         const response = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
           method: "POST",
           headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
-          signal: AbortSignal.timeout(20000),
+          signal: AbortSignal.timeout(6000),
           body: JSON.stringify({
             model,
             store: false,
