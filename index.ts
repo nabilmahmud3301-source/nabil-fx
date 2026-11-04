@@ -124,7 +124,9 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
         const response = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
           method: "POST",
           headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
-          signal: AbortSignal.timeout(6000),
+          // Give the primary model enough time to finish, while keeping the full
+          // three-model failover inside the Edge Function request window.
+          signal: AbortSignal.timeout(model === models[0] ? 10000 : 7000),
           body: JSON.stringify({
             model,
             store: false,
