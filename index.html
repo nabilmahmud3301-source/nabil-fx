@@ -4516,11 +4516,11 @@ $('reply').onclick=async()=>{
   const input=$('rules').value.trim();
   if(!input){status('Write your strategy rules first.');return;}
   $('reply').disabled=true;
-  status('Gemini Flash-Lite is analyzing your strategy rules...');
+  status('Strategy compiler is analyzing your rules...');
   try{
     const ai=await analyzeStrategyWithAI();
     window.renderBacktestReview(ai);
-    const lines=[ai.explanation||'Strategy review complete.',ai.supported?'Executable by the current backtest engine.':'Not executable by the current backtest engine.',ai.assumptions?.length?'Assumptions/defaults: '+ai.assumptions.join('; '):'',ai.missing?.length?'Missing: '+ai.missing.join(', '):'',ai.unsupportedReasons?.length?'Limitations: '+ai.unsupportedReasons.join('; '):''];
+    const lines=[ai.explanation||'Strategy review complete.',ai.providerNotice?'Offline fallback active: '+ai.providerNotice:'',ai.supported?'Executable by the current backtest engine.':'Not executable by the current backtest engine.',ai.assumptions?.length?'Assumptions/defaults: '+ai.assumptions.join('; '):'',ai.missing?.length?'Missing: '+ai.missing.join(', '):'',ai.unsupportedReasons?.length?'Limitations: '+ai.unsupportedReasons.join('; '):''];
     status('AI REVIEW · '+ai.model+'\n'+lines.filter(Boolean).join('\n'));
   }catch(e){status('AI review unavailable: '+e.message);}
   finally{$('reply').disabled=false;}
@@ -5280,7 +5280,7 @@ $('run').onclick=async()=>{
   try{
     const strategyText=$('rules').value.trim();
     if(!strategyText)throw Error('Write your strategy rules first.');
-    status('Step 1/3 · AI is converting your strategy into executable rules…');
+    status('Step 1/3 · Compiling your strategy into executable rules…');
     const ai=await analyzeStrategyWithAI();
     if(!ai.supported||!ai.execution){
       const why=[ai.explanation,...(ai.missing||[]).map(x=>'Missing: '+x),...(ai.unsupportedReasons||[])].filter(Boolean).join(' ');
