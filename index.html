@@ -4466,7 +4466,10 @@ function compileStrategyLocally(raw){
   const crossover=/cross(?:es|ed|ing|over)?|crossover/.test(s);
   const long=/(?:buy|long|bullish)/.test(s);
   const short=/(?:sell|short|bearish)/.test(s);
-  const signalStop=/(?:stop.?loss|\bsl\b)[^.!;]*signal\s*candle[^.!;]*(?:low|high)|(?:signal\s*candle)[^.!;]*(?:low|high)[^.!;]*(?:stop.?loss|\bsl\b)/.test(s);
+  const hasStopLabel=/(?:stop.?loss|\bsl\b)/.test(s);
+  const hasSignalLow=/signal\s*candle[^.!;]*low/.test(s);
+  const hasSignalHigh=/signal\s*candle[^.!;]*high/.test(s);
+  const signalStop=hasStopLabel&&hasSignalLow&&hasSignalHigh;
   const nextOpen=/(?:next|following)\s*candle\s*(?:open|opening)|enter\s+at\s+the\s+(?:next|following)\s+candle\s+open/.test(s);
   const rr=s.match(/(?:take.?profit|target|\btp\b)[^0-9]{0,20}([0-9]+(?:\.[0-9]+)?)\s*r\b/);
   if(!(has9&&has21&&crossover&&long&&short&&signalStop&&nextOpen&&rr&&Number(rr[1])>0)){
