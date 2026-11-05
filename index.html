@@ -3872,6 +3872,51 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
   background:rgba(255,38,56,.08) !important;
 }
 </style>
+<style id="nfx-liquidity-terminal-rebuild">
+#page-liquidity{max-width:1500px!important;padding:28px clamp(12px,2.3vw,34px) 56px!important;color:#e8edf4}
+#page-liquidity .nfx-terminal-hero{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:26px 30px;margin:0 0 16px;border:1px solid #354153;border-radius:16px;background:radial-gradient(ellipse at 88% 0,#8195ad18,transparent 40%),linear-gradient(125deg,#151e2a,#0a1018 70%,#111820);box-shadow:0 20px 55px #0006}
+#page-liquidity .nfx-terminal-kicker{color:#aebed0;font-size:9px;font-weight:850;letter-spacing:.19em}
+#page-liquidity .nfx-terminal-hero h1{margin:8px 0 5px;font-size:clamp(24px,3vw,36px);letter-spacing:-.045em;color:#f2f5f9}
+#page-liquidity .nfx-terminal-hero p{margin:0;color:#9ba9ba;font-size:12px}
+#page-liquidity .nfx-terminal-live{display:grid;grid-template-columns:10px auto;align-items:center;gap:5px 9px;padding:12px 15px;border:1px solid #285d4d;border-radius:10px;background:#0c211b;color:#75d5b0;font-size:9px;font-weight:850;letter-spacing:.1em;white-space:nowrap}
+#page-liquidity .nfx-terminal-live i{width:8px;height:8px;border-radius:50%;background:#4bd69e;box-shadow:0 0 12px #4bd69e}
+#page-liquidity .nfx-terminal-live small{grid-column:2;color:#90a99f;font-size:8px}
+#page-liquidity .nfx-market-search{display:grid;grid-template-columns:minmax(220px,.85fr) minmax(280px,1.3fr);gap:12px 24px;align-items:center;padding:17px 20px;margin:0 0 16px;border:1px solid #303c4c;border-radius:13px;background:linear-gradient(145deg,#121b27,#0b121b)}
+#page-liquidity .nfx-market-search-copy h2{margin:3px 0;color:#edf2f8;font-size:16px}
+#page-liquidity .nfx-market-search-copy p{margin:0;color:#8999ad;font-size:10px}
+#page-liquidity .nfx-market-search-kicker{color:#9eafc3;font-size:8px;font-weight:850;letter-spacing:.16em}
+#page-liquidity .nfx-market-search-form{display:flex;gap:8px;min-width:0}
+#page-liquidity .nfx-market-search-input-wrap{flex:1;min-width:0}
+#page-liquidity .nfx-market-search-input-wrap input{height:42px;background:#080e16;border:1px solid #344457;color:#edf2f8}
+#page-liquidity .nfx-market-search-button{border:1px solid #bd3549;border-radius:8px;background:linear-gradient(120deg,#c33a50,#8d2438);color:white;padding:0 17px;font-size:10px;font-weight:850;white-space:nowrap}
+#page-liquidity .nfx-market-search-meta{grid-column:1/-1;display:flex;gap:9px;align-items:center;color:#8392a5;font-size:9px}
+#page-liquidity .nfx-market-search-current{margin-left:auto}
+#page-liquidity .nfx-market-search-current strong{color:#e3eaf2}
+#page-liquidity .nfx-market-dot{width:7px;height:7px;border-radius:50%;background:#4bd69e}
+#page-liquidity .nfx-liq-dashboard{display:grid;gap:16px}
+#page-liquidity .nfx-pro-surface{min-width:0;padding:clamp(14px,2vw,23px)!important;border:1px solid #344254!important;border-radius:15px!important;background:radial-gradient(ellipse at 90% 0,#8195ad0b,transparent 38%),linear-gradient(145deg,#111b27,#080e16 80%)!important;box-shadow:0 17px 44px #0005,inset 0 1px #ffffff08!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-top{background:transparent!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-summary{background:transparent!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-metric,#page-liquidity #nfxLiqLivePanel .nfx-obx-contract{background:linear-gradient(145deg,#172332,#0d1520)!important;border:1px solid #2c3b4d!important;border-radius:9px}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-book{background:transparent!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-side{background:linear-gradient(180deg,#101b28,#0b121b)!important;border:1px solid #2b394b!important;border-radius:10px}
+#page-liquidity .nfx-liq-timeline-head h3{font-size:clamp(20px,2vw,25px);color:#edf2f8;letter-spacing:-.035em}
+#page-liquidity .nfx-liq-timeline-head p{color:#9aa9bb;font-size:10px;line-height:1.7}
+#page-liquidity .nfx-liq-timeline-wrap{min-height:300px;border:1px solid #29394b;border-radius:10px;background:#080f18;overflow:hidden}
+#page-liquidity #nfxLiqTimelineCanvas{display:block;width:100%;height:380px}
+#page-liquidity #nfxRealLiqCanvas{display:block;width:100%;height:380px}
+#page-liquidity .nfx-liq-timeline-note{color:#8999ad;font-size:9px;line-height:1.7}
+#page-liquidity .nfx-liq-fullscreen-btn{border:1px solid #3b4a5e!important;background:#172332!important;color:#dce5ef!important;border-radius:8px}
+#page-liquidity .nfx-liq-live-tag{border-color:#28604f!important;background:#0c211b!important;color:#72d4ad!important}
+#page-liquidity .nfx-est-liq-ranges button{border:1px solid #344458;background:#111d2a;color:#aebdd0;border-radius:6px;padding:7px 9px;font-size:9px;font-weight:850}
+#page-liquidity .nfx-est-liq-ranges button.active{border-color:#bd4054;background:#341923;color:#fff}
+#page-liquidity .nfx-heatmap-stats{border:1px solid #2b3a4b;background:#2b3a4b}
+#page-liquidity .nfx-heatmap-stats>div{background:linear-gradient(145deg,#142131,#0c141e)}
+#page-liquidity .nfx-heatmap-stats span{color:#94a5ba}
+#page-liquidity .nfx-heatmap-stats b{color:#edf2f8}
+#page-liquidity .nfx-liq-disclaimer{margin:14px 2px 0;color:#78889b;font-size:9px;line-height:1.7}
+@media(max-width:760px){#page-liquidity .nfx-terminal-hero{align-items:flex-start;flex-direction:column;padding:20px}#page-liquidity .nfx-market-search{grid-template-columns:1fr;padding:14px}#page-liquidity .nfx-market-search-meta{flex-wrap:wrap}#page-liquidity .nfx-market-search-current{margin-left:0}#page-liquidity .nfx-liq-timeline-head{align-items:flex-start;flex-direction:column;gap:10px}#page-liquidity .nfx-liq-card-actions{flex-wrap:wrap}#page-liquidity .nfx-liq-timeline-wrap{min-height:260px}#page-liquidity #nfxLiqTimelineCanvas,#page-liquidity #nfxRealLiqCanvas{height:300px}}
+</style>
 </head>
 <body>
 <div id="nfx-page-loader" role="status" aria-live="polite" aria-label="Loading Nabil FX workspace">
@@ -3973,104 +4018,54 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
       </section>
 
 
-<section id="page-liquidity" class="view nfx-liquidity-page" aria-label="Liquidity Heatmap">
-  <div class="nfx-liq-market-tabs" role="tablist" aria-label="Market type">
-    <div class="nfx-feed-switch" aria-label="Market data provider"><span>DATA FEED</span><button type="button" class="active" data-nfx-provider="bybit">BYBIT · 1000 LEVEL</button><button type="button" data-nfx-provider="binance">BINANCE</button></div>
-    <button type="button" class="nfx-liq-market-tab active" data-liq-market="crypto" role="tab" aria-selected="true">Crypto</button>
+<section id="page-liquidity" class="view nfx-liquidity-page" aria-label="Market Depth & Liquidation Analytics">
+  <div class="nfx-terminal-hero">
+    <div><span class="nfx-terminal-kicker">NABIL FX / MARKET MICROSTRUCTURE</span><h1>Order Book &amp; Heatmaps</h1><p>Live exchange depth, resting liquidity history and observed futures liquidation executions.</p></div>
+    <div class="nfx-terminal-live"><i></i><span>PUBLIC LIVE DATA</span><small>BINANCE USDⓈ-M FUTURES</small></div>
   </div>
-  <section class="nfx-market-search" aria-label="Search crypto markets">
-    <div class="nfx-market-search-copy"><span class="nfx-market-search-kicker">MARKET FINDER</span><h2>Find a market</h2><p>Search USDT perpetual contracts supported by the connected exchange.</p></div>
+  <section class="nfx-market-search" id="nfxMarketSearch" aria-label="Select futures market">
+    <div class="nfx-market-search-copy"><span class="nfx-market-search-kicker">MARKET SELECTOR</span><h2>Choose a perpetual contract</h2><p>Live USDT-margined futures markets from Binance.</p></div>
     <form class="nfx-market-search-form" id="nfxMarketSearchForm" autocomplete="off">
-      <label class="nfx-market-search-input-wrap" for="nfxMarketSearchInput"><span aria-hidden="true">⌕</span><input id="nfxMarketSearchInput" type="search" list="nfxMarketSuggestions" placeholder="Search symbol or coin — e.g. BTC, ETHUSDT" spellcheck="false" aria-label="Search crypto market"><datalist id="nfxMarketSuggestions"></datalist></label>
-      <button type="submit" class="nfx-market-search-button">View heatmap <span aria-hidden="true">↗</span></button>
+      <label class="nfx-market-search-input-wrap" for="nfxMarketSearchInput"><span aria-hidden="true">⌕</span><input id="nfxMarketSearchInput" type="search" list="nfxMarketSuggestions" placeholder="Search symbol — BTC, ETHUSDT…" spellcheck="false" aria-label="Search futures market"><datalist id="nfxMarketSuggestions"></datalist></label>
+      <button type="submit" class="nfx-market-search-button">Load market <span aria-hidden="true">↗</span></button>
     </form>
-    <div class="nfx-market-search-meta"><span class="nfx-market-dot"></span><span id="nfxMarketCount">Loading available crypto markets…</span><span class="nfx-market-search-current">Selected: <strong id="nfxMarketCurrent">BTC/USDT</strong></span></div>
+    <div class="nfx-market-search-meta"><span class="nfx-market-dot"></span><span id="nfxMarketCount">Loading USDT perpetual markets…</span><span class="nfx-market-search-current">Selected <strong id="nfxMarketCurrent">BTC/USDT</strong></span></div>
   </section>
   <div class="nfx-liq-dashboard" id="nfxLiqDashboard">
-    <section class="nfx-liq-panel nfx-liq-workspace-card nfx-orderbook-next" id="nfxLiqLivePanel" aria-label="NFX professional live order book">
-      <header class="nfx-obx-top">
-        <div class="nfx-obx-brand nfx-obx-brand-clean">
-          <div><div class="nfx-obx-eyebrow"><i></i> MARKET MICROSTRUCTURE <span>/ USDⓈ-M</span></div><h2>Order Book</h2><p id="nfxPobVenueSubtitle">Live liquidity ladder · selected exchange USDⓈ-M perpetuals</p></div>
-        </div>
-        <div class="nfx-obx-topright"><div class="nfx-liq-status" id="nfxLiqConnection"><i></i><span>Connecting to live market…</span></div><button class="nfx-liq-fullscreen-btn nfx-obx-expand" type="button" data-liq-fullscreen="nfxLiqLivePanel" aria-label="Expand live order book">⛶ <span>Expand</span></button></div>
-      </header>
+    <section class="nfx-liq-panel nfx-liq-workspace-card nfx-orderbook-next nfx-pro-surface" id="nfxLiqLivePanel" aria-label="Live order book">
+      <header class="nfx-obx-top"><div class="nfx-obx-brand nfx-obx-brand-clean"><div><div class="nfx-obx-eyebrow"><i></i> LIVE MARKET DEPTH <span>/ USDⓈ-M</span></div><h2>Order Book</h2><p id="nfxPobVenueSubtitle">Real-time Binance USDⓈ-M perpetual order book</p></div></div><div class="nfx-obx-topright"><div class="nfx-liq-status" id="nfxLiqConnection"><i></i><span>Connecting to exchange…</span></div><button class="nfx-liq-fullscreen-btn nfx-obx-expand" type="button" data-liq-fullscreen="nfxLiqLivePanel">⛶ <span>Expand</span></button></div></header>
       <div class="nfx-obx-summary">
-        <div class="nfx-obx-contract"><span class="nfx-obx-caption">ACTIVE CONTRACT</span><div class="nfx-obx-contractline"><strong id="nfxLiqSelectedMarket">BTC / USDT</strong><span class="nfx-obx-perp">PERP</span></div><small><i></i> <span id="nfxPobContractVenue">SELECTED USDⓈ-M FUTURES</span></small></div>
-        <div class="nfx-obx-metric"><span>BEST BID</span><strong id="nfxLiqBestBid" class="bid-text">—</strong><small>Highest buy order</small></div>
-        <div class="nfx-obx-metric"><span>BEST ASK</span><strong id="nfxLiqBestAsk" class="ask-text">—</strong><small>Lowest sell order</small></div>
-        <div class="nfx-obx-metric"><span>SPREAD</span><strong id="nfxLiqSpread">—</strong><small>Ask − bid</small></div>
-        <div class="nfx-obx-metric nfx-obx-imbalance"><span>DEPTH IMBALANCE</span><strong id="nfxLiqDelta">—</strong><div class="nfx-obx-imbalance-track"><i id="nfxObxImbalanceBar"></i></div><small>Displayed levels</small></div>
-        <div class="nfx-obx-metric nfx-obx-updated"><span>LAST UPDATE</span><strong id="nfxLiqUpdated">—</strong><small><i></i> Live stream</small></div>
+        <div class="nfx-obx-contract"><span class="nfx-obx-caption">ACTIVE CONTRACT</span><div class="nfx-obx-contractline"><strong id="nfxLiqSelectedMarket">BTC / USDT</strong><span class="nfx-obx-perp">PERP</span></div><small><i></i> <span id="nfxPobContractVenue">BINANCE USDⓈ-M FUTURES</span></small></div>
+        <div class="nfx-obx-metric"><span>BEST BID</span><strong id="nfxLiqBestBid" class="bid-text">—</strong><small>Highest buy limit</small></div>
+        <div class="nfx-obx-metric"><span>BEST ASK</span><strong id="nfxLiqBestAsk" class="ask-text">—</strong><small>Lowest sell limit</small></div>
+        <div class="nfx-obx-metric"><span>SPREAD</span><strong id="nfxLiqSpread">—</strong><small>Ask minus bid</small></div>
+        <div class="nfx-obx-metric nfx-obx-imbalance"><span>DEPTH IMBALANCE</span><strong id="nfxLiqDelta">—</strong><div class="nfx-obx-imbalance-track"><i id="nfxObxImbalanceBar"></i></div><small>Displayed book depth</small></div>
+        <div class="nfx-obx-metric nfx-obx-updated"><span>LAST UPDATE</span><strong id="nfxLiqUpdated">—</strong><small>Exchange stream</small></div>
       </div>
-      <div class="nfx-obx-toolbar">
-        <div class="nfx-obx-feed"><span class="nfx-obx-live"></span><div><b>LIVE ORDER BOOK</b><small id="nfxPobFeedName">BINANCE FUTURES · DEPTH STREAM</small></div><span class="nfx-obx-streamtag" id="nfxPobFeedTag">100 MS STREAM</span></div>
-        <div class="nfx-obx-tools"><span>DEPTH</span><div class="nfx-obx-levels"><button type="button" data-book-depth="10">10</button><button type="button" data-book-depth="20">20</button><button type="button" data-book-depth="50" class="active">50</button></div><span class="nfx-obx-unit">PRICE · USDT</span></div>
-      </div>
+      <div class="nfx-obx-toolbar"><div class="nfx-obx-feed"><span class="nfx-obx-live"></span><div><b>LIVE DEPTH STREAM</b><small id="nfxPobFeedName">BINANCE USDⓈ-M FUTURES</small></div><span class="nfx-obx-streamtag" id="nfxPobFeedTag">100 MS</span></div><div class="nfx-obx-tools"><span>LEVELS</span><div class="nfx-obx-levels"><button type="button" data-book-depth="10">10</button><button type="button" data-book-depth="20">20</button><button type="button" data-book-depth="50" class="active">50</button></div><span class="nfx-obx-unit">PRICE · USDT</span></div></div>
       <div class="nfx-obx-book">
-        <div class="nfx-obx-side nfx-obx-askside">
-          <div class="nfx-obx-sidehead"><div><i></i><b>ASKS</b><span>SELL SIDE</span></div><div class="nfx-obx-colheads"><span>PRICE (USDT)</span><span>SIZE</span><span>TOTAL</span></div></div>
-          <div class="nfx-liq-levels nfx-obx-ladder" id="nfxLiqAsks"><div class="nfx-liq-empty">Connecting to live depth stream…</div></div>
-          <div class="nfx-obx-sidefoot"><span>SELL LIQUIDITY</span><b class="ask-text">ASK DEPTH</b></div>
-        </div>
-        <div class="nfx-obx-mid">
-          <div class="nfx-obx-midlabel"><i></i> MID MARKET PRICE</div>
-          <strong id="nfxLiqMid">—</strong>
-          <div id="nfxProMidMove" class="nfx-obx-move">Waiting for first live update</div>
-          <div class="nfx-obx-spread"><span>SPREAD</span><b id="nfxProSpread">—</b></div>
-          <div class="nfx-obx-midrule"><span>TOP OF BOOK</span><i></i></div>
-          <div class="nfx-obx-bestrow"><span><i class="nfx-obx-dot ask"></i> BEST ASK</span><b id="nfxPobAskMirror" class="ask-text">—</b></div>
-          <div class="nfx-obx-bestrow"><span><i class="nfx-obx-dot bid"></i> BEST BID</span><b id="nfxPobBidMirror" class="bid-text">—</b></div>
-          <div class="nfx-obx-depthsplit"><div><span>ASK SIZE</span><b id="nfxObxAskSize">—</b></div><div><span>BID SIZE</span><b id="nfxObxBidSize">—</b></div></div>
-          <div class="nfx-obx-midnote">Order quantities shown in base asset</div>
-        </div>
-        <div class="nfx-obx-side nfx-obx-bidside">
-          <div class="nfx-obx-sidehead"><div><i></i><b>BIDS</b><span>BUY SIDE</span></div><div class="nfx-obx-colheads"><span>PRICE (USDT)</span><span>SIZE</span><span>TOTAL</span></div></div>
-          <div class="nfx-liq-levels nfx-obx-ladder" id="nfxLiqBids"><div class="nfx-liq-empty">Connecting to live depth stream…</div></div>
-          <div class="nfx-obx-sidefoot"><span>BUY LIQUIDITY</span><b class="bid-text">BID DEPTH</b></div>
-        </div>
+        <div class="nfx-obx-side nfx-obx-askside"><div class="nfx-obx-sidehead"><div><i></i><b>ASKS</b><span>SELL SIDE</span></div><div class="nfx-obx-colheads"><span>PRICE</span><span>SIZE</span><span>TOTAL</span></div></div><div class="nfx-liq-levels nfx-obx-ladder" id="nfxLiqAsks"><div class="nfx-liq-empty">Waiting for synchronized depth…</div></div><div class="nfx-obx-sidefoot"><span>SELL LIQUIDITY</span><b class="ask-text">ASK DEPTH</b></div></div>
+        <div class="nfx-obx-mid"><div class="nfx-obx-midlabel"><i></i> MID MARKET PRICE</div><strong id="nfxLiqMid">—</strong><div id="nfxProMidMove" class="nfx-obx-move">Waiting for live update</div><div class="nfx-obx-spread"><span>SPREAD</span><b id="nfxProSpread">—</b></div><div class="nfx-obx-midrule"><span>TOP OF BOOK</span><i></i></div><div class="nfx-obx-bestrow"><span><i class="nfx-obx-dot ask"></i> BEST ASK</span><b id="nfxPobAskMirror" class="ask-text">—</b></div><div class="nfx-obx-bestrow"><span><i class="nfx-obx-dot bid"></i> BEST BID</span><b id="nfxPobBidMirror" class="bid-text">—</b></div><div class="nfx-obx-depthsplit"><div><span>ASK SIZE</span><b id="nfxObxAskSize">—</b></div><div><span>BID SIZE</span><b id="nfxObxBidSize">—</b></div></div><div class="nfx-obx-midnote">Visible quantities · base asset</div></div>
+        <div class="nfx-obx-side nfx-obx-bidside"><div class="nfx-obx-sidehead"><div><i></i><b>BIDS</b><span>BUY SIDE</span></div><div class="nfx-obx-colheads"><span>PRICE</span><span>SIZE</span><span>TOTAL</span></div></div><div class="nfx-liq-levels nfx-obx-ladder" id="nfxLiqBids"><div class="nfx-liq-empty">Waiting for synchronized depth…</div></div><div class="nfx-obx-sidefoot"><span>BUY LIQUIDITY</span><b class="bid-text">BID DEPTH</b></div></div>
       </div>
-      <footer class="nfx-obx-footer">
-        <div class="nfx-obx-legend"><span><i class="ask"></i> Ask liquidity</span><span><i class="bid"></i> Bid liquidity</span><small>Depth bars show relative size at each price level</small></div>
-        <div class="nfx-obx-velocity"><span>BID MOVE <b id="nfxLiqBidVelocity">—</b></span><span>ASK MOVE <b id="nfxLiqAskVelocity">—</b></span></div>
-        <div class="nfx-obx-source">FEED <b id="nfxPobSourceName">BINANCE USDⓈ-M FUTURES</b><span>•</span> TOP-50 LIVE DEPTH</div>
-      </footer>
-      <div hidden aria-hidden="true"><span id="nfxLiqBidVelocitySub"></span><span id="nfxLiqAskVelocitySub"></span></div>
+      <footer class="nfx-obx-footer"><div class="nfx-obx-legend"><span><i class="ask"></i> Ask liquidity</span><span><i class="bid"></i> Bid liquidity</span><small>Bars represent relative resting quantity at each price</small></div><div class="nfx-obx-velocity"><span>BID MOVE <b id="nfxLiqBidVelocity">—</b></span><span>ASK MOVE <b id="nfxLiqAskVelocity">—</b></span></div><div class="nfx-obx-source">SOURCE <b id="nfxPobSourceName">BINANCE USDⓈ-M</b> · LIVE DEPTH</div></footer>
+      <div hidden><span id="nfxLiqBidVelocitySub"></span><span id="nfxLiqAskVelocitySub"></span></div>
     </section>
-    <section class="nfx-liq-timeline-panel nfx-liq-workspace-card" id="nfxLiqBookHeatmap" aria-label="Liquidity timeline heatmap">
-      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">LIVE CAPTURE</div><h3>Liquidity Heatmap</h3><p>Live resting orders by price and time · <strong id="nfxLiqBookFeedDesc">BYBIT 1000-LEVEL DEPTH · 200MS</strong> · <strong id="nfxLiqTimelineSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><span class="nfx-liq-live-tag" id="nfxLiqBookStatus"><i></i> LIVE DEPTH</span><div class="nfx-est-liq-ranges" role="group" aria-label="Heatmap time range"><button type="button" data-book-liq-range="3600" class="active" aria-pressed="true">1H</button><button type="button" data-book-liq-range="7200" aria-pressed="false">2H</button><button type="button" data-book-liq-range="14400" aria-pressed="false">4H</button><button type="button" data-book-liq-range="43200" aria-pressed="false">12H</button><button type="button" data-book-liq-range="86400" aria-pressed="false">1D</button><button type="button" data-book-liq-range="172800" aria-pressed="false">2D</button><button type="button" data-book-liq-range="259200" aria-pressed="false">3D</button><button type="button" data-book-liq-range="604800" aria-pressed="false">7D</button><button id="nfxLiqResetHistory" type="button">Reset</button></div><select id="nfxLiqWindow" aria-label="Liquidity heatmap timeframe" hidden><option value="3600" selected>1 HOUR</option><option value="7200">2 HOURS</option><option value="14400">4 HOURS</option><option value="43200">12 HOURS</option><option value="86400">1 DAY</option><option value="172800">2 DAYS</option><option value="259200">3 DAYS</option><option value="604800">7 DAYS</option></select><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqBookHeatmap" aria-label="Expand liquidity heatmap">⛶ <span>Expand</span></button></div></div>
-      <div class="nfx-heatmap-stats" id="nfxBookHeatmapStats"><div><span>CAPTURED SNAPSHOTS</span><b id="nfxBookStatSnapshots">0</b></div><div><span>VISIBLE DEPTH</span><b id="nfxBookStatDepth">—</b></div><div><span>BEST SPREAD</span><b id="nfxBookStatSpread">—</b></div><div><span>BOOK IMBALANCE</span><b id="nfxBookStatImbalance">—</b></div></div><div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqTimelineCanvas" aria-label="Live order book liquidity by price and time"></canvas><div id="nfxLiqTimelineEmpty" class="nfx-liq-timeline-empty">Building live heatmap… historical columns appear as live snapshots arrive.</div></div>
-      <div class="nfx-liq-timeline-axis"><span>OLDER</span><span>PRICE · TIME</span><span>NOW →</span></div>
-      <div class="nfx-liq-timeline-note">Captured top-100 visible resting levels from the selected exchange. Heatmap history starts collecting when the feed connects.</div>
-
+    <section class="nfx-liq-timeline-panel nfx-liq-workspace-card nfx-pro-surface" id="nfxLiqBookHeatmap" aria-label="Live resting liquidity heatmap">
+      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">LIVE ORDER BOOK HISTORY</div><h3>Liquidity Heatmap</h3><p>Observed resting bid and ask liquidity by price and time · <strong id="nfxLiqBookFeedDesc">BINANCE FUTURES · 100 MS DEPTH</strong> · <strong id="nfxLiqTimelineSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><span class="nfx-liq-live-tag" id="nfxLiqBookStatus"><i></i> CAPTURING LIVE</span><div class="nfx-est-liq-ranges" role="group" aria-label="History window"><button type="button" data-book-liq-range="3600" class="active" aria-pressed="true">1H</button><button type="button" data-book-liq-range="7200">2H</button><button type="button" data-book-liq-range="14400">4H</button><button type="button" data-book-liq-range="43200">12H</button><button type="button" data-book-liq-range="86400">1D</button><button type="button" data-book-liq-range="259200">3D</button><button type="button" data-book-liq-range="604800">7D</button><button id="nfxLiqResetHistory" type="button">Reset</button></div><select id="nfxLiqWindow" hidden><option value="3600">1H</option><option value="7200">2H</option><option value="14400">4H</option><option value="43200">12H</option><option value="86400">1D</option><option value="259200">3D</option><option value="604800">7D</option></select><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqBookHeatmap">⛶ <span>Expand</span></button></div></div>
+      <div class="nfx-heatmap-stats" id="nfxBookHeatmapStats"><div><span>CAPTURED SNAPSHOTS</span><b id="nfxBookStatSnapshots">0</b></div><div><span>VISIBLE DEPTH</span><b id="nfxBookStatDepth">—</b></div><div><span>BEST SPREAD</span><b id="nfxBookStatSpread">—</b></div><div><span>BOOK IMBALANCE</span><b id="nfxBookStatImbalance">—</b></div></div>
+      <div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqTimelineCanvas" aria-label="Live observed liquidity by price and time"></canvas><div id="nfxLiqTimelineEmpty" class="nfx-liq-timeline-empty">Waiting for the first synchronized exchange snapshots. History builds from this session onward.</div></div><div class="nfx-liq-timeline-axis"><span>OLDER</span><span>PRICE · TIME</span><span>NOW →</span></div><div class="nfx-liq-timeline-note">This is venue-specific visible order-book depth. Historical columns accumulate from the moment this page connects; older data is not fabricated or backfilled.</div>
     </section>
-    <section class="nfx-liq-timeline-panel nfx-liq-workspace-card" id="nfxLiqLiquidationHeatmap" aria-label="Live futures liquidation heatmap">
-      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">NABIL FX <span class="nfx-liq-kicker-divider">/</span> DERIVATIVES INTELLIGENCE</div><h3>Liquidation Heatmap</h3><p>Estimated liquidation levels and observed exchange executions <span class="nfx-liq-symbol-separator">·</span> <strong id="nfxLiqLiquidationSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><span class="nfx-liq-live-tag" id="nfxLiqEstStatus"><i></i> LIVE FEED</span><div class="nfx-cg-liq-toolbar"><div class="nfx-cg-model-switch" role="group" aria-label="Liquidation model"><span>MODEL</span><button type="button" data-nfx-model="1" class="active" aria-pressed="true">MODEL 1</button><button type="button" data-nfx-model="2" aria-pressed="false">MODEL 2</button><button type="button" data-nfx-model="3" aria-pressed="false">MODEL 3</button></div><div class="nfx-cg-view-switch" role="group" aria-label="Liquidation side view"><button type="button" data-nfx-liq-view="all" class="active" aria-pressed="true">ALL</button><button type="button" data-nfx-liq-view="long" aria-pressed="false">LONG</button><button type="button" data-nfx-liq-view="short" aria-pressed="false">SHORT</button><button type="button" data-nfx-liq-view="trade" aria-pressed="false">TRADE</button></div><label class="nfx-cg-threshold">LIQUIDITY THRESHOLD <input id="nfxEstLiqThreshold" type="range" min="20" max="95" step="5" value="45"><b id="nfxEstLiqThresholdValue">45%</b></label><select id="nfxEstLiqModel" aria-label="Liquidation model" hidden><option value="1">MODEL 1 · BALANCED</option><option value="2">MODEL 2 · HIGH LEVERAGE</option><option value="3">MODEL 3 · BROAD RANGE</option></select></div><div class="nfx-est-liq-ranges" role="group" aria-label="Heatmap time range"><button type="button" data-est-liq-range="1h" class="active">1H</button><button type="button" data-est-liq-range="2h">2H</button><button type="button" data-est-liq-range="4h">4H</button><button type="button" data-est-liq-range="12h">12H</button><button type="button" data-est-liq-range="1d">1D</button><button type="button" data-est-liq-range="2d">2D</button><button type="button" data-est-liq-range="3d">3D</button><button type="button" data-est-liq-range="7d">7D</button><button type="button" data-est-liq-zoom="reset">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqLiquidationHeatmap" aria-label="Expand liquidation heatmap">⛶ <span>Expand</span></button></div></div>
-      <div class="nfx-heatmap-stats nfx-liquidation-stats" id="nfxLiquidationHeatmapStats"><div><span>ACTUAL PRINTS</span><b id="nfxLiqStatEvents">0</b></div><div><span>ACTUAL NOTIONAL</span><b id="nfxLiqStatNotional">—</b></div><div><span>LONG PRINTS</span><b id="nfxLiqStatLong">—</b></div><div><span>SHORT PRINTS</span><b id="nfxLiqStatShort">—</b></div></div><div class="nfx-liq-model-legend"><span><i class="long"></i> LONG LIQUIDATION ZONES</span><span><i class="short"></i> SHORT LIQUIDATION ZONES</span><span class="intensity"><i></i> RELATIVE CLUSTER INTENSITY</span></div><div class="nfx-liq-chart-frame"><div class="nfx-liq-chart-topline"><span><i></i> LIQUIDATION INTENSITY MAP</span><span>PRICE LEVELS <b>·</b> TIME DISTRIBUTION</span></div><div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqLiquidationCanvas" aria-label="Verified exchange liquidation executions by price and time" style="width:100%;height:100%;display:block"></canvas><div id="nfxLiqLiquidationEmpty" class="nfx-liq-timeline-empty">Waiting for actual futures liquidation events…</div></div></div>
-      <div class="nfx-liq-timeline-axis"><span>OLDER</span><span>SYMBOL · TIME</span><span>NOW →</span></div>
-      <div class="nfx-liq-timeline-note">Estimated clusters are modelled from public open-interest history, nearby market prices and leverage assumptions. Public OI does not disclose account-side positioning or entry prices, so levels and intensity are estimates—not CoinGlass data or verified liquidation USD. Actual exchange liquidation prints are overlaid separately.</div>
-
+    <section class="nfx-liq-timeline-panel nfx-liq-workspace-card nfx-pro-surface" id="nfxLiqLiquidationHeatmap" aria-label="Observed futures liquidation heatmap">
+      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">EXCHANGE-REPORTED DERIVATIVES EVENTS</div><h3>Liquidation Heatmap</h3><p>Actual Binance USDⓈ-M liquidation stream events · <strong id="nfxLiqLiquidationSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><span class="nfx-liq-live-tag" id="nfxLiqEstStatus"><i></i> LIVE EVENT STREAM</span><div class="nfx-est-liq-ranges" role="group" aria-label="Liquidation event window"><button type="button" data-est-liq-range="1h" class="active">1H</button><button type="button" data-est-liq-range="2h">2H</button><button type="button" data-est-liq-range="4h">4H</button><button type="button" data-est-liq-range="12h">12H</button><button type="button" data-est-liq-range="1d">1D</button><button type="button" data-est-liq-range="3d">3D</button><button type="button" data-est-liq-range="7d">7D</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqLiquidationHeatmap">⛶ <span>Expand</span></button></div></div>
+      <div class="nfx-heatmap-stats nfx-liquidation-stats" id="nfxLiquidationHeatmapStats"><div><span>OBSERVED EVENTS</span><b id="nfxLiqStatEvents">0</b></div><div><span>OBSERVED NOTIONAL</span><b id="nfxLiqStatNotional">—</b></div><div><span>LONG LIQUIDATIONS</span><b id="nfxLiqStatLong">—</b></div><div><span>SHORT LIQUIDATIONS</span><b id="nfxLiqStatShort">—</b></div></div>
+      <div class="nfx-liq-model-legend"><span><i class="long"></i> LONG POSITION LIQUIDATIONS</span><span><i class="short"></i> SHORT POSITION LIQUIDATIONS</span><span class="intensity"><i></i> RELATIVE OBSERVED NOTIONAL</span></div>
+      <div class="nfx-liq-chart-frame"><div class="nfx-liq-chart-topline"><span><i></i> ACTUAL LIQUIDATION PRINTS</span><span>PRICE LEVELS <b>·</b> TIME</span></div><div class="nfx-liq-timeline-wrap"><canvas id="nfxRealLiqCanvas" aria-label="Actual exchange liquidation events by price and time"></canvas><canvas id="nfxLiqLiquidationCanvas" aria-hidden="true" style="display:none"></canvas><div id="nfxLiqLiquidationEmpty" class="nfx-liq-timeline-empty">Waiting for exchange-reported liquidation events. No estimated or simulated levels are shown.</div></div></div>
+      <div class="nfx-liq-timeline-axis"><span>OLDER</span><span>PRICE · TIME</span><span>NOW →</span></div><div class="nfx-liq-timeline-note">Only liquidation orders broadcast by Binance are plotted. The public stream is sampled by the exchange and is not a complete record of every liquidation across all venues; no leverage-based estimated clusters are mixed into this chart.</div>
     </section>
-
-    <section id="nfxOrderFlowDesk" aria-label="Live order flow terminal">
-      <header class="nfx-ofd-head"><div><div class="nfx-ofd-kicker">NABIL FX / MARKET MICROSTRUCTURE</div><h2>Order Flow</h2><p>Live aggressor-side executions · Binance USDⓈ-M aggregate trades</p></div><div class="nfx-ofd-head-right"><span id="nfxOfdStatus" class="nfx-ofd-status"><i></i> CONNECTING</span><button type="button" id="nfxOfdExpand">⛶ Expand</button></div></header>
-      <div class="nfx-ofd-metrics">
-        <div><span>MARKET BUY VOLUME</span><b id="nfxOfdBuy">—</b><small id="nfxOfdBuyPct">Aggressive buyers</small></div><div><span>MARKET SELL VOLUME</span><b id="nfxOfdSell">—</b><small id="nfxOfdSellPct">Aggressive sellers</small></div><div><span>NET DELTA</span><b id="nfxOfdDelta">—</b><small id="nfxOfdDeltaPct">Buy volume − sell volume</small></div><div><span>CUMULATIVE DELTA</span><b id="nfxOfdCvd">—</b><small>Since this session connected</small></div><div><span>TRADE COUNT</span><b id="nfxOfdCount">0</b><small id="nfxOfdSymbol">BTCUSDT</small></div>
-      </div>
-      <div class="nfx-ofd-main"><section class="nfx-ofd-chart-card"><div class="nfx-ofd-subhead"><b>DELTA FLOW</b><span>1-MINUTE AGGRESSOR DELTA</span></div><canvas id="nfxOfdChart" height="270" aria-label="One-minute buy and sell volume delta chart"></canvas><div class="nfx-ofd-legend"><span><i class="buy"></i> BUY DELTA</span><span><i class="sell"></i> SELL DELTA</span><span><i class="net"></i> NET CVD</span></div></section><section class="nfx-ofd-tape-card"><div class="nfx-ofd-subhead"><b>LIVE TRADE TAPE</b><span id="nfxOfdTapeCount">LATEST PRINTS</span></div><div class="nfx-ofd-tape-head"><span>TIME</span><span>SIDE</span><span>PRICE</span><span>SIZE</span><span>NOTIONAL</span></div><div id="nfxOfdTape" class="nfx-ofd-tape"><div class="nfx-ofd-empty">Waiting for live aggregate trades…</div></div></section></div>
-      <footer class="nfx-ofd-foot"><span>DATA SOURCE: BINANCE USDⓈ-M FUTURES · AGGTRADE STREAM</span><span>AGGRESSOR SIDE FROM EXCHANGE FLAG · NOT A FULL EXCHANGE FOOTPRINT</span></footer>
-    </section>
+    <div hidden><div class="nfx-liq-market-tabs"><button data-liq-market="crypto" aria-selected="true"></button></div><div class="nfx-feed-switch"><button data-nfx-provider="binance" class="active"></button></div><div id="nfxLiqProviderPanel"></div><div id="nfxLiqLiquidationEmptyLegacy"></div><span id="nfxEstLiqThresholdValue"></span><input id="nfxEstLiqThreshold" value="45"><select id="nfxEstLiqModel"><option value="1">1</option></select></div>
   </div>
-  <article class="nfx-of-card" id="nfxCvdCard"><span class="nfx-of-label">CUMULATIVE VOLUME DELTA</span><strong id="nfxCvdValue">—</strong><div class="nfx-of-sub" id="nfxCvdSub">Waiting for live aggregate trades</div><canvas id="nfxCvdCanvas" height="90"></canvas></article>
-<article class="nfx-of-card" id="nfxOpenInterestCard"><span class="nfx-of-label">OPEN INTEREST</span><strong id="nfxOiValue">—</strong><div class="nfx-of-sub" id="nfxOiSub">Public Binance Futures contract metric</div></article>
-<article class="nfx-of-card" id="nfxFundingCard"><span class="nfx-of-label">FUNDING RATE</span><strong id="nfxFundingValue">—</strong><div class="nfx-of-sub" id="nfxFundingSub">Latest published funding rate</div></article>
-<section class="nfx-liq-panel nfx-liq-unavailable" id="nfxLiqProviderPanel" hidden>
-    <div class="nfx-liq-provider-icon">◈</div><div class="nfx-liq-kicker">MARKET DATA CONNECTION</div><h2 id="nfxLiqProviderTitle">Forex Liquidity Heatmap</h2>
-    <div class="nfx-liq-provider-badge">ORDER-BOOK FEED NOT CONNECTED</div>
-    <p id="nfxLiqProviderDescription">A verified order-book provider is required to display real liquidity.</p>
-    <div class="nfx-liq-provider-grid"><div><strong>We will not fake live data</strong><span>No simulated liquidity or made-up delay labels.</span></div><div><strong>Delay shown only when verified</strong><span>5m / 10m / 15m labels will be used only when a provider confirms that delay.</span></div><div><strong>Market-specific data needed</strong><span>Forex is decentralised; gold, indices and futures may require venue-specific depth feeds.</span></div></div>
-    <div class="nfx-liq-provider-note">This market section is ready in the workspace, but a reliable free order-book liquidity feed for this asset class has not been connected yet.</div>
-  </section>
-  <p class="nfx-liq-disclaimer">Market depth is venue-specific. Binance Futures depth shows only visible orders on that venue, not total global liquidity; orders can change or be cancelled rapidly.</p>
+  <p class="nfx-liq-disclaimer">All displayed depth and liquidation data is specific to Binance USDⓈ-M Futures. It does not represent global market liquidity. Heatmap history begins when live collection starts on this device.</p>
 </section>
 
 <section id="page-news" class="view nfx-news-page"><div class="nfx-news-hero"><div><span>NABIL FX / MARKET INTELLIGENCE</span><h1>Market News</h1><p>Fast-updating coverage across forex, crypto, stocks, indices, commodities, futures, bonds and the global economy.</p></div><b id="nfxNewsConnection">CONNECTING TO LIVE FEEDS</b></div><div class="nfx-news-toolbar"><div class="nfx-news-controls"><input id="nfxNewsSearch" type="search" placeholder="Search market headlines, topics or publishers…"><select id="nfxNewsCategory"><option value="all">All markets & trading</option><option value="forex">Forex & currencies</option><option value="crypto">Crypto</option><option value="stocks">Stocks & equities</option><option value="indices">Indices</option><option value="commodities">Commodities</option><option value="bonds">Bonds & rates</option><option value="macro">Economy & central banks</option><option value="markets">Global markets</option></select><button id="nfxNewsRefresh" class="nfx-news-action nfx-news-refresh" type="button">Refresh Feed</button><button id="nfxNewsNotify" class="nfx-news-action nfx-news-alerts" type="button">Enable Alerts</button></div><div id="nfxNewsStatus" class="nfx-news-status">Loading public news feeds…</div></div><div class="nfx-news-stats"><div><small>AVAILABLE HEADLINES</small><strong id="nfxNewsCount">—</strong></div><div><small>LAST UPDATED</small><strong id="nfxNewsUpdated">—</strong></div><div><small>NEWS ALERTS</small><strong id="nfxNewsAlertState">OFF</strong></div></div><div class="nfx-news-section-head"><div><span>THE LATEST</span><h2>Latest Headlines</h2></div><small id="nfxNewsResultCount"></small></div><main><div id="nfxNewsList" class="nfx-news-list"><div class="nfx-news-empty">Connecting to news providers…</div></div></main><div class="nfx-news-footnote">Coverage spans major tradable markets and macroeconomic events. Public-feed availability and publisher delays vary; this is not a guaranteed real-time institutional newswire. Select a story for details and the original publisher link.</div><div id="nfxNewsDetail" class="nfx-news-detail" hidden><div class="nfx-news-detail-backdrop" data-news-close></div><section class="nfx-news-detail-panel" role="dialog" aria-modal="true" aria-labelledby="nfxNewsDetailTitle"><button id="nfxNewsDetailClose" class="nfx-news-detail-close" type="button" data-news-close aria-label="Close article details">×</button><span class="nfx-news-detail-kicker">NABIL FX / NEWS BRIEFING</span><div id="nfxNewsDetailMeta" class="nfx-news-detail-meta"></div><h2 id="nfxNewsDetailTitle"></h2><div class="nfx-news-detail-rule"></div><p id="nfxNewsDetailSummary"></p><div class="nfx-news-detail-footer"><span id="nfxNewsDetailDate"></span><a id="nfxNewsDetailSource" href="#" target="_blank" rel="noopener noreferrer">READ FULL ARTICLE ↗</a></div><small class="nfx-news-detail-note">This briefing displays the summary provided by the news feed. The complete article remains on the original publisher’s website.</small></section></div></section>
@@ -7169,7 +7164,7 @@ document.addEventListener('click', function(event) {
 
 <script id="nfx-liquidity-heatmap-app">
 (function(){
-  var activeProvider="bybit", socket=null, liquidationSocket=null, reconnectTimer=null, liquidationReconnectTimer=null, currentSymbol='btcusdt', activeMarket='crypto', manuallyClosed=false, lastPayload=null, liquidationEvents=[], liquidationRenderFrame=0;
+  var activeProvider="binance", socket=null, liquidationSocket=null, reconnectTimer=null, liquidationReconnectTimer=null, currentSymbol='btcusdt', activeMarket='crypto', manuallyClosed=false, lastPayload=null, liquidationEvents=[], liquidationRenderFrame=0;
   var symbols={btcusdt:'BTC/USDT',ethusdt:'ETH/USDT',bnbusdt:'BNB/USDT',solusdt:'SOL/USDT',xrpusdt:'XRP/USDT',dogeusdt:'DOGE/USDT',adausdt:'ADA/USDT',linkusdt:'LINK/USDT'},marketSymbolsLoaded=false;
   function normalizeSymbol(value){return String(value||'').toUpperCase().replace(/[^A-Z0-9]/g,'').replace(/USDT$/,'')+'USDT';}
   function marketLabel(symbol){symbol=String(symbol||'').toUpperCase();return symbol.slice(0,-4)+'/USDT';}
@@ -8604,5 +8599,40 @@ window.renderBacktestMetrics=function(r,meta={}){
 #page-backtest.nfxbt-page .nfxbt-tags b{border-color:#e34b5c45!important;background:#e34b5c0d!important}
 #page-backtest.nfxbt-page .nfxbt-mark{border-color:#e34b5c66!important;background:linear-gradient(145deg,#26151c,#101720)!important}
 </style>
+<script id="nfx-real-liquidation-heatmap">
+(function(){
+ const canvas=document.getElementById('nfxRealLiqCanvas'); if(!canvas)return;
+ const events=[]; let range=3600000, ws=null, retry=1000, timer=null;
+ const ranges={'1h':3600000,'2h':7200000,'4h':14400000,'12h':43200000,'1d':86400000,'3d':259200000,'7d':604800000};
+ function symbol(){return (document.getElementById('nfxMarketCurrent')?.textContent||'BTC/USDT').replace('/','').toLowerCase();}
+ function connect(){
+   if(document.hidden)return;
+   try{ws=new WebSocket('wss://fstream.binance.com/ws/'+symbol()+'@forceOrder');}catch(e){schedule();return;}
+   const current=ws;
+   current.onopen=()=>{retry=1000;const st=document.getElementById('nfxLiqEstStatus');if(st)st.innerHTML='<i></i> LIVE EVENT STREAM';};
+   current.onmessage=ev=>{try{const packet=JSON.parse(ev.data),o=packet.o;if(!o)return;const p=Number(o.ap)||Number(o.p),q=Number(o.z)>0?Number(o.z):Number(o.q),t=Number(o.T)||Date.now();if(!(p>0&&q>0))return;events.push({p,usd:p*q,t,side:o.S});while(events.length>12000)events.shift();render();}catch(e){}};
+   current.onclose=()=>schedule();current.onerror=()=>{try{current.close();}catch(e){}};
+ }
+ function schedule(){if(timer)clearTimeout(timer);timer=setTimeout(connect,retry);retry=Math.min(retry*2,15000);}
+ function render(){
+   const r=canvas.getBoundingClientRect();if(r.width<40||r.height<80)return;
+   const dpr=Math.min(devicePixelRatio||1,2),w=Math.round(r.width*dpr),h=Math.round(r.height*dpr);if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
+   const c=canvas.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);const W=r.width,H=r.height,L=62,R=18,T=25,B=30,now=Date.now(),cut=now-range,rows=events.filter(e=>e.t>=cut),maxP=rows.length?Math.max(...rows.map(e=>e.p)):0,minP=rows.length?Math.min(...rows.map(e=>e.p)):0,span=Math.max(maxP-minP,maxP*.001,1);
+   c.clearRect(0,0,W,H);c.fillStyle='#080f18';c.fillRect(0,0,W,H);c.font='10px system-ui';c.fillStyle='#9aabc0';c.fillText('BINANCE FORCE ORDER · OBSERVED EVENTS ONLY',L,14);
+   for(let i=0;i<=4;i++){const y=T+(H-T-B)*i/4;c.strokeStyle='#ffffff12';c.beginPath();c.moveTo(L,y);c.lineTo(W-R,y);c.stroke();if(rows.length){const p=maxP-span*i/4;c.fillStyle='#91a2b7';c.textAlign='right';c.fillText(p.toLocaleString('en-US',{maximumFractionDigits:4}),L-8,y+3);}}
+   if(!rows.length){c.textAlign='center';c.fillStyle='#8798ad';c.font='12px system-ui';c.fillText('No observed liquidation events in this window yet',W/2,H/2);return;}
+   const maxUsd=Math.max(...rows.map(e=>e.usd),1);
+   rows.forEach(e=>{const x=L+(e.t-cut)/range*(W-L-R),y=T+(maxP-e.p)/span*(H-T-B),rad=3+Math.sqrt(e.usd/maxUsd)*13;c.beginPath();c.arc(x,y,rad,0,Math.PI*2);c.fillStyle=e.side==='SELL'?'rgba(242,91,111,.18)':'rgba(56,205,151,.18)';c.fill();c.beginPath();c.arc(x,y,Math.max(1.5,rad*.38),0,Math.PI*2);c.fillStyle=e.side==='SELL'?'#ef6679':'#4bd09c';c.fill();});
+   c.textAlign='left';c.fillStyle='#8d9eb3';c.fillText(new Date(cut).toLocaleTimeString(),L,H-9);c.textAlign='right';c.fillText('NOW',W-R,H-9);
+   const total=rows.reduce((a,e)=>a+e.usd,0),long=rows.filter(e=>e.side==='SELL'),short=rows.filter(e=>e.side!=='SELL');
+   const put=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+   put('nfxLiqStatEvents',rows.length.toLocaleString());put('nfxLiqStatNotional',total>=1e6?(total/1e6).toFixed(2)+'M USDT':(total/1e3).toFixed(1)+'K USDT');put('nfxLiqStatLong',long.length.toLocaleString());put('nfxLiqStatShort',short.length.toLocaleString());
+   const empty=document.getElementById('nfxLiqLiquidationEmpty');if(empty)empty.hidden=true;
+ }
+ document.querySelectorAll('[data-est-liq-range]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-est-liq-range]').forEach(x=>x.classList.toggle('active',x===b));range=ranges[b.dataset.estLiqRange]||3600000;render();}));
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden&&(!ws||ws.readyState>1))connect();});
+ window.addEventListener('resize',render);connect();render();
+})();
+</script>
 </body>
 </html>
