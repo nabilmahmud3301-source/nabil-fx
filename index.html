@@ -4970,7 +4970,16 @@ document.addEventListener('click', function(event) {
 <style id="nfx-market-lab-expanded-fix">
 #page-liquidity .nml-panel.nml-expanded:has(.nml-chart){display:flex!important;flex-direction:column!important;gap:10px!important;overflow:hidden!important;height:calc(100dvh - 24px)!important;max-height:calc(100dvh - 24px)!important;padding:18px 22px!important}
 #page-liquidity .nml-panel.nml-expanded:has(.nml-chart)>.nml-panel-head{position:relative!important;inset:auto!important;top:auto!important;flex:0 0 auto!important;padding:2px 0 12px!important;margin:0!important;background:#050608!important}
-#page-liquidity .nml-panel.nml-expanded:has(.nml-chart)>:not(.nml-panel-head):not(.nml-chart):not(.nml-chart-axis){display:none!important}
+/* Keep every control and data row visible in expanded heatmap panels. The previous broad :not() rule hid stats, feed status and legends. */
+#page-liquidity .nml-panel.nml-expanded:has(.nml-chart)>.nml-stats{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;flex:0 0 auto!important;gap:6px!important;margin:0!important}
+#page-liquidity .nml-panel.nml-expanded:has(.nml-chart)>.nml-feed-state{display:block!important;flex:0 0 auto!important;margin:0!important;font-size:8px!important;line-height:1.3!important}
+#page-liquidity .nml-panel.nml-expanded:has(.nml-chart)>.nml-legend{display:flex!important;flex:0 0 auto!important;align-items:center!important;flex-wrap:wrap!important;margin:0!important;gap:10px!important;font-size:8px!important}
+#page-liquidity .nml-panel.nml-expanded:has(.nml-chart)>.nml-chart-axis{display:flex!important;flex:0 0 auto!important;margin:0!important}
+#page-liquidity .nml-panel.nml-expanded:has(.nml-chart)>.nml-chart{display:block!important;flex:1 1 0!important;min-height:0!important;height:auto!important}
+@media(max-width:650px){
+ #page-liquidity .nml-panel.nml-expanded:has(.nml-chart)>.nml-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #page-liquidity .nml-panel.nml-expanded:has(.nml-chart)>.nml-panel-head p{display:block!important;font-size:8px!important}
+}
 #page-liquidity .nml-panel.nml-expanded:has(.nml-chart)>.nml-chart{display:block!important;position:relative!important;flex:1 1 0!important;min-height:0!important;height:auto!important;width:100%!important;margin:0!important}
 #page-liquidity .nml-panel.nml-expanded:has(.nml-chart)>.nml-chart canvas{width:100%!important;height:100%!important;min-height:0!important}
 #page-liquidity .nml-panel.nml-expanded:has(.nml-chart)>.nml-chart-axis{flex:0 0 auto!important;margin:0!important}
