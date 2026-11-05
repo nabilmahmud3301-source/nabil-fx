@@ -5011,6 +5011,14 @@ function conditionAt(c,cond,i,cache,seriesMap=null){
   const map={Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6};
   return Array.isArray(cond.days)&&cond.days.map(Number).includes(map[weekday]);
  }
+ if(cond.type==='scheduled_entry_time'){
+  // Evaluate on the signal candle but match the next candle's actual open timestamp.
+  const next=c[i+1];if(!next)return false;
+  const zone=cond.timezone||'UTC';let parts;
+  try{parts=new Intl.DateTimeFormat('en-GB',{timeZone:zone,hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date(next.t));}catch(e){throw Error('Invalid IANA timezone in strategy: '+zone);}
+  const q={};parts.forEach(z=>{if(z.type!=='literal')q[z.type]=z.value;});
+  return Number(q.hour)===Number(cond.hour)&&Number(q.minute)===Number(cond.minute);
+ }
  if(cond.type==='clock_time_filter'){
   const zone=cond.timezone||'UTC';let parts;
   try{parts=new Intl.DateTimeFormat('en-GB',{timeZone:zone,hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date(x.t));}catch(e){throw Error('Invalid IANA timezone in strategy: '+zone);}
@@ -5199,7 +5207,14 @@ function backtestCustom(c,r,seriesMap=null){
   const en=ex.entry==='signal_close'?sig.c:(['aggregated_trades','databento_trades'].includes(ex.dataMode)?entryBar.c:entryBar.o);
   let sl;
   if(ex.stop.type==='signal_candle')sl=side==='LONG'?sig.l:sig.h;
-  else if(ex.stop.type==='signal_candle_offset'){
+  else if(ex.stop.type==='entry_offset'){
+   let offset=Number(ex.stop.value);if(!(offset>0))throw Error('Entry-based stop offset must be positive.');
+   const sym=$('symbol').value.trim().toUpperCase(),unit=ex.stop.unit||'price';
+   if(unit==='pip')offset*=/JPY/.test(sym)?0.01:0.0001;
+   else if(unit==='tick'||unit==='point')offset*=Number(ex.stop.tickSize||ex.stop.pointSize||1);
+   else if(unit==='percent')offset*=en/100;
+   sl=side==='LONG'?en-offset:en+offset;
+  } else if(ex.stop.type==='signal_candle_offset'){
    let offset=Number(ex.stop.value);if(!(offset>0))throw Error('Signal-candle stop offset must be positive.');
    const sym=$('symbol').value.trim().toUpperCase(),unit=ex.stop.unit||'price';
    if(unit==='pip')offset*=/JPY/.test(sym)?0.01:0.0001;
