@@ -68,17 +68,12 @@ button:focus:not(:focus-visible){outline:none}
 @media(max-width:760px){.site-header{min-height:58px}#nfx-page-loader .nfx-loader-card{padding:29px 23px 23px}}
 @media(prefers-reduced-motion:reduce){#nfx-page-loader,#nfx-page-loader *{animation:none!important;transition:none!important}}
 
-/* Learn Trading: sourced topic-specific educational images only. */
-#page-learn .nfx-learn-thumb{position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#070a0f}
-#page-learn .nfx-learn-topic-image{display:block;width:100%;height:100%;min-height:150px;max-height:230px;object-fit:contain;background:#070a0f;padding:8px}
-#page-learn .nfx-learn-image-credit{display:block;position:absolute;left:7px;bottom:6px;max-width:calc(100% - 14px);padding:3px 6px;border-radius:4px;background:rgba(0,0,0,.78);color:#9aa8b9;font-size:8px;line-height:1.3}
-#page-learn .nfx-learn-visual .nfx-learn-topic-image{height:auto;max-height:460px;min-height:220px;padding:12px}
-
-/* Topic-specific sourced chart previews — Learn Trading only. */
-#page-learn .nfx-learn-thumb{position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#070a0f}
-#page-learn .nfx-learn-topic-image{display:block;width:100%;height:100%;min-height:150px;max-height:230px;object-fit:contain;background:#070a0f;padding:8px}
-#page-learn .nfx-learn-image-credit{position:absolute;left:7px;bottom:6px;max-width:calc(100% - 14px);padding:3px 6px;border-radius:4px;background:rgba(0,0,0,.82);color:#c0cad7;font-size:8px;line-height:1.3;text-decoration:none}
-#page-learn .nfx-learn-visual .nfx-learn-topic-image{height:auto;max-height:460px;min-height:220px;padding:12px}
+/* Learn Trading: original chart illustrations are rendered for every lesson. */
+#page-learn .nfx-learn-thumb{height:180px!important;position:relative;display:block;overflow:hidden;border-bottom:1px solid #29394a;background:#070b11}
+#page-learn .nfx-learn-thumb svg{display:block;width:100%;height:100%;object-fit:cover}
+#page-learn .nfx-learn-visual svg{display:block;width:100%;height:auto;max-height:560px;border:1px solid #29394a;border-radius:10px;background:#05080d}
+#page-learn .nfx-learn-visual figcaption{color:#8d9caf;font-size:11px;margin-top:8px}
+@media(max-width:620px){#page-learn .nfx-learn-thumb{height:145px!important}}
 </style>
 <script id="nfx-refresh-stabilizer">
 (function(){
