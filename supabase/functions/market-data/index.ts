@@ -126,6 +126,8 @@ Deno.serve(async (req: Request) => {
       o:+x.open,h:+x.high,l:+x.low,c:+x.close,v:+(x.volume||0)
     })).filter((x:any)=>Number.isFinite(x.t)&&[x.o,x.h,x.l,x.c].every(Number.isFinite))
       .sort((a:any,b:any)=>a.t-b.t);
+    // Adjacent split windows can share their exact boundary candle; keep one record per timestamp.
+    candles = [...new Map(candles.map((bar:any)=>[bar.t,bar])).values()].sort((a:any,b:any)=>a.t-b.t);
     if (interval === "3m") {
       const buckets = new Map<number,any>();
       for (const bar of candles) {
