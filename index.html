@@ -5239,7 +5239,9 @@ function backtestCustom(c,r,seriesMap=null){
  const allConditions=longC.concat(shortC);
  const hasSessionRule=allConditions.some(q=>q.type==='session_opening_range_breakout');
  if(hasSessionRule&&allConditions.some(q=>q.type==='session_opening_range_breakout'&&q.rangeMinutes===5)&&$('interval').value!=='5m')throw Error('This opening range is defined as five minutes; choose the 5m timeframe or specify a range compatible with the selected timeframe.');
- const cache=new Map(),atr=atrValues(c,14);
+ const cache=new Map(),atr=atrValues(c,14),dailyTradeCounts=new Map();
+ const dailyTradeLimit=Number.isInteger(ex.maxTradesPerDay)&&ex.maxTradesPerDay>0?ex.maxTradesPerDay:null;
+ const tradeDayKey=(timestamp)=>{try{return new Intl.DateTimeFormat("en-CA",{timeZone:ex.timezone||"UTC",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date(timestamp));}catch(e){throw Error("Invalid strategy timezone for daily trade limit: "+(ex.timezone||"UTC"));}};
  let eq=bal,peak=bal,dd=0;
  const ts=[],curve=[bal],active=[];
  const isLong=(i)=>longC.length>0&&longC.every(q=>conditionSignal(q,i));
@@ -5320,6 +5322,9 @@ function backtestCustom(c,r,seriesMap=null){
   const exitRules=side==='LONG'?(ex.exitLongConditions||[]):(ex.exitShortConditions||[]);
   if(!hasFixedTarget&&!exitRules.length)throw Error('A fixed R target or a rule-based exit condition is required.');
   const tp=hasFixedTarget?(side==='LONG'?en+dist*rr:en-dist*rr):null;
+  const tradeDay=dailyTradeLimit?tradeDayKey(entryBar.t):null;
+  if(dailyTradeLimit&&(dailyTradeCounts.get(tradeDay)||0)>=dailyTradeLimit)continue;
+  if(dailyTradeLimit)dailyTradeCounts.set(tradeDay,(dailyTradeCounts.get(tradeDay)||0)+1);
   active.push({t:entryBar.t,side,en,sl,tp,dist,riskAmount:eq*risk,entryIndex:i,index:i,exitRules,maxBars:Math.max(0,Number(ex.maxBarsInTrade)||0)});
   // Also test the entry candle: price may hit SL/TP after the opening fill.
   const opened=active[active.length-1];
