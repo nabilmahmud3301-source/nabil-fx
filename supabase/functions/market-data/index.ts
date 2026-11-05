@@ -80,27 +80,48 @@ Deno.serve(async (req: Request) => {
     if (market === "commodities" && /^(XAU|XAG|XPT|XPD)USD$/.test(symbol)) tdSymbol = symbol.slice(0,3)+"/USD";
     const tdInterval: Record<string,string> = {"1m":"1min","3m":"1min","5m":"5min","15m":"15min","30m":"30min","1h":"1h","2h":"2h","4h":"4h","1d":"1day"};
     const requestedOutputSize = Math.min(interval==="3m" ? limit*3 : limit, 5000);
-    const url = new URL("https://api.twelvedata.com/time_series");
-    url.searchParams.set("symbol",tdSymbol);
-    url.searchParams.set("interval",tdInterval[interval] || interval);
-    url.searchParams.set("outputsize",String(requestedOutputSize));
-    url.searchParams.set("order","ASC");
-    url.searchParams.set("format","JSON");
-    url.searchParams.set("apikey",key);
-    if (start) url.searchParams.set("start_date",start);
-    if (end) url.searchParams.set("end_date",end);
-    const response = await fetch(url);
-    const payload = await response.json().catch(()=>({}));
-    if (!response.ok || payload?.status === "error" || !Array.isArray(payload?.values)) {
-      const message = payload?.message || payload?.code || "Twelve Data returned HTTP " + response.status + ".";
-      throw new Error(String(message) + " Check symbol spelling, plan access and interval availability.");
-    }
-    if (payload.values.length >= requestedOutputSize) throw new Error("Twelve Data reached its maximum historical response size for this request. Narrow the selected date range; no partial backtest was run.");
-    const meta = payload?.meta || {};
+    const metaHolder: any = {};
+    const fetchChunk = async (chunkStart: string, chunkEnd: string, depth = 0): Promise<any[]> => {
+      const url = new URL("https://api.twelvedata.com/time_series");
+      url.searchParams.set("symbol",tdSymbol);
+      url.searchParams.set("interval",tdInterval[interval] || interval);
+      url.searchParams.set("outputsize",String(5000));
+      url.searchParams.set("order","ASC");
+      url.searchParams.set("format","JSON");
+      url.searchParams.set("apikey",key);
+      if (chunkStart) url.searchParams.set("start_date",chunkStart);
+      if (chunkEnd) url.searchParams.set("end_date",chunkEnd);
+      const response = await fetch(url, {signal:AbortSignal.timeout(25000)});
+      const payload = await response.json().catch(()=>({}));
+      if (!response.ok || payload?.status === "error" || !Array.isArray(payload?.values)) {
+        const message = payload?.message || payload?.code || "Twelve Data returned HTTP " + response.status + ".";
+        throw new Error(String(message) + " Check symbol spelling, plan access and interval availability.");
+      }
+      if (!metaHolder.meta && payload?.meta) metaHolder.meta = payload.meta;
+      // Twelve Data caps a single response at 5,000 records. Split saturated
+      // date windows recursively, so every candle in the user's chosen range
+      // is fetched rather than silently accepting a truncated response.
+      if (payload.values.length >= 5000) {
+        const a = Date.parse(chunkStart);
+        const b = Date.parse(chunkEnd);
+        if (!Number.isFinite(a) || !Number.isFinite(b) || b-a < 2000 || depth >= 16) {
+          throw new Error("Twelve Data's 5,000-record cap could not be safely paginated for this date range. No partial backtest was run.");
+        }
+        const mid = Math.floor((a+b)/2);
+        const leftEnd = new Date(mid).toISOString().replace("T"," ").replace(/\.\d{3}Z$/,"");
+        const rightStart = leftEnd;
+        const left = await fetchChunk(chunkStart,leftEnd,depth+1);
+        const right = await fetchChunk(rightStart,chunkEnd,depth+1);
+        return left.concat(right);
+      }
+      return payload.values;
+    };
+    const values = await fetchChunk(start,end);
+    const meta = metaHolder.meta || {};
     const type = String(meta?.type || "").toLowerCase();
     const fxOrCrypto = market === "forex" || market === "crypto" || type.includes("forex") || type.includes("currency") || type.includes("crypto");
     const timezone = String(meta?.exchange_timezone || "UTC");
-    let candles = payload.values.map((x:any)=>({
+    let candles = values.map((x:any)=>({
       t:parseTwelveDate(String(x.datetime),timezone,fxOrCrypto),
       o:+x.open,h:+x.high,l:+x.low,c:+x.close,v:+(x.volume||0)
     })).filter((x:any)=>Number.isFinite(x.t)&&[x.o,x.h,x.l,x.c].every(Number.isFinite))
