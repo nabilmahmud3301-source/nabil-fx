@@ -3920,7 +3920,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 @media(max-width:900px){
  #page-learn .nfx-learn-topic-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
  #page-learn .nfx-learn-layout{grid-template-columns:1fr!important}
- #page-learn .nfx-learn-category-list{display:flex;gap:7px;overflow-x:auto;padding:2px 1px 9px;scrollbar-width:thin}
+ #page-learn .nfx-learn-categories{display:flex;gap:7px;overflow-x:auto;padding:2px 1px 9px;scrollbar-width:thin}
  #page-learn .nfx-learn-category{width:auto;flex:0 0 auto;white-space:nowrap}
 }
 @media(max-width:620px){
@@ -9005,7 +9005,7 @@ window.renderBacktestMetrics=function(r,meta={}){
     'elliott-wave':['https://s3.tradingview.com/snapshots/d/DMqPrY4n.png','TradingView chart with multi-leg swing structure'],
     'ichimoku':['https://s3.tradingview.com/i/IZOSO1xi_big.png','TradingView chart with EMA cloud, VWAP and RSI panels'],
     'bollinger-bands':['https://miro.medium.com/0%2AuxmYZpAVQyR1x57F.png','TradingView chart with volatility bands and indicator panels'],
-    'stochastic':['https://s3.tradingview.com/indicators/precision-entry.png','TradingView indicator dashboard showing momentum oscillators'],
+    'stochastic':['https://slowsteadytrading.com/indicators/precision-entry.png','TradingView indicator dashboard showing momentum oscillators'],
     'adx-dmi':['https://s3.tradingview.com/indicators/precision-entry.png','TradingView chart with directional momentum indicator panel'],
     'parabolic-sar':['https://s3.tradingview.com/i/IZOSO1xi_big.png','TradingView chart with moving averages and momentum context'],
     'donchian':['https://s3.tradingview.com/news/image/cointelegraph%3A75d72430b094b-a97d8aca76dff728d7ea6c6623a7d050-resized.webp','TradingView chart with channel boundaries and breakout'],
@@ -9166,6 +9166,11 @@ window.renderBacktestMetrics=function(r,meta={}){
     const item=lessonImages[topic.id]||lessonImages['market-structure'];
     return '<img src="'+item[0]+'" alt="'+esc(item[1])+'" loading="lazy" decoding="async" referrerpolicy="no-referrer">';
   }
+  function imageCredit(topic){
+    const item=lessonImages[topic.id]||lessonImages['market-structure'];
+    const host=(item[0].match(/^https?:\\/\\/([^/]+)/)||[])[1]||'External chart source';
+    return 'Source: <a href="'+esc(item[0])+'" target="_blank" rel="noopener noreferrer">Open original chart image ↗</a> · '+esc(host)+'. Historical educational reference, not live market data or a trade signal.';
+  }
   function filtered(){return topics.filter(t=>(activeCategory==='All Topics'||t.cat===activeCategory)&&(!query||(t.title+' '+t.cat+' '+t.tags+' '+t.intro).toLowerCase().includes(query)));}
   function renderCategories(){
     $('nfxLearnCategories').innerHTML=categories.map(c=>`<button type="button" class="nfx-learn-category ${activeCategory===c?'active':''}" data-learn-category="${esc(c)}"><span>${esc(c)}</span><small>${c==='All Topics'?topics.length:topics.filter(t=>t.cat===c).length}</small></button>`).join('');
@@ -9182,7 +9187,7 @@ window.renderBacktestMetrics=function(r,meta={}){
   function openTopic(id){
     const t=topics.find(x=>x.id===id);if(!t)return;selected=id;
     $('nfxLearnTopicGrid').hidden=true;$('nfxLearnResultsHead').hidden=true;$('nfxLearnEmpty').hidden=true;$('nfxLearnDetail').hidden=false;
-    $('nfxLearnDetailContent').innerHTML=`<div class="nfx-learn-kicker">${esc(t.cat.toUpperCase())} · COMPLETE TOPIC GUIDE</div><h2>${esc(t.title)}</h2><p>${esc(t.intro)}</p><figure class="nfx-learn-visual">${diagram(t)}<figcaption>Historical TradingView chart reference · Educational example only, not live market data or a trade signal</figcaption></figure>${directionalLesson(t)}<h3>02 · How it works</h3><p>${esc(t.how)}</p><div class="nfx-learn-detail-grid"><section class="nfx-learn-info nfx-learn-valid"><h3>✓ VALID CONDITIONS</h3><ul>${t.valid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section><section class="nfx-learn-info nfx-learn-invalid"><h3>✕ INVALID / WEAK CONDITIONS</h3><ul>${t.invalid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section></div><h3>03 · How to mark it on a chart</h3><ol>${t.mark.map(x=>'<li>'+esc(x)+'</li>').join('')}</ol><div class="nfx-learn-info"><h3>PRO TRADING NOTE</h3><p>${esc(t.tip)}</p></div><h3>04 · Professional chart-reading workflow</h3><ol><li>Start with a clean chart and mark only the relevant higher-timeframe context.</li><li>Identify the exact candles / swing points that satisfy this lesson's definition.</li><li>Draw the zone or level using the stated boundaries; note the timeframe beside it.</li><li>Wait for the confirmation rule. Do not assume the first touch is an entry.</li><li>Define entry trigger, stop-loss invalidation and target before placing an order.</li><li>Capture the chart before the outcome, then journal both valid winners and valid losses.</li></ol><div class="nfx-learn-info"><h3>VALIDATION STANDARD</h3><p>These third-party chart screenshots are educational reference examples, not live prices or trade signals. Confirm every setup on your own broker feed. Record the instrument, timezone, spread, session and rule version so the result can be reproduced.</p></div>`;
+    $('nfxLearnDetailContent').innerHTML=`<div class="nfx-learn-kicker">${esc(t.cat.toUpperCase())} · COMPLETE TOPIC GUIDE</div><h2>${esc(t.title)}</h2><p>${esc(t.intro)}</p><figure class="nfx-learn-visual">${diagram(t)}<figcaption>${imageCredit(t)}</figcaption></figure>${directionalLesson(t)}<h3>02 · How it works</h3><p>${esc(t.how)}</p><div class="nfx-learn-detail-grid"><section class="nfx-learn-info nfx-learn-valid"><h3>✓ VALID CONDITIONS</h3><ul>${t.valid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section><section class="nfx-learn-info nfx-learn-invalid"><h3>✕ INVALID / WEAK CONDITIONS</h3><ul>${t.invalid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section></div><h3>03 · How to mark it on a chart</h3><ol>${t.mark.map(x=>'<li>'+esc(x)+'</li>').join('')}</ol><div class="nfx-learn-info"><h3>PRO TRADING NOTE</h3><p>${esc(t.tip)}</p></div><h3>04 · Professional chart-reading workflow</h3><ol><li>Start with a clean chart and mark only the relevant higher-timeframe context.</li><li>Identify the exact candles / swing points that satisfy this lesson's definition.</li><li>Draw the zone or level using the stated boundaries; note the timeframe beside it.</li><li>Wait for the confirmation rule. Do not assume the first touch is an entry.</li><li>Define entry trigger, stop-loss invalidation and target before placing an order.</li><li>Capture the chart before the outcome, then journal both valid winners and valid losses.</li></ol><div class="nfx-learn-info"><h3>VALIDATION STANDARD</h3><p>These third-party chart screenshots are educational reference examples, not live prices or trade signals. Confirm every setup on your own broker feed. Record the instrument, timezone, spread, session and rule version so the result can be reproduced.</p></div>`;
     $('nfxLearnDetail').scrollIntoView({behavior:'smooth',block:'start'});
   }
   document.addEventListener('click',e=>{
