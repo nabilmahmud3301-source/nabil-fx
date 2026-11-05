@@ -3920,6 +3920,8 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 @media(max-width:900px){
  #page-learn .nfx-learn-topic-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
  #page-learn .nfx-learn-layout{grid-template-columns:1fr!important}
+ #page-learn .nfx-learn-sidebar{position:static;top:auto;padding:10px}
+ #page-learn .nfx-learn-note{display:none}
  #page-learn .nfx-learn-categories{display:flex;gap:7px;overflow-x:auto;padding:2px 1px 9px;scrollbar-width:thin}
  #page-learn .nfx-learn-category{width:auto;flex:0 0 auto;white-space:nowrap}
 }
@@ -9168,7 +9170,7 @@ window.renderBacktestMetrics=function(r,meta={}){
   }
   function imageCredit(topic){
     const item=lessonImages[topic.id]||lessonImages['market-structure'];
-    const host=(item[0].match(/^https?:\\/\\/([^/]+)/)||[])[1]||'External chart source';
+    const host=item[0].split('/')[2]||'External chart source';
     return 'Source: <a href="'+esc(item[0])+'" target="_blank" rel="noopener noreferrer">Open original chart image ↗</a> · '+esc(host)+'. Historical educational reference, not live market data or a trade signal.';
   }
   function filtered(){return topics.filter(t=>(activeCategory==='All Topics'||t.cat===activeCategory)&&(!query||(t.title+' '+t.cat+' '+t.tags+' '+t.intro).toLowerCase().includes(query)));}
