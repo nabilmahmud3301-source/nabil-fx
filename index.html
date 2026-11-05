@@ -3925,11 +3925,11 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 #page-learn .nfx-learn-thumb{height:105px;display:block;overflow:hidden;border-bottom:1px solid #303947;background:#080c11}
 #page-learn .nfx-learn-thumb img{width:100%;height:100%;display:block;object-fit:cover;object-position:center}
 
-#page-learn .nfx-learn-thumb{height:142px;background:#080d13}
-#page-learn .nfx-learn-thumb img{object-fit:contain;object-position:center;padding:5px}
+#page-learn .nfx-learn-thumb{height:142px;background:#080d13;overflow:hidden}
+#page-learn .nfx-learn-thumb svg{display:block;width:100%;height:100%;object-fit:cover}
 #page-learn .nfx-learn-topic-card{min-height:250px}
-#page-learn .nfx-learn-visual img{max-height:520px;object-fit:contain}
-#page-learn .nfx-learn-visual figcaption a{color:#aebdce;text-decoration:underline;text-underline-offset:2px}
+#page-learn .nfx-learn-visual svg{display:block;width:100%;height:auto;max-height:520px;border:1px solid #1c2a38;border-radius:10px}
+#page-learn .nfx-learn-visual figcaption{color:#8d9caf;font-size:11px;margin-top:8px}
 #page-learn .nfx-learn-topic-card:focus-visible,#page-learn .nfx-learn-category:focus-visible,#page-learn .nfx-learn-back:focus-visible{outline:2px solid #d35b6a!important;outline-offset:3px}
 @media(max-width:900px){
  #page-learn .nfx-learn-topic-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -8951,208 +8951,58 @@ window.renderBacktestMetrics=function(r,meta={}){
   const categories=['All Topics','Price Action','ICT / SMC','ICT Advanced','CRT Models','Technical Analysis','Sessions & Time','Risk & Execution','Wyckoff & Volume','Chart Patterns','Forex Fundamentals','Market Mechanics','Macro & Intermarket','Strategy Research','Advanced Risk','Trading Psychology'];
   let activeCategory='All Topics',query='',selected=null;
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const lessonImages={
-    'market-structure':['https://slowsteadytrading.com/charts/hhhl.png','Market structure — higher highs and higher lows'],
-    'bos':['https://slowsteadytrading.com/charts/hhhl.png','Break of Structure — swing break example'],
-    'choch':['https://slowsteadytrading.com/charts/choch-both.png','Bullish and bearish Change of Character examples'],
-    'mss':['https://slowsteadytrading.com/charts/choch-both.png','Structure shift with displacement example'],
-    'support-resistance':['https://slowsteadytrading.com/charts/liquidity.png','Price reacting around repeated horizontal highs and lows'],
-    'trendline':['https://slowsteadytrading.com/charts/lhll.png','Directional swing structure example'],
-    'liquidity':['https://slowsteadytrading.com/charts/liquidity.png','Buy-side and sell-side liquidity marked on a TradingView chart'],
-    'liquidity-sweep':['https://slowsteadytrading.com/charts/liquidity.png','Liquidity pools around prior highs and lows'],
-    'fvg':['https://slowsteadytrading.com/charts/bullish-fvg1.png','Bullish Fair Value Gap with consequent encroachment'],
-    'order-block':['https://slowsteadytrading.com/charts/bullish-ob-fvg.png','Bullish Order Block with Fair Value Gaps'],
-    'breaker-block':['https://slowsteadytrading.com/charts/bearish-mitigation.png','Order block role reversal and mitigation example'],
-    'mitigation':['https://slowsteadytrading.com/charts/bearish-mitigation.png','Mitigation of a previously marked order block'],
-    'ote':['https://slowsteadytrading.com/charts/bullish-ob-fvg.png','Retracement into a marked reaction zone'],
-    'premium-discount':['https://slowsteadytrading.com/charts/bullish-ob-fvg.png','Price range and reaction zones'],
-    'equal-highs-lows':['https://slowsteadytrading.com/charts/liquidity.png','Repeated highs and lows as liquidity references'],
-    'session-levels':['https://slowsteadytrading.com/charts/liquidity.png','Repeated intraday highs and lows'],
-    'pdh-pdl':['https://slowsteadytrading.com/charts/liquidity.png','Prior visible high and low reference levels'],
-    'crt':['https://slowsteadytrading.com/charts/liquidity.png','Range extremes and liquidity raid example'],
-    'turtle-soup':['https://slowsteadytrading.com/charts/liquidity.png','Liquidity sweep / failed-breakout context'],
-    'candlesticks':['https://slowsteadytrading.com/charts/bullish-fvg1.png','Candlestick bodies and wicks in a chart example'],
-    'chart-patterns':['https://slowsteadytrading.com/charts/hhhl.png','Price swing sequence on a candlestick chart'],
-    'fibonacci':['https://slowsteadytrading.com/charts/bullish-ob-fvg.png','Retracement context around a price impulse'],
-    'volume':['https://slowsteadytrading.com/charts/liquidity.png','TradingView chart with price movement and visible bars'],
-    'risk-management':['https://slowsteadytrading.com/charts/bullish-ob-fvg.png','Example chart used to plan invalidation around a zone'],
-    'risk-reward':['https://slowsteadytrading.com/charts/bullish-ob-fvg.png','Example chart used to assess entry and target distance'],
-    'psychology':['https://slowsteadytrading.com/charts/hhhl.png','Price structure example for disciplined chart reading'],
-    'backtesting':['https://slowsteadytrading.com/charts/choch-both.png','Annotated chart example for reviewing structure outcomes'],
-    'sessions':['https://slowsteadytrading.com/charts/liquidity.png','Intraday chart example with repeated price extremes'],
-    'news':['https://slowsteadytrading.com/charts/choch-both.png','Large directional price movement on a candlestick chart']
-  };
-
-  Object.assign(lessonImages,{
-    'swing-points':['https://slowsteadytrading.com/charts/hhhl.png','Confirmed swing highs and lows on a real ETHUSDT perpetual 1H chart'],
-    'internal-external':['https://slowsteadytrading.com/charts/lhll.png','Larger bearish structure with smaller internal swings on a real chart'],
-    'range-market':['https://slowsteadytrading.com/charts/liquidity.png','Sideways price range with visible repeated highs and lows'],
-    'breakout-retest':['https://slowsteadytrading.com/charts/choch-both.png','Price breaks a marked structure level and changes direction'],
-    'rejection-candle':['https://slowsteadytrading.com/charts/bearish-mitigation.png','Real candlestick price action around a marked reaction zone'],
-    'displacement':['https://slowsteadytrading.com/charts/bullish-choch.png','Strong bullish displacement through a prior structure level'],
-    'inducement':['https://slowsteadytrading.com/charts/liquidity.png','Visible swing liquidity levels used to study inducement'],
-    'bsl-ssl':['https://slowsteadytrading.com/charts/liquidity.png','Buy-side and sell-side liquidity levels on a real chart'],
-    'liquidity-void':['https://slowsteadytrading.com/charts/bullish-choch.png','Fast directional price expansion on a real chart'],
-    'ifvg':['https://slowsteadytrading.com/charts/bearish-fvg1.png','Bearish fair value gap zone used to study inversion'],
-    'bpr':['https://slowsteadytrading.com/charts/bullish-fvg1.png','Fair value gap zones and consequent encroachment'],
-    'unicorn-model':['https://slowsteadytrading.com/charts/bullish-ob-fvg.png','Order block and fair value gap confluence on a real chart'],
-    'judas-swing':['https://slowsteadytrading.com/charts/liquidity.png','Intraday liquidity run and reversal context'],
-    'kill-zones':['https://slowsteadytrading.com/charts/choch-both.png','Intraday structure shift on a real TradingView chart'],
-    'amd-po3':['https://slowsteadytrading.com/charts/liquidity.png','Range extremes and liquidity runs in a real chart'],
-    'smt-divergence':['https://slowsteadytrading.com/charts/hhhl.png','Real market swing sequence for comparative structure study'],
-    'nwog-ndog':['https://slowsteadytrading.com/charts/lhll.png','Real chart price levels and gaps context'],
-    'daily-weekly-open':['https://slowsteadytrading.com/charts/hhhl.png','Real ETHUSDT chart with visible price scale and time axis'],
-    'opening-range':['https://slowsteadytrading.com/charts/liquidity.png','Intraday range boundaries and subsequent price movement'],
-    'ema-sma':['https://slowsteadytrading.com/indicators/ema-trend-cloud.png','Real ETHUSDT 1H TradingView chart with EMA 9, 21 and 50 trend cloud'],
-    'rsi':['https://slowsteadytrading.com/indicators/precision-entry.png','Real ETHUSDT 1H TradingView chart with RSI shown in the indicator panel'],
-    'macd':['https://slowsteadytrading.com/indicators/precision-entry.png','Real ETHUSDT 1H chart with MACD and momentum panel'],
-    'atr':['https://slowsteadytrading.com/indicators/ema-trend-cloud.png','Real ETHUSDT 1H chart with ATR value and volatility score panel'],
-    'vwap':['https://slowsteadytrading.com/charts/bullish-ob-fvg.png','Real intraday price chart for VWAP context'],
-    'volume-profile':['https://slowsteadytrading.com/indicators/polarity-sr.png','Real ETHUSDT 1H chart with volume bars and marked price zones'],
-    'position-sizing':['https://slowsteadytrading.com/charts/bullish-ob-fvg.png','Real chart zone used to define trade invalidation distance'],
-    'leverage-margin':['https://slowsteadytrading.com/charts/lhll.png','Real market movement illustrating leveraged price risk'],
-    'spread-slippage':['https://slowsteadytrading.com/charts/choch-both.png','Real candlestick chart during fast price movement'],
-    'trade-management':['https://slowsteadytrading.com/charts/bearish-mitigation.png','Real chart showing price revisit and reaction zones'],
-    'trading-journal':['https://slowsteadytrading.com/charts/hhhl.png','Real historical chart used for structured review'],
-    'forward-testing':['https://slowsteadytrading.com/charts/bullish-choch.png','Real chart sequence for forward observation'],
-    'expectancy':['https://slowsteadytrading.com/charts/lhll.png','Real historical chart sequence for outcome review'],
-    'drawdown':['https://slowsteadytrading.com/charts/lhll.png','Real bearish price sequence illustrating adverse movement'],
-    'correlation':['https://slowsteadytrading.com/charts/hhhl.png','Real chart structure reference for comparing related markets']
-  });
-
-  Object.assign(lessonImages,{
-    'wyckoff':['https://thetradingstreet.com/uploads/blog/liquidity-in-trading-how-internal-external-liquidity-move-price/image_85405e2a-0de3-4879-a5dd-623819dd7c9c.png','Trading range, liquidity and Wyckoff-style phase context'],
-    'wyckoff-spring':['https://s3.tradingview.com/snapshots/6/6WE9s2Lh.png','EURUSD TradingView chart with liquidity levels and a downside raid'],
-    'wyckoff-upthrust':['https://s3.tradingview.com/snapshots/c/cLFJXm5T.png','XAUUSD TradingView chart with marked structure and upper swing levels'],
-    'volume-spread-analysis':['https://miro.medium.com/0%2AuxmYZpAVQyR1x57F.png','EUR/AUD TradingView chart with volume and indicator panels'],
-    'accumulation-distribution':['https://official-cms-images.s3.us-east-2.amazonaws.com/static/images/marketNews/20251112/US500_2025-11-12_08-59-42_22579.png','Annotated TradingView-style chart with accumulation and distribution phases'],
-    'volume-climax':['https://s3.tradingview.com/snapshots/s/Sze1OTVq.png','ES futures TradingView chart with volume and MACD'],
-    'volume-divergence':['https://s3.tradingview.com/snapshots/s/Sze1OTVq.png','Futures chart with price, volume and momentum panel'],
-    'market-profile':['https://s3.tradingview.com/snapshots/s/Sze1OTVq.png','Futures chart with volume and price levels'],
-    'poc-vah-val':['https://s3.tradingview.com/z/zL7U77Nk_big.png','TradingView chart with value area and support resistance overlays'],
-    'footprint-chart':['https://official-cms-images.s3.us-east-2.amazonaws.com/static/images/marketNews/20251112/US500_2025-11-12_08-59-42_22579.png','Annotated market chart for order-flow context'],
-    'cumulative-delta':['https://s3.tradingview.com/snapshots/s/Sze1OTVq.png','TradingView futures chart with MACD and volume bars'],
-    'order-flow-imbalance':['https://s3.tradingview.com/snapshots/s/Sze1OTVq.png','Futures chart showing volume and price movement'],
-    'absorption':['https://s3.tradingview.com/z/zL7U77Nk_big.png','TradingView chart with visible price zones and volume'],
-    'exhaustion':['https://s3.tradingview.com/snapshots/c/cLFJXm5T.png','XAUUSD chart showing a swing extreme and reversal structure'],
-    'candlestick-engulfing':['https://static.wixstatic.com/media/30ad3d_df3baaab579c482ba7ab48861326bc19~mv2.png/v1/fill/w_980%2Ch_469%2Cal_c%2Cq_90%2Cusm_0.66_1.00_0.01%2Cenc_avif%2Cquality_auto/30ad3d_df3baaab579c482ba7ab48861326bc19~mv2.png','EURUSD 15-minute candlestick chart with support and resistance'],
-    'pinbar-hammer':['https://s3.tradingview.com/snapshots/6/6WE9s2Lh.png','EURUSD candlestick chart showing price rejection and liquidity context'],
-    'inside-bar':['https://s3.tradingview.com/snapshots/d/DMqPrY4n.png','EURUSD TradingView chart with annotated swing and structure levels'],
-    'outside-bar':['https://s3.tradingview.com/snapshots/z/zjxE7Izy.png','USDJPY TradingView chart with marked swing extremes'],
-    'doji':['https://s3.tradingview.com/5/5sqCLlB3_mid.png','GBPUSD TradingView candlestick chart with trendline and support zone'],
-    'double-top-bottom':['https://csuxjmfbwmkxiegfpljm.supabase.co/storage/v1/object/public/blog-images/organization-19261/1776364352409_Infographic-of-chart-pattern-basics-and-success.jpeg','Chart pattern reference showing double top and head-and-shoulders structures'],
-    'head-shoulders':['https://csuxjmfbwmkxiegfpljm.supabase.co/storage/v1/object/public/blog-images/organization-19261/1776364352409_Infographic-of-chart-pattern-basics-and-success.jpeg','Chart pattern reference showing head-and-shoulders formation'],
-    'triangles':['https://s3.tradingview.com/5/5sqCLlB3_mid.png','GBPUSD chart showing converging trendline and price compression'],
-    'flags-pennants':['https://s3.tradingview.com/news/image/cointelegraph%3A75d72430b094b-a97d8aca76dff728d7ea6c6623a7d050-resized.webp','TradingView Bitcoin chart showing a channel and breakout'],
-    'wedges':['https://tradeciety.com/hs-fs/hubfs/TrendlineFlip.jpg?height=2852&name=TrendlineFlip.jpg&width=5046','GBPCHF TradingView chart with trendline break and retest'],
-    'channels':['https://s3.tradingview.com/news/image/cointelegraph%3A75d72430b094b-a97d8aca76dff728d7ea6c6623a7d050-resized.webp','TradingView chart with a descending channel and breakout'],
-    'rounding-patterns':['https://s3.tradingview.com/snapshots/d/DMqPrY4n.png','TradingView EURUSD chart with multi-swing structure'],
-    'gaps':['https://s3.tradingview.com/5/5sqCLlB3_mid.png','GBPUSD chart with visible price movement and marked price zone'],
-    'elliott-wave':['https://s3.tradingview.com/snapshots/d/DMqPrY4n.png','TradingView chart with multi-leg swing structure'],
-    'ichimoku':['https://s3.tradingview.com/i/IZOSO1xi_big.png','TradingView chart with EMA cloud, VWAP and RSI panels'],
-    'bollinger-bands':['https://miro.medium.com/0%2AuxmYZpAVQyR1x57F.png','TradingView chart with volatility bands and indicator panels'],
-    'stochastic':['https://slowsteadytrading.com/indicators/precision-entry.png','TradingView indicator dashboard showing momentum oscillators'],
-    'adx-dmi':['https://s3.tradingview.com/indicators/precision-entry.png','TradingView chart with directional momentum indicator panel'],
-    'parabolic-sar':['https://s3.tradingview.com/i/IZOSO1xi_big.png','TradingView chart with moving averages and momentum context'],
-    'donchian':['https://s3.tradingview.com/news/image/cointelegraph%3A75d72430b094b-a97d8aca76dff728d7ea6c6623a7d050-resized.webp','TradingView chart with channel boundaries and breakout'],
-    'keltner':['https://slowsteadytrading.com/indicators/visual-squeeze.png','TradingView chart showing volatility bands and squeeze context'],
-    'pivot-points':['https://s3.tradingview.com/z/zL7U77Nk_big.png','TradingView chart with marked support and resistance levels'],
-    'round-numbers':['https://s3.tradingview.com/snapshots/c/cLFJXm5T.png','XAUUSD TradingView chart with visible price scale and horizontal levels'],
-    'dxy-correlation':['https://s3.tradingview.com/snapshots/6/6WE9s2Lh.png','EURUSD TradingView chart used for dollar-pair context'],
-    'interest-rates':['https://s3.tradingview.com/news/image/cointelegraph%3A75d72430b094b-a97d8aca76dff728d7ea6c6623a7d050-resized.webp','TradingView market chart used to study macro price response'],
-    'inflation-data':['https://miro.medium.com/0%2AuxmYZpAVQyR1x57F.png','TradingView chart with economic-event markers and volatility panels'],
-    'employment-data':['https://s3.tradingview.com/snapshots/c/cLFJXm5T.png','Gold TradingView chart illustrating sharp directional movement'],
-    'gdp-data':['https://s3.tradingview.com/snapshots/d/DMqPrY4n.png','TradingView historical price chart for macro context'],
-    'fomc-policy':['https://s3.tradingview.com/news/image/cointelegraph%3A75d72430b094b-a97d8aca76dff728d7ea6c6623a7d050-resized.webp','TradingView chart showing volatility and price expansion'],
-    'news-calendar':['https://miro.medium.com/0%2AuxmYZpAVQyR1x57F.png','TradingView chart with event markers and indicator panels'],
-    'risk-of-ruin':['https://s3.tradingview.com/snapshots/d/DMqPrY4n.png','Historical TradingView chart for risk scenario review'],
-    'kelly-criterion':['https://s3.tradingview.com/snapshots/s/Sze1OTVq.png','Historical futures chart for performance review'],
-    'r-multiples':['https://s3.tradingview.com/snapshots/6/6WE9s2Lh.png','EURUSD chart with planned trade zones and risk context'],
-    'mae-mfe':['https://s3.tradingview.com/snapshots/c/cLFJXm5T.png','XAUUSD chart for adverse and favourable excursion study'],
-    'portfolio-risk':['https://s3.tradingview.com/snapshots/s/Sze1OTVq.png','Futures chart with price and volume history'],
-    'trading-plan':['https://slowsteadytrading.com/indicators/ssidi.png','TradingView chart workspace with market context and decision panel'],
-    'pretrade-checklist':['https://slowsteadytrading.com/indicators/ssidi.png','TradingView chart workspace with context and decision panel'],
-    'posttrade-review':['https://slowsteadytrading.com/indicators/precision-integrated.png','TradingView chart with historical entry and structure annotations'],
-    'overtrading':['https://s3.tradingview.com/snapshots/c/cLFJXm5T.png','XAUUSD historical chart for discipline and execution review'],
-    'fomo':['https://s3.tradingview.com/news/image/cointelegraph%3A75d72430b094b-a97d8aca76dff728d7ea6c6623a7d050-resized.webp','TradingView chart showing an extended directional move'],
-    'confirmation-bias':['https://s3.tradingview.com/snapshots/d/DMqPrY4n.png','TradingView chart for unbiased before-and-after review']
-  });
-
-  const verifiedChartPools={
-    structure:[
-      ['https://s3.tradingview.com/snapshots/i/iP8FT3Te.png','GBP/USD H1 historical chart with marked liquidity sweep and structure levels'],
-      ['https://s3.tradingview.com/snapshots/g/Gcr5PrC7.png','EUR/USD historical intraday chart with marked structure shift'],
-      ['https://s3.tradingview.com/snapshots/u/UMqDrbqF.png','EUR/USD historical chart with liquidity and fair value gap annotations']
-    ],
-    smc:[
-      ['https://s3.tradingview.com/snapshots/u/UMqDrbqF.png','EUR/USD historical chart with liquidity and fair value gap annotations'],
-      ['https://s3.tradingview.com/snapshots/i/iP8FT3Te.png','GBP/USD H1 historical chart with marked liquidity sweep and structure levels'],
-      ['https://s3.tradingview.com/snapshots/g/Gcr5PrC7.png','EUR/USD historical intraday chart with marked structure shift']
-    ],
-    patterns:[
-      ['https://s3.tradingview.com/o/O8PyUN5f.png','Gold historical chart showing classic continuation and reversal pattern examples'],
-      ['https://s3.tradingview.com/k/KItovYcu.png','TradingView historical chart and chart-pattern study'],
-      ['https://s3.tradingview.com/5/5sqCLlB3_mid.png','Historical candlestick chart used for pattern study']
-    ],
-    indicators:[
-      ['https://s3.tradingview.com/snapshots/h/HtjpwRiw.png','GBP/USD historical chart with EMA, RSI, MACD and ADX panels'],
-      ['https://s3.tradingview.com/g/glFDj787_big.png','GBP/JPY historical chart with EMA and VWAP overlays'],
-      ['https://s3.tradingview.com/i/IZOSO1xi_big.png','Historical TradingView chart with technical indicator overlays']
-    ],
-    volume:[
-      ['https://s3.tradingview.com/j/JWrZjfWh_mid.png','Nasdaq futures historical chart with volume profile and price levels'],
-      ['https://www.chartguys.com/templates/yootheme/cache/d6/Figure-10-d69ddf9b.png','S&P 500 E-mini historical chart with developing value area'],
-      ['https://s3.tradingview.com/snapshots/n/nYu41CLC.png','CME Bitcoin futures historical chart with session volume profiles']
-    ],
-    orderflow:[
-      ['https://s3.tradingview.com/z/zJaSukAo_big.png','Nasdaq futures footprint chart showing bid-ask volume and absorption'],
-      ['https://s3.tradingview.com/c/CqKUdZWb_big.png','Futures footprint chart showing bid-ask activity and delta'],
-      ['https://substackcdn.com/image/fetch/%24s_%21ytRj%21%2Cf_auto%2Cq_auto%3Agood%2Cfl_progressive%3Asteep/https%3A/substack-post-media.s3.amazonaws.com/public/images/701c3cc1-cfd6-485a-b4b7-d8ec5c16deff_1150x1150.png','E-mini S&P futures footprint chart with bid-ask delta and absorption annotation']
-    ],
-    wyckoff:[
-      ['https://s3.tradingview.com/f/FN3aJb98.png','Bitcoin historical chart annotated with Wyckoff distribution phases'],
-      ['https://s3.tradingview.com/h/hCZbr5pV_mid.webp','Bitcoin historical chart annotated with a Wyckoff spring'],
-      ['https://s3.tradingview.com/x/xPalv3AK_mid.webp','Alphabet historical chart with Wyckoff reaccumulation annotations']
-    ],
-    risk:[
-      ['https://s3.tradingview.com/snapshots/i/iP8FT3Te.png','GBP/USD historical chart for studying entry, invalidation and target placement'],
-      ['https://s3.tradingview.com/snapshots/h/HtjpwRiw.png','GBP/USD historical chart with price and volatility indicator panels'],
-      ['https://s3.tradingview.com/snapshots/g/Gcr5PrC7.png','EUR/USD historical chart for reviewing price movement and execution context']
-    ],
-    macro:[
-      ['https://s3.tradingview.com/snapshots/h/HtjpwRiw.png','GBP/USD historical chart with price and momentum indicators'],
-      ['https://s3.tradingview.com/x/xPalv3AK_mid.webp','Alphabet historical market chart for intermarket context'],
-      ['https://s3.tradingview.com/snapshots/n/nYu41CLC.png','CME futures historical chart with session profile context']
-    ]
-  };
-  const pickChartPool=(topic)=>{
-    const id=topic.id,cat=topic.cat;
-    if(cat==='Wyckoff & Volume'){
-      if(/footprint|delta|order-flow|absorption|exhaustion/.test(id)) return verifiedChartPools.orderflow;
-      if(/profile|poc|volume|vsa|climax|accumulation/.test(id)) return verifiedChartPools.volume;
-      return verifiedChartPools.wyckoff;
-    }
-    if(cat==='Chart Patterns') return verifiedChartPools.patterns;
-    if(cat==='Technical Analysis') return verifiedChartPools.indicators;
-    if(cat==='ICT / SMC'||cat==='ICT Advanced'||cat==='CRT Models') return verifiedChartPools.smc;
-    if(cat==='Risk & Execution'||cat==='Advanced Risk'||cat==='Trading Psychology'||cat==='Strategy Research') return verifiedChartPools.risk;
-    if(cat==='Forex Fundamentals'||cat==='Macro & Intermarket') return verifiedChartPools.macro;
-    if(cat==='Market Mechanics') return /order|execution|broker|feed/.test(id)?verifiedChartPools.orderflow:verifiedChartPools.risk;
-    return verifiedChartPools.structure;
-  };
-  topics.forEach((topic,index)=>{
-    const pool=pickChartPool(topic),asset=pool[index%pool.length];
-    lessonImages[topic.id]=asset;
-  });
-
-  function diagram(topic){
-    const item=lessonImages[topic.id]||lessonImages['market-structure'];
-    return '<img src="'+item[0]+'" alt="'+esc(item[1])+'" loading="lazy" decoding="async" referrerpolicy="no-referrer">';
+  const seenTopicIds=new Set(),seenTopicTitles=new Set();
+  for(let i=topics.length-1;i>=0;i--){
+    const id=String(topics[i].id||'').trim().toLowerCase();
+    const title=String(topics[i].title||'').trim().toLowerCase().replace(/\\s+/g,' ');
+    if(!id||!title||seenTopicIds.has(id)||seenTopicTitles.has(title)){topics.splice(i,1);continue;}
+    seenTopicIds.add(id);seenTopicTitles.add(title);
   }
-  function imageCredit(topic){
-    const item=lessonImages[topic.id]||lessonImages['market-structure'];
-    const host=item[0].split('/')[2]||'External chart source';
-    return 'Source: <a href="'+esc(item[0])+'" target="_blank" rel="noopener noreferrer">Open original chart image ↗</a> · '+esc(host)+'. Historical educational reference, not live market data or a trade signal.';
+  function diagram(topic){
+    const seed=Array.from(String(topic.id||topic.title)).reduce((n,c)=>((n*31)+c.charCodeAt(0))>>>0,17);
+    const rnd=i=>{const x=Math.sin((seed+i*97.13)*.0174533)*43758.5453;return x-Math.floor(x);};
+    const id=(topic.id+' '+topic.title).toLowerCase(),cat=topic.cat||'TRADING EDUCATION';
+    const C={bg:'#080d13',grid:'#182330',muted:'#7f91a5',white:'#e6edf5',red:'#e07884',green:'#48c7a0',blue:'#73a9e8',gold:'#d5b16b'};
+    const L=(x1,y1,x2,y2,c=C.muted,d='')=>'<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+c+'" stroke-width="2" '+(d?'stroke-dasharray="'+d+'"':'')+'/>';
+    const R=(x,y,w,h,f,st='none',rx=4)=>'<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="'+rx+'" fill="'+f+'" stroke="'+st+'"/>';
+    const T=(x,y,t,c=C.white,z=11)=>'<text x="'+x+'" y="'+y+'" fill="'+c+'" font-size="'+z+'" font-weight="700" font-family="Inter,Arial,sans-serif">'+esc(t)+'</text>';
+    const candle=(x,o,cl,h,l,w=13)=>{const c=cl<o?C.red:C.green;return L(x+w/2,h,x+w/2,l,c)+R(x,Math.min(o,cl),w,Math.max(4,Math.abs(cl-o)),c);};
+    let bars='',vol='',pts=[],prev=178;
+    for(let i=0;i<24;i++){const close=Math.max(74,Math.min(240,prev+(rnd(i)-.47)*27));const high=Math.max(prev,close)+8+rnd(i+2)*13,low=Math.min(prev,close)-7-rnd(i+4)*12,x=54+i*25;bars+=candle(x,prev,close,high,low);vol+=R(x,296-(18+rnd(i+19)*42),13,18+rnd(i+19)*42,close<prev?C.red:C.green);pts.push([x+6.5,close]);prev=close;}
+    const path=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+    let o='',type='CONCEPT SCHEMATIC';
+    if(/liquidity|equal-high|bsl|ssl|sweep|turtle-soup|judas|inducement/.test(id)){
+      o=L(58,125,660,125,C.red,'7 6')+L(58,226,660,226,C.blue,'7 6')+T(62,115,'BUY-SIDE LIQUIDITY',C.red,10)+T(62,243,'SELL-SIDE LIQUIDITY',C.blue,10)+R(535,82,96,25,'#e0788420',C.red)+T(544,99,'LIQUIDITY RAID',C.red,9);
+    }else if(/fvg|fair-value|order-block|breaker|mitigation|bpr|unicorn|ote/.test(id)){
+      o+=R(280,135,115,45,'#73a9e833',C.blue)+T(286,128,'IMBALANCE',C.blue,10)+R(438,184,105,37,'#48c7a022',C.green)+T(445,207,'REACTION',C.green,10)+L(335,85,335,245,C.gold,'3 5')+T(343,96,'RETEST',C.gold,10);
+    }else if(/bos|choch|mss|structure|swing|internal-external/.test(id)){
+      o=L(55,168,655,168,C.gold,'6 5')+T(62,158,'PRIOR SWING LEVEL',C.gold,10)+L(445,168,445,86,C.green,'3 4')+R(452,73,105,24,'#48c7a022',C.green)+T(460,90,/choch|mss/.test(id)?'CHARACTER SHIFT':'STRUCTURE BREAK',C.green,9);
+    }else if(/fibonacci|premium-discount|retracement/.test(id)){
+      [105,139,173,207,241].forEach((y,i)=>{const c=i===2?C.gold:C.blue;o+=L(170,y,630,y,c,i===2?'5 4':'2 6')+T(118,y+4,['100%','78.6%','50%','23.6%','0%'][i],c,10);});o+=R(170,174,460,31,'#d5b16b18',C.gold);
+    }else if(/session|kill-zone|opening-range|daily-weekly-open|daylight|market-hours/.test(id)){
+      [['ASIA',58,125,C.blue],['LONDON',190,170,C.green],['NEW YORK',368,245,C.gold]].forEach(([t,x,w,c])=>{o+=R(x,95,w,150,c+'22',c,5)+T(x+10,117,t,c,11);});o+=L(58,257,650,257)+T(60,278,'SESSION TIME →',C.muted,10);
+    }else if(/rsi|macd|stochastic|adx|atr|ema|sma|vwap|ichimoku|bollinger|donchian|keltner|sar|pivot|indicator/.test(id)){
+      o+=R(48,248,610,61,'#101a25','#253547')+L(60,278,645,278,C.muted,'2 5');let q='';for(let i=0;i<25;i++)q+=(i?'L':'M')+(62+i*23)+' '+(280+Math.sin(i*.63+seed)*18)+' ';o+='<path d="'+q+'" fill="none" stroke="'+C.blue+'" stroke-width="2.5"/>'+L(60,263,645,263,C.red,'3 5')+L(60,294,645,294,C.green,'3 5')+T(62,240,'INDICATOR / SIGNAL PANEL',C.blue,10);
+    }else if(/volume|profile|footprint|delta|order-flow|absorption|exhaustion|vsa|wyckoff|poc|vah|val|tpo/.test(id)){
+      o+=R(470,90,160,155,'#0e1721','#34485c');for(let i=0;i<6;i++){const y=105+i*22,w=30+rnd(i+70)*105;o+=R(480,y,w,13,i%2?C.red:C.green)+T(590,y+11,['ASK','BID','ASK','BID','ASK','BID'][i],C.muted,8);}o+=T(480,264,'BID × ASK / VOLUME',C.gold,9);
+    }else if(/risk|stop|position|leverage|margin|reward|r-multiple|drawdown|ruin|kelly|mae|mfe|portfolio|gap-risk|invalidation/.test(id)){
+      o+=R(255,100,190,72,'#48c7a01a',C.green)+R(255,172,190,75,'#e078841a',C.red)+L(55,172,655,172,C.gold,'6 5')+T(270,126,'TARGET / REWARD',C.green,11)+T(270,198,'ENTRY / RISK',C.gold,11)+T(270,226,'STOP / INVALIDATION',C.red,10)+L(475,110,475,242,C.muted,'3 4')+T(485,182,'R:R',C.white,12);
+    }else if(/backtest|forward-test|expectancy|sample-size|out-of-sample|walk-forward|monte-carlo|overfit|statistical|journal|review/.test(id)){
+      o+=R(55,92,275,152,'#101a25','#34485c')+R(350,92,275,152,'#101a25','#34485c')+T(72,115,'IN-SAMPLE',C.blue,11)+T(367,115,'OUT-OF-SAMPLE',C.gold,11)+L(340,90,340,245,C.muted,'4 5');let q='',z='';for(let i=0;i<10;i++){q+=(i?'L':'M')+(75+i*24)+' '+(210-Math.sin(i*.55+seed)*34-i*3)+' ';z+=(i?'L':'M')+(370+i*24)+' '+(210-Math.sin(i*.55+seed+2)*23-i*2)+' ';}o+='<path d="'+q+'" fill="none" stroke="'+C.green+'" stroke-width="2.5"/><path d="'+z+'" fill="none" stroke="'+C.gold+'" stroke-width="2.5"/>';
+    }else if(/news|economic|inflation|employment|gdp|fomc|central-bank|interest-rate|yield|macro|dxy|intermarket|correlation/.test(id)){
+      o+=L(340,75,340,245,C.gold,'5 5')+R(275,80,130,28,'#d5b16b20',C.gold)+T(285,99,'DATA RELEASE',C.gold,10)+T(64,270,'EXPECTATION',C.blue,10)+T(510,270,'ACTUAL / REACTION',C.green,10);
+    }else if(/order-type|market-order|limit-order|stop-order|execution|spread|slippage|pip|tick|lot|contract|swap|rollover|broker|feed|currency/.test(id)){
+      o+=R(70,105,240,120,'#101a25','#34485c',5)+R(390,105,240,120,'#101a25','#34485c',5)+T(90,132,'BID',C.green,12)+T(410,132,'ASK',C.red,12)+T(90,170,'BUYERS',C.muted,10)+T(410,170,'SELLERS',C.muted,10)+L(310,165,390,165,C.gold,'4 4')+T(325,151,'SPREAD',C.gold,9);
+    }else if(/psychology|fomo|overtrading|revenge|bias|discipline|checklist|trading-plan/.test(id)){
+      [['PLAN',65],['WAIT',225],['EXECUTE',385],['REVIEW',545]].forEach(([t,x],i)=>{o+=R(x,135,105,55,'#101a25',i===2?C.green:C.blue,6)+T(x+14,168,t,i===2?C.green:C.blue,11);if(i<3)o+=L(x+106,162,x+154,162,C.gold,'3 4');});
+    }else if(/candlestick|engulf|pinbar|hammer|shooting-star|inside-bar|outside-bar|doji|candle/.test(id)){
+      o='';for(let i=0;i<8;i++){const x=135+i*58,op=130+(rnd(i+4)-.5)*65,cl=op+(rnd(i+30)-.5)*70,hi=Math.min(op,cl)-15-rnd(i+60)*20,lo=Math.max(op,cl)+15+rnd(i+80)*20;o+=candle(x,op,cl,hi,lo,25);}o+=T(120,270,'OPEN · HIGH · LOW · CLOSE',C.muted,11);
+    }else if(/trend|channel|range|consolidation|breakout|retest|triangle|flag|pennant|wedge|double-top|head-shoulders|rounding|elliott/.test(id)){
+      o+=L(70,95,620,95,C.gold,'5 5')+L(70,235,620,235,C.gold,'5 5')+T(75,85,'RESISTANCE',C.gold,10)+T(75,253,'SUPPORT',C.gold,10)+L(140,220,560,115,C.blue,'3 5')+T(480,108,'TREND / PATTERN',C.blue,10);
+    }else{o=R(260,115,185,88,'#101a25',C.blue,5)+T(280,148,'CONCEPT MODEL',C.blue,12)+T(280,174,'OBSERVE → DEFINE → TEST',C.white,10);}
+    let grid='';for(let x=55;x<=655;x+=100)grid+=L(x,52,x,300,C.grid,'2 6');for(let y=65;y<=295;y+=55)grid+=L(50,y,665,y,C.grid,'2 6');
+    const title=(topic.title||'Trading concept').toUpperCase();
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" role="img" aria-label="'+esc(topic.title)+' explanatory diagram"><rect width="720" height="340" rx="12" fill="'+C.bg+'"/>'+grid+T(52,28,title,C.white,14)+T(655,28,cat.toUpperCase(),C.muted,9)+bars+'<path d="'+path+'" fill="none" stroke="'+C.white+'" stroke-width="2.6" opacity=".65"/>'+o+vol+L(50,310,665,310,'#344354')+T(52,329,'ORIGINAL TOPIC-SPECIFIC LEARNING ILLUSTRATION · NOT LIVE DATA',C.muted,9)+'</svg>';
   }
   function filtered(){return topics.filter(t=>(activeCategory==='All Topics'||t.cat===activeCategory)&&(!query||(t.title+' '+t.cat+' '+t.tags+' '+t.intro).toLowerCase().includes(query)));}
   function renderCategories(){
@@ -9170,7 +9020,7 @@ window.renderBacktestMetrics=function(r,meta={}){
   function openTopic(id){
     const t=topics.find(x=>x.id===id);if(!t)return;selected=id;
     $('nfxLearnTopicGrid').hidden=true;$('nfxLearnResultsHead').hidden=true;$('nfxLearnEmpty').hidden=true;$('nfxLearnDetail').hidden=false;
-    $('nfxLearnDetailContent').innerHTML=`<div class="nfx-learn-kicker">${esc(t.cat.toUpperCase())} · COMPLETE TOPIC GUIDE</div><h2>${esc(t.title)}</h2><p>${esc(t.intro)}</p><figure class="nfx-learn-visual">${diagram(t)}<figcaption>${imageCredit(t)}</figcaption></figure><h3>02 · How it works</h3><p>${esc(t.how)}</p><div class="nfx-learn-detail-grid"><section class="nfx-learn-info nfx-learn-valid"><h3>✓ VALID CONDITIONS</h3><ul>${t.valid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section><section class="nfx-learn-info nfx-learn-invalid"><h3>✕ INVALID / WEAK CONDITIONS</h3><ul>${t.invalid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section></div><h3>03 · How to mark it on a chart</h3><ol>${t.mark.map(x=>'<li>'+esc(x)+'</li>').join('')}</ol><div class="nfx-learn-info"><h3>PRO TRADING NOTE</h3><p>${esc(t.tip)}</p></div><h3>04 · Professional chart-reading workflow</h3><ol><li>Start with a clean chart and mark only the relevant higher-timeframe context.</li><li>Identify the exact candles / swing points that satisfy this lesson's definition.</li><li>Draw the zone or level using the stated boundaries; note the timeframe beside it.</li><li>Wait for the confirmation rule. Do not assume the first touch is an entry.</li><li>Define entry trigger, stop-loss invalidation and target before placing an order.</li><li>Capture the chart before the outcome, then journal both valid winners and valid losses.</li></ol><div class="nfx-learn-info"><h3>VALIDATION STANDARD</h3><p>These third-party chart screenshots are educational reference examples, not live prices or trade signals. Confirm every setup on your own broker feed. Record the instrument, timezone, spread, session and rule version so the result can be reproduced.</p></div>`;
+    $('nfxLearnDetailContent').innerHTML=`<div class="nfx-learn-kicker">${esc(t.cat.toUpperCase())} · COMPLETE TOPIC GUIDE</div><h2>${esc(t.title)}</h2><p>${esc(t.intro)}</p><figure class="nfx-learn-visual">${diagram(t)}<figcaption>Original topic-specific learning illustration · Concept schematic, not live market data.</figcaption></figure><h3>02 · How it works</h3><p>${esc(t.how)}</p><div class="nfx-learn-detail-grid"><section class="nfx-learn-info nfx-learn-valid"><h3>✓ VALID CONDITIONS</h3><ul>${t.valid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section><section class="nfx-learn-info nfx-learn-invalid"><h3>✕ INVALID / WEAK CONDITIONS</h3><ul>${t.invalid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section></div><h3>03 · How to mark it on a chart</h3><ol>${t.mark.map(x=>'<li>'+esc(x)+'</li>').join('')}</ol><div class="nfx-learn-info"><h3>PRO TRADING NOTE</h3><p>${esc(t.tip)}</p></div><h3>04 · Professional chart-reading workflow</h3><ol><li>Start with a clean chart and mark only the relevant higher-timeframe context.</li><li>Identify the exact candles / swing points that satisfy this lesson's definition.</li><li>Draw the zone or level using the stated boundaries; note the timeframe beside it.</li><li>Wait for the confirmation rule. Do not assume the first touch is an entry.</li><li>Define entry trigger, stop-loss invalidation and target before placing an order.</li><li>Capture the chart before the outcome, then journal both valid winners and valid losses.</li></ol><div class="nfx-learn-info"><h3>VALIDATION STANDARD</h3><p>The illustration above is an original educational schematic designed to explain this topic; it is not a live chart, historical trade record or trade signal. Confirm real market behaviour on your own broker feed. Record the instrument, timezone, spread, session and rule version so the result can be reproduced.</p></div>`;
     $('nfxLearnDetail').scrollIntoView({behavior:'smooth',block:'start'});
   }
   document.addEventListener('click',e=>{
