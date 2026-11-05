@@ -5172,19 +5172,39 @@ function sequenceSignalSeries(c,sequence,cache,seriesMap){
  if(stages.some(stage=>!stage||stage.type==='sequence'))throw Error('Nested strategy sequences are not supported; keep sequence stages as individual conditions.');
  const maxGap=Number.isFinite(Number(sequence.maxBarsBetweenStages))&&Number(sequence.maxBarsBetweenStages)>0?Math.floor(Number(sequence.maxBarsBetweenStages)):null;
  const signals=new Array(c.length).fill(false);
- let stageIndex=0,lastStageIndex=-1;
+ let stageIndex=0,lastStageIndex=-1,linkedZone=null;
+ const reset=()=>{stageIndex=0;lastStageIndex=-1;linkedZone=null;};
+ const stageMatches=(stage,i)=>{
+  const bar=c[i];
+  if(stage.type==='fair_value_gap_return'&&stage.linkedToPreviousStage===true){
+   if(!linkedZone||stage.direction!==linkedZone.direction)return false;
+   const touched=bar.l<=linkedZone.upper&&bar.h>=linkedZone.lower;
+   return touched;
+  }
+  return conditionAt(c,stage,i,cache,seriesMap);
+ };
+ const captureLinkedZone=(stage,i)=>{
+  if(stage.type!=='fair_value_gap')return;
+  const bar=c[i],twoBack=c[i-2];
+  if(!twoBack)return;
+  if(stage.direction==='bullish'&&bar.l>twoBack.h)linkedZone={direction:'bullish',lower:twoBack.h,upper:bar.l,formedAt:i};
+  if(stage.direction==='bearish'&&bar.h<twoBack.l)linkedZone={direction:'bearish',lower:bar.h,upper:twoBack.l,formedAt:i};
+ };
  for(let i=0;i<c.length;i++){
-  if(stageIndex>0&&maxGap!==null&&i-lastStageIndex>maxGap){stageIndex=0;lastStageIndex=-1;}
+  if(stageIndex>0&&maxGap!==null&&i-lastStageIndex>maxGap)reset();
   if(stageIndex===0){
-   if(conditionAt(c,stages[0],i,cache,seriesMap)){
+   if(stageMatches(stages[0],i)){
+    captureLinkedZone(stages[0],i);
     if(stages.length===1)signals[i]=true;
     else{stageIndex=1;lastStageIndex=i;}
    }
    continue;
   }
-  if(conditionAt(c,stages[stageIndex],i,cache,seriesMap)){
+  const stage=stages[stageIndex];
+  if(stageMatches(stage,i)){
+   captureLinkedZone(stage,i);
    lastStageIndex=i;stageIndex++;
-   if(stageIndex===stages.length){signals[i]=true;stageIndex=0;lastStageIndex=-1;}
+   if(stageIndex===stages.length){signals[i]=true;reset();}
   }
  }
  return signals;
