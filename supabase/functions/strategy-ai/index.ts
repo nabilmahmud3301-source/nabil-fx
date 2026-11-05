@@ -70,7 +70,7 @@ execution schema:
  "exitLongConditions"?:[condition,...], "exitShortConditions"?:[condition,...],
  "timezone"?: "IANA timezone ID used to display session and trade times (default UTC)",
  "entry":"next_open" or "signal_close",
- "stop":{"type":"signal_candle"|"previous_candle"|"atr"|"percent"|"signal_candle_offset","value":number,"unit"?: "price"|"pip"|"tick"|"point"|"percent","tickSize"?:number},
+ "stop":{"type":"signal_candle"|"previous_candle"|"atr"|"percent"|"signal_candle_offset"|"entry_offset","value":number,"unit"?: "price"|"pip"|"tick"|"point"|"percent","tickSize"?:number},
  "targetR":positive number or null when rule-based exit conditions are supplied,
  "maxBarsInTrade":positive integer or null,
  "dataMode"?: "candles"|"aggregated_trades"|"databento_trades"
@@ -101,6 +101,7 @@ Preserve the user's explicitly stated AND/OR/NOT relationships using {"type":"lo
 - {"type":"time_range_sweep","timezone":"IANA/Zone","startHour":0..23,"startMinute":0..59,"rangeMinutes":positive integer,"direction":"bullish"|"bearish"} (bullish: price wicks below the specified clock-time range low and closes back above it; bearish: wicks above the range high and closes back below it)
 - {"type":"weekday_filter","timezone":"IANA/Zone","days":[0..6]} (0 Sunday, 6 Saturday)
 - {"type":"clock_time_filter","timezone":"IANA/Zone","startHour":0..23,"startMinute":0..59,"endHour":0..23,"endMinute":0..59} (local wall-clock entry window)
+- {"type":"scheduled_entry_time","timezone":"IANA/Zone","hour":0..23,"minute":0..59} (fires only on the signal candle whose immediately following candle opens at this exact local clock time; use execution.entry="next_open"; if the selected timeframe has no candle opening at that exact time, do not fabricate or shift an entry)\nFor wording such as "enter at", "buy at", or "open a trade exactly at the start of [session] at HH:MM", compile a scheduled_entry_time condition, not a session_filter or clock_time_filter. Set execution.entry="next_open" so the fill is at the exact next candle open. If the user explicitly states UTC, use timezone="UTC" even if the session is named London; do not convert it to Europe/London wall time or apply DST. If the selected timeframe has no candle opening at that exact instant, explain that exact-time execution cannot be tested on that timeframe and return supported=false rather than shifting the entry.
 - {"type":"candle_body_percent","operator":"above"|"below","value":0..100} (real body as percent of full candle range)
 - {"type":"price_change_percent","lookback":1..500,"operator":"above"|"below","value":number} (close-to-close percentage change over lookback; use bearish direction for negative threshold)
 - {"type":"range_expansion","lookback":2..200,"multiplier":positive number} (current candle range exceeds prior average range times multiplier)
@@ -111,187 +112,211 @@ Preserve the user's explicitly stated AND/OR/NOT relationships using {"type":"lo
 - {"type":"session_range_sweep","direction":"bullish"|"bearish","timezone":"IANA/Zone","startHour":0..23,"startMinute":0..59,"endHour":0..23,"endMinute":0..59} (sweep the completed local-time session range low/high and close back inside; e.g. Asia range)
 - {"type":"order_block_return","direction":"bullish"|"bearish","lookback":integer} (return to the most recent opposing candle before a displacement candle; deterministic OHLC proxy, not volume/order-flow confirmation)
 - {"type":"gap","direction":"bullish"|"bearish"} (current open gaps beyond previous candle high/low)
-- stop type signal_candle_offset supports value plus unit price|pip|tick|point|percent; pip is symbol-aware; do not assume a universal tick size
-Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. Only translate if the user's rules faithfully match these forms. Do not claim arbitrary ICT/FVG/liquidity/session/multi-timeframe rules are supported unless expressible exactly in this schema. For unsupported concepts, return supported=false rather than approximating. A missing fixed target is allowed only when the user explicitly supplies rule-based exit conditions for every enabled trade direction; otherwise set supported=false. A missing stop-loss or entry timing is always a missing required rule: do not supply a default. Do not add assumptions or defaults. For unsupported concepts that cannot be represented, clearly identify the limitation rather than pretending the exact strategy was tested. When a user specifies a session/location/timezone, put the exact IANA timezone in execution.timezone and in every time condition. For an opening range, faithfully use the specified start time, duration, and wick/close trigger; do not hardcode London or a five-minute timeframe. If the user says one pip beyond the signal candle, use stop={type:"signal_candle_offset",value:1,unit:"pip"}; pip size is calculated from the actual symbol. If a tick/point size is unknown, do not invent it. If the user specifies a rule-based exit (e.g. close a BUY when RSI crosses below a threshold, or close a SELL when an opposite candle pattern appears), compile it into execution.exitLongConditions or execution.exitShortConditions using the same condition schema. These exit conditions are checked on each later candle close; all conditions in each exit array are ANDed unless nested logic is used. Do not put entry triggers in exit arrays. If no custom exit rule is stated, return empty arrays. Preserve entry timing, direction, stop/target, filters, trade frequency, weekdays, and exit rules. If the strategy says both directions, create conditions for each direction. For EMA crossover set EMA cross conditions. Long/short arrays are evaluated independently. Include a concise normalizedRules description.`;
+- stop type signal_candle_offset is an offset beyond the signal candle high/low. For a fixed stop distance measured from actual entry price, use stop={type:"entry_offset",value:number,unit:"pip"|"point"|"tick"|"price"|"percent"}; entry_offset places the stop exactly value units below entry for LONG or above entry for SHORT. If the user says "fixed 50-pip stop loss", this means exactly 50 pips from the entry price, not from the signal candle high/low. Pip conversion is symbol-aware; do not assume a universal tick size.
+Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. Only translate if the user's rules faithfully match these forms. Do not claim arbitrary ICT/FVG/liquidity/session/multi-timeframe rules are supported unless expressible exactly in this schema. For unsupported concepts, return supported=false rather than approximating. A missing fixed target is allowed only when the user explicitly supplies rule-based exit conditions for every enabled trade direction; otherwise set supported=false. A missing stop-loss or entry timing is always a missing required rule: do not supply a default. Do not add assumptions or defaults. For unsupported concepts that cannot be represented, clearly identify the limitation rather than pretending the exact strategy was tested. When a user specifies a session/location/timezone, put the exact IANA timezone in execution.timezone and in every time condition. For an opening range, faithfully use the specified start time, duration, and wick/close trigger; do not hardcode London or a five-minute timeframe. If the user says one pip beyond the signal candle, use stop={type:"signal_candle_offset",value:1,unit:"pip"}; if the user says a fixed X-pip stop loss from entry, use stop={type:"entry_offset",value:X,unit:"pip"}. Pip size is calculated from the actual symbol. If a tick/point size is unknown, do not invent it. If the user specifies a rule-based exit (e.g. close a BUY when RSI crosses below a threshold, or close a SELL when an opposite candle pattern appears), compile it into execution.exitLongConditions or execution.exitShortConditions using the same condition schema. These exit conditions are checked on each later candle close; all conditions in each exit array are ANDed unless nested logic is used. Do not put entry triggers in exit arrays. If no custom exit rule is stated, return empty arrays. Preserve entry timing, direction, stop/target, filters, trade frequency, weekdays, and exit rules. If the strategy says both directions, create conditions for each direction. For EMA crossover set EMA cross conditions. Long/short arrays are evaluated independently. Include a concise normalizedRules description.`;
 
-    // Prefer Google's low-latency Flash-Lite models for reliable strategy compilation.
-    // Keep both model IDs current and supported by the Gemini Interactions API.
-    const models = ["gemini-3.8-flash", "gemini-3.6-flash", "gemini-3.5-flash-lite"];
+    // Primary Gemini 3.x models first, then independent stable 2.5 fallbacks.
+    // Gemini 3.7 is intentionally omitted: Google documents automatic routing
+    // from 3.7 to 3.8 on the Developer API, so it is not an independent fallback.
+    const models = ["gemini-3.8-flash", "gemini-3.1-flash-lite", "gemini-2.5-flash", "gemini-2.5-flash-lite"];
     const failures: string[] = [];
 
     for (const model of models) {
-      try {
-        const response = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
-          // Give the primary model enough time to finish, while keeping the full
-          // three-model failover inside the Edge Function request window.
-          signal: AbortSignal.timeout(model === models[0] ? 10000 : 7000),
-          body: JSON.stringify({
-            model,
-            store: false,
-            system_instruction: systemInstruction,
-            input: strategy,
-          }),
-        });
-
-        const result = await response.json().catch(() => ({}));
-        if (!response.ok) {
-          const message = result?.error?.message || "Gemini API returned HTTP " + response.status + ".";
-          failures.push(model + ": " + message);
-          // Move to the next supported model for temporary capacity/model errors.
-          if ([408, 429, 500, 502, 503, 504].includes(response.status) || response.status === 404) continue;
-          throw new Error(message);
-        }
-
-        if (result?.status && result.status !== "completed") {
-          failures.push(model + ": response status " + String(result.status));
-          continue;
-        }
-
-        const raw = extractText(result);
-        if (!raw) {
-          failures.push(model + ": empty model output");
-          continue;
-        }
-
-        let parsed: any;
+      // Retry transient capacity/rate-limit/server errors once with bounded
+      // exponential backoff. Keep the worst-case request below Supabase's
+      // 150-second Free-tier wall-clock ceiling.
+      for (let attempt = 0; attempt < 2; attempt++) {
         try {
-          parsed = parseModelJson(raw);
-        } catch (parseError) {
-          failures.push(model + ": invalid JSON output");
-          continue;
-        }
-
-        if (typeof parsed?.supported !== "boolean") {
-          failures.push(model + ": missing supported boolean");
-          continue;
-        }
-
-        const execution = parsed?.execution && typeof parsed.execution === "object" ? parsed.execution : null;
-
-        // The simulator currently loads OHLCV candles for one selected interval only.
-        // Reject rules requiring synchronized timeframes or historical event/tick data.
-        const multiTimeframePattern = /multi[ -]?timeframe|\bmtf\b|higher[ -]?timeframe|lower[ -]?timeframe|multiple timeframes|timeframe alignment|top[ -]?down analysis|\b(?:1m|3m|5m|15m|30m|1h|2h|4h|1d)\b.{0,60}\b(?:1m|3m|5m|15m|30m|1h|2h|4h|1d)\b/i;
-        const tickDataPattern = /tick[ -]?(?:level|by[ -]?tick|data|chart|feed)|every tick|trade[ -]?by[ -]?trade|each trade event/i;
-        const orderFlowPattern = /order[ -]?flow|footprint|time[ -]?and[ -]?sales|tape[ -]?reading|bid[ -]?ask[ -]?stream|level[ -]?2|market[ -]?depth|\bDOM\b/i;
-        const unsupportedDataReasons: string[] = [];
-        const hasTimeframeTag = (items: any[]): boolean => Array.isArray(items) && items.some((c:any) => !!c?.timeframe || (c?.type === "logic" && hasTimeframeTag(c.conditions)));
-        const mtfCompiled = hasTimeframeTag(execution?.longConditions) || hasTimeframeTag(execution?.shortConditions) || hasTimeframeTag(execution?.exitLongConditions) || hasTimeframeTag(execution?.exitShortConditions);
-        if (multiTimeframePattern.test(strategy) && !mtfCompiled) unsupportedDataReasons.push("The strategy describes multiple timeframes, but the AI did not compile explicit timeframe-tagged conditions. Clarify which rule belongs to each timeframe.");
-        const allConditions = [...(execution?.longConditions || []), ...(execution?.shortConditions || []), ...(execution?.exitLongConditions || []), ...(execution?.exitShortConditions || [])];
-        const hasConditionType = (items:any[],types:string[]):boolean => Array.isArray(items) && items.some((c:any)=>types.includes(c?.type) || (c?.type==="logic" && hasConditionType(c.conditions,types)));
-        const hasUntimedConditionType = (items:any[],types:string[]):boolean => Array.isArray(items) && items.some((c:any)=>(types.includes(c?.type)&&!c?.timeframe)||(c?.type==="logic"&&hasUntimedConditionType(c.conditions,types)));
-        const tickRequested = tickDataPattern.test(strategy) || ["aggregated_trades","databento_trades"].includes(String(execution?.dataMode));
-        if (orderFlowPattern.test(strategy)) unsupportedDataReasons.push("Historical bid/ask depth, footprint and order-flow event data is not available from the connected free data source.");
-        if (execution?.dataMode === "aggregated_trades" && market !== "crypto") unsupportedDataReasons.push("Binance aggregated trade replay is only available for crypto.");
-        if (execution?.dataMode === "databento_trades" && market !== "futures") unsupportedDataReasons.push("Databento raw exchange tick replay is only enabled for exchange-listed futures contracts. OTC Forex, spot Gold and broker CFDs cannot be relabeled as futures.");
-        if (tickRequested && !["aggregated_trades","databento_trades"].includes(String(execution?.dataMode))) unsupportedDataReasons.push("Raw tick replay requires an explicitly connected historical trade-tick provider.");
-        if (["aggregated_trades","databento_trades"].includes(String(execution?.dataMode)) && (hasUntimedConditionType(allConditions,["session_opening_range_breakout","time_range_breakout","time_range_sweep","session_range_sweep","previous_day_sweep","candle_body_percent","range_expansion","inside_bar","engulfing","fair_value_gap","fair_value_gap_return","market_structure_shift","order_block_return","liquidity_sweep","breakout","consecutive_candles","candle_direction"]) || execution?.stop?.type === "atr")) unsupportedDataReasons.push("This rule requires candle OHLC structure that cannot be faithfully evaluated on individual trade events unless it explicitly names a candle timeframe. Use candle mode or tag each candle condition with its timeframe.");
-        if (["aggregated_trades","databento_trades"].includes(String(execution?.dataMode)) && execution?.stop?.unit === "pip") unsupportedDataReasons.push("Pip-based stops are not valid for raw trade-event replay. Specify a price or verified tick/point-size offset.");
-        const validTypes = new Set(["expression","ema_cross","sma_cross","close_vs_ema","close_vs_sma","rsi","macd_cross","breakout","candle_direction","close_vs_open","close_vs_prev_highlow","consecutive_candles","engulfing","inside_bar","liquidity_sweep","volume_above_sma","session_filter","session_opening_range_breakout","time_range_breakout","time_range_sweep","weekday_filter","clock_time_filter","scheduled_entry_time","candle_body_percent","price_change_percent","range_expansion","fair_value_gap","fair_value_gap_return","market_structure_shift","previous_day_sweep","session_range_sweep","order_block_return","gap","logic"]);
-        const validExpression = (node:any,depth=0):boolean => {
-          if(!node||typeof node!=="object"||depth>10)return false;
-          if(Object.prototype.hasOwnProperty.call(node,"value"))return Number.isFinite(Number(node.value))&&Object.keys(node).length===1;
-          if(node.field!==undefined)return ["open","high","low","close","volume"].includes(String(node.field))&&(Object.keys(node).length===1||(Number.isInteger(node.lag)&&node.lag>=1&&node.lag<=500));
-          if(node.indicator!==undefined)return ["ema","sma","rsi","atr","highest","lowest","volume_sma","stdev","bollinger_upper","bollinger_lower","stochastic_k"].includes(String(node.indicator))&&Number.isInteger(node.period)&&node.period>=2&&node.period<=500&&["open","high","low","close","volume"].includes(String(node.source||"close"))&&(node.multiplier===undefined||(Number.isFinite(Number(node.multiplier))&&Number(node.multiplier)>0&&Number(node.multiplier)<=10));
-          const op=String(node.op||"").toLowerCase(),args=node.args;
-          if(!Array.isArray(args))return false;
-          if(["and","or"].includes(op))return args.length>=1&&args.length<=12&&args.every((x:any)=>validExpression(x,depth+1));
-          if(["min","max"].includes(op))return args.length>=2&&args.length<=12&&args.every((x:any)=>validExpression(x,depth+1));
-          if(op==="not"||op==="abs")return args.length===1&&validExpression(args[0],depth+1);
-          if(["gt","gte","lt","lte","eq","neq","crosses_above","crosses_below","add","sub","mul","div"].includes(op))return args.length===2&&args.every((x:any)=>validExpression(x,depth+1));
-          return false;
-        };
-        const validCondition = (c: any, depth = 0): boolean => {
-          if (!c || typeof c !== "object" || depth > 5 || !validTypes.has(c.type)) return false;
-          if (c.timeframe !== undefined && !["1m","3m","5m","15m","30m","1h","2h","4h","1d"].includes(String(c.timeframe))) return false;
-          if (c.type === "expression") return validExpression(c.expr);
-          if (c.type === "logic") return ["all","any","not"].includes(String(c.operator || "all").toLowerCase()) && Array.isArray(c.conditions) && c.conditions.length > 0 && c.conditions.length <= 12 && c.conditions.every((x: any) => validCondition(x, depth + 1));
-          if (c.type === "session_range_sweep") return ["bullish","bearish"].includes(c.direction) && typeof c.timezone === "string" && [c.startHour,c.endHour].every((n:any)=>Number.isInteger(Number(n))&&Number(n)>=0&&Number(n)<=23) && [c.startMinute??0,c.endMinute??0].every((n:any)=>Number.isInteger(Number(n))&&Number(n)>=0&&Number(n)<=59);
-          if (["session_filter","session_opening_range_breakout","time_range_breakout","time_range_sweep"].includes(c.type)) {
-            const hour=Number(c.startHour ?? c.sessionHour ?? 0), minute=Number(c.startMinute ?? c.sessionMinute ?? 0);
-            const duration=Number(c.rangeMinutes ?? 5);
-            const direction=String(c.direction||"");
-            return Number.isInteger(hour)&&hour>=0&&hour<=23&&Number.isInteger(minute)&&minute>=0&&minute<=59&&Number.isFinite(duration)&&duration>=1&&duration<=1440&&(!c.timezone||typeof c.timezone==="string")&&
-              (c.type==="session_filter" || ["bullish","bearish"].includes(direction));
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), 14000);
+          let response: Response;
+          try {
+            response = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
+              method: "POST",
+              headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
+              signal: controller.signal,
+              body: JSON.stringify({
+                model,
+                store: false,
+                system_instruction: systemInstruction,
+                input: strategy,
+              }),
+            });
+          } finally {
+            clearTimeout(timeout);
           }
-          if (["ema_cross","sma_cross"].includes(c.type)) return Number.isInteger(c.fast) && Number.isInteger(c.slow) && c.fast >= 2 && c.slow > c.fast && c.slow <= 200 && ["bullish","bearish"].includes(c.direction);
-          if (["close_vs_ema","close_vs_sma","rsi","volume_above_sma"].includes(c.type)) return Number.isInteger(c.period) && c.period >= 2 && c.period <= 200 && (c.type !== "rsi" || (Number.isFinite(Number(c.value)) && Number(c.value) >= 0 && Number(c.value) <= 100));
-          if (c.type === "breakout" || c.type === "liquidity_sweep") return Number.isInteger(c.lookback) && c.lookback >= 2 && c.lookback <= 500 && ["above","below","bullish","bearish"].includes(c.direction);
-          if (c.type === "candle_direction" || c.type === "consecutive_candles" || c.type === "engulfing") return ["bullish","bearish"].includes(c.direction) && (c.type !== "consecutive_candles" || (Number.isInteger(c.count) && c.count >= 2 && c.count <= 50));
-          if (c.type === "weekday_filter") return Array.isArray(c.days) && c.days.length>0 && c.days.every((d: any)=>Number.isInteger(Number(d))&&Number(d)>=0&&Number(d)<=6) && (!c.timezone||typeof c.timezone==="string");
-          if (c.type === "scheduled_entry_time") return Number.isInteger(c.hour) && c.hour >= 0 && c.hour <= 23 && Number.isInteger(c.minute) && c.minute >= 0 && c.minute <= 59 && typeof c.timezone === "string" && c.timezone.length > 0;\n          if (c.type === "clock_time_filter") return [c.startHour,c.endHour].every((n: any)=>Number.isInteger(Number(n))&&Number(n)>=0&&Number(n)<=23) && [c.startMinute??0,c.endMinute??0].every((n: any)=>Number.isInteger(Number(n))&&Number(n)>=0&&Number(n)<=59) && (!c.timezone||typeof c.timezone==="string");
-          if (c.type === "candle_body_percent") return ["above","below"].includes(c.operator)&&Number.isFinite(Number(c.value))&&Number(c.value)>=0&&Number(c.value)<=100;
-          if (c.type === "price_change_percent") return Number.isInteger(c.lookback)&&c.lookback>=1&&c.lookback<=500&&["above","below","bullish","bearish"].includes(c.operator||c.direction)&&Number.isFinite(Number(c.value))&&Number(c.value)>=0;
-          if (c.type === "range_expansion") return Number.isInteger(c.lookback)&&c.lookback>=2&&c.lookback<=200&&Number.isFinite(Number(c.multiplier))&&Number(c.multiplier)>0&&Number(c.multiplier)<=20;
-          if (["fair_value_gap","gap"].includes(c.type)) return ["bullish","bearish"].includes(c.direction);
-          if (["fair_value_gap_return","market_structure_shift","order_block_return"].includes(c.type)) return ["bullish","bearish"].includes(c.direction) && Number.isInteger(c.lookback) && c.lookback >= 3 && c.lookback <= 500;
-          if (c.type === "previous_day_sweep") return ["bullish","bearish"].includes(c.direction) && typeof c.timezone === "string" && c.timezone.length > 0;
-          if (c.type === "session_range_sweep") return ["bullish","bearish"].includes(c.direction) && typeof c.timezone === "string" && [c.startHour,c.endHour].every((n:any)=>Number.isInteger(Number(n))&&Number(n)>=0&&Number(n)<=23) && [c.startMinute??0,c.endMinute??0].every((n:any)=>Number.isInteger(Number(n))&&Number(n)>=0&&Number(n)<=59);
-          if (c.type === "close_vs_open") return ["above","below"].includes(c.operator);
-          if (c.type === "close_vs_prev_highlow") return ["high","low"].includes(c.level) && ["above","below"].includes(c.operator);
-          return c.type === "inside_bar" || c.type === "macd_cross";
-        };
-        const validConditions = (items: any[]) => Array.isArray(items) && items.length <= 12 && items.every((c: any) => validCondition(c));
-        const dataModeValid = execution?.dataMode === undefined || ["candles","aggregated_trades","databento_trades"].includes(String(execution.dataMode));
-        const stop = execution?.stop;
-        const stopOffsetUnit = String(stop?.unit || "price");
-        const stopOffsetValid = stop?.type === "signal_candle_offset" &&
-          Number.isFinite(Number(stop.value)) && Number(stop.value) > 0 &&
-          ["price","pip","tick","point","percent"].includes(stopOffsetUnit) &&
-          (!["tick","point"].includes(stopOffsetUnit) ||
-            (Number.isFinite(Number(stop.tickSize ?? stop.pointSize)) && Number(stop.tickSize ?? stop.pointSize) > 0));
-        const stopValid = !!stop && (
-          ["signal_candle","previous_candle"].includes(stop.type) ||
-          (["atr","percent"].includes(stop.type) && Number.isFinite(Number(stop.value)) && Number(stop.value) > 0) ||
-          stopOffsetValid
-        );
-        const executionValid = !!execution && dataModeValid &&
-          validConditions(execution.longConditions) &&
-          validConditions(execution.shortConditions) &&
-          (execution.exitLongConditions === undefined || validConditions(execution.exitLongConditions)) &&
-          (execution.exitShortConditions === undefined || validConditions(execution.exitShortConditions)) &&
-          (execution.longConditions.length > 0 || execution.shortConditions.length > 0) &&
-          ["next_open","signal_close"].includes(execution.entry) &&
-          stopValid &&
-          ((Number.isFinite(Number(execution.targetR)) && Number(execution.targetR) > 0) ||
-            (execution.targetR === null &&
-              (execution.longConditions.length === 0 || (Array.isArray(execution.exitLongConditions) && execution.exitLongConditions.length > 0)) &&
-              (execution.shortConditions.length === 0 || (Array.isArray(execution.exitShortConditions) && execution.exitShortConditions.length > 0))));
-        const safe = {
-          supported: parsed.supported === true && executionValid && unsupportedDataReasons.length === 0 && !(Array.isArray(parsed.unsupportedReasons) && parsed.unsupportedReasons.length > 0),
-          long: parsed.long === true,
-          short: parsed.short === true,
-          rewardRisk: Number.isFinite(Number(parsed.rewardRisk)) && Number(parsed.rewardRisk) > 0 ? Number(parsed.rewardRisk) : null,
-          normalizedRules: String(parsed.normalizedRules || "").slice(0, 3000),
-          explanation: String(parsed.explanation || "Strategy analyzed.").slice(0, 3000),
-          missing: Array.isArray(parsed.missing) ? parsed.missing.map((x: unknown) => String(x).slice(0, 200)).slice(0, 12) : [],
-          assumptions: Array.isArray(parsed.assumptions) ? parsed.assumptions.map((x: unknown) => String(x).slice(0, 300)).slice(0, 12) : [],
-          unsupportedReasons: [...(Array.isArray(parsed.unsupportedReasons) ? parsed.unsupportedReasons.map((x: unknown) => String(x).slice(0, 200)).slice(0, 12) : []), ...unsupportedDataReasons].slice(0, 12),
-          execution: executionValid && unsupportedDataReasons.length === 0 && !(Array.isArray(parsed.unsupportedReasons) && parsed.unsupportedReasons.length > 0) ? {
-            longConditions: execution.longConditions,
-            shortConditions: execution.shortConditions,
-            exitLongConditions: Array.isArray(execution.exitLongConditions) ? execution.exitLongConditions : [],
-            exitShortConditions: Array.isArray(execution.exitShortConditions) ? execution.exitShortConditions : [],
-            entry: execution.entry,
-            stop: execution.stop,
-            targetR: execution.targetR === null ? null : Number(execution.targetR),
-            maxBarsInTrade: Number.isFinite(Number(execution.maxBarsInTrade)) ? Math.max(1, Math.min(5000, Number(execution.maxBarsInTrade))) : null,
-            timezone: typeof execution.timezone === "string" ? execution.timezone.slice(0,80) : "UTC",
-            dataMode: ["aggregated_trades","databento_trades"].includes(String(execution.dataMode)) ? execution.dataMode : "candles",
-          } : null,
-          model,
-        };
 
-        return new Response(JSON.stringify(safe), {
-          headers: { ...cors, "Content-Type": "application/json" },
-        });
-      } catch (modelError) {
-        const message = modelError instanceof Error ? modelError.message : "Unknown model error";
-        failures.push(model + ": " + message);
-        const timedOut = modelError instanceof Error && (modelError.name === "TimeoutError" || modelError.name === "AbortError");
-        if (modelError instanceof Error && !timedOut && !/HTTP (408|429|500|502|503|504|404)/.test(message)) throw modelError;
+          const result = await response.json().catch(() => ({}));
+          if (!response.ok) {
+            const message = result?.error?.message || "Gemini API returned HTTP " + response.status + ".";
+            const retryable = [408, 429, 500, 502, 503, 504].includes(response.status);
+            if (retryable && attempt === 0) {
+              const retryAfterHeader = Number(response.headers.get("retry-after") || 0);
+              const backoffMs = retryAfterHeader > 0
+                ? Math.min(4000, retryAfterHeader * 1000)
+                : 1200 + Math.floor(Math.random() * 800);
+              failures.push(model + ": HTTP " + response.status + "; retrying once after " + backoffMs + "ms");
+              await new Promise((resolve) => setTimeout(resolve, backoffMs));
+              continue;
+            }
+            failures.push(model + ": " + message);
+            break;
+          }
+
+          if (result?.status && result.status !== "completed") {
+            failures.push(model + ": response status " + String(result.status));
+            break;
+          }
+
+          const raw = extractText(result);
+          if (!raw) {
+            failures.push(model + ": empty model output");
+            break;
+          }
+
+          let parsed: any;
+          try {
+            parsed = parseModelJson(raw);
+          } catch (_parseError) {
+            failures.push(model + ": invalid JSON output");
+            break;
+          }
+
+          if (typeof parsed?.supported !== "boolean") {
+            failures.push(model + ": missing supported boolean");
+            break;
+          }
+
+          const execution = parsed?.execution && typeof parsed.execution === "object" ? parsed.execution : null;
+
+          // The simulator currently loads OHLCV candles for one selected interval only.
+          // Reject rules requiring synchronized timeframes or historical event/tick data.
+          const multiTimeframePattern = /multi[ -]?timeframe|\\bmtf\\b|higher[ -]?timeframe|lower[ -]?timeframe|multiple timeframes|timeframe alignment|top[ -]?down analysis|\\b(?:1m|3m|5m|15m|30m|1h|2h|4h|1d)\\b.{0,60}\\b(?:1m|3m|5m|15m|30m|1h|2h|4h|1d)\\b/i;
+          const tickDataPattern = /tick[ -]?(?:level|by[ -]?tick|data|chart|feed)|every tick|trade[ -]?by[ -]?trade|each trade event/i;
+          const orderFlowPattern = /order[ -]?flow|footprint|time[ -]?and[ -]?sales|tape[ -]?reading|bid[ -]?ask[ -]?stream|level[ -]?2|market[ -]?depth|\\bDOM\\b/i;
+          const unsupportedDataReasons: string[] = [];
+          const hasTimeframeTag = (items: any[]): boolean => Array.isArray(items) && items.some((c:any) => !!c?.timeframe || (c?.type === "logic" && hasTimeframeTag(c.conditions)));
+          const mtfCompiled = hasTimeframeTag(execution?.longConditions) || hasTimeframeTag(execution?.shortConditions) || hasTimeframeTag(execution?.exitLongConditions) || hasTimeframeTag(execution?.exitShortConditions);
+          if (multiTimeframePattern.test(strategy) && !mtfCompiled) unsupportedDataReasons.push("The strategy describes multiple timeframes, but the AI did not compile explicit timeframe-tagged conditions. Clarify which rule belongs to each timeframe.");
+          const allConditions = [...(execution?.longConditions || []), ...(execution?.shortConditions || []), ...(execution?.exitLongConditions || []), ...(execution?.exitShortConditions || [])];
+          const hasConditionType = (items:any[],types:string[]):boolean => Array.isArray(items) && items.some((c:any)=>types.includes(c?.type) || (c?.type==="logic" && hasConditionType(c.conditions,types)));
+          const hasUntimedConditionType = (items:any[],types:string[]):boolean => Array.isArray(items) && items.some((c:any)=>(types.includes(c?.type)&&!c?.timeframe)||(c?.type==="logic"&&hasUntimedConditionType(c.conditions,types)));
+          const tickRequested = tickDataPattern.test(strategy) || ["aggregated_trades","databento_trades"].includes(String(execution?.dataMode));
+          if (orderFlowPattern.test(strategy)) unsupportedDataReasons.push("Historical bid/ask depth, footprint and order-flow event data is not available from the connected free data source.");
+          if (execution?.dataMode === "aggregated_trades" && market !== "crypto") unsupportedDataReasons.push("Binance aggregated trade replay is only available for crypto.");
+          if (execution?.dataMode === "databento_trades" && market !== "futures") unsupportedDataReasons.push("Databento raw exchange tick replay is only enabled for exchange-listed futures contracts. OTC Forex, spot Gold and broker CFDs cannot be relabeled as futures.");
+          if (tickRequested && !["aggregated_trades","databento_trades"].includes(String(execution?.dataMode))) unsupportedDataReasons.push("Raw tick replay requires an explicitly connected historical trade-tick provider.");
+          if (["aggregated_trades","databento_trades"].includes(String(execution?.dataMode)) && (hasUntimedConditionType(allConditions,["session_opening_range_breakout","time_range_breakout","time_range_sweep","session_range_sweep","previous_day_sweep","candle_body_percent","range_expansion","inside_bar","engulfing","fair_value_gap","fair_value_gap_return","market_structure_shift","order_block_return","liquidity_sweep","breakout","consecutive_candles","candle_direction"]) || execution?.stop?.type === "atr")) unsupportedDataReasons.push("This rule requires candle OHLC structure that cannot be faithfully evaluated on individual trade events unless it explicitly names a candle timeframe. Use candle mode or tag each candle condition with its timeframe.");
+          if (["aggregated_trades","databento_trades"].includes(String(execution?.dataMode)) && execution?.stop?.unit === "pip") unsupportedDataReasons.push("Pip-based stops are not valid for raw trade-event replay. Specify a price or verified tick/point-size offset.");
+          const validTypes = new Set(["expression","ema_cross","sma_cross","close_vs_ema","close_vs_sma","rsi","macd_cross","breakout","candle_direction","close_vs_open","close_vs_prev_highlow","consecutive_candles","engulfing","inside_bar","liquidity_sweep","volume_above_sma","session_filter","session_opening_range_breakout","time_range_breakout","time_range_sweep","weekday_filter","clock_time_filter","scheduled_entry_time","candle_body_percent","price_change_percent","range_expansion","fair_value_gap","fair_value_gap_return","market_structure_shift","previous_day_sweep","session_range_sweep","order_block_return","gap","logic"]);
+          const validExpression = (node:any,depth=0):boolean => {
+            if(!node||typeof node!=="object"||depth>10)return false;
+            if(Object.prototype.hasOwnProperty.call(node,"value"))return Number.isFinite(Number(node.value))&&Object.keys(node).length===1;
+            if(node.field!==undefined)return ["open","high","low","close","volume"].includes(String(node.field))&&(Object.keys(node).length===1||(Number.isInteger(node.lag)&&node.lag>=1&&node.lag<=500));
+            if(node.indicator!==undefined)return ["ema","sma","rsi","atr","highest","lowest","volume_sma","stdev","bollinger_upper","bollinger_lower","stochastic_k"].includes(String(node.indicator))&&Number.isInteger(node.period)&&node.period>=2&&node.period<=500&&["open","high","low","close","volume"].includes(String(node.source||"close"))&&(node.multiplier===undefined||(Number.isFinite(Number(node.multiplier))&&Number(node.multiplier)>0&&Number(node.multiplier)<=10));
+            const op=String(node.op||"").toLowerCase(),args=node.args;
+            if(!Array.isArray(args))return false;
+            if(["and","or"].includes(op))return args.length>=1&&args.length<=12&&args.every((x:any)=>validExpression(x,depth+1));
+            if(["min","max"].includes(op))return args.length>=2&&args.length<=12&&args.every((x:any)=>validExpression(x,depth+1));
+            if(op==="not"||op==="abs")return args.length===1&&validExpression(args[0],depth+1);
+            if(["gt","gte","lt","lte","eq","neq","crosses_above","crosses_below","add","sub","mul","div"].includes(op))return args.length===2&&args.every((x:any)=>validExpression(x,depth+1));
+            return false;
+          };
+          const validCondition = (c: any, depth = 0): boolean => {
+            if (!c || typeof c !== "object" || depth > 5 || !validTypes.has(c.type)) return false;
+            if (c.timeframe !== undefined && !["1m","3m","5m","15m","30m","1h","2h","4h","1d"].includes(String(c.timeframe))) return false;
+            if (c.type === "expression") return validExpression(c.expr);
+            if (c.type === "logic") return ["all","any","not"].includes(String(c.operator || "all").toLowerCase()) && Array.isArray(c.conditions) && c.conditions.length > 0 && c.conditions.length <= 12 && c.conditions.every((x: any) => validCondition(x, depth + 1));
+            if (c.type === "session_range_sweep") return ["bullish","bearish"].includes(c.direction) && typeof c.timezone === "string" && [c.startHour,c.endHour].every((n:any)=>Number.isInteger(Number(n))&&Number(n)>=0&&Number(n)<=23) && [c.startMinute??0,c.endMinute??0].every((n:any)=>Number.isInteger(Number(n))&&Number(n)>=0&&Number(n)<=59);
+            if (["session_filter","session_opening_range_breakout","time_range_breakout","time_range_sweep"].includes(c.type)) {
+              const hour=Number(c.startHour ?? c.sessionHour ?? 0), minute=Number(c.startMinute ?? c.sessionMinute ?? 0);
+              const duration=Number(c.rangeMinutes ?? 5);
+              const direction=String(c.direction||"");
+              return Number.isInteger(hour)&&hour>=0&&hour<=23&&Number.isInteger(minute)&&minute>=0&&minute<=59&&Number.isFinite(duration)&&duration>=1&&duration<=1440&&(!c.timezone||typeof c.timezone==="string")&&(c.type==="session_filter"||["bullish","bearish"].includes(direction));
+            }
+            if (["ema_cross","sma_cross"].includes(c.type)) return Number.isInteger(c.fast) && Number.isInteger(c.slow) && c.fast >= 2 && c.slow > c.fast && c.slow <= 200 && ["bullish","bearish"].includes(c.direction);
+            if (["close_vs_ema","close_vs_sma","rsi","volume_above_sma"].includes(c.type)) return Number.isInteger(c.period) && c.period >= 2 && c.period <= 200 && (c.type !== "rsi" || (Number.isFinite(Number(c.value)) && Number(c.value) >= 0 && Number(c.value) <= 100));
+            if (c.type === "breakout" || c.type === "liquidity_sweep") return Number.isInteger(c.lookback) && c.lookback >= 2 && c.lookback <= 500 && ["above","below","bullish","bearish"].includes(c.direction);
+            if (c.type === "candle_direction" || c.type === "consecutive_candles" || c.type === "engulfing") return ["bullish","bearish"].includes(c.direction) && (c.type !== "consecutive_candles" || (Number.isInteger(c.count) && c.count >= 2 && c.count <= 50));
+            if (c.type === "weekday_filter") return Array.isArray(c.days) && c.days.length>0 && c.days.every((d: any)=>Number.isInteger(Number(d))&&Number(d)>=0&&Number(d)<=6) && (!c.timezone||typeof c.timezone==="string");
+            if (c.type === "scheduled_entry_time") return Number.isInteger(c.hour) && c.hour >= 0 && c.hour <= 23 && Number.isInteger(c.minute) && c.minute >= 0 && c.minute <= 59 && typeof c.timezone === "string" && c.timezone.length > 0;
+            if (c.type === "clock_time_filter") return [c.startHour,c.endHour].every((n: any)=>Number.isInteger(Number(n))&&Number(n)>=0&&Number(n)<=23) && [c.startMinute??0,c.endMinute??0].every((n: any)=>Number.isInteger(Number(n))&&Number(n)>=0&&Number(n)<=59) && (!c.timezone||typeof c.timezone==="string");
+            if (c.type === "candle_body_percent") return ["above","below"].includes(c.operator)&&Number.isFinite(Number(c.value))&&Number(c.value)>=0&&Number(c.value)<=100;
+            if (c.type === "price_change_percent") return Number.isInteger(c.lookback)&&c.lookback>=1&&c.lookback<=500&&["above","below","bullish","bearish"].includes(c.operator||c.direction)&&Number.isFinite(Number(c.value))&&Number(c.value)>=0;
+            if (c.type === "range_expansion") return Number.isInteger(c.lookback)&&c.lookback>=2&&c.lookback<=200&&Number.isFinite(Number(c.multiplier))&&Number(c.multiplier)>0&&Number(c.multiplier)<=20;
+            if (["fair_value_gap","gap"].includes(c.type)) return ["bullish","bearish"].includes(c.direction);
+            if (["fair_value_gap_return","market_structure_shift","order_block_return"].includes(c.type)) return ["bullish","bearish"].includes(c.direction) && Number.isInteger(c.lookback) && c.lookback >= 3 && c.lookback <= 500;
+            if (c.type === "previous_day_sweep") return ["bullish","bearish"].includes(c.direction) && typeof c.timezone === "string" && c.timezone.length > 0;
+            if (c.type === "session_range_sweep") return ["bullish","bearish"].includes(c.direction) && typeof c.timezone === "string" && [c.startHour,c.endHour].every((n:any)=>Number.isInteger(Number(n))&&Number(n)>=0&&Number(n)<=23) && [c.startMinute??0,c.endMinute??0].every((n:any)=>Number.isInteger(Number(n))&&Number(n)>=0&&Number(n)<=59);
+            if (c.type === "close_vs_open") return ["above","below"].includes(c.operator);
+            if (c.type === "close_vs_prev_highlow") return ["high","low"].includes(c.level) && ["above","below"].includes(c.operator);
+            return c.type === "inside_bar" || c.type === "macd_cross";
+          };
+          const validConditions = (items: any[]) => Array.isArray(items) && items.length <= 12 && items.every((c: any) => validCondition(c));
+          const dataModeValid = execution?.dataMode === undefined || ["candles","aggregated_trades","databento_trades"].includes(String(execution.dataMode));
+          const stop = execution?.stop;
+          const stopOffsetUnit = String(stop?.unit || "price");
+          const stopOffsetValid = ["signal_candle_offset","entry_offset"].includes(String(stop?.type)) &&
+            Number.isFinite(Number(stop.value)) && Number(stop.value) > 0 &&
+            ["price","pip","tick","point","percent"].includes(stopOffsetUnit) &&
+            (!["tick","point"].includes(stopOffsetUnit) ||
+              (Number.isFinite(Number(stop.tickSize ?? stop.pointSize)) && Number(stop.tickSize ?? stop.pointSize) > 0));
+          const stopValid = !!stop && (
+            ["signal_candle","previous_candle"].includes(stop.type) ||
+            (["atr","percent"].includes(stop.type) && Number.isFinite(Number(stop.value)) && Number(stop.value) > 0) ||
+            stopOffsetValid
+          );
+          const executionValid = !!execution && dataModeValid &&
+            validConditions(execution.longConditions) &&
+            validConditions(execution.shortConditions) &&
+            (execution.exitLongConditions === undefined || validConditions(execution.exitLongConditions)) &&
+            (execution.exitShortConditions === undefined || validConditions(execution.exitShortConditions)) &&
+            (execution.longConditions.length > 0 || execution.shortConditions.length > 0) &&
+            ["next_open","signal_close"].includes(execution.entry) &&
+            stopValid &&
+            ((Number.isFinite(Number(execution.targetR)) && Number(execution.targetR) > 0) ||
+              (execution.targetR === null &&
+                (execution.longConditions.length === 0 || (Array.isArray(execution.exitLongConditions) && execution.exitLongConditions.length > 0)) &&
+                (execution.shortConditions.length === 0 || (Array.isArray(execution.exitShortConditions) && execution.exitShortConditions.length > 0))));
+          const safe = {
+            supported: parsed.supported === true && executionValid && unsupportedDataReasons.length === 0 && !(Array.isArray(parsed.unsupportedReasons) && parsed.unsupportedReasons.length > 0),
+            long: parsed.long === true,
+            short: parsed.short === true,
+            rewardRisk: Number.isFinite(Number(parsed.rewardRisk)) && Number(parsed.rewardRisk) > 0 ? Number(parsed.rewardRisk) : null,
+            normalizedRules: String(parsed.normalizedRules || "").slice(0, 3000),
+            explanation: String(parsed.explanation || "Strategy analyzed.").slice(0, 3000),
+            missing: Array.isArray(parsed.missing) ? parsed.missing.map((x: unknown) => String(x).slice(0, 200)).slice(0, 12) : [],
+            assumptions: Array.isArray(parsed.assumptions) ? parsed.assumptions.map((x: unknown) => String(x).slice(0, 300)).slice(0, 12) : [],
+            unsupportedReasons: [...(Array.isArray(parsed.unsupportedReasons) ? parsed.unsupportedReasons.map((x: unknown) => String(x).slice(0, 200)).slice(0, 12) : []), ...unsupportedDataReasons].slice(0, 12),
+            execution: executionValid && unsupportedDataReasons.length === 0 && !(Array.isArray(parsed.unsupportedReasons) && parsed.unsupportedReasons.length > 0) ? {
+              longConditions: execution.longConditions,
+              shortConditions: execution.shortConditions,
+              exitLongConditions: Array.isArray(execution.exitLongConditions) ? execution.exitLongConditions : [],
+              exitShortConditions: Array.isArray(execution.exitShortConditions) ? execution.exitShortConditions : [],
+              entry: execution.entry,
+              stop: execution.stop,
+              targetR: execution.targetR === null ? null : Number(execution.targetR),
+              maxBarsInTrade: Number.isFinite(Number(execution.maxBarsInTrade)) ? Math.max(1, Math.min(5000, Number(execution.maxBarsInTrade))) : null,
+              timezone: typeof execution.timezone === "string" ? execution.timezone.slice(0,80) : "UTC",
+              dataMode: ["aggregated_trades","databento_trades"].includes(String(execution.dataMode)) ? execution.dataMode : "candles",
+            } : null,
+            model,
+          };
+
+          return new Response(JSON.stringify(safe), {
+            headers: { ...cors, "Content-Type": "application/json" },
+          });
+        } catch (modelError) {
+          const message = modelError instanceof Error ? modelError.message : "Unknown model error";
+          const timedOut = modelError instanceof Error && (modelError.name === "TimeoutError" || modelError.name === "AbortError");
+          if (timedOut && attempt === 0) {
+            failures.push(model + ": timed out; retrying once");
+            await new Promise((resolve) => setTimeout(resolve, 900));
+            continue;
+          }
+          failures.push(model + ": " + message);
+          break;
+        }
       }
     }
 
