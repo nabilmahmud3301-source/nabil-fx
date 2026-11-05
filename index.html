@@ -9002,7 +9002,7 @@ window.renderBacktestMetrics=function(r,meta={}){
     }else{o=R(260,115,185,88,'#101a25',C.blue,5)+T(280,148,'CONCEPT MODEL',C.blue,12)+T(280,174,'OBSERVE → DEFINE → TEST',C.white,10);}
     let grid='';for(let x=55;x<=655;x+=100)grid+=L(x,52,x,300,C.grid,'2 6');for(let y=65;y<=295;y+=55)grid+=L(50,y,665,y,C.grid,'2 6');
     const title=(topic.title||'Trading concept').toUpperCase();
-    const wrap=(value,max=34)=>{const words=String(value||'').split(/\\s+/),lines=[];let line='';for(const word of words){if((line+' '+word).trim().length>max&&line){lines.push(line);line=word;}else line=(line+' '+word).trim();}if(line)lines.push(line);return lines;};
+    const wrap=(value,max=34)=>{const words=String(value||'').split(/\s+/),lines=[];let line='';for(const word of words){if((line+' '+word).trim().length>max&&line){lines.push(line);line=word;}else line=(line+' '+word).trim();}if(line)lines.push(line);return lines;};
     const introLines=wrap(topic.intro||topic.how||'A practical trading concept explained with a chart.',39).slice(0,5);
     const steps=(Array.isArray(topic.mark)&&topic.mark.length?topic.mark:Array.isArray(topic.valid)?topic.valid:[]).slice(0,3);
     const bulletSvg=steps.map((step,i)=>{const lines=wrap(step,37).slice(0,2);return '<circle cx="778" cy="'+(390+i*43)+'" r="4" fill="'+(i===0?C.green:C.gold)+'"/>'+lines.map((line,k)=>T(792,394+i*43+k*13,line,C.white,10)).join('');}).join('');
