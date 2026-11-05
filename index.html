@@ -1593,6 +1593,19 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
   background:rgba(255,38,56,.08) !important;
 }
 </style>
+<style id="nfx-market-lab-fixes">
+#page-liquidity .nml-panel-head h2{display:flex;align-items:center;flex-wrap:wrap;gap:9px}
+#page-liquidity .nml-market-tag{display:inline-flex;align-items:center;padding:5px 8px;border:1px solid #45566b;border-radius:5px;background:#182434;color:#d9e3ef;font-size:9px;font-weight:850;letter-spacing:.08em;vertical-align:middle}
+#page-liquidity .nml-expand{flex:0 0 auto;align-self:flex-start;padding:8px 11px;border:1px solid #46566b;border-radius:6px;background:#182434;color:#dce5ef;font-size:8px;font-weight:900;letter-spacing:.1em;cursor:pointer}
+#page-liquidity .nml-expand:hover{border-color:#e34b5c;background:#291820}
+#page-liquidity .nml-feed-state{margin:-5px 0 12px;color:#8fa2b8;font-size:8px;font-weight:800;letter-spacing:.1em}
+#page-liquidity .nml-chart-empty[hidden]{display:none!important}
+#page-liquidity .nml-panel.nml-expanded{position:fixed!important;inset:12px!important;z-index:99999!important;margin:0!important;max-width:none!important;overflow:auto!important;padding:22px!important;background:#0b121c!important;box-shadow:0 0 0 100vmax #000c,0 20px 80px #000!important}
+#page-liquidity .nml-panel.nml-expanded .nml-chart{min-height:calc(100vh - 300px);height:calc(100vh - 300px)}
+#page-liquidity .nml-panel.nml-expanded .nml-chart canvas{height:100%}
+#page-liquidity .nml-panel.nml-expanded .nml-panel-head{position:sticky;top:-22px;z-index:3;padding:10px 0;background:#0b121c}
+@media(max-width:650px){#page-liquidity .nml-panel.nml-expanded{inset:5px!important;padding:12px!important}#page-liquidity .nml-panel.nml-expanded .nml-chart{min-height:65vh;height:65vh}}
+</style>
 <style id="nfx-market-lab-clean">
 #page-liquidity.nfx-market-lab{max-width:1500px;margin:0 auto;padding:28px clamp(12px,2.5vw,36px) 56px;color:#e7edf5}
 #page-liquidity .nml-hero{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:27px 30px;border:1px solid #334155;border-radius:15px;background:radial-gradient(ellipse at 90% 0,#9cabbc18,transparent 42%),linear-gradient(130deg,#172230,#0a111a 72%);margin-bottom:14px}
@@ -1763,20 +1776,20 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
     <div class="nml-meta"><span>CONTRACT <b id="nmlContract">BTC/USDT PERPETUAL</b></span><span>LAST UPDATE <b id="nmlUpdated">—</b></span><span>DATA SOURCE <b>BINANCE PUBLIC STREAM</b></span></div>
   </section>
   <section class="nml-panel nml-orderbook">
-    <div class="nml-panel-head"><div><div class="nml-eyebrow">01 / REAL-TIME MARKET DEPTH</div><h2>Order Book</h2><p>Live bid and ask liquidity from the selected USDⓈ-M contract.</p></div><div class="nml-depth-select"><label for="nmlDepth">VISIBLE LEVELS</label><select id="nmlDepth"><option>10</option><option selected>20</option></select></div></div>
+    <div class="nml-panel-head"><div><div class="nml-eyebrow">01 / REAL-TIME MARKET DEPTH</div><h2>Order Book <span class="nml-market-tag" data-nml-market>BTC/USDT</span></h2><p>Live bid and ask liquidity from the selected USDⓈ-M contract.</p></div><div class="nml-depth-select"><label for="nmlDepth">VISIBLE LEVELS</label><select id="nmlDepth"><option>10</option><option selected>20</option></select></div></div>
     <div class="nml-stats"><div><span>MARK PRICE</span><b id="nmlMark">—</b></div><div><span>BEST BID</span><b class="nml-green" id="nmlBid">—</b></div><div><span>BEST ASK</span><b class="nml-red" id="nmlAsk">—</b></div><div><span>SPREAD</span><b id="nmlSpread">—</b></div><div><span>BOOK IMBALANCE</span><b id="nmlImbalance">—</b></div></div>
     <div class="nml-book-grid"><div class="nml-book-side"><div class="nml-book-title nml-red">ASKS <span>SELL ORDERS</span></div><div class="nml-book-cols"><span>PRICE (USDT)</span><span>SIZE</span><span>CUMULATIVE</span></div><div id="nmlAsks" class="nml-level-list"><div class="nml-empty">Waiting for live depth…</div></div></div><div class="nml-mid"><span>MID PRICE</span><b id="nmlMid">—</b><small>LIVE FUTURES PRICE</small><div class="nml-midbar"><i id="nmlMidBar"></i></div><span>SPREAD <b id="nmlMidSpread">—</b></span></div><div class="nml-book-side"><div class="nml-book-title nml-green">BIDS <span>BUY ORDERS</span></div><div class="nml-book-cols"><span>PRICE (USDT)</span><span>SIZE</span><span>CUMULATIVE</span></div><div id="nmlBids" class="nml-level-list"><div class="nml-empty">Waiting for live depth…</div></div></div></div>
     <div class="nml-footnote">Depth is venue-specific and displays the public Binance futures order-book feed, not the entire global market.</div>
   </section>
   <section class="nml-panel">
-    <div class="nml-panel-head"><div><div class="nml-eyebrow">02 / HISTORICAL DEPTH CAPTURE</div><h2>Liquidity Heatmap</h2><p>Observed resting bid and ask size at each price level as live snapshots arrive.</p></div><div class="nml-range" id="nmlBookRanges"><button data-range="3600000" class="active">1H</button><button data-range="14400000">4H</button><button data-range="86400000">1D</button><button data-range="259200000">3D</button><button data-range="604800000">7D</button><button data-range="0">RESET</button></div></div>
+    <div class="nml-panel-head"><div><div class="nml-eyebrow">02 / HISTORICAL DEPTH CAPTURE</div><h2>Liquidity Heatmap <span class="nml-market-tag" data-nml-market>BTC/USDT</span></h2><p>Observed resting bid and ask size at each price level as live snapshots arrive.</p></div><div class="nml-range" id="nmlBookRanges"><button data-range="3600000" class="active">1H</button><button data-range="14400000">4H</button><button data-range="86400000">1D</button><button data-range="259200000">3D</button><button data-range="604800000">7D</button><button data-range="0">RESET</button></div></div>
     <div class="nml-legend"><span><i class="nml-legend-bid"></i> BID LIQUIDITY</span><span><i class="nml-legend-ask"></i> ASK LIQUIDITY</span><span class="nml-muted">Intensity = relative visible resting quantity</span></div>
     <div class="nml-chart"><canvas id="nmlLiquidityCanvas"></canvas><div id="nmlLiquidityEmpty" class="nml-chart-empty">Collecting live depth snapshots. Heatmap history starts when this page connects.</div></div>
     <div class="nml-chart-axis"><span>OLDER</span><span>PRICE LEVEL / TIME</span><span>NOW →</span></div><div class="nml-footnote">Historical columns are collected live on this device. No fabricated or backfilled depth is displayed.</div>
   </section>
   <section class="nml-panel">
-    <div class="nml-panel-head"><div><div class="nml-eyebrow">03 / FORCED-LIQUIDATION EVENTS</div><h2>Liquidation Heatmap</h2><p>Exchange-broadcast liquidation executions plotted by price, time and reported notional.</p></div><div class="nml-range" id="nmlLiqRanges"><button data-range="3600000" class="active">1H</button><button data-range="14400000">4H</button><button data-range="86400000">1D</button><button data-range="259200000">3D</button><button data-range="604800000">7D</button></div></div>
-    <div class="nml-stats nml-liq-stats"><div><span>OBSERVED EVENTS</span><b id="nmlLiqCount">0</b></div><div><span>OBSERVED NOTIONAL</span><b id="nmlLiqNotional">—</b></div><div><span>LONG LIQUIDATIONS</span><b class="nml-red" id="nmlLongCount">0</b></div><div><span>SHORT LIQUIDATIONS</span><b class="nml-green" id="nmlShortCount">0</b></div></div>
+    <div class="nml-panel-head"><div><div class="nml-eyebrow">03 / FORCED-LIQUIDATION EVENTS</div><h2>Liquidation Heatmap <span class="nml-market-tag" data-nml-market>BTC/USDT</span></h2><p>Exchange-broadcast liquidation executions plotted by price, time and reported notional.</p></div><div class="nml-range" id="nmlLiqRanges"><button data-range="3600000" class="active">1H</button><button data-range="14400000">4H</button><button data-range="86400000">1D</button><button data-range="259200000">3D</button><button data-range="604800000">7D</button></div></div>
+    <div id="nmlLiqFeedState" class="nml-feed-state">CONNECTING TO FORCE-ORDER STREAM</div><div class="nml-stats nml-liq-stats"><div><span>OBSERVED EVENTS</span><b id="nmlLiqCount">0</b></div><div><span>OBSERVED NOTIONAL</span><b id="nmlLiqNotional">—</b></div><div><span>LONG LIQUIDATIONS</span><b class="nml-red" id="nmlLongCount">0</b></div><div><span>SHORT LIQUIDATIONS</span><b class="nml-green" id="nmlShortCount">0</b></div></div>
     <div class="nml-legend"><span><i class="nml-legend-long"></i> LONG POSITION LIQUIDATED</span><span><i class="nml-legend-short"></i> SHORT POSITION LIQUIDATED</span><span class="nml-muted">Bubble size = reported notional</span></div>
     <div class="nml-chart"><canvas id="nmlLiquidationCanvas"></canvas><div id="nmlLiquidationEmpty" class="nml-chart-empty">Waiting for actual exchange-reported liquidation events. No estimated levels are shown.</div></div>
     <div class="nml-chart-axis"><span>OLDER</span><span>PRICE LEVEL / TIME</span><span>NOW →</span></div><div class="nml-footnote">Binance's public force-order stream is sampled and does not include every liquidation across all exchanges. Only observed events are plotted.</div>
@@ -4899,25 +4912,49 @@ function connectDepth(){
 function connectLiq(){
  if(document.hidden)return;
  try{liqSocket?.close();}catch(e){}
- const ws=new WebSocket('wss://fstream.binance.com/ws/'+symbol+'@forceOrder');liqSocket=ws;
- ws.onopen=()=>{retryLiq=1000;};
- ws.onmessage=ev=>{if(liqSocket!==ws)return;try{const o=JSON.parse(ev.data).o;if(!o)return;const p=+(o.ap||o.p),q=+(o.z||o.q),t=+o.T||Date.now();if(!(p>0&&q>0))return;liqEvents.push({p,usd:p*q,t,side:o.S});if(liqEvents.length>12000)liqEvents.splice(0,liqEvents.length-12000);renderLiq();}catch(e){}};
- ws.onerror=()=>{try{ws.close();}catch(e){}};
- ws.onclose=()=>{if(liqSocket===ws){liqSocket=null;reconnect('liq');}};
+ const stream=symbol+'@forceOrder';
+ const ws=new WebSocket('wss://fstream.binance.com/ws/'+stream);liqSocket=ws;
+ ws.onopen=()=>{retryLiq=1000;const st=$('nmlLiqFeedState');if(st)st.textContent='STREAM CONNECTED · WAITING FOR EVENTS';};
+ ws.onmessage=ev=>{if(liqSocket!==ws)return;try{
+   const packet=JSON.parse(ev.data),o=packet.o||packet.data?.o||packet;
+   if(!o||String(o.s||symbol).toLowerCase()!==symbol)return;
+   const avg=Number(o.ap),orderPrice=Number(o.p),price=avg>0?avg:orderPrice;
+   const executed=Number(o.z),orig=Number(o.q),qty=executed>0?executed:orig;
+   const time=Number(o.T||packet.E||Date.now()),side=String(o.S||'').toUpperCase();
+   if(!(price>0&&qty>0)||!['BUY','SELL'].includes(side))return;
+   liqEvents.push({p:price,usd:price*qty,t:time,side});
+   if(liqEvents.length>12000)liqEvents.splice(0,liqEvents.length-12000);
+   const st=$('nmlLiqFeedState');if(st)st.textContent='LIVE EVENTS · '+liqEvents.length.toLocaleString()+' CAPTURED';
+   renderLiq();
+ }catch(e){}};
+ ws.onerror=()=>{const st=$('nmlLiqFeedState');if(st)st.textContent='STREAM ERROR · RECONNECTING';try{ws.close();}catch(e){}};
+ ws.onclose=()=>{if(liqSocket===ws){liqSocket=null;const st=$('nmlLiqFeedState');if(st)st.textContent='RECONNECTING TO FORCE-ORDER STREAM';reconnect('liq');}};
 }
 function renderBook(){
  const bids=latest.bids.slice(0,levels),asks=latest.asks.slice(0,levels),bestBid=bids[0]?.[0],bestAsk=asks[0]?.[0];if(!bestBid||!bestAsk)return;
  const mid=(bestBid+bestAsk)/2,spread=bestAsk-bestBid,bq=bids.reduce((a,x)=>a+x[1],0),aq=asks.reduce((a,x)=>a+x[1],0),imb=(bq+aq)?(bq-aq)/(bq+aq)*100:0;
  const put=(id,v)=>{const el=$(id);if(el)el.textContent=v;};
- put('nmlMark',fmt(mid));put('nmlBid',fmt(bestBid));put('nmlAsk',fmt(bestAsk));put('nmlSpread',fmt(spread,4));put('nmlMid',fmt(mid));put('nmlMidSpread',fmt(spread,4));put('nmlImbalance',(imb>0?'+':'')+fmt(imb,1)+'%');put('nmlUpdated',new Date().toLocaleTimeString());put('nmlContract',marketName()+' PERPETUAL');
+ put('nmlMark',fmt(mid));put('nmlBid',fmt(bestBid));put('nmlAsk',fmt(bestAsk));put('nmlSpread',fmt(spread,4));put('nmlMid',fmt(mid));put('nmlMidSpread',fmt(spread,4));put('nmlImbalance',(imb>0?'+':'')+fmt(imb,1)+'%');put('nmlUpdated',new Date().toLocaleTimeString());put('nmlContract',marketName()+' PERPETUAL');document.querySelectorAll('[data-nml-market]').forEach(el=>el.textContent=marketName());
  const max=Math.max(...bids.concat(asks).map(x=>x[1]),1);
  const draw=(id,arr,color)=>{const el=$(id);if(!el)return;let total=0;el.replaceChildren();arr.forEach(x=>{total+=x[1];const row=document.createElement('div');row.className='nml-level';row.style.setProperty('--depth',(x[1]/max*100)+'%');row.style.setProperty('--tone',color);[fmt(x[0]),fmt(x[1],4),fmt(total,4)].forEach(v=>{const span=document.createElement('span');span.textContent=v;row.appendChild(span);});el.appendChild(row);});};
  draw('nmlAsks',asks.slice().reverse(),'#e45e73');draw('nmlBids',bids,'#39c69a');const bar=$('nmlMidBar');if(bar)bar.style.width=(aq+bq?aq/(aq+bq)*100:50)+'%';lastMid=mid;
 }
 function captureBook(){const now=Date.now();bookHistory.push({t:now,mid:lastMid,bids:latest.bids.slice(0,20),asks:latest.asks.slice(0,20)});while(bookHistory.length>12000||bookHistory[0]?.t<now-7*86400000)bookHistory.shift();renderHeat();}
 function canvasSetup(id){const el=$(id),r=el?.getBoundingClientRect();if(!el||!r||r.width<50)return null;const dpr=Math.min(devicePixelRatio||1,2),w=Math.round(r.width*dpr),h=Math.round(r.height*dpr);if(el.width!==w||el.height!==h){el.width=w;el.height=h;}const c=el.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,r.width,r.height);return {c,W:r.width,H:r.height};}
-function renderHeat(){const x=canvasSetup('nmlLiquidityCanvas');if(!x)return;const {c,W,H}=x,L=65,R=15,T=18,B=25,now=Date.now(),rows=bookHistory.filter(v=>v.t>=now-bookRange);c.fillStyle='#080f18';c.fillRect(0,0,W,H);if(!rows.length)return;const prices=rows.flatMap(v=>v.bids.concat(v.asks).map(z=>z[0])),hi=Math.max(...prices),lo=Math.min(...prices),span=Math.max(hi-lo,hi*.0005,1),cols=Math.min(rows.length,Math.floor((W-L-R)/3)),step=Math.max(1,Math.floor(rows.length/cols)),maxQ=Math.max(...rows.flatMap(v=>v.bids.concat(v.asks).map(z=>z[1])),1);for(let i=0;i<cols;i++){const v=rows[Math.min(rows.length-1,i*step)],xx=L+i*(W-L-R)/cols;[...v.asks.map(z=>[z[0],z[1],1]),...v.bids.map(z=>[z[0],z[1],0])].forEach(z=>{const yy=T+(hi-z[0])/span*(H-T-B),int=Math.min(1,z[1]/maxQ);c.fillStyle=z[2]?'rgba(235,91,112,'+(0.12+int*.78)+')':'rgba(48,204,151,'+(0.12+int*.78)+')';c.fillRect(xx,yy,Math.max(2,(W-L-R)/cols+1),Math.max(2,(H-T-B)/70));});}c.strokeStyle='#ffffff20';c.fillStyle='#91a2b6';c.font='9px system-ui';for(let i=0;i<=4;i++){const y=T+(H-T-B)*i/4;c.beginPath();c.moveTo(L,y);c.lineTo(W-R,y);c.stroke();c.fillText(fmt(hi-span*i/4,2),5,y+3);}}
-function renderLiq(){const now=Date.now(),rows=liqEvents.filter(e=>e.t>=now-liqRange),total=rows.reduce((a,e)=>a+e.usd,0),long=rows.filter(e=>e.side==='SELL'),short=rows.filter(e=>e.side!=='SELL');const put=(id,v)=>{const el=$(id);if(el)el.textContent=v;};put('nmlLiqCount',rows.length.toLocaleString());put('nmlLiqNotional',total>=1e6?(total/1e6).toFixed(2)+'M USDT':(total/1e3).toFixed(1)+'K USDT');put('nmlLongCount',long.length.toLocaleString());put('nmlShortCount',short.length.toLocaleString());const x=canvasSetup('nmlLiquidationCanvas');if(!x)return;const {c,W,H}=x,L=65,R=15,T=18,B=25;c.fillStyle='#080f18';c.fillRect(0,0,W,H);if(!rows.length)return;const hi=Math.max(...rows.map(e=>e.p)),lo=Math.min(...rows.map(e=>e.p)),span=Math.max(hi-lo,hi*.0005,1),maxUsd=Math.max(...rows.map(e=>e.usd),1);c.strokeStyle='#ffffff20';c.fillStyle='#91a2b6';c.font='9px system-ui';for(let i=0;i<=4;i++){const y=T+(H-T-B)*i/4;c.beginPath();c.moveTo(L,y);c.lineTo(W-R,y);c.stroke();c.fillText(fmt(hi-span*i/4,2),5,y+3);}rows.forEach(e=>{const xx=L+(e.t-(now-liqRange))/liqRange*(W-L-R),yy=T+(hi-e.p)/span*(H-T-B),rad=2+Math.sqrt(e.usd/maxUsd)*13;c.beginPath();c.arc(xx,yy,rad,0,Math.PI*2);c.fillStyle=e.side==='SELL'?'rgba(235,91,112,.78)':'rgba(48,204,151,.78)';c.fill();});}
+function renderHeat(){const x=canvasSetup('nmlLiquidityCanvas');if(!x)return;const {c,W,H}=x,L=12,R=82,T=18,B=25,now=Date.now(),rows=bookHistory.filter(v=>v.t>=now-bookRange);c.fillStyle='#080f18';c.fillRect(0,0,W,H);const empty=$('nmlLiquidityEmpty');if(empty)empty.hidden=rows.length>0;if(!rows.length)return;const prices=rows.flatMap(v=>v.bids.concat(v.asks).map(z=>z[0])),hi=Math.max(...prices),lo=Math.min(...prices),span=Math.max(hi-lo,hi*.0005,1),cols=Math.min(rows.length,Math.max(1,Math.floor((W-L-R)/3))),step=Math.max(1,Math.floor(rows.length/cols)),maxQ=Math.max(...rows.flatMap(v=>v.bids.concat(v.asks).map(z=>z[1])),1);for(let i=0;i<cols;i++){const v=rows[Math.min(rows.length-1,i*step)],xx=L+i*(W-L-R)/cols;[...v.asks.map(z=>[z[0],z[1],1]),...v.bids.map(z=>[z[0],z[1],0])].forEach(z=>{const yy=T+(hi-z[0])/span*(H-T-B),int=Math.min(1,z[1]/maxQ);c.fillStyle=z[2]?'rgba(235,91,112,'+(0.12+int*.78)+')':'rgba(48,204,151,'+(0.12+int*.78)+')';c.fillRect(xx,yy,Math.max(2,(W-L-R)/cols+1),Math.max(2,(H-T-B)/70));});}c.strokeStyle='#ffffff20';c.fillStyle='#91a2b6';c.font='9px system-ui';for(let i=0;i<=4;i++){const y=T+(H-T-B)*i/4;c.beginPath();c.moveTo(L,y);c.lineTo(W-R,y);c.stroke();c.textAlign='right';c.fillText(fmt(hi-span*i/4,2),W-8,y+3);}c.textAlign='left';}
+function renderLiq(){
+ const now=Date.now(),rows=liqEvents.filter(e=>e.t>=now-liqRange),total=rows.reduce((a,e)=>a+e.usd,0),long=rows.filter(e=>e.side==='SELL'),short=rows.filter(e=>e.side==='BUY');
+ const put=(id,v)=>{const el=$(id);if(el)el.textContent=v;};
+ put('nmlLiqCount',rows.length.toLocaleString());put('nmlLiqNotional',total>=1e6?(total/1e6).toFixed(2)+'M USDT':total>=1e3?(total/1e3).toFixed(1)+'K USDT':total.toFixed(0)+' USDT');put('nmlLongCount',long.length.toLocaleString());put('nmlShortCount',short.length.toLocaleString());
+ const empty=$('nmlLiquidationEmpty');if(empty)empty.hidden=rows.length>0;
+ const x=canvasSetup('nmlLiquidationCanvas');if(!x)return;const {c,W,H}=x,L=12,R=82,T=18,B=25;c.fillStyle='#080f18';c.fillRect(0,0,W,H);
+ if(!rows.length){c.fillStyle='#8798ad';c.font='11px system-ui';c.fillText('No liquidation events captured in this selected window yet.',18,32);return;}
+ const minP=Math.min(...rows.map(e=>e.p)),maxP=Math.max(...rows.map(e=>e.p)),pad=Math.max((maxP-minP)*.12,maxP*.0008,1),lo=Math.max(0,minP-pad),hi=maxP+pad,span=hi-lo,maxUsd=Math.max(...rows.map(e=>e.usd),1),plotW=W-L-R;
+ c.strokeStyle='#ffffff20';c.fillStyle='#91a2b6';c.font='9px system-ui';c.textAlign='right';
+ for(let i=0;i<=4;i++){const y=T+(H-T-B)*i/4;c.beginPath();c.moveTo(L,y);c.lineTo(W-R,y);c.stroke();c.fillText(fmt(hi-span*i/4,2),W-8,y+3);}
+ c.textAlign='left';rows.forEach(e=>{const xx=L+Math.max(0,Math.min(1,(e.t-(now-liqRange))/liqRange))*plotW,yy=T+(hi-e.p)/span*(H-T-B),rad=Math.max(3,Math.min(15,3+Math.sqrt(e.usd/maxUsd)*12));c.beginPath();c.arc(xx,yy,rad,0,Math.PI*2);c.fillStyle=e.side==='SELL'?'rgba(235,91,112,.82)':'rgba(48,204,151,.82)';c.fill();c.strokeStyle=e.side==='SELL'?'#f18a9a':'#72dfb7';c.lineWidth=1;c.stroke();});
+}
+function installPanelControls(){document.querySelectorAll('#page-liquidity .nml-panel').forEach((panel,i)=>{const head=panel.querySelector('.nml-panel-head');if(!head||head.querySelector('[data-nml-expand]'))return;const btn=document.createElement('button');btn.type='button';btn.className='nml-expand';btn.dataset.nmlExpand='1';btn.textContent='EXPAND';btn.setAttribute('aria-label','Expand '+(panel.querySelector('h2')?.textContent||'panel'));head.appendChild(btn);});document.addEventListener('click',e=>{const btn=e.target.closest('[data-nml-expand]');if(!btn)return;const panel=btn.closest('.nml-panel');if(!panel)return;const expanded=panel.classList.toggle('nml-expanded');btn.textContent=expanded?'RESTORE':'EXPAND';btn.setAttribute('aria-label',expanded?'Restore panel size':'Expand panel');if(expanded)panel.scrollTop=0;window.setTimeout(()=>{renderHeat();renderLiq();},100);});document.addEventListener('keydown',e=>{if(e.key==='Escape'){const panel=document.querySelector('#page-liquidity .nml-panel.nml-expanded');if(panel){panel.classList.remove('nml-expanded');const b=panel.querySelector('[data-nml-expand]');if(b)b.textContent='EXPAND';window.setTimeout(()=>{renderHeat();renderLiq();},100);}}});}
 function setRange(container,prop,v){document.querySelectorAll('#'+container+' button').forEach(b=>b.classList.toggle('active',b.dataset.range===String(v)));if(prop==='book')bookRange=v||3600000;else liqRange=v;prop==='book'?renderHeat():renderLiq();}
 $('nmlLoadSymbol').addEventListener('click',()=>{const next=cleanSymbol($('nmlSymbol').value);if(!/^[a-z0-9]{2,30}usdt$/.test(next))return;$('nmlSymbol').value=next.toUpperCase();if(next===symbol)return;symbol=next;bookHistory=[];liqEvents=[];latest={bids:[],asks:[]};lastMid=0;renderLiq();setStatus('SWITCHING MARKET');connectDepth();connectLiq();});
 $('nmlSymbol').addEventListener('keydown',e=>{if(e.key==='Enter')$('nmlLoadSymbol').click();});
@@ -4926,7 +4963,7 @@ $('nmlBookRanges').addEventListener('click',e=>{const b=e.target.closest('button
 $('nmlLiqRanges').addEventListener('click',e=>{const b=e.target.closest('button[data-range]');if(b)setRange('nmlLiqRanges','liq',+b.dataset.range);});
 document.addEventListener('visibilitychange',()=>{if(!document.hidden){if(!depthSocket||depthSocket.readyState>1)connectDepth();if(!liqSocket||liqSocket.readyState>1)connectLiq();}});
 window.addEventListener('resize',()=>{renderHeat();renderLiq();});
-setStatus('CONNECTING');connectDepth();connectLiq();
+installPanelControls();document.querySelectorAll('[data-nml-market]').forEach(el=>el.textContent=marketName());setStatus('CONNECTING');connectDepth();connectLiq();
 })();
 </script>
 
