@@ -4907,6 +4907,15 @@ document.addEventListener('click', function(event) {
 
 
 
+<style id="nfx-market-lab-expanded-fix">
+#page-liquidity .nml-panel.nml-expanded:has(.nml-chart){display:flex!important;flex-direction:column!important;gap:10px!important;overflow:hidden!important;height:calc(100dvh - 24px)!important;max-height:calc(100dvh - 24px)!important;padding:18px 22px!important}
+#page-liquidity .nml-panel.nml-expanded:has(.nml-chart)>.nml-panel-head{position:relative!important;inset:auto!important;top:auto!important;flex:0 0 auto!important;padding:2px 0 12px!important;margin:0!important;background:#050608!important}
+#page-liquidity .nml-panel.nml-expanded:has(.nml-chart)>:not(.nml-panel-head):not(.nml-chart):not(.nml-chart-axis){display:none!important}
+#page-liquidity .nml-panel.nml-expanded:has(.nml-chart)>.nml-chart{display:block!important;position:relative!important;flex:1 1 0!important;min-height:0!important;height:auto!important;width:100%!important;margin:0!important}
+#page-liquidity .nml-panel.nml-expanded:has(.nml-chart)>.nml-chart canvas{width:100%!important;height:100%!important;min-height:0!important}
+#page-liquidity .nml-panel.nml-expanded:has(.nml-chart)>.nml-chart-axis{flex:0 0 auto!important;margin:0!important}
+@media(max-width:650px){#page-liquidity .nml-panel.nml-expanded:has(.nml-chart){inset:5px!important;height:calc(100dvh - 10px)!important;max-height:calc(100dvh - 10px)!important;padding:12px!important;gap:8px!important}#page-liquidity .nml-panel.nml-expanded:has(.nml-chart)>.nml-panel-head{align-items:flex-start!important;flex-wrap:wrap!important}}
+</style>
 <script id="nfx-market-lab-app">
 (()=>{'use strict';
 const $=id=>document.getElementById(id),fmt=(n,d=2)=>Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
@@ -4928,8 +4937,9 @@ function connectDepth(){
 function connectLiq(){
  if(document.hidden)return;
  try{liqSocket?.close();}catch(e){}
- const stream=symbol+'@forceOrder',ws=new WebSocket('wss://fstream.binance.com/ws/'+stream);liqSocket=ws;
- ws.onopen=()=>{retryLiq=1200;const st=$('nmlLiqFeedState');if(st)st.textContent='LIVE STREAM CONNECTED · WAITING FOR EXCHANGE EVENTS';};
+ // Subscribe to Binance's all-market force-order stream and filter the selected contract locally.
+ const ws=new WebSocket('wss://fstream.binance.com/ws/!forceOrder@arr');liqSocket=ws;
+ ws.onopen=()=>{retryLiq=1200;const st=$('nmlLiqFeedState');if(st)st.textContent='LIVE · BINANCE ALL-MARKET LIQUIDATION FEED · FILTER: '+marketName();};
  ws.onmessage=ev=>{if(liqSocket!==ws)return;try{
   const packet=JSON.parse(ev.data),o=packet.o||packet.data?.o;
   if(!o||String(o.s||'').toLowerCase()!==symbol)return;
@@ -4938,10 +4948,10 @@ function connectLiq(){
   const time=Number(o.T||packet.E||Date.now()),side=String(o.S||'').toUpperCase();
   if(!(price>0&&qty>0)||!['BUY','SELL'].includes(side))return;
   liqEvents.push({p:price,usd:price*qty,t:time,side});if(liqEvents.length>12000)liqEvents.splice(0,liqEvents.length-12000);
-  const feed=$('nmlLiqFeedState');if(feed)feed.textContent='LIVE · '+liqEvents.length.toLocaleString()+' EXCHANGE EVENTS CAPTURED';renderLiq();
+  const feed=$('nmlLiqFeedState');if(feed)feed.textContent='LIVE · '+marketName()+' · '+liqEvents.length.toLocaleString()+' OBSERVED EVENTS';renderLiq();
  }catch(e){}};
- ws.onerror=()=>{const feed=$('nmlLiqFeedState');if(feed)feed.textContent='FEED INTERRUPTED · RECONNECTING';try{ws.close();}catch(e){}};
- ws.onclose=()=>{if(liqSocket===ws){liqSocket=null;const feed=$('nmlLiqFeedState');if(feed)feed.textContent='RECONNECTING TO BINANCE FORCE-ORDER FEED';reconnect('liq');}};
+ ws.onerror=()=>{const feed=$('nmlLiqFeedState');if(feed)feed.textContent='LIQUIDATION FEED INTERRUPTED · RECONNECTING';try{ws.close();}catch(e){}};
+ ws.onclose=()=>{if(liqSocket===ws){liqSocket=null;const feed=$('nmlLiqFeedState');if(feed)feed.textContent='RECONNECTING TO BINANCE ALL-MARKET FORCE-ORDER FEED';reconnect('liq');}};
 }
 function renderBook(){
  const bids=latest.bids.slice(0,levels),asks=latest.asks.slice(0,levels),bestBid=bids[0]?.[0],bestAsk=asks[0]?.[0];if(!bestBid||!bestAsk)return;
@@ -5001,6 +5011,8 @@ $('nmlLiqRanges').addEventListener('click',e=>{const b=e.target.closest('button[
 document.addEventListener('visibilitychange',()=>{if(!document.hidden){if(!depthSocket||depthSocket.readyState>1)connectDepth();if(!liqSocket||liqSocket.readyState>1)connectLiq();}});
 let nmlResizeTimer;window.addEventListener('resize',()=>{clearTimeout(nmlResizeTimer);nmlResizeTimer=setTimeout(()=>{renderHeat();renderLiq();},90);});
 installPanelControls();document.querySelectorAll('[data-nml-market]').forEach(el=>el.textContent=marketName());setStatus('CONNECTING');connectDepth();connectLiq();
+const marketPage=$('page-liquidity');if(marketPage&&typeof MutationObserver!=='undefined'){new MutationObserver(()=>{if(getComputedStyle(marketPage).display!=='none')requestAnimationFrame(()=>{renderHeat();renderLiq();});}).observe(marketPage,{attributes:true,attributeFilter:['class','style']});}
+window.setInterval(()=>{if(marketPage&&getComputedStyle(marketPage).display!=='none')renderLiq();},5000);
 })();
 </script>
 
