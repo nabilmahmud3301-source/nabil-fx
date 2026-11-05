@@ -8964,15 +8964,7 @@ window.renderBacktestMetrics=function(r,meta={}){
     if(!id||!title||seenTopicIds.has(id)||seenTopicTitles.has(title)){topics.splice(i,1);continue;}
     seenTopicIds.add(id);seenTopicTitles.add(title);
   }
-  const learnImageSources={
-    'market-structure':{url:'https://www.geometricalanalysis.com/tools/smart-money-axisbank.jpg',source:'Geometriya · Market Structure / SMC chart',license:'Source image · educational reference',credit:'https://www.geometricalanalysis.com/tools/smart-money-concepts'},
-    'bos':{url:'https://www.geometricalanalysis.com/tools/smart-money-axisbank.jpg',source:'Geometriya · BOS / CHoCH chart example',license:'Source image · educational reference',credit:'https://www.geometricalanalysis.com/tools/smart-money-concepts'},
-    'choch':{url:'https://www.geometricalanalysis.com/tools/smart-money-axisbank.jpg',source:'Geometriya · BOS / CHoCH chart example',license:'Source image · educational reference',credit:'https://www.geometricalanalysis.com/tools/smart-money-concepts'},
-    'order-block':{url:'https://www.geometricalanalysis.com/tools/smart-money-axisbank.jpg',source:'Geometriya · Order Block chart example',license:'Source image · educational reference',credit:'https://www.geometricalanalysis.com/tools/smart-money-concepts'}
-  };
   function diagram(topic){
-    const selectedImage=learnImageSources[topic.id];
-    if(selectedImage)return '<img class="nfx-learn-topic-image" src="'+selectedImage.url+'" alt="'+esc(topic.title)+' educational chart" loading="lazy" decoding="async" referrerpolicy="no-referrer"><a class="nfx-learn-image-credit" href="'+selectedImage.credit+'" target="_blank" rel="noopener noreferrer">'+esc(selectedImage.source)+' · '+esc(selectedImage.license)+'</a>';
     const seed=Array.from(String(topic.id||topic.title)).reduce((n,c)=>((n*31)+c.charCodeAt(0))>>>0,17);
     const rnd=i=>{const x=Math.sin((seed+i*97.13)*.0174533)*43758.5453;return x-Math.floor(x);};
     const id=(topic.id+' '+topic.title).toLowerCase(),cat=topic.cat||'TRADING EDUCATION';
