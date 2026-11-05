@@ -3871,6 +3871,20 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
   border-color:#ff2638 !important;
   background:rgba(255,38,56,.08) !important;
 }
+
+#page-learn .nfx-learn-brand-lockup{display:inline-flex;align-items:baseline;gap:0;white-space:nowrap;letter-spacing:-.075em;font-weight:950}
+#page-learn .nfx-learn-brand-lockup>span{color:#fff}
+#page-learn .nfx-learn-brand-lockup>b,#page-learn .nfx-learn-brand-lockup>i{color:#ff2438;font-style:normal;font-weight:950}
+#page-learn .nfx-learn-emblem .nfx-learn-brand-lockup{font-size:27px;line-height:1}
+#page-learn .nfx-learn-sidebar{max-height:calc(100vh - 125px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#71303b #0d1219}
+#page-learn .nfx-learn-sidebar::-webkit-scrollbar{width:6px}
+#page-learn .nfx-learn-sidebar::-webkit-scrollbar-thumb{background:#71303b;border-radius:8px}
+#page-learn .nfx-learn-categories{min-height:0}
+@media(max-width:900px){
+ #page-learn .nfx-learn-sidebar{max-height:none;overflow:visible}
+ #page-learn .nfx-learn-categories{overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;scrollbar-color:#71303b #0d1219;-webkit-overflow-scrolling:touch;touch-action:pan-x}
+ #page-learn .nfx-learn-category{flex-shrink:0}
+}
 </style>
 
 <style id="nfx-learn-trading-premium">
@@ -3881,12 +3895,12 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 #page-learn .nfx-learn-hero h1 em{font-style:normal;color:#e34b5c}
 #page-learn .nfx-learn-hero p{max-width:820px;margin:0;color:#a4afbd;font-size:12px;line-height:1.8}
 #page-learn .nfx-learn-trust{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
-#page-learn .nfx-learn-trust span{padding:7px 9px;border:1px solid #455061;border-radius:6px;color:#c1cad5;font-size:8px;font-weight:800;letter-spacing:.09em;background:#ffffff05}
+#page-learn .nfx-learn-trust span{padding:7px 9px;border:1px solid #71303b;border-radius:6px;color:#ff2438;font-size:8px;font-weight:800;letter-spacing:.09em;background:#ff24380a}
 #page-learn .nfx-learn-emblem{width:86px;height:86px;flex:0 0 86px;display:flex;flex-direction:column;justify-content:center;align-items:center;border:1px solid #a63849;border-radius:19px;background:linear-gradient(145deg,#32141c,#10151d);box-shadow:0 0 35px #e34b5c16}
 #page-learn .nfx-learn-emblem span{font-size:27px;font-weight:900;letter-spacing:-.08em;color:#fff}
 #page-learn .nfx-learn-emblem small{font-size:8px;letter-spacing:.2em;color:#e56b79;font-weight:800}
 #page-learn .nfx-learn-search-panel{margin:15px 0;padding:17px 19px;border:1px solid #303947;border-radius:14px;background:#0e131a}
-#page-learn .nfx-learn-search-panel label{display:block;margin-bottom:9px;color:#9eacbc;font-size:9px;letter-spacing:.13em;font-weight:850}
+#page-learn .nfx-learn-search-panel label{display:block;margin-bottom:9px;color:#ff2438;font-size:9px;letter-spacing:.13em;font-weight:850}
 #page-learn .nfx-learn-search{display:flex;align-items:center;gap:10px;padding:0 12px;border:1px solid #3b4656;border-radius:10px;background:#080c12}
 #page-learn .nfx-learn-search>span{font-size:24px;color:#e34b5c}
 #page-learn .nfx-learn-search input{border:0!important;background:transparent!important;box-shadow:none!important;padding:14px 0!important;font-size:13px}
@@ -4321,12 +4335,12 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 
 <section id="page-learn" class="view nfx-learn-page">
   <div class="nfx-learn-hero">
-    <div><span class="nfx-learn-eyebrow"><span style="color:#fff">NABIL</span> <span style="color:#ff2438">Fx</span> ACADEMY · LEARN WITH STRUCTURE</span>
+    <div><span class="nfx-learn-eyebrow"><span class="nfx-learn-brand-white">NABIL</span> <span class="nfx-learn-brand-red">Fx</span> ACADEMY · LEARN WITH <span class="nfx-learn-brand-lockup"><span>N</span><b>F</b><i>x</i></span></span>
       <h1>Learn Trading <em>from A to Z</em></h1>
       <p>A structured trading library covering market structure, price action, ICT / SMC, CRT, technical analysis and risk. Search any concept, open its guide, and study how to identify valid and invalid conditions.</p>
       <div class="nfx-learn-trust"><span>CORE CONCEPTS</span><span>CHART-MARKING GUIDES</span><span>RISK-FIRST EDUCATION</span></div>
     </div>
-    <div class="nfx-learn-emblem" aria-hidden="true"><span>FX</span><small>ACADEMY</small></div>
+    <div class="nfx-learn-emblem" aria-hidden="true"><span class="nfx-learn-brand-lockup"><span>N</span><b>F</b><i>x</i></span><small>ACADEMY</small></div>
   </div>
   <section class="nfx-learn-search-panel" aria-label="Search trading lessons">
     <label for="nfxLearnSearch">SEARCH THE LEARNING LIBRARY</label>
