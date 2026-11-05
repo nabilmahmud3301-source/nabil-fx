@@ -5178,8 +5178,11 @@ function sequenceSignalSeries(c,sequence,cache,seriesMap){
   const bar=c[i];
   if(stage.type==='fair_value_gap_return'&&stage.linkedToPreviousStage===true){
    if(!linkedZone||stage.direction!==linkedZone.direction)return false;
-   const touched=bar.l<=linkedZone.upper&&bar.h>=linkedZone.lower;
-   return touched;
+   // The return window is measured from the candle that formed this exact FVG.
+   // A touch outside the user's lookback must never become a valid entry signal.
+   const returnWindow=Math.max(1,Math.floor(Number(stage.lookback)||1));
+   if(i<=linkedZone.formedAt||i-linkedZone.formedAt>returnWindow)return false;
+   return bar.l<=linkedZone.upper&&bar.h>=linkedZone.lower;
   }
   return conditionAt(c,stage,i,cache,seriesMap);
  };
@@ -5192,6 +5195,15 @@ function sequenceSignalSeries(c,sequence,cache,seriesMap){
  };
  for(let i=0;i<c.length;i++){
   if(stageIndex>0&&maxGap!==null&&i-lastStageIndex>maxGap)reset();
+  // Expire a linked FVG sequence when its own return window closes, even if
+  // the sequence has no separate maxBarsBetweenStages limit.
+  if(stageIndex>0){
+   const waiting=stages[stageIndex];
+   if(waiting?.type==='fair_value_gap_return'&&waiting.linkedToPreviousStage===true&&linkedZone){
+    const returnWindow=Math.max(1,Math.floor(Number(waiting.lookback)||1));
+    if(i-linkedZone.formedAt>returnWindow)reset();
+   }
+  }
   if(stageIndex===0){
    if(stageMatches(stages[0],i)){
     captureLinkedZone(stages[0],i);
