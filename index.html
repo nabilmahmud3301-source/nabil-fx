@@ -9071,9 +9071,10 @@ window.renderBacktestMetrics=function(r,meta={}){
       else{if(status)status.textContent='NO MATCHING PHOTO FOUND';if(credit)credit.textContent='No suitable licensed image was found for this topic.';}
     });
   }
+  const topicImageObserver=('IntersectionObserver' in window)?new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){const img=entry.target;topicImageObserver.unobserve(img);queueTopicImage(img.dataset.topicPhoto);}}),{rootMargin:'280px 0px'}):null;
   function observeTopicImages(root){
     const imgs=[...(root||document).querySelectorAll('[data-topic-photo]')];
-    imgs.forEach(img=>{const id=img.dataset.topicPhoto;if(topicImageCache.has(id)){applyTopicImage(id,topicImageCache.get(id));return;}queueTopicImage(id);});
+    imgs.forEach(img=>{const id=img.dataset.topicPhoto;if(topicImageCache.has(id)){applyTopicImage(id,topicImageCache.get(id));return;}if(topicImageObserver)topicImageObserver.observe(img);else queueTopicImage(id);});
   }
   function renderCards(){
     const list=filtered();
