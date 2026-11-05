@@ -1803,6 +1803,103 @@ body>.nml-panel.nml-expanded .nml-chart-empty{font-size:11px!important;padding:1
  body>.nml-panel.nml-expanded>.nml-chart{min-height:48vh!important;flex:0 0 48vh!important}
 }
 </style>
+
+<style id="nfx-market-depth-premium-redesign">
+#page-liquidity.nml-redesign{width:min(100%,1680px)!important;max-width:1680px!important;margin:0 auto!important;padding:clamp(14px,2vw,30px) clamp(12px,2vw,30px) 48px!important;color:#eaf0f7!important}
+#page-liquidity.nml-redesign .nml-hero{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:24px!important;padding:clamp(20px,2.4vw,34px)!important;margin:0 0 14px!important;border:1px solid #29394a!important;border-radius:13px!important;background:radial-gradient(ellipse at 85% 0,rgba(104,127,154,.16),transparent 42%),linear-gradient(120deg,#121e2b 0%,#0b121c 68%,#0b1119 100%)!important;box-shadow:0 18px 44px #0003!important}
+#page-liquidity.nml-redesign .nml-overline{display:flex!important;align-items:center!important;gap:8px!important;color:#aab9cb!important;font-size:9px!important;letter-spacing:.18em!important}
+#page-liquidity.nml-redesign .nml-brand-mark{display:inline-grid!important;place-items:center!important;width:23px!important;height:23px!important;border:1px solid #a83c50!important;border-radius:6px!important;color:#f3dce1!important;background:#351720!important;font-size:12px!important;font-weight:900!important}
+#page-liquidity.nml-redesign .nml-overline i,#page-liquidity.nml-redesign .nml-eyebrow i,#page-liquidity.nml-redesign .nml-disclaimer i{color:#d84c62!important;font-style:normal!important}
+#page-liquidity.nml-redesign .nml-hero h1{margin:12px 0 7px!important;color:#f5f7fa!important;font-size:clamp(27px,3.1vw,42px)!important;font-weight:800!important;letter-spacing:-.055em!important}
+#page-liquidity.nml-redesign .nml-hero h1 em{color:#9eafc3!important;font-style:normal!important;font-weight:500!important}
+#page-liquidity.nml-redesign .nml-hero p{color:#91a2b5!important;font-size:12px!important;line-height:1.6!important}
+#page-liquidity.nml-redesign .nml-connection{min-width:190px!important;padding:13px 16px!important;border:1px solid #2c5948!important;border-radius:9px!important;background:linear-gradient(140deg,#10251e,#0d1917)!important}
+#page-liquidity.nml-redesign .nml-connection i{flex:0 0 auto!important}
+#page-liquidity.nml-redesign .nml-toolbar{display:flex!important;align-items:flex-end!important;justify-content:space-between!important;gap:22px!important;padding:15px 18px!important;margin:0 0 14px!important;border:1px solid #29394a!important;border-radius:11px!important;background:#0e1722!important}
+#page-liquidity.nml-redesign .nml-symbol label,#page-liquidity.nml-redesign .nml-depth-select label{color:#8fa1b5!important;font-size:8px!important;letter-spacing:.15em!important}
+#page-liquidity.nml-redesign .nml-symbol input{height:39px!important;width:160px!important;border-color:#34465a!important;border-radius:6px!important;background:#080f18!important;font-size:12px!important}
+#page-liquidity.nml-redesign .nml-symbol button{height:39px!important;padding:0 15px!important;border:1px solid #a93d52!important;border-radius:6px!important;background:linear-gradient(135deg,#a52d43,#762236)!important;letter-spacing:.07em!important}
+#page-liquidity.nml-redesign .nml-meta{gap:14px 26px!important}
+#page-liquidity.nml-redesign .nml-meta span{gap:5px!important}
+#page-liquidity.nml-redesign .nml-meta span small{font-size:7px!important;letter-spacing:.13em!important;color:#71849a!important}
+#page-liquidity.nml-redesign .nml-meta b{font-size:9px!important;color:#d9e3ed!important}
+#page-liquidity.nml-redesign .nml-panel{min-width:0!important;margin:0!important;padding:clamp(15px,1.6vw,23px)!important;border:1px solid #29394a!important;border-radius:12px!important;background:linear-gradient(145deg,#111b27,#0a111a 75%)!important;box-shadow:0 12px 32px #0003!important}
+#page-liquidity.nml-redesign .nml-panel-head{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:18px!important;min-width:0!important;margin:0 0 17px!important;padding:0 0 14px!important;border-bottom:1px solid #263444!important}
+#page-liquidity.nml-redesign .nml-panel-head>div:first-child{min-width:0!important}
+#page-liquidity.nml-redesign .nml-eyebrow{color:#91a5bb!important;font-size:8px!important;letter-spacing:.17em!important}
+#page-liquidity.nml-redesign .nml-panel-head h2{margin:7px 0 5px!important;color:#f0f4f8!important;font-size:clamp(17px,1.6vw,22px)!important;letter-spacing:-.035em!important}
+#page-liquidity.nml-redesign .nml-panel-head p{color:#8799ad!important;font-size:10px!important;line-height:1.5!important}
+#page-liquidity.nml-redesign .nml-market-tag{padding:4px 7px!important;border-color:#394b5f!important;border-radius:5px!important;background:#172535!important;color:#d5e0ec!important;font-size:8px!important}
+#page-liquidity.nml-redesign .nml-expand{align-self:center!important;padding:8px 11px!important;border:1px solid #394b5f!important;border-radius:6px!important;background:#142131!important;color:#cdd8e4!important;font-size:8px!important;letter-spacing:.1em!important}
+#page-liquidity.nml-redesign .nml-stats{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:8px!important;margin:0 0 14px!important}
+#page-liquidity.nml-redesign .nml-stats>div{min-width:0!important;padding:11px 12px!important;border:1px solid #293a4c!important;border-radius:8px!important;background:linear-gradient(145deg,#142131,#0c151f)!important}
+#page-liquidity.nml-redesign .nml-stats span{color:#8fa2b7!important;font-size:7px!important;letter-spacing:.1em!important}
+#page-liquidity.nml-redesign .nml-stats b{margin-top:6px!important;color:#e7eef6!important;font-size:clamp(12px,1.1vw,16px)!important}
+#page-liquidity.nml-redesign .nml-green{color:#4bd2a0!important}#page-liquidity.nml-redesign .nml-red{color:#ef7485!important}
+#page-liquidity.nml-redesign .nml-book-grid{display:grid!important;grid-template-columns:minmax(0,1fr) 155px minmax(0,1fr)!important;gap:9px!important}
+#page-liquidity.nml-redesign .nml-book-side{min-width:0!important;padding:12px!important;border:1px solid #29394a!important;border-radius:8px!important;background:#0a131d!important}
+#page-liquidity.nml-redesign .nml-book-title{display:flex!important;align-items:center!important;gap:7px!important;margin:0 0 10px!important;font-size:9px!important;letter-spacing:.1em!important}
+#page-liquidity.nml-redesign .nml-book-title small{margin-left:auto!important;color:#7e90a4!important;font-size:7px!important}
+#page-liquidity.nml-redesign .nml-side-dot{width:6px!important;height:6px!important;border-radius:50%!important;background:currentColor!important;box-shadow:0 0 9px currentColor!important}
+#page-liquidity.nml-redesign .nml-book-cols{padding:0 4px 7px!important;color:#6f8298!important;font-size:7px!important}
+#page-liquidity.nml-redesign .nml-level-list{display:flex!important;flex-direction:column!important;gap:3px!important}
+#page-liquidity.nml-redesign .nml-level{min-height:23px!important;padding:5px 5px!important;border-radius:3px!important;font-size:8px!important}
+#page-liquidity.nml-redesign .nml-mid{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:9px!important;padding:12px 8px!important;border:1px solid #29394a!important;border-radius:8px!important;background:radial-gradient(ellipse at center,#192a3b,#0b141f 72%)!important;text-align:center!important}
+#page-liquidity.nml-redesign .nml-mid-label,#page-liquidity.nml-redesign .nml-mid>span{color:#8498ad!important;font-size:7px!important;letter-spacing:.12em!important}
+#page-liquidity.nml-redesign .nml-mid>b{color:#f3f6fa!important;font-size:clamp(13px,1.2vw,17px)!important;font-variant-numeric:tabular-nums!important}
+#page-liquidity.nml-redesign .nml-mid>small{color:#687e94!important;font-size:7px!important}
+#page-liquidity.nml-redesign .nml-midbar{width:100%!important;height:5px!important;border-radius:9px!important;background:#e05a6c!important;overflow:hidden!important}
+#page-liquidity.nml-redesign .nml-midbar i{display:block!important;height:100%!important;background:#35c695!important}
+#page-liquidity.nml-redesign .nml-mid .nml-spread-label{display:flex!important;gap:5px!important;align-items:center!important}
+#page-liquidity.nml-redesign .nml-mid .nml-spread-label strong{color:#e5edf5!important}
+#page-liquidity.nml-redesign .nml-mid-divider{width:100%!important;height:1px!important;background:#263648!important}
+#page-liquidity.nml-redesign .nml-mid-foot{font-size:7px!important;letter-spacing:.12em!important;color:#71859a!important}
+#page-liquidity.nml-redesign .nml-footnote{display:flex!important;align-items:flex-start!important;gap:7px!important;margin:13px 0 0!important;padding-top:10px!important;border-top:1px solid #223142!important;color:#7f91a5!important;font-size:8px!important;line-height:1.5!important}
+#page-liquidity.nml-redesign .nml-info-dot{display:inline-grid!important;place-items:center!important;flex:0 0 auto!important;width:13px!important;height:13px!important;border:1px solid #53677d!important;border-radius:50%!important;font-size:8px!important}
+#page-liquidity.nml-redesign .nml-heatmap-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;align-items:stretch!important;gap:14px!important;margin-top:14px!important}
+#page-liquidity.nml-redesign .nml-heat-panel{display:flex!important;flex-direction:column!important;min-height:520px!important}
+#page-liquidity.nml-redesign .nml-heat-panel .nml-panel-head{align-items:flex-start!important}
+#page-liquidity.nml-redesign .nml-range{display:flex!important;flex-wrap:wrap!important;justify-content:flex-end!important;gap:4px!important;max-width:210px!important}
+#page-liquidity.nml-redesign .nml-range button{min-width:31px!important;padding:6px 7px!important;border:1px solid #2b3c4f!important;border-radius:5px!important;background:#101c29!important;color:#aebdcd!important;font-size:7px!important;font-weight:850!important;cursor:pointer!important}
+#page-liquidity.nml-redesign .nml-range button.active{border-color:#a93e53!important;background:#321923!important;color:#fff!important}
+#page-liquidity.nml-redesign .nml-legend{display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:8px 14px!important;margin:0 0 10px!important;color:#a8b7c8!important;font-size:7px!important;letter-spacing:.06em!important}
+#page-liquidity.nml-redesign .nml-legend span{display:inline-flex!important;align-items:center!important;gap:5px!important}
+#page-liquidity.nml-redesign .nml-legend i{display:inline-block!important;width:7px!important;height:7px!important;border-radius:2px!important}
+#page-liquidity.nml-redesign .nml-legend-bid,.nml-redesign .nml-legend-short{background:#32c995!important}
+#page-liquidity.nml-redesign .nml-legend-ask,.nml-redesign .nml-legend-long{background:#e45d73!important}
+#page-liquidity.nml-redesign .nml-muted{color:#718399!important}
+#page-liquidity.nml-redesign .nml-feed-state{margin:0 0 9px!important;color:#8da0b5!important;font-size:7px!important;letter-spacing:.1em!important}
+#page-liquidity.nml-redesign .nml-liq-stats{grid-template-columns:repeat(4,minmax(0,1fr))!important;margin:0 0 10px!important}
+#page-liquidity.nml-redesign .nml-liq-stats>div{padding:8px 9px!important}
+#page-liquidity.nml-redesign .nml-liq-stats span{font-size:6px!important}
+#page-liquidity.nml-redesign .nml-liq-stats b{font-size:clamp(10px,.95vw,13px)!important;margin-top:5px!important}
+#page-liquidity.nml-redesign .nml-chart{position:relative!important;display:block!important;flex:1 1 auto!important;min-height:310px!important;height:310px!important;width:100%!important;overflow:hidden!important;border:1px solid #26394b!important;border-radius:8px!important;background:#060b12!important}
+#page-liquidity.nml-redesign .nml-chart canvas{display:block!important;width:100%!important;height:100%!important}
+#page-liquidity.nml-redesign .nml-chart-empty{color:#8396ab!important;font-size:9px!important}
+#page-liquidity.nml-redesign .nml-chart-axis{display:flex!important;justify-content:space-between!important;margin-top:8px!important;color:#72859a!important;font-size:7px!important;letter-spacing:.08em!important}
+#page-liquidity.nml-redesign .nml-disclaimer{margin-top:18px!important;padding-top:14px!important;border-top:1px solid #202e3d!important;color:#64788e!important;font-size:7px!important;letter-spacing:.13em!important;text-align:center!important}
+body>.nml-panel.nml-expanded{inset:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;max-height:100vh!important;max-height:100dvh!important;padding:22px!important;border:0!important;border-radius:0!important;background:#080e16!important;overflow:auto!important}
+body>.nml-panel.nml-expanded .nml-chart{min-height:45vh!important;height:45vh!important;flex:1 0 45vh!important}
+body>.nml-panel.nml-expanded .nml-book-grid{min-height:0!important}
+@media(max-width:1000px){#page-liquidity.nml-redesign .nml-heatmap-grid{grid-template-columns:minmax(0,1fr)!important}#page-liquidity.nml-redesign .nml-heat-panel{min-height:480px!important}}
+@media(max-width:680px){
+ #page-liquidity.nml-redesign{padding:12px 10px 34px!important}
+ #page-liquidity.nml-redesign .nml-hero{align-items:flex-start!important;flex-direction:column!important;padding:19px!important}
+ #page-liquidity.nml-redesign .nml-connection{width:100%!important;box-sizing:border-box!important}
+ #page-liquidity.nml-redesign .nml-toolbar{align-items:stretch!important;flex-direction:column!important;padding:13px!important}
+ #page-liquidity.nml-redesign .nml-meta{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #page-liquidity.nml-redesign .nml-panel-head{align-items:flex-start!important;flex-direction:column!important}
+ #page-liquidity.nml-redesign .nml-panel-head>.nml-range{justify-content:flex-start!important;max-width:100%!important}
+ #page-liquidity.nml-redesign .nml-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #page-liquidity.nml-redesign .nml-book-grid{grid-template-columns:minmax(0,1fr)!important}
+ #page-liquidity.nml-redesign .nml-mid{min-height:125px!important}
+ #page-liquidity.nml-redesign .nml-heat-panel{min-height:0!important}
+ #page-liquidity.nml-redesign .nml-chart{height:300px!important;min-height:300px!important;flex:none!important}
+ #page-liquidity.nml-redesign .nml-liq-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ body>.nml-panel.nml-expanded{padding:12px!important}
+ body>.nml-panel.nml-expanded .nml-chart{height:55vh!important;min-height:55vh!important;flex:0 0 55vh!important}
+}
+</style>
 </head>
 <body>
 <div id="nfx-page-loader" role="status" aria-live="polite" aria-label="Loading Nabil FX workspace">
@@ -1904,35 +2001,54 @@ body>.nml-panel.nml-expanded .nml-chart-empty{font-size:11px!important;padding:1
       </section>
 
 
-<section id="page-liquidity" class="view nfx-market-lab" aria-label="Live Order Book and Heatmap">
+<section id="page-liquidity" class="view nfx-market-lab nml-redesign" aria-label="Nabil FX Market Depth Terminal">
   <header class="nml-hero">
-    <div><div class="nml-overline">NABIL FX <span>/</span> MARKET MICROSTRUCTURE</div><h1>Market Depth Terminal</h1><p>Live order flow, resting liquidity and exchange-reported liquidations.</p></div>
+    <div class="nml-hero-copy">
+      <div class="nml-overline"><span class="nml-brand-mark">N</span> NABIL FX <i>/</i> MARKET MICROSTRUCTURE</div>
+      <h1>Market Depth <em>Terminal</em></h1>
+      <p>Live liquidity, order-book pressure and exchange-reported liquidation activity.</p>
+    </div>
     <div class="nml-connection"><i id="nmlConnectionDot"></i><div><b id="nmlConnectionText">CONNECTING</b><small>BINANCE USDⓈ-M FUTURES</small></div></div>
   </header>
-  <section class="nml-toolbar">
-    <div class="nml-symbol"><label for="nmlSymbol">MARKET</label><div><input id="nmlSymbol" list="nmlSymbols" value="BTCUSDT" spellcheck="false" autocomplete="off"><datalist id="nmlSymbols"><option value="BTCUSDT"><option value="ETHUSDT"><option value="BNBUSDT"><option value="SOLUSDT"><option value="XRPUSDT"><option value="DOGEUSDT"></datalist><button id="nmlLoadSymbol" type="button">LOAD MARKET</button></div></div>
-    <div class="nml-meta"><span>CONTRACT <b id="nmlContract">BTC/USDT PERPETUAL</b></span><span>LAST UPDATE <b id="nmlUpdated">—</b></span><span>DATA SOURCE <b>BINANCE PUBLIC STREAM</b></span></div>
+
+  <section class="nml-toolbar" aria-label="Market controls">
+    <div class="nml-symbol"><label for="nmlSymbol">TRADING PAIR</label><div><input id="nmlSymbol" list="nmlSymbols" value="BTCUSDT" spellcheck="false" autocomplete="off" aria-label="Trading pair"><datalist id="nmlSymbols"><option value="BTCUSDT"><option value="ETHUSDT"><option value="BNBUSDT"><option value="SOLUSDT"><option value="XRPUSDT"><option value="DOGEUSDT"></datalist><button id="nmlLoadSymbol" type="button">LOAD MARKET <span>↗</span></button></div></div>
+    <div class="nml-meta"><span><small>CONTRACT</small><b id="nmlContract">BTC/USDT PERPETUAL</b></span><span><small>LAST UPDATE</small><b id="nmlUpdated">—</b></span><span><small>DATA SOURCE</small><b>BINANCE PUBLIC STREAM</b></span></div>
   </section>
-  <section class="nml-panel nml-orderbook">
-    <div class="nml-panel-head"><div><div class="nml-eyebrow">01 / REAL-TIME MARKET DEPTH</div><h2>Order Book <span class="nml-market-tag" data-nml-market>BTC/USDT</span></h2><p>Live bid and ask liquidity from the selected USDⓈ-M contract.</p></div><div class="nml-depth-select"><label for="nmlDepth">VISIBLE LEVELS</label><select id="nmlDepth"><option>10</option><option selected>20</option></select></div></div>
-    <div class="nml-stats"><div><span>MARK PRICE</span><b id="nmlMark">—</b></div><div><span>BEST BID</span><b class="nml-green" id="nmlBid">—</b></div><div><span>BEST ASK</span><b class="nml-red" id="nmlAsk">—</b></div><div><span>SPREAD</span><b id="nmlSpread">—</b></div><div><span>BOOK IMBALANCE</span><b id="nmlImbalance">—</b></div></div>
-    <div class="nml-book-grid"><div class="nml-book-side"><div class="nml-book-title nml-red">ASKS <span>SELL ORDERS</span></div><div class="nml-book-cols"><span>PRICE (USDT)</span><span>SIZE</span><span>CUMULATIVE</span></div><div id="nmlAsks" class="nml-level-list"><div class="nml-empty">Waiting for live depth…</div></div></div><div class="nml-mid"><span>MID PRICE</span><b id="nmlMid">—</b><small>LIVE FUTURES PRICE</small><div class="nml-midbar"><i id="nmlMidBar"></i></div><span>SPREAD <b id="nmlMidSpread">—</b></span></div><div class="nml-book-side"><div class="nml-book-title nml-green">BIDS <span>BUY ORDERS</span></div><div class="nml-book-cols"><span>PRICE (USDT)</span><span>SIZE</span><span>CUMULATIVE</span></div><div id="nmlBids" class="nml-level-list"><div class="nml-empty">Waiting for live depth…</div></div></div></div>
-    <div class="nml-footnote">Depth is venue-specific and displays the public Binance futures order-book feed, not the entire global market.</div>
+
+  <section class="nml-panel nml-orderbook nml-orderbook-redesign">
+    <div class="nml-panel-head"><div><div class="nml-eyebrow">01 <i>/</i> LIVE MARKET DEPTH</div><h2>Order Book <span class="nml-market-tag" data-nml-market>BTC/USDT</span></h2><p>Real-time bids and asks across the selected perpetual contract.</p></div><div class="nml-depth-select"><label for="nmlDepth">VISIBLE LEVELS</label><select id="nmlDepth"><option>10</option><option selected>20</option></select></div></div>
+    <div class="nml-stats">
+      <div><span>MARK PRICE</span><b id="nmlMark">—</b></div><div><span>BEST BID</span><b class="nml-green" id="nmlBid">—</b></div><div><span>BEST ASK</span><b class="nml-red" id="nmlAsk">—</b></div><div><span>SPREAD</span><b id="nmlSpread">—</b></div><div><span>BOOK IMBALANCE</span><b id="nmlImbalance">—</b></div>
+    </div>
+    <div class="nml-book-grid">
+      <div class="nml-book-side nml-asks-side"><div class="nml-book-title nml-red"><span class="nml-side-dot"></span> ASKS <small>SELL ORDERS</small></div><div class="nml-book-cols"><span>PRICE (USDT)</span><span>SIZE</span><span>CUMULATIVE</span></div><div id="nmlAsks" class="nml-level-list"><div class="nml-empty">Waiting for live depth…</div></div></div>
+      <div class="nml-mid"><span class="nml-mid-label">MID MARKET PRICE</span><b id="nmlMid">—</b><small>LIVE FUTURES PRICE</small><div class="nml-midbar"><i id="nmlMidBar"></i></div><span class="nml-spread-label">SPREAD <strong id="nmlMidSpread">—</strong></span><div class="nml-mid-divider"></div><span class="nml-mid-foot">BINANCE USDⓈ-M</span></div>
+      <div class="nml-book-side nml-bids-side"><div class="nml-book-title nml-green"><span class="nml-side-dot"></span> BIDS <small>BUY ORDERS</small></div><div class="nml-book-cols"><span>PRICE (USDT)</span><span>SIZE</span><span>CUMULATIVE</span></div><div id="nmlBids" class="nml-level-list"><div class="nml-empty">Waiting for live depth…</div></div></div>
+    </div>
+    <div class="nml-footnote"><span class="nml-info-dot">i</span> Venue-specific depth from Binance USDⓈ-M. This is not the consolidated global order book.</div>
   </section>
-  <section class="nml-panel">
-    <div class="nml-panel-head"><div><div class="nml-eyebrow">02 / HISTORICAL DEPTH CAPTURE</div><h2>Liquidity Heatmap <span class="nml-market-tag" data-nml-market>BTC/USDT</span></h2><p>Observed resting bid and ask size at each price level as live snapshots arrive.</p></div><div class="nml-range" id="nmlBookRanges"><button data-range="3600000" class="active">1H</button><button data-range="14400000">4H</button><button data-range="86400000">1D</button><button data-range="259200000">3D</button><button data-range="604800000">7D</button><button data-range="0">RESET</button></div></div>
-    <div class="nml-legend"><span><i class="nml-legend-bid"></i> BID LIQUIDITY</span><span><i class="nml-legend-ask"></i> ASK LIQUIDITY</span><span class="nml-muted">Intensity = relative visible resting quantity</span></div>
-    <div class="nml-chart"><canvas id="nmlLiquidityCanvas"></canvas><div id="nmlLiquidityEmpty" class="nml-chart-empty">Collecting live depth snapshots. Heatmap history starts when this page connects.</div></div>
-    <div class="nml-chart-axis"><span>OLDER</span><span>PRICE LEVEL / TIME</span><span>NOW →</span></div><div class="nml-footnote">Historical columns are collected live on this device. No fabricated or backfilled depth is displayed.</div>
-  </section>
-  <section class="nml-panel">
-    <div class="nml-panel-head"><div><div class="nml-eyebrow">03 / FORCED-LIQUIDATION EVENTS</div><h2>Liquidation Heatmap <span class="nml-market-tag" data-nml-market>BTC/USDT</span></h2><p>Exchange-broadcast liquidation executions plotted by price, time and reported notional.</p></div><div class="nml-range" id="nmlLiqRanges"><button data-range="3600000" class="active">1H</button><button data-range="14400000">4H</button><button data-range="86400000">1D</button><button data-range="259200000">3D</button><button data-range="604800000">7D</button></div></div>
-    <div id="nmlLiqFeedState" class="nml-feed-state">CONNECTING TO FORCE-ORDER STREAM</div><div class="nml-stats nml-liq-stats"><div><span>OBSERVED EVENTS</span><b id="nmlLiqCount">0</b></div><div><span>OBSERVED NOTIONAL</span><b id="nmlLiqNotional">—</b></div><div><span>LONG LIQUIDATIONS</span><b class="nml-red" id="nmlLongCount">0</b></div><div><span>SHORT LIQUIDATIONS</span><b class="nml-green" id="nmlShortCount">0</b></div></div>
-    <div class="nml-legend"><span><i class="nml-legend-long"></i> LONG POSITION LIQUIDATED</span><span><i class="nml-legend-short"></i> SHORT POSITION LIQUIDATED</span><span class="nml-muted">Bubble size = reported notional</span></div>
-    <div class="nml-chart"><canvas id="nmlLiquidationCanvas"></canvas><div id="nmlLiquidationEmpty" class="nml-chart-empty">Waiting for actual exchange-reported liquidation events. No estimated levels are shown.</div></div>
-    <div class="nml-chart-axis"><span>OLDER</span><span>PRICE LEVEL / TIME</span><span>NOW →</span></div><div class="nml-footnote">Binance's public force-order stream is sampled and does not include every liquidation across all exchanges. Only observed events are plotted.</div>
-  </section>
-  <footer class="nml-disclaimer">NABIL FX MARKET DATA · PUBLIC EXCHANGE FEEDS · NOT INVESTMENT ADVICE</footer>
+
+  <div class="nml-heatmap-grid">
+    <section class="nml-panel nml-heat-panel">
+      <div class="nml-panel-head"><div><div class="nml-eyebrow">02 <i>/</i> RESTING LIQUIDITY</div><h2>Liquidity Heatmap <span class="nml-market-tag" data-nml-market>BTC/USDT</span></h2><p>Live snapshots of visible bid and ask liquidity by price.</p></div><div class="nml-range" id="nmlBookRanges"><button data-range="3600000" class="active">1H</button><button data-range="14400000">4H</button><button data-range="86400000">1D</button><button data-range="259200000">3D</button><button data-range="604800000">7D</button><button data-range="0">RESET</button></div></div>
+      <div class="nml-legend"><span><i class="nml-legend-bid"></i> BID LIQUIDITY</span><span><i class="nml-legend-ask"></i> ASK LIQUIDITY</span><span class="nml-muted">Intensity = visible resting size</span></div>
+      <div class="nml-chart"><canvas id="nmlLiquidityCanvas"></canvas><div id="nmlLiquidityEmpty" class="nml-chart-empty">Collecting live depth snapshots. History begins when the feed connects.</div></div>
+      <div class="nml-chart-axis"><span>OLDER</span><span>PRICE / TIME</span><span>NOW →</span></div>
+      <div class="nml-footnote">Locally captured history only. No fabricated or backfilled order-book data.</div>
+    </section>
+
+    <section class="nml-panel nml-heat-panel nml-liquidation-panel">
+      <div class="nml-panel-head"><div><div class="nml-eyebrow">03 <i>/</i> FORCED-LIQUIDATION FLOW</div><h2>Liquidation Heatmap <span class="nml-market-tag" data-nml-market>BTC/USDT</span></h2><p>Observed liquidation executions by price, time and reported notional.</p></div><div class="nml-range" id="nmlLiqRanges"><button data-range="3600000" class="active">1H</button><button data-range="14400000">4H</button><button data-range="86400000">1D</button><button data-range="259200000">3D</button><button data-range="604800000">7D</button></div></div>
+      <div id="nmlLiqFeedState" class="nml-feed-state">CONNECTING TO FORCE-ORDER STREAM</div>
+      <div class="nml-stats nml-liq-stats"><div><span>OBSERVED EVENTS</span><b id="nmlLiqCount">0</b></div><div><span>OBSERVED NOTIONAL</span><b id="nmlLiqNotional">—</b></div><div><span>LONG LIQUIDATIONS</span><b class="nml-red" id="nmlLongCount">0</b></div><div><span>SHORT LIQUIDATIONS</span><b class="nml-green" id="nmlShortCount">0</b></div></div>
+      <div class="nml-legend"><span><i class="nml-legend-long"></i> LONG LIQUIDATED</span><span><i class="nml-legend-short"></i> SHORT LIQUIDATED</span><span class="nml-muted">Cell intensity = observed notional</span></div>
+      <div class="nml-chart"><canvas id="nmlLiquidationCanvas"></canvas><div id="nmlLiquidationEmpty" class="nml-chart-empty">Waiting for actual exchange-reported liquidation events.</div></div>
+      <div class="nml-chart-axis"><span>OLDER</span><span>PRICE / TIME</span><span>NOW →</span></div>
+      <div class="nml-footnote">Binance force-order stream is sampled and does not represent every liquidation across all exchanges.</div>
+    </section>
+  </div>
+  <footer class="nml-disclaimer">NABIL FX <i>·</i> MARKET DATA <i>·</i> PUBLIC EXCHANGE FEEDS <i>·</i> NOT INVESTMENT ADVICE</footer>
 </section>
 
 <section id="page-news" class="view nfx-news-page"><div class="nfx-news-hero"><div><span>NABIL FX / MARKET INTELLIGENCE</span><h1>Market News</h1><p>Fast-updating coverage across forex, crypto, stocks, indices, commodities, futures, bonds and the global economy.</p></div><b id="nfxNewsConnection">CONNECTING TO LIVE FEEDS</b></div><div class="nfx-news-toolbar"><div class="nfx-news-controls"><input id="nfxNewsSearch" type="search" placeholder="Search market headlines, topics or publishers…"><select id="nfxNewsCategory"><option value="all">All markets & trading</option><option value="forex">Forex & currencies</option><option value="crypto">Crypto</option><option value="stocks">Stocks & equities</option><option value="indices">Indices</option><option value="commodities">Commodities</option><option value="bonds">Bonds & rates</option><option value="macro">Economy & central banks</option><option value="markets">Global markets</option></select><button id="nfxNewsRefresh" class="nfx-news-action nfx-news-refresh" type="button">Refresh Feed</button><button id="nfxNewsNotify" class="nfx-news-action nfx-news-alerts" type="button">Enable Alerts</button></div><div id="nfxNewsStatus" class="nfx-news-status">Loading public news feeds…</div></div><div class="nfx-news-stats"><div><small>AVAILABLE HEADLINES</small><strong id="nfxNewsCount">—</strong></div><div><small>LAST UPDATED</small><strong id="nfxNewsUpdated">—</strong></div><div><small>NEWS ALERTS</small><strong id="nfxNewsAlertState">OFF</strong></div></div><div class="nfx-news-section-head"><div><span>THE LATEST</span><h2>Latest Headlines</h2></div><small id="nfxNewsResultCount"></small></div><main><div id="nfxNewsList" class="nfx-news-list"><div class="nfx-news-empty">Connecting to news providers…</div></div></main><div class="nfx-news-footnote">Coverage spans major tradable markets and macroeconomic events. Public-feed availability and publisher delays vary; this is not a guaranteed real-time institutional newswire. Select a story for details and the original publisher link.</div><div id="nfxNewsDetail" class="nfx-news-detail" hidden><div class="nfx-news-detail-backdrop" data-news-close></div><section class="nfx-news-detail-panel" role="dialog" aria-modal="true" aria-labelledby="nfxNewsDetailTitle"><button id="nfxNewsDetailClose" class="nfx-news-detail-close" type="button" data-news-close aria-label="Close article details">×</button><span class="nfx-news-detail-kicker">NABIL FX / NEWS BRIEFING</span><div id="nfxNewsDetailMeta" class="nfx-news-detail-meta"></div><h2 id="nfxNewsDetailTitle"></h2><div class="nfx-news-detail-rule"></div><p id="nfxNewsDetailSummary"></p><div class="nfx-news-detail-footer"><span id="nfxNewsDetailDate"></span><a id="nfxNewsDetailSource" href="#" target="_blank" rel="noopener noreferrer">READ FULL ARTICLE ↗</a></div><small class="nfx-news-detail-note">This briefing displays the summary provided by the news feed. The complete article remains on the original publisher’s website.</small></section></div></section>
