@@ -3909,7 +3909,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 #page-learn .nfx-learn-topic-card{min-width:0;overflow:hidden;text-align:left;padding:0;border:1px solid #303947;border-radius:12px;background:linear-gradient(145deg,#131a24,#0b1017);color:#e8edf4;cursor:pointer;transition:border-color .18s,transform .18s,background .18s}
 #page-learn .nfx-learn-topic-card:hover{border-color:#a43a4b;background:#171820;transform:translateY(-2px)}
 #page-learn .nfx-learn-thumb{height:105px;display:block;overflow:hidden;border-bottom:1px solid #303947;background:#080c11}
-#page-learn .nfx-learn-thumb svg{width:100%;height:100%;display:block}
+#page-learn .nfx-learn-thumb img{width:100%;height:100%;display:block;object-fit:cover;object-position:center}
 #page-learn .nfx-learn-topic-copy{display:block;padding:12px}
 #page-learn .nfx-learn-topic-copy small{display:block;color:#e36a78;font-size:8px;font-weight:850;letter-spacing:.12em}
 #page-learn .nfx-learn-topic-copy strong{display:block;margin:6px 0 5px;color:#edf1f6;font-size:12px}
@@ -3922,7 +3922,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 #page-learn .nfx-learn-detail ul{padding-left:19px}
 #page-learn .nfx-learn-detail .nfx-learn-kicker{color:#e56a78;font-size:9px;font-weight:900;letter-spacing:.14em}
 #page-learn .nfx-learn-visual{margin:15px 0 18px;overflow:hidden;border:1px solid #344151;border-radius:11px;background:#080d13}
-#page-learn .nfx-learn-visual svg{display:block;width:100%;height:auto;max-height:300px}
+#page-learn .nfx-learn-visual img{display:block;width:100%;height:auto;max-height:440px;object-fit:contain;background:#080d13}
 #page-learn .nfx-learn-visual figcaption{padding:8px 11px;border-top:1px solid #293341;color:#8190a1;font-size:9px}
 #page-learn .nfx-learn-detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 #page-learn .nfx-learn-info{padding:13px;border:1px solid #344151;border-radius:10px;background:#101720}
@@ -8740,76 +8740,40 @@ window.renderBacktestMetrics=function(r,meta={}){
   const categories=['All Topics','Price Action','ICT / SMC','CRT Models','Technical Analysis','Sessions & Time','Risk & Execution'];
   let activeCategory='All Topics',query='',selected=null;
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const lessonImages={
+    'market-structure':['https://slowsteadytrading.com/charts/hhhl.png','Market structure — higher highs and higher lows'],
+    'bos':['https://slowsteadytrading.com/charts/hhhl.png','Break of Structure — swing break example'],
+    'choch':['https://slowsteadytrading.com/charts/choch-both.png','Bullish and bearish Change of Character examples'],
+    'mss':['https://slowsteadytrading.com/charts/choch-both.png','Structure shift with displacement example'],
+    'support-resistance':['https://slowsteadytrading.com/charts/liquidity.png','Price reacting around repeated horizontal highs and lows'],
+    'trendline':['https://slowsteadytrading.com/charts/lhll.png','Directional swing structure example'],
+    'liquidity':['https://slowsteadytrading.com/charts/liquidity.png','Buy-side and sell-side liquidity marked on a TradingView chart'],
+    'liquidity-sweep':['https://slowsteadytrading.com/charts/liquidity.png','Liquidity pools around prior highs and lows'],
+    'fvg':['https://slowsteadytrading.com/charts/bullish-fvg1.png','Bullish Fair Value Gap with consequent encroachment'],
+    'order-block':['https://slowsteadytrading.com/charts/bullish-ob-fvg.png','Bullish Order Block with Fair Value Gaps'],
+    'breaker-block':['https://slowsteadytrading.com/charts/bearish-mitigation.png','Order block role reversal and mitigation example'],
+    'mitigation':['https://slowsteadytrading.com/charts/bearish-mitigation.png','Mitigation of a previously marked order block'],
+    'ote':['https://slowsteadytrading.com/charts/bullish-ob-fvg.png','Retracement into a marked reaction zone'],
+    'premium-discount':['https://slowsteadytrading.com/charts/bullish-ob-fvg.png','Price range and reaction zones'],
+    'equal-highs-lows':['https://slowsteadytrading.com/charts/liquidity.png','Repeated highs and lows as liquidity references'],
+    'session-levels':['https://slowsteadytrading.com/charts/liquidity.png','Repeated intraday highs and lows'],
+    'pdh-pdl':['https://slowsteadytrading.com/charts/liquidity.png','Prior visible high and low reference levels'],
+    'crt':['https://slowsteadytrading.com/charts/liquidity.png','Range extremes and liquidity raid example'],
+    'turtle-soup':['https://slowsteadytrading.com/charts/liquidity.png','Liquidity sweep / failed-breakout context'],
+    'candlesticks':['https://slowsteadytrading.com/charts/bullish-fvg1.png','Candlestick bodies and wicks in a chart example'],
+    'chart-patterns':['https://slowsteadytrading.com/charts/hhhl.png','Price swing sequence on a candlestick chart'],
+    'fibonacci':['https://slowsteadytrading.com/charts/bullish-ob-fvg.png','Retracement context around a price impulse'],
+    'volume':['https://slowsteadytrading.com/charts/liquidity.png','TradingView chart with price movement and visible bars'],
+    'risk-management':['https://slowsteadytrading.com/charts/bullish-ob-fvg.png','Example chart used to plan invalidation around a zone'],
+    'risk-reward':['https://slowsteadytrading.com/charts/bullish-ob-fvg.png','Example chart used to assess entry and target distance'],
+    'psychology':['https://slowsteadytrading.com/charts/hhhl.png','Price structure example for disciplined chart reading'],
+    'backtesting':['https://slowsteadytrading.com/charts/choch-both.png','Annotated chart example for reviewing structure outcomes'],
+    'sessions':['https://slowsteadytrading.com/charts/liquidity.png','Intraday chart example with repeated price extremes'],
+    'news':['https://slowsteadytrading.com/charts/choch-both.png','Large directional price movement on a candlestick chart']
+  };
   function diagram(topic){
-    const seed=topic.id.split('').reduce((a,c)=>a+c.charCodeAt(0),0);
-    const W=760,H=360,left=54,right=690,top=24,bottom=276,volTop=294,volBottom=330;
-    const count=42,step=(right-left)/count;
-    let prev=100,raw=[];
-    for(let i=0;i<count;i++){
-      const drift=(i>25?0.19:0.04)*(seed%2?1:-1);
-      const wave=Math.sin((i+seed%7)*.53)*1.15+Math.cos((i+seed%11)*.21)*.8;
-      const close=prev+wave+drift;
-      const open=prev+(Math.sin(i*1.71+seed)*.42);
-      const high=Math.max(open,close)+.35+Math.abs(Math.sin(i*1.13+seed))*.55;
-      const low=Math.min(open,close)-.35-Math.abs(Math.cos(i*.91+seed))*.5;
-      raw.push({open,high,low,close,volume:8+Math.abs(Math.sin(i*1.37+seed))*23+(i%7===0?10:0)});
-      prev=close;
-    }
-    // Build a visible impulse leg with a mathematically valid three-candle bullish imbalance.
-    const anchor=raw[22].close;
-    raw[23]={open:anchor,low:anchor-.12,high:anchor+.38,close:anchor+.28,volume:15};
-    raw[24]={open:anchor+.30,low:anchor+.22,high:anchor+2.45,close:anchor+2.18,volume:32};
-    raw[25]={open:anchor+2.12,low:anchor+.72,high:anchor+2.36,close:anchor+1.12,volume:24};
-    raw[26]={open:anchor+1.08,low:anchor+.62,high:anchor+1.35,close:anchor+.84,volume:19};
-    let max=Math.max(...raw.map(c=>c.high)),min=Math.min(...raw.map(c=>c.low));
-    const pad=(max-min)*.16;max+=pad;min-=pad;
-    const y=p=>top+(max-p)/(max-min)*(bottom-top);
-    const x=i=>left+(i+.5)*step;
-    const price=p=>p.toFixed(3);
-    let grid='',candles='',volumes='',labels='';
-    for(let k=0;k<=5;k++){
-      const yy=top+k*(bottom-top)/5,pp=max-k*(max-min)/5;
-      grid+=`<line x1="${left}" y1="${yy}" x2="${right}" y2="${yy}" stroke="#263140" stroke-width="1" stroke-dasharray="2 4"/><text x="700" y="${yy+3}" fill="#8b98a8" font-size="10" font-family="monospace">${price(pp)}</text>`;
-    }
-    for(let i=0;i<count;i++){
-      const c=raw[i],cx=x(i),bull=c.close>=c.open,col=bull?'#26a69a':'#ef5350';
-      const yo=y(c.open),yc=y(c.close),body=Math.max(1.8,Math.abs(yc-yo));
-      candles+=`<line x1="${cx}" y1="${y(c.high)}" x2="${cx}" y2="${y(c.low)}" stroke="${col}" stroke-width="1.15"/><rect x="${cx-step*.29}" y="${Math.min(yo,yc)}" width="${step*.58}" height="${body}" rx=".5" fill="${col}"/>`;
-      const vh=c.volume/42*(volBottom-volTop);
-      volumes+=`<rect x="${cx-step*.29}" y="${volBottom-vh}" width="${step*.58}" height="${vh}" fill="${col}" opacity=".58"/>`;
-    }
-    const timeLabels=['09:00','09:30','10:00','10:30','11:00','11:30'];
-    timeLabels.forEach((t,i)=>{const xx=left+i*(right-left)/5;labels+=`<text x="${xx}" y="349" fill="#8391a2" font-size="9" text-anchor="middle" font-family="monospace">${t}</text>`;});
-    const line=(yy,color,label)=>`<line x1="${left}" y1="${yy}" x2="${right}" y2="${yy}" stroke="${color}" stroke-width="1.1" stroke-dasharray="5 4"/><rect x="${right-105}" y="${yy-14}" width="101" height="13" rx="3" fill="#111923" stroke="${color}" stroke-opacity=".7"/><text x="${right-99}" y="${yy-5}" fill="${color}" font-size="8" font-weight="700">${label}</text>`;
-    const tag=(xx,yy,label,color='#e2b45f')=>`<path d="M${xx} ${yy+4} l-4 7 h8 z" fill="${color}"/><rect x="${xx-35}" y="${yy-17}" width="70" height="16" rx="3" fill="#111923" stroke="${color}" stroke-opacity=".75"/><text x="${xx}" y="${yy-6}" fill="${color}" text-anchor="middle" font-size="8" font-weight="700">${label}</text>`;
-    let marks='';
-    const title=topic.title.toLowerCase();
-    const swingHigh=y(Math.max(...raw.slice(8,18).map(c=>c.high)));
-    const swingLow=y(Math.min(...raw.slice(8,18).map(c=>c.low)));
-    if(/fvg|fair value/.test(title)){
-      const yTop=y(raw[23].high),yBottom=y(raw[25].low),yy=Math.min(yTop,yBottom),hh=Math.max(8,Math.abs(yBottom-yTop));
-      marks+=`<rect x="${x(23)-step*.45}" y="${yy}" width="${step*2.9}" height="${hh}" fill="#26a69a" fill-opacity=".18" stroke="#26a69a" stroke-dasharray="4 3"/>`+tag(x(25),yy-5,'BULLISH FVG','#55c8ae')+line(y(raw[23].high),'#55c8ae','C1 HIGH')+line(y(raw[25].low),'#55c8ae','C3 LOW');
-    }else if(/order block/.test(title)){
-      const ob=raw[23],yy=y(ob.high),hh=Math.max(9,y(ob.low)-y(ob.high));
-      marks+=`<rect x="${x(23)-step*.5}" y="${yy}" width="${right-x(23)+step*.5}" height="${hh}" fill="#e2b45f" fill-opacity=".16" stroke="#e2b45f" stroke-dasharray="4 3"/>`+tag(x(23),yy-3,'LAST BEARISH CANDLE')+line(y(ob.low),'#e2b45f','OB LOW');
-    }else if(/liquidity|equal highs|turtle soup/.test(title)){
-      const level=y(Math.max(...raw.slice(8,16).map(c=>c.high)));
-      marks+=line(level,'#e2b45f','EQUAL-HIGH LIQUIDITY')+`<path d="M${x(17)} ${level-25} L${x(17)} ${level-4} l-5 -7 m5 7 l5 -7" fill="none" stroke="#ef5350" stroke-width="1.6"/>`+tag(x(18),level-34,'SWEEP / RAID','#ef8585');
-    }else if(/bos|market structure|choch|mss/.test(title)){
-      marks+=line(swingHigh,'#55c8ae','PRIOR SWING HIGH')+line(swingLow,'#e2b45f','PROTECTED SWING LOW')+tag(x(27),swingHigh-20,/choch|mss/.test(title)?'STRUCTURE SHIFT':'BOS CONFIRM','#55c8ae');
-    }else if(/support|resistance|pdh|pdl|session/.test(title)){
-      marks+=line(swingHigh,'#e2b45f','RESISTANCE / HIGH')+line(swingLow,'#55c8ae','SUPPORT / LOW');
-    }else if(/premium|discount|ote|fibonacci/.test(title)){
-      const mid=(top+bottom)/2;
-      marks+=`<rect x="${left}" y="${top}" width="${right-left}" height="${mid-top}" fill="#ef5350" opacity=".055"/><rect x="${left}" y="${mid}" width="${right-left}" height="${bottom-mid}" fill="#26a69a" opacity=".055"/>`+line(mid,'#e2b45f','50% EQUILIBRIUM');
-    }else if(/risk|reward|position sizing/.test(title)){
-      const entry=y(raw[29].close),stop=entry+27,target=entry-54;
-      marks+=`<rect x="${x(29)}" y="${entry}" width="${right-x(29)}" height="${Math.abs(stop-entry)}" fill="#ef5350" opacity=".14"/><rect x="${x(29)}" y="${target}" width="${right-x(29)}" height="${Math.abs(entry-target)}" fill="#26a69a" opacity=".14"/>`+line(entry,'#e2b45f','ENTRY')+line(stop,'#ef8585','STOP')+line(target,'#55c8ae','TARGET');
-    }else{
-      marks+=line(swingHigh,'#e2b45f','REFERENCE HIGH')+line(swingLow,'#55c8ae','REFERENCE LOW');
-    }
-    const chartName=esc(topic.title.toUpperCase());
-    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Trading chart style educational schematic for ${esc(topic.title)}" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="nfxChartBg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d141d"/><stop offset="1" stop-color="#090e14"/></linearGradient></defs><rect width="${W}" height="${H}" fill="url(#nfxChartBg)"/><text x="16" y="15" fill="#d8e0e9" font-size="9" font-weight="700" letter-spacing="1">${chartName}</text><text x="744" y="15" text-anchor="end" fill="#8190a2" font-size="8">5m · SIMULATED DATA</text><rect x="${left}" y="${top}" width="${right-left}" height="${bottom-top}" fill="none" stroke="#344151"/>${grid}<g>${marks}</g><g>${candles}</g><line x1="${left}" y1="285" x2="${right}" y2="285" stroke="#344151"/><text x="${left}" y="290" fill="#8391a2" font-size="7">VOLUME</text><g>${volumes}</g><g>${labels}</g><rect x="600" y="337" width="144" height="15" rx="3" fill="#141d28"/><text x="672" y="347" text-anchor="middle" fill="#e2b45f" font-size="7" font-weight="700">EDUCATIONAL SCHEMATIC</text></svg>`;
+    const item=lessonImages[topic.id]||lessonImages['market-structure'];
+    return '<img src="'+item[0]+'" alt="'+esc(item[1])+'" loading="lazy" decoding="async" referrerpolicy="no-referrer">';
   }
   function filtered(){return topics.filter(t=>(activeCategory==='All Topics'||t.cat===activeCategory)&&(!query||(t.title+' '+t.cat+' '+t.tags+' '+t.intro).toLowerCase().includes(query)));}
   function renderCategories(){
@@ -8827,7 +8791,7 @@ window.renderBacktestMetrics=function(r,meta={}){
   function openTopic(id){
     const t=topics.find(x=>x.id===id);if(!t)return;selected=id;
     $('nfxLearnTopicGrid').hidden=true;$('nfxLearnResultsHead').hidden=true;$('nfxLearnEmpty').hidden=true;$('nfxLearnDetail').hidden=false;
-    $('nfxLearnDetailContent').innerHTML=`<div class="nfx-learn-kicker">${esc(t.cat.toUpperCase())} · COMPLETE TOPIC GUIDE</div><h2>${esc(t.title)}</h2><p>${esc(t.intro)}</p><figure class="nfx-learn-visual">${diagram(t)}<figcaption>Educational schematic for explaining ${esc(t.title)}. This is not a live chart or a historical market screenshot.</figcaption></figure><h3>01 · How it works</h3><p>${esc(t.how)}</p><div class="nfx-learn-detail-grid"><section class="nfx-learn-info nfx-learn-valid"><h3>✓ VALID CONDITIONS</h3><ul>${t.valid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section><section class="nfx-learn-info nfx-learn-invalid"><h3>✕ INVALID / WEAK CONDITIONS</h3><ul>${t.invalid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section></div><h3>02 · How to mark it on a chart</h3><ol>${t.mark.map(x=>'<li>'+esc(x)+'</li>').join('')}</ol><div class="nfx-learn-info"><h3>PRO TRADING NOTE</h3><p>${esc(t.tip)}</p></div><h3>03 · Professional chart-reading workflow</h3><ol><li>Start with a clean chart and mark only the relevant higher-timeframe context.</li><li>Identify the exact candles / swing points that satisfy this lesson's definition.</li><li>Draw the zone or level using the stated boundaries; note the timeframe beside it.</li><li>Wait for the confirmation rule. Do not assume the first touch is an entry.</li><li>Define entry trigger, stop-loss invalidation and target before placing an order.</li><li>Capture the chart before the outcome, then journal both valid winners and valid losses.</li></ol><div class="nfx-learn-info"><h3>VALIDATION STANDARD</h3><p>These diagrams are simulated teaching examples, not imported TradingView screenshots or live prices. Confirm every setup on your own broker feed. Record the instrument, timezone, spread, session and rule version so the result can be reproduced.</p></div>`;
+    $('nfxLearnDetailContent').innerHTML=`<div class="nfx-learn-kicker">${esc(t.cat.toUpperCase())} · COMPLETE TOPIC GUIDE</div><h2>${esc(t.title)}</h2><p>${esc(t.intro)}</p><figure class="nfx-learn-visual">${diagram(t)}<figcaption>Reference chart image: ${esc(t.title)} · <a href="https://slowsteadytrading.com/" target="_blank" rel="noopener noreferrer">Source: Slow Steady Trading</a>. Images are third-party educational examples, not live market data.</figcaption></figure><h3>01 · How it works</h3><p>${esc(t.how)}</p><div class="nfx-learn-detail-grid"><section class="nfx-learn-info nfx-learn-valid"><h3>✓ VALID CONDITIONS</h3><ul>${t.valid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section><section class="nfx-learn-info nfx-learn-invalid"><h3>✕ INVALID / WEAK CONDITIONS</h3><ul>${t.invalid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section></div><h3>02 · How to mark it on a chart</h3><ol>${t.mark.map(x=>'<li>'+esc(x)+'</li>').join('')}</ol><div class="nfx-learn-info"><h3>PRO TRADING NOTE</h3><p>${esc(t.tip)}</p></div><h3>03 · Professional chart-reading workflow</h3><ol><li>Start with a clean chart and mark only the relevant higher-timeframe context.</li><li>Identify the exact candles / swing points that satisfy this lesson's definition.</li><li>Draw the zone or level using the stated boundaries; note the timeframe beside it.</li><li>Wait for the confirmation rule. Do not assume the first touch is an entry.</li><li>Define entry trigger, stop-loss invalidation and target before placing an order.</li><li>Capture the chart before the outcome, then journal both valid winners and valid losses.</li></ol><div class="nfx-learn-info"><h3>VALIDATION STANDARD</h3><p>These diagrams are simulated teaching examples, not imported TradingView screenshots or live prices. Confirm every setup on your own broker feed. Record the instrument, timezone, spread, session and rule version so the result can be reproduced.</p></div>`;
     $('nfxLearnDetail').scrollIntoView({behavior:'smooth',block:'start'});
   }
   document.addEventListener('click',e=>{
