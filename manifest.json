@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "Nabil Fx",
-  "short_name": "Nabil Fx",
-  "description": "Nabil FX trading workspace and backtesting tools.",
+  "name": "NABIL Fx",
+  "short_name": "NABIL Fx",
+  "description": "NABIL Fx trading workspace and backtesting tools.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
