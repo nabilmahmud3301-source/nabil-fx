@@ -9077,6 +9077,74 @@ window.renderBacktestMetrics=function(r,meta={}){
     'fomo':['https://s3.tradingview.com/news/image/cointelegraph%3A75d72430b094b-a97d8aca76dff728d7ea6c6623a7d050-resized.webp','TradingView chart showing an extended directional move'],
     'confirmation-bias':['https://s3.tradingview.com/snapshots/d/DMqPrY4n.png','TradingView chart for unbiased before-and-after review']
   });
+
+  const verifiedChartPools={
+    structure:[
+      ['https://s3.tradingview.com/snapshots/i/iP8FT3Te.png','GBP/USD H1 historical chart with marked liquidity sweep and structure levels'],
+      ['https://s3.tradingview.com/snapshots/g/Gcr5PrC7.png','EUR/USD historical intraday chart with marked structure shift'],
+      ['https://s3.tradingview.com/snapshots/u/UMqDrbqF.png','EUR/USD historical chart with liquidity and fair value gap annotations']
+    ],
+    smc:[
+      ['https://s3.tradingview.com/snapshots/u/UMqDrbqF.png','EUR/USD historical chart with liquidity and fair value gap annotations'],
+      ['https://s3.tradingview.com/snapshots/i/iP8FT3Te.png','GBP/USD H1 historical chart with marked liquidity sweep and structure levels'],
+      ['https://s3.tradingview.com/snapshots/g/Gcr5PrC7.png','EUR/USD historical intraday chart with marked structure shift']
+    ],
+    patterns:[
+      ['https://s3.tradingview.com/o/O8PyUN5f.png','Gold historical chart showing classic continuation and reversal pattern examples'],
+      ['https://s3.tradingview.com/k/KItovYcu.png','TradingView historical chart and chart-pattern study'],
+      ['https://s3.tradingview.com/5/5sqCLlB3_mid.png','Historical candlestick chart used for pattern study']
+    ],
+    indicators:[
+      ['https://s3.tradingview.com/snapshots/h/HtjpwRiw.png','GBP/USD historical chart with EMA, RSI, MACD and ADX panels'],
+      ['https://s3.tradingview.com/g/glFDj787_big.png','GBP/JPY historical chart with EMA and VWAP overlays'],
+      ['https://s3.tradingview.com/i/IZOSO1xi_big.png','Historical TradingView chart with technical indicator overlays']
+    ],
+    volume:[
+      ['https://s3.tradingview.com/j/JWrZjfWh_mid.png','Nasdaq futures historical chart with volume profile and price levels'],
+      ['https://www.chartguys.com/templates/yootheme/cache/d6/Figure-10-d69ddf9b.png','S&P 500 E-mini historical chart with developing value area'],
+      ['https://s3.tradingview.com/snapshots/n/nYu41CLC.png','CME Bitcoin futures historical chart with session volume profiles']
+    ],
+    orderflow:[
+      ['https://s3.tradingview.com/z/zJaSukAo_big.png','Nasdaq futures footprint chart showing bid-ask volume and absorption'],
+      ['https://s3.tradingview.com/c/CqKUdZWb_big.png','Futures footprint chart showing bid-ask activity and delta'],
+      ['https://substackcdn.com/image/fetch/%24s_%21ytRj%21%2Cf_auto%2Cq_auto%3Agood%2Cfl_progressive%3Asteep/https%3A/substack-post-media.s3.amazonaws.com/public/images/701c3cc1-cfd6-485a-b4b7-d8ec5c16deff_1150x1150.png','E-mini S&P futures footprint chart with bid-ask delta and absorption annotation']
+    ],
+    wyckoff:[
+      ['https://s3.tradingview.com/f/FN3aJb98.png','Bitcoin historical chart annotated with Wyckoff distribution phases'],
+      ['https://s3.tradingview.com/h/hCZbr5pV_mid.webp','Bitcoin historical chart annotated with a Wyckoff spring'],
+      ['https://s3.tradingview.com/x/xPalv3AK_mid.webp','Alphabet historical chart with Wyckoff reaccumulation annotations']
+    ],
+    risk:[
+      ['https://s3.tradingview.com/snapshots/i/iP8FT3Te.png','GBP/USD historical chart for studying entry, invalidation and target placement'],
+      ['https://s3.tradingview.com/snapshots/h/HtjpwRiw.png','GBP/USD historical chart with price and volatility indicator panels'],
+      ['https://s3.tradingview.com/snapshots/g/Gcr5PrC7.png','EUR/USD historical chart for reviewing price movement and execution context']
+    ],
+    macro:[
+      ['https://s3.tradingview.com/snapshots/h/HtjpwRiw.png','GBP/USD historical chart with price and momentum indicators'],
+      ['https://s3.tradingview.com/x/xPalv3AK_mid.webp','Alphabet historical market chart for intermarket context'],
+      ['https://s3.tradingview.com/snapshots/n/nYu41CLC.png','CME futures historical chart with session profile context']
+    ]
+  };
+  const pickChartPool=(topic)=>{
+    const id=topic.id,cat=topic.cat;
+    if(cat==='Wyckoff & Volume'){
+      if(/footprint|delta|order-flow|absorption|exhaustion/.test(id)) return verifiedChartPools.orderflow;
+      if(/profile|poc|volume|vsa|climax|accumulation/.test(id)) return verifiedChartPools.volume;
+      return verifiedChartPools.wyckoff;
+    }
+    if(cat==='Chart Patterns') return verifiedChartPools.patterns;
+    if(cat==='Technical Analysis') return verifiedChartPools.indicators;
+    if(cat==='ICT / SMC'||cat==='ICT Advanced'||cat==='CRT Models') return verifiedChartPools.smc;
+    if(cat==='Risk & Execution'||cat==='Advanced Risk'||cat==='Trading Psychology'||cat==='Strategy Research') return verifiedChartPools.risk;
+    if(cat==='Forex Fundamentals'||cat==='Macro & Intermarket') return verifiedChartPools.macro;
+    if(cat==='Market Mechanics') return /order|execution|broker|feed/.test(id)?verifiedChartPools.orderflow:verifiedChartPools.risk;
+    return verifiedChartPools.structure;
+  };
+  topics.forEach((topic,index)=>{
+    const pool=pickChartPool(topic),asset=pool[index%pool.length];
+    lessonImages[topic.id]=asset;
+  });
+
   function diagram(topic){
     const item=lessonImages[topic.id]||lessonImages['market-structure'];
     return '<img src="'+item[0]+'" alt="'+esc(item[1])+'" loading="lazy" decoding="async" referrerpolicy="no-referrer">';
