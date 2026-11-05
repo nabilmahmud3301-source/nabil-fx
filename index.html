@@ -4947,6 +4947,9 @@ function evaluateStrategyExpression(c,expr,i,cache){
  throw Error('Unsupported strategy expression operator: '+op);
 }
 function conditionAt(c,cond,i,cache,seriesMap=null){
+ // A prior-bar transition check can ask for index -1 on the first candle.
+ // Guard before resolving timeframe data so multi-timeframe rules never read c[-1].
+ if(!cond||typeof cond!=='object'||!Number.isInteger(i)||i<0||i>=c.length)return false;
  const requestedTf=cond?.timeframe;
  if(requestedTf&&seriesMap){
   const target=seriesMap.get(requestedTf);if(!target)throw Error('Historical data missing for required timeframe '+requestedTf+'.');
