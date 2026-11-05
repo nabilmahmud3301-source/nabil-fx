@@ -76,9 +76,9 @@ execution schema:
  "dataMode"?: "candles"|"aggregated_trades"|"databento_trades"
 }
 For Binance crypto only, if the user explicitly requests aggregated trade-event replay, set execution.dataMode="aggregated_trades". For exchange-listed futures only, if the user explicitly requests raw exchange trade-tick replay, set execution.dataMode="databento_trades"; this requires Databento historical entitlement, DATABENTO_API_KEY, a valid dataset (default GLBX.MDP3), and the exact listed expiry contract symbol. Never choose this for OTC spot Forex, spot XAUUSD, cash indices or broker CFDs; explain that a futures proxy is a different instrument. The Binance aggregated_trades mode uses compressed aggregate trades: fills at the same time, price and taker order are combined, so it is not raw individual fills. The Databento databento_trades mode uses the provider exchange trades schema and is distinct from MBO order-by-order messages. Full historical Level-2/Level-3 book, footprint and order-flow strategy execution remain unsupported by the backtest engine; do not claim the separate depth preview executes those strategies. Databento trades records are exchange trade events, not order-by-order MBO messages. For any other market, tick replay is unsupported unless an explicitly connected historical tick provider is available. Event replay supports price-sequence rules, volume-per-event, indicators over event prices and clock/session filters; do not compile candle-body, inside-bar, opening-range, candle-range-expansion or ATR rules for event mode. Use price/percent/event-based stops, not ATR or pip-size assumptions.
-For combinations of price levels, indicator thresholds, arithmetic comparisons or indicator crossovers, use the safe generic expression condition only when it represents the user's exact stated logic. Never approximate. Expression AST: {"type":"expression","expr":node}; node is {"value":number}, {"field":"open"|"high"|"low"|"close"|"volume"}, {"lag":integer,"field":"open"|"high"|"low"|"close"|"volume"}, {"indicator":"ema"|"sma"|"rsi"|"atr"|"highest"|"lowest"|"volume_sma"|"stdev"|"bollinger_upper"|"bollinger_lower"|"stochastic_k","period":integer,"source":"open"|"high"|"low"|"close"|"volume","multiplier"?:positive number}, or {"op":"gt"|"gte"|"lt"|"lte"|"eq"|"neq"|"crosses_above"|"crosses_below"|"and"|"or"|"not"|"add"|"sub"|"mul"|"div"|"abs"|"min"|"max","args":[node,...]}. Binary operators require two args; not requires one; and/or accept 1..12 args. Crosses compare current and previous fully closed bar. Never emit executable code, scripts, eval, or arbitrary functions. AST depth maximum 10.
+For combinations of price levels, indicator thresholds, arithmetic comparisons or indicator crossovers, use the safe generic expression condition only when it represents the user's exact stated logic. Never approximate. Expression AST: {"type":"expression","expr":node}; node is {"value":number}, {"field":"open"|"high"|"low"|"close"|"volume"}, {"lag":integer,"field":"open"|"high"|"low"|"close"|"volume"}, {"indicator":"ema"|"sma"|"rsi"|"atr"|"highest"|"lowest"|"volume_sma"|"stdev"|"bollinger_upper"|"bollinger_lower"|"stochastic_k"|"adx"|"cci"|"williams_r"|"roc"|"obv","period":integer,"source":"open"|"high"|"low"|"close"|"volume","multiplier"?:positive number}, or {"op":"gt"|"gte"|"lt"|"lte"|"eq"|"neq"|"crosses_above"|"crosses_below"|"and"|"or"|"not"|"add"|"sub"|"mul"|"div"|"abs"|"min"|"max","args":[node,...]}. Binary operators require two args; not requires one; and/or accept 1..12 args. Crosses compare current and previous fully closed bar. Never emit executable code, scripts, eval, or arbitrary functions. AST depth maximum 10.
 Any condition may include optional "timeframe":"1m"|"3m"|"5m"|"15m"|"30m"|"1h"|"2h"|"4h"|"1d". When the user explicitly assigns a rule to a timeframe (for example, 1H trend filter and 5M entry), tag each condition with its own timeframe. Evaluate it on the latest fully closed historical candle of that timeframe at each selected execution-candle close. If timeframe assignment is unclear, return supported=false and ask for clarification. The selected chart timeframe remains the execution/entry/exit timeframe. Preserve timeframe tags on nested conditions. Only set supported=true when every required timeframe is available from historical providers. Tick-level data is not candle data.
-Preserve the user's explicitly stated AND/OR/NOT relationships using {"type":"logic","operator":"all"|"any"|"not","conditions":[...]}. If the relationship between conditions is not explicit, set supported=false instead of assuming one. Empty side means disabled. Preserve every logical grouping from the user's original strategy. Parse natural-language descriptions in any language, including translated equivalents of buy/long, sell/short, crosses above/below, greater/less than, stop loss, take profit, R-multiple, candle, and lookback. Never reject a strategy merely because its language is not English. Preserve every essential rule the schema can express; if an essential condition cannot be represented exactly, clearly list it and set supported=false rather than silently dropping it or pretending it was tested. Allowed condition forms:
+For the exact sequence "MSS, then create a new FVG, then retrace into that FVG", compile the FVG-return stage as {"type":"fair_value_gap_return","direction":"bullish"|"bearish","lookback":integer,"linkedToPreviousStage":true}; the simulator will match only the zone created by the immediately preceding FVG stage in this same sequence, not any older unrelated gap. The lookback is the maximum number of execution candles AFTER that exact FVG formation in which the return may occur; preserve the user's stated window, and if the user gives no return window, ask for clarification rather than inventing one. This linked return stage must directly follow the FVG-creation stage. Ordered event sequences are supported with {"type":"sequence","stages":[condition,...],"maxBarsBetweenStages"?:positive integer}. Use this only when the user explicitly describes events that must occur in order (for example: liquidity sweep, THEN market structure shift, THEN fair value gap formation, THEN return to that newly formed fair value gap). Each stage must be a single supported condition and must occur on a strictly later fully closed execution candle than the prior stage. The sequence becomes an entry signal only when its final stage occurs. Do not convert ordered events into an AND list. If the user specifies a maximum number of execution candles allowed between stages, set maxBarsBetweenStages exactly; otherwise omit it (no invented timeout). Sequence stages are evaluated in the selected execution timeframe only. If the user explicitly assigns a sequence stage to a different timeframe, return supported=false and explain that multi-timeframe event sequencing is not yet supported; do not silently remove the timeframe. Do not claim a generic FVG-return stage is linked to a particular earlier FVG unless the engine can identify that exact zone; if the requested strategy requires returning to the exact FVG created after the preceding MSS, represent that dependency explicitly or return supported=false rather than matching an unrelated older FVG. Preserve the user's explicitly stated AND/OR/NOT relationships using {"type":"logic","operator":"all"|"any"|"not","conditions":[...]}. If the relationship between conditions is not explicit, set supported=false instead of assuming one. Empty side means disabled. Preserve every logical grouping from the user's original strategy. Parse natural-language descriptions in any language, including translated equivalents of buy/long, sell/short, crosses above/below, greater/less than, stop loss, take profit, R-multiple, candle, and lookback. Never reject a strategy merely because its language is not English. Preserve every essential rule the schema can express; if an essential condition cannot be represented exactly, clearly list it and set supported=false rather than silently dropping it or pretending it was tested. Allowed condition forms:
 - {"type":"ema_cross","fast":integer,"slow":integer,"direction":"bullish"|"bearish"}
 - {"type":"sma_cross","fast":integer,"slow":integer,"direction":"bullish"|"bearish"}
 - {"type":"close_vs_ema","period":integer,"operator":"above"|"below"}
@@ -95,6 +95,7 @@ Preserve the user's explicitly stated AND/OR/NOT relationships using {"type":"lo
 - {"type":"liquidity_sweep","lookback":integer,"direction":"bullish"|"bearish"} (bullish means sweep below recent lows then close back above; bearish means sweep above recent highs then close back below)
 - {"type":"volume_above_sma","period":integer}
 - {"type":"logic","operator":"all"|"any"|"not","conditions":[condition,...]} (nest conditions to preserve OR/AND/NOT logic; maximum 5 levels)
+- {"type":"sequence","stages":[condition,...],"maxBarsBetweenStages"?:positive integer} (ordered event sequence; each stage must occur on a later fully closed candle; final stage triggers entry)
 - {"type":"session_filter","timezone":"IANA/Zone","startHour":integer,"startMinute":integer,"endHour":integer,"endMinute":integer,"weekdays"?:[0..6]} (all times are local wall-clock time in the named timezone; supports overnight sessions and DST)
 - {"type":"session_opening_range_breakout","timezone":"IANA/Zone","sessionHour":integer,"sessionMinute":integer,"rangeMinutes":integer,"trigger":"wick"|"close","direction":"bullish"|"bearish"} (construct range from all candles inside the local-time range; test later candles for first breakout; handle timezone DST)
 - {"type":"time_range_breakout","timezone":"IANA/Zone","startHour":0..23,"startMinute":0..59,"rangeMinutes":positive integer,"trigger":"wick"|"close","direction":"bullish"|"bearish"} (build that day's high/low from the exact local clock-time window, then signal only on its first breakout; rangeMinutes may describe one candle or a multi-candle opening range)
@@ -120,8 +121,9 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
     // from 3.7 to 3.8 on the Developer API, so it is not an independent fallback.
     const models = ["gemini-3.8-flash", "gemini-3.1-flash-lite", "gemini-2.5-flash", "gemini-2.5-flash-lite"];
     const failures: string[] = [];
+    let semanticFallbackUsed = false;
 
-    for (const model of models) {
+    modelLoop: for (const model of models) {
       // Retry transient capacity/rate-limit/server errors once with bounded
       // exponential backoff. Keep the worst-case request below Supabase's
       // 150-second Free-tier wall-clock ceiling.
@@ -208,12 +210,12 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
           if (tickRequested && !["aggregated_trades","databento_trades"].includes(String(execution?.dataMode))) unsupportedDataReasons.push("Raw tick replay requires an explicitly connected historical trade-tick provider.");
           if (["aggregated_trades","databento_trades"].includes(String(execution?.dataMode)) && (hasUntimedConditionType(allConditions,["session_opening_range_breakout","time_range_breakout","time_range_sweep","session_range_sweep","previous_day_sweep","candle_body_percent","range_expansion","inside_bar","engulfing","fair_value_gap","fair_value_gap_return","market_structure_shift","order_block_return","liquidity_sweep","breakout","consecutive_candles","candle_direction"]) || execution?.stop?.type === "atr")) unsupportedDataReasons.push("This rule requires candle OHLC structure that cannot be faithfully evaluated on individual trade events unless it explicitly names a candle timeframe. Use candle mode or tag each candle condition with its timeframe.");
           if (["aggregated_trades","databento_trades"].includes(String(execution?.dataMode)) && execution?.stop?.unit === "pip") unsupportedDataReasons.push("Pip-based stops are not valid for raw trade-event replay. Specify a price or verified tick/point-size offset.");
-          const validTypes = new Set(["expression","ema_cross","sma_cross","close_vs_ema","close_vs_sma","rsi","macd_cross","breakout","candle_direction","close_vs_open","close_vs_prev_highlow","consecutive_candles","engulfing","inside_bar","liquidity_sweep","volume_above_sma","session_filter","session_opening_range_breakout","time_range_breakout","time_range_sweep","weekday_filter","clock_time_filter","scheduled_entry_time","candle_body_percent","price_change_percent","range_expansion","fair_value_gap","fair_value_gap_return","market_structure_shift","previous_day_sweep","session_range_sweep","order_block_return","gap","logic"]);
+          const validTypes = new Set(["sequence","expression","ema_cross","sma_cross","close_vs_ema","close_vs_sma","rsi","macd_cross","breakout","candle_direction","close_vs_open","close_vs_prev_highlow","consecutive_candles","engulfing","inside_bar","liquidity_sweep","volume_above_sma","session_filter","session_opening_range_breakout","time_range_breakout","time_range_sweep","weekday_filter","clock_time_filter","scheduled_entry_time","candle_body_percent","price_change_percent","range_expansion","fair_value_gap","fair_value_gap_return","market_structure_shift","previous_day_sweep","session_range_sweep","order_block_return","gap","logic"]);
           const validExpression = (node:any,depth=0):boolean => {
             if(!node||typeof node!=="object"||depth>10)return false;
             if(Object.prototype.hasOwnProperty.call(node,"value"))return Number.isFinite(Number(node.value))&&Object.keys(node).length===1;
             if(node.field!==undefined)return ["open","high","low","close","volume"].includes(String(node.field))&&(Object.keys(node).length===1||(Number.isInteger(node.lag)&&node.lag>=1&&node.lag<=500));
-            if(node.indicator!==undefined)return ["ema","sma","rsi","atr","highest","lowest","volume_sma","stdev","bollinger_upper","bollinger_lower","stochastic_k"].includes(String(node.indicator))&&Number.isInteger(node.period)&&node.period>=2&&node.period<=500&&["open","high","low","close","volume"].includes(String(node.source||"close"))&&(node.multiplier===undefined||(Number.isFinite(Number(node.multiplier))&&Number(node.multiplier)>0&&Number(node.multiplier)<=10));
+            if(node.indicator!==undefined)return ["ema","sma","rsi","atr","highest","lowest","volume_sma","stdev","bollinger_upper","bollinger_lower","stochastic_k","adx","cci","williams_r","roc","obv"].includes(String(node.indicator))&&Number.isInteger(node.period)&&node.period>=2&&node.period<=500&&["open","high","low","close","volume"].includes(String(node.source||"close"))&&(node.multiplier===undefined||(Number.isFinite(Number(node.multiplier))&&Number(node.multiplier)>0&&Number(node.multiplier)<=10));
             const op=String(node.op||"").toLowerCase(),args=node.args;
             if(!Array.isArray(args))return false;
             if(["and","or"].includes(op))return args.length>=1&&args.length<=12&&args.every((x:any)=>validExpression(x,depth+1));
@@ -225,6 +227,18 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
           const validCondition = (c: any, depth = 0): boolean => {
             if (!c || typeof c !== "object" || depth > 5 || !validTypes.has(c.type)) return false;
             if (c.timeframe !== undefined && !["1m","3m","5m","15m","30m","1h","2h","4h","1d"].includes(String(c.timeframe))) return false;
+            if (c.type === "sequence") {
+              if (depth !== 0 || !Array.isArray(c.stages) || c.stages.length < 2 || c.stages.length > 8) return false;
+              if (c.maxBarsBetweenStages !== undefined && (!Number.isInteger(c.maxBarsBetweenStages) || c.maxBarsBetweenStages < 1 || c.maxBarsBetweenStages > 5000)) return false;
+              if (c.stages.some((stage:any) => !stage || stage.type === "sequence" || !!stage.timeframe || !validCondition(stage, depth + 1))) return false;
+              return c.stages.every((stage:any,index:number) => {
+                if (stage.type === "fair_value_gap_return" && stage.linkedToPreviousStage === true) {
+                  const previous=c.stages[index-1];
+                  return !!previous && previous.type === "fair_value_gap" && previous.direction === stage.direction;
+                }
+                return stage.linkedToPreviousStage !== true;
+              });
+            }
             if (c.type === "expression") return validExpression(c.expr);
             if (c.type === "logic") return ["all","any","not"].includes(String(c.operator || "all").toLowerCase()) && Array.isArray(c.conditions) && c.conditions.length > 0 && c.conditions.length <= 12 && c.conditions.every((x: any) => validCondition(x, depth + 1));
             if (c.type === "session_range_sweep") return ["bullish","bearish"].includes(c.direction) && typeof c.timezone === "string" && [c.startHour,c.endHour].every((n:any)=>Number.isInteger(Number(n))&&Number(n)>=0&&Number(n)<=23) && [c.startMinute??0,c.endMinute??0].every((n:any)=>Number.isInteger(Number(n))&&Number(n)>=0&&Number(n)<=59);
@@ -253,6 +267,7 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
             return c.type === "inside_bar" || c.type === "macd_cross";
           };
           const validConditions = (items: any[]) => Array.isArray(items) && items.length <= 12 && items.every((c: any) => validCondition(c));
+          const containsSequence = (items:any[]):boolean => Array.isArray(items) && items.some((c:any)=>c?.type==="sequence" || (c?.type==="logic" && containsSequence(c.conditions)));
           const dataModeValid = execution?.dataMode === undefined || ["candles","aggregated_trades","databento_trades"].includes(String(execution.dataMode));
           const stop = execution?.stop;
           const stopOffsetUnit = String(stop?.unit || "price");
@@ -269,8 +284,8 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
           const executionValid = !!execution && dataModeValid &&
             validConditions(execution.longConditions) &&
             validConditions(execution.shortConditions) &&
-            (execution.exitLongConditions === undefined || validConditions(execution.exitLongConditions)) &&
-            (execution.exitShortConditions === undefined || validConditions(execution.exitShortConditions)) &&
+            (execution.exitLongConditions === undefined || (validConditions(execution.exitLongConditions) && !containsSequence(execution.exitLongConditions))) &&
+            (execution.exitShortConditions === undefined || (validConditions(execution.exitShortConditions) && !containsSequence(execution.exitShortConditions))) &&
             (execution.longConditions.length > 0 || execution.shortConditions.length > 0) &&
             ["next_open","signal_close"].includes(execution.entry) &&
             stopValid &&
@@ -278,8 +293,32 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
               (execution.targetR === null &&
                 (execution.longConditions.length === 0 || (Array.isArray(execution.exitLongConditions) && execution.exitLongConditions.length > 0)) &&
                 (execution.shortConditions.length === 0 || (Array.isArray(execution.exitShortConditions) && execution.exitShortConditions.length > 0))));
+          const exactCompileValid = parsed.supported === true &&
+            executionValid &&
+            unsupportedDataReasons.length === 0 &&
+            !(Array.isArray(parsed.unsupportedReasons) && parsed.unsupportedReasons.length > 0) &&
+            !(Array.isArray(parsed.assumptions) && parsed.assumptions.length > 0) &&
+            !(Array.isArray(parsed.missing) && parsed.missing.length > 0);
+          if (!exactCompileValid) {
+            const diagnostics = [
+              String(parsed.explanation || ""),
+              ...(Array.isArray(parsed.missing) ? parsed.missing.map((x: unknown) => "Missing: " + String(x)) : []),
+              ...(Array.isArray(parsed.assumptions) ? parsed.assumptions.map((x: unknown) => "Assumption: " + String(x)) : []),
+              ...(Array.isArray(parsed.unsupportedReasons) ? parsed.unsupportedReasons.map((x: unknown) => String(x)) : []),
+              ...unsupportedDataReasons,
+              !executionValid ? "The returned entry, stop-loss, take-profit or condition structure failed execution validation." : "",
+            ].filter(Boolean).join(" ").slice(0, 900);
+            failures.push(model + ": exact compilation rejected. " + (diagnostics || "The model did not return a complete executable rule set."));
+            // A semantic rejection from one model is not final: ask one independent
+            // model to compile the same original strategy. Never substitute a template
+            // or silently alter the user's requested rules.
+            if (semanticFallbackUsed) break modelLoop;
+            semanticFallbackUsed = true;
+            break;
+          }
+
           const safe = {
-            supported: parsed.supported === true && executionValid && unsupportedDataReasons.length === 0 && !(Array.isArray(parsed.unsupportedReasons) && parsed.unsupportedReasons.length > 0),
+            supported: true,
             long: parsed.long === true,
             short: parsed.short === true,
             rewardRisk: Number.isFinite(Number(parsed.rewardRisk)) && Number(parsed.rewardRisk) > 0 ? Number(parsed.rewardRisk) : null,
