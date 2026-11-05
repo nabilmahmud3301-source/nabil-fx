@@ -8970,17 +8970,10 @@ window.renderBacktestMetrics=function(r,meta={}){
     if(!id||!title||seenTopicIds.has(id)||seenTopicTitles.has(title)){topics.splice(i,1);continue;}
     seenTopicIds.add(id);seenTopicTitles.add(title);
   }
-  const learnImageSources={
-    'market-structure':{url:'https://cdn.prod.website-files.com/672a899237f5df0bf0c92eeb/6a268036ee217a99c9f848fd_market-structure-diagram-trading-analysis.jpeg',source:'WalletFinder · Market structure diagram',credit:'https://www.walletfinder.ai/blog/market-structure-diagram'},
-    'bos':{url:'https://www.brokerxplorer.com/upload/content/2024-09/forex-education-what-is-the-ict-concept-6184-17277737835.jpg',source:'BrokerXplorer · ICT chart example',credit:'https://www.brokerxplorer.com/article/forex-education-what-is-the-ict-concept-6184'},
-    'fvg':{url:'https://miro.medium.com/v2/resize%3Afit%3A1400/0%2AFEZXrNQaea0tmATw',source:'FXM Brand · ICT concepts chart',credit:'https://medium.com/@fxmbrand/ict-smart-money-concepts-finally-explained-like-youre-5-for-gold-trading-the-ultimate-2026-6517ea11c7c7'},
-    'liquidity-sweep':{url:'https://thetradingstreet.com/uploads/blog/liquidity-in-trading-how-internal-external-liquidity-move-price/image_85405e2a-0de3-4879-a5dd-623819dd7c9c.png',source:'TheTradingStreet · Liquidity framework',credit:'https://thetradingstreet.com/blog/liquidity-in-trading-how-internal-external-liquidity-move-price'},
-    'ote':{url:'https://official-cms-images.s3.us-east-2.amazonaws.com/static/images/marketNews/20260317/smc-concetps-fibonacci.jpeg',source:'ACY · Fibonacci and SMC chart',credit:'https://acy.com/es/market-news/education/fibonacci-extensiones-d-l-100326/'},
-    'premium-discount':{url:'https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F1de22b3bfde5a353bfea3a2e6a51153586a1578a-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840',source:'FXNX · Smart Money Concepts chart',credit:'https://fxnx.com/en/blog/smart-money-concepts-your-beginner-s-guide'}
-  };
+  // Every Learn Trading topic now uses its own generated educational chart illustration.
+  // External/shared stock-image overrides are intentionally removed.
+
   function diagram(topic){
-    const selectedImage=learnImageSources[topic.id];
-    if(selectedImage)return '<img class="nfx-learn-topic-image" src="'+selectedImage.url+'" alt="'+esc(topic.title)+' chart illustration" loading="lazy" decoding="async" referrerpolicy="no-referrer"><a class="nfx-learn-image-credit" href="'+selectedImage.credit+'" target="_blank" rel="noopener noreferrer">'+esc(selectedImage.source)+'</a>';
     const seed=Array.from(String(topic.id||topic.title)).reduce((n,c)=>((n*31)+c.charCodeAt(0))>>>0,17);
     const rnd=i=>{const x=Math.sin((seed+i*97.13)*.0174533)*43758.5453;return x-Math.floor(x);};
     const id=(topic.id+' '+topic.title).toLowerCase(),cat=topic.cat||'TRADING EDUCATION';
