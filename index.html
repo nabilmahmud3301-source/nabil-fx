@@ -1741,6 +1741,68 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
  #page-liquidity .nml-panel.nml-expanded>.nml-legend{font-size:6px!important}
 }
 </style>
+
+<style id="nfx-market-lab-premium-fullscreen-v2">
+/* Premium, unclipped fullscreen workspace for Market Depth panels */
+body.nml-panel-overlay-open{overflow:hidden!important}
+body>.nml-panel.nml-expanded{
+  inset:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;
+  max-height:100vh!important;max-height:100dvh!important;padding:clamp(16px,2vw,30px)!important;
+  gap:clamp(10px,1.2vw,16px)!important;border:0!important;border-radius:0!important;
+  background:radial-gradient(ellipse at 50% -20%,rgba(46,65,88,.28),transparent 55%),#080d14!important;
+  box-shadow:none!important;overflow:auto!important;
+}
+body>.nml-panel.nml-expanded>.nml-panel-head{
+  flex:0 0 auto!important;display:flex!important;align-items:center!important;justify-content:space-between!important;
+  flex-wrap:nowrap!important;gap:clamp(14px,2vw,28px)!important;min-width:0!important;
+  padding:0 0 16px!important;margin:0!important;border-bottom:1px solid #263342!important;background:transparent!important;
+}
+body>.nml-panel.nml-expanded>.nml-panel-head>div:first-child{flex:1 1 auto!important;min-width:0!important}
+body>.nml-panel.nml-expanded .nml-eyebrow{font-size:9px!important;letter-spacing:.16em!important;color:#9baec3!important}
+body>.nml-panel.nml-expanded .nml-panel-head h2{display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:10px!important;margin:7px 0 5px!important;font-size:clamp(21px,2vw,30px)!important;line-height:1.15!important;letter-spacing:-.035em!important;color:#f3f6fa!important}
+body>.nml-panel.nml-expanded .nml-panel-head p{display:block!important;margin:0!important;font-size:clamp(10px,.85vw,12px)!important;line-height:1.45!important;color:#91a1b4!important}
+body>.nml-panel.nml-expanded .nml-market-tag{font-size:9px!important;padding:5px 9px!important}
+body>.nml-panel.nml-expanded .nml-expand{position:static!important;flex:0 0 auto!important;align-self:center!important;padding:9px 14px!important;border:1px solid #53657b!important;border-radius:7px!important;background:#172333!important;color:#edf3fa!important;font-size:9px!important;letter-spacing:.1em!important}
+body>.nml-panel.nml-expanded .nml-expand:hover{border-color:#e34b5c!important;background:#2b1720!important}
+body>.nml-panel.nml-expanded>.nml-panel-head>.nml-range{flex:0 1 auto!important;display:flex!important;align-items:center!important;justify-content:flex-end!important;flex-wrap:wrap!important;gap:6px!important;max-width:none!important;min-width:0!important}
+body>.nml-panel.nml-expanded .nml-range button{min-width:44px!important;padding:8px 11px!important;font-size:9px!important;font-weight:800!important;letter-spacing:.04em!important;border:1px solid #2b3949!important;border-radius:6px!important;background:#101925!important;color:#b9c6d5!important}
+body>.nml-panel.nml-expanded .nml-range button.active{background:rgba(194,55,76,.16)!important;border-color:#bd4358!important;color:#fff!important;box-shadow:inset 0 0 0 1px rgba(189,67,88,.12)!important}
+body>.nml-panel.nml-expanded>.nml-stats{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:10px!important;flex:0 0 auto!important;margin:0!important}
+body>.nml-panel.nml-expanded .nml-stats>div{min-width:0!important;padding:12px 14px!important;border:1px solid #293848!important;border-radius:9px!important;background:linear-gradient(145deg,#121d29,#0b121b)!important}
+body>.nml-panel.nml-expanded .nml-stats span{font-size:8px!important;letter-spacing:.1em!important;line-height:1.3!important;color:#8fa1b6!important}
+body>.nml-panel.nml-expanded .nml-stats b{display:block!important;margin-top:7px!important;font-size:clamp(13px,1.2vw,18px)!important;line-height:1.2!important;color:#e9f0f7!important;overflow-wrap:anywhere!important}
+body>.nml-panel.nml-expanded>.nml-feed-state{flex:0 0 auto!important;display:block!important;margin:0!important;font-size:9px!important;line-height:1.4!important}
+body>.nml-panel.nml-expanded>.nml-legend{display:flex!important;flex:0 0 auto!important;align-items:center!important;flex-wrap:wrap!important;gap:12px 22px!important;margin:0!important;font-size:9px!important;line-height:1.4!important;color:#b4c0cf!important}
+body>.nml-panel.nml-expanded>.nml-book-grid{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(150px,190px) minmax(0,1fr)!important;gap:12px!important;flex:1 1 auto!important;min-height:320px!important}
+body>.nml-panel.nml-expanded .nml-book-side{min-width:0!important;min-height:0!important;overflow:auto!important;padding:14px!important;border:1px solid #293848!important;border-radius:10px!important;background:#0b131d!important}
+body>.nml-panel.nml-expanded .nml-book-title{font-size:10px!important;margin-bottom:10px!important}
+body>.nml-panel.nml-expanded .nml-book-cols{font-size:8px!important;padding-bottom:8px!important}
+body>.nml-panel.nml-expanded .nml-level-list{gap:4px!important}
+body>.nml-panel.nml-expanded .nml-level{padding:6px 5px!important;font-size:clamp(8px,.7vw,10px)!important;line-height:1.3!important}
+body>.nml-panel.nml-expanded .nml-mid{gap:12px!important;padding:12px!important}
+body>.nml-panel.nml-expanded .nml-mid>b{font-size:clamp(16px,1.6vw,24px)!important}
+body>.nml-panel.nml-expanded>.nml-chart{position:relative!important;display:block!important;flex:1 1 auto!important;min-height:280px!important;height:auto!important;width:100%!important;margin:0!important;overflow:hidden!important;border:1px solid #293848!important;border-radius:10px!important;background:#060a10!important}
+body>.nml-panel.nml-expanded>.nml-chart canvas{display:block!important;width:100%!important;height:100%!important;min-height:0!important}
+body>.nml-panel.nml-expanded>.nml-chart-axis{display:flex!important;flex:0 0 auto!important;justify-content:space-between!important;margin:0!important;font-size:9px!important}
+body>.nml-panel.nml-expanded>.nml-footnote{display:block!important;flex:0 0 auto!important;margin:0!important;padding-top:8px!important;border-top:1px solid #202d3a!important;font-size:9px!important;line-height:1.45!important;color:#8191a4!important}
+body>.nml-panel.nml-expanded .nml-depth-select{display:flex!important;align-items:flex-end!important;flex-direction:column!important;gap:5px!important;flex:0 0 auto!important}
+body>.nml-panel.nml-expanded .nml-depth-select label{font-size:8px!important;color:#91a0b2!important}
+body>.nml-panel.nml-expanded .nml-depth-select select{font-size:10px!important;padding:8px 10px!important;background:#101925!important;border:1px solid #35475a!important;color:#eef3f9!important;border-radius:6px!important}
+body>.nml-panel.nml-expanded .nml-chart-axis span{color:#8494a7!important}
+body>.nml-panel.nml-expanded .nml-chart-empty{font-size:11px!important;padding:18px!important;color:#91a1b4!important}
+@media(max-width:760px){
+ body>.nml-panel.nml-expanded{padding:12px!important;gap:10px!important;overflow:auto!important}
+ body>.nml-panel.nml-expanded>.nml-panel-head{align-items:flex-start!important;flex-wrap:wrap!important}
+ body>.nml-panel.nml-expanded>.nml-panel-head>div:first-child{flex-basis:100%!important}
+ body>.nml-panel.nml-expanded>.nml-panel-head>.nml-range{justify-content:flex-start!important;max-width:100%!important}
+ body>.nml-panel.nml-expanded .nml-panel-head p{max-width:none!important}
+ body>.nml-panel.nml-expanded>.nml-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ body>.nml-panel.nml-expanded>.nml-book-grid{grid-template-columns:minmax(0,1fr)!important;min-height:0!important}
+ body>.nml-panel.nml-expanded .nml-book-side{max-height:340px!important}
+ body>.nml-panel.nml-expanded .nml-mid{min-height:110px!important}
+ body>.nml-panel.nml-expanded>.nml-chart{min-height:48vh!important;flex:0 0 48vh!important}
+}
+</style>
 </head>
 <body>
 <div id="nfx-page-loader" role="status" aria-live="polite" aria-label="Loading Nabil FX workspace">
