@@ -8719,6 +8719,26 @@ window.renderBacktestMetrics=function(r,meta={}){
 #page-backtest.nfxbt-page .nfxbt-hero h1 em{color:#e34b5c!important}
 #page-backtest.nfxbt-page .nfxbt-tags b{border-color:#e34b5c45!important;background:#e34b5c0d!important}
 #page-backtest.nfxbt-page .nfxbt-mark{border-color:#e34b5c66!important;background:linear-gradient(145deg,#26151c,#101720)!important}
+/* Keep the compact NFx wordmarks joined on one horizontal baseline. */
+#page-chart #nabilReplayPointLab .nfx-toolbar-brand{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:0!important;
+  padding-top:0!important;
+  letter-spacing:0!important;
+  white-space:nowrap!important;
+  line-height:1!important;
+}
+#page-backtest.nfxbt-page .nfxbt-mark{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:0!important;
+  letter-spacing:0!important;
+  white-space:nowrap!important;
+  line-height:1!important;
+}
 </style>
 
 <script id="nfx-learn-trading-library">
