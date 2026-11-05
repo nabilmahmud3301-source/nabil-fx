@@ -4574,24 +4574,14 @@ async function analyzeStrategyWithAI(){
     }
     if(data?.error)throw Error(data.error);
     if(!data||typeof data.supported!=='boolean')throw Error('AI returned an invalid response. Please retry.');
-    if(!data.supported){
-      try{
-        const local=compileStrategyLocally($('rules').value);
-        local.providerNotice='Gemini could not compile this strategy; the offline compiler matched it instead.';
-        return local;
-      }catch(localError){return data;}
-    }
+    // A valid unsupported response is authoritative. Never replace the user's
+    // strategy with a loosely matched local template: that could test different rules.
+    if(!data.supported)return data;
     return data;
   }catch(providerError){
-    // Preserve the limited offline templates as an emergency fallback, but never
-    // report a custom strategy as unsupported merely because Gemini is down.
-    try{
-      const local=compileStrategyLocally($('rules').value);
-      local.providerNotice='Gemini is temporarily unavailable; this strategy matched a deterministic offline template.';
-      return local;
-    }catch(localError){
-      throw Error('Gemini AI is temporarily unavailable. The offline fallback only handles a limited set of predefined patterns, so this custom strategy was not compiled and no backtest was run. Provider detail: '+String(providerError?.message||providerError));
-    }
+    // Do not silently substitute a template when the AI provider is unavailable.
+    // A backtest must only run from a compiler result for this exact strategy.
+    throw Error('Strategy AI is temporarily unavailable, so the exact rules could not be compiled. No backtest was run. Provider detail: '+String(providerError?.message||providerError));
   }
 }
 
@@ -4898,6 +4888,36 @@ function evaluateStrategyExpression(c,expr,i,cache){
    else if(expr.indicator==='stochastic_k'){
     values=new Array(c.length).fill(null);
     for(let j=period-1;j<c.length;j++){const win=c.slice(j-period+1,j+1),lo=Math.min(...win.map(z=>z.l)),hi=Math.max(...win.map(z=>z.h));values[j]=hi===lo?50:(c[j].c-lo)/(hi-lo)*100;}
+   }
+   else if(expr.indicator==='adx'){
+    values=new Array(c.length).fill(null);
+    const tr=new Array(c.length).fill(0),plus=new Array(c.length).fill(0),minus=new Array(c.length).fill(0);
+    for(let j=1;j<c.length;j++){const up=c[j].h-c[j-1].h,down=c[j-1].l-c[j].l;tr[j]=Math.max(c[j].h-c[j].l,Math.abs(c[j].h-c[j-1].c),Math.abs(c[j].l-c[j-1].c));plus[j]=up>down&&up>0?up:0;minus[j]=down>up&&down>0?down:0;}
+    let st=0,sp=0,sm=0;for(let j=1;j<=period&&j<c.length;j++){st+=tr[j];sp+=plus[j];sm+=minus[j];}
+    let seed=[];
+    for(let j=period;j<c.length;j++){
+     if(j>period){st=st-st/period+tr[j];sp=sp-sp/period+plus[j];sm=sm-sm/period+minus[j];}
+     const pdi=st?100*sp/st:0,mdi=st?100*sm/st:0,dx=pdi+mdi?100*Math.abs(pdi-mdi)/(pdi+mdi):0;
+     if(j<period*2-1)seed.push(dx);
+     else if(j===period*2-1){seed.push(dx);values[j]=seed.reduce((a,b)=>a+b,0)/seed.length;}
+     else values[j]=(values[j-1]*(period-1)+dx)/period;
+    }
+   }
+   else if(expr.indicator==='cci'){
+    values=new Array(c.length).fill(null);const tp=c.map(z=>(z.h+z.l+z.c)/3);
+    for(let j=period-1;j<c.length;j++){const win=tp.slice(j-period+1,j+1),mean=win.reduce((a,b)=>a+b,0)/period,dev=win.reduce((a,b)=>a+Math.abs(b-mean),0)/period;values[j]=dev?(tp[j]-mean)/(.015*dev):0;}
+   }
+   else if(expr.indicator==='williams_r'){
+    values=new Array(c.length).fill(null);
+    for(let j=period-1;j<c.length;j++){const win=c.slice(j-period+1,j+1),hi=Math.max(...win.map(z=>z.h)),lo=Math.min(...win.map(z=>z.l));values[j]=hi===lo?-50:-100*(hi-c[j].c)/(hi-lo);}
+   }
+   else if(expr.indicator==='roc'){
+    values=new Array(c.length).fill(null);
+    for(let j=period;j<c.length;j++){const base=c[j-period].c;values[j]=base?((c[j].c-base)/base)*100:NaN;}
+   }
+   else if(expr.indicator==='obv'){
+    values=new Array(c.length).fill(null);
+    for(let j=0;j<c.length;j++)values[j]=j===0?Number(c[j].v)||0:values[j-1]+(c[j].c>c[j-1].c?1:c[j].c<c[j-1].c?-1:0)*(Number(c[j].v)||0);
    }
    else if(expr.indicator==='highest'||expr.indicator==='lowest'){
     values=new Array(c.length).fill(null);
