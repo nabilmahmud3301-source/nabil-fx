@@ -5166,19 +5166,49 @@ function emaRawSeries(values,p){
  const a=new Array(values.length).fill(null);let seed=[],prev=null;const alpha=2/(p+1);
  for(let i=0;i<values.length;i++){if(values[i]==null){seed=[];prev=null;continue;}if(prev==null){seed.push(values[i]);if(seed.length===p){prev=seed.reduce((x,y)=>x+y,0)/p;a[i]=prev;}}else{prev=values[i]*alpha+prev*(1-alpha);a[i]=prev;}}return a;
 }
+function sequenceSignalSeries(c,sequence,cache,seriesMap){
+ const stages=Array.isArray(sequence?.stages)?sequence.stages:[];
+ if(stages.length<2)throw Error('An ordered strategy sequence must contain at least two stages.');
+ if(stages.some(stage=>!stage||stage.type==='sequence'))throw Error('Nested strategy sequences are not supported; keep sequence stages as individual conditions.');
+ const maxGap=Number.isFinite(Number(sequence.maxBarsBetweenStages))&&Number(sequence.maxBarsBetweenStages)>0?Math.floor(Number(sequence.maxBarsBetweenStages)):null;
+ const signals=new Array(c.length).fill(false);
+ let stageIndex=0,lastStageIndex=-1;
+ for(let i=0;i<c.length;i++){
+  if(stageIndex>0&&maxGap!==null&&i-lastStageIndex>maxGap){stageIndex=0;lastStageIndex=-1;}
+  if(stageIndex===0){
+   if(conditionAt(c,stages[0],i,cache,seriesMap)){
+    if(stages.length===1)signals[i]=true;
+    else{stageIndex=1;lastStageIndex=i;}
+   }
+   continue;
+  }
+  if(conditionAt(c,stages[stageIndex],i,cache,seriesMap)){
+   lastStageIndex=i;stageIndex++;
+   if(stageIndex===stages.length){signals[i]=true;stageIndex=0;lastStageIndex=-1;}
+  }
+ }
+ return signals;
+}
 function backtestCustom(c,r,seriesMap=null){
  const ex=r.execution;if(!ex)throw Error('AI did not return executable rules. Please make entry, stop-loss and take-profit explicit.');
  const bal=+$('balance').value,risk=+$('risk').value/100,cost=Math.max(0,Math.min(1,+$('costR').value||0));
  if(!(bal>0&&risk>0&&risk<=.10))throw Error('Balance must be positive and risk must be between 0.01% and 10%.');
  const longC=ex.longConditions||[],shortC=ex.shortConditions||[];
+ const sequenceCache=new WeakMap();
+ const conditionSignal=(condition,index)=>{
+  if(condition?.type!=='sequence')return conditionAt(c,condition,index,cache,seriesMap);
+  let signals=sequenceCache.get(condition);
+  if(!signals){signals=sequenceSignalSeries(c,condition,cache,seriesMap);sequenceCache.set(condition,signals);}
+  return !!signals[index];
+ };
  const allConditions=longC.concat(shortC);
  const hasSessionRule=allConditions.some(q=>q.type==='session_opening_range_breakout');
  if(hasSessionRule&&allConditions.some(q=>q.type==='session_opening_range_breakout'&&q.rangeMinutes===5)&&$('interval').value!=='5m')throw Error('This opening range is defined as five minutes; choose the 5m timeframe or specify a range compatible with the selected timeframe.');
  const cache=new Map(),atr=atrValues(c,14);
  let eq=bal,peak=bal,dd=0;
  const ts=[],curve=[bal],active=[];
- const isLong=(i)=>longC.length>0&&longC.every(q=>conditionAt(c,q,i,cache,seriesMap));
- const isShort=(i)=>shortC.length>0&&shortC.every(q=>conditionAt(c,q,i,cache,seriesMap));
+ const isLong=(i)=>longC.length>0&&longC.every(q=>conditionSignal(q,i));
+ const isShort=(i)=>shortC.length>0&&shortC.every(q=>conditionSignal(q,i));
  const closePosition=(pos,bar,exit,reason)=>{
   const grossR=pos.side==='LONG'?(exit-pos.en)/pos.dist:(pos.en-exit)/pos.dist;
   const netR=grossR-cost,pnl=pos.riskAmount*netR;
