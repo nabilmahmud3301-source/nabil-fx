@@ -3922,15 +3922,23 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 #page-learn .nfx-learn-detail ul{padding-left:19px}
 #page-learn .nfx-learn-detail .nfx-learn-kicker{color:#e56a78;font-size:9px;font-weight:900;letter-spacing:.14em}
 #page-learn .nfx-learn-direction-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0 18px}
-#page-learn .nfx-learn-direction-card{min-width:0;padding:12px;border:1px solid #344151;border-radius:11px;background:#0b1119}
-#page-learn .nfx-learn-direction-card h4{margin:0 0 9px;font-size:11px;letter-spacing:.12em;color:#6ac79a}
-#page-learn .nfx-learn-direction-card:nth-child(2) h4{color:#ed7b86}
-#page-learn .nfx-learn-direction-card img{display:block;width:100%;height:auto;max-height:300px;object-fit:contain;background:#fff;border-radius:6px}
-#page-learn .nfx-learn-direction-card strong{display:block;margin-top:10px;color:#e7edf5;font-size:12px}
-#page-learn .nfx-learn-direction-card p{margin:6px 0 0;color:#aab5c3;font-size:11px;line-height:1.7}
+#page-learn .nfx-learn-direction-card{min-width:0;padding:14px;border:1px solid #354253;border-radius:13px;background:linear-gradient(150deg,#121b27 0%,#090e15 72%);box-shadow:0 12px 28px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.035);overflow:hidden}
+#page-learn .nfx-learn-direction-card h4{display:flex;align-items:center;gap:8px;margin:0 0 11px;font-size:10px;letter-spacing:.15em;color:#6ed5a7}
+#page-learn .nfx-learn-direction-card h4:before{content:"";width:7px;height:7px;border-radius:50%;background:#43c58a;box-shadow:0 0 10px #43c58a66}
+#page-learn .nfx-learn-direction-card:nth-child(2) h4{color:#f18a94}
+#page-learn .nfx-learn-direction-card:nth-child(2) h4:before{background:#ed6673;box-shadow:0 0 10px #ed667366}
+#page-learn .nfx-learn-chart-frame{position:relative;padding:8px;border:1px solid #283545;border-radius:9px;background:linear-gradient(145deg,#05080d,#0d1520);box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+#page-learn .nfx-learn-chart-topbar{display:flex;justify-content:space-between;gap:8px;padding:2px 2px 8px;color:#8494a7;font:700 8px/1.2 system-ui,Arial,sans-serif;letter-spacing:.09em;text-transform:uppercase}
+#page-learn .nfx-learn-chart-topbar span:last-child{color:#64768a}
+#page-learn .nfx-learn-direction-card img{display:block;width:100%;height:260px;object-fit:contain;object-position:center;background:#070b11;border:1px solid #1e2937;border-radius:5px;filter:contrast(1.035) saturate(1.06)}
+#page-learn .nfx-learn-direction-card strong{display:block;margin-top:12px;color:#edf2f8;font-size:12px;letter-spacing:.01em}
+#page-learn .nfx-learn-direction-card p{margin:6px 0 0;color:#aab7c6;font-size:11px;line-height:1.75}
 #page-learn .nfx-learn-image-source{margin:0 0 16px;color:#8190a1;font-size:10px}
-#page-learn .nfx-learn-image-source a{color:#e1a4ad;text-decoration:underline}
-@media(max-width:620px){#page-learn .nfx-learn-direction-grid{grid-template-columns:1fr}}
+#page-learn .nfx-learn-image-source a{color:#d5a0a8;text-decoration:underline;text-underline-offset:3px}
+#page-learn .nfx-learn-search:focus-within{border-color:#536174!important;outline:0!important;box-shadow:none!important}
+#page-learn #nfxLearnSearch,#page-learn #nfxLearnSearch:focus,#page-learn #nfxLearnSearch:focus-visible{outline:0!important;outline-offset:0!important;border:0!important;box-shadow:none!important;-webkit-appearance:none;appearance:none}
+#page-learn .nfx-learn-search input:focus{outline:0!important;box-shadow:none!important}
+@media(max-width:620px){#page-learn .nfx-learn-direction-grid{grid-template-columns:1fr}#page-learn .nfx-learn-direction-card img{height:230px}}
 #page-learn .nfx-learn-visual{margin:15px 0 18px;overflow:hidden;border:1px solid #344151;border-radius:11px;background:#080d13}
 #page-learn .nfx-learn-visual img{display:block;width:100%;height:auto;max-height:440px;object-fit:contain;background:#080d13}
 #page-learn .nfx-learn-visual figcaption{padding:8px 11px;border-top:1px solid #293341;color:#8190a1;font-size:9px}
@@ -8814,7 +8822,7 @@ window.renderBacktestMetrics=function(r,meta={}){
   };
   function directionalLesson(topic){
     const d=directionalExamples[topic.id]||directionalExamples['market-structure'];
-    const card=(side,file,title,copy)=>'<article class="nfx-learn-direction-card"><h4>'+side+'</h4><img src="https://slowsteadytrading.com/charts/'+file+'" alt="'+esc(title)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer"><strong>'+esc(title)+'</strong><p>'+esc(copy)+'</p></article>';
+    const card=(side,file,title,copy)=>'<article class="nfx-learn-direction-card"><h4>'+side+'</h4><div class="nfx-learn-chart-frame"><div class="nfx-learn-chart-topbar"><span>TradingView · ETHUSDT.P</span><span>1H · Chart Study</span></div><img src="https://slowsteadytrading.com/charts/'+file+'" alt="'+esc(title)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div><strong>'+esc(title)+'</strong><p>'+esc(copy)+'</p></article>';
     return '<h3>01 · Bullish &amp; bearish examples</h3><p>Study both directions before deciding whether a setup is valid. These are reference chart screenshots, not live market data.</p><div class="nfx-learn-direction-grid">'+card('BULLISH',d[0],d[2],d[4])+card('BEARISH',d[1],d[3],d[5])+'</div><p class="nfx-learn-image-source">Reference chart images: <a href="https://slowsteadytrading.com/" target="_blank" rel="noopener noreferrer">Slow Steady Trading · TradingView chart examples</a>.</p>';
   }
   function diagram(topic){
