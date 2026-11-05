@@ -8630,7 +8630,7 @@ window.renderBacktestMetrics=function(r,meta={}){
    const empty=document.getElementById('nfxLiqLiquidationEmpty');if(empty)empty.hidden=true;
  }
  document.querySelectorAll('[data-est-liq-range]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-est-liq-range]').forEach(x=>x.classList.toggle('active',x===b));range=ranges[b.dataset.estLiqRange]||3600000;render();}));
- document.addEventListener('visibilitychange',()=>{if(!document.hidden&&(!ws||ws.readyState>1))connect();});
+ let lastSymbol=symbol();const marketLabelNode=document.getElementById('nfxMarketCurrent');if(marketLabelNode)new MutationObserver(()=>{const next=symbol();if(next!==lastSymbol){lastSymbol=next;try{if(ws){ws.onclose=null;ws.close();}}catch(e){}ws=null;events.length=0;render();connect();}}).observe(marketLabelNode,{childList:true,characterData:true,subtree:true});document.addEventListener('visibilitychange',()=>{if(!document.hidden&&(!ws||ws.readyState>1))connect();});
  window.addEventListener('resize',render);connect();render();
 })();
 </script>
