@@ -1681,6 +1681,65 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 #page-liquidity .nml-market-tag{background:#111821!important}
 @media(max-width:650px){#page-liquidity .nml-panel.nml-expanded{inset:5px!important;width:auto!important;height:calc(100dvh - 10px)!important;max-height:calc(100dvh - 10px)!important;padding:12px!important}#page-liquidity .nml-panel.nml-expanded .nml-panel-head{top:-12px!important;align-items:flex-start!important;flex-wrap:wrap!important}#page-liquidity .nml-panel.nml-expanded .nml-chart{min-height:55vh!important}#page-liquidity .nml-panel.nml-expanded .nml-chart canvas{min-height:55vh!important}}
 </style>
+<style id="nfx-market-lab-pro-terminal">
+#page-liquidity .nml-panel{background:#050608!important;border:1px solid #283342!important;box-shadow:0 12px 34px #0009,inset 0 1px #ffffff08!important}
+#page-liquidity .nml-panel-head{padding-bottom:12px;border-bottom:1px solid #222d39}
+#page-liquidity .nml-panel-head h2{font-size:19px!important;letter-spacing:-.025em!important}
+#page-liquidity .nml-eyebrow{color:#9aaabd!important}
+#page-liquidity .nml-stats>div{background:#090d12!important;border:1px solid #26313d!important;border-radius:7px!important;padding:10px 12px!important}
+#page-liquidity .nml-stats span{font-size:7px!important;letter-spacing:.1em!important;color:#8190a2!important}
+#page-liquidity .nml-stats b{font-size:14px!important;margin-top:5px!important}
+#page-liquidity .nml-book-side{background:#080b10!important;border-color:#26313d!important}
+#page-liquidity .nml-level{min-height:21px!important;padding:4px 5px!important;background:#0b1118!important;font-size:9px!important}
+#page-liquidity .nml-level:before{opacity:.28!important}
+#page-liquidity .nml-mid{background:#0a0f15!important;border-color:#2a3542!important}
+#page-liquidity .nml-chart{background:#050608!important;border-color:#26313d!important}
+#page-liquidity .nml-chart canvas{height:320px}
+#page-liquidity .nml-legend{font-size:8px!important;color:#c0cad6!important}
+#page-liquidity .nml-range button{min-width:37px;padding:6px 8px!important;background:#0a0e14!important;border-color:#293544!important}
+#page-liquidity .nml-range button.active{background:#35131c!important;border-color:#b74458!important}
+#page-liquidity .nml-feed-state{font-size:8px!important;letter-spacing:.08em!important;color:#8ea0b4!important;margin:0 0 8px!important}
+#page-liquidity .nml-panel.nml-expanded{position:fixed!important;inset:8px!important;z-index:999999!important;display:flex!important;flex-direction:column!important;gap:7px!important;width:auto!important;height:calc(100dvh - 16px)!important;max-height:calc(100dvh - 16px)!important;min-height:0!important;overflow:hidden!important;overscroll-behavior:none!important;padding:12px 16px!important;background:#050608!important;border:1px solid #354252!important;border-radius:11px!important;box-shadow:0 0 0 100vmax #000e,0 20px 70px #000!important}
+#page-liquidity .nml-panel.nml-expanded>.nml-panel-head{position:relative!important;inset:auto!important;top:auto!important;z-index:2!important;display:flex!important;flex:0 0 auto!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;margin:0!important;padding:0 0 8px!important;background:#050608!important;border-bottom:1px solid #25303c!important}
+#page-liquidity .nml-panel.nml-expanded>.nml-panel-head h2{font-size:16px!important;margin:3px 0!important}
+#page-liquidity .nml-panel.nml-expanded>.nml-panel-head p{font-size:9px!important}
+#page-liquidity .nml-panel.nml-expanded .nml-eyebrow{font-size:7px!important}
+#page-liquidity .nml-panel.nml-expanded .nml-expand{position:static!important;align-self:center!important;padding:6px 9px!important;font-size:7px!important}
+#page-liquidity .nml-panel.nml-expanded>.nml-stats{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;flex:0 0 auto!important;gap:5px!important;margin:0!important}
+#page-liquidity .nml-panel.nml-expanded .nml-stats>div{padding:6px 8px!important}
+#page-liquidity .nml-panel.nml-expanded .nml-stats span{font-size:6px!important}
+#page-liquidity .nml-panel.nml-expanded .nml-stats b{font-size:11px!important;margin-top:3px!important}
+#page-liquidity .nml-panel.nml-expanded>.nml-book-grid{display:grid!important;grid-template-columns:minmax(0,1fr) 125px minmax(0,1fr)!important;gap:6px!important;flex:1 1 auto!important;min-height:0!important}
+#page-liquidity .nml-panel.nml-expanded .nml-book-side{padding:7px!important;min-height:0!important;overflow:hidden!important}
+#page-liquidity .nml-panel.nml-expanded .nml-book-title{font-size:8px!important;margin-bottom:5px!important}
+#page-liquidity .nml-panel.nml-expanded .nml-book-cols{font-size:6px!important;padding-bottom:4px!important}
+#page-liquidity .nml-panel.nml-expanded .nml-level-list{gap:2px!important}
+#page-liquidity .nml-panel.nml-expanded .nml-level{min-height:0!important;padding:3px!important;font-size:8px!important}
+#page-liquidity .nml-panel.nml-expanded .nml-mid{padding:7px 4px!important;gap:6px!important}
+#page-liquidity .nml-panel.nml-expanded .nml-mid>b{font-size:15px!important}
+#page-liquidity .nml-panel.nml-expanded .nml-footnote{flex:0 0 auto!important;margin:0!important;font-size:7px!important;line-height:1.35!important}
+#page-liquidity .nml-panel.nml-expanded:has(.nml-chart)>.nml-feed-state{display:block!important;flex:0 0 auto!important;margin:0!important;font-size:7px!important}
+#page-liquidity .nml-panel.nml-expanded:has(.nml-chart)>.nml-legend{display:flex!important;flex:0 0 auto!important;margin:0!important;gap:8px!important;font-size:7px!important}
+#page-liquidity .nml-panel.nml-expanded:has(.nml-chart)>.nml-chart{display:block!important;position:relative!important;flex:1 1 0!important;min-height:0!important;height:auto!important;width:100%!important;margin:0!important}
+#page-liquidity .nml-panel.nml-expanded:has(.nml-chart)>.nml-chart canvas{display:block!important;width:100%!important;height:100%!important;min-height:0!important}
+#page-liquidity .nml-panel.nml-expanded:has(.nml-chart)>.nml-chart-axis{display:flex!important;flex:0 0 auto!important;margin:0!important;font-size:6px!important}
+#page-liquidity .nml-panel.nml-expanded:has(.nml-chart)>.nml-footnote{display:block!important;flex:0 0 auto!important;margin:0!important;font-size:7px!important;line-height:1.3!important}
+#page-liquidity .nml-panel.nml-expanded:has(.nml-chart)>:not(.nml-panel-head):not(.nml-feed-state):not(.nml-legend):not(.nml-chart):not(.nml-chart-axis):not(.nml-footnote){display:block!important}
+@media(max-width:700px){
+ #page-liquidity .nml-panel.nml-expanded{inset:4px!important;height:calc(100dvh - 8px)!important;max-height:calc(100dvh - 8px)!important;padding:8px!important;gap:5px!important}
+ #page-liquidity .nml-panel.nml-expanded>.nml-panel-head h2{font-size:13px!important}
+ #page-liquidity .nml-panel.nml-expanded>.nml-panel-head p{display:none!important}
+ #page-liquidity .nml-panel.nml-expanded>.nml-stats{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ #page-liquidity .nml-panel.nml-expanded>.nml-book-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:5px!important}
+ #page-liquidity .nml-panel.nml-expanded .nml-mid{grid-column:1/-1!important;grid-row:1!important;flex-direction:row!important;flex-wrap:wrap!important;justify-content:space-around!important}
+ #page-liquidity .nml-panel.nml-expanded .nml-book-side{padding:5px!important}
+ #page-liquidity .nml-panel.nml-expanded .nml-level{font-size:7px!important}
+ #page-liquidity .nml-panel.nml-expanded>.nml-panel-head{flex-wrap:wrap!important}
+ #page-liquidity .nml-panel.nml-expanded>.nml-panel-head .nml-range{gap:3px!important}
+ #page-liquidity .nml-panel.nml-expanded .nml-range button{padding:4px 5px!important;min-width:29px!important;font-size:6px!important}
+ #page-liquidity .nml-panel.nml-expanded>.nml-legend{font-size:6px!important}
+}
+</style>
 </head>
 <body>
 <div id="nfx-page-loader" role="status" aria-live="polite" aria-label="Loading Nabil FX workspace">
@@ -4937,21 +4996,24 @@ function connectDepth(){
 function connectLiq(){
  if(document.hidden)return;
  try{liqSocket?.close();}catch(e){}
- // Subscribe to Binance's all-market force-order stream and filter the selected contract locally.
- const ws=new WebSocket('wss://fstream.binance.com/ws/!forceOrder@arr');liqSocket=ws;
- ws.onopen=()=>{retryLiq=1200;const st=$('nmlLiqFeedState');if(st)st.textContent='LIVE · BINANCE ALL-MARKET LIQUIDATION FEED · FILTER: '+marketName();};
+ const ws=new WebSocket('wss://fstream.binance.com/market/ws/!forceOrder@arr');liqSocket=ws;
+ ws.onopen=()=>{retryLiq=1200;const st=$('nmlLiqFeedState');if(st)st.textContent='CONNECTED · BINANCE USDⓈ-M FORCE-ORDER SNAPSHOTS · '+marketName();};
  ws.onmessage=ev=>{if(liqSocket!==ws)return;try{
-  const packet=JSON.parse(ev.data),o=packet.o||packet.data?.o;
-  if(!o||String(o.s||'').toLowerCase()!==symbol)return;
-  const avg=Number(o.ap),orderPrice=Number(o.p),price=avg>0?avg:orderPrice;
-  const qty=Number(o.z)>0?Number(o.z):(Number(o.l)>0?Number(o.l):Number(o.q));
-  const time=Number(o.T||packet.E||Date.now()),side=String(o.S||'').toUpperCase();
-  if(!(price>0&&qty>0)||!['BUY','SELL'].includes(side))return;
-  liqEvents.push({p:price,usd:price*qty,t:time,side});if(liqEvents.length>12000)liqEvents.splice(0,liqEvents.length-12000);
-  const feed=$('nmlLiqFeedState');if(feed)feed.textContent='LIVE · '+marketName()+' · '+liqEvents.length.toLocaleString()+' OBSERVED EVENTS';renderLiq();
- }catch(e){}};
+  const packet=JSON.parse(ev.data),events=Array.isArray(packet)?packet:(Array.isArray(packet.data)?packet.data:[packet.data||packet]);
+  let added=0;
+  for(const item of events){const o=item?.o;if(!o||String(o.s||'').toLowerCase()!==symbol)continue;
+   const avg=Number(o.ap),orderPrice=Number(o.p),price=avg>0?avg:orderPrice;
+   const qty=Number(o.z)>0?Number(o.z):(Number(o.l)>0?Number(o.l):Number(o.q));
+   const time=Number(o.T||item.E||Date.now()),side=String(o.S||'').toUpperCase();
+   if(!(price>0&&qty>0)||!['BUY','SELL'].includes(side))continue;
+   liqEvents.push({p:price,usd:price*qty,t:time,side});added++;
+  }
+  if(added){if(liqEvents.length>12000)liqEvents.splice(0,liqEvents.length-12000);const feed=$('nmlLiqFeedState');if(feed)feed.textContent='LIVE · '+marketName()+' · '+liqEvents.length.toLocaleString()+' OBSERVED EVENTS';}
+  else {const feed=$('nmlLiqFeedState');if(feed&&liqEvents.length===0)feed.textContent='CONNECTED · WAITING FOR '+marketName()+' LIQUIDATION EVENTS';}
+  renderLiq();
+ }catch(e){const feed=$('nmlLiqFeedState');if(feed)feed.textContent='RECEIVING FEED · PARSING EVENT';}};
  ws.onerror=()=>{const feed=$('nmlLiqFeedState');if(feed)feed.textContent='LIQUIDATION FEED INTERRUPTED · RECONNECTING';try{ws.close();}catch(e){}};
- ws.onclose=()=>{if(liqSocket===ws){liqSocket=null;const feed=$('nmlLiqFeedState');if(feed)feed.textContent='RECONNECTING TO BINANCE ALL-MARKET FORCE-ORDER FEED';reconnect('liq');}};
+ ws.onclose=()=>{if(liqSocket===ws){liqSocket=null;const feed=$('nmlLiqFeedState');if(feed)feed.textContent='RECONNECTING TO BINANCE FORCE-ORDER FEED';reconnect('liq');}};
 }
 function renderBook(){
  const bids=latest.bids.slice(0,levels),asks=latest.asks.slice(0,levels),bestBid=bids[0]?.[0],bestAsk=asks[0]?.[0];if(!bestBid||!bestAsk)return;
@@ -4991,15 +5053,23 @@ function renderLiq(){
  const put=(id,v)=>{const el=$(id);if(el)el.textContent=v;};
  put('nmlLiqCount',rows.length.toLocaleString());put('nmlLiqNotional',total>=1e6?(total/1e6).toFixed(2)+'M USDT':total>=1e3?(total/1e3).toFixed(1)+'K USDT':total.toFixed(0)+' USDT');put('nmlLongCount',long.length.toLocaleString());put('nmlShortCount',short.length.toLocaleString());
  const empty=$('nmlLiquidationEmpty');if(empty)empty.hidden=rows.length>0;
- const x=canvasSetup('nmlLiquidationCanvas');if(!x)return;const {c,W,H}=x,L=12,R=88,T=20,B=28,plotW=W-L-R,plotH=H-T-B;c.fillStyle='#050608';c.fillRect(0,0,W,H);
- c.strokeStyle='#ffffff20';c.fillStyle='#a7b5c7';c.font='9px system-ui';c.textAlign='right';
- if(!rows.length){for(let i=0;i<=4;i++){const y=T+plotH*i/4;c.beginPath();c.moveTo(L,y);c.lineTo(W-R,y);c.stroke();}c.textAlign='left';c.fillStyle='#8798ad';c.font='11px system-ui';c.fillText('Waiting for actual Binance liquidation events…',18,34);return;}
+ const x=canvasSetup('nmlLiquidationCanvas');if(!x)return;const {c,W,H}=x,L=66,R=82,T=14,B=24,plotW=W-L-R,plotH=H-T-B;c.fillStyle='#050608';c.fillRect(0,0,W,H);
+ c.font='10px system-ui';c.textAlign='right';c.textBaseline='middle';c.strokeStyle='rgba(145,160,180,.16)';c.lineWidth=1;
+ if(!rows.length){for(let i=0;i<=4;i++){const y=T+plotH*i/4;c.beginPath();c.moveTo(L,y);c.lineTo(W-R,y);c.stroke();}c.textAlign='left';c.fillStyle='#8798ad';c.font='11px system-ui';c.fillText('No liquidation snapshots for '+marketName()+' in this selected period yet',L+8,T+22);return;}
  const prices=rows.map(e=>e.p);if(lastMid>0)prices.push(lastMid);
- const minP=Math.min(...prices),maxP=Math.max(...prices),pad=Math.max((maxP-minP)*.12,(lastMid||maxP)*.001,.01),lo=Math.max(0,minP-pad),hi=maxP+pad,span=Math.max(hi-lo,.01),maxUsd=Math.max(...rows.map(e=>e.usd),1);
- for(let i=0;i<=4;i++){const y=T+plotH*i/4;c.beginPath();c.moveTo(L,y);c.lineTo(W-R,y);c.stroke();c.fillText(fmt(hi-span*i/4,2),W-8,y+3);}
- c.textAlign='left';const my=lastMid>lo&&lastMid<hi?T+(hi-lastMid)/span*plotH:null;
- if(my!==null){c.strokeStyle='#e7edf580';c.setLineDash([4,4]);c.beginPath();c.moveTo(L,my);c.lineTo(W-R,my);c.stroke();c.setLineDash([]);c.fillStyle='#dbe4ef';c.fillText('MARK',L+5,my-5);}
- rows.forEach(e=>{const xx=L+Math.max(0,Math.min(1,(e.t-(now-liqRange))/liqRange))*plotW,yy=T+(hi-e.p)/span*plotH,rad=Math.max(4,Math.min(17,4+Math.sqrt(e.usd/maxUsd)*13));c.beginPath();c.arc(xx,yy,rad,0,Math.PI*2);c.fillStyle=e.side==='SELL'?'rgba(235,91,112,.88)':'rgba(48,204,151,.88)';c.fill();c.strokeStyle=e.side==='SELL'?'#ff9aaa':'#81edc5';c.lineWidth=1;c.stroke();});
+ const minP=Math.min(...prices),maxP=Math.max(...prices),pad=Math.max((maxP-minP)*.14,(lastMid||maxP)*.001,.01),lo=Math.max(0,minP-pad),hi=maxP+pad,span=Math.max(hi-lo,.01);
+ const priceBins=36,timeBins=Math.max(24,Math.min(120,Math.floor(plotW/7))),cellW=plotW/timeBins,cellH=plotH/priceBins;
+ const grid=Array.from({length:priceBins},()=>Array.from({length:timeBins},()=>({long:0,short:0})));
+ let peak=1;
+ for(const e of rows){const ti=Math.max(0,Math.min(timeBins-1,Math.floor((e.t-(now-liqRange))/liqRange*timeBins))),pi=Math.max(0,Math.min(priceBins-1,Math.floor((hi-e.p)/span*priceBins))),bucket=grid[pi][ti];if(e.side==='SELL')bucket.long+=e.usd;else bucket.short+=e.usd;peak=Math.max(peak,bucket.long,bucket.short);}
+ for(let i=0;i<=4;i++){const y=T+plotH*i/4,price=hi-span*i/4;c.beginPath();c.moveTo(L,y);c.lineTo(W-R,y);c.stroke();c.fillStyle='#9aa9ba';c.fillText(fmt(price,2),L-8,y);}
+ for(let p=0;p<priceBins;p++){for(let t=0;t<timeBins;t++){const v=grid[p][t],sum=v.long+v.short;if(!sum)continue;const x0=L+t*cellW,y0=T+p*cellH;
+  if(v.long){const a=.12+.78*Math.log1p(v.long)/Math.log1p(peak);c.fillStyle='rgba(239,82,105,'+a+')';c.fillRect(x0,y0,Math.ceil(cellW),Math.ceil(cellH));}
+  if(v.short){const a=.12+.78*Math.log1p(v.short)/Math.log1p(peak);c.fillStyle='rgba(44,204,151,'+a+')';c.fillRect(x0,y0,Math.ceil(cellW),Math.ceil(cellH));}
+ }}
+ c.strokeStyle='rgba(190,205,220,.18)';c.setLineDash([3,5]);for(let i=1;i<4;i++){const xx=L+plotW*i/4;c.beginPath();c.moveTo(xx,T);c.lineTo(xx,T+plotH);c.stroke();}c.setLineDash([]);
+ if(lastMid>lo&&lastMid<hi){const my=T+(hi-lastMid)/span*plotH;c.strokeStyle='#e8eef6';c.lineWidth=1;c.setLineDash([5,4]);c.beginPath();c.moveTo(L,my);c.lineTo(W-R,my);c.stroke();c.setLineDash([]);c.textAlign='left';c.fillStyle='#e8eef6';c.fillText('MARK',L+6,my-8);}
+ c.textAlign='left';c.textBaseline='alphabetic';c.fillStyle='#8292a5';c.font='9px system-ui';c.fillText('OLDER',L,H-6);c.textAlign='right';c.fillText('NOW →',W-R,H-6);
 }
 function installPanelControls(){document.querySelectorAll('#page-liquidity .nml-panel').forEach((panel,i)=>{const head=panel.querySelector('.nml-panel-head');if(!head||head.querySelector('[data-nml-expand]'))return;const btn=document.createElement('button');btn.type='button';btn.className='nml-expand';btn.dataset.nmlExpand='1';btn.textContent='EXPAND';btn.setAttribute('aria-label','Expand '+(panel.querySelector('h2')?.textContent||'panel'));head.appendChild(btn);});document.addEventListener('click',e=>{const btn=e.target.closest('[data-nml-expand]');if(!btn)return;const panel=btn.closest('.nml-panel');if(!panel)return;const expanded=panel.classList.toggle('nml-expanded');btn.textContent=expanded?'RESTORE':'EXPAND';btn.setAttribute('aria-label',expanded?'Restore panel size':'Expand panel');if(expanded)panel.scrollTop=0;window.setTimeout(()=>{renderHeat();renderLiq();},100);});document.addEventListener('keydown',e=>{if(e.key==='Escape'){const panel=document.querySelector('#page-liquidity .nml-panel.nml-expanded');if(panel){panel.classList.remove('nml-expanded');const b=panel.querySelector('[data-nml-expand]');if(b)b.textContent='EXPAND';window.setTimeout(()=>{renderHeat();renderLiq();},100);}}});}
 function setRange(container,prop,v){document.querySelectorAll('#'+container+' button').forEach(b=>b.classList.toggle('active',b.dataset.range===String(v)));if(prop==='book')bookRange=v||3600000;else liqRange=v;prop==='book'?renderHeat():renderLiq();}
