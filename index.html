@@ -68,12 +68,9 @@ button:focus:not(:focus-visible){outline:none}
 @media(max-width:760px){.site-header{min-height:58px}#nfx-page-loader .nfx-loader-card{padding:29px 23px 23px}}
 @media(prefers-reduced-motion:reduce){#nfx-page-loader,#nfx-page-loader *{animation:none!important;transition:none!important}}
 
-/* Learn Trading: original chart illustrations are rendered for every lesson. */
-#page-learn .nfx-learn-thumb{height:180px!important;position:relative;display:block;overflow:hidden;border-bottom:1px solid #29394a;background:#070b11}
-#page-learn .nfx-learn-thumb svg{display:block;width:100%;height:100%;object-fit:cover}
-#page-learn .nfx-learn-visual svg{display:block;width:100%;height:auto;max-height:560px;border:1px solid #29394a;border-radius:10px;background:#05080d}
-#page-learn .nfx-learn-visual figcaption{color:#8d9caf;font-size:11px;margin-top:8px}
-@media(max-width:620px){#page-learn .nfx-learn-thumb{height:145px!important}}
+/* Learn Trading: clean text-first topic cards; no topic images. */
+#page-learn .nfx-learn-topic-card{min-height:0!important}
+#page-learn .nfx-learn-topic-copy{padding:16px}
 </style>
 <script id="nfx-refresh-stabilizer">
 (function(){
@@ -9026,7 +9023,7 @@ window.renderBacktestMetrics=function(r,meta={}){
   }
   function renderCards(){
     const list=filtered();
-    $('nfxLearnTopicGrid').innerHTML=list.map(t=>`<button type="button" class="nfx-learn-topic-card" data-learn-topic="${t.id}"><span class="nfx-learn-thumb">${diagram(t)}</span><span class="nfx-learn-topic-copy"><small>${esc(t.cat.toUpperCase())}</small><strong>${esc(t.title)}</strong><span>${esc(t.intro)}</span></span></button>`).join('');
+    $('nfxLearnTopicGrid').innerHTML=list.map(t=>`<button type="button" class="nfx-learn-topic-card" data-learn-topic="${t.id}"><span class="nfx-learn-topic-copy"><small>${esc(t.cat.toUpperCase())}</small><strong>${esc(t.title)}</strong><span>${esc(t.intro)}</span></span></button>`).join('');
     $('nfxLearnCount').textContent=list.length+' TOPICS';
     $('nfxLearnSearchMeta').textContent=query?'Showing '+list.length+' matching topic(s).':'Browse '+topics.length+' lessons across '+(categories.length-1)+' learning areas.';
     $('nfxLearnEmpty').hidden=list.length!==0;
@@ -9036,7 +9033,7 @@ window.renderBacktestMetrics=function(r,meta={}){
   function openTopic(id){
     const t=topics.find(x=>x.id===id);if(!t)return;selected=id;
     $('nfxLearnTopicGrid').hidden=true;$('nfxLearnResultsHead').hidden=true;$('nfxLearnEmpty').hidden=true;$('nfxLearnDetail').hidden=false;
-    $('nfxLearnDetailContent').innerHTML=`<div class="nfx-learn-kicker">${esc(t.cat.toUpperCase())} · COMPLETE TOPIC GUIDE</div><h2>${esc(t.title)}</h2><p>${esc(t.intro)}</p><figure class="nfx-learn-visual">${diagram(t)}<figcaption>Original topic-specific learning illustration · Concept schematic, not live market data.</figcaption></figure><h3>02 · How it works</h3><p>${esc(t.how)}</p><div class="nfx-learn-detail-grid"><section class="nfx-learn-info nfx-learn-valid"><h3>✓ VALID CONDITIONS</h3><ul>${t.valid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section><section class="nfx-learn-info nfx-learn-invalid"><h3>✕ INVALID / WEAK CONDITIONS</h3><ul>${t.invalid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section></div><h3>03 · How to mark it on a chart</h3><ol>${t.mark.map(x=>'<li>'+esc(x)+'</li>').join('')}</ol><div class="nfx-learn-info"><h3>PRO TRADING NOTE</h3><p>${esc(t.tip)}</p></div><h3>04 · Professional chart-reading workflow</h3><ol><li>Start with a clean chart and mark only the relevant higher-timeframe context.</li><li>Identify the exact candles / swing points that satisfy this lesson's definition.</li><li>Draw the zone or level using the stated boundaries; note the timeframe beside it.</li><li>Wait for the confirmation rule. Do not assume the first touch is an entry.</li><li>Define entry trigger, stop-loss invalidation and target before placing an order.</li><li>Capture the chart before the outcome, then journal both valid winners and valid losses.</li></ol><div class="nfx-learn-info"><h3>VALIDATION STANDARD</h3><p>The illustration above is an original educational schematic designed to explain this topic; it is not a live chart, historical trade record or trade signal. Confirm real market behaviour on your own broker feed. Record the instrument, timezone, spread, session and rule version so the result can be reproduced.</p></div>`;
+    $('nfxLearnDetailContent').innerHTML=`<div class="nfx-learn-kicker">${esc(t.cat.toUpperCase())} · COMPLETE TOPIC GUIDE</div><h2>${esc(t.title)}</h2><p>${esc(t.intro)}</p><h3>02 · How it works</h3><p>${esc(t.how)}</p><div class="nfx-learn-detail-grid"><section class="nfx-learn-info nfx-learn-valid"><h3>✓ VALID CONDITIONS</h3><ul>${t.valid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section><section class="nfx-learn-info nfx-learn-invalid"><h3>✕ INVALID / WEAK CONDITIONS</h3><ul>${t.invalid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section></div><h3>03 · How to mark it on a chart</h3><ol>${t.mark.map(x=>'<li>'+esc(x)+'</li>').join('')}</ol><div class="nfx-learn-info"><h3>PRO TRADING NOTE</h3><p>${esc(t.tip)}</p></div><h3>04 · Professional chart-reading workflow</h3><ol><li>Start with a clean chart and mark only the relevant higher-timeframe context.</li><li>Identify the exact candles / swing points that satisfy this lesson's definition.</li><li>Draw the zone or level using the stated boundaries; note the timeframe beside it.</li><li>Wait for the confirmation rule. Do not assume the first touch is an entry.</li><li>Define entry trigger, stop-loss invalidation and target before placing an order.</li><li>Capture the chart before the outcome, then journal both valid winners and valid losses.</li></ol><div class="nfx-learn-info"><h3>VALIDATION STANDARD</h3><p>The illustration above is an original educational schematic designed to explain this topic; it is not a live chart, historical trade record or trade signal. Confirm real market behaviour on your own broker feed. Record the instrument, timezone, spread, session and rule version so the result can be reproduced.</p></div>`;
     $('nfxLearnDetail').scrollIntoView({behavior:'smooth',block:'start'});
   }
   document.addEventListener('click',e=>{
