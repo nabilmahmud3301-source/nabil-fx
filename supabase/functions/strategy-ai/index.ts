@@ -121,8 +121,9 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
     // from 3.7 to 3.8 on the Developer API, so it is not an independent fallback.
     const models = ["gemini-3.8-flash", "gemini-3.1-flash-lite", "gemini-2.5-flash", "gemini-2.5-flash-lite"];
     const failures: string[] = [];
+    let semanticFallbackUsed = false;
 
-    for (const model of models) {
+    modelLoop: for (const model of models) {
       // Retry transient capacity/rate-limit/server errors once with bounded
       // exponential backoff. Keep the worst-case request below Supabase's
       // 150-second Free-tier wall-clock ceiling.
@@ -292,8 +293,32 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
               (execution.targetR === null &&
                 (execution.longConditions.length === 0 || (Array.isArray(execution.exitLongConditions) && execution.exitLongConditions.length > 0)) &&
                 (execution.shortConditions.length === 0 || (Array.isArray(execution.exitShortConditions) && execution.exitShortConditions.length > 0))));
+          const exactCompileValid = parsed.supported === true &&
+            executionValid &&
+            unsupportedDataReasons.length === 0 &&
+            !(Array.isArray(parsed.unsupportedReasons) && parsed.unsupportedReasons.length > 0) &&
+            !(Array.isArray(parsed.assumptions) && parsed.assumptions.length > 0) &&
+            !(Array.isArray(parsed.missing) && parsed.missing.length > 0);
+          if (!exactCompileValid) {
+            const diagnostics = [
+              String(parsed.explanation || ""),
+              ...(Array.isArray(parsed.missing) ? parsed.missing.map((x: unknown) => "Missing: " + String(x)) : []),
+              ...(Array.isArray(parsed.assumptions) ? parsed.assumptions.map((x: unknown) => "Assumption: " + String(x)) : []),
+              ...(Array.isArray(parsed.unsupportedReasons) ? parsed.unsupportedReasons.map((x: unknown) => String(x)) : []),
+              ...unsupportedDataReasons,
+              !executionValid ? "The returned entry, stop-loss, take-profit or condition structure failed execution validation." : "",
+            ].filter(Boolean).join(" ").slice(0, 900);
+            failures.push(model + ": exact compilation rejected. " + (diagnostics || "The model did not return a complete executable rule set."));
+            // A semantic rejection from one model is not final: ask one independent
+            // model to compile the same original strategy. Never substitute a template
+            // or silently alter the user's requested rules.
+            if (semanticFallbackUsed) break modelLoop;
+            semanticFallbackUsed = true;
+            break;
+          }
+
           const safe = {
-            supported: parsed.supported === true && executionValid && unsupportedDataReasons.length === 0 && !(Array.isArray(parsed.unsupportedReasons) && parsed.unsupportedReasons.length > 0),
+            supported: true,
             long: parsed.long === true,
             short: parsed.short === true,
             rewardRisk: Number.isFinite(Number(parsed.rewardRisk)) && Number(parsed.rewardRisk) > 0 ? Number(parsed.rewardRisk) : null,
