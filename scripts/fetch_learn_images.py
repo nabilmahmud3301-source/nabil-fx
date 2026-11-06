@@ -25,10 +25,11 @@ def download(item):
   return tid,{"status":"downloaded","title":title,"path":str(dest).replace("\\","/"),"source_page":page,"original_image":url,"width":im.width,"height":im.height}
  except Exception as e:
   return tid,{"status":"download_error","title":title,"source_page":page,"error":str(e)[:240]}
+run_results={}
 with ThreadPoolExecutor(max_workers=6) as pool:
  fs=[pool.submit(download,x) for x in sources.items()]
  for n,f in enumerate(as_completed(fs),1):
-  tid,result=f.result(); manifest[tid]=result
+  tid,result=f.result(); manifest[tid]=result; run_results[tid]=result
   print(f"[{n}/{len(sources)}] {result['status']}: {result['title']}",flush=True)
 (ROOT/"assets"/"learn-trading-manifest.json").write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding="utf-8")
-print("Downloaded local topic images:",sum(x["status"]=="downloaded" for x in manifest.values()),"/",len(sources))
+print("Downloaded local topic images:",sum(x["status"]=="downloaded" for x in run_results.values()),"/",len(sources))
