@@ -421,5 +421,77 @@
     "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fec6d88e7f64cf76a0616f716a96aec7d8729d8db-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
     "width": 800,
     "height": 597
+  },
+  "market-profile": {
+    "status": "downloaded",
+    "title": "Market Profile TPO and Volume Profile",
+    "path": "assets/learn-trading/market-profile.jpg",
+    "source_page": "https://docs.motivewave.com/user-guide/volume-order-flow-analysis-guide/time-price-opportunity",
+    "original_image": "https://docs.motivewave.com/~gitbook/image?dpr=4&quality=100&sign=fe1dae49&sv=2&url=https%3A%2F%2Fcontent.gitbook.com%2Fcontent%2FTKkuQ4IBYTTbN0oyR7L0%2Fblobs%2FofBVWkb5GSACZvQDvKTo%2F0.png&width=768",
+    "width": 1001,
+    "height": 522
+  },
+  "triangles": {
+    "status": "downloaded",
+    "title": "Ascending and Descending Triangles",
+    "path": "assets/learn-trading/triangles.jpg",
+    "source_page": "https://admiralmarkets.com/education/articles/forex-analysis/most-frequently-used-forex-chart-patterns",
+    "original_image": "https://fxmedia.s3.amazonaws.com/articles/Triangle_Patterns-1.jpg",
+    "width": 1408,
+    "height": 768
+  },
+  "wedges": {
+    "status": "downloaded",
+    "title": "Rising and Falling Wedge Patterns",
+    "path": "assets/learn-trading/wedges.jpg",
+    "source_page": "https://blueberrymarkets.com/market-analysis/trading-wedge-pattern-a-comprehensive-guide/",
+    "original_image": "https://blueberrymarkets.com/media/10lhmzmj/unnamed.png",
+    "width": 1280,
+    "height": 720
+  },
+  "elliott-wave": {
+    "status": "downloaded",
+    "title": "Elliott Wave Count",
+    "path": "assets/learn-trading/elliott-wave.jpg",
+    "source_page": "https://tradersunion.com/technic-analysis/elliott-waves/",
+    "original_image": "https://tradersunion.com/uploads/articles/282990/elliott-wave-illustration.jpeg",
+    "width": 1220,
+    "height": 574
+  },
+  "head-shoulders": {
+    "status": "downloaded",
+    "title": "Head and Shoulders Pattern",
+    "path": "assets/learn-trading/head-shoulders.jpg",
+    "source_page": "https://www.instaforex.com/ru/knowledge_base/305-technical-analysis-patterns",
+    "original_image": "https://static.ifxdb.com/static-content/305/zd48P_800.jpg",
+    "width": 800,
+    "height": 480
+  },
+  "flags-pennants": {
+    "status": "downloaded",
+    "title": "Bull and Bear Flag Patterns",
+    "path": "assets/learn-trading/flags-pennants.jpg",
+    "source_page": "https://www.dukascopy.com/swiss/english/marketwatch/articles/forex-patterns/",
+    "original_image": "https://www.dukascopy.com/media-storage/3664260190/o/",
+    "width": 1800,
+    "height": 1013
+  },
+  "rounding-patterns": {
+    "status": "downloaded",
+    "title": "Rounding Top Pattern",
+    "path": "assets/learn-trading/rounding-patterns.jpg",
+    "source_page": "https://www.ebc.com/forex/rounding-top-pattern-explained-how-to-spot-market-reversals",
+    "original_image": "https://www.ebc.com/upload/default/20250730/9930c61a543495b9165c8ab87da5f02c.png",
+    "width": 1253,
+    "height": 575
+  },
+  "cumulative-delta": {
+    "status": "downloaded",
+    "title": "Cumulative Volume Delta Divergence",
+    "path": "assets/learn-trading/cumulative-delta.jpg",
+    "source_page": "https://zitaplus.com/blog/analysis/cumulative-volume-delta-divergence-details--strategies/",
+    "original_image": "https://zitaplus.com/assets/zitaplus/upload/images/m/cumulative-volume-delta-pattern-5052.png",
+    "width": 1408,
+    "height": 768
   }
 }
