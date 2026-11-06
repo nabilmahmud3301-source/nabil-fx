@@ -814,5 +814,68 @@
     "original_image": "https://www.expat.hsbc.com/content/dam/hsbc/en/wealth/images/wealth-needs/investment-tips/147384-20240125/147384-0002.JPG",
     "width": 701,
     "height": 495
+  },
+  "round-numbers": {
+    "status": "downloaded",
+    "title": "Psychological Round Number Levels",
+    "path": "assets/learn-trading/round-numbers.jpg",
+    "source_page": "https://www.tradingview.com/chart/EURUSD/JTmgt6lp-PSYCHOLOGICAL-PRICE-LEVELS/",
+    "original_image": "https://s3.tradingview.com/j/JTmgt6lp_big.png",
+    "width": 1800,
+    "height": 807
+  },
+  "weekend-gap-risk": {
+    "status": "downloaded",
+    "title": "Weekend Forex Price Gap",
+    "path": "assets/learn-trading/weekend-gap-risk.jpg",
+    "source_page": "https://fbs.com/fbs-academy/traders-blog/keeping-trades-over-the-weekend-your-chance-or-failure",
+    "original_image": "https://eu-images.contentstack.com/v3/assets/blt73dfd92ee49f59a6/blt0788d23727d3c71e/67d00f38a67cbb59e273818b/MDP-7549_1_1200x675_EN.png",
+    "width": 1200,
+    "height": 675
+  },
+  "volatility-regimes": {
+    "status": "downloaded",
+    "title": "High and Low Volatility with ATR",
+    "path": "assets/learn-trading/volatility-regimes.jpg",
+    "source_page": "https://arongroups.co/technical-analyze/swing-high-swing-low/",
+    "original_image": "https://cdn.arongroups.co/uploads/2026/01/Swing-High-vs-Swing-Low-7-768x478.jpg",
+    "width": 768,
+    "height": 478
+  },
+  "wyckoff-spring": {
+    "status": "downloaded",
+    "title": "Wyckoff Accumulation and Spring",
+    "path": "assets/learn-trading/wyckoff-spring.jpg",
+    "source_page": "https://3commas.io/academy/articles/the-wyckoff-method-explained",
+    "original_image": "https://images.prismic.io/3commas/379c29f6-e148-4d96-8dfc-fe2d7f2fe7d8_2.png?auto=compress%2Cformat&h=694&rect=0%2C0%2C1944%2C1124&w=1200",
+    "width": 1200,
+    "height": 694
+  },
+  "poc-vah-val": {
+    "status": "downloaded",
+    "title": "Market Profile and TPO",
+    "path": "assets/learn-trading/poc-vah-val.jpg",
+    "source_page": "https://fxnx.com/en/blog/market-profile-trading-finding-institutional-fair-value",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F373bd8f78c111628d2360e79c755448269489cfa-1200x896.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "width": 800,
+    "height": 597
+  },
+  "intermarket-analysis": {
+    "status": "downloaded",
+    "title": "Gold, Real Yields and US Dollar",
+    "path": "assets/learn-trading/intermarket-analysis.jpg",
+    "source_page": "https://blog.hycmlab.com/a-few-tips-for-trading-gold-right-now/",
+    "original_image": "https://blog.hycmlab.com/wp-content/uploads/2021/11/Real-yields-and-USD.jpg",
+    "width": 1800,
+    "height": 905
+  },
+  "accumulation-distribution": {
+    "status": "downloaded",
+    "title": "Accumulation Distribution Indicator on EURUSD",
+    "path": "assets/learn-trading/accumulation-distribution.jpg",
+    "source_page": "https://asiaprofx.com/indikator-accumulationdistribution",
+    "original_image": "https://asiaprofx.com/uploads/images/2021/09/image_750x_615414f191252.jpg",
+    "width": 750,
+    "height": 503
   }
 }
