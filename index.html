@@ -9144,6 +9144,57 @@ window.renderBacktestMetrics=function(r,meta={}){
   #page-learn .nfx-learn-topic-grid { grid-template-columns:minmax(0,1fr) !important; }
   #page-learn .nfx-learn-emblem { align-self:center; }
 }
+
+/* Mobile polish: keep the academy mark beside the hero copy and restore the
+   single-row, swipeable Learning Path category rail without hiding any content. */
+@media (max-width:760px) {
+  #page-learn .nfx-learn-hero {
+    display:flex !important;
+    flex-direction:row !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+    gap:12px !important;
+  }
+  #page-learn .nfx-learn-hero > div:first-child {
+    flex:1 1 auto !important;
+    width:auto !important;
+    min-width:0 !important;
+  }
+  #page-learn .nfx-learn-emblem {
+    display:flex !important;
+    flex:0 0 68px !important;
+    width:68px !important;
+    height:68px !important;
+    align-self:center !important;
+    margin:0 0 0 auto !important;
+  }
+  #page-learn .nfx-learn-emblem .nfx-learn-brand-lockup { font-size:22px !important; }
+  #page-learn .nfx-learn-emblem small { font-size:7px !important; }
+  #page-learn .nfx-learn-categories {
+    display:flex !important;
+    flex-wrap:nowrap !important;
+    width:100% !important;
+    max-width:100% !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    white-space:nowrap !important;
+    touch-action:pan-x !important;
+    -webkit-overflow-scrolling:touch !important;
+    scrollbar-width:thin !important;
+    padding:2px 2px 10px !important;
+  }
+  #page-learn .nfx-learn-category {
+    flex:0 0 auto !important;
+    width:auto !important;
+    max-width:none !important;
+    white-space:nowrap !important;
+  }
+}
+@media (max-width:390px) {
+  #page-learn .nfx-learn-hero { gap:8px !important; padding:16px 10px !important; }
+  #page-learn .nfx-learn-emblem { flex-basis:62px !important; width:62px !important; height:62px !important; }
+  #page-learn .nfx-learn-emblem .nfx-learn-brand-lockup { font-size:20px !important; }
+}
 </style>
 
 </body>
