@@ -503,5 +503,45 @@
     "https://asiaprofx.com/uploads/images/2021/09/image_750x_615414f191252.jpg",
     "https://asiaprofx.com/indikator-accumulationdistribution",
     "Accumulation Distribution Indicator on EURUSD"
+  ],
+  "pretrade-checklist": [
+    "https://www.traderdetector.com/images/2026/02/pretrade-checklist-and-daily-routine-execution-nzmcg.webp",
+    "https://www.traderdetector.com/trading/how-to-build-a-forex-trading-plan-template-step-by-step",
+    "Forex Pre-Trade Checklist"
+  ],
+  "overtrading": [
+    "https://miro.medium.com/v2/resize%3Afit%3A1400/1%2AlwyF8Jtyi4i08liXmlHzVw.png",
+    "https://medium.com/write-a-catalyst/revenge-trading-explained-the-mistake-that-cost-me-more-than-any-strategy-ever-did-32c4adc51339",
+    "Revenge Trading and Overtrading"
+  ],
+  "fomo": [
+    "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fec96dc37ed9ecdc5fd4e90e7c6c70dff7648ce5c-1200x896.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "https://fxnx.com/en/blog/fomo-trading-the-science-of-the-amygdala-hijack-5-rules",
+    "FOMO Chasing a Breakout"
+  ],
+  "mae-mfe": [
+    "https://www.tradingheroes.com/wp-content/uploads/chart-example.jpg",
+    "https://www.tradingheroes.com/mfe-mae-explained/",
+    "MAE and MFE on a Trading Chart"
+  ],
+  "forward-testing": [
+    "https://mybank.pl/forex/platformy-narzedzia/demo-backtesting-forward-testing/1200/slippage-demo-vs-live-comparison.jpg",
+    "https://mybank.pl/forex/platformy-narzedzia/demo-backtesting-forward-testing/",
+    "Demo vs Live Forward Execution"
+  ],
+  "posttrade-review": [
+    "https://www.ohyaatradingjournal.com/screenshots/dashboard-charts.png",
+    "https://www.ohyaatradingjournal.com/dashboard-analytics",
+    "Trade Journal Review and Mistakes Analysis"
+  ],
+  "sample-size": [
+    "https://mybank.pl/forex/zarzadzanie-ryzykiem/matematyka-strat-risk-of-ruin/1200/wielkosc-probki-a-pewnosc-edge.jpg",
+    "https://mybank.pl/forex/zarzadzanie-ryzykiem/matematyka-strat-risk-of-ruin/",
+    "Sample Size and Statistical Confidence"
+  ],
+  "portfolio-risk": [
+    "https://signalwavesai.com/images/articles/Modern-Position-Sizing-%26-Risk-Control-2025/portfolio-heat-management.png",
+    "https://signalwavesai.com/articles/modern-position-sizing-risk-control-2025",
+    "Portfolio Heat and Risk Exposure"
   ]
 }
