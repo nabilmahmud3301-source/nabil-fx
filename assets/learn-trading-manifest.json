@@ -336,10 +336,13 @@
     "height": 400
   },
   "ema-sma": {
-    "status": "download_error",
+    "status": "downloaded",
     "title": "Moving Average Crossover",
+    "path": "assets/learn-trading/ema-sma.jpg",
     "source_page": "https://it.trade-leader.com/articles/moving-average",
-    "error": "HTTPSConnectionPool(host='it.trade-leader.com', port=443): Read timed out."
+    "original_image": "https://it.trade-leader.com/assets/images/resources/ma/008.png",
+    "width": 750,
+    "height": 450
   },
   "kelly-criterion": {
     "status": "downloaded",
@@ -628,5 +631,77 @@
     "original_image": "https://sabiotrade.com/cdn/2024/02/Outsidebar.png",
     "width": 1239,
     "height": 643
+  },
+  "base-quote-currency": {
+    "status": "downloaded",
+    "title": "Base Currency, Quote Currency and Spread",
+    "path": "assets/learn-trading/base-quote-currency.jpg",
+    "source_page": "https://www.trading212.com/learn/cfd-trading/forex-trading",
+    "original_image": "https://a.storyblok.com/f/179899/1235x840/ab57f548ae/forex_spread_trading_212.png",
+    "width": 1235,
+    "height": 840
+  },
+  "lot-size-contract-size": {
+    "status": "downloaded",
+    "title": "Forex Lot and Contract Sizes",
+    "path": "assets/learn-trading/lot-size-contract-size.jpg",
+    "source_page": "https://arongroups.co/glossary/contract-size/",
+    "original_image": "https://cdn.arongroups.co/uploads/2024/10/contract-size-6.jpg",
+    "width": 1100,
+    "height": 600
+  },
+  "rollover-swap": {
+    "status": "downloaded",
+    "title": "Forex Rollover and Swap Fee",
+    "path": "assets/learn-trading/rollover-swap.jpg",
+    "source_page": "https://www.babypips.com/forexpedia/rollover-fee",
+    "original_image": "https://bpcdn.co/images/2019/02/12210216/rollover.png",
+    "width": 760,
+    "height": 500
+  },
+  "forex-market-hours": {
+    "status": "downloaded",
+    "title": "Forex Market Session Hours",
+    "path": "assets/learn-trading/forex-market-hours.jpg",
+    "source_page": "https://newyorkcityservers.com/blog/best-time-to-trade-forex",
+    "original_image": "https://newyorkcityservers.com//_next/image?q=75&url=https%3A%2F%2Fnewyorkcityservers.com%2Fblog2%2Fwp-content%2Fuploads%2F2026%2F02%2Fimage-10.jpeg&w=828",
+    "width": 800,
+    "height": 427
+  },
+  "trading-plan": {
+    "status": "downloaded",
+    "title": "Forex Trading Plan Checklist",
+    "path": "assets/learn-trading/trading-plan.jpg",
+    "source_page": "https://www.tradingview.com/chart/EURUSD/a58y68F7-Trading-on-Financial-Markets-Your-Guide-to-Trade-Planning/",
+    "original_image": "https://s3.tradingview.com/a/a58y68F7_mid.webp",
+    "width": 932,
+    "height": 550
+  },
+  "news-calendar": {
+    "status": "downloaded",
+    "title": "Forex Economic Calendar",
+    "path": "assets/learn-trading/news-calendar.jpg",
+    "source_page": "https://www.forexpeacearmy.com/r/forex-articles/2296/how-to-understand-an-economic-calendar",
+    "original_image": "https://www.forexpeacearmy.com/community/s3/articles/a-screen-shot-of-a-computer-description-automatic.jpeg",
+    "width": 1120,
+    "height": 815
+  },
+  "inflation-data": {
+    "status": "downloaded",
+    "title": "CPI and Core PCE Inflation",
+    "path": "assets/learn-trading/inflation-data.jpg",
+    "source_page": "https://www.lighthousemacro.com/p/the-beacon-the-last-mile-of-disinflation",
+    "original_image": "https://substackcdn.com/image/fetch/%24s_%21NklS%21%2Cf_auto%2Cq_auto%3Agood%2Cfl_progressive%3Asteep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0bf2edb3-90a7-4ae0-9293-947c75ff891e_3360x2110.png",
+    "width": 1800,
+    "height": 1130
+  },
+  "dxy-and-usd-pairs": {
+    "status": "downloaded",
+    "title": "Currency Strength Heat Map",
+    "path": "assets/learn-trading/dxy-and-usd-pairs.jpg",
+    "source_page": "https://www.theforexchronicles.com/the-best-websites-for-monitoring-currency-strengths/",
+    "original_image": "https://www.theforexchronicles.com/wp-content/uploads/2023/10/Investing-Currencies-Heat-Map.png",
+    "width": 915,
+    "height": 810
   }
 }
