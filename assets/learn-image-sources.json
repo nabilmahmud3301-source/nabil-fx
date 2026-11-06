@@ -198,5 +198,50 @@
     "https://www.seputarforex.org/sf2016materi/post/2018-05/draft-revisi-mengenal-us-dollar-index-283455-54384.webp",
     "https://www.seputarforex.org/artikel/mengenal-us-dollar-index-125873-31",
     "US Dollar Index and EURUSD Correlation"
+  ],
+  "wyckoff": [
+    "https://gldt.mql5.vn/2025/10/mau-hinh-vsa-tao-day-2.png",
+    "https://tradingview.com.vn/mau-hinh-vsa-tao-day-trong-forex-khai-niem-dac-diem-nhan-dien-va-vi-du-minh-hoa/",
+    "Wyckoff Accumulation Schematic"
+  ],
+  "trading-journal": [
+    "https://journalhub.app/public/images/journalhub5.jpg",
+    "https://journalhub.app/",
+    "Trading Journal Performance Dashboard"
+  ],
+  "kelly-criterion": [
+    "https://cdn.prod.website-files.com/6912a6226b9ceff8915f5595/69fb3abb31716c8e9e45decd_69f2f860f1f81974e6fd335e_Gemini_Generated_Image_v1mv15v1mv15v1mv.webp",
+    "https://experts.deriv.com/insights/kelly-criterion-position-sizing",
+    "Kelly Criterion Formula"
+  ],
+  "expectancy": [
+    "https://forexmechanics.com/traders-workshop/strategy-building/1200/equity-curve-with-drawdown-positive-expectancy-strategy.jpg",
+    "https://forexmechanics.com/traders-workshop/strategy-building/",
+    "Strategy Equity Curve and Drawdown"
+  ],
+  "risk-of-ruin": [
+    "https://forexmechanics.com/risk-management/risk-per-trade/1200/ryzyko-na-transakcje-skala-ryzyka-1-procent.jpg",
+    "https://forexmechanics.com/risk-management/risk-per-trade/",
+    "Drawdown and Losing Streak Risk"
+  ],
+  "employment-data": [
+    "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fc5395ec83fbfbd1417363a5161fb1ef567bfd808-1200x896.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "https://fxnx.com/en/blog/5-economic-reports-that-can-impact-forex-fxnx-insights",
+    "Forex Economic Reports"
+  ],
+  "footprint-chart": [
+    "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F8a5682461258e3f2f8642dd0dbd6957e7b68a4b8-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80%26fit%3Dmax&w=3840",
+    "https://fxnx.com/en/blog/footprint-charts-see-inside-forex-candles",
+    "Footprint Chart Bid and Ask Delta"
+  ],
+  "monte-carlo-analysis": [
+    "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fec6d88e7f64cf76a0616f716a96aec7d8729d8db-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "https://fxnx.com/en/blog/monte-carlo-stress-test-your-forex-strategy",
+    "Monte Carlo Strategy Simulation"
+  ],
+  "volume-divergence": [
+    "https://storage.ghost.io/c/f4/3d/f43d7027-0865-4e5d-adbc-3e641f890835/content/images/2026/06/data-src-image-6ebf3052-3fd1-455c-9bbd-aa20af1f967e.png",
+    "https://dhan.co/blog/technical-analysis/volume-analysis-confirming-price-action/",
+    "Price and Volume Divergence"
   ]
 }
