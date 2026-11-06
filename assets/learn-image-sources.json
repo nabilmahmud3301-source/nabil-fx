@@ -210,9 +210,9 @@
     "Trading Journal Performance Dashboard"
   ],
   "kelly-criterion": [
-    "https://cdn.prod.website-files.com/6912a6226b9ceff8915f5595/69fb3abb31716c8e9e45decd_69f2f860f1f81974e6fd335e_Gemini_Generated_Image_v1mv15v1mv15v1mv.webp",
-    "https://experts.deriv.com/insights/kelly-criterion-position-sizing",
-    "Kelly Criterion Formula"
+    "https://assets.mbrenndoerfer.com/notebooks/1_quant_trading_overview_files/kelly-criterion-surface.png",
+    "https://mbrenndoerfer.com/writing/quantitative-trading-strategies-overview-alpha-backtesting",
+    "Kelly Criterion Optimal Position Sizing"
   ],
   "expectancy": [
     "https://forexmechanics.com/traders-workshop/strategy-building/1200/equity-curve-with-drawdown-positive-expectancy-strategy.jpg",
@@ -443,5 +443,30 @@
     "https://pbs.twimg.com/media/HJQdr48WsAAcLhP.jpg",
     "https://x.com/midrizzy1",
     "Entry, Stop Loss and Invalidation"
+  ],
+  "liquidity": [
+    "https://b2broker.com/a-media/orderbookdepth.png",
+    "https://b2broker.com/news/liquidity-examples/",
+    "Forex Order Book Depth and Liquidity"
+  ],
+  "r-multiples": [
+    "https://forexmechanics.com/traders-workshop/market-screening-checklist/1200/histogram-r-multiple-distribution-screening-checklist-forex.jpg",
+    "https://forexmechanics.com/traders-workshop/market-screening-checklist/",
+    "R-Multiple Distribution and Expectancy"
+  ],
+  "central-bank-policy": [
+    "https://www.expat.hsbc.com/content/dam/hsbc/en/wealth/images/wealth-needs/investment-tips/147384-20240125/147384-0002.JPG",
+    "https://www.expat.hsbc.com/wealth/insights/learn-to-invest/start-investing/2024-01-25/",
+    "Central Bank Policy Rate Trends"
+  ],
+  "trade-management": [
+    "https://pbs.twimg.com/media/HJQdr48WsAAcLhP.jpg",
+    "https://x.com/midrizzy1",
+    "Entry, Take Profit, Stop Loss and Invalidation"
+  ],
+  "yield-differentials": [
+    "https://research-titanfx-cms.titanfx.com/4_1a0ef2475b.png",
+    "https://research.titanfx.com/forex-trading/fx-structure",
+    "Carry Trade Interest Rate Differential"
   ]
 }
