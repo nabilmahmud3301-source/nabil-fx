@@ -9110,6 +9110,40 @@ window.renderBacktestMetrics=function(r,meta={}){
   #page-learn .nfx-learn-topic-copy span { font-size:10px; }
   #page-learn .nfx-learn-detail { padding:10px; }
 }
+
+/* Mobile completeness pass: keep every Learn Trading section and every line of lesson text available. */
+@media (max-width:760px) {
+  #page-learn .nfx-learn-emblem { display:flex !important; }
+  #page-learn .nfx-learn-note { display:block !important; }
+  #page-learn .nfx-learn-categories {
+    display:flex !important; flex-wrap:wrap !important; overflow:visible !important;
+    white-space:normal !important; touch-action:auto !important; padding-bottom:2px !important;
+  }
+  #page-learn .nfx-learn-category { flex:0 1 auto !important; max-width:100%; white-space:normal !important; }
+  #page-learn .nfx-learn-topic-grid { grid-template-columns:minmax(0,1fr) !important; }
+  #page-learn .nfx-learn-topic-card { min-height:0 !important; height:auto !important; }
+  #page-learn .nfx-learn-topic-copy { display:block !important; }
+  #page-learn .nfx-learn-topic-copy span {
+    display:block !important; overflow:visible !important; white-space:normal !important;
+    -webkit-line-clamp:unset !important; -webkit-box-orient:initial !important;
+    text-overflow:clip !important; overflow-wrap:anywhere !important;
+  }
+  #page-learn .nfx-learn-detail,
+  #page-learn .nfx-learn-detail-grid,
+  #page-learn .nfx-learn-direction-grid,
+  #page-learn .nfx-learn-info,
+  #page-learn .nfx-learn-visual,
+  #page-learn .nfx-learn-direction-card { min-width:0 !important; max-width:100% !important; }
+  #page-learn .nfx-learn-detail p,
+  #page-learn .nfx-learn-detail li,
+  #page-learn .nfx-learn-info p,
+  #page-learn .nfx-learn-info li { white-space:normal !important; overflow:visible !important; overflow-wrap:anywhere !important; }
+  #page-learn .nfx-learn-disclaimer { display:block !important; }
+}
+@media (max-width:390px) {
+  #page-learn .nfx-learn-topic-grid { grid-template-columns:minmax(0,1fr) !important; }
+  #page-learn .nfx-learn-emblem { align-self:center; }
+}
 </style>
 
 </body>
