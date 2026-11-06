@@ -205,5 +205,65 @@
     "original_image": "https://webview.octaworks.net/pics/a/2_charts_article.png",
     "width": 1800,
     "height": 1013
+  },
+  "bollinger-bands": {
+    "status": "downloaded",
+    "title": "Bollinger Bands Squeeze",
+    "path": "assets/learn-trading/bollinger-bands.jpg",
+    "source_page": "https://tradersunion.com/interesting-articles/top-10-forex-chart-patterns-you-should-know/forex-chart-analysis/types-forex-trading-charts/",
+    "original_image": "https://tradersunion.com/uploads/articles/19853/bollinger-band-strategy-14.jpeg",
+    "width": 1580,
+    "height": 887
+  },
+  "ichimoku": {
+    "status": "download_error",
+    "title": "Ichimoku Cloud",
+    "source_page": "https://ichimoku.kumo360.com/training",
+    "error": "HTTPSConnectionPool(host='ichimoku.kumo360.com', port=443): Max retries exceeded with url: /images/training/analysis_chart.jpeg (Caused by NameResolutionError(\"HTTPSConnection(host='ichimoku.kumo360.com', port=443): Failed to resolve 'ichim"
+  },
+  "atr": {
+    "status": "downloaded",
+    "title": "Average True Range indicator",
+    "path": "assets/learn-trading/atr.jpg",
+    "source_page": "https://www.mql5.com/en/code/42408",
+    "original_image": "https://c.mql5.com/18/106/MT5chart.png",
+    "width": 720,
+    "height": 480
+  },
+  "rsi": {
+    "status": "downloaded",
+    "title": "RSI Overbought and Oversold",
+    "path": "assets/learn-trading/rsi.jpg",
+    "source_page": "https://www.cmcmarkets.com/en-gb/forex/forex-trading-strategies",
+    "original_image": "https://cdn.cmcmarkets.com/contentful/vl2kvsmutclx/759pgUfvghx3q9GNb0CroT/70a15d3e68e492642a9a584a1192d8cf/Overbought_and_sold_forex_trading_strategy_extra.webp?imwidth=1920",
+    "width": 768,
+    "height": 558
+  },
+  "adx-dmi": {
+    "status": "downloaded",
+    "title": "ADX Directional Movement",
+    "path": "assets/learn-trading/adx-dmi.jpg",
+    "source_page": "https://www.seputarforex.org/artikel/mengukur-kekuatan-trend-dengan-indikator-adx-123144-31",
+    "original_image": "https://www.seputarforex.org/sf2016materi/post/2013-04/mengukur-kekuatan-trend-dengan-indikator-adx-123144-1.webp",
+    "width": 767,
+    "height": 470
+  },
+  "volume-profile": {
+    "status": "downloaded",
+    "title": "Volume Profile with POC and Nodes",
+    "path": "assets/learn-trading/volume-profile.jpg",
+    "source_page": "https://fxnx.com/en/blog/volume-profile-spot-institutional-poc-trade-smarter",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F27e7db145fb3303650c4e93a697025eded687896-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "width": 800,
+    "height": 597
+  },
+  "vwap": {
+    "status": "downloaded",
+    "title": "VWAP Intraday Chart",
+    "path": "assets/learn-trading/vwap.jpg",
+    "source_page": "https://liquidity-provider.com/articles/volume-weighted-average-price-vwap-definition/",
+    "original_image": "https://liquidity-provider.com/app/uploads/2024/03/trading-with-vwap-indicator-1600x882.png",
+    "width": 1600,
+    "height": 882
   }
 }
