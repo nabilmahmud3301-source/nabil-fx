@@ -23,7 +23,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install downloader
-        run: python -m pip install requests pillow beautifulsoup4
+        run: python -m pip install requests pillow
       - name: Download topic-specific licensed images
         run: python scripts/fetch_learn_images.py
       - name: Commit local images and attribution manifest
