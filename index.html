@@ -9023,7 +9023,7 @@ window.renderBacktestMetrics=function(r,meta={}){
   }
   function renderCards(){
     const list=filtered();
-    $('nfxLearnTopicGrid').innerHTML=list.map(t=>`<button type="button" class="nfx-learn-topic-card" data-learn-topic="${t.id}"><span class="nfx-learn-topic-copy"><small>${esc(t.cat.toUpperCase())}</small><strong>${esc(t.title)}</strong><span>${esc(t.intro)}</span></span></button>`).join('');
+    $('nfxLearnTopicGrid').innerHTML=list.map(t=>`<button type="button" class="nfx-learn-topic-card" data-learn-topic="${t.id}"><img class="nfx-learn-topic-thumb" src="assets/learn-trading/${t.id}.jpg" alt="" loading="lazy" onerror="this.hidden=true"><span class="nfx-learn-topic-copy"><small>${esc(t.cat.toUpperCase())}</small><strong>${esc(t.title)}</strong><span>${esc(t.intro)}</span></span></button>`).join('');
     $('nfxLearnCount').textContent=list.length+' TOPICS';
     $('nfxLearnSearchMeta').textContent=query?'Showing '+list.length+' matching topic(s).':'Browse '+topics.length+' lessons across '+(categories.length-1)+' learning areas.';
     $('nfxLearnEmpty').hidden=list.length!==0;
@@ -9197,5 +9197,13 @@ window.renderBacktestMetrics=function(r,meta={}){
 }
 </style>
 
+<style id="nfx-learn-topic-image-styles">
+#page-learn .nfx-learn-topic-card{display:flex;flex-direction:column;overflow:hidden;text-align:left}
+#page-learn .nfx-learn-topic-thumb{display:block;width:100%;height:150px;object-fit:cover;background:#080d13;border-bottom:1px solid #263444}
+#page-learn .nfx-learn-topic-thumb[hidden]{display:none}
+#page-learn .nfx-learn-topic-copy{display:flex;flex-direction:column;gap:7px;padding:15px}
+#page-learn .nfx-learn-topic-copy strong{line-height:1.3}
+@media(max-width:640px){#page-learn .nfx-learn-topic-thumb{height:120px}}
+</style>
 </body>
 </html>
