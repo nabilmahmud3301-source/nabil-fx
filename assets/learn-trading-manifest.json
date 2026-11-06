@@ -877,5 +877,74 @@
     "original_image": "https://asiaprofx.com/uploads/images/2021/09/image_750x_615414f191252.jpg",
     "width": 750,
     "height": 503
+  },
+  "fomo": {
+    "status": "downloaded",
+    "title": "FOMO Chasing a Breakout",
+    "path": "assets/learn-trading/fomo.jpg",
+    "source_page": "https://fxnx.com/en/blog/fomo-trading-the-science-of-the-amygdala-hijack-5-rules",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fec96dc37ed9ecdc5fd4e90e7c6c70dff7648ce5c-1200x896.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "width": 800,
+    "height": 597
+  },
+  "overtrading": {
+    "status": "downloaded",
+    "title": "Revenge Trading and Overtrading",
+    "path": "assets/learn-trading/overtrading.jpg",
+    "source_page": "https://medium.com/write-a-catalyst/revenge-trading-explained-the-mistake-that-cost-me-more-than-any-strategy-ever-did-32c4adc51339",
+    "original_image": "https://miro.medium.com/v2/resize%3Afit%3A1400/1%2AlwyF8Jtyi4i08liXmlHzVw.png",
+    "width": 1400,
+    "height": 933
+  },
+  "posttrade-review": {
+    "status": "download_error",
+    "title": "Trade Journal Review and Mistakes Analysis",
+    "source_page": "https://www.ohyaatradingjournal.com/dashboard-analytics",
+    "error": "404 Client Error: Not Found for url: https://www.ohyaatradingjournal.com/screenshots/dashboard-charts.png"
+  },
+  "mae-mfe": {
+    "status": "downloaded",
+    "title": "MAE and MFE on a Trading Chart",
+    "path": "assets/learn-trading/mae-mfe.jpg",
+    "source_page": "https://www.tradingheroes.com/mfe-mae-explained/",
+    "original_image": "https://www.tradingheroes.com/wp-content/uploads/chart-example.jpg",
+    "width": 1800,
+    "height": 1066
+  },
+  "pretrade-checklist": {
+    "status": "downloaded",
+    "title": "Forex Pre-Trade Checklist",
+    "path": "assets/learn-trading/pretrade-checklist.jpg",
+    "source_page": "https://www.traderdetector.com/trading/how-to-build-a-forex-trading-plan-template-step-by-step",
+    "original_image": "https://www.traderdetector.com/images/2026/02/pretrade-checklist-and-daily-routine-execution-nzmcg.webp",
+    "width": 1536,
+    "height": 1024
+  },
+  "sample-size": {
+    "status": "downloaded",
+    "title": "Sample Size and Statistical Confidence",
+    "path": "assets/learn-trading/sample-size.jpg",
+    "source_page": "https://mybank.pl/forex/zarzadzanie-ryzykiem/matematyka-strat-risk-of-ruin/",
+    "original_image": "https://mybank.pl/forex/zarzadzanie-ryzykiem/matematyka-strat-risk-of-ruin/1200/wielkosc-probki-a-pewnosc-edge.jpg",
+    "width": 1200,
+    "height": 800
+  },
+  "forward-testing": {
+    "status": "downloaded",
+    "title": "Demo vs Live Forward Execution",
+    "path": "assets/learn-trading/forward-testing.jpg",
+    "source_page": "https://mybank.pl/forex/platformy-narzedzia/demo-backtesting-forward-testing/",
+    "original_image": "https://mybank.pl/forex/platformy-narzedzia/demo-backtesting-forward-testing/1200/slippage-demo-vs-live-comparison.jpg",
+    "width": 1200,
+    "height": 800
+  },
+  "portfolio-risk": {
+    "status": "downloaded",
+    "title": "Portfolio Heat and Risk Exposure",
+    "path": "assets/learn-trading/portfolio-risk.jpg",
+    "source_page": "https://signalwavesai.com/articles/modern-position-sizing-risk-control-2025",
+    "original_image": "https://signalwavesai.com/images/articles/Modern-Position-Sizing-%26-Risk-Control-2025/portfolio-heat-management.png",
+    "width": 1536,
+    "height": 1024
   }
 }
