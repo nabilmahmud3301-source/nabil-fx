@@ -1081,5 +1081,80 @@
     "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fc242aa6a936f193b8b6b4f95f656fd6cf32c8c31-1200x896.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
     "width": 800,
     "height": 597
+  },
+  "unicorn-model": {
+    "status": "downloaded",
+    "title": "Bullish ICT Unicorn: Breaker Block and FVG",
+    "path": "assets/learn-trading/unicorn-model.jpg",
+    "source_page": "https://www.fluxcharts.com/articles/ict-unicorn-strategy-explained-how-to-identify-and-trade-it",
+    "original_image": "https://cdn.prod.website-files.com/697103179acf24479947e31c/697a7ca24cf0c7e92370068a_articles%252Ftrading-strategies%252Fict-strategies%252Fict-unicorn%252FICT%2520Unicorn%25204.png",
+    "width": 1800,
+    "height": 1013
+  },
+  "channels": {
+    "status": "downloaded",
+    "title": "Ascending, Descending and Sideways Channels",
+    "path": "assets/learn-trading/channels.jpg",
+    "source_page": "https://www.babypips.com/learn/forex/channels",
+    "original_image": "https://bpcdn.co/images/2016/05/grade1-channel.png",
+    "width": 1020,
+    "height": 620
+  },
+  "volume-climax": {
+    "status": "download_error",
+    "title": "Wyckoff Selling Climax and Accumulation",
+    "source_page": "https://blog.dev-sync.com/wyckoff-in-depth-part-v/",
+    "error": "HTTPSConnectionPool(host='blog.dev-sync.com', port=443): Max retries exceeded with url: /content/images/2024/07/image-20.png (Caused by NewConnectionError(\"HTTPSConnection(host='blog.dev-sync.com', port=443): Failed to establish a new conne"
+  },
+  "position-sizing": {
+    "status": "downloaded",
+    "title": "Forex Position Size Calculator",
+    "path": "assets/learn-trading/position-sizing.jpg",
+    "source_page": "https://fxnx.com/en/blog/forex-position-size-calculator-master-your-risk",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F68a912a49ae3e9e5f1716c8b75e8e52825ca4b14-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "width": 800,
+    "height": 597
+  },
+  "nwog-ndog": {
+    "status": "downloaded",
+    "title": "New Day Opening Gap and Daily Open",
+    "path": "assets/learn-trading/nwog-ndog.jpg",
+    "source_page": "https://en.rattibha.com/thread/1810297940952375713",
+    "original_image": "https://pbs.twimg.com/media/GR94ds_WIAARNQK.jpg",
+    "width": 1104,
+    "height": 943
+  },
+  "drawdown": {
+    "status": "download_error",
+    "title": "Drawdown After a Losing Streak",
+    "source_page": "https://forexmechanics.com/risk-management/risk-per-trade/",
+    "error": "404 Client Error: Not Found for url: https://forexmechanics.com/risk-management/risk-per-trade/1200/ryzyko-na-transakcje-skala-ryzyka-1-procent.jpg"
+  },
+  "pdh-pdl": {
+    "status": "downloaded",
+    "title": "PDH and PDL Levels on EURUSD",
+    "path": "assets/learn-trading/pdh-pdl.jpg",
+    "source_page": "https://www.mql5.com/en/market/product/93461",
+    "original_image": "https://c.mql5.com/31/869/smart-market-structure-concepts-mt5-screen-7412.png",
+    "width": 1747,
+    "height": 1039
+  },
+  "mss": {
+    "status": "downloaded",
+    "title": "Market Structure Shift (MSS)",
+    "path": "assets/learn-trading/mss.jpg",
+    "source_page": "https://note.com/ailucky/n/nb8344e017800",
+    "original_image": "https://assets.st-note.com/img/1777092325-Nu9XTYpdBhvQ4eWyDi6Eotj2.png?width=1200",
+    "width": 1200,
+    "height": 655
+  },
+  "swing-points": {
+    "status": "downloaded",
+    "title": "Forex Swing Highs and Swing Lows",
+    "path": "assets/learn-trading/swing-points.jpg",
+    "source_page": "https://www.actionforex.com/articles/forex-trading/26596-what-is-price-action-in-forex-trading/",
+    "original_image": "https://www.actionforex.com/images/articles/icmarkets/201707110204.gif",
+    "width": 600,
+    "height": 397
   }
 }
