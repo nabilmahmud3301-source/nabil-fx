@@ -563,5 +563,35 @@
     "https://substackcdn.com/image/fetch/%24s_%21F2_g%21%2Cf_auto%2Cq_auto%3Agood%2Cfl_progressive%3Asteep/https%3A/substack-post-media.s3.amazonaws.com/public/images/53f57265-d900-410a-b1df-800a21ae9955_2422x1392.png",
     "https://beyondcandlesticks.substack.com/p/understanding-order-flow-pt-2",
     "Footprint Chart Exhaustion and Balance"
+  ],
+  "crt": [
+    "https://www.quantum-algo.com/img/guides/candle-range-theory-three-candles-range-manipulation-distribution-v545.webp",
+    "https://www.quantum-algo.com/blog/guides/candle-range-theory-crt/",
+    "Candle Range Theory: Range, Manipulation and Distribution"
+  ],
+  "internal-external": [
+    "https://liquidity-provider.com/app/uploads/2025/07/example-of-irl-and-erl-on-chart-1536x704.png",
+    "https://liquidity-provider.com/articles/internal-vs-external-range-liquidity-in-ict-trading/",
+    "Internal and External Range Liquidity"
+  ],
+  "opening-range": [
+    "https://fxopen.com/blog/en/content/images/2025/09/data-src-image-10ac22cc-2260-4279-9dd4-b0115e67ac50.png",
+    "https://fxopen.com/blog/en/opening-range-breakout-strategy/",
+    "London Opening Range Breakout"
+  ],
+  "nwog": [
+    "https://cdn.arongroups.co/uploads/2026/05/image3-7-1024x670.png",
+    "https://arongroups.co/technical-analyze/ict-nwog-new-week-opening-gap/",
+    "New Week Opening Gap"
+  ],
+  "inducement": [
+    "https://pbs.twimg.com/media/F_7d3TDWwAAWfPa.jpg",
+    "https://en.rattibha.com/thread/1729063137666834593",
+    "Inducement and Liquidity at POI"
+  ],
+  "liquidity-void": [
+    "https://www.brokerxplorer.com/upload/content/2024-10/forex-learning-fair-value-gap-fvg-in-ict-concept-6393-17286307585.jpg",
+    "https://www.brokerxplorer.com/article/forex-learning-fair-value-gap-fvg-in-ict-concept-6393",
+    "Displacement, Imbalance and Liquidity Void"
   ]
 }
