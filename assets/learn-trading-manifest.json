@@ -16,12 +16,12 @@
   },
   "breaker-block": {
     "status": "downloaded",
-    "title": "Breaker Block and FVG",
+    "title": "ICT Breaker and Mitigation Block",
     "path": "assets/learn-trading/breaker-block.jpg",
-    "source_page": "https://en.rattibha.com/thread/1580712244954173440",
-    "original_image": "https://pbs.twimg.com/media/Fe_Rhc0XwAIL29V.jpg",
-    "width": 1200,
-    "height": 614
+    "source_page": "https://www.brokerxplorer.com/article/advanced-ict-trading-all-about-breaker-and-mitigation-blocks-6489",
+    "original_image": "https://www.brokerxplorer.com/upload/content/2024-11/advanced-ict-trading-all-about-breakers-and-mitigation-blocks-6489-173209633114.png",
+    "width": 1375,
+    "height": 599
   },
   "choch": {
     "status": "downloaded",
@@ -190,12 +190,12 @@
   },
   "fvg": {
     "status": "downloaded",
-    "title": "Fair Value Gap chart",
+    "title": "Fair Value Gap and Consequent Encroachment",
     "path": "assets/learn-trading/fvg.jpg",
-    "source_page": "https://www.strike.money/technical-analysis/fair-value-gap",
-    "original_image": "https://www.strike.money/wp-content/uploads/2025/12/image-4-1024x465.png",
-    "width": 1024,
-    "height": 465
+    "source_page": "https://fxnx.com/en/blog/precision-trading-consequent-encroachment-50-fvg",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fff032c4316891a6c2d6934df95efe6d0fa541312-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80%26fit%3Dmax&w=3840",
+    "width": 800,
+    "height": 597
   },
   "multi-timeframe-analysis": {
     "status": "downloaded",
@@ -562,12 +562,12 @@
   },
   "ote": {
     "status": "downloaded",
-    "title": "Optimal Trade Entry Fibonacci Zone",
+    "title": "ICT Fibonacci OTE Zone",
     "path": "assets/learn-trading/ote.jpg",
-    "source_page": "https://signalwavesai.com/articles/ict-trading-strategy",
-    "original_image": "https://www.signalwavesai.com/images/articles/ICT-Trading-Strategy/ict-optimal-trade-entry.png",
-    "width": 1536,
-    "height": 1024
+    "source_page": "https://fxnx.com/en/blog/mastering-the-ict-fibonacci-retracement-a-traders-guide",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fabc6d8809983b77c04968cdeb20e79870ff1db9f-1200x896.png%3Fw%3D800%26fm%3Dwebp%26q%3D80%26fit%3Dmax&w=3840",
+    "width": 800,
+    "height": 597
   },
   "candlestick-engulfing": {
     "status": "downloaded",
@@ -1036,5 +1036,50 @@
     "original_image": "https://liquidity-provider.com/app/uploads/2025/07/example-of-irl-and-erl-on-chart-1536x704.png",
     "width": 1536,
     "height": 704
+  },
+  "london-killzone": {
+    "status": "downloaded",
+    "title": "London Killzone and Asian Range",
+    "path": "assets/learn-trading/london-killzone.jpg",
+    "source_page": "https://www.youtube.com/watch?v=AmwFBku47dU",
+    "original_image": "https://i.ytimg.com/vi/AmwFBku47dU/maxresdefault.jpg",
+    "width": 1280,
+    "height": 720
+  },
+  "ict-2022-model": {
+    "status": "downloaded",
+    "title": "ICT 2022 Model Buy Setup",
+    "path": "assets/learn-trading/ict-2022-model.jpg",
+    "source_page": "https://x.com/bullprooftrader/status/1901618127529459940",
+    "original_image": "https://pbs.twimg.com/media/GmPndKPXIAAsug0.jpg",
+    "width": 960,
+    "height": 827
+  },
+  "ndog": {
+    "status": "downloaded",
+    "title": "New Day Opening Gap",
+    "path": "assets/learn-trading/ndog.jpg",
+    "source_page": "https://en.rattibha.com/thread/1810297940952375713",
+    "original_image": "https://pbs.twimg.com/media/GR94ds_WIAARNQK.jpg",
+    "width": 1104,
+    "height": 943
+  },
+  "fvg-ce": {
+    "status": "downloaded",
+    "title": "FVG Consequent Encroachment Midpoint",
+    "path": "assets/learn-trading/fvg-ce.jpg",
+    "source_page": "https://fxnx.com/en/blog/precision-trading-consequent-encroachment-50-fvg",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fff032c4316891a6c2d6934df95efe6d0fa541312-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80%26fit%3Dmax&w=3840",
+    "width": 800,
+    "height": 597
+  },
+  "silver-bullet": {
+    "status": "downloaded",
+    "title": "ICT Silver Bullet Window: Sweep and FVG Entry",
+    "path": "assets/learn-trading/silver-bullet.jpg",
+    "source_page": "https://fxnx.com/en/blog/ict-killzones-master-xauusd-timing-maximum-profit",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fc242aa6a936f193b8b6b4f95f656fd6cf32c8c31-1200x896.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "width": 800,
+    "height": 597
   }
 }
