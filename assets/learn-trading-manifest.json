@@ -336,10 +336,13 @@
     "height": 400
   },
   "ema-sma": {
-    "status": "download_error",
+    "status": "downloaded",
     "title": "Moving Average Crossover",
+    "path": "assets/learn-trading/ema-sma.jpg",
     "source_page": "https://it.trade-leader.com/articles/moving-average",
-    "error": "HTTPSConnectionPool(host='it.trade-leader.com', port=443): Read timed out."
+    "original_image": "https://it.trade-leader.com/assets/images/resources/ma/008.png",
+    "width": 750,
+    "height": 450
   },
   "kelly-criterion": {
     "status": "downloaded",
@@ -858,10 +861,13 @@
     "height": 597
   },
   "intermarket-analysis": {
-    "status": "download_error",
+    "status": "downloaded",
     "title": "Gold, Real Yields and US Dollar",
+    "path": "assets/learn-trading/intermarket-analysis.jpg",
     "source_page": "https://blog.hycmlab.com/a-few-tips-for-trading-gold-right-now/",
-    "error": "HTTPSConnectionPool(host='blog.hycmlab.com', port=443): Max retries exceeded with url: /wp-content/uploads/2021/11/Real-yields-and-USD.jpg (Caused by ConnectTimeoutError(<HTTPSConnection(host='blog.hycmlab.com', port=443) at 0x74e3fe7536e0>"
+    "original_image": "https://blog.hycmlab.com/wp-content/uploads/2021/11/Real-yields-and-USD.jpg",
+    "width": 1800,
+    "height": 905
   },
   "accumulation-distribution": {
     "status": "downloaded",
@@ -976,5 +982,59 @@
     "original_image": "https://coinxsight.com/images/blog/inline/order-flow-footprint-chart.png",
     "width": 1024,
     "height": 1024
+  },
+  "crt": {
+    "status": "downloaded",
+    "title": "Candle Range Theory: Range, Manipulation and Distribution",
+    "path": "assets/learn-trading/crt.jpg",
+    "source_page": "https://www.quantum-algo.com/blog/guides/candle-range-theory-crt/",
+    "original_image": "https://www.quantum-algo.com/img/guides/candle-range-theory-three-candles-range-manipulation-distribution-v545.webp",
+    "width": 1400,
+    "height": 787
+  },
+  "opening-range": {
+    "status": "downloaded",
+    "title": "London Opening Range Breakout",
+    "path": "assets/learn-trading/opening-range.jpg",
+    "source_page": "https://fxopen.com/blog/en/opening-range-breakout-strategy/",
+    "original_image": "https://fxopen.com/blog/en/content/images/2025/09/data-src-image-10ac22cc-2260-4279-9dd4-b0115e67ac50.png",
+    "width": 1420,
+    "height": 780
+  },
+  "liquidity-void": {
+    "status": "downloaded",
+    "title": "Displacement, Imbalance and Liquidity Void",
+    "path": "assets/learn-trading/liquidity-void.jpg",
+    "source_page": "https://www.brokerxplorer.com/article/forex-learning-fair-value-gap-fvg-in-ict-concept-6393",
+    "original_image": "https://www.brokerxplorer.com/upload/content/2024-10/forex-learning-fair-value-gap-fvg-in-ict-concept-6393-17286307585.jpg",
+    "width": 650,
+    "height": 440
+  },
+  "inducement": {
+    "status": "downloaded",
+    "title": "Inducement and Liquidity at POI",
+    "path": "assets/learn-trading/inducement.jpg",
+    "source_page": "https://en.rattibha.com/thread/1729063137666834593",
+    "original_image": "https://pbs.twimg.com/media/F_7d3TDWwAAWfPa.jpg",
+    "width": 997,
+    "height": 520
+  },
+  "nwog": {
+    "status": "downloaded",
+    "title": "New Week Opening Gap",
+    "path": "assets/learn-trading/nwog.jpg",
+    "source_page": "https://arongroups.co/technical-analyze/ict-nwog-new-week-opening-gap/",
+    "original_image": "https://cdn.arongroups.co/uploads/2026/05/image3-7-1024x670.png",
+    "width": 1024,
+    "height": 670
+  },
+  "internal-external": {
+    "status": "downloaded",
+    "title": "Internal and External Range Liquidity",
+    "path": "assets/learn-trading/internal-external.jpg",
+    "source_page": "https://liquidity-provider.com/articles/internal-vs-external-range-liquidity-in-ict-trading/",
+    "original_image": "https://liquidity-provider.com/app/uploads/2025/07/example-of-irl-and-erl-on-chart-1536x704.png",
+    "width": 1536,
+    "height": 704
   }
 }
