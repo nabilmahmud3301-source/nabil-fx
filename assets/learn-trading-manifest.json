@@ -1,742 +1,209 @@
 {
   "market-structure": {
-    "status": "no_verified_match",
-    "title": "Market Structure",
-    "candidate_count": 0
+    "status": "download_error",
+    "title": "Forex market structure: HH, HL, LH, LL",
+    "source_page": "https://forexmechanics.com/technical-analysis/trend-support-resistance/",
+    "error": "404 Client Error: Not Found for url: https://forexmechanics.com/technical-analysis/trend-support-resistance/1200/uptrend-downtrend-hh-hl-ll.jpg"
   },
   "bos": {
-    "status": "no_verified_match",
+    "status": "downloaded",
     "title": "Break of Structure (BOS)",
-    "candidate_count": 0
-  },
-  "mss": {
-    "status": "no_verified_match",
-    "title": "Market Structure Shift (MSS)",
-    "candidate_count": 0
-  },
-  "choch": {
-    "status": "no_verified_match",
-    "title": "Change of Character (CHoCH)",
-    "candidate_count": 0
-  },
-  "support-resistance": {
-    "status": "no_verified_match",
-    "title": "Support & Resistance",
-    "candidate_count": 0
-  },
-  "liquidity": {
-    "status": "no_verified_match",
-    "title": "Liquidity & Liquidity Pools",
-    "candidate_count": 0
-  },
-  "trendline": {
-    "status": "no_verified_match",
-    "title": "Trendlines & Channels",
-    "candidate_count": 0
-  },
-  "fvg": {
-    "status": "no_verified_match",
-    "title": "Fair Value Gap (FVG)",
-    "candidate_count": 0
-  },
-  "order-block": {
-    "status": "no_verified_match",
-    "title": "Order Block (OB)",
-    "candidate_count": 0
-  },
-  "liquidity-sweep": {
-    "status": "no_verified_match",
-    "title": "Liquidity Sweep",
-    "candidate_count": 0
-  },
-  "mitigation": {
-    "status": "no_verified_match",
-    "title": "Mitigation Block",
-    "candidate_count": 0
+    "path": "assets/learn-trading/bos.jpg",
+    "source_page": "https://innercircletrader.org/smart-money-concepts/break-of-structure/",
+    "original_image": "https://innercircletrader.org/wp-content/uploads/2024/01/bos-trading-pattern.png",
+    "width": 1756,
+    "height": 1104
   },
   "breaker-block": {
-    "status": "no_verified_match",
-    "title": "Breaker Block",
-    "candidate_count": 0
+    "status": "downloaded",
+    "title": "Breaker Block and FVG",
+    "path": "assets/learn-trading/breaker-block.jpg",
+    "source_page": "https://en.rattibha.com/thread/1580712244954173440",
+    "original_image": "https://pbs.twimg.com/media/Fe_Rhc0XwAIL29V.jpg",
+    "width": 1200,
+    "height": 614
   },
-  "ote": {
-    "status": "no_verified_match",
-    "title": "Optimal Trade Entry (OTE)",
-    "candidate_count": 0
+  "choch": {
+    "status": "downloaded",
+    "title": "Change of Character and Order Block",
+    "path": "assets/learn-trading/choch.jpg",
+    "source_page": "https://vocus.cc/article/64b0f022fd897800012260cc",
+    "original_image": "https://resize-image.vocus.cc/resize?compression=6&norotation=true&sign=2DPcob1znUOduxBImPXsCQ32YNcbj_dnp3rimlAqc-g&url=https%3A%2F%2Fimages.vocus.cc%2F26ca5c89-e396-478d-b65b-c20614f4c2b1.png&width=1200",
+    "width": 1200,
+    "height": 640
   },
-  "premium-discount": {
-    "status": "no_verified_match",
-    "title": "Premium & Discount",
-    "candidate_count": 0
+  "support-resistance": {
+    "status": "downloaded",
+    "title": "Support and Resistance",
+    "path": "assets/learn-trading/support-resistance.jpg",
+    "source_page": "https://fbs.eu/en/analytics/tips/top-5-support-and-resistance-indicators-and-strategies-28649",
+    "original_image": "https://cdn.fbs.eu/img/articles/28649/1663167176-f19c9085129709ee14d013be869df69b_1200x1200_q90v3.png",
+    "width": 1200,
+    "height": 725
   },
   "equal-highs-lows": {
-    "status": "no_verified_match",
-    "title": "Equal Highs & Equal Lows",
-    "candidate_count": 0
+    "status": "downloaded",
+    "title": "Equal Highs and Equal Lows",
+    "path": "assets/learn-trading/equal-highs-lows.jpg",
+    "source_page": "https://www.xs.com/en/blog/equal-highs-eqh/",
+    "original_image": "https://www.xs.com/storage/ht-ck-images/Bt6ktpLANR5plK7Og15LlKBCUNu8BG0MXJE6WyWR.png",
+    "width": 1536,
+    "height": 1024
+  },
+  "order-block": {
+    "status": "downloaded",
+    "title": "Bullish and Bearish Order Block",
+    "path": "assets/learn-trading/order-block.jpg",
+    "source_page": "https://www.ebc.com/forex/what-is-an-order-block-in-trading-beginner-s-guide",
+    "original_image": "https://www.ebc.com/upload/default/20250522/553e26fa6abab06cc14f636624968ba1.png",
+    "width": 1275,
+    "height": 854
+  },
+  "premium-discount": {
+    "status": "downloaded",
+    "title": "ICT Dealing Range and Premium/Discount",
+    "path": "assets/learn-trading/premium-discount.jpg",
+    "source_page": "https://fxnx.com/en/blog/ict-dealing-range-map-institutional-moves",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F6fcb7869866ad246f9a87fe751e2a3e885abd773-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "width": 800,
+    "height": 597
+  },
+  "liquidity-sweep": {
+    "status": "downloaded",
+    "title": "Liquidity Sweep",
+    "path": "assets/learn-trading/liquidity-sweep.jpg",
+    "source_page": "https://www.holoforex.com/blogs/trading-with-price-action",
+    "original_image": "https://www.holoforex.com/storage/medias/a1bqFy81gsmnsBMeyRgFCOZgg8rEqddzW34pnMLB.jpg",
+    "width": 1536,
+    "height": 1024
   },
   "session-levels": {
-    "status": "no_verified_match",
-    "title": "Session Highs & Lows",
-    "candidate_count": 0
+    "status": "downloaded",
+    "title": "Asian, London and New York Session Ranges",
+    "path": "assets/learn-trading/session-levels.jpg",
+    "source_page": "https://arongroups.co/technical-analyze/ict-killzone-indicator/",
+    "original_image": "https://cdn.arongroups.co/uploads/2026/01/ICT-Killzone-Indicator-3.jpg",
+    "width": 931,
+    "height": 600
   },
-  "pdh-pdl": {
-    "status": "no_verified_match",
-    "title": "Previous Day High & Low",
-    "candidate_count": 0
+  "mitigation": {
+    "status": "downloaded",
+    "title": "Mitigation Block",
+    "path": "assets/learn-trading/mitigation.jpg",
+    "source_page": "https://arongroups.co/technical-analyze/ict-pd-arrays/",
+    "original_image": "https://cdn.arongroups.co/uploads/2026/02/pd-array-9-1024x667.jpg",
+    "width": 1024,
+    "height": 667
   },
-  "crt": {
-    "status": "no_verified_match",
-    "title": "Candle Range Theory (CRT)",
-    "candidate_count": 0
+  "chart-patterns": {
+    "status": "downloaded",
+    "title": "Double Top and Head and Shoulders",
+    "path": "assets/learn-trading/chart-patterns.jpg",
+    "source_page": "https://www.litefinance.org/blog/for-beginners/trading-strategies/intraday-trading-strategies/",
+    "original_image": "https://cdn.litemarkets.com/cache/uploads/blog_post/blog_posts/intraday-trading-strategies/2025-new-logo/Intraday-Strategy-5.jpg?q=75&s=df60b179c119de491e196b002e8b6fb5",
+    "width": 1000,
+    "height": 447
   },
-  "turtle-soup": {
-    "status": "no_verified_match",
-    "title": "Turtle Soup",
-    "candidate_count": 0
+  "risk-management": {
+    "status": "downloaded",
+    "title": "Position Sizing and Risk Rule",
+    "path": "assets/learn-trading/risk-management.jpg",
+    "source_page": "https://fxnx.com/en/blog/2-risk-rule-mastering-position-sizing-long-term-survival",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F03b3162a13f99119f551276e2eb370a260ec26a4-1200x896.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "width": 800,
+    "height": 597
   },
   "candlesticks": {
     "status": "downloaded",
-    "title": "Candlestick Patterns",
+    "title": "Common Candlestick Patterns",
     "path": "assets/learn-trading/candlesticks.jpg",
-    "source_url": "https://s3.tradingview.com/5/5MNlWvJf_big.png",
-    "caption": "What Candlestick Patterns Mean at Levi Jacqueline blog What Candlestick Patterns Mean at Levi Jacqueline blog",
-    "relevance": 2,
-    "width": 1600,
-    "height": 808
-  },
-  "chart-patterns": {
-    "status": "no_verified_match",
-    "title": "Chart Patterns",
-    "candidate_count": 0
-  },
-  "volume": {
-    "status": "no_verified_match",
-    "title": "Volume & Volume Profile",
-    "candidate_count": 0
-  },
-  "fibonacci": {
-    "status": "no_verified_match",
-    "title": "Fibonacci Retracement",
-    "candidate_count": 0
-  },
-  "risk-management": {
-    "status": "no_verified_match",
-    "title": "Risk Management & Position Sizing",
-    "candidate_count": 0
-  },
-  "sessions": {
-    "status": "no_verified_match",
-    "title": "Forex Sessions & Market Hours",
-    "candidate_count": 0
-  },
-  "psychology": {
-    "status": "no_verified_match",
-    "title": "Trading Psychology & Discipline",
-    "candidate_count": 0
-  },
-  "backtesting": {
-    "status": "no_verified_match",
-    "title": "Backtesting & Strategy Validation",
-    "candidate_count": 0
-  },
-  "risk-reward": {
-    "status": "no_verified_match",
-    "title": "Risk-to-Reward & R-Multiples",
-    "candidate_count": 0
-  },
-  "news": {
-    "status": "no_verified_match",
-    "title": "Economic News & Fundamental Risk",
-    "candidate_count": 0
-  },
-  "internal-external": {
-    "status": "no_verified_match",
-    "title": "Internal vs External Structure",
-    "candidate_count": 0
+    "source_page": "https://beuke.org/technical-analysis/",
+    "original_image": "https://beuke.org/images/candlestick-patterns.png",
+    "width": 1785,
+    "height": 1200
   },
   "range-market": {
-    "status": "no_verified_match",
-    "title": "Range & Consolidation",
-    "candidate_count": 0
+    "status": "download_error",
+    "title": "Trend and Range Market Phases",
+    "source_page": "https://www.mql5.com/en/blogs/post/550684",
+    "error": "403 Client Error: Forbidden for url: https://c.mql5.com/6/566/1.png"
   },
-  "swing-points": {
-    "status": "no_verified_match",
-    "title": "Swing Highs & Swing Lows",
-    "candidate_count": 0
+  "risk-reward": {
+    "status": "download_error",
+    "title": "Forex Risk-to-Reward Ratio",
+    "source_page": "https://forexmechanics.com/risk-management/risk-reward-ratio/",
+    "error": "404 Client Error: Not Found for url: https://forexmechanics.com/risk-management/risk-reward-ratio/1200/rr-obliczanie-przyklad-eurusd.jpg"
   },
-  "breakout-retest": {
-    "status": "no_verified_match",
-    "title": "Breakout & Retest",
-    "candidate_count": 0
+  "news": {
+    "status": "downloaded",
+    "title": "NFP and CPI Market Reaction",
+    "path": "assets/learn-trading/news.jpg",
+    "source_page": "https://tradersunion.com/economy-calendar/how-to-use/",
+    "original_image": "https://tradersunion.com/uploads/articles/52817/market-reaction-to-nfp-and-cpi-data-5.jpeg",
+    "width": 1800,
+    "height": 835
   },
-  "rejection-candle": {
-    "status": "no_verified_match",
-    "title": "Rejection & Reversal Candles",
-    "candidate_count": 0
-  },
-  "inducement": {
-    "status": "no_verified_match",
-    "title": "Inducement",
-    "candidate_count": 0
-  },
-  "displacement": {
-    "status": "no_verified_match",
-    "title": "Displacement & Expansion",
-    "candidate_count": 0
-  },
-  "liquidity-void": {
-    "status": "no_verified_match",
-    "title": "Liquidity Void",
-    "candidate_count": 0
-  },
-  "bsl-ssl": {
-    "status": "no_verified_match",
-    "title": "Buy-Side & Sell-Side Liquidity",
-    "candidate_count": 0
-  },
-  "ifvg": {
-    "status": "no_verified_match",
-    "title": "Inverse Fair Value Gap (IFVG)",
-    "candidate_count": 0
-  },
-  "bpr": {
-    "status": "no_verified_match",
-    "title": "Balanced Price Range (BPR)",
-    "candidate_count": 0
-  },
-  "unicorn-model": {
-    "status": "no_verified_match",
-    "title": "Unicorn Model",
-    "candidate_count": 0
-  },
-  "judas-swing": {
-    "status": "no_verified_match",
-    "title": "Judas Swing",
-    "candidate_count": 0
-  },
-  "amd-po3": {
-    "status": "no_verified_match",
-    "title": "Power of Three (AMD)",
-    "candidate_count": 0
-  },
-  "kill-zones": {
-    "status": "no_verified_match",
-    "title": "ICT Kill Zones",
-    "candidate_count": 0
-  },
-  "smt-divergence": {
-    "status": "no_verified_match",
-    "title": "SMT Divergence",
-    "candidate_count": 0
-  },
-  "nwog-ndog": {
-    "status": "no_verified_match",
-    "title": "NWOG & NDOG",
-    "candidate_count": 0
-  },
-  "daily-weekly-open": {
-    "status": "no_verified_match",
-    "title": "Daily & Weekly Open",
-    "candidate_count": 0
-  },
-  "opening-range": {
-    "status": "no_verified_match",
-    "title": "Opening Range",
-    "candidate_count": 0
-  },
-  "rsi": {
-    "status": "no_verified_match",
-    "title": "Relative Strength Index (RSI)",
-    "candidate_count": 0
-  },
-  "ema-sma": {
-    "status": "no_verified_match",
-    "title": "Moving Averages (EMA & SMA)",
-    "candidate_count": 0
-  },
-  "macd": {
-    "status": "no_verified_match",
-    "title": "MACD",
-    "candidate_count": 0
-  },
-  "atr": {
-    "status": "no_verified_match",
-    "title": "Average True Range (ATR)",
-    "candidate_count": 0
-  },
-  "vwap": {
-    "status": "no_verified_match",
-    "title": "VWAP",
-    "candidate_count": 0
-  },
-  "volume-profile": {
-    "status": "no_verified_match",
-    "title": "Volume Profile",
-    "candidate_count": 0
-  },
-  "position-sizing": {
-    "status": "no_verified_match",
-    "title": "Position Sizing",
-    "candidate_count": 0
+  "trendline": {
+    "status": "downloaded",
+    "title": "Trendline and Price Channel",
+    "path": "assets/learn-trading/trendline.jpg",
+    "source_page": "https://fbs.eu/en/analytics/tips/top-5-support-and-resistance-indicators-and-strategies-28649",
+    "original_image": "https://cdn.fbs.eu/img/articles/28649/1663167176-f19c9085129709ee14d013be869df69b_1200x1200_q90v3.png",
+    "width": 1200,
+    "height": 725
   },
   "leverage-margin": {
-    "status": "no_verified_match",
-    "title": "Leverage & Margin",
-    "candidate_count": 0
+    "status": "downloaded",
+    "title": "Margin, Leverage, Lots and Spread",
+    "path": "assets/learn-trading/leverage-margin.jpg",
+    "source_page": "https://www.tradingview.com/chart/EURUSD/PH0NI38H-EDU-Bite-Sized-Mini-Series-Margin-Lots-Spread-What-are-they/",
+    "original_image": "https://s3.tradingview.com/p/PH0NI38H.png",
+    "width": 1583,
+    "height": 902
   },
-  "spread-slippage": {
-    "status": "no_verified_match",
-    "title": "Spread, Commission & Slippage",
-    "candidate_count": 0
+  "fibonacci": {
+    "status": "downloaded",
+    "title": "Fibonacci Retracement Levels",
+    "path": "assets/learn-trading/fibonacci.jpg",
+    "source_page": "https://b2broker.com/news/fibonacci-retracement-levels-comprehensive-guide/",
+    "original_image": "https://media.b2broker.com/app/uploads/2024/10/Fibonacci-retracement-chart-visualization-1000x657.png",
+    "width": 1000,
+    "height": 657
   },
-  "trading-journal": {
-    "status": "no_verified_match",
-    "title": "Trading Journal",
-    "candidate_count": 0
-  },
-  "trade-management": {
-    "status": "no_verified_match",
-    "title": "Trade Management & Exits",
-    "candidate_count": 0
-  },
-  "forward-testing": {
-    "status": "no_verified_match",
-    "title": "Forward Testing",
-    "candidate_count": 0
-  },
-  "expectancy": {
-    "status": "no_verified_match",
-    "title": "Expectancy & Win Rate",
-    "candidate_count": 0
-  },
-  "drawdown": {
-    "status": "no_verified_match",
-    "title": "Drawdown & Risk of Ruin",
-    "candidate_count": 0
-  },
-  "correlation": {
-    "status": "no_verified_match",
-    "title": "Currency Correlation & Exposure",
-    "candidate_count": 0
-  },
-  "wyckoff-spring": {
-    "status": "no_verified_match",
-    "title": "Wyckoff Spring",
-    "candidate_count": 0
-  },
-  "wyckoff": {
-    "status": "no_verified_match",
-    "title": "Wyckoff Method",
-    "candidate_count": 0
-  },
-  "wyckoff-upthrust": {
-    "status": "no_verified_match",
-    "title": "Wyckoff Upthrust",
-    "candidate_count": 0
-  },
-  "volume-spread-analysis": {
-    "status": "no_verified_match",
-    "title": "Volume Spread Analysis (VSA)",
-    "candidate_count": 0
-  },
-  "accumulation-distribution": {
-    "status": "no_verified_match",
-    "title": "Accumulation & Distribution",
-    "candidate_count": 0
-  },
-  "volume-climax": {
-    "status": "no_verified_match",
-    "title": "Buying & Selling Climax",
-    "candidate_count": 0
-  },
-  "volume-divergence": {
-    "status": "no_verified_match",
-    "title": "Price & Volume Divergence",
-    "candidate_count": 0
-  },
-  "market-profile": {
-    "status": "no_verified_match",
-    "title": "Market Profile & TPO",
-    "candidate_count": 0
-  },
-  "poc-vah-val": {
-    "status": "no_verified_match",
-    "title": "POC, VAH & VAL",
-    "candidate_count": 0
-  },
-  "footprint-chart": {
-    "status": "no_verified_match",
-    "title": "Footprint Charts & Bid-Ask Delta",
-    "candidate_count": 0
-  },
-  "cumulative-delta": {
-    "status": "no_verified_match",
-    "title": "Cumulative Volume Delta (CVD)",
-    "candidate_count": 0
-  },
-  "order-flow-imbalance": {
-    "status": "no_verified_match",
-    "title": "Order Flow Imbalance",
-    "candidate_count": 0
-  },
-  "absorption": {
-    "status": "no_verified_match",
-    "title": "Absorption",
-    "candidate_count": 0
-  },
-  "exhaustion": {
-    "status": "no_verified_match",
-    "title": "Exhaustion & Failed Auction",
-    "candidate_count": 0
-  },
-  "candlestick-engulfing": {
-    "status": "no_verified_match",
-    "title": "Engulfing Candles",
-    "candidate_count": 0
-  },
-  "pinbar-hammer": {
-    "status": "no_verified_match",
-    "title": "Pin Bar, Hammer & Shooting Star",
-    "candidate_count": 0
-  },
-  "inside-bar": {
-    "status": "no_verified_match",
-    "title": "Inside Bar & Mother Bar",
-    "candidate_count": 0
-  },
-  "outside-bar": {
-    "status": "no_verified_match",
-    "title": "Outside Bar",
-    "candidate_count": 0
-  },
-  "doji": {
-    "status": "no_verified_match",
-    "title": "Doji & Indecision Candles",
-    "candidate_count": 0
-  },
-  "double-top-bottom": {
-    "status": "no_verified_match",
-    "title": "Double Top & Double Bottom",
-    "candidate_count": 0
-  },
-  "head-shoulders": {
-    "status": "no_verified_match",
-    "title": "Head & Shoulders",
-    "candidate_count": 0
-  },
-  "triangles": {
-    "status": "no_verified_match",
-    "title": "Triangles: Ascending, Descending & Symmetrical",
-    "candidate_count": 0
-  },
-  "flags-pennants": {
-    "status": "no_verified_match",
-    "title": "Flags & Pennants",
-    "candidate_count": 0
-  },
-  "channels": {
-    "status": "no_verified_match",
-    "title": "Ascending & Descending Channels",
-    "candidate_count": 0
-  },
-  "wedges": {
-    "status": "no_verified_match",
-    "title": "Rising & Falling Wedges",
-    "candidate_count": 0
-  },
-  "rounding-patterns": {
-    "status": "no_verified_match",
-    "title": "Rounding Top & Rounding Bottom",
-    "candidate_count": 0
-  },
-  "elliott-wave": {
-    "status": "no_verified_match",
-    "title": "Elliott Wave Basics",
-    "candidate_count": 0
-  },
-  "gaps": {
-    "status": "no_verified_match",
-    "title": "Price Gaps: Common, Breakaway & Exhaustion",
-    "candidate_count": 0
-  },
-  "bollinger-bands": {
-    "status": "no_verified_match",
-    "title": "Bollinger Bands",
-    "candidate_count": 0
-  },
-  "ichimoku": {
-    "status": "no_verified_match",
-    "title": "Ichimoku Cloud",
-    "candidate_count": 0
-  },
-  "stochastic": {
-    "status": "no_verified_match",
-    "title": "Stochastic Oscillator",
-    "candidate_count": 0
-  },
-  "adx-dmi": {
-    "status": "no_verified_match",
-    "title": "ADX & Directional Movement",
-    "candidate_count": 0
-  },
-  "parabolic-sar": {
-    "status": "no_verified_match",
-    "title": "Parabolic SAR",
-    "candidate_count": 0
-  },
-  "donchian": {
-    "status": "no_verified_match",
-    "title": "Donchian Channels",
-    "candidate_count": 0
-  },
-  "keltner": {
-    "status": "no_verified_match",
-    "title": "Keltner Channels",
-    "candidate_count": 0
+  "kill-zones": {
+    "status": "downloaded",
+    "title": "London and New York Kill Zones",
+    "path": "assets/learn-trading/kill-zones.jpg",
+    "source_page": "https://www.ebc.com/forex/what-is-a-kill-zone-in-trading-a-guide-to-market-timing",
+    "original_image": "https://www.ebc.com/upload/portal/20260402/183720f7d8838ea17fba985bdf66ae94.png",
+    "width": 1536,
+    "height": 1024
   },
   "pivot-points": {
     "status": "downloaded",
     "title": "Pivot Points",
     "path": "assets/learn-trading/pivot-points.jpg",
-    "source_url": "https://www.investopedia.com/thmb/Gki5rOXxKlSujkodTmmvdaAbJC0=/1545x887/filters:no_upscale():max_bytes(150000):strip_icc()/PivotPoint-5c549c1246e0fb000164d06d.png",
-    "caption": "Pivot Point: Definition, Formulas, and How to Calculate Pivot Point: Definition, Formulas, and How to Calculate",
-    "relevance": 1,
-    "width": 1545,
-    "height": 887
+    "source_page": "https://tradeciety.com/5-ways-to-find-support-and-resistance-levels",
+    "original_image": "https://tradeciety.com/hubfs/Imported_Blog_Media/Pivot-Point-Support-and-Resistance.png",
+    "width": 1437,
+    "height": 785
   },
-  "round-numbers": {
-    "status": "no_verified_match",
-    "title": "Psychological & Round Number Levels",
-    "candidate_count": 0
-  },
-  "dxy-correlation": {
-    "status": "no_verified_match",
-    "title": "DXY & Currency Strength",
-    "candidate_count": 0
-  },
-  "interest-rates": {
+  "fvg": {
     "status": "downloaded",
-    "title": "Interest Rates & Central Banks",
-    "path": "assets/learn-trading/interest-rates.jpg",
-    "source_url": "https://www.investopedia.com/thmb/DheiDAbnZmPlhRLpFN8Qt-C4Mrc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/interest-rates-1d0e17952d9949b1bab273e830855f90.png",
-    "caption": "Interest Rates: Types and What They Mean to Borrowers Interest Rates: Types and What They Mean to Borrowers",
-    "relevance": 2,
-    "width": 1500,
-    "height": 1000
-  },
-  "inflation-data": {
-    "status": "no_verified_match",
-    "title": "Inflation: CPI & PCE",
-    "candidate_count": 0
-  },
-  "employment-data": {
-    "status": "no_verified_match",
-    "title": "Employment: NFP, Unemployment & Wages",
-    "candidate_count": 0
-  },
-  "fomc-policy": {
-    "status": "no_verified_match",
-    "title": "FOMC, ECB, BoE & BoJ Decisions",
-    "candidate_count": 0
-  },
-  "news-calendar": {
-    "status": "no_verified_match",
-    "title": "Economic Calendar & Event Planning",
-    "candidate_count": 0
-  },
-  "gdp-data": {
-    "status": "no_verified_match",
-    "title": "GDP & Growth Data",
-    "candidate_count": 0
-  },
-  "mae-mfe": {
-    "status": "no_verified_match",
-    "title": "MAE & MFE Analysis",
-    "candidate_count": 0
-  },
-  "kelly-criterion": {
-    "status": "no_verified_match",
-    "title": "Kelly Criterion & Fractional Kelly",
-    "candidate_count": 0
-  },
-  "portfolio-risk": {
-    "status": "no_verified_match",
-    "title": "Portfolio Heat & Exposure",
-    "candidate_count": 0
-  },
-  "risk-of-ruin": {
-    "status": "no_verified_match",
-    "title": "Risk of Ruin & Losing Streaks",
-    "candidate_count": 0
-  },
-  "r-multiples": {
-    "status": "no_verified_match",
-    "title": "R-Multiples & Trade Expectancy",
-    "candidate_count": 0
-  },
-  "pretrade-checklist": {
-    "status": "no_verified_match",
-    "title": "Pre-Trade Checklist",
-    "candidate_count": 0
-  },
-  "trading-plan": {
-    "status": "no_verified_match",
-    "title": "Building a Trading Plan",
-    "candidate_count": 0
-  },
-  "posttrade-review": {
-    "status": "no_verified_match",
-    "title": "Post-Trade Review",
-    "candidate_count": 0
-  },
-  "overtrading": {
-    "status": "no_verified_match",
-    "title": "Overtrading & Revenge Trading",
-    "candidate_count": 0
-  },
-  "fomo": {
-    "status": "no_verified_match",
-    "title": "FOMO & Chasing Price",
-    "candidate_count": 0
-  },
-  "confirmation-bias": {
-    "status": "no_verified_match",
-    "title": "Confirmation Bias & Hindsight",
-    "candidate_count": 0
-  },
-  "base-quote-currency": {
-    "status": "no_verified_match",
-    "title": "Base Currency & Quote Currency",
-    "candidate_count": 0
-  },
-  "pips-points-ticks": {
-    "status": "no_verified_match",
-    "title": "Pips, Points & Ticks",
-    "candidate_count": 0
-  },
-  "lot-size-contract-size": {
-    "status": "no_verified_match",
-    "title": "Lot Size & Contract Specifications",
-    "candidate_count": 0
-  },
-  "order-types": {
-    "status": "no_verified_match",
-    "title": "Market, Limit & Stop Orders",
-    "candidate_count": 0
-  },
-  "stop-vs-stop-limit": {
-    "status": "no_verified_match",
-    "title": "Stop-Market vs Stop-Limit",
-    "candidate_count": 0
-  },
-  "rollover-swap": {
-    "status": "no_verified_match",
-    "title": "Forex Rollover & Swap",
-    "candidate_count": 0
-  },
-  "forex-market-hours": {
-    "status": "no_verified_match",
-    "title": "Forex Market Hours & Sessions",
-    "candidate_count": 0
-  },
-  "daylight-saving-time": {
-    "status": "no_verified_match",
-    "title": "Daylight-Saving Time & Session Shifts",
-    "candidate_count": 0
-  },
-  "economic-surprise": {
-    "status": "no_verified_match",
-    "title": "Economic Data: Actual vs Forecast",
-    "candidate_count": 0
-  },
-  "yield-differentials": {
-    "status": "downloaded",
-    "title": "Interest-Rate Differentials & FX",
-    "path": "assets/learn-trading/yield-differentials.jpg",
-    "source_url": "https://www.investopedia.com/thmb/DY_T0jX3-mroBigUhecxB304mFo=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/interest.asp-final-c3fdffd368294a708ea21ff11cd4df06.png",
-    "caption": "Interest Bank Definition – What is compound interest? – VUMV Interest Bank Definition – What is compound interest? – VUMV",
-    "relevance": 1,
-    "width": 1482,
-    "height": 1000
-  },
-  "central-bank-policy": {
-    "status": "no_verified_match",
-    "title": "Central Bank Policy & Rate Decisions",
-    "candidate_count": 0
-  },
-  "intermarket-analysis": {
-    "status": "no_verified_match",
-    "title": "Intermarket Analysis",
-    "candidate_count": 0
-  },
-  "dxy-and-usd-pairs": {
-    "status": "no_verified_match",
-    "title": "DXY & Major USD Pairs",
-    "candidate_count": 0
+    "title": "Fair Value Gap chart",
+    "path": "assets/learn-trading/fvg.jpg",
+    "source_page": "https://www.strike.money/technical-analysis/fair-value-gap",
+    "original_image": "https://www.strike.money/wp-content/uploads/2025/12/image-4-1024x465.png",
+    "width": 1024,
+    "height": 465
   },
   "multi-timeframe-analysis": {
-    "status": "no_verified_match",
-    "title": "Multi-Timeframe Analysis",
-    "candidate_count": 0
-  },
-  "volatility-regimes": {
-    "status": "no_verified_match",
-    "title": "Volatility Regimes",
-    "candidate_count": 0
-  },
-  "trend-vs-mean-reversion": {
-    "status": "no_verified_match",
-    "title": "Trend-Following vs Mean-Reversion",
-    "candidate_count": 0
-  },
-  "volatility-compression": {
-    "status": "no_verified_match",
-    "title": "Volatility Compression & Expansion",
-    "candidate_count": 0
-  },
-  "stop-placement": {
-    "status": "no_verified_match",
-    "title": "Stop-Loss Placement & Invalidation",
-    "candidate_count": 0
-  },
-  "execution-quality": {
-    "status": "no_verified_match",
-    "title": "Execution Quality & Fill Analysis",
-    "candidate_count": 0
-  },
-  "broker-feed-quality": {
-    "status": "no_verified_match",
-    "title": "Broker Feeds, Candles & Data Quality",
-    "candidate_count": 0
-  },
-  "weekend-gap-risk": {
-    "status": "no_verified_match",
-    "title": "Weekend Gaps & Gap Risk",
-    "candidate_count": 0
-  },
-  "out-of-sample-testing": {
-    "status": "no_verified_match",
-    "title": "In-Sample vs Out-of-Sample Testing",
-    "candidate_count": 0
-  },
-  "walk-forward-analysis": {
-    "status": "no_verified_match",
-    "title": "Walk-Forward Analysis",
-    "candidate_count": 0
-  },
-  "sample-size": {
-    "status": "no_verified_match",
-    "title": "Sample Size & Statistical Confidence",
-    "candidate_count": 0
-  },
-  "monte-carlo-analysis": {
-    "status": "no_verified_match",
-    "title": "Monte Carlo Trade Simulation",
-    "candidate_count": 0
-  },
-  "backtest-overfitting": {
-    "status": "no_verified_match",
-    "title": "Backtest Overfitting & Curve Fitting",
-    "candidate_count": 0
+    "status": "downloaded",
+    "title": "Multi-Timeframe Chart Analysis",
+    "path": "assets/learn-trading/multi-timeframe-analysis.jpg",
+    "source_page": "https://webview.octaworks.net/education/article/how-candlestick-charts-work/",
+    "original_image": "https://webview.octaworks.net/pics/a/2_charts_article.png",
+    "width": 1800,
+    "height": 1013
   }
 }
