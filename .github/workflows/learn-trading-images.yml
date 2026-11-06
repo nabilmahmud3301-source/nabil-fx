@@ -10,11 +10,11 @@ permissions:
   contents: write
 concurrency:
   group: learn-trading-image-library
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   download-and-commit:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with:
