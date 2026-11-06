@@ -336,13 +336,10 @@
     "height": 400
   },
   "ema-sma": {
-    "status": "downloaded",
+    "status": "download_error",
     "title": "Moving Average Crossover",
-    "path": "assets/learn-trading/ema-sma.jpg",
     "source_page": "https://it.trade-leader.com/articles/moving-average",
-    "original_image": "https://it.trade-leader.com/assets/images/resources/ma/008.png",
-    "width": 750,
-    "height": 450
+    "error": "HTTPSConnectionPool(host='it.trade-leader.com', port=443): Read timed out."
   },
   "kelly-criterion": {
     "status": "downloaded",
@@ -568,5 +565,68 @@
     "original_image": "https://www.signalwavesai.com/images/articles/ICT-Trading-Strategy/ict-optimal-trade-entry.png",
     "width": 1536,
     "height": 1024
+  },
+  "candlestick-engulfing": {
+    "status": "downloaded",
+    "title": "Bullish and Bearish Engulfing",
+    "path": "assets/learn-trading/candlestick-engulfing.jpg",
+    "source_page": "https://www.ea-coder.com/how-to-read-and-understand-forex-candlestick-charts/",
+    "original_image": "https://www.ea-coder.com/wp-content/uploads/2014/07/Chart-image-of-a-bullish-and-bearish-engulfing-patter.png",
+    "width": 828,
+    "height": 545
+  },
+  "inside-bar": {
+    "status": "downloaded",
+    "title": "Mother Bar and Inside Bar",
+    "path": "assets/learn-trading/inside-bar.jpg",
+    "source_page": "https://www.seputarforex.org/artikel/cara-trading-memanfaatkan-mother-barinside-bar-combo-299240-31",
+    "original_image": "https://www.seputarforex.org/sf2016materi/post/-0001-11/cara-trading-memanfaatkan-mother-barinside-bar-combo-299240-27570.png",
+    "width": 958,
+    "height": 638
+  },
+  "doji": {
+    "status": "downloaded",
+    "title": "EURUSD Doji Candle",
+    "path": "assets/learn-trading/doji.jpg",
+    "source_page": "https://www.forexcrunch.com/blog/2020/09/14/eur-usd-price-analysis-weekly-doji-suggests-indecision/",
+    "original_image": "https://editorial.blob.core.windows.net/miscelaneous-input/8Vm1Qjg1F2F3x6jQR9ZTqbyr7UZMI55Hli7Uag07/EUR_USD-9-637356402701244197.png",
+    "width": 1405,
+    "height": 692
+  },
+  "breakout-retest": {
+    "status": "downloaded",
+    "title": "Breakout and Retest",
+    "path": "assets/learn-trading/breakout-retest.jpg",
+    "source_page": "https://www.alsahm.com/education/article/understanding-support-and-resistance-levels/3/technical-analysis-basics",
+    "original_image": "https://static2.alsahm.com/public/college/images/2023/09/04/905335907718864897.png",
+    "width": 750,
+    "height": 485
+  },
+  "pinbar-hammer": {
+    "status": "downloaded",
+    "title": "Pin Bar and Shooting Star",
+    "path": "assets/learn-trading/pinbar-hammer.jpg",
+    "source_page": "https://prathaptrader.com/learn/price-action-trading/",
+    "original_image": "https://prathaptrader.com/img/learn/pa-pin-bar.png",
+    "width": 1276,
+    "height": 728
+  },
+  "gaps": {
+    "status": "downloaded",
+    "title": "Breakaway, Runaway and Exhaustion Gaps",
+    "path": "assets/learn-trading/gaps.jpg",
+    "source_page": "https://fxnx.com/es/blog/dominando-brechas-ict-3-tipos-explicados",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F9bb5d7ce66d4414a87d48cbdab5582793738c867-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "width": 800,
+    "height": 597
+  },
+  "outside-bar": {
+    "status": "downloaded",
+    "title": "Bullish and Bearish Outside Bars",
+    "path": "assets/learn-trading/outside-bar.jpg",
+    "source_page": "https://sabiotrade.com/blog/best-forex-trading-strategies",
+    "original_image": "https://sabiotrade.com/cdn/2024/02/Outsidebar.png",
+    "width": 1239,
+    "height": 643
   }
 }
