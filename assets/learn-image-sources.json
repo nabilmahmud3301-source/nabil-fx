@@ -543,5 +543,25 @@
     "https://signalwavesai.com/images/articles/Modern-Position-Sizing-%26-Risk-Control-2025/portfolio-heat-management.png",
     "https://signalwavesai.com/articles/modern-position-sizing-risk-control-2025",
     "Portfolio Heat and Risk Exposure"
+  ],
+  "parabolic-sar": [
+    "https://cms.naga.com/image_957f4d8496.png",
+    "https://naga.com/eu/academy/parabolic-sar",
+    "Parabolic SAR on EURUSD"
+  ],
+  "wyckoff-upthrust": [
+    "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F2dd7c6795280b9ec328a116d31e3f80c87e21f4f-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80%26fit%3Dmax&w=3840",
+    "https://fxnx.com/en/blog/wyckoff-utad-master-distribution-reversals",
+    "Wyckoff Upthrust After Distribution"
+  ],
+  "absorption": [
+    "https://coinxsight.com/images/blog/inline/order-flow-footprint-chart.png",
+    "https://coinxsight.com/blog/indicators/order-flow-trading-guide",
+    "Footprint Chart Absorption Pattern"
+  ],
+  "exhaustion": [
+    "https://substackcdn.com/image/fetch/%24s_%21F2_g%21%2Cf_auto%2Cq_auto%3Agood%2Cfl_progressive%3Asteep/https%3A/substack-post-media.s3.amazonaws.com/public/images/53f57265-d900-410a-b1df-800a21ae9955_2422x1392.png",
+    "https://beyondcandlesticks.substack.com/p/understanding-order-flow-pt-2",
+    "Footprint Chart Exhaustion and Balance"
   ]
 }
