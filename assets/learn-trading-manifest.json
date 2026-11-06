@@ -1101,10 +1101,13 @@
     "height": 620
   },
   "volume-climax": {
-    "status": "download_error",
-    "title": "Wyckoff Selling Climax and Accumulation",
-    "source_page": "https://blog.dev-sync.com/wyckoff-in-depth-part-v/",
-    "error": "HTTPSConnectionPool(host='blog.dev-sync.com', port=443): Max retries exceeded with url: /content/images/2024/07/image-20.png (Caused by NewConnectionError(\"HTTPSConnection(host='blog.dev-sync.com', port=443): Failed to establish a new conne"
+    "status": "downloaded",
+    "title": "Wyckoff Buying Climax and Distribution",
+    "path": "assets/learn-trading/volume-climax.jpg",
+    "source_page": "https://www.tradingview.com/chart/BTCUSD/iOqHUQKi-After-Much-Thought-Looks-Like-Wyckoff-Distribution-Schematic-1/",
+    "original_image": "https://i.imgur.com/nOJl0Dd.png",
+    "width": 975,
+    "height": 585
   },
   "position-sizing": {
     "status": "downloaded",
@@ -1156,5 +1159,86 @@
     "original_image": "https://www.actionforex.com/images/articles/icmarkets/201707110204.gif",
     "width": 600,
     "height": 397
+  },
+  "stop-vs-stop-limit": {
+    "status": "downloaded",
+    "title": "Stop-Market vs Stop-Limit Orders",
+    "path": "assets/learn-trading/stop-vs-stop-limit.jpg",
+    "source_page": "https://www.babypips.com/trading/trading-order-types-guide",
+    "original_image": "https://bpcdn.co/images/2026/02/06113914/1-Babypips_PrimeXBT_The_Traders_Toolkit_7_Order_Types_Every_Beginner-docx-Google-Docs-02-06-2026_11_39_AM.png",
+    "width": 1244,
+    "height": 460
+  },
+  "bsl-ssl": {
+    "status": "downloaded",
+    "title": "Buy-Side and Sell-Side Liquidity Pools",
+    "path": "assets/learn-trading/bsl-ssl.jpg",
+    "source_page": "https://www.fluxcharts.com/articles/ict-turtle-soup-strategy-explained-how-to-identify-and-trade-it",
+    "original_image": "https://cdn.prod.website-files.com/697103179acf24479947e31c/697a7ca2660f6271d0df7801_articles%252Ftrading-strategies%252Fict-strategies%252Fict-turtle-soup%252FICT%2520Turtle%2520Soup%25202.png",
+    "width": 1800,
+    "height": 1013
+  },
+  "daylight-saving-time": {
+    "status": "downloaded",
+    "title": "Forex Session Hours and Daylight Saving",
+    "path": "assets/learn-trading/daylight-saving-time.jpg",
+    "source_page": "https://research.titanfx.com/forex-trading/tokyo-trading-time",
+    "original_image": "https://research-titanfx-cms.titanfx.com/2_5c4ebb49ed.png",
+    "width": 800,
+    "height": 500
+  },
+  "economic-surprise": {
+    "status": "downloaded",
+    "title": "Actual vs Forecast Economic Data Reaction",
+    "path": "assets/learn-trading/economic-surprise.jpg",
+    "source_page": "https://tradersunion.com/economy-calendar/how-to-use/",
+    "original_image": "https://tradersunion.com/uploads/articles/52817/market-reaction-to-nfp-and-cpi-data-5.jpeg",
+    "width": 1800,
+    "height": 835
+  },
+  "rejection-candle": {
+    "status": "downloaded",
+    "title": "Bullish Pin Bar Rejection at Support",
+    "path": "assets/learn-trading/rejection-candle.jpg",
+    "source_page": "https://tradeciety.com/8-candlestick-trading-strategies-for-forex",
+    "original_image": "https://26693533.fs1.hubspotusercontent-eu1.net/hubfs/26693533/Imported_Blog_Media/1-pin-bar-candlestick-strategy.png",
+    "width": 1451,
+    "height": 784
+  },
+  "confirmation-bias": {
+    "status": "downloaded",
+    "title": "Confirmation Bias in Trading",
+    "path": "assets/learn-trading/confirmation-bias.jpg",
+    "source_page": "https://www.tradingview.com/chart/XAUUSD/4mmAHt3n-Learn-What-is-Confirmation-Bias-Trading-Psychology/",
+    "original_image": "https://s3.tradingview.com/4/4mmAHt3n_big.png",
+    "width": 1800,
+    "height": 973
+  },
+  "double-top-bottom": {
+    "status": "downloaded",
+    "title": "Double Top and Double Bottom Patterns",
+    "path": "assets/learn-trading/double-top-bottom.jpg",
+    "source_page": "https://www.dukascopy.jp/useful-information/wiki/fx-double-top-bottom/",
+    "original_image": "https://www.dukascopy.com/media-storage/878310184/o/0/webp/",
+    "width": 1800,
+    "height": 1013
+  },
+  "interest-rates": {
+    "status": "downloaded",
+    "title": "Federal Reserve, ECB and Bank of England Policy Rates",
+    "path": "assets/learn-trading/interest-rates.jpg",
+    "source_page": "https://www.expat.hsbc.com/wealth/insights/learn-to-invest/start-investing/2024-01-25/",
+    "original_image": "https://www.expat.hsbc.com/content/dam/hsbc/en/wealth/images/wealth-needs/investment-tips/147384-20240125/147384-0002.JPG",
+    "width": 701,
+    "height": 495
+  },
+  "gdp-data": {
+    "status": "downloaded",
+    "title": "US GDP Growth Rate",
+    "path": "assets/learn-trading/gdp-data.jpg",
+    "source_page": "https://www.fxempire.com/forecasts/article/gold-xauusd-and-silver-build-positive-price-momentum-as-tariff-ruling-pressures-us-dollar-1522746",
+    "original_image": "https://responsive.fxempire.com/v7/_fxempire_/2025/05/US_GDP_Growth_Rate.png?func=crop&q=70",
+    "width": 1200,
+    "height": 820
   }
 }
