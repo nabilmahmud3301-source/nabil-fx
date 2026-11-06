@@ -1221,10 +1221,13 @@
     "height": 500
   },
   "economic-surprise": {
-    "status": "download_error",
-    "title": "EURUSD Reaction to US Nonfarm Payrolls Release",
-    "source_page": "https://new.fxblue.com/",
-    "error": "404 Client Error: Not Found for url: https://new.fxblue.com/img/home/nfp.png"
+    "status": "downloaded",
+    "title": "Average USDJPY Movement Around NFP Announcements",
+    "path": "assets/learn-trading/economic-surprise.jpg",
+    "source_page": "https://www.investing.com/analysis/dollar-rally-continues-227347",
+    "original_image": "https://d1-invdn-com.akamaized.net/content/pic02f1334a47ab33a8f7f4b455952a7b86.png",
+    "width": 694,
+    "height": 426
   },
   "rejection-candle": {
     "status": "downloaded",
