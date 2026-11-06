@@ -1,1301 +1,767 @@
 {
-  "support-resistance": {
-    "status": "downloaded",
-    "title": "Support & Resistance",
-    "path": "assets/learn-trading/support-resistance.jpg",
-    "source_url": "https://mediaproxy.snopes.com/width/1200/https://media.snopes.com/2025/11/trump_truth_social_elections_jason_shulman_getty.png",
-    "search_query": "\"Support & Resistance\" forex trading chart",
-    "width": 1200,
-    "height": 675
+  "choch": {
+    "status": "no_verified_match",
+    "title": "Change of Character (CHoCH)",
+    "candidate_count": 0
   },
-  "market-structure": {
-    "status": "downloaded",
-    "title": "Market Structure",
-    "path": "assets/learn-trading/market-structure.jpg",
-    "source_url": "https://i.pinimg.com/originals/de/26/0c/de260c842676590de3b7ded29ff9edfd.jpg?nii=t",
-    "search_query": "\"Market Structure\" forex trading chart",
-    "width": 1000,
-    "height": 1000
+  "support-resistance": {
+    "status": "no_verified_match",
+    "title": "Support & Resistance",
+    "candidate_count": 0
   },
   "mss": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Market Structure Shift (MSS)",
-    "path": "assets/learn-trading/mss.jpg",
-    "source_url": "https://i.pinimg.com/736x/52/9a/ed/529aed41ebab7f7412f30819bd739111.jpg",
-    "search_query": "\"Market Structure Shift (MSS)\" forex trading chart",
-    "width": 667,
-    "height": 1000
+    "candidate_count": 0
   },
   "bos": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Break of Structure (BOS)",
-    "path": "assets/learn-trading/bos.jpg",
-    "source_url": "https://ceoptions.com/wp-content/uploads/2022/11/coffee-drink-with-break-time-text-work-refreshment-concepts-top-view_254791-2035-scaled.webp",
-    "search_query": "\"Break of Structure (BOS)\" forex trading chart",
-    "width": 1423,
-    "height": 1000
+    "candidate_count": 0
   },
-  "choch": {
-    "status": "downloaded",
-    "title": "Change of Character (CHoCH)",
-    "path": "assets/learn-trading/choch.jpg",
-    "source_url": "https://wwd.com/wp-content/uploads/2021/01/GettyImages-73869531.jpg?resize=194",
-    "search_query": "\"Change of Character (CHoCH)\" forex trading chart",
-    "width": 647,
-    "height": 1000
+  "market-structure": {
+    "status": "no_verified_match",
+    "title": "Market Structure",
+    "candidate_count": 0
   },
   "liquidity": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Liquidity & Liquidity Pools",
-    "path": "assets/learn-trading/liquidity.jpg",
-    "source_url": "https://i.etsystatic.com/17927448/r/il/0d86b2/5712778798/il_1140xN.5712778798_jnzw.jpg",
-    "search_query": "\"Liquidity & Liquidity Pools\" forex trading chart",
-    "width": 1140,
-    "height": 740
-  },
-  "order-block": {
-    "status": "downloaded",
-    "title": "Order Block (OB)",
-    "path": "assets/learn-trading/order-block.jpg",
-    "source_url": "https://media.istockphoto.com/id/502938771/photo/cats-in-sunlight.jpg?s=1024x1024&w=is&k=20&c=p11lm6oxDWqi1yB_7BeDOl-GGEjSVVDkQSLsadrcqJg=",
-    "search_query": "\"Order Block (OB)\" forex trading chart",
-    "width": 1024,
-    "height": 671
-  },
-  "fvg": {
-    "status": "downloaded",
-    "title": "Fair Value Gap (FVG)",
-    "path": "assets/learn-trading/fvg.jpg",
-    "source_url": "https://m.media-amazon.com/images/M/MV5BY2JlOTFjZDMtNDA3OS00OTU0LThlYTEtMWQxMzc1NmIxZTBlXkEyXkFqcGc@._V1_.jpg",
-    "search_query": "\"Fair Value Gap (FVG)\" forex trading chart",
-    "width": 667,
-    "height": 1000
-  },
-  "breaker-block": {
-    "status": "downloaded",
-    "title": "Breaker Block",
-    "path": "assets/learn-trading/breaker-block.jpg",
-    "source_url": "https://www.party-expert.com/cdn/shop/files/party-expert-super-mario-and-luigi-couple-costumes-33482542022842.jpg?v=1694546418",
-    "search_query": "\"Breaker Block\" forex trading chart",
-    "width": 1000,
-    "height": 1000
-  },
-  "mitigation": {
-    "status": "downloaded",
-    "title": "Mitigation Block",
-    "path": "assets/learn-trading/mitigation.jpg",
-    "source_url": "https://sm.ign.com/ign_nordic/image/p/prepare-fo/prepare-for-shadow-of-the-erdtree-with-our-elden-ring-intera_2y4y.jpg",
-    "search_query": "\"Mitigation Block\" forex trading chart",
-    "width": 1200,
-    "height": 675
-  },
-  "liquidity-sweep": {
-    "status": "downloaded",
-    "title": "Liquidity Sweep",
-    "path": "assets/learn-trading/liquidity-sweep.jpg",
-    "source_url": "https://i2-prod.liverpoolecho.co.uk/article32030066.ece/ALTERNATES/s615/0_EGR_090725marks.jpg",
-    "search_query": "\"Liquidity Sweep\" forex trading chart",
-    "width": 615,
-    "height": 409
-  },
-  "premium-discount": {
-    "status": "downloaded",
-    "title": "Premium & Discount",
-    "path": "assets/learn-trading/premium-discount.jpg",
-    "source_url": "https://external-preview.redd.it/h0EdDGWA_4x8VUMR7Rvilw1sQIxkGCMXYWUYD6tU-wE.jpg?auto=webp&s=27310f8cb190c13674f996c5fbeff6aaa1757160",
-    "search_query": "\"Premium & Discount\" forex trading chart",
-    "width": 600,
-    "height": 315
-  },
-  "equal-highs-lows": {
-    "status": "downloaded",
-    "title": "Equal Highs & Equal Lows",
-    "path": "assets/learn-trading/equal-highs-lows.jpg",
-    "source_url": "https://static.vecteezy.com/system/resources/previews/000/378/606/original/equal-to-vector-icon.jpg",
-    "search_query": "\"Equal Highs & Equal Lows\" forex trading chart",
-    "width": 1000,
-    "height": 1000
-  },
-  "session-levels": {
-    "status": "downloaded",
-    "title": "Session Highs & Lows",
-    "path": "assets/learn-trading/session-levels.jpg",
-    "source_url": "https://diethood.com/wp-content/uploads/2025/02/chicken-alfredo-broccoli-7-1024x1536.jpg",
-    "search_query": "\"Session Highs & Lows\" forex trading chart",
-    "width": 667,
-    "height": 1000
-  },
-  "pdh-pdl": {
-    "status": "downloaded",
-    "title": "Previous Day High & Low",
-    "path": "assets/learn-trading/pdh-pdl.jpg",
-    "source_url": "https://wallpapers.com/images/hd/betty-boop-pictures-2h9qpt6c59kjpwdq.jpg",
-    "search_query": "\"Previous Day High & Low\" forex trading chart",
-    "width": 1033,
-    "height": 1000
-  },
-  "crt": {
-    "status": "downloaded",
-    "title": "Candle Range Theory (CRT)",
-    "path": "assets/learn-trading/crt.jpg",
-    "source_url": "https://images.pexels.com/photos/278823/pexels-photo-278823.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-    "search_query": "\"Candle Range Theory (CRT)\" forex trading chart",
-    "width": 1125,
-    "height": 750
+    "candidate_count": 0
   },
   "trendline": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Trendlines & Channels",
-    "path": "assets/learn-trading/trendline.jpg",
-    "source_url": "https://contents.mediadecathlon.com/p2132166/k$001a03c3d3afacaefa56f307c7a1df2c/girls-2-piece-swimming-swimsuit-top-lila-ama-white-decathlon-8647878.jpg?f=1920x0&format=auto",
-    "search_query": "\"Trendlines & Channels\" forex trading chart",
-    "width": 1000,
-    "height": 1000
+    "candidate_count": 0
   },
-  "turtle-soup": {
-    "status": "downloaded",
-    "title": "Turtle Soup",
-    "path": "assets/learn-trading/turtle-soup.jpg",
-    "source_url": "https://a.storyblok.com/f/157322/1500x1000/33e6a716f4/are-sea-turtles-endangered.jpg",
-    "search_query": "\"Turtle Soup\" forex trading chart",
-    "width": 1500,
-    "height": 1000
+  "fvg": {
+    "status": "no_verified_match",
+    "title": "Fair Value Gap (FVG)",
+    "candidate_count": 0
   },
-  "candlesticks": {
-    "status": "downloaded",
-    "title": "Candlestick Patterns",
-    "path": "assets/learn-trading/candlesticks.jpg",
-    "source_url": "https://public.bnbstatic.com/image/pgc/202309/0aad974ad450b2cc5767b775de7faa58.png",
-    "search_query": "\"Candlestick Patterns\" forex trading chart",
-    "width": 1600,
-    "height": 900
+  "liquidity-sweep": {
+    "status": "no_verified_match",
+    "title": "Liquidity Sweep",
+    "candidate_count": 0
   },
-  "fibonacci": {
-    "status": "downloaded",
-    "title": "Fibonacci Retracement",
-    "path": "assets/learn-trading/fibonacci.jpg",
-    "source_url": "https://cdn.hswstatic.com/gif/fibonacci-update.jpg",
-    "search_query": "\"Fibonacci Retracement\" forex trading chart",
-    "width": 1600,
-    "height": 900
+  "order-block": {
+    "status": "no_verified_match",
+    "title": "Order Block (OB)",
+    "candidate_count": 0
   },
-  "chart-patterns": {
-    "status": "downloaded",
-    "title": "Chart Patterns",
-    "path": "assets/learn-trading/chart-patterns.jpg",
-    "source_url": "https://media.licdn.com/dms/image/v2/D5612AQEy_n2xxKppHg/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1699492332258?e=2147483647&v=beta&t=5DT9-ujl4tggYiyDqqp26mCkYtCJFjQFNpW_Tl2uffg",
-    "search_query": "\"Chart Patterns\" forex trading chart",
-    "width": 1269,
-    "height": 720
+  "mitigation": {
+    "status": "no_verified_match",
+    "title": "Mitigation Block",
+    "candidate_count": 0
+  },
+  "breaker-block": {
+    "status": "no_verified_match",
+    "title": "Breaker Block",
+    "candidate_count": 0
   },
   "ote": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Optimal Trade Entry (OTE)",
-    "path": "assets/learn-trading/ote.jpg",
-    "source_url": "https://drraulopez.com/wp-content/uploads/2023/11/dr-raul-lopez-2-e1710079790522.jpg",
-    "search_query": "\"Optimal Trade Entry (OTE)\" forex trading chart",
-    "width": 1324,
-    "height": 876
+    "candidate_count": 0
   },
-  "psychology": {
-    "status": "downloaded",
-    "title": "Trading Psychology & Discipline",
-    "path": "assets/learn-trading/psychology.jpg",
-    "source_url": "https://images.pexels.com/photos/29611783/pexels-photo-29611783.jpeg?cs=srgb&dl=pexels-arturoaez225-29611783.jpg&fm=jpg",
-    "search_query": "\"Trading Psychology & Discipline\" forex trading chart",
-    "width": 1500,
-    "height": 1000
+  "premium-discount": {
+    "status": "no_verified_match",
+    "title": "Premium & Discount",
+    "candidate_count": 0
   },
-  "backtesting": {
-    "status": "downloaded",
-    "title": "Backtesting & Strategy Validation",
-    "path": "assets/learn-trading/backtesting.jpg",
-    "source_url": "https://i.pinimg.com/736x/7e/8f/a3/7e8fa3fa0179d7f543966be2fe7688d2.jpg",
-    "search_query": "\"Backtesting & Strategy Validation\" forex trading chart",
-    "width": 736,
-    "height": 276
+  "equal-highs-lows": {
+    "status": "no_verified_match",
+    "title": "Equal Highs & Equal Lows",
+    "candidate_count": 0
   },
-  "sessions": {
-    "status": "downloaded",
-    "title": "Forex Sessions & Market Hours",
-    "path": "assets/learn-trading/sessions.jpg",
-    "source_url": "https://pbs.twimg.com/media/GKjCKHRXgAA_wJf.jpg",
-    "search_query": "\"Forex Sessions & Market Hours\" forex trading chart",
-    "width": 480,
-    "height": 640
+  "pdh-pdl": {
+    "status": "no_verified_match",
+    "title": "Previous Day High & Low",
+    "candidate_count": 0
   },
-  "volume": {
-    "status": "downloaded",
-    "title": "Volume & Volume Profile",
-    "path": "assets/learn-trading/volume.jpg",
-    "source_url": "https://lizenzguru.de/media/image/d1/e9/e4/DVDFAB_logo.jpg",
-    "search_query": "\"Volume & Volume Profile\" forex trading chart",
-    "width": 1024,
-    "height": 512
+  "session-levels": {
+    "status": "no_verified_match",
+    "title": "Session Highs & Lows",
+    "candidate_count": 0
   },
-  "news": {
-    "status": "downloaded",
-    "title": "Economic News & Fundamental Risk",
-    "path": "assets/learn-trading/news.jpg",
-    "source_url": "https://lifeofswebb.com/wp-content/uploads/2019/08/may-bw-img_6726-rs.jpg",
-    "search_query": "\"Economic News & Fundamental Risk\" forex trading chart",
-    "width": 1500,
-    "height": 1000
+  "turtle-soup": {
+    "status": "no_verified_match",
+    "title": "Turtle Soup",
+    "candidate_count": 0
   },
-  "swing-points": {
-    "status": "downloaded",
-    "title": "Swing Highs & Swing Lows",
-    "path": "assets/learn-trading/swing-points.jpg",
-    "source_url": "https://images.ctfassets.net/0ls885pa980u/69uvqdvmN3hISJI5xD7VOE/0524c93f8f47d6029dd8c10fc5eee65d/classic_swings_reference_image.jpg",
-    "search_query": "\"Swing Highs & Swing Lows\" forex trading chart",
-    "width": 1124,
-    "height": 897
+  "crt": {
+    "status": "no_verified_match",
+    "title": "Candle Range Theory (CRT)",
+    "candidate_count": 0
+  },
+  "candlesticks": {
+    "status": "no_verified_match",
+    "title": "Candlestick Patterns",
+    "candidate_count": 0
+  },
+  "chart-patterns": {
+    "status": "no_verified_match",
+    "title": "Chart Patterns",
+    "candidate_count": 0
   },
   "risk-management": {
     "status": "downloaded",
     "title": "Risk Management & Position Sizing",
     "path": "assets/learn-trading/risk-management.jpg",
-    "source_url": "http://img5a.flixcart.com/image/board-game/h/v/r/hasbro-risk-us-edition-original-imadqhcugfum8684.jpeg",
-    "search_query": "\"Risk Management & Position Sizing\" forex trading chart",
-    "width": 1600,
-    "height": 721
+    "source_url": "https://static.vecteezy.com/system/resources/previews/010/595/395/original/businessman-placing-cube-risk-cubes-risk-assessment-and-management-measuring-risk-illustration-vector.jpg",
+    "caption": "Businessman placing cube risk cubes. Risk assessment and management ... Businessman placing cube risk cubes. Risk assessment and management ...",
+    "relevance": 2,
+    "width": 1000,
+    "height": 1000
+  },
+  "fibonacci": {
+    "status": "no_verified_match",
+    "title": "Fibonacci Retracement",
+    "candidate_count": 0
+  },
+  "volume": {
+    "status": "no_verified_match",
+    "title": "Volume & Volume Profile",
+    "candidate_count": 0
   },
   "risk-reward": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Risk-to-Reward & R-Multiples",
-    "path": "assets/learn-trading/risk-reward.jpg",
-    "source_url": "http://img5a.flixcart.com/image/board-game/h/v/r/hasbro-risk-us-edition-original-imadqhcugfum8684.jpeg",
-    "search_query": "\"Risk-to-Reward & R-Multiples\" forex trading chart",
-    "width": 1600,
-    "height": 721
+    "candidate_count": 0
+  },
+  "backtesting": {
+    "status": "no_verified_match",
+    "title": "Backtesting & Strategy Validation",
+    "candidate_count": 0
+  },
+  "psychology": {
+    "status": "no_verified_match",
+    "title": "Trading Psychology & Discipline",
+    "candidate_count": 0
+  },
+  "news": {
+    "status": "no_verified_match",
+    "title": "Economic News & Fundamental Risk",
+    "candidate_count": 0
+  },
+  "sessions": {
+    "status": "no_verified_match",
+    "title": "Forex Sessions & Market Hours",
+    "candidate_count": 0
   },
   "internal-external": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Internal vs External Structure",
-    "path": "assets/learn-trading/internal-external.jpg",
-    "source_url": "https://tvovermind.com/wp-content/uploads/2018/06/King-Ghidorah-e1528811537546.jpg",
-    "search_query": "\"Internal vs External Structure\" forex trading chart",
-    "width": 750,
-    "height": 494
+    "candidate_count": 0
+  },
+  "swing-points": {
+    "status": "no_verified_match",
+    "title": "Swing Highs & Swing Lows",
+    "candidate_count": 0
+  },
+  "range-market": {
+    "status": "no_verified_match",
+    "title": "Range & Consolidation",
+    "candidate_count": 0
   },
   "breakout-retest": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Breakout & Retest",
-    "path": "assets/learn-trading/breakout-retest.jpg",
-    "source_url": "https://methodshop.com/wp-content/uploads/breakout-game.jpg",
-    "search_query": "\"Breakout & Retest\" forex trading chart",
-    "width": 1600,
-    "height": 953
-  },
-  "displacement": {
-    "status": "downloaded",
-    "title": "Displacement & Expansion",
-    "path": "assets/learn-trading/displacement.jpg",
-    "source_url": "https://image4.slideserve.com/443586/mrsa-methicillin-resistant-staphylococcus-aureus-1-l.jpg",
-    "search_query": "\"Displacement & Expansion\" forex trading chart",
-    "width": 1333,
-    "height": 1000
+    "candidate_count": 0
   },
   "rejection-candle": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Rejection & Reversal Candles",
-    "path": "assets/learn-trading/rejection-candle.jpg",
-    "source_url": "https://heatherhallhypnotherapy.co.uk/wp-content/uploads/2021/02/woman-rejected-1536x1020.jpg",
-    "search_query": "\"Rejection & Reversal Candles\" forex trading chart",
-    "width": 1506,
-    "height": 1000
+    "candidate_count": 0
   },
   "bsl-ssl": {
     "status": "downloaded",
     "title": "Buy-Side & Sell-Side Liquidity",
     "path": "assets/learn-trading/bsl-ssl.jpg",
-    "source_url": "https://www.theserverside.com/rms/onlineimages/hello-world-examples_mobile.gif",
-    "search_query": "\"Buy-Side & Sell-Side Liquidity\" forex trading chart",
-    "width": 770,
-    "height": 392
-  },
-  "ifvg": {
-    "status": "downloaded",
-    "title": "Inverse Fair Value Gap (IFVG)",
-    "path": "assets/learn-trading/ifvg.jpg",
-    "source_url": "https://d138zd1ktt9iqe.cloudfront.net/media/seo_landing_files/formula-of-inverse-function-1619525108.png",
-    "search_query": "\"Inverse Fair Value Gap (IFVG)\" forex trading chart",
-    "width": 773,
+    "source_url": "https://static.vecteezy.com/system/resources/previews/023/848/935/large_2x/businessman-hold-buy-and-sell-signs-vector.jpg",
+    "caption": "Businessman hold buy and sell signs 23848935 Vector Art at Vecteezy Businessman hold buy and sell signs 23848935 Vector Art at Vecteezy",
+    "relevance": 2,
+    "width": 1500,
     "height": 1000
   },
-  "bpr": {
-    "status": "downloaded",
-    "title": "Balanced Price Range (BPR)",
-    "path": "assets/learn-trading/bpr.jpg",
-    "source_url": "https://getdrawings.com/free-cliparts/black-and-white-frog-clipart-14.png",
-    "search_query": "\"Balanced Price Range (BPR)\" forex trading chart",
-    "width": 685,
-    "height": 510
-  },
-  "liquidity-void": {
-    "status": "downloaded",
-    "title": "Liquidity Void",
-    "path": "assets/learn-trading/liquidity-void.jpg",
-    "source_url": "https://i.pinimg.com/originals/02/f9/63/02f963a3a15c49736fb24d219646e4cc.png",
-    "search_query": "\"Liquidity Void\" forex trading chart",
-    "width": 1000,
-    "height": 562
-  },
-  "kill-zones": {
-    "status": "downloaded",
-    "title": "ICT Kill Zones",
-    "path": "assets/learn-trading/kill-zones.jpg",
-    "source_url": "https://www.calmsage.com/wp-content/uploads/2022/05/Ways-to-Practice-Mindful-Eating-1024x1024.jpg",
-    "search_query": "\"ICT Kill Zones\" forex trading chart",
-    "width": 1000,
-    "height": 1000
-  },
-  "unicorn-model": {
-    "status": "downloaded",
-    "title": "Unicorn Model",
-    "path": "assets/learn-trading/unicorn-model.jpg",
-    "source_url": "https://i.etsystatic.com/37678710/r/il/c5146e/4302347094/il_fullxfull.4302347094_cvx5.jpg",
-    "search_query": "\"Unicorn Model\" forex trading chart",
-    "width": 1429,
-    "height": 1000
+  "displacement": {
+    "status": "no_verified_match",
+    "title": "Displacement & Expansion",
+    "candidate_count": 0
   },
   "inducement": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Inducement",
-    "path": "assets/learn-trading/inducement.jpg",
-    "source_url": "https://idognames.com/assets/images/size-vs/cane-corso-vs-human.png",
-    "search_query": "\"Inducement\" forex trading chart",
-    "width": 1067,
-    "height": 1000
+    "candidate_count": 0
   },
-  "smt-divergence": {
-    "status": "no_image",
-    "title": "SMT Divergence",
-    "queries": [
-      "\"SMT Divergence\" forex trading chart",
-      "\"SMT Divergence\" technical analysis trading example",
-      "SMT Divergence trading education annotated chart"
-    ],
-    "search_results": 1
+  "ifvg": {
+    "status": "no_verified_match",
+    "title": "Inverse Fair Value Gap (IFVG)",
+    "candidate_count": 0
   },
-  "range-market": {
-    "status": "downloaded",
-    "title": "Range & Consolidation",
-    "path": "assets/learn-trading/range-market.jpg",
-    "source_url": "https://www.sagrafica.it/wp-content/uploads/2025/08/coca-cola-1-1536x864.jpeg",
-    "search_query": "\"Range & Consolidation\" forex trading chart",
-    "width": 1536,
-    "height": 864
+  "unicorn-model": {
+    "status": "no_verified_match",
+    "title": "Unicorn Model",
+    "candidate_count": 0
   },
-  "amd-po3": {
-    "status": "downloaded",
-    "title": "Power of Three (AMD)",
-    "path": "assets/learn-trading/amd-po3.jpg",
-    "source_url": "https://image.tmdb.org/t/p/original/qOkKf9fxiH7bVcSqrbcK4ExJbpn.jpg",
-    "search_query": "\"Power of Three (AMD)\" forex trading chart",
-    "width": 1600,
-    "height": 900
+  "liquidity-void": {
+    "status": "no_verified_match",
+    "title": "Liquidity Void",
+    "candidate_count": 0
   },
-  "nwog-ndog": {
-    "status": "downloaded",
-    "title": "NWOG & NDOG",
-    "path": "assets/learn-trading/nwog-ndog.jpg",
-    "source_url": "https://media.istockphoto.com/id/502298193/photo/cargo-ships.jpg?s=170667a&w=0&k=20&c=K_fLfDKLf6pGS8mtzD6zCVaOHgixA6J8pM6q1krk-3s=",
-    "search_query": "\"NWOG & NDOG\" forex trading chart",
-    "width": 529,
-    "height": 324
-  },
-  "daily-weekly-open": {
-    "status": "downloaded",
-    "title": "Daily & Weekly Open",
-    "path": "assets/learn-trading/daily-weekly-open.jpg",
-    "source_url": "https://assets.pawnamerica.com/ProductImages/03e65e13-d16d-41bd-9d9d-6f3692eab549.JPG",
-    "search_query": "\"Daily & Weekly Open\" forex trading chart",
-    "width": 1333,
-    "height": 1000
+  "bpr": {
+    "status": "no_verified_match",
+    "title": "Balanced Price Range (BPR)",
+    "candidate_count": 0
   },
   "judas-swing": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Judas Swing",
-    "path": "assets/learn-trading/judas-swing.jpg",
-    "source_url": "https://www.sports-insider.de/wp-content/uploads/2016/02/Altra-IQ-Smart-Shoe-Laufschuh-Tracker-Laufstil-Laufanalyse.jpg",
-    "search_query": "\"Judas Swing\" forex trading chart",
-    "width": 1500,
-    "height": 1000
+    "candidate_count": 0
   },
-  "rsi": {
-    "status": "downloaded",
-    "title": "Relative Strength Index (RSI)",
-    "path": "assets/learn-trading/rsi.jpg",
-    "source_url": "https://i.pinimg.com/originals/cc/13/3c/cc133c670fb6a1a1069ec04494ee6ff6.jpg",
-    "search_query": "\"Relative Strength Index (RSI)\" forex trading chart",
-    "width": 800,
-    "height": 1000
+  "kill-zones": {
+    "status": "no_verified_match",
+    "title": "ICT Kill Zones",
+    "candidate_count": 0
   },
-  "ema-sma": {
-    "status": "downloaded",
-    "title": "Moving Averages (EMA & SMA)",
-    "path": "assets/learn-trading/ema-sma.jpg",
-    "source_url": "https://www.wikihow.com/images/9/9f/Types-of-Knives-Summary-Version-2.jpg",
-    "search_query": "\"Moving Averages (EMA & SMA)\" forex trading chart",
-    "width": 1333,
-    "height": 1000
+  "nwog-ndog": {
+    "status": "no_verified_match",
+    "title": "NWOG & NDOG",
+    "candidate_count": 0
+  },
+  "amd-po3": {
+    "status": "no_verified_match",
+    "title": "Power of Three (AMD)",
+    "candidate_count": 0
+  },
+  "smt-divergence": {
+    "status": "no_verified_match",
+    "title": "SMT Divergence",
+    "candidate_count": 0
+  },
+  "daily-weekly-open": {
+    "status": "no_verified_match",
+    "title": "Daily & Weekly Open",
+    "candidate_count": 0
   },
   "opening-range": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Opening Range",
-    "path": "assets/learn-trading/opening-range.jpg",
-    "source_url": "https://www.physiologyweb.com/figures/figs/TvKcIccyvFuiIvXAWDRXu5GuzkBK8RHt_renal_corpuscle_hematoxylin_and_eosin_stain_w.jpg",
-    "search_query": "\"Opening Range\" forex trading chart",
-    "width": 600,
-    "height": 448
+    "candidate_count": 0
   },
-  "volume-profile": {
-    "status": "downloaded",
-    "title": "Volume Profile",
-    "path": "assets/learn-trading/volume-profile.jpg",
-    "source_url": "https://howtofeedaloon.com/wp-content/uploads/2019/07/squash-instagram.jpg",
-    "search_query": "\"Volume Profile\" forex trading chart",
-    "width": 1000,
-    "height": 1000
+  "ema-sma": {
+    "status": "no_verified_match",
+    "title": "Moving Averages (EMA & SMA)",
+    "candidate_count": 0
   },
-  "vwap": {
-    "status": "downloaded",
-    "title": "VWAP",
-    "path": "assets/learn-trading/vwap.jpg",
-    "source_url": "https://cdn11.bigcommerce.com/s-1ly92eod7l/images/stencil/1280x1280/products/4323/9417/_DHsld8764BoK_1__34136.1777217917.jpg?c=1",
-    "search_query": "\"VWAP\" forex trading chart",
-    "width": 1000,
-    "height": 1000
-  },
-  "position-sizing": {
-    "status": "downloaded",
-    "title": "Position Sizing",
-    "path": "assets/learn-trading/position-sizing.jpg",
-    "source_url": "https://static.vecteezy.com/system/resources/previews/018/930/698/original/facebook-logo-facebook-icon-transparent-free-png.png",
-    "search_query": "\"Position Sizing\" forex trading chart",
-    "width": 1000,
-    "height": 1000
-  },
-  "leverage-margin": {
-    "status": "downloaded",
-    "title": "Leverage & Margin",
-    "path": "assets/learn-trading/leverage-margin.jpg",
-    "source_url": "https://itechhacks.com/wp-content/uploads/2022/09/login.jpg",
-    "search_query": "\"Leverage & Margin\" forex trading chart",
-    "width": 1326,
-    "height": 656
-  },
-  "trade-management": {
-    "status": "no_image",
-    "title": "Trade Management & Exits",
-    "queries": [
-      "\"Trade Management & Exits\" forex trading chart",
-      "\"Trade Management & Exits\" technical analysis trading example",
-      "Trade Management & Exits trading education annotated chart"
-    ],
-    "search_results": 1
+  "rsi": {
+    "status": "no_verified_match",
+    "title": "Relative Strength Index (RSI)",
+    "candidate_count": 0
   },
   "atr": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Average True Range (ATR)",
-    "path": "assets/learn-trading/atr.jpg",
-    "source_url": "https://images.stockcake.com/public/f/4/3/f43e50a1-06eb-4daa-b95e-aa7e9cf00ed9/mystical-mountain-gateway-stockcake.jpg",
-    "search_query": "\"Average True Range (ATR)\" forex trading chart",
-    "width": 571,
-    "height": 1000
-  },
-  "expectancy": {
-    "status": "downloaded",
-    "title": "Expectancy & Win Rate",
-    "path": "assets/learn-trading/expectancy.jpg",
-    "source_url": "https://i.ytimg.com/vi/ZH0UjHqNY9A/maxresdefault.jpg",
-    "search_query": "\"Expectancy & Win Rate\" forex trading chart",
-    "width": 1280,
-    "height": 720
-  },
-  "forward-testing": {
-    "status": "downloaded",
-    "title": "Forward Testing",
-    "path": "assets/learn-trading/forward-testing.jpg",
-    "source_url": "https://i5.walmartimages.com/seo/White-Floral-Wallpaper-Large-Mural-Home-Decor-3D-Flowers-Wallpaper-Bedroom-Renter-Friendly-Wall-Paper-Luxury-Nordic-Flowers-Wall-Mural-Living-Room-Se_e3ef7b19-617d-4a27-98a1-2d97821a7a4d.bc9845836975b1912d7877bad6aa5a54.jpeg",
-    "search_query": "\"Forward Testing\" forex trading chart",
-    "width": 1215,
-    "height": 1000
-  },
-  "correlation": {
-    "status": "downloaded",
-    "title": "Currency Correlation & Exposure",
-    "path": "assets/learn-trading/correlation.jpg",
-    "source_url": "https://i.pinimg.com/originals/67/42/ba/6742bae4d2c0497e638df6f2c3a73a13.png",
-    "search_query": "\"Currency Correlation & Exposure\" forex trading chart",
-    "width": 637,
-    "height": 691
-  },
-  "spread-slippage": {
-    "status": "downloaded",
-    "title": "Spread, Commission & Slippage",
-    "path": "assets/learn-trading/spread-slippage.jpg",
-    "source_url": "https://c8.alamy.com/comp/3BJ83PX/redmond-wa-usa-may-26-2025-entrance-to-microsoft-world-headquarters-sign-and-trademark-logo-3BJ83PX.jpg",
-    "search_query": "\"Spread, Commission & Slippage\" forex trading chart",
-    "width": 663,
-    "height": 1000
-  },
-  "wyckoff-spring": {
-    "status": "downloaded",
-    "title": "Wyckoff Spring",
-    "path": "assets/learn-trading/wyckoff-spring.jpg",
-    "source_url": "https://cdn.prod.website-files.com/60ccf10f9ef34059f99640e1/60dc91919419a857e8daf11a_eIuCQrck64U9VX5VDLAOiuO8_NNOKgZJiWPJ6FYb9xYIxvs_EAZimQbXsUryhxRDGY5mi9C-GBUHWe0BH4rEJahk7v193vm8v4wkZm-aMX2Ou39OmzoptOgQqL59ZTGR8ymlFXtn.jpeg",
-    "search_query": "\"Wyckoff Spring\" forex trading chart",
-    "width": 1600,
-    "height": 900
-  },
-  "trading-journal": {
-    "status": "downloaded",
-    "title": "Trading Journal",
-    "path": "assets/learn-trading/trading-journal.jpg",
-    "source_url": "https://www.wallstreetzen.com/blog/wp-content/uploads/2023/01/TradingView_chart.png",
-    "search_query": "\"Trading Journal\" forex trading chart",
-    "width": 1200,
-    "height": 660
-  },
-  "drawdown": {
-    "status": "downloaded",
-    "title": "Drawdown & Risk of Ruin",
-    "path": "assets/learn-trading/drawdown.jpg",
-    "source_url": "https://assets-filmladder-nl.b-cdn.net/uploads/tmdb_asset/asset/000/155/492/155492/medium_feaf09a3cc546ee6.jpg",
-    "search_query": "\"Drawdown & Risk of Ruin\" forex trading chart",
-    "width": 500,
-    "height": 750
-  },
-  "wyckoff-upthrust": {
-    "status": "downloaded",
-    "title": "Wyckoff Upthrust",
-    "path": "assets/learn-trading/wyckoff-upthrust.jpg",
-    "source_url": "https://www.safran-group.com/sites/default/files/crops/3_4/public/node/2260992/2025-10/SVIHLA_Kelly_opt.jpg?itok=hJ3vlqUa",
-    "search_query": "\"Wyckoff Upthrust\" forex trading chart",
-    "width": 480,
-    "height": 640
-  },
-  "volume-spread-analysis": {
-    "status": "downloaded",
-    "title": "Volume Spread Analysis (VSA)",
-    "path": "assets/learn-trading/volume-spread-analysis.jpg",
-    "source_url": "https://i.etsystatic.com/43152122/r/il/440741/5426779794/il_fullxfull.5426779794_3oa1.jpg",
-    "search_query": "\"Volume Spread Analysis (VSA)\" forex trading chart",
-    "width": 1500,
-    "height": 1000
-  },
-  "volume-divergence": {
-    "status": "downloaded",
-    "title": "Price & Volume Divergence",
-    "path": "assets/learn-trading/volume-divergence.jpg",
-    "source_url": "https://wallpapercave.com/wp/wp14867452.webp",
-    "search_query": "\"Price & Volume Divergence\" forex trading chart",
-    "width": 1600,
-    "height": 900
+    "candidate_count": 0
   },
   "macd": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "MACD",
-    "path": "assets/learn-trading/macd.jpg",
-    "source_url": "https://i.etsystatic.com/36670401/r/il/532c21/7083906667/il_794xN.7083906667_o8nh.jpg",
-    "search_query": "\"MACD\" forex trading chart",
-    "width": 672,
-    "height": 1000
+    "candidate_count": 0
   },
-  "accumulation-distribution": {
-    "status": "downloaded",
-    "title": "Accumulation & Distribution",
-    "path": "assets/learn-trading/accumulation-distribution.jpg",
-    "source_url": "https://polarjournal.net/wp-content/uploads/2025/01/map_Beyond-EPICA-2.jpg",
-    "search_query": "\"Accumulation & Distribution\" forex trading chart",
-    "width": 1080,
-    "height": 630
+  "volume-profile": {
+    "status": "no_verified_match",
+    "title": "Volume Profile",
+    "candidate_count": 0
   },
-  "volume-climax": {
-    "status": "downloaded",
-    "title": "Buying & Selling Climax",
-    "path": "assets/learn-trading/volume-climax.jpg",
-    "source_url": "https://wallpaperaccess.com/full/13207563.jpg",
-    "search_query": "\"Buying & Selling Climax\" forex trading chart",
-    "width": 1600,
-    "height": 900
+  "vwap": {
+    "status": "no_verified_match",
+    "title": "VWAP",
+    "candidate_count": 0
   },
-  "footprint-chart": {
-    "status": "downloaded",
-    "title": "Footprint Charts & Bid-Ask Delta",
-    "path": "assets/learn-trading/footprint-chart.jpg",
-    "source_url": "https://pbs.twimg.com/media/HKAmZmzXYAAs_yk.jpg",
-    "search_query": "\"Footprint Charts & Bid-Ask Delta\" forex trading chart",
-    "width": 562,
-    "height": 1000
+  "position-sizing": {
+    "status": "no_verified_match",
+    "title": "Position Sizing",
+    "candidate_count": 0
+  },
+  "leverage-margin": {
+    "status": "no_verified_match",
+    "title": "Leverage & Margin",
+    "candidate_count": 0
+  },
+  "spread-slippage": {
+    "status": "no_verified_match",
+    "title": "Spread, Commission & Slippage",
+    "candidate_count": 0
+  },
+  "trade-management": {
+    "status": "no_verified_match",
+    "title": "Trade Management & Exits",
+    "candidate_count": 0
+  },
+  "forward-testing": {
+    "status": "no_verified_match",
+    "title": "Forward Testing",
+    "candidate_count": 0
+  },
+  "trading-journal": {
+    "status": "no_verified_match",
+    "title": "Trading Journal",
+    "candidate_count": 0
+  },
+  "drawdown": {
+    "status": "no_verified_match",
+    "title": "Drawdown & Risk of Ruin",
+    "candidate_count": 0
+  },
+  "expectancy": {
+    "status": "no_verified_match",
+    "title": "Expectancy & Win Rate",
+    "candidate_count": 0
   },
   "wyckoff": {
     "status": "downloaded",
     "title": "Wyckoff Method",
     "path": "assets/learn-trading/wyckoff.jpg",
-    "source_url": "https://cdn.shopify.com/s/files/1/0769/1349/files/Semi-Electric_Bed2_large.jpg?v=1484737137",
-    "search_query": "\"Wyckoff Method\" forex trading chart",
-    "width": 480,
-    "height": 408
+    "source_url": "https://www.liberatedstocktrader.com/wp-content/uploads/2023/12/wyckoff-price-cycle-example-chart.webp",
+    "caption": "Wyckoff Method: A Powerful Trading Strategy for All Markets Wyckoff Method: A Powerful Trading Strategy for All Markets",
+    "relevance": 2,
+    "width": 1600,
+    "height": 814
+  },
+  "correlation": {
+    "status": "no_verified_match",
+    "title": "Currency Correlation & Exposure",
+    "candidate_count": 0
+  },
+  "wyckoff-spring": {
+    "status": "no_verified_match",
+    "title": "Wyckoff Spring",
+    "candidate_count": 0
+  },
+  "wyckoff-upthrust": {
+    "status": "no_verified_match",
+    "title": "Wyckoff Upthrust",
+    "candidate_count": 0
+  },
+  "volume-spread-analysis": {
+    "status": "no_verified_match",
+    "title": "Volume Spread Analysis (VSA)",
+    "candidate_count": 0
+  },
+  "accumulation-distribution": {
+    "status": "no_verified_match",
+    "title": "Accumulation & Distribution",
+    "candidate_count": 0
+  },
+  "volume-climax": {
+    "status": "no_verified_match",
+    "title": "Buying & Selling Climax",
+    "candidate_count": 0
+  },
+  "volume-divergence": {
+    "status": "no_verified_match",
+    "title": "Price & Volume Divergence",
+    "candidate_count": 0
   },
   "market-profile": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Market Profile & TPO",
-    "path": "assets/learn-trading/market-profile.jpg",
-    "source_url": "https://5.imimg.com/data5/SELLER/Default/2024/3/397914895/PC/WR/DV/2552106/hss-cutting-tools-1000x1000.jpg",
-    "search_query": "\"Market Profile & TPO\" forex trading chart",
-    "width": 1000,
-    "height": 1000
+    "candidate_count": 0
   },
   "poc-vah-val": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "POC, VAH & VAL",
-    "path": "assets/learn-trading/poc-vah-val.jpg",
-    "source_url": "https://www.spritesanddice.com/media/images/Robocraft3.width-1080.jpg",
-    "search_query": "\"POC, VAH & VAL\" forex trading chart",
-    "width": 1080,
-    "height": 607
+    "candidate_count": 0
   },
-  "absorption": {
-    "status": "downloaded",
-    "title": "Absorption",
-    "path": "assets/learn-trading/absorption.jpg",
-    "source_url": "https://thumbs.dreamstime.com/z/music-elves-christmas-16224438.jpg",
-    "search_query": "\"Absorption\" forex trading chart",
-    "width": 1291,
-    "height": 1000
-  },
-  "candlestick-engulfing": {
-    "status": "downloaded",
-    "title": "Engulfing Candles",
-    "path": "assets/learn-trading/candlestick-engulfing.jpg",
-    "source_url": "https://cdn.shopify.com/s/files/1/0528/3971/0891/files/image_17_4db79674-6afe-4fbb-a2ba-c7602e9f6209_1024x1024.png?v=1722969808",
-    "search_query": "\"Engulfing Candles\" forex trading chart",
-    "width": 1024,
-    "height": 576
-  },
-  "inside-bar": {
-    "status": "downloaded",
-    "title": "Inside Bar & Mother Bar",
-    "path": "assets/learn-trading/inside-bar.jpg",
-    "source_url": "https://i.pinimg.com/originals/19/5b/cc/195bcc3b737490317f1d2d275681a4af.jpg",
-    "search_query": "\"Inside Bar & Mother Bar\" forex trading chart",
-    "width": 667,
-    "height": 1000
-  },
-  "pinbar-hammer": {
-    "status": "downloaded",
-    "title": "Pin Bar, Hammer & Shooting Star",
-    "path": "assets/learn-trading/pinbar-hammer.jpg",
-    "source_url": "https://static.vecteezy.com/system/resources/previews/011/421/138/original/glossy-red-push-pin-png.png",
-    "search_query": "\"Pin Bar, Hammer & Shooting Star\" forex trading chart",
-    "width": 926,
-    "height": 1000
-  },
-  "exhaustion": {
-    "status": "downloaded",
-    "title": "Exhaustion & Failed Auction",
-    "path": "assets/learn-trading/exhaustion.jpg",
-    "source_url": "https://ix-cdn.b2e5.com/images/41628/41628_18c2b6381caf47bf93a98e21ac538adf_1653408954.jpeg",
-    "search_query": "\"Exhaustion & Failed Auction\" forex trading chart",
-    "width": 1254,
-    "height": 836
-  },
-  "order-flow-imbalance": {
-    "status": "downloaded",
-    "title": "Order Flow Imbalance",
-    "path": "assets/learn-trading/order-flow-imbalance.jpg",
-    "source_url": "https://pics.filmaffinity.com/happy_valley-851665495-large.jpg",
-    "search_query": "\"Order Flow Imbalance\" forex trading chart",
-    "width": 750,
-    "height": 1000
-  },
-  "doji": {
-    "status": "downloaded",
-    "title": "Doji & Indecision Candles",
-    "path": "assets/learn-trading/doji.jpg",
-    "source_url": "https://cookieandkate.com/images/2025/01/peanut-butter-recipe.jpg",
-    "search_query": "\"Doji & Indecision Candles\" forex trading chart",
-    "width": 667,
-    "height": 1000
-  },
-  "double-top-bottom": {
-    "status": "no_image",
-    "title": "Double Top & Double Bottom",
-    "queries": [
-      "\"Double Top & Double Bottom\" forex trading chart",
-      "\"Double Top & Double Bottom\" technical analysis trading example",
-      "Double Top & Double Bottom trading education annotated chart"
-    ],
-    "search_results": 1
+  "footprint-chart": {
+    "status": "no_verified_match",
+    "title": "Footprint Charts & Bid-Ask Delta",
+    "candidate_count": 0
   },
   "cumulative-delta": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Cumulative Volume Delta (CVD)",
-    "path": "assets/learn-trading/cumulative-delta.jpg",
-    "source_url": "https://www.petitefleursg.com/image/cache/catalog/Nad/1_e5-3000x3000.jpg",
-    "search_query": "\"Cumulative Volume Delta (CVD)\" forex trading chart",
-    "width": 1000,
-    "height": 1000
+    "candidate_count": 0
   },
-  "outside-bar": {
-    "status": "downloaded",
-    "title": "Outside Bar",
-    "path": "assets/learn-trading/outside-bar.jpg",
-    "source_url": "https://pixnio.com/free-images/2017/12/19/2017-12-19-21-28-15.jpg",
-    "search_query": "\"Outside Bar\" forex trading chart",
-    "width": 1600,
-    "height": 900
+  "order-flow-imbalance": {
+    "status": "no_verified_match",
+    "title": "Order Flow Imbalance",
+    "candidate_count": 0
   },
-  "triangles": {
-    "status": "downloaded",
-    "title": "Triangles: Ascending, Descending & Symmetrical",
-    "path": "assets/learn-trading/triangles.jpg",
-    "source_url": "https://www.icanteachmychild.com/wp-content/uploads/2015/03/Art-Projects-with-Ping-Pong-Balls.jpg",
-    "search_query": "\"Triangles: Ascending, Descending & Symmetrical\" forex trading chart",
-    "width": 600,
-    "height": 600
+  "absorption": {
+    "status": "no_verified_match",
+    "title": "Absorption",
+    "candidate_count": 0
   },
-  "wedges": {
-    "status": "downloaded",
-    "title": "Rising & Falling Wedges",
-    "path": "assets/learn-trading/wedges.jpg",
-    "source_url": "https://static1.srcdn.com/wordpress/wp-content/uploads/2024/05/full-metal-scott-foxx-aiming-with-a-gun-behind-some-rubble-in-seal-team.jpg",
-    "search_query": "\"Rising & Falling Wedges\" forex trading chart",
-    "width": 1400,
-    "height": 700
+  "candlestick-engulfing": {
+    "status": "no_verified_match",
+    "title": "Engulfing Candles",
+    "candidate_count": 0
+  },
+  "exhaustion": {
+    "status": "no_verified_match",
+    "title": "Exhaustion & Failed Auction",
+    "candidate_count": 0
+  },
+  "pinbar-hammer": {
+    "status": "no_verified_match",
+    "title": "Pin Bar, Hammer & Shooting Star",
+    "candidate_count": 0
+  },
+  "inside-bar": {
+    "status": "no_verified_match",
+    "title": "Inside Bar & Mother Bar",
+    "candidate_count": 0
+  },
+  "doji": {
+    "status": "no_verified_match",
+    "title": "Doji & Indecision Candles",
+    "candidate_count": 0
   },
   "head-shoulders": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Head & Shoulders",
-    "path": "assets/learn-trading/head-shoulders.jpg",
-    "source_url": "https://images.hellomagazine.com/horizon/landscape/2d956209d94b-sainsburys-tu-childrens-clothing-t.jpg?tx=c_limit",
-    "search_query": "\"Head & Shoulders\" forex trading chart",
-    "width": 1600,
-    "height": 900
+    "candidate_count": 0
   },
-  "gaps": {
-    "status": "downloaded",
-    "title": "Price Gaps: Common, Breakaway & Exhaustion",
-    "path": "assets/learn-trading/gaps.jpg",
-    "source_url": "https://cdn.savemyexams.com/cdn-cgi/image/f=auto,width=3840/https://cdn.savemyexams.com/uploads/2023/09/wind-barbs.png",
-    "search_query": "\"Price Gaps: Common, Breakaway & Exhaustion\" forex trading chart",
-    "width": 1100,
-    "height": 876
-  },
-  "rounding-patterns": {
-    "status": "downloaded",
-    "title": "Rounding Top & Rounding Bottom",
-    "path": "assets/learn-trading/rounding-patterns.jpg",
-    "source_url": "https://i.pinimg.com/originals/81/1d/3c/811d3cd9f5a8cb030a30adbee12d6472.jpg",
-    "search_query": "\"Rounding Top & Rounding Bottom\" forex trading chart",
-    "width": 1000,
-    "height": 1000
-  },
-  "channels": {
-    "status": "downloaded",
-    "title": "Ascending & Descending Channels",
-    "path": "assets/learn-trading/channels.jpg",
-    "source_url": "https://pub-976c0f3ca97d41239e5ad04301b994f4.r2.dev/2025/12/oven-baked-st-louis-style-ribs-recipe-fall-off-the-bone-tenderness.jpg",
-    "search_query": "\"Ascending & Descending Channels\" forex trading chart",
-    "width": 1000,
-    "height": 1000
-  },
-  "elliott-wave": {
-    "status": "downloaded",
-    "title": "Elliott Wave Basics",
-    "path": "assets/learn-trading/elliott-wave.jpg",
-    "source_url": "https://artworks.thetvdb.com/banners/posters/282447-1.jpg",
-    "search_query": "\"Elliott Wave Basics\" forex trading chart",
-    "width": 680,
-    "height": 1000
-  },
-  "adx-dmi": {
-    "status": "downloaded",
-    "title": "ADX & Directional Movement",
-    "path": "assets/learn-trading/adx-dmi.jpg",
-    "source_url": "https://mir-s3-cdn-cf.behance.net/project_modules/1400/83cf34243153529.697b82f57b764.png",
-    "search_query": "\"ADX & Directional Movement\" forex trading chart",
-    "width": 707,
-    "height": 1000
-  },
-  "stochastic": {
-    "status": "downloaded",
-    "title": "Stochastic Oscillator",
-    "path": "assets/learn-trading/stochastic.jpg",
-    "source_url": "https://www.deere.com/assets/images/region-4/products/tractors/compact-tractors/4-series-compact-tractors/3033r_r4x001926_rrd_1054x576_large_a6ccf9a6445a2e9a3a552f793a881847b8709394.jpg",
-    "search_query": "\"Stochastic Oscillator\" forex trading chart",
-    "width": 1366,
-    "height": 747
-  },
-  "ichimoku": {
-    "status": "downloaded",
-    "title": "Ichimoku Cloud",
-    "path": "assets/learn-trading/ichimoku.jpg",
-    "source_url": "https://fig-newtons.com/wp-content/uploads/2025/09/fig-newtons-cookies-2-1024x640.jpg",
-    "search_query": "\"Ichimoku Cloud\" forex trading chart",
-    "width": 1024,
-    "height": 640
-  },
-  "donchian": {
-    "status": "downloaded",
-    "title": "Donchian Channels",
-    "path": "assets/learn-trading/donchian.jpg",
-    "source_url": "https://www.wsdot.wa.gov/eesc/bridge/designmemos/16-2008b.jpg",
-    "search_query": "\"Donchian Channels\" forex trading chart",
-    "width": 583,
-    "height": 352
-  },
-  "bollinger-bands": {
-    "status": "downloaded",
-    "title": "Bollinger Bands",
-    "path": "assets/learn-trading/bollinger-bands.jpg",
-    "source_url": "https://img.freepik.com/free-vector/pink-skate-pop-art-retro_24877-82352.jpg",
-    "search_query": "\"Bollinger Bands\" forex trading chart",
-    "width": 626,
-    "height": 626
-  },
-  "parabolic-sar": {
-    "status": "downloaded",
-    "title": "Parabolic SAR",
-    "path": "assets/learn-trading/parabolic-sar.jpg",
-    "source_url": "https://study.com/cimages/videopreview/24_99627.jpg",
-    "search_query": "\"Parabolic SAR\" forex trading chart",
-    "width": 1024,
-    "height": 576
+  "outside-bar": {
+    "status": "no_verified_match",
+    "title": "Outside Bar",
+    "candidate_count": 0
   },
   "flags-pennants": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Flags & Pennants",
-    "path": "assets/learn-trading/flags-pennants.jpg",
-    "source_url": "http://haircaresquare.com/wp-content/uploads/2024/01/Snapinsta.app_348698773_13201762.webp",
-    "search_query": "\"Flags & Pennants\" forex trading chart",
-    "width": 800,
-    "height": 1000
+    "candidate_count": 0
   },
-  "pivot-points": {
+  "triangles": {
+    "status": "no_verified_match",
+    "title": "Triangles: Ascending, Descending & Symmetrical",
+    "candidate_count": 0
+  },
+  "channels": {
+    "status": "no_verified_match",
+    "title": "Ascending & Descending Channels",
+    "candidate_count": 0
+  },
+  "double-top-bottom": {
     "status": "downloaded",
-    "title": "Pivot Points",
-    "path": "assets/learn-trading/pivot-points.jpg",
-    "source_url": "https://insidetheweb.com/wp-content/uploads/2024/01/Pivot-Table.jpg",
-    "search_query": "\"Pivot Points\" forex trading chart",
-    "width": 1200,
-    "height": 675
+    "title": "Double Top & Double Bottom",
+    "path": "assets/learn-trading/double-top-bottom.jpg",
+    "source_url": "https://cdn.tradingfinder.com/image/439023/03-26-tf-en-double-top-bottoms-02.webp",
+    "caption": "Double Top and Bottom – Trend Reversal with Classic Patterns Double Top and Bottom – Trend Reversal with Classic Patterns",
+    "relevance": 3,
+    "width": 1600,
+    "height": 700
+  },
+  "wedges": {
+    "status": "no_verified_match",
+    "title": "Rising & Falling Wedges",
+    "candidate_count": 0
+  },
+  "rounding-patterns": {
+    "status": "no_verified_match",
+    "title": "Rounding Top & Rounding Bottom",
+    "candidate_count": 0
+  },
+  "gaps": {
+    "status": "no_verified_match",
+    "title": "Price Gaps: Common, Breakaway & Exhaustion",
+    "candidate_count": 0
+  },
+  "elliott-wave": {
+    "status": "no_verified_match",
+    "title": "Elliott Wave Basics",
+    "candidate_count": 0
+  },
+  "stochastic": {
+    "status": "no_verified_match",
+    "title": "Stochastic Oscillator",
+    "candidate_count": 0
+  },
+  "ichimoku": {
+    "status": "no_verified_match",
+    "title": "Ichimoku Cloud",
+    "candidate_count": 0
+  },
+  "adx-dmi": {
+    "status": "no_verified_match",
+    "title": "ADX & Directional Movement",
+    "candidate_count": 0
+  },
+  "bollinger-bands": {
+    "status": "no_verified_match",
+    "title": "Bollinger Bands",
+    "candidate_count": 0
+  },
+  "parabolic-sar": {
+    "status": "no_verified_match",
+    "title": "Parabolic SAR",
+    "candidate_count": 0
+  },
+  "donchian": {
+    "status": "no_verified_match",
+    "title": "Donchian Channels",
+    "candidate_count": 0
   },
   "keltner": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Keltner Channels",
-    "path": "assets/learn-trading/keltner.jpg",
-    "source_url": "https://i.etsystatic.com/40515479/r/il/55b026/4717216483/il_fullxfull.4717216483_niol.jpg",
-    "search_query": "\"Keltner Channels\" forex trading chart",
-    "width": 1000,
-    "height": 1000
+    "candidate_count": 0
   },
-  "inflation-data": {
-    "status": "downloaded",
-    "title": "Inflation: CPI & PCE",
-    "path": "assets/learn-trading/inflation-data.jpg",
-    "source_url": "https://thumbs.dreamstime.com/b/majestic-hawaiian-mountains-palm-trees-black-white-sketch-art-print-tropical-paradise-oasis-escape-to-tranquil-351480722.jpg",
-    "search_query": "\"Inflation: CPI & PCE\" forex trading chart",
-    "width": 800,
-    "height": 450
+  "round-numbers": {
+    "status": "no_verified_match",
+    "title": "Psychological & Round Number Levels",
+    "candidate_count": 0
+  },
+  "pivot-points": {
+    "status": "no_verified_match",
+    "title": "Pivot Points",
+    "candidate_count": 0
+  },
+  "dxy-correlation": {
+    "status": "no_verified_match",
+    "title": "DXY & Currency Strength",
+    "candidate_count": 0
   },
   "interest-rates": {
     "status": "downloaded",
     "title": "Interest Rates & Central Banks",
     "path": "assets/learn-trading/interest-rates.jpg",
-    "source_url": "https://www.wallstreetmojo.com/wp-content/uploads/2023/01/Interest-Rate-Meaning.png",
-    "search_query": "\"Interest Rates & Central Banks\" forex trading chart",
-    "width": 1265,
-    "height": 711
+    "source_url": "https://realinvestmentadvice.com/wp-content/uploads/2025/04/Rising-Interest-Rates-Impact.png",
+    "caption": "Rising Interest Rates Impact | Adapting Investment Strategy Rising Interest Rates Impact | Adapting Investment Strategy",
+    "relevance": 2,
+    "width": 1000,
+    "height": 665
+  },
+  "inflation-data": {
+    "status": "downloaded",
+    "title": "Inflation: CPI & PCE",
+    "path": "assets/learn-trading/inflation-data.jpg",
+    "source_url": "https://perc.tamu.edu/blog/2024/05/inflation-may-fig1.png",
+    "caption": "Inflation Through April: The PCE Inflation Measure and the CPI Inflation Through April: The PCE Inflation Measure and the CPI",
+    "relevance": 3,
+    "width": 750,
+    "height": 495
   },
   "employment-data": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Employment: NFP, Unemployment & Wages",
-    "path": "assets/learn-trading/employment-data.jpg",
-    "source_url": "https://nintendoeverything.com/wp-content/uploads/Pokemon-Scarlet-Violet-Shiny-Chien-Pao-distribution.jpg",
-    "search_query": "\"Employment: NFP, Unemployment & Wages\" forex trading chart",
-    "width": 1445,
-    "height": 813
+    "candidate_count": 0
+  },
+  "news-calendar": {
+    "status": "no_verified_match",
+    "title": "Economic Calendar & Event Planning",
+    "candidate_count": 0
+  },
+  "fomc-policy": {
+    "status": "no_verified_match",
+    "title": "FOMC, ECB, BoE & BoJ Decisions",
+    "candidate_count": 0
+  },
+  "risk-of-ruin": {
+    "status": "no_verified_match",
+    "title": "Risk of Ruin & Losing Streaks",
+    "candidate_count": 0
   },
   "gdp-data": {
     "status": "downloaded",
     "title": "GDP & Growth Data",
     "path": "assets/learn-trading/gdp-data.jpg",
-    "source_url": "https://phinneywood.com/wp-content/uploads/2025/09/Seattle-WoodlandParkPres-2025-09-15.jpg",
-    "search_query": "\"GDP & Growth Data\" forex trading chart",
-    "width": 670,
-    "height": 900
-  },
-  "round-numbers": {
-    "status": "downloaded",
-    "title": "Psychological & Round Number Levels",
-    "path": "assets/learn-trading/round-numbers.jpg",
-    "source_url": "http://img2-ak.lst.fm/i/u/ar0/ea7e400961946097b550d2b8a0624d27",
-    "search_query": "\"Psychological & Round Number Levels\" forex trading chart",
-    "width": 953,
-    "height": 953
-  },
-  "news-calendar": {
-    "status": "downloaded",
-    "title": "Economic Calendar & Event Planning",
-    "path": "assets/learn-trading/news-calendar.jpg",
-    "source_url": "https://www.eventbrite.com/blog/wp-content/uploads/2018/03/image4-500x709.png",
-    "search_query": "\"Economic Calendar & Event Planning\" forex trading chart",
-    "width": 500,
-    "height": 709
-  },
-  "risk-of-ruin": {
-    "status": "downloaded",
-    "title": "Risk of Ruin & Losing Streaks",
-    "path": "assets/learn-trading/risk-of-ruin.jpg",
-    "source_url": "https://i.ytimg.com/vi/d7zuAejNUsA/maxresdefault.jpg",
-    "search_query": "\"Risk of Ruin & Losing Streaks\" forex trading chart",
-    "width": 1280,
-    "height": 720
-  },
-  "fomc-policy": {
-    "status": "downloaded",
-    "title": "FOMC, ECB, BoE & BoJ Decisions",
-    "path": "assets/learn-trading/fomc-policy.jpg",
-    "source_url": "https://wondermomwannabe.com/wp-content/uploads/2023/10/How-to-remove-bleach-stains-from-clothes-Pin-2.png",
-    "search_query": "\"FOMC, ECB, BoE & BoJ Decisions\" forex trading chart",
-    "width": 667,
-    "height": 1000
-  },
-  "kelly-criterion": {
-    "status": "downloaded",
-    "title": "Kelly Criterion & Fractional Kelly",
-    "path": "assets/learn-trading/kelly-criterion.jpg",
-    "source_url": "https://i.pinimg.com/originals/98/23/62/9823621497e36fff974e5d3b2c0667eb.jpg",
-    "search_query": "\"Kelly Criterion & Fractional Kelly\" forex trading chart",
-    "width": 977,
-    "height": 965
-  },
-  "dxy-correlation": {
-    "status": "downloaded",
-    "title": "DXY & Currency Strength",
-    "path": "assets/learn-trading/dxy-correlation.jpg",
-    "source_url": "https://iv1.lisimg.com/image/18562413/740full-elizabeth-plank.jpg",
-    "search_query": "\"DXY & Currency Strength\" forex trading chart",
-    "width": 740,
-    "height": 925
+    "source_url": "https://ourworldindata.org/grapher/thumbnail/real-gdp-growth.png?imType=og&tab=chart&time=earliest..2025&country=~CHN",
+    "caption": "Annual GDP growth - Our World in Data Annual GDP growth - Our World in Data",
+    "relevance": 3,
+    "width": 1200,
+    "height": 627
   },
   "mae-mfe": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "MAE & MFE Analysis",
-    "path": "assets/learn-trading/mae-mfe.jpg",
-    "source_url": "https://imgv2-1-f.scribdassets.com/img/document/1019004884/original/28aa424236/1?v=1",
-    "search_query": "\"MAE & MFE Analysis\" forex trading chart",
-    "width": 750,
-    "height": 1000
+    "candidate_count": 0
   },
-  "portfolio-risk": {
-    "status": "downloaded",
-    "title": "Portfolio Heat & Exposure",
-    "path": "assets/learn-trading/portfolio-risk.jpg",
-    "source_url": "https://s3-alpha.figma.com/hub/file/2705900899/980d6f16-4422-4a3b-8d99-677150e985ae-cover.png",
-    "search_query": "\"Portfolio Heat & Exposure\" forex trading chart",
-    "width": 1280,
-    "height": 960
-  },
-  "overtrading": {
-    "status": "downloaded",
-    "title": "Overtrading & Revenge Trading",
-    "path": "assets/learn-trading/overtrading.jpg",
-    "source_url": "https://static.printler.com/media/photo/183511-1.jpg",
-    "search_query": "\"Overtrading & Revenge Trading\" forex trading chart",
-    "width": 571,
-    "height": 800
+  "kelly-criterion": {
+    "status": "no_verified_match",
+    "title": "Kelly Criterion & Fractional Kelly",
+    "candidate_count": 0
   },
   "r-multiples": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "R-Multiples & Trade Expectancy",
-    "path": "assets/learn-trading/r-multiples.jpg",
-    "source_url": "https://www.bowhunting.com/wp-content/uploads/2019/04/20190417_103215-e1556731059576.jpg",
-    "search_query": "\"R-Multiples & Trade Expectancy\" forex trading chart",
-    "width": 969,
-    "height": 1000
+    "candidate_count": 0
   },
-  "trading-plan": {
-    "status": "downloaded",
-    "title": "Building a Trading Plan",
-    "path": "assets/learn-trading/trading-plan.jpg",
-    "source_url": "https://static.animecorner.me/2023/10/1698579254-33902.jpg",
-    "search_query": "\"Building a Trading Plan\" forex trading chart",
-    "width": 707,
-    "height": 1000
-  },
-  "fomo": {
-    "status": "downloaded",
-    "title": "FOMO & Chasing Price",
-    "path": "assets/learn-trading/fomo.jpg",
-    "source_url": "https://media.istockphoto.com/id/1746777511/vector/fomo-fear-of-missing-out-phenomenon-of-social-addiction-to-gadgets-anxiety-worry.jpg?s=1024x1024&w=is&k=20&c=czhrmtF3trGlbpv1XU946KFbToTzwyAr9bSiOfHZc3U=",
-    "search_query": "\"FOMO & Chasing Price\" forex trading chart",
-    "width": 1000,
-    "height": 1000
-  },
-  "posttrade-review": {
-    "status": "downloaded",
-    "title": "Post-Trade Review",
-    "path": "assets/learn-trading/posttrade-review.jpg",
-    "source_url": "https://corporate.postoffice.co.uk/media/tqbbudqy/po-logo.jpg?v=1db98d682001b70",
-    "search_query": "\"Post-Trade Review\" forex trading chart",
-    "width": 1600,
-    "height": 900
+  "portfolio-risk": {
+    "status": "no_verified_match",
+    "title": "Portfolio Heat & Exposure",
+    "candidate_count": 0
   },
   "pretrade-checklist": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Pre-Trade Checklist",
-    "path": "assets/learn-trading/pretrade-checklist.jpg",
-    "source_url": "https://www.czechleaders.com/wp-content/uploads/2023/08/IMG_8074-rotated.jpeg",
-    "search_query": "\"Pre-Trade Checklist\" forex trading chart",
-    "width": 750,
-    "height": 1000
+    "candidate_count": 0
   },
-  "confirmation-bias": {
-    "status": "downloaded",
-    "title": "Confirmation Bias & Hindsight",
-    "path": "assets/learn-trading/confirmation-bias.jpg",
-    "source_url": "https://wallpaperaccess.com/full/7186953.jpg",
-    "search_query": "\"Confirmation Bias & Hindsight\" forex trading chart",
-    "width": 1134,
-    "height": 766
+  "trading-plan": {
+    "status": "no_verified_match",
+    "title": "Building a Trading Plan",
+    "candidate_count": 0
   },
-  "pips-points-ticks": {
-    "status": "downloaded",
-    "title": "Pips, Points & Ticks",
-    "path": "assets/learn-trading/pips-points-ticks.jpg",
-    "source_url": "https://thumbs.dreamstime.com/z/pleural-effusion-poster-fluid-layers-tissue-lungs-chest-cavity-common-diseases-cough-pain-difficulty-275177417.jpg",
-    "search_query": "\"Pips, Points & Ticks\" forex trading chart",
-    "width": 947,
-    "height": 1000
+  "overtrading": {
+    "status": "no_verified_match",
+    "title": "Overtrading & Revenge Trading",
+    "candidate_count": 0
   },
-  "stop-vs-stop-limit": {
-    "status": "downloaded",
-    "title": "Stop-Market vs Stop-Limit",
-    "path": "assets/learn-trading/stop-vs-stop-limit.jpg",
-    "source_url": "https://cdn.pixabay.com/photo/2017/09/05/10/18/stop-2717058_1280.png",
-    "search_query": "\"Stop-Market vs Stop-Limit\" forex trading chart",
-    "width": 1000,
-    "height": 1000
+  "posttrade-review": {
+    "status": "no_verified_match",
+    "title": "Post-Trade Review",
+    "candidate_count": 0
   },
-  "rollover-swap": {
-    "status": "downloaded",
-    "title": "Forex Rollover & Swap",
-    "path": "assets/learn-trading/rollover-swap.jpg",
-    "source_url": "https://i.pinimg.com/736x/08/53/87/085387f32f47e13fe5d44f67f8efebba.jpg",
-    "search_query": "\"Forex Rollover & Swap\" forex trading chart",
-    "width": 720,
-    "height": 720
-  },
-  "forex-market-hours": {
-    "status": "downloaded",
-    "title": "Forex Market Hours & Sessions",
-    "path": "assets/learn-trading/forex-market-hours.jpg",
-    "source_url": "https://www.danspapers.com/wp-content/uploads/2019/06/DanMobyDickCartoon-123RF.jpg",
-    "search_query": "\"Forex Market Hours & Sessions\" forex trading chart",
-    "width": 770,
-    "height": 513
-  },
-  "lot-size-contract-size": {
-    "status": "downloaded",
-    "title": "Lot Size & Contract Specifications",
-    "path": "assets/learn-trading/lot-size-contract-size.jpg",
-    "source_url": "http://greatpyrenees.club/wp-content/uploads/2022/01/Obedience-Training.jpg",
-    "search_query": "\"Lot Size & Contract Specifications\" forex trading chart",
-    "width": 1200,
-    "height": 800
-  },
-  "central-bank-policy": {
-    "status": "downloaded",
-    "title": "Central Bank Policy & Rate Decisions",
-    "path": "assets/learn-trading/central-bank-policy.jpg",
-    "source_url": "https://cloudfront-us-east-2.images.arcpublishing.com/reuters/GH463AFQ5FMCLOFREX3HL2QGNI.jpg",
-    "search_query": "\"Central Bank Policy & Rate Decisions\" forex trading chart",
-    "width": 1445,
-    "height": 1000
+  "fomo": {
+    "status": "no_verified_match",
+    "title": "FOMO & Chasing Price",
+    "candidate_count": 0
   },
   "base-quote-currency": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Base Currency & Quote Currency",
-    "path": "assets/learn-trading/base-quote-currency.jpg",
-    "source_url": "https://www.proferecursos.com/wp-content/uploads/Que-es-una-Base.jpg",
-    "search_query": "\"Base Currency & Quote Currency\" forex trading chart",
-    "width": 1263,
-    "height": 893
+    "candidate_count": 0
+  },
+  "pips-points-ticks": {
+    "status": "no_verified_match",
+    "title": "Pips, Points & Ticks",
+    "candidate_count": 0
+  },
+  "confirmation-bias": {
+    "status": "no_verified_match",
+    "title": "Confirmation Bias & Hindsight",
+    "candidate_count": 0
+  },
+  "order-types": {
+    "status": "no_verified_match",
+    "title": "Market, Limit & Stop Orders",
+    "candidate_count": 0
+  },
+  "stop-vs-stop-limit": {
+    "status": "no_verified_match",
+    "title": "Stop-Market vs Stop-Limit",
+    "candidate_count": 0
+  },
+  "rollover-swap": {
+    "status": "no_verified_match",
+    "title": "Forex Rollover & Swap",
+    "candidate_count": 0
+  },
+  "lot-size-contract-size": {
+    "status": "no_verified_match",
+    "title": "Lot Size & Contract Specifications",
+    "candidate_count": 0
+  },
+  "forex-market-hours": {
+    "status": "no_verified_match",
+    "title": "Forex Market Hours & Sessions",
+    "candidate_count": 0
   },
   "economic-surprise": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Economic Data: Actual vs Forecast",
-    "path": "assets/learn-trading/economic-surprise.jpg",
-    "source_url": "https://c8.alamy.com/comp/R2W15N/sgt-maj-mario-fields-battalion-sergeant-major-wounded-warrior-battalion-west-speaks-to-attendees-of-the-2018-veterans-forum-at-the-north-inland-live-well-center-in-escondido-calif-nov-8-2018-the-2018-veterans-forum-is-an-event-for-active-duty-service-members-veterans-militaryveteran-service-providers-and-community-based-organizations-can-gather-to-learn-about-collaborative-efforts-serving-san-diegos-military-population-when-marines-and-sailors-are-not-deployed-they-can-often-be-found-volunteering-through-various-outreach-programs-within-local-communities-representing-the-di-R2W15N.jpg",
-    "search_query": "\"Economic Data: Actual vs Forecast\" forex trading chart",
-    "width": 1300,
-    "height": 956
+    "candidate_count": 0
+  },
+  "central-bank-policy": {
+    "status": "no_verified_match",
+    "title": "Central Bank Policy & Rate Decisions",
+    "candidate_count": 0
+  },
+  "intermarket-analysis": {
+    "status": "no_verified_match",
+    "title": "Intermarket Analysis",
+    "candidate_count": 0
+  },
+  "daylight-saving-time": {
+    "status": "no_verified_match",
+    "title": "Daylight-Saving Time & Session Shifts",
+    "candidate_count": 0
+  },
+  "dxy-and-usd-pairs": {
+    "status": "no_verified_match",
+    "title": "DXY & Major USD Pairs",
+    "candidate_count": 0
+  },
+  "trend-vs-mean-reversion": {
+    "status": "no_verified_match",
+    "title": "Trend-Following vs Mean-Reversion",
+    "candidate_count": 0
+  },
+  "multi-timeframe-analysis": {
+    "status": "no_verified_match",
+    "title": "Multi-Timeframe Analysis",
+    "candidate_count": 0
+  },
+  "volatility-regimes": {
+    "status": "no_verified_match",
+    "title": "Volatility Regimes",
+    "candidate_count": 0
+  },
+  "volatility-compression": {
+    "status": "no_verified_match",
+    "title": "Volatility Compression & Expansion",
+    "candidate_count": 0
+  },
+  "stop-placement": {
+    "status": "no_verified_match",
+    "title": "Stop-Loss Placement & Invalidation",
+    "candidate_count": 0
+  },
+  "execution-quality": {
+    "status": "no_verified_match",
+    "title": "Execution Quality & Fill Analysis",
+    "candidate_count": 0
+  },
+  "broker-feed-quality": {
+    "status": "no_verified_match",
+    "title": "Broker Feeds, Candles & Data Quality",
+    "candidate_count": 0
+  },
+  "weekend-gap-risk": {
+    "status": "no_verified_match",
+    "title": "Weekend Gaps & Gap Risk",
+    "candidate_count": 0
+  },
+  "backtest-overfitting": {
+    "status": "no_verified_match",
+    "title": "Backtest Overfitting & Curve Fitting",
+    "candidate_count": 0
+  },
+  "out-of-sample-testing": {
+    "status": "no_verified_match",
+    "title": "In-Sample vs Out-of-Sample Testing",
+    "candidate_count": 0
+  },
+  "walk-forward-analysis": {
+    "status": "no_verified_match",
+    "title": "Walk-Forward Analysis",
+    "candidate_count": 0
+  },
+  "monte-carlo-analysis": {
+    "status": "no_verified_match",
+    "title": "Monte Carlo Trade Simulation",
+    "candidate_count": 0
   },
   "yield-differentials": {
     "status": "downloaded",
     "title": "Interest-Rate Differentials & FX",
     "path": "assets/learn-trading/yield-differentials.jpg",
-    "source_url": "https://cdn.arthakendra.com/images/2024/03/13/045305-interest-rate.jpg",
-    "search_query": "\"Interest-Rate Differentials & FX\" forex trading chart",
-    "width": 1600,
-    "height": 835
-  },
-  "daylight-saving-time": {
-    "status": "downloaded",
-    "title": "Daylight-Saving Time & Session Shifts",
-    "path": "assets/learn-trading/daylight-saving-time.jpg",
-    "source_url": "https://mondoshopping.fr/cdn/shop/products/HLB1BBleO9zqK1RjSZPxq6A4tVXax_440734ae-ee43-4518-9d57-426aee1c0d73_1024x1024.jpg?v=1571980841",
-    "search_query": "\"Daylight-Saving Time & Session Shifts\" forex trading chart",
-    "width": 1000,
-    "height": 1000
-  },
-  "order-types": {
-    "status": "downloaded",
-    "title": "Market, Limit & Stop Orders",
-    "path": "assets/learn-trading/order-types.jpg",
-    "source_url": "https://www.musantetasso.com/wp-content/uploads/2018/09/chinotto.jpg",
-    "search_query": "\"Market, Limit & Stop Orders\" forex trading chart",
-    "width": 1280,
-    "height": 960
-  },
-  "dxy-and-usd-pairs": {
-    "status": "downloaded",
-    "title": "DXY & Major USD Pairs",
-    "path": "assets/learn-trading/dxy-and-usd-pairs.jpg",
-    "source_url": "https://www.absolutedental.com/wp-content/uploads/2020/03/before-and-after-braces-comparison.jpg",
-    "search_query": "\"DXY & Major USD Pairs\" forex trading chart",
-    "width": 620,
-    "height": 401
-  },
-  "multi-timeframe-analysis": {
-    "status": "downloaded",
-    "title": "Multi-Timeframe Analysis",
-    "path": "assets/learn-trading/multi-timeframe-analysis.jpg",
-    "source_url": "https://www.resumetemplates.com/wp-content/uploads/2024/12/Mid-Level-Skills-Based-Resume-Sample.pdf.jpeg",
-    "search_query": "\"Multi-Timeframe Analysis\" forex trading chart",
-    "width": 773,
-    "height": 1000
-  },
-  "volatility-regimes": {
-    "status": "downloaded",
-    "title": "Volatility Regimes",
-    "path": "assets/learn-trading/volatility-regimes.jpg",
-    "source_url": "https://images.squarespace-cdn.com/content/v1/53188a9fe4b0ee73efed5117/1570577990003-VI76NMPQZIOPBUWTP02J/lizplank-8+(1).jpg?format=1500w",
-    "search_query": "\"Volatility Regimes\" forex trading chart",
-    "width": 667,
-    "height": 1000
-  },
-  "intermarket-analysis": {
-    "status": "downloaded",
-    "title": "Intermarket Analysis",
-    "path": "assets/learn-trading/intermarket-analysis.jpg",
-    "source_url": "https://pictures.dealer.com/d/danielslongchevroletco/1234/a0a13172b55f44c58788b7417855656f.png?impolicy=downsize_bkpt&w=2500",
-    "search_query": "\"Intermarket Analysis\" forex trading chart",
-    "width": 1414,
-    "height": 592
-  },
-  "volatility-compression": {
-    "status": "downloaded",
-    "title": "Volatility Compression & Expansion",
-    "path": "assets/learn-trading/volatility-compression.jpg",
-    "source_url": "https://console.kr-asia.com/wp-content/uploads/2026/03/Xiaomi-MWC-2026-Vision-Gran-Turismo-VGT-Concept-Car.jpg",
-    "search_query": "\"Volatility Compression & Expansion\" forex trading chart",
+    "source_url": "https://www.moneylink.com.au/wp-content/uploads/2025/07/50-facts-about-interest-rates-1731098842.jpg",
+    "caption": "High Interest Rate Offers - MoneyLink High Interest Rate Offers - MoneyLink",
+    "relevance": 2,
     "width": 1600,
     "height": 900
-  },
-  "stop-placement": {
-    "status": "downloaded",
-    "title": "Stop-Loss Placement & Invalidation",
-    "path": "assets/learn-trading/stop-placement.jpg",
-    "source_url": "https://openclipart.org/image/2400px/svg_to_png/167093/StopSign-nofont.png",
-    "search_query": "\"Stop-Loss Placement & Invalidation\" forex trading chart",
-    "width": 800,
-    "height": 800
-  },
-  "trend-vs-mean-reversion": {
-    "status": "downloaded",
-    "title": "Trend-Following vs Mean-Reversion",
-    "path": "assets/learn-trading/trend-vs-mean-reversion.jpg",
-    "source_url": "https://russopower.com/cdn/shop/products/Dump_Body_3500lb_Vibrator_for_Buyers_DBV3500_DC-3500_b_500x500.jpg?v=1694705946",
-    "search_query": "\"Trend-Following vs Mean-Reversion\" forex trading chart",
-    "width": 500,
-    "height": 500
-  },
-  "broker-feed-quality": {
-    "status": "downloaded",
-    "title": "Broker Feeds, Candles & Data Quality",
-    "path": "assets/learn-trading/broker-feed-quality.jpg",
-    "source_url": "https://www.thelist.com/img/gallery/jd-and-usha-vance-have-closer-ties-to-former-trump-rival-vivek-ramaswamy-than-we-realized/l-intro-1721500518.jpg",
-    "search_query": "\"Broker Feeds, Candles & Data Quality\" forex trading chart",
-    "width": 1600,
-    "height": 901
-  },
-  "execution-quality": {
-    "status": "downloaded",
-    "title": "Execution Quality & Fill Analysis",
-    "path": "assets/learn-trading/execution-quality.jpg",
-    "source_url": "https://staticg.sportskeeda.com/editor/2025/03/04ce7-17426378955378-1920.jpg",
-    "search_query": "\"Execution Quality & Fill Analysis\" forex trading chart",
-    "width": 1600,
-    "height": 900
-  },
-  "backtest-overfitting": {
-    "status": "downloaded",
-    "title": "Backtest Overfitting & Curve Fitting",
-    "path": "assets/learn-trading/backtest-overfitting.jpg",
-    "source_url": "https://us.evocdn.io/dealer/1185/catalog/product/images/ws_cylinders_oxygen_032023_k_1679083369.jpg",
-    "search_query": "\"Backtest Overfitting & Curve Fitting\" forex trading chart",
-    "width": 500,
-    "height": 364
-  },
-  "weekend-gap-risk": {
-    "status": "downloaded",
-    "title": "Weekend Gaps & Gap Risk",
-    "path": "assets/learn-trading/weekend-gap-risk.jpg",
-    "source_url": "https://i.pinimg.com/originals/33/d9/c4/33d9c4de8ebba761daa1b27b5f2fe717.jpg?nii=t",
-    "search_query": "\"Weekend Gaps & Gap Risk\" forex trading chart",
-    "width": 1000,
-    "height": 1000
-  },
-  "walk-forward-analysis": {
-    "status": "downloaded",
-    "title": "Walk-Forward Analysis",
-    "path": "assets/learn-trading/walk-forward-analysis.jpg",
-    "source_url": "https://i5.walmartimages.com/seo/Eveokoki-12-Wood-Sign-God-Bless-Our-Home-Front-Door-Round-Wood-Sign-Hanging-Porch-Decor-Sign-for-Farmhouse-Rustic-Wood-Wreaths-Sign_8e47cc71-57d0-4fce-9e70-bf3ffb371f4e.635064b3815d5fb791a561f28c978c79.jpeg",
-    "search_query": "\"Walk-Forward Analysis\" forex trading chart",
-    "width": 810,
-    "height": 1000
-  },
-  "out-of-sample-testing": {
-    "status": "downloaded",
-    "title": "In-Sample vs Out-of-Sample Testing",
-    "path": "assets/learn-trading/out-of-sample-testing.jpg",
-    "source_url": "https://i.pinimg.com/736x/79/be/94/79be947c788314f2c45c33f6fd31aea6.jpg",
-    "search_query": "\"In-Sample vs Out-of-Sample Testing\" forex trading chart",
-    "width": 736,
-    "height": 952
   },
   "sample-size": {
     "status": "downloaded",
     "title": "Sample Size & Statistical Confidence",
     "path": "assets/learn-trading/sample-size.jpg",
-    "source_url": "https://images.radio-canada.ca/q_auto,w_700/v1/ici-info/perso/colisee-quebec-1979.jpg",
-    "search_query": "\"Sample Size & Statistical Confidence\" forex trading chart",
-    "width": 700,
-    "height": 378
-  },
-  "monte-carlo-analysis": {
-    "status": "downloaded",
-    "title": "Monte Carlo Trade Simulation",
-    "path": "assets/learn-trading/monte-carlo-analysis.jpg",
-    "source_url": "https://m.media-amazon.com/images/I/81uHpcdWxeL._SL1500_.jpg",
-    "search_query": "\"Monte Carlo Trade Simulation\" forex trading chart",
-    "width": 667,
+    "source_url": "https://www.statology.org/wp-content/uploads/2025/05/sta-chugani-understanding-sample-size.png",
+    "caption": "Understanding Sample Size Understanding Sample Size",
+    "relevance": 2,
+    "width": 1500,
     "height": 1000
   }
 }
