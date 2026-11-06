@@ -346,12 +346,12 @@
   },
   "kelly-criterion": {
     "status": "downloaded",
-    "title": "Kelly Criterion Formula",
+    "title": "Kelly Criterion Optimal Position Sizing",
     "path": "assets/learn-trading/kelly-criterion.jpg",
-    "source_page": "https://experts.deriv.com/insights/kelly-criterion-position-sizing",
-    "original_image": "https://cdn.prod.website-files.com/6912a6226b9ceff8915f5595/69fb3abb31716c8e9e45decd_69f2f860f1f81974e6fd335e_Gemini_Generated_Image_v1mv15v1mv15v1mv.webp",
-    "width": 1800,
-    "height": 982
+    "source_page": "https://mbrenndoerfer.com/writing/quantitative-trading-strategies-overview-alpha-backtesting",
+    "original_image": "https://assets.mbrenndoerfer.com/notebooks/1_quant_trading_overview_files/kelly-criterion-surface.png",
+    "width": 1781,
+    "height": 1200
   },
   "risk-of-ruin": {
     "status": "download_error",
@@ -772,5 +772,47 @@
     "original_image": "https://www.holoforex.com/storage/medias/wnH3cEZ3YeQLRthvBjUxIpkulJhMDnooUXwWFx3z.jpg",
     "width": 1536,
     "height": 1024
+  },
+  "liquidity": {
+    "status": "download_error",
+    "title": "Forex Order Book Depth and Liquidity",
+    "source_page": "https://b2broker.com/news/liquidity-examples/",
+    "error": "404 Client Error: Not Found for url: https://b2broker.com/a-media/orderbookdepth.png"
+  },
+  "trade-management": {
+    "status": "downloaded",
+    "title": "Entry, Take Profit, Stop Loss and Invalidation",
+    "path": "assets/learn-trading/trade-management.jpg",
+    "source_page": "https://x.com/midrizzy1",
+    "original_image": "https://pbs.twimg.com/media/HJQdr48WsAAcLhP.jpg",
+    "width": 1102,
+    "height": 1200
+  },
+  "r-multiples": {
+    "status": "downloaded",
+    "title": "R-Multiple Distribution and Expectancy",
+    "path": "assets/learn-trading/r-multiples.jpg",
+    "source_page": "https://forexmechanics.com/traders-workshop/market-screening-checklist/",
+    "original_image": "https://forexmechanics.com/traders-workshop/market-screening-checklist/1200/histogram-r-multiple-distribution-screening-checklist-forex.jpg",
+    "width": 1200,
+    "height": 760
+  },
+  "yield-differentials": {
+    "status": "downloaded",
+    "title": "Carry Trade Interest Rate Differential",
+    "path": "assets/learn-trading/yield-differentials.jpg",
+    "source_page": "https://research.titanfx.com/forex-trading/fx-structure",
+    "original_image": "https://research-titanfx-cms.titanfx.com/4_1a0ef2475b.png",
+    "width": 800,
+    "height": 500
+  },
+  "central-bank-policy": {
+    "status": "downloaded",
+    "title": "Central Bank Policy Rate Trends",
+    "path": "assets/learn-trading/central-bank-policy.jpg",
+    "source_page": "https://www.expat.hsbc.com/wealth/insights/learn-to-invest/start-investing/2024-01-25/",
+    "original_image": "https://www.expat.hsbc.com/content/dam/hsbc/en/wealth/images/wealth-needs/investment-tips/147384-20240125/147384-0002.JPG",
+    "width": 701,
+    "height": 495
   }
 }
