@@ -9047,5 +9047,66 @@ window.renderBacktestMetrics=function(r,meta={}){
 })();
 </script>
 
+
+<style id="nfx-learn-mobile-usability-fix">
+/* Learn Trading: phone-first layout corrections; scoped to this page only. */
+#page-learn,
+#page-learn * { box-sizing:border-box; }
+#page-learn { width:100%; max-width:100%; min-width:0; overflow-x:clip; padding-left:clamp(12px,3.5vw,28px); padding-right:clamp(12px,3.5vw,28px); }
+#page-learn .nfx-learn-hero,
+#page-learn .nfx-learn-search-panel,
+#page-learn .nfx-learn-layout,
+#page-learn .nfx-learn-main,
+#page-learn .nfx-learn-detail { min-width:0; max-width:100%; }
+#page-learn .nfx-learn-topic-card { min-width:0; }
+#page-learn .nfx-learn-topic-copy,
+#page-learn .nfx-learn-detail-content,
+#page-learn .nfx-learn-detail p,
+#page-learn .nfx-learn-detail li { overflow-wrap:anywhere; }
+#page-learn .nfx-learn-visual { max-width:100%; min-width:0; }
+#page-learn .nfx-learn-visual img,
+#page-learn .nfx-learn-visual svg,
+#page-learn .nfx-learn-direction-card img { max-width:100%; }
+#page-learn .nfx-learn-detail table { display:block; width:100%; max-width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+@media (max-width:760px) {
+  #page-learn { padding-top:14px; padding-bottom:30px; }
+  #page-learn .nfx-learn-hero { align-items:flex-start; gap:12px; padding:20px 16px; border-radius:14px; }
+  #page-learn .nfx-learn-hero > div:first-child { min-width:0; width:100%; }
+  #page-learn .nfx-learn-hero h1 { font-size:clamp(25px,7vw,34px); line-height:1.16; overflow-wrap:anywhere; }
+  #page-learn .nfx-learn-hero p { font-size:12px; line-height:1.7; }
+  #page-learn .nfx-learn-trust { gap:6px; }
+  #page-learn .nfx-learn-trust span { font-size:8px; padding:7px 8px; }
+  #page-learn .nfx-learn-search-panel { padding:13px; margin:12px 0; }
+  #page-learn .nfx-learn-search { min-width:0; gap:7px; }
+  #page-learn .nfx-learn-search input { min-width:0; width:100%; font-size:16px!important; }
+  #page-learn .nfx-learn-search button { flex:0 0 auto; min-height:38px; }
+  #page-learn .nfx-learn-layout { display:grid; grid-template-columns:minmax(0,1fr)!important; gap:12px; }
+  #page-learn .nfx-learn-sidebar { width:100%; min-width:0; padding:11px; }
+  #page-learn .nfx-learn-categories { display:flex; flex-wrap:nowrap; gap:7px; width:100%; max-width:100%; overflow-x:auto; overflow-y:hidden; padding:2px 2px 10px; -webkit-overflow-scrolling:touch; touch-action:pan-x; }
+  #page-learn .nfx-learn-category { flex:0 0 auto; min-height:40px; width:auto; white-space:nowrap; padding:10px 12px; font-size:11px; }
+  #page-learn .nfx-learn-main { width:100%; min-width:0; }
+  #page-learn .nfx-learn-results-head { align-items:flex-end; }
+  #page-learn .nfx-learn-results-head h2 { font-size:18px; }
+  #page-learn .nfx-learn-topic-grid { grid-template-columns:minmax(0,1fr)!important; gap:11px; }
+  #page-learn .nfx-learn-topic-card { width:100%; min-height:0; }
+  #page-learn .nfx-learn-thumb { height:clamp(145px,43vw,210px); }
+  #page-learn .nfx-learn-topic-copy { padding:13px; }
+  #page-learn .nfx-learn-topic-copy strong { font-size:14px; line-height:1.45; }
+  #page-learn .nfx-learn-topic-copy span { font-size:11px; line-height:1.55; }
+  #page-learn .nfx-learn-detail { width:100%; padding:13px; }
+  #page-learn .nfx-learn-detail-grid,
+  #page-learn .nfx-learn-direction-grid { grid-template-columns:minmax(0,1fr)!important; }
+  #page-learn .nfx-learn-back { min-height:42px; padding:10px 13px; }
+}
+@media (max-width:380px) {
+  #page-learn { padding-left:10px; padding-right:10px; }
+  #page-learn .nfx-learn-hero { padding:17px 13px; }
+  #page-learn .nfx-learn-search-panel { padding:10px; }
+  #page-learn .nfx-learn-topic-grid { grid-template-columns:minmax(0,1fr)!important; }
+  #page-learn .nfx-learn-thumb { height:150px; }
+  #page-learn .nfx-learn-detail { padding:10px; }
+}
+</style>
+
 </body>
 </html>
