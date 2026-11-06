@@ -265,5 +265,83 @@
     "original_image": "https://liquidity-provider.com/app/uploads/2024/03/trading-with-vwap-indicator-1600x882.png",
     "width": 1600,
     "height": 882
+  },
+  "stochastic": {
+    "status": "downloaded",
+    "title": "Stochastic Oscillator",
+    "path": "assets/learn-trading/stochastic.jpg",
+    "source_page": "https://medium.com/@digitalexchangeid/stochastic-oscillator-80c6c86c2380",
+    "original_image": "https://miro.medium.com/v2/1%2A1QqO2aelbfmdmPL3cL25Tg.jpeg",
+    "width": 914,
+    "height": 631
+  },
+  "correlation": {
+    "status": "download_error",
+    "title": "Forex Currency Correlation Matrix",
+    "source_page": "https://forexmechanics.com/risk-management/portfolio-correlation/",
+    "error": "404 Client Error: Not Found for url: https://forexmechanics.com/risk-management/portfolio-correlation/1200/macierz-korelacji-forex-8-par-heatmapa.jpg"
+  },
+  "sessions": {
+    "status": "downloaded",
+    "title": "Forex Market Hours and Sessions",
+    "path": "assets/learn-trading/sessions.jpg",
+    "source_page": "https://www.pipdemy.com/blog/the-complete-guide-to-forex-market-hours",
+    "original_image": "https://lwfiles.mycourse.app/67db2445087ef2433241cd1b-public/03460dfa9aea505e085283b6da44584b.jpg",
+    "width": 1536,
+    "height": 1024
+  },
+  "order-types": {
+    "status": "downloaded",
+    "title": "Types of Trading Orders",
+    "path": "assets/learn-trading/order-types.jpg",
+    "source_page": "https://www.tradingview.com/chart/XAUUSD/y2csATte-Types-of-Orders-in-Forex-Trading-Everything-You-Need-to-Know/",
+    "original_image": "https://s3.tradingview.com/y/y2csATte_big.png",
+    "width": 1767,
+    "height": 840
+  },
+  "donchian": {
+    "status": "downloaded",
+    "title": "Donchian Channels",
+    "path": "assets/learn-trading/donchian.jpg",
+    "source_page": "https://www.brokerxplorer.com/article/your-guide-to-trading-with-donchian-channels-4358",
+    "original_image": "https://www.brokerxplorer.com/upload/content/2023-04/your-guide-to-trading-with-donchian-channels-4358-2.jpg",
+    "width": 750,
+    "height": 500
+  },
+  "macd": {
+    "status": "downloaded",
+    "title": "MACD Signal Line and Histogram",
+    "path": "assets/learn-trading/macd.jpg",
+    "source_page": "https://www.babypips.com/forexpedia/macd",
+    "original_image": "https://bpcdn.co/images/2015/03/25135506/MACD-1200x682.png",
+    "width": 1200,
+    "height": 682
+  },
+  "dxy-correlation": {
+    "status": "downloaded",
+    "title": "US Dollar Index and EURUSD Correlation",
+    "path": "assets/learn-trading/dxy-correlation.jpg",
+    "source_page": "https://www.seputarforex.org/artikel/mengenal-us-dollar-index-125873-31",
+    "original_image": "https://www.seputarforex.org/sf2016materi/post/2018-05/draft-revisi-mengenal-us-dollar-index-283455-54384.webp",
+    "width": 1260,
+    "height": 628
+  },
+  "keltner": {
+    "status": "downloaded",
+    "title": "Keltner Channels",
+    "path": "assets/learn-trading/keltner.jpg",
+    "source_page": "https://www.ebc.com/forex/keltner-channels-a-volatility-based-trading-indicator",
+    "original_image": "https://www.ebc.com/upload/portal/20250417/8916a0b8f6e73f102d93304f67d4fbc5.png",
+    "width": 600,
+    "height": 400
+  },
+  "ema-sma": {
+    "status": "downloaded",
+    "title": "Moving Average Crossover",
+    "path": "assets/learn-trading/ema-sma.jpg",
+    "source_page": "https://it.trade-leader.com/articles/moving-average",
+    "original_image": "https://it.trade-leader.com/assets/images/resources/ma/008.png",
+    "width": 750,
+    "height": 450
   }
 }
