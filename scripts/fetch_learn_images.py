@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Download curated topic-matched image results into local Learn Trading assets. Includes indicators, FX fundamentals, risk, testing, patterns, ICT models, order-flow and candlestick, forex fundamentals, backtesting, risk and market mechanics and Wyckoff, volatility, psychology, statistical, order-flow, indicator and session models and ICT entry, structure, swing and risk lessons."""
+"""Download curated topic-matched image results into local Learn Trading assets. Includes indicators, FX fundamentals, risk, testing, patterns, ICT models, order-flow and candlestick, forex fundamentals, backtesting, risk and market mechanics and Wyckoff, volatility, psychology, statistical, order-flow, indicator and session models and ICT entry, structure, swing, risk, psychology and macro lessons."""
 import json
 from pathlib import Path
 from io import BytesIO
