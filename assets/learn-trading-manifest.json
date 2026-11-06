@@ -343,5 +343,83 @@
     "original_image": "https://it.trade-leader.com/assets/images/resources/ma/008.png",
     "width": 750,
     "height": 450
+  },
+  "kelly-criterion": {
+    "status": "downloaded",
+    "title": "Kelly Criterion Formula",
+    "path": "assets/learn-trading/kelly-criterion.jpg",
+    "source_page": "https://experts.deriv.com/insights/kelly-criterion-position-sizing",
+    "original_image": "https://cdn.prod.website-files.com/6912a6226b9ceff8915f5595/69fb3abb31716c8e9e45decd_69f2f860f1f81974e6fd335e_Gemini_Generated_Image_v1mv15v1mv15v1mv.webp",
+    "width": 1800,
+    "height": 982
+  },
+  "risk-of-ruin": {
+    "status": "download_error",
+    "title": "Drawdown and Losing Streak Risk",
+    "source_page": "https://forexmechanics.com/risk-management/risk-per-trade/",
+    "error": "404 Client Error: Not Found for url: https://forexmechanics.com/risk-management/risk-per-trade/1200/ryzyko-na-transakcje-skala-ryzyka-1-procent.jpg"
+  },
+  "expectancy": {
+    "status": "downloaded",
+    "title": "Strategy Equity Curve and Drawdown",
+    "path": "assets/learn-trading/expectancy.jpg",
+    "source_page": "https://forexmechanics.com/traders-workshop/strategy-building/",
+    "original_image": "https://forexmechanics.com/traders-workshop/strategy-building/1200/equity-curve-with-drawdown-positive-expectancy-strategy.jpg",
+    "width": 1200,
+    "height": 760
+  },
+  "volume-divergence": {
+    "status": "downloaded",
+    "title": "Price and Volume Divergence",
+    "path": "assets/learn-trading/volume-divergence.jpg",
+    "source_page": "https://dhan.co/blog/technical-analysis/volume-analysis-confirming-price-action/",
+    "original_image": "https://storage.ghost.io/c/f4/3d/f43d7027-0865-4e5d-adbc-3e641f890835/content/images/2026/06/data-src-image-6ebf3052-3fd1-455c-9bbd-aa20af1f967e.png",
+    "width": 1800,
+    "height": 1119
+  },
+  "footprint-chart": {
+    "status": "downloaded",
+    "title": "Footprint Chart Bid and Ask Delta",
+    "path": "assets/learn-trading/footprint-chart.jpg",
+    "source_page": "https://fxnx.com/en/blog/footprint-charts-see-inside-forex-candles",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F8a5682461258e3f2f8642dd0dbd6957e7b68a4b8-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80%26fit%3Dmax&w=3840",
+    "width": 800,
+    "height": 597
+  },
+  "trading-journal": {
+    "status": "downloaded",
+    "title": "Trading Journal Performance Dashboard",
+    "path": "assets/learn-trading/trading-journal.jpg",
+    "source_page": "https://journalhub.app/",
+    "original_image": "https://journalhub.app/public/images/journalhub5.jpg",
+    "width": 1732,
+    "height": 940
+  },
+  "wyckoff": {
+    "status": "downloaded",
+    "title": "Wyckoff Accumulation Schematic",
+    "path": "assets/learn-trading/wyckoff.jpg",
+    "source_page": "https://tradingview.com.vn/mau-hinh-vsa-tao-day-trong-forex-khai-niem-dac-diem-nhan-dien-va-vi-du-minh-hoa/",
+    "original_image": "https://gldt.mql5.vn/2025/10/mau-hinh-vsa-tao-day-2.png",
+    "width": 1800,
+    "height": 1080
+  },
+  "employment-data": {
+    "status": "downloaded",
+    "title": "Forex Economic Reports",
+    "path": "assets/learn-trading/employment-data.jpg",
+    "source_page": "https://fxnx.com/en/blog/5-economic-reports-that-can-impact-forex-fxnx-insights",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fc5395ec83fbfbd1417363a5161fb1ef567bfd808-1200x896.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "width": 800,
+    "height": 597
+  },
+  "monte-carlo-analysis": {
+    "status": "downloaded",
+    "title": "Monte Carlo Strategy Simulation",
+    "path": "assets/learn-trading/monte-carlo-analysis.jpg",
+    "source_page": "https://fxnx.com/en/blog/monte-carlo-stress-test-your-forex-strategy",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fec6d88e7f64cf76a0616f716a96aec7d8729d8db-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "width": 800,
+    "height": 597
   }
 }
