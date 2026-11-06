@@ -9,13 +9,10 @@
     "height": 853
   },
   "bos": {
-    "status": "downloaded",
+    "status": "download_error",
     "title": "Break of Structure (BOS)",
-    "path": "assets/learn-trading/bos.jpg",
     "source_page": "https://innercircletrader.org/smart-money-concepts/break-of-structure/",
-    "original_image": "https://innercircletrader.org/wp-content/uploads/2024/01/bos-trading-pattern.png",
-    "width": 1756,
-    "height": 1104
+    "error": "HTTPSConnectionPool(host='innercircletrader.org', port=443): Max retries exceeded with url: /wp-content/uploads/2024/01/bos-trading-pattern.png (Caused by ConnectTimeoutError(<HTTPSConnection(host='innercircletrader.org', port=443) at 0x710"
   },
   "breaker-block": {
     "status": "downloaded",
@@ -288,10 +285,13 @@
     "height": 631
   },
   "correlation": {
-    "status": "download_error",
-    "title": "Forex Currency Correlation Heatmap",
-    "source_page": "https://www.mql5.com/en/book/advanced/python/python_copyrates",
-    "error": "403 Client Error: Forbidden for url: https://www.mql5.com/en/book/img/python_corr.png"
+    "status": "downloaded",
+    "title": "Forex Currency Pair Correlation Matrix",
+    "path": "assets/learn-trading/correlation.jpg",
+    "source_page": "https://fxtrendo.com/forex-correlation-guide/",
+    "original_image": "https://fxtrendo.com/wp-content/uploads/2025/07/unnamed-file-206.png",
+    "width": 1800,
+    "height": 864
   },
   "sessions": {
     "status": "downloaded",
@@ -546,13 +546,10 @@
     "height": 1013
   },
   "smt-divergence": {
-    "status": "downloaded",
+    "status": "download_error",
     "title": "SMT Divergence",
-    "path": "assets/learn-trading/smt-divergence.jpg",
     "source_page": "https://innercircletrader.org/ict/ict-smt-divergences/",
-    "original_image": "https://innercircletrader.org/wp-content/uploads/2024/11/1-5.png",
-    "width": 1200,
-    "height": 628
+    "error": "HTTPSConnectionPool(host='innercircletrader.org', port=443): Max retries exceeded with url: /wp-content/uploads/2024/11/1-5.png (Caused by ConnectTimeoutError(<HTTPSConnection(host='innercircletrader.org', port=443) at 0x710f3878b1a0>, 'Con"
   },
   "judas-swing": {
     "status": "downloaded",
@@ -897,13 +894,10 @@
     "height": 905
   },
   "accumulation-distribution": {
-    "status": "downloaded",
+    "status": "download_error",
     "title": "Accumulation Distribution Indicator on EURUSD",
-    "path": "assets/learn-trading/accumulation-distribution.jpg",
     "source_page": "https://asiaprofx.com/indikator-accumulationdistribution",
-    "original_image": "https://asiaprofx.com/uploads/images/2021/09/image_750x_615414f191252.jpg",
-    "width": 750,
-    "height": 503
+    "error": "HTTPSConnectionPool(host='asiaprofx.com', port=443): Max retries exceeded with url: /uploads/images/2021/09/image_750x_615414f191252.jpg (Caused by ConnectTimeoutError(<HTTPSConnection(host='asiaprofx.com', port=443) at 0x710f387b9a00>, 'Co"
   },
   "fomo": {
     "status": "downloaded",
