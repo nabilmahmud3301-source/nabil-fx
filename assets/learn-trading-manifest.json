@@ -1,0 +1,790 @@
+{
+  "market-structure": {
+    "status": "downloaded",
+    "title": "Market Structure",
+    "path": "assets/learn-trading/market-structure.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Madina_Building,_a_heritage_structure_and_market_in_Hyderabad_01.jpg",
+    "license": "CC BY-SA 4.0",
+    "artist": "<a href=\"//commons.wikimedia.org/wiki/User:Pinakpani\" title=\"User:Pinakpani\">Pinakpani</a>",
+    "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+    "width": 4080,
+    "height": 3060,
+    "match_score": 1
+  },
+  "bos": {
+    "status": "downloaded",
+    "title": "Break of Structure (BOS)",
+    "path": "assets/learn-trading/bos.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:The_natural_history_of_the_human_teeth-_explaining_their_structure,_use,_formation,_growth_and_diseases_(IA_b30417260_0001).pdf",
+    "license": "Public domain",
+    "artist": "<div class=\"fn value\">\nHunter, John, 1728-1793</div>",
+    "credit": "<dl><dd><a href=\"//archive.org/details/b30417260_0001\" class=\"extiw\" title=\"iarchive:b30417260 0001\"><bdi class=\"description en\" lang=\"en\" dir=\"ltr\">Internet Archive identifier</bdi>: b30417260_0001</a></dd>\n<dd><a rel=\"nofollow\" class=\"external free\" href=\"https://archive.org/download/b30417260_0001/b30417260_0001.pdf\">https://archive.org/download/b30417260_0001/b30417260_0001.pdf</a></dd></dl>\n<ul><li>IA contributor: Wellcome Library</li></ul>",
+    "width": 1597,
+    "height": 2077,
+    "match_score": 1
+  },
+  "choch": {
+    "status": "downloaded",
+    "title": "Change of Character (CHoCH)",
+    "path": "assets/learn-trading/choch.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:The_ministerial_character_(microform)_-_a_sermon_preached_by_command_of_the_Lord_Bishop_of_the_diocese,_in_St._James%27_Cathedral,_Toronto,_on_Wednesday,_17th_June,_1857_(IA_cihm_22646).pdf",
+    "license": "Public domain",
+    "artist": "<div class=\"fn value\">\nGeddes, J. Gamble (John Gamble), 1811-1891</div>",
+    "credit": "<dl><dd><a href=\"//archive.org/details/cihm_22646\" class=\"extiw\" title=\"iarchive:cihm 22646\"><bdi class=\"description en\" lang=\"en\" dir=\"ltr\">Internet Archive identifier</bdi>: cihm_22646</a></dd>\n<dd><a rel=\"nofollow\" class=\"external free\" href=\"https://archive.org/download/cihm_22646/cihm_22646.pdf\">https://archive.org/download/cihm_22646/cihm_22646.pdf</a></dd></dl>\n<ul><li>IA contributor: Canadiana.org</li>\n<li>IA digitizing sponsor: University of Alberta Libraries</li></ul>",
+    "width": 1160,
+    "height": 1366,
+    "match_score": 1
+  },
+  "mss": {
+    "status": "downloaded",
+    "title": "Market Structure Shift (MSS)",
+    "path": "assets/learn-trading/mss.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:The_Oglander_memoirs-_extracts_from_the_mss._of_Sir_J._Oglander,_kt._.._(IA_cu31924028038051).pdf",
+    "license": "Public domain",
+    "artist": "<div class=\"fn value\">\n<dl><dd>Oglander, J[ohn], Sir, 1585-1655</dd>\n<dd>Long, William H., 1840-1896, ed</dd></dl></div>",
+    "credit": "<dl><dd><a href=\"//archive.org/details/cu31924028038051\" class=\"extiw\" title=\"iarchive:cu31924028038051\"><bdi class=\"description en\" lang=\"en\" dir=\"ltr\">Internet Archive identifier</bdi>: cu31924028038051</a></dd>\n<dd><a rel=\"nofollow\" class=\"external free\" href=\"https://archive.org/download/cu31924028038051/cu31924028038051.pdf\">https://archive.org/download/cu31924028038051/cu31924028038051.pdf</a></dd></dl>",
+    "width": 777,
+    "height": 1116,
+    "match_score": 1
+  },
+  "support-resistance": {
+    "status": "downloaded",
+    "title": "Support & Resistance",
+    "path": "assets/learn-trading/support-resistance.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:International_Conference_in_Support_of_the_Palestine_the_Symbol_of_Resistance,_Tehran_062.jpg",
+    "license": "CC BY 4.0",
+    "artist": "Unknown author<span style=\"display: none;\">Unknown author</span>",
+    "credit": "<a rel=\"nofollow\" class=\"external free\" href=\"http://farsi.khamenei.ir/photo-album?id=5889#i\">http://farsi.khamenei.ir/photo-album?id=5889#i</a>",
+    "width": 4041,
+    "height": 2694,
+    "match_score": 2
+  },
+  "trendline": {
+    "status": "no_verified_match",
+    "title": "Trendlines & Channels"
+  },
+  "liquidity": {
+    "status": "downloaded",
+    "title": "Liquidity & Liquidity Pools",
+    "path": "assets/learn-trading/liquidity.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Adjusting_the_capital_asset_pricing_model_for_the_short-run_with_liquidity_proxies,_while_accounting_for_denials_and_deceptions_in_financial_markets_(IA_adjustingcapital1094541419).pdf",
+    "license": "Public domain",
+    "artist": "<div class=\"fn value\">\nMooney, John J., IV</div>",
+    "credit": "<dl><dd><a href=\"//archive.org/details/adjustingcapital1094541419\" class=\"extiw\" title=\"iarchive:adjustingcapital1094541419\"><bdi class=\"description en\" lang=\"en\" dir=\"ltr\">Internet Archive identifier</bdi>: adjustingcapital1094541419</a></dd>\n<dd><a rel=\"nofollow\" class=\"external free\" href=\"https://archive.org/download/adjustingcapital1094541419/adjustingcapital1094541419.pdf\">https://archive.org/download/adjustingcapital1094541419/adjustingcapital1094541419.pdf</a></dd></dl>",
+    "width": 1275,
+    "height": 1650,
+    "match_score": 1
+  },
+  "liquidity-sweep": {
+    "status": "no_verified_match",
+    "title": "Liquidity Sweep"
+  },
+  "fvg": {
+    "status": "downloaded",
+    "title": "Fair Value Gap (FVG)",
+    "path": "assets/learn-trading/fvg.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:EI-FVG_(35058732716).jpg",
+    "license": "CC BY-SA 2.0",
+    "artist": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/76052339@N05\">Alec Wilson</a> from Khon Kaen, Thailand",
+    "credit": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/awilson154/35058732716/\">EI-FVG</a>",
+    "width": 2920,
+    "height": 1021,
+    "match_score": 1
+  },
+  "order-block": {
+    "status": "downloaded",
+    "title": "Order Block (OB)",
+    "path": "assets/learn-trading/order-block.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Documents_about_Martin_Luther_King,_Jr.,_Executive_Order_14176,_00548354_listdocuments_requested_f_104-10081-10025.pdf",
+    "license": "Public domain",
+    "artist": "<a href=\"https://www.wikidata.org/wiki/Q48525\" class=\"extiw\" title=\"d:Q48525\"><span title=\"national government of the United States\">Federal Government of the United States</span></a>",
+    "credit": "<a rel=\"nofollow\" class=\"external free\" href=\"https://www.archives.gov/research/mlk\">https://www.archives.gov/research/mlk</a> <a rel=\"nofollow\" class=\"external autonumber\" href=\"https://www.archives.gov/files/research/mlk/releases/2025/0721/00548354_listdocuments_requested_f_104-10081-10025.pdf\">[1]</a>",
+    "width": 2079,
+    "height": 1270,
+    "match_score": 1
+  },
+  "breaker-block": {
+    "status": "downloaded",
+    "title": "Breaker Block",
+    "path": "assets/learn-trading/breaker-block.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Color_TV_Game_Block.jpg",
+    "license": "CC BY-SA 4.0",
+    "artist": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Artistosteles&action=edit&redlink=1\" class=\"new\" title=\"User:Artistosteles (page does not exist)\">Artistosteles</a>",
+    "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+    "width": 4160,
+    "height": 2336,
+    "match_score": 1
+  },
+  "mitigation": {
+    "status": "downloaded",
+    "title": "Mitigation Block",
+    "path": "assets/learn-trading/mitigation.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Installation_of_articulating_concrete_block_on_weir_(076015f7-241f-4acc-9205-7e3d53975ef1).JPG",
+    "license": "Public domain",
+    "artist": "NPS Photo",
+    "credit": "<a rel=\"nofollow\" class=\"external text\" href=\"https://npgallery.nps.gov/\">NPGallery</a>",
+    "width": 6960,
+    "height": 4640,
+    "match_score": 1
+  },
+  "ote": {
+    "status": "download_error",
+    "title": "Optimal Trade Entry (OTE)",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "premium-discount": {
+    "status": "download_error",
+    "title": "Premium & Discount",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "equal-highs-lows": {
+    "status": "download_error",
+    "title": "Equal Highs & Equal Lows",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "session-levels": {
+    "status": "download_error",
+    "title": "Session Highs & Lows",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "pdh-pdl": {
+    "status": "download_error",
+    "title": "Previous Day High & Low",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "crt": {
+    "status": "download_error",
+    "title": "Candle Range Theory (CRT)",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "turtle-soup": {
+    "status": "download_error",
+    "title": "Turtle Soup",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "candlesticks": {
+    "status": "download_error",
+    "title": "Candlestick Patterns",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "chart-patterns": {
+    "status": "download_error",
+    "title": "Chart Patterns",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "fibonacci": {
+    "status": "download_error",
+    "title": "Fibonacci Retracement",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "volume": {
+    "status": "download_error",
+    "title": "Volume & Volume Profile",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "risk-management": {
+    "status": "download_error",
+    "title": "Risk Management & Position Sizing",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "risk-reward": {
+    "status": "download_error",
+    "title": "Risk-to-Reward & R-Multiples",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "psychology": {
+    "status": "download_error",
+    "title": "Trading Psychology & Discipline",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "backtesting": {
+    "status": "download_error",
+    "title": "Backtesting & Strategy Validation",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "sessions": {
+    "status": "download_error",
+    "title": "Forex Sessions & Market Hours",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "news": {
+    "status": "download_error",
+    "title": "Economic News & Fundamental Risk",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "swing-points": {
+    "status": "download_error",
+    "title": "Swing Highs & Swing Lows",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "internal-external": {
+    "status": "download_error",
+    "title": "Internal vs External Structure",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "range-market": {
+    "status": "download_error",
+    "title": "Range & Consolidation",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "breakout-retest": {
+    "status": "download_error",
+    "title": "Breakout & Retest",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "rejection-candle": {
+    "status": "download_error",
+    "title": "Rejection & Reversal Candles",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "displacement": {
+    "status": "download_error",
+    "title": "Displacement & Expansion",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "inducement": {
+    "status": "download_error",
+    "title": "Inducement",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "bsl-ssl": {
+    "status": "download_error",
+    "title": "Buy-Side & Sell-Side Liquidity",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "liquidity-void": {
+    "status": "download_error",
+    "title": "Liquidity Void",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "ifvg": {
+    "status": "download_error",
+    "title": "Inverse Fair Value Gap (IFVG)",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "bpr": {
+    "status": "download_error",
+    "title": "Balanced Price Range (BPR)",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "unicorn-model": {
+    "status": "download_error",
+    "title": "Unicorn Model",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "judas-swing": {
+    "status": "download_error",
+    "title": "Judas Swing",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "kill-zones": {
+    "status": "download_error",
+    "title": "ICT Kill Zones",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "amd-po3": {
+    "status": "download_error",
+    "title": "Power of Three (AMD)",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "smt-divergence": {
+    "status": "download_error",
+    "title": "SMT Divergence",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "nwog-ndog": {
+    "status": "download_error",
+    "title": "NWOG & NDOG",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "daily-weekly-open": {
+    "status": "download_error",
+    "title": "Daily & Weekly Open",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "opening-range": {
+    "status": "download_error",
+    "title": "Opening Range",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "ema-sma": {
+    "status": "download_error",
+    "title": "Moving Averages (EMA & SMA)",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "rsi": {
+    "status": "download_error",
+    "title": "Relative Strength Index (RSI)",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "macd": {
+    "status": "download_error",
+    "title": "MACD",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "atr": {
+    "status": "download_error",
+    "title": "Average True Range (ATR)",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "vwap": {
+    "status": "download_error",
+    "title": "VWAP",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "volume-profile": {
+    "status": "download_error",
+    "title": "Volume Profile",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "position-sizing": {
+    "status": "download_error",
+    "title": "Position Sizing",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "leverage-margin": {
+    "status": "download_error",
+    "title": "Leverage & Margin",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "spread-slippage": {
+    "status": "download_error",
+    "title": "Spread, Commission & Slippage",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "trade-management": {
+    "status": "download_error",
+    "title": "Trade Management & Exits",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "trading-journal": {
+    "status": "download_error",
+    "title": "Trading Journal",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "forward-testing": {
+    "status": "download_error",
+    "title": "Forward Testing",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "expectancy": {
+    "status": "download_error",
+    "title": "Expectancy & Win Rate",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "drawdown": {
+    "status": "download_error",
+    "title": "Drawdown & Risk of Ruin",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "correlation": {
+    "status": "download_error",
+    "title": "Currency Correlation & Exposure",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "wyckoff": {
+    "status": "download_error",
+    "title": "Wyckoff Method",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "wyckoff-spring": {
+    "status": "download_error",
+    "title": "Wyckoff Spring",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "wyckoff-upthrust": {
+    "status": "download_error",
+    "title": "Wyckoff Upthrust",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "volume-spread-analysis": {
+    "status": "download_error",
+    "title": "Volume Spread Analysis (VSA)",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "accumulation-distribution": {
+    "status": "download_error",
+    "title": "Accumulation & Distribution",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "volume-climax": {
+    "status": "download_error",
+    "title": "Buying & Selling Climax",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "volume-divergence": {
+    "status": "download_error",
+    "title": "Price & Volume Divergence",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "market-profile": {
+    "status": "download_error",
+    "title": "Market Profile & TPO",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "poc-vah-val": {
+    "status": "download_error",
+    "title": "POC, VAH & VAL",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "footprint-chart": {
+    "status": "download_error",
+    "title": "Footprint Charts & Bid-Ask Delta",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "cumulative-delta": {
+    "status": "download_error",
+    "title": "Cumulative Volume Delta (CVD)",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "order-flow-imbalance": {
+    "status": "download_error",
+    "title": "Order Flow Imbalance",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "absorption": {
+    "status": "download_error",
+    "title": "Absorption",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "exhaustion": {
+    "status": "download_error",
+    "title": "Exhaustion & Failed Auction",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "candlestick-engulfing": {
+    "status": "download_error",
+    "title": "Engulfing Candles",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "pinbar-hammer": {
+    "status": "download_error",
+    "title": "Pin Bar, Hammer & Shooting Star",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "inside-bar": {
+    "status": "download_error",
+    "title": "Inside Bar & Mother Bar",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "outside-bar": {
+    "status": "download_error",
+    "title": "Outside Bar",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "doji": {
+    "status": "download_error",
+    "title": "Doji & Indecision Candles",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "double-top-bottom": {
+    "status": "download_error",
+    "title": "Double Top & Double Bottom",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "head-shoulders": {
+    "status": "download_error",
+    "title": "Head & Shoulders",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "triangles": {
+    "status": "download_error",
+    "title": "Triangles: Ascending, Descending & Symmetrical",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "flags-pennants": {
+    "status": "download_error",
+    "title": "Flags & Pennants",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "wedges": {
+    "status": "download_error",
+    "title": "Rising & Falling Wedges",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "channels": {
+    "status": "download_error",
+    "title": "Ascending & Descending Channels",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "rounding-patterns": {
+    "status": "download_error",
+    "title": "Rounding Top & Rounding Bottom",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "gaps": {
+    "status": "download_error",
+    "title": "Price Gaps: Common, Breakaway & Exhaustion",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "elliott-wave": {
+    "status": "download_error",
+    "title": "Elliott Wave Basics",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "ichimoku": {
+    "status": "download_error",
+    "title": "Ichimoku Cloud",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "bollinger-bands": {
+    "status": "download_error",
+    "title": "Bollinger Bands",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "stochastic": {
+    "status": "download_error",
+    "title": "Stochastic Oscillator",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "adx-dmi": {
+    "status": "download_error",
+    "title": "ADX & Directional Movement",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "parabolic-sar": {
+    "status": "download_error",
+    "title": "Parabolic SAR",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "donchian": {
+    "status": "download_error",
+    "title": "Donchian Channels",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "keltner": {
+    "status": "download_error",
+    "title": "Keltner Channels",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "pivot-points": {
+    "status": "download_error",
+    "title": "Pivot Points",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "round-numbers": {
+    "status": "download_error",
+    "title": "Psychological & Round Number Levels",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "dxy-correlation": {
+    "status": "download_error",
+    "title": "DXY & Currency Strength",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "interest-rates": {
+    "status": "download_error",
+    "title": "Interest Rates & Central Banks",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "inflation-data": {
+    "status": "download_error",
+    "title": "Inflation: CPI & PCE",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "employment-data": {
+    "status": "download_error",
+    "title": "Employment: NFP, Unemployment & Wages",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "gdp-data": {
+    "status": "download_error",
+    "title": "GDP & Growth Data",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "fomc-policy": {
+    "status": "download_error",
+    "title": "FOMC, ECB, BoE & BoJ Decisions",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "news-calendar": {
+    "status": "download_error",
+    "title": "Economic Calendar & Event Planning",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "risk-of-ruin": {
+    "status": "download_error",
+    "title": "Risk of Ruin & Losing Streaks",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "kelly-criterion": {
+    "status": "download_error",
+    "title": "Kelly Criterion & Fractional Kelly",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "r-multiples": {
+    "status": "download_error",
+    "title": "R-Multiples & Trade Expectancy",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "mae-mfe": {
+    "status": "download_error",
+    "title": "MAE & MFE Analysis",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "portfolio-risk": {
+    "status": "download_error",
+    "title": "Portfolio Heat & Exposure",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "trading-plan": {
+    "status": "download_error",
+    "title": "Building a Trading Plan",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "pretrade-checklist": {
+    "status": "download_error",
+    "title": "Pre-Trade Checklist",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "posttrade-review": {
+    "status": "download_error",
+    "title": "Post-Trade Review",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "overtrading": {
+    "status": "download_error",
+    "title": "Overtrading & Revenge Trading",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "fomo": {
+    "status": "download_error",
+    "title": "FOMO & Chasing Price",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "confirmation-bias": {
+    "status": "download_error",
+    "title": "Confirmation Bias & Hindsight",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "base-quote-currency": {
+    "status": "download_error",
+    "title": "Base Currency & Quote Currency",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "pips-points-ticks": {
+    "status": "download_error",
+    "title": "Pips, Points & Ticks",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "lot-size-contract-size": {
+    "status": "download_error",
+    "title": "Lot Size & Contract Specifications",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "order-types": {
+    "status": "download_error",
+    "title": "Market, Limit & Stop Orders",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "stop-vs-stop-limit": {
+    "status": "download_error",
+    "title": "Stop-Market vs Stop-Limit",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "rollover-swap": {
+    "status": "download_error",
+    "title": "Forex Rollover & Swap",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "forex-market-hours": {
+    "status": "download_error",
+    "title": "Forex Market Hours & Sessions",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "daylight-saving-time": {
+    "status": "download_error",
+    "title": "Daylight-Saving Time & Session Shifts",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "economic-surprise": {
+    "status": "download_error",
+    "title": "Economic Data: Actual vs Forecast",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "central-bank-policy": {
+    "status": "download_error",
+    "title": "Central Bank Policy & Rate Decisions",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "yield-differentials": {
+    "status": "download_error",
+    "title": "Interest-Rate Differentials & FX",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "intermarket-analysis": {
+    "status": "download_error",
+    "title": "Intermarket Analysis",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "dxy-and-usd-pairs": {
+    "status": "download_error",
+    "title": "DXY & Major USD Pairs",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "multi-timeframe-analysis": {
+    "status": "download_error",
+    "title": "Multi-Timeframe Analysis",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "trend-vs-mean-reversion": {
+    "status": "download_error",
+    "title": "Trend-Following vs Mean-Reversion",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "volatility-regimes": {
+    "status": "download_error",
+    "title": "Volatility Regimes",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "volatility-compression": {
+    "status": "download_error",
+    "title": "Volatility Compression & Expansion",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "stop-placement": {
+    "status": "download_error",
+    "title": "Stop-Loss Placement & Invalidation",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "execution-quality": {
+    "status": "download_error",
+    "title": "Execution Quality & Fill Analysis",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "broker-feed-quality": {
+    "status": "download_error",
+    "title": "Broker Feeds, Candles & Data Quality",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "weekend-gap-risk": {
+    "status": "download_error",
+    "title": "Weekend Gaps & Gap Risk",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "backtest-overfitting": {
+    "status": "download_error",
+    "title": "Backtest Overfitting & Curve Fitting",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "out-of-sample-testing": {
+    "status": "download_error",
+    "title": "In-Sample vs Out-of-Sample Testing",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "walk-forward-analysis": {
+    "status": "download_error",
+    "title": "Walk-Forward Analysis",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "monte-carlo-analysis": {
+    "status": "download_error",
+    "title": "Monte Carlo Trade Simulation",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  },
+  "sample-size": {
+    "status": "download_error",
+    "title": "Sample Size & Statistical Confidence",
+    "error": "Expecting value: line 1 column 1 (char 0)"
+  }
+}
