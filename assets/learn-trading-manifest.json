@@ -703,5 +703,74 @@
     "original_image": "https://www.theforexchronicles.com/wp-content/uploads/2023/10/Investing-Currencies-Heat-Map.png",
     "width": 915,
     "height": 810
+  },
+  "backtesting": {
+    "status": "download_error",
+    "title": "Backtest Performance Report",
+    "source_page": "https://www.fluxcharts.com/articles/Flux-Charts",
+    "error": "400 Client Error: Bad Request for url: https://www.fluxcharts.com/_next/image?q=25&url=https%3A%2F%2Ffirebasestorage.googleapis.com%2Fv0%2Fb%2Fmrproject-377023.appspot.com%2Fo%2Farticles%252FFlux-Charts%252Fsfx-automations%252Fintroduction-"
+  },
+  "psychology": {
+    "status": "downloaded",
+    "title": "Trading Psychology: Revenge and Panic",
+    "path": "assets/learn-trading/psychology.jpg",
+    "source_page": "https://fullertonmarkets.medium.com/how-to-master-the-right-mindset-for-successful-trading-ac15459ed8ca",
+    "original_image": "https://miro.medium.com/v2/resize%3Afit%3A1400/0%2AOsqWuhJxXON_E7h3.jpg",
+    "width": 1200,
+    "height": 627
+  },
+  "backtest-overfitting": {
+    "status": "downloaded",
+    "title": "Backtest Overfitting vs Real-Time",
+    "path": "assets/learn-trading/backtest-overfitting.jpg",
+    "source_page": "https://forexmechanics.com/es/plataformas-herramientas/demo-backtesting/",
+    "original_image": "https://forexmechanics.com/platforms-tools/demo-backtesting/1200/overfitting-backtest-curve-vs-reality.jpg",
+    "width": 1200,
+    "height": 800
+  },
+  "stop-placement": {
+    "status": "downloaded",
+    "title": "Entry, Stop Loss and Invalidation",
+    "path": "assets/learn-trading/stop-placement.jpg",
+    "source_page": "https://x.com/midrizzy1",
+    "original_image": "https://pbs.twimg.com/media/HJQdr48WsAAcLhP.jpg",
+    "width": 1102,
+    "height": 1200
+  },
+  "volatility-compression": {
+    "status": "downloaded",
+    "title": "ATR Volatility Contraction and Expansion",
+    "path": "assets/learn-trading/volatility-compression.jpg",
+    "source_page": "https://www.stockforecasttoday.com/post/what-causes-market-volatility-when-atr-rises-after-extended-rallies",
+    "original_image": "https://static.wixstatic.com/media/065dd4_0d8b42e65b4e44ab92b92f8f470ae2e4~mv2.png/v1/fill/w_1536%2Ch_1024%2Cal_c/065dd4_0d8b42e65b4e44ab92b92f8f470ae2e4~mv2.png",
+    "width": 1536,
+    "height": 1024
+  },
+  "pips-points-ticks": {
+    "status": "downloaded",
+    "title": "Pips, Pipettes, Points and Ticks",
+    "path": "assets/learn-trading/pips-points-ticks.jpg",
+    "source_page": "https://mybank.pl/forex/podstawowe-pojecia/jednostki-miary-pips-point-tick/",
+    "original_image": "https://mybank.pl/forex/podstawowe-pojecia/jednostki-miary-pips-point-tick/1200/jednostki-miary-forex-pips-point-tick.jpg",
+    "width": 1200,
+    "height": 800
+  },
+  "walk-forward-analysis": {
+    "status": "downloaded",
+    "title": "Walk-Forward Analysis",
+    "path": "assets/learn-trading/walk-forward-analysis.jpg",
+    "source_page": "https://coinxsight.com/blog/strategy/backtesting-methodology-guide",
+    "original_image": "https://coinxsight.com/images/blog/inline/backtest-walkforward-analysis.png",
+    "width": 1024,
+    "height": 1024
+  },
+  "spread-slippage": {
+    "status": "downloaded",
+    "title": "Forex Slippage and Liquidity",
+    "path": "assets/learn-trading/spread-slippage.jpg",
+    "source_page": "https://www.holoforex.com/blogs/forex-slippage-explained",
+    "original_image": "https://www.holoforex.com/storage/medias/wnH3cEZ3YeQLRthvBjUxIpkulJhMDnooUXwWFx3z.jpg",
+    "width": 1536,
+    "height": 1024
   }
 }
