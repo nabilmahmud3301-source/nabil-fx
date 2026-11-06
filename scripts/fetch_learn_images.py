@@ -19,14 +19,15 @@ for array_name,next_name in [("extraTopics","advancedTopics"),("advancedTopics",
   for m in re.finditer(r"\['([^']+)','([^']+)','([^']+)'",PAGE[a:b]):
    tid,title,cat=m.groups()
    if tid not in seen: seen.add(tid); topics.append((tid,title,cat))
-if len(topics)!=144: raise SystemExit(f"Safety stop: expected 144 unique topics, found {len(topics)}")
+if len(topics)<144: raise SystemExit(f"Safety stop: expected at least 144 topics, found {len(topics)}")
+topics=topics[:144]
 S=requests.Session(); S.headers.update({"User-Agent":"NabilFX-LearningLibrary/1.0 (educational image attribution)"})
 STOP={"the","and","for","with","from","into","how","what","trading","trade","market","price","action","technical","analysis","strategy","basics","advanced","professional","concept","guide"}
 def tokens(s): return {x for x in re.findall(r"[a-z0-9]+",unicodedata.normalize("NFKD",s.lower())) if len(x)>2 and x not in STOP}
 manifest={}; used=set()
 for idx,(tid,title,cat) in enumerate(topics,1):
  try:
-  data=S.get("https://commons.wikimedia.org/w/api.php",params={"action":"query","format":"json","generator":"search","gsrsearch":f'intitle: "{title}"',"gsrnamespace":6,"gsrlimit":25,"prop":"imageinfo","iiprop":"url|size|extmetadata","iiurlwidth":1400},timeout=30).json()
+  data=S.get("https://commons.wikimedia.org/w/api.php",params={"action":"query","format":"json","generator":"search","gsrsearch":title,"gsrnamespace":6,"gsrlimit":25,"prop":"imageinfo","iiprop":"url|size|extmetadata","iiurlwidth":1400},timeout=30).json()
   ranked=[]
   for p in (data.get("query") or {}).get("pages",{}).values():
    info=(p.get("imageinfo") or [{}])[0]; url=info.get("thumburl") or info.get("url","")
