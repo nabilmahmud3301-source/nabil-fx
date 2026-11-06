@@ -154,12 +154,12 @@
   },
   "trendline": {
     "status": "downloaded",
-    "title": "Trendline and Price Channel",
+    "title": "EURUSD Ascending Trendline Channel",
     "path": "assets/learn-trading/trendline.jpg",
-    "source_page": "https://fbs.eu/en/analytics/tips/top-5-support-and-resistance-indicators-and-strategies-28649",
-    "original_image": "https://cdn.fbs.eu/img/articles/28649/1663167176-f19c9085129709ee14d013be869df69b_1200x1200_q90v3.png",
-    "width": 1200,
-    "height": 725
+    "source_page": "https://tradeciety.com/how-to-trade-the-trendline-channel",
+    "original_image": "https://tradeciety.com/hs-fs/hubfs/Trendline%20Channel%20Upward.png?height=4635&name=Trendline+Channel+Upward.png&width=8994",
+    "width": 1800,
+    "height": 928
   },
   "leverage-margin": {
     "status": "downloaded",
@@ -289,9 +289,9 @@
   },
   "correlation": {
     "status": "download_error",
-    "title": "Forex Pair Correlation Matrix",
-    "source_page": "https://the5ers.com/forex-market-correlation/",
-    "error": "404 Client Error: Not Found for url: https://the5ers.com/wp-content/uploads/2022/02/Correlations-Chart-Graph_EURUSD-Correlations-Chart.jpg"
+    "title": "Forex Currency Correlation Heatmap",
+    "source_page": "https://www.mql5.com/en/book/advanced/python/python_copyrates",
+    "error": "403 Client Error: Forbidden for url: https://www.mql5.com/en/book/img/python_corr.png"
   },
   "sessions": {
     "status": "downloaded",
@@ -348,10 +348,13 @@
     "height": 400
   },
   "ema-sma": {
-    "status": "download_error",
-    "title": "EURUSD Moving Average Crossovers",
-    "source_page": "https://www.thinkmarkets.com/en/trading-academy/forex/moving-average-indicators/",
-    "error": "403 Client Error: Forbidden for url: https://www.thinkmarkets.com/getmedia/d56dcaab-f3ae-4a15-8284-376b5c7c001f/Academy-Forex-Moving-average-eurusd-daily-chart-with-bullish-and-bearish-crossovers.png"
+    "status": "downloaded",
+    "title": "GBPUSD 20 and 50 Period Moving Average Crossover",
+    "path": "assets/learn-trading/ema-sma.jpg",
+    "source_page": "https://medium.com/@digitalexchangeid/moving-average-220b9ed1a3ea",
+    "original_image": "https://miro.medium.com/v2/resize%3Afit%3A1400/1%2A4_lFn_DPerHI9BcK_uubXg.jpeg",
+    "width": 914,
+    "height": 631
   },
   "kelly-criterion": {
     "status": "downloaded",
@@ -805,12 +808,12 @@
   },
   "trade-management": {
     "status": "downloaded",
-    "title": "Entry, Take Profit, Stop Loss and Invalidation",
+    "title": "Advanced Stop-Loss and Trade Management Techniques",
     "path": "assets/learn-trading/trade-management.jpg",
-    "source_page": "https://x.com/midrizzy1",
-    "original_image": "https://pbs.twimg.com/media/HJQdr48WsAAcLhP.jpg",
-    "width": 1102,
-    "height": 1200
+    "source_page": "https://www.traderdetector.com/trading/how-to-place-a-stop-loss-in-forex-beginner-friendly-guide",
+    "original_image": "https://www.traderdetector.com/images/2026/02/advanced-but-beginnersafe-stop-management-techniques-nybip.webp",
+    "width": 1536,
+    "height": 1024
   },
   "r-multiples": {
     "status": "downloaded",
@@ -1093,10 +1096,10 @@
   },
   "fvg-ce": {
     "status": "downloaded",
-    "title": "FVG Consequent Encroachment Midpoint",
+    "title": "ICT Consequent Encroachment: Precision FVG Entry",
     "path": "assets/learn-trading/fvg-ce.jpg",
-    "source_page": "https://fxnx.com/en/blog/precision-trading-consequent-encroachment-50-fvg",
-    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fff032c4316891a6c2d6934df95efe6d0fa541312-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80%26fit%3Dmax&w=3840",
+    "source_page": "https://fxnx.com/en/blog/ict-consequent-encroachment-precision-fvg-entry",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F2f5c5bf5806d4f28863298dfc063275e038a010c-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
     "width": 800,
     "height": 597
   },
@@ -1147,12 +1150,12 @@
   },
   "nwog-ndog": {
     "status": "downloaded",
-    "title": "New Day Opening Gap and Daily Open",
+    "title": "ICT New Week Opening Gap (NWOG)",
     "path": "assets/learn-trading/nwog-ndog.jpg",
-    "source_page": "https://en.rattibha.com/thread/1810297940952375713",
-    "original_image": "https://pbs.twimg.com/media/GR94ds_WIAARNQK.jpg",
-    "width": 1104,
-    "height": 943
+    "source_page": "https://arongroups.co/forex-articles/ben-felix-portfolio/",
+    "original_image": "https://cdn.arongroups.co/uploads/2026/05/Index-Image.jpg.png",
+    "width": 800,
+    "height": 450
   },
   "drawdown": {
     "status": "downloaded",
@@ -1218,13 +1221,10 @@
     "height": 500
   },
   "economic-surprise": {
-    "status": "downloaded",
-    "title": "Actual vs Forecast Economic Data Reaction",
-    "path": "assets/learn-trading/economic-surprise.jpg",
-    "source_page": "https://tradersunion.com/economy-calendar/how-to-use/",
-    "original_image": "https://tradersunion.com/uploads/articles/52817/market-reaction-to-nfp-and-cpi-data-5.jpeg",
-    "width": 1800,
-    "height": 835
+    "status": "download_error",
+    "title": "EURUSD Reaction to US Nonfarm Payrolls Release",
+    "source_page": "https://new.fxblue.com/",
+    "error": "404 Client Error: Not Found for url: https://new.fxblue.com/img/home/nfp.png"
   },
   "rejection-candle": {
     "status": "downloaded",
