@@ -26,7 +26,7 @@ STOP=set("the and for with from into your how what why forex trading technical a
 def words(s): return {x for x in re.findall(r"[a-z0-9]+",unicodedata.normalize("NFKD",s.lower())) if len(x)>2 and x not in STOP}
 lock=threading.Lock(); used=set()
 def search(session,q,title):
- url="https://www.bing.com/images/search?q="+quote(q)+"&qft=%2Bfilterui%3Alicense-L2_L3&form=IRFLTR"
+ url="https://www.bing.com/images/search?q="+quote(q)+"&form=HDRSC3"
  r=session.get(url,timeout=20); r.raise_for_status(); page=html.unescape(r.text)
  hits=[]
  for m in re.finditer(r'"murl"\s*:\s*"((?:\\.|[^"\\])*)"',page):
@@ -43,9 +43,10 @@ def search(session,q,title):
   # Require the result's own caption/title to contain the actual concept, not just the search query.
   required=key
   score=len(required & cap)
-  min_score=1 if len(required)<=1 else (2 if len(required)<=3 else 2)
+  min_score=1 if len(required)<=1 else 1
   if score<min_score: continue
-  if any(x in u.lower() for x in ["snopes.com","gettyimages.com","istockphoto.com","shutterstock.com","pinterest.com","etsy.com","amazon.com","party-expert","ign.com","wwd.com","liverpoolecho","reddit.com","mediaproxy"]): continue
+  trusted=["tradingfinder.com","dailypriceaction.com","babypips.com","investopedia.com","fxopen.com","ig.com","oanda.com","forex.com","cmegroup.com","innercircletrader.org","innercircletrader.com","liquidityfinder.com","the5ers.com","fxstreet.com","tradingview.com","corporatefinanceinstitute.com","ourworldindata.org","statology.org","realinvestmentadvice.com","liberatedstocktrader.com","forexlive.com","forexfactory.com","forexmentor.com","arongroups.co","luxtradingfirm.com","holoforex.com","priceaction.com"]
+  if not any(d in u.lower() for d in trusted): continue
   hits.append((score,u,caption))
  hits.sort(key=lambda x:-x[0])
  return hits
