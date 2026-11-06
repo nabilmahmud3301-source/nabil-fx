@@ -35,9 +35,9 @@
     "Mitigation Block"
   ],
   "breaker-block": [
-    "https://pbs.twimg.com/media/Fe_Rhc0XwAIL29V.jpg",
-    "https://en.rattibha.com/thread/1580712244954173440",
-    "Breaker Block and FVG"
+    "https://www.brokerxplorer.com/upload/content/2024-11/advanced-ict-trading-all-about-breakers-and-mitigation-blocks-6489-173209633114.png",
+    "https://www.brokerxplorer.com/article/advanced-ict-trading-all-about-breaker-and-mitigation-blocks-6489",
+    "ICT Breaker and Mitigation Block"
   ],
   "premium-discount": [
     "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F6fcb7869866ad246f9a87fe751e2a3e885abd773-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
@@ -115,9 +115,9 @@
     "Trendline and Price Channel"
   ],
   "fvg": [
-    "https://www.strike.money/wp-content/uploads/2025/12/image-4-1024x465.png",
-    "https://www.strike.money/technical-analysis/fair-value-gap",
-    "Fair Value Gap chart"
+    "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fff032c4316891a6c2d6934df95efe6d0fa541312-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80%26fit%3Dmax&w=3840",
+    "https://fxnx.com/en/blog/precision-trading-consequent-encroachment-50-fvg",
+    "Fair Value Gap and Consequent Encroachment"
   ],
   "rsi": [
     "https://cdn.cmcmarkets.com/contentful/vl2kvsmutclx/759pgUfvghx3q9GNb0CroT/70a15d3e68e492642a9a584a1192d8cf/Overbought_and_sold_forex_trading_strategy_extra.webp?imwidth=1920",
@@ -290,9 +290,9 @@
     "Power of Three: Accumulation, Manipulation, Distribution"
   ],
   "ote": [
-    "https://www.signalwavesai.com/images/articles/ICT-Trading-Strategy/ict-optimal-trade-entry.png",
-    "https://signalwavesai.com/articles/ict-trading-strategy",
-    "Optimal Trade Entry Fibonacci Zone"
+    "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fabc6d8809983b77c04968cdeb20e79870ff1db9f-1200x896.png%3Fw%3D800%26fm%3Dwebp%26q%3D80%26fit%3Dmax&w=3840",
+    "https://fxnx.com/en/blog/mastering-the-ict-fibonacci-retracement-a-traders-guide",
+    "ICT Fibonacci OTE Zone"
   ],
   "turtle-soup": [
     "https://cdn.prod.website-files.com/697103179acf24479947e31c/697a7ca2660f6271d0df77f9_articles%252Ftrading-strategies%252Fict-strategies%252Fict-turtle-soup%252FICT%2520Turtle%2520Soup%25206.png",
@@ -593,5 +593,30 @@
     "https://www.brokerxplorer.com/upload/content/2024-10/forex-learning-fair-value-gap-fvg-in-ict-concept-6393-17286307585.jpg",
     "https://www.brokerxplorer.com/article/forex-learning-fair-value-gap-fvg-in-ict-concept-6393",
     "Displacement, Imbalance and Liquidity Void"
+  ],
+  "silver-bullet": [
+    "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fc242aa6a936f193b8b6b4f95f656fd6cf32c8c31-1200x896.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "https://fxnx.com/en/blog/ict-killzones-master-xauusd-timing-maximum-profit",
+    "ICT Silver Bullet Window: Sweep and FVG Entry"
+  ],
+  "london-killzone": [
+    "https://i.ytimg.com/vi/AmwFBku47dU/maxresdefault.jpg",
+    "https://www.youtube.com/watch?v=AmwFBku47dU",
+    "London Killzone and Asian Range"
+  ],
+  "fvg-ce": [
+    "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fff032c4316891a6c2d6934df95efe6d0fa541312-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80%26fit%3Dmax&w=3840",
+    "https://fxnx.com/en/blog/precision-trading-consequent-encroachment-50-fvg",
+    "FVG Consequent Encroachment Midpoint"
+  ],
+  "ict-2022-model": [
+    "https://pbs.twimg.com/media/GmPndKPXIAAsug0.jpg",
+    "https://x.com/bullprooftrader/status/1901618127529459940",
+    "ICT 2022 Model Buy Setup"
+  ],
+  "ndog": [
+    "https://pbs.twimg.com/media/GR94ds_WIAARNQK.jpg",
+    "https://en.rattibha.com/thread/1810297940952375713",
+    "New Day Opening Gap"
   ]
 }
