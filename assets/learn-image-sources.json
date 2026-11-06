@@ -118,5 +118,40 @@
     "https://www.strike.money/wp-content/uploads/2025/12/image-4-1024x465.png",
     "https://www.strike.money/technical-analysis/fair-value-gap",
     "Fair Value Gap chart"
+  ],
+  "rsi": [
+    "https://cdn.cmcmarkets.com/contentful/vl2kvsmutclx/759pgUfvghx3q9GNb0CroT/70a15d3e68e492642a9a584a1192d8cf/Overbought_and_sold_forex_trading_strategy_extra.webp?imwidth=1920",
+    "https://www.cmcmarkets.com/en-gb/forex/forex-trading-strategies",
+    "RSI Overbought and Oversold"
+  ],
+  "bollinger-bands": [
+    "https://tradersunion.com/uploads/articles/19853/bollinger-band-strategy-14.jpeg",
+    "https://tradersunion.com/interesting-articles/top-10-forex-chart-patterns-you-should-know/forex-chart-analysis/types-forex-trading-charts/",
+    "Bollinger Bands Squeeze"
+  ],
+  "vwap": [
+    "https://liquidity-provider.com/app/uploads/2024/03/trading-with-vwap-indicator-1600x882.png",
+    "https://liquidity-provider.com/articles/volume-weighted-average-price-vwap-definition/",
+    "VWAP Intraday Chart"
+  ],
+  "ichimoku": [
+    "https://ichimoku.kumo360.com/images/training/analysis_chart.jpeg",
+    "https://ichimoku.kumo360.com/training",
+    "Ichimoku Cloud"
+  ],
+  "volume-profile": [
+    "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F27e7db145fb3303650c4e93a697025eded687896-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "https://fxnx.com/en/blog/volume-profile-spot-institutional-poc-trade-smarter",
+    "Volume Profile with POC and Nodes"
+  ],
+  "atr": [
+    "https://c.mql5.com/18/106/MT5chart.png",
+    "https://www.mql5.com/en/code/42408",
+    "Average True Range indicator"
+  ],
+  "adx-dmi": [
+    "https://www.seputarforex.org/sf2016materi/post/2013-04/mengukur-kekuatan-trend-dengan-indikator-adx-123144-1.webp",
+    "https://www.seputarforex.org/artikel/mengukur-kekuatan-trend-dengan-indikator-adx-123144-31",
+    "ADX Directional Movement"
   ]
 }
