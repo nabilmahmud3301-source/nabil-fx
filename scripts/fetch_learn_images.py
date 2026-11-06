@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Download curated topic-matched image results into local Learn Trading assets. Includes indicators, FX fundamentals, risk, testing, patterns and order-flow topics."""
+"""Download curated topic-matched image results into local Learn Trading assets. Includes indicators, FX fundamentals, risk, testing, patterns, ICT models and order-flow topics."""
 import json
 from pathlib import Path
 from io import BytesIO
