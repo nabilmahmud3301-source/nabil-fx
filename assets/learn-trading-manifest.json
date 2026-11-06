@@ -336,13 +336,10 @@
     "height": 400
   },
   "ema-sma": {
-    "status": "downloaded",
+    "status": "download_error",
     "title": "Moving Average Crossover",
-    "path": "assets/learn-trading/ema-sma.jpg",
     "source_page": "https://it.trade-leader.com/articles/moving-average",
-    "original_image": "https://it.trade-leader.com/assets/images/resources/ma/008.png",
-    "width": 750,
-    "height": 450
+    "error": "HTTPSConnectionPool(host='it.trade-leader.com', port=443): Read timed out."
   },
   "kelly-criterion": {
     "status": "downloaded",
@@ -861,13 +858,10 @@
     "height": 597
   },
   "intermarket-analysis": {
-    "status": "downloaded",
+    "status": "download_error",
     "title": "Gold, Real Yields and US Dollar",
-    "path": "assets/learn-trading/intermarket-analysis.jpg",
     "source_page": "https://blog.hycmlab.com/a-few-tips-for-trading-gold-right-now/",
-    "original_image": "https://blog.hycmlab.com/wp-content/uploads/2021/11/Real-yields-and-USD.jpg",
-    "width": 1800,
-    "height": 905
+    "error": "HTTPSConnectionPool(host='blog.hycmlab.com', port=443): Max retries exceeded with url: /wp-content/uploads/2021/11/Real-yields-and-USD.jpg (Caused by ConnectTimeoutError(<HTTPSConnection(host='blog.hycmlab.com', port=443) at 0x74e3fe7536e0>"
   },
   "accumulation-distribution": {
     "status": "downloaded",
@@ -945,6 +939,42 @@
     "source_page": "https://signalwavesai.com/articles/modern-position-sizing-risk-control-2025",
     "original_image": "https://signalwavesai.com/images/articles/Modern-Position-Sizing-%26-Risk-Control-2025/portfolio-heat-management.png",
     "width": 1536,
+    "height": 1024
+  },
+  "parabolic-sar": {
+    "status": "downloaded",
+    "title": "Parabolic SAR on EURUSD",
+    "path": "assets/learn-trading/parabolic-sar.jpg",
+    "source_page": "https://naga.com/eu/academy/parabolic-sar",
+    "original_image": "https://cms.naga.com/image_957f4d8496.png",
+    "width": 1044,
+    "height": 755
+  },
+  "wyckoff-upthrust": {
+    "status": "downloaded",
+    "title": "Wyckoff Upthrust After Distribution",
+    "path": "assets/learn-trading/wyckoff-upthrust.jpg",
+    "source_page": "https://fxnx.com/en/blog/wyckoff-utad-master-distribution-reversals",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F2dd7c6795280b9ec328a116d31e3f80c87e21f4f-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80%26fit%3Dmax&w=3840",
+    "width": 800,
+    "height": 597
+  },
+  "exhaustion": {
+    "status": "downloaded",
+    "title": "Footprint Chart Exhaustion and Balance",
+    "path": "assets/learn-trading/exhaustion.jpg",
+    "source_page": "https://beyondcandlesticks.substack.com/p/understanding-order-flow-pt-2",
+    "original_image": "https://substackcdn.com/image/fetch/%24s_%21F2_g%21%2Cf_auto%2Cq_auto%3Agood%2Cfl_progressive%3Asteep/https%3A/substack-post-media.s3.amazonaws.com/public/images/53f57265-d900-410a-b1df-800a21ae9955_2422x1392.png",
+    "width": 1800,
+    "height": 1035
+  },
+  "absorption": {
+    "status": "downloaded",
+    "title": "Footprint Chart Absorption Pattern",
+    "path": "assets/learn-trading/absorption.jpg",
+    "source_page": "https://coinxsight.com/blog/indicators/order-flow-trading-guide",
+    "original_image": "https://coinxsight.com/images/blog/inline/order-flow-footprint-chart.png",
+    "width": 1024,
     "height": 1024
   }
 }
