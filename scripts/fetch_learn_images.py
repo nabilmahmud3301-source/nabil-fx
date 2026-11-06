@@ -16,7 +16,7 @@ for array_name,next_name in [("extraTopics","advancedTopics"),("advancedTopics",
  a=PAGE.find("const "+array_name+"=")
  b=PAGE.find("const "+next_name+"=",a+1) if next_name!="const categories" else PAGE.find("const categories",a+1)
  if a>=0 and b>a:
-  for m in re.finditer(r"\\['([^']+)','([^']+)','([^']+)'",PAGE[a:b]):
+  for m in re.finditer(r"\['([^']+)','([^']+)','([^']+)'",PAGE[a:b]):
    tid,title,cat=m.groups()
    if tid not in seen: seen.add(tid); topics.append((tid,title,cat))
 if len(topics)!=144: raise SystemExit(f"Safety stop: expected 144 unique topics, found {len(topics)}")
