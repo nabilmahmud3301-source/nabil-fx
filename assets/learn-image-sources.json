@@ -468,5 +468,40 @@
     "https://research-titanfx-cms.titanfx.com/4_1a0ef2475b.png",
     "https://research.titanfx.com/forex-trading/fx-structure",
     "Carry Trade Interest Rate Differential"
+  ],
+  "round-numbers": [
+    "https://s3.tradingview.com/j/JTmgt6lp_big.png",
+    "https://www.tradingview.com/chart/EURUSD/JTmgt6lp-PSYCHOLOGICAL-PRICE-LEVELS/",
+    "Psychological Round Number Levels"
+  ],
+  "weekend-gap-risk": [
+    "https://eu-images.contentstack.com/v3/assets/blt73dfd92ee49f59a6/blt0788d23727d3c71e/67d00f38a67cbb59e273818b/MDP-7549_1_1200x675_EN.png",
+    "https://fbs.com/fbs-academy/traders-blog/keeping-trades-over-the-weekend-your-chance-or-failure",
+    "Weekend Forex Price Gap"
+  ],
+  "volatility-regimes": [
+    "https://cdn.arongroups.co/uploads/2026/01/Swing-High-vs-Swing-Low-7-768x478.jpg",
+    "https://arongroups.co/technical-analyze/swing-high-swing-low/",
+    "High and Low Volatility with ATR"
+  ],
+  "wyckoff-spring": [
+    "https://images.prismic.io/3commas/379c29f6-e148-4d96-8dfc-fe2d7f2fe7d8_2.png?auto=compress%2Cformat&h=694&rect=0%2C0%2C1944%2C1124&w=1200",
+    "https://3commas.io/academy/articles/the-wyckoff-method-explained",
+    "Wyckoff Accumulation and Spring"
+  ],
+  "poc-vah-val": [
+    "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F373bd8f78c111628d2360e79c755448269489cfa-1200x896.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "https://fxnx.com/en/blog/market-profile-trading-finding-institutional-fair-value",
+    "Market Profile and TPO"
+  ],
+  "intermarket-analysis": [
+    "https://blog.hycmlab.com/wp-content/uploads/2021/11/Real-yields-and-USD.jpg",
+    "https://blog.hycmlab.com/a-few-tips-for-trading-gold-right-now/",
+    "Gold, Real Yields and US Dollar"
+  ],
+  "accumulation-distribution": [
+    "https://asiaprofx.com/uploads/images/2021/09/image_750x_615414f191252.jpg",
+    "https://asiaprofx.com/indikator-accumulationdistribution",
+    "Accumulation Distribution Indicator on EURUSD"
   ]
 }
