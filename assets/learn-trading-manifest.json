@@ -1,730 +1,722 @@
 {
-  "market-structure": {
+  "choch": {
     "status": "no_verified_match",
-    "title": "Market Structure",
-    "query": "\"Market Structure\" forex trading chart technical analysis example"
+    "title": "Change of Character (CHoCH)",
+    "query": "Change of Character (CHoCH) forex trading chart technical analysis"
   },
   "bos": {
     "status": "no_verified_match",
     "title": "Break of Structure (BOS)",
-    "query": "\"Break of Structure (BOS)\" forex trading chart technical analysis example"
-  },
-  "choch": {
-    "status": "no_verified_match",
-    "title": "Change of Character (CHoCH)",
-    "query": "\"Change of Character (CHoCH)\" forex trading chart technical analysis example"
+    "query": "Break of Structure (BOS) forex trading chart technical analysis"
   },
   "mss": {
     "status": "no_verified_match",
     "title": "Market Structure Shift (MSS)",
-    "query": "\"Market Structure Shift (MSS)\" forex trading chart technical analysis example"
+    "query": "Market Structure Shift (MSS) forex trading chart technical analysis"
   },
-  "support-resistance": {
+  "market-structure": {
     "status": "no_verified_match",
-    "title": "Support & Resistance",
-    "query": "\"Support & Resistance\" forex trading chart technical analysis example"
+    "title": "Market Structure",
+    "query": "Market Structure forex trading chart technical analysis"
   },
   "trendline": {
     "status": "no_verified_match",
     "title": "Trendlines & Channels",
-    "query": "\"Trendlines & Channels\" forex trading chart technical analysis example"
+    "query": "Trendlines & Channels forex trading chart technical analysis"
+  },
+  "support-resistance": {
+    "status": "no_verified_match",
+    "title": "Support & Resistance",
+    "query": "Support & Resistance forex trading chart technical analysis"
   },
   "liquidity": {
     "status": "no_verified_match",
     "title": "Liquidity & Liquidity Pools",
-    "query": "\"Liquidity & Liquidity Pools\" forex trading chart technical analysis example"
+    "query": "Liquidity & Liquidity Pools forex trading chart technical analysis"
   },
   "liquidity-sweep": {
     "status": "no_verified_match",
     "title": "Liquidity Sweep",
-    "query": "\"Liquidity Sweep\" forex trading chart technical analysis example"
-  },
-  "fvg": {
-    "status": "no_verified_match",
-    "title": "Fair Value Gap (FVG)",
-    "query": "\"Fair Value Gap (FVG)\" forex trading chart technical analysis example"
+    "query": "Liquidity Sweep forex trading chart technical analysis"
   },
   "order-block": {
     "status": "no_verified_match",
     "title": "Order Block (OB)",
-    "query": "\"Order Block (OB)\" forex trading chart technical analysis example"
+    "query": "Order Block (OB) forex trading chart technical analysis"
   },
   "breaker-block": {
     "status": "no_verified_match",
     "title": "Breaker Block",
-    "query": "\"Breaker Block\" forex trading chart technical analysis example"
+    "query": "Breaker Block forex trading chart technical analysis"
   },
   "mitigation": {
     "status": "no_verified_match",
     "title": "Mitigation Block",
-    "query": "\"Mitigation Block\" forex trading chart technical analysis example"
+    "query": "Mitigation Block forex trading chart technical analysis"
   },
-  "ote": {
+  "fvg": {
     "status": "no_verified_match",
-    "title": "Optimal Trade Entry (OTE)",
-    "query": "\"Optimal Trade Entry (OTE)\" forex trading chart technical analysis example"
-  },
-  "premium-discount": {
-    "status": "no_verified_match",
-    "title": "Premium & Discount",
-    "query": "\"Premium & Discount\" forex trading chart technical analysis example"
+    "title": "Fair Value Gap (FVG)",
+    "query": "Fair Value Gap (FVG) forex trading chart technical analysis"
   },
   "equal-highs-lows": {
     "status": "no_verified_match",
     "title": "Equal Highs & Equal Lows",
-    "query": "\"Equal Highs & Equal Lows\" forex trading chart technical analysis example"
+    "query": "Equal Highs & Equal Lows forex trading chart technical analysis"
+  },
+  "ote": {
+    "status": "no_verified_match",
+    "title": "Optimal Trade Entry (OTE)",
+    "query": "Optimal Trade Entry (OTE) forex trading chart technical analysis"
+  },
+  "premium-discount": {
+    "status": "no_verified_match",
+    "title": "Premium & Discount",
+    "query": "Premium & Discount forex trading chart technical analysis"
   },
   "session-levels": {
     "status": "no_verified_match",
     "title": "Session Highs & Lows",
-    "query": "\"Session Highs & Lows\" forex trading chart technical analysis example"
+    "query": "Session Highs & Lows forex trading chart technical analysis"
   },
   "pdh-pdl": {
     "status": "no_verified_match",
     "title": "Previous Day High & Low",
-    "query": "\"Previous Day High & Low\" forex trading chart technical analysis example"
-  },
-  "crt": {
-    "status": "no_verified_match",
-    "title": "Candle Range Theory (CRT)",
-    "query": "\"Candle Range Theory (CRT)\" forex trading chart technical analysis example"
+    "query": "Previous Day High & Low forex trading chart technical analysis"
   },
   "turtle-soup": {
     "status": "no_verified_match",
     "title": "Turtle Soup",
-    "query": "\"Turtle Soup\" forex trading chart technical analysis example"
+    "query": "Turtle Soup forex trading chart technical analysis"
+  },
+  "crt": {
+    "status": "no_verified_match",
+    "title": "Candle Range Theory (CRT)",
+    "query": "Candle Range Theory (CRT) forex trading chart technical analysis"
   },
   "candlesticks": {
     "status": "no_verified_match",
     "title": "Candlestick Patterns",
-    "query": "\"Candlestick Patterns\" forex trading chart technical analysis example"
-  },
-  "chart-patterns": {
-    "status": "no_verified_match",
-    "title": "Chart Patterns",
-    "query": "\"Chart Patterns\" forex trading chart technical analysis example"
+    "query": "Candlestick Patterns forex trading chart technical analysis"
   },
   "fibonacci": {
     "status": "no_verified_match",
     "title": "Fibonacci Retracement",
-    "query": "\"Fibonacci Retracement\" forex trading chart technical analysis example"
+    "query": "Fibonacci Retracement forex trading chart technical analysis"
+  },
+  "chart-patterns": {
+    "status": "no_verified_match",
+    "title": "Chart Patterns",
+    "query": "Chart Patterns forex trading chart technical analysis"
   },
   "volume": {
     "status": "no_verified_match",
     "title": "Volume & Volume Profile",
-    "query": "\"Volume & Volume Profile\" forex trading chart technical analysis example"
+    "query": "Volume & Volume Profile forex trading chart technical analysis"
   },
   "risk-management": {
     "status": "no_verified_match",
     "title": "Risk Management & Position Sizing",
-    "query": "\"Risk Management & Position Sizing\" forex trading chart technical analysis example"
+    "query": "Risk Management & Position Sizing forex trading chart technical analysis"
   },
   "risk-reward": {
     "status": "no_verified_match",
     "title": "Risk-to-Reward & R-Multiples",
-    "query": "\"Risk-to-Reward & R-Multiples\" forex trading chart technical analysis example"
+    "query": "Risk-to-Reward & R-Multiples forex trading chart technical analysis"
   },
   "psychology": {
     "status": "no_verified_match",
     "title": "Trading Psychology & Discipline",
-    "query": "\"Trading Psychology & Discipline\" forex trading chart technical analysis example"
+    "query": "Trading Psychology & Discipline forex trading chart technical analysis"
   },
   "backtesting": {
     "status": "no_verified_match",
     "title": "Backtesting & Strategy Validation",
-    "query": "\"Backtesting & Strategy Validation\" forex trading chart technical analysis example"
+    "query": "Backtesting & Strategy Validation forex trading chart technical analysis"
   },
   "sessions": {
     "status": "no_verified_match",
     "title": "Forex Sessions & Market Hours",
-    "query": "\"Forex Sessions & Market Hours\" forex trading chart technical analysis example"
+    "query": "Forex Sessions & Market Hours forex trading chart technical analysis"
   },
   "news": {
     "status": "no_verified_match",
     "title": "Economic News & Fundamental Risk",
-    "query": "\"Economic News & Fundamental Risk\" forex trading chart technical analysis example"
+    "query": "Economic News & Fundamental Risk forex trading chart technical analysis"
   },
   "swing-points": {
     "status": "no_verified_match",
     "title": "Swing Highs & Swing Lows",
-    "query": "\"Swing Highs & Swing Lows\" forex trading chart technical analysis example"
+    "query": "Swing Highs & Swing Lows forex trading chart technical analysis"
   },
   "internal-external": {
     "status": "no_verified_match",
     "title": "Internal vs External Structure",
-    "query": "\"Internal vs External Structure\" forex trading chart technical analysis example"
+    "query": "Internal vs External Structure forex trading chart technical analysis"
   },
   "range-market": {
     "status": "no_verified_match",
     "title": "Range & Consolidation",
-    "query": "\"Range & Consolidation\" forex trading chart technical analysis example"
+    "query": "Range & Consolidation forex trading chart technical analysis"
   },
   "breakout-retest": {
     "status": "no_verified_match",
     "title": "Breakout & Retest",
-    "query": "\"Breakout & Retest\" forex trading chart technical analysis example"
-  },
-  "rejection-candle": {
-    "status": "no_verified_match",
-    "title": "Rejection & Reversal Candles",
-    "query": "\"Rejection & Reversal Candles\" forex trading chart technical analysis example"
+    "query": "Breakout & Retest forex trading chart technical analysis"
   },
   "displacement": {
     "status": "no_verified_match",
     "title": "Displacement & Expansion",
-    "query": "\"Displacement & Expansion\" forex trading chart technical analysis example"
+    "query": "Displacement & Expansion forex trading chart technical analysis"
+  },
+  "rejection-candle": {
+    "status": "no_verified_match",
+    "title": "Rejection & Reversal Candles",
+    "query": "Rejection & Reversal Candles forex trading chart technical analysis"
   },
   "inducement": {
     "status": "no_verified_match",
     "title": "Inducement",
-    "query": "\"Inducement\" forex trading chart technical analysis example"
+    "query": "Inducement forex trading chart technical analysis"
   },
   "bsl-ssl": {
     "status": "no_verified_match",
     "title": "Buy-Side & Sell-Side Liquidity",
-    "query": "\"Buy-Side & Sell-Side Liquidity\" forex trading chart technical analysis example"
+    "query": "Buy-Side & Sell-Side Liquidity forex trading chart technical analysis"
   },
   "liquidity-void": {
     "status": "no_verified_match",
     "title": "Liquidity Void",
-    "query": "\"Liquidity Void\" forex trading chart technical analysis example"
+    "query": "Liquidity Void forex trading chart technical analysis"
   },
   "ifvg": {
     "status": "no_verified_match",
     "title": "Inverse Fair Value Gap (IFVG)",
-    "query": "\"Inverse Fair Value Gap (IFVG)\" forex trading chart technical analysis example"
+    "query": "Inverse Fair Value Gap (IFVG) forex trading chart technical analysis"
   },
   "bpr": {
     "status": "no_verified_match",
     "title": "Balanced Price Range (BPR)",
-    "query": "\"Balanced Price Range (BPR)\" forex trading chart technical analysis example"
+    "query": "Balanced Price Range (BPR) forex trading chart technical analysis"
   },
   "unicorn-model": {
     "status": "no_verified_match",
     "title": "Unicorn Model",
-    "query": "\"Unicorn Model\" forex trading chart technical analysis example"
+    "query": "Unicorn Model forex trading chart technical analysis"
   },
   "judas-swing": {
     "status": "no_verified_match",
     "title": "Judas Swing",
-    "query": "\"Judas Swing\" forex trading chart technical analysis example"
+    "query": "Judas Swing forex trading chart technical analysis"
   },
   "kill-zones": {
     "status": "no_verified_match",
     "title": "ICT Kill Zones",
-    "query": "\"ICT Kill Zones\" forex trading chart technical analysis example"
+    "query": "ICT Kill Zones forex trading chart technical analysis"
   },
   "amd-po3": {
     "status": "no_verified_match",
     "title": "Power of Three (AMD)",
-    "query": "\"Power of Three (AMD)\" forex trading chart technical analysis example"
+    "query": "Power of Three (AMD) forex trading chart technical analysis"
   },
   "smt-divergence": {
     "status": "no_verified_match",
     "title": "SMT Divergence",
-    "query": "\"SMT Divergence\" forex trading chart technical analysis example"
+    "query": "SMT Divergence forex trading chart technical analysis"
   },
   "nwog-ndog": {
     "status": "no_verified_match",
     "title": "NWOG & NDOG",
-    "query": "\"NWOG & NDOG\" forex trading chart technical analysis example"
+    "query": "NWOG & NDOG forex trading chart technical analysis"
   },
   "daily-weekly-open": {
     "status": "no_verified_match",
     "title": "Daily & Weekly Open",
-    "query": "\"Daily & Weekly Open\" forex trading chart technical analysis example"
+    "query": "Daily & Weekly Open forex trading chart technical analysis"
   },
   "opening-range": {
     "status": "no_verified_match",
     "title": "Opening Range",
-    "query": "\"Opening Range\" forex trading chart technical analysis example"
+    "query": "Opening Range forex trading chart technical analysis"
   },
   "ema-sma": {
     "status": "no_verified_match",
     "title": "Moving Averages (EMA & SMA)",
-    "query": "\"Moving Averages (EMA & SMA)\" forex trading chart technical analysis example"
-  },
-  "rsi": {
-    "status": "no_verified_match",
-    "title": "Relative Strength Index (RSI)",
-    "query": "\"Relative Strength Index (RSI)\" forex trading chart technical analysis example"
+    "query": "Moving Averages (EMA & SMA) forex trading chart technical analysis"
   },
   "macd": {
     "status": "no_verified_match",
     "title": "MACD",
-    "query": "\"MACD\" forex trading chart technical analysis example"
+    "query": "MACD forex trading chart technical analysis"
+  },
+  "rsi": {
+    "status": "no_verified_match",
+    "title": "Relative Strength Index (RSI)",
+    "query": "Relative Strength Index (RSI) forex trading chart technical analysis"
   },
   "atr": {
     "status": "no_verified_match",
     "title": "Average True Range (ATR)",
-    "query": "\"Average True Range (ATR)\" forex trading chart technical analysis example"
+    "query": "Average True Range (ATR) forex trading chart technical analysis"
   },
   "vwap": {
     "status": "no_verified_match",
     "title": "VWAP",
-    "query": "\"VWAP\" forex trading chart technical analysis example"
-  },
-  "volume-profile": {
-    "status": "no_verified_match",
-    "title": "Volume Profile",
-    "query": "\"Volume Profile\" forex trading chart technical analysis example"
+    "query": "VWAP forex trading chart technical analysis"
   },
   "position-sizing": {
     "status": "no_verified_match",
     "title": "Position Sizing",
-    "query": "\"Position Sizing\" forex trading chart technical analysis example"
+    "query": "Position Sizing forex trading chart technical analysis"
+  },
+  "volume-profile": {
+    "status": "no_verified_match",
+    "title": "Volume Profile",
+    "query": "Volume Profile forex trading chart technical analysis"
   },
   "leverage-margin": {
     "status": "no_verified_match",
     "title": "Leverage & Margin",
-    "query": "\"Leverage & Margin\" forex trading chart technical analysis example"
+    "query": "Leverage & Margin forex trading chart technical analysis"
   },
   "spread-slippage": {
     "status": "no_verified_match",
     "title": "Spread, Commission & Slippage",
-    "query": "\"Spread, Commission & Slippage\" forex trading chart technical analysis example"
-  },
-  "trade-management": {
-    "status": "no_verified_match",
-    "title": "Trade Management & Exits",
-    "query": "\"Trade Management & Exits\" forex trading chart technical analysis example"
+    "query": "Spread, Commission & Slippage forex trading chart technical analysis"
   },
   "trading-journal": {
     "status": "no_verified_match",
     "title": "Trading Journal",
-    "query": "\"Trading Journal\" forex trading chart technical analysis example"
+    "query": "Trading Journal forex trading chart technical analysis"
+  },
+  "trade-management": {
+    "status": "no_verified_match",
+    "title": "Trade Management & Exits",
+    "query": "Trade Management & Exits forex trading chart technical analysis"
   },
   "forward-testing": {
     "status": "no_verified_match",
     "title": "Forward Testing",
-    "query": "\"Forward Testing\" forex trading chart technical analysis example"
-  },
-  "expectancy": {
-    "status": "no_verified_match",
-    "title": "Expectancy & Win Rate",
-    "query": "\"Expectancy & Win Rate\" forex trading chart technical analysis example"
+    "query": "Forward Testing forex trading chart technical analysis"
   },
   "drawdown": {
     "status": "no_verified_match",
     "title": "Drawdown & Risk of Ruin",
-    "query": "\"Drawdown & Risk of Ruin\" forex trading chart technical analysis example"
+    "query": "Drawdown & Risk of Ruin forex trading chart technical analysis"
+  },
+  "expectancy": {
+    "status": "no_verified_match",
+    "title": "Expectancy & Win Rate",
+    "query": "Expectancy & Win Rate forex trading chart technical analysis"
   },
   "correlation": {
     "status": "no_verified_match",
     "title": "Currency Correlation & Exposure",
-    "query": "\"Currency Correlation & Exposure\" forex trading chart technical analysis example"
-  },
-  "wyckoff": {
-    "status": "no_verified_match",
-    "title": "Wyckoff Method",
-    "query": "\"Wyckoff Method\" forex trading chart technical analysis example"
-  },
-  "wyckoff-spring": {
-    "status": "no_verified_match",
-    "title": "Wyckoff Spring",
-    "query": "\"Wyckoff Spring\" forex trading chart technical analysis example"
+    "query": "Currency Correlation & Exposure forex trading chart technical analysis"
   },
   "wyckoff-upthrust": {
     "status": "no_verified_match",
     "title": "Wyckoff Upthrust",
-    "query": "\"Wyckoff Upthrust\" forex trading chart technical analysis example"
+    "query": "Wyckoff Upthrust forex trading chart technical analysis"
+  },
+  "wyckoff-spring": {
+    "status": "no_verified_match",
+    "title": "Wyckoff Spring",
+    "query": "Wyckoff Spring forex trading chart technical analysis"
+  },
+  "wyckoff": {
+    "status": "no_verified_match",
+    "title": "Wyckoff Method",
+    "query": "Wyckoff Method forex trading chart technical analysis"
   },
   "volume-spread-analysis": {
     "status": "no_verified_match",
     "title": "Volume Spread Analysis (VSA)",
-    "query": "\"Volume Spread Analysis (VSA)\" forex trading chart technical analysis example"
+    "query": "Volume Spread Analysis (VSA) forex trading chart technical analysis"
   },
   "accumulation-distribution": {
     "status": "no_verified_match",
     "title": "Accumulation & Distribution",
-    "query": "\"Accumulation & Distribution\" forex trading chart technical analysis example"
-  },
-  "volume-climax": {
-    "status": "no_verified_match",
-    "title": "Buying & Selling Climax",
-    "query": "\"Buying & Selling Climax\" forex trading chart technical analysis example"
+    "query": "Accumulation & Distribution forex trading chart technical analysis"
   },
   "volume-divergence": {
     "status": "no_verified_match",
     "title": "Price & Volume Divergence",
-    "query": "\"Price & Volume Divergence\" forex trading chart technical analysis example"
+    "query": "Price & Volume Divergence forex trading chart technical analysis"
+  },
+  "volume-climax": {
+    "status": "no_verified_match",
+    "title": "Buying & Selling Climax",
+    "query": "Buying & Selling Climax forex trading chart technical analysis"
   },
   "market-profile": {
     "status": "no_verified_match",
     "title": "Market Profile & TPO",
-    "query": "\"Market Profile & TPO\" forex trading chart technical analysis example"
+    "query": "Market Profile & TPO forex trading chart technical analysis"
   },
   "poc-vah-val": {
     "status": "no_verified_match",
     "title": "POC, VAH & VAL",
-    "query": "\"POC, VAH & VAL\" forex trading chart technical analysis example"
+    "query": "POC, VAH & VAL forex trading chart technical analysis"
   },
   "footprint-chart": {
     "status": "no_verified_match",
     "title": "Footprint Charts & Bid-Ask Delta",
-    "query": "\"Footprint Charts & Bid-Ask Delta\" forex trading chart technical analysis example"
+    "query": "Footprint Charts & Bid-Ask Delta forex trading chart technical analysis"
   },
   "cumulative-delta": {
     "status": "no_verified_match",
     "title": "Cumulative Volume Delta (CVD)",
-    "query": "\"Cumulative Volume Delta (CVD)\" forex trading chart technical analysis example"
-  },
-  "order-flow-imbalance": {
-    "status": "no_verified_match",
-    "title": "Order Flow Imbalance",
-    "query": "\"Order Flow Imbalance\" forex trading chart technical analysis example"
-  },
-  "absorption": {
-    "status": "no_verified_match",
-    "title": "Absorption",
-    "query": "\"Absorption\" forex trading chart technical analysis example"
+    "query": "Cumulative Volume Delta (CVD) forex trading chart technical analysis"
   },
   "exhaustion": {
     "status": "no_verified_match",
     "title": "Exhaustion & Failed Auction",
-    "query": "\"Exhaustion & Failed Auction\" forex trading chart technical analysis example"
+    "query": "Exhaustion & Failed Auction forex trading chart technical analysis"
+  },
+  "order-flow-imbalance": {
+    "status": "no_verified_match",
+    "title": "Order Flow Imbalance",
+    "query": "Order Flow Imbalance forex trading chart technical analysis"
+  },
+  "absorption": {
+    "status": "no_verified_match",
+    "title": "Absorption",
+    "query": "Absorption forex trading chart technical analysis"
   },
   "candlestick-engulfing": {
     "status": "no_verified_match",
     "title": "Engulfing Candles",
-    "query": "\"Engulfing Candles\" forex trading chart technical analysis example"
-  },
-  "pinbar-hammer": {
-    "status": "no_verified_match",
-    "title": "Pin Bar, Hammer & Shooting Star",
-    "query": "\"Pin Bar, Hammer & Shooting Star\" forex trading chart technical analysis example"
+    "query": "Engulfing Candles forex trading chart technical analysis"
   },
   "inside-bar": {
     "status": "no_verified_match",
     "title": "Inside Bar & Mother Bar",
-    "query": "\"Inside Bar & Mother Bar\" forex trading chart technical analysis example"
+    "query": "Inside Bar & Mother Bar forex trading chart technical analysis"
   },
-  "outside-bar": {
+  "pinbar-hammer": {
     "status": "no_verified_match",
-    "title": "Outside Bar",
-    "query": "\"Outside Bar\" forex trading chart technical analysis example"
+    "title": "Pin Bar, Hammer & Shooting Star",
+    "query": "Pin Bar, Hammer & Shooting Star forex trading chart technical analysis"
   },
   "doji": {
     "status": "no_verified_match",
     "title": "Doji & Indecision Candles",
-    "query": "\"Doji & Indecision Candles\" forex trading chart technical analysis example"
+    "query": "Doji & Indecision Candles forex trading chart technical analysis"
+  },
+  "outside-bar": {
+    "status": "no_verified_match",
+    "title": "Outside Bar",
+    "query": "Outside Bar forex trading chart technical analysis"
   },
   "double-top-bottom": {
     "status": "no_verified_match",
     "title": "Double Top & Double Bottom",
-    "query": "\"Double Top & Double Bottom\" forex trading chart technical analysis example"
+    "query": "Double Top & Double Bottom forex trading chart technical analysis"
   },
   "head-shoulders": {
     "status": "no_verified_match",
     "title": "Head & Shoulders",
-    "query": "\"Head & Shoulders\" forex trading chart technical analysis example"
+    "query": "Head & Shoulders forex trading chart technical analysis"
   },
   "triangles": {
     "status": "no_verified_match",
     "title": "Triangles: Ascending, Descending & Symmetrical",
-    "query": "\"Triangles: Ascending, Descending & Symmetrical\" forex trading chart technical analysis example"
+    "query": "Triangles: Ascending, Descending & Symmetrical forex trading chart technical analysis"
   },
   "flags-pennants": {
     "status": "no_verified_match",
     "title": "Flags & Pennants",
-    "query": "\"Flags & Pennants\" forex trading chart technical analysis example"
+    "query": "Flags & Pennants forex trading chart technical analysis"
   },
   "wedges": {
     "status": "no_verified_match",
     "title": "Rising & Falling Wedges",
-    "query": "\"Rising & Falling Wedges\" forex trading chart technical analysis example"
+    "query": "Rising & Falling Wedges forex trading chart technical analysis"
   },
   "channels": {
     "status": "no_verified_match",
     "title": "Ascending & Descending Channels",
-    "query": "\"Ascending & Descending Channels\" forex trading chart technical analysis example"
-  },
-  "rounding-patterns": {
-    "status": "no_verified_match",
-    "title": "Rounding Top & Rounding Bottom",
-    "query": "\"Rounding Top & Rounding Bottom\" forex trading chart technical analysis example"
+    "query": "Ascending & Descending Channels forex trading chart technical analysis"
   },
   "gaps": {
     "status": "no_verified_match",
     "title": "Price Gaps: Common, Breakaway & Exhaustion",
-    "query": "\"Price Gaps: Common, Breakaway & Exhaustion\" forex trading chart technical analysis example"
+    "query": "Price Gaps: Common, Breakaway & Exhaustion forex trading chart technical analysis"
+  },
+  "rounding-patterns": {
+    "status": "no_verified_match",
+    "title": "Rounding Top & Rounding Bottom",
+    "query": "Rounding Top & Rounding Bottom forex trading chart technical analysis"
   },
   "elliott-wave": {
     "status": "no_verified_match",
     "title": "Elliott Wave Basics",
-    "query": "\"Elliott Wave Basics\" forex trading chart technical analysis example"
-  },
-  "ichimoku": {
-    "status": "no_verified_match",
-    "title": "Ichimoku Cloud",
-    "query": "\"Ichimoku Cloud\" forex trading chart technical analysis example"
+    "query": "Elliott Wave Basics forex trading chart technical analysis"
   },
   "bollinger-bands": {
     "status": "no_verified_match",
     "title": "Bollinger Bands",
-    "query": "\"Bollinger Bands\" forex trading chart technical analysis example"
+    "query": "Bollinger Bands forex trading chart technical analysis"
   },
   "stochastic": {
     "status": "no_verified_match",
     "title": "Stochastic Oscillator",
-    "query": "\"Stochastic Oscillator\" forex trading chart technical analysis example"
+    "query": "Stochastic Oscillator forex trading chart technical analysis"
+  },
+  "ichimoku": {
+    "status": "no_verified_match",
+    "title": "Ichimoku Cloud",
+    "query": "Ichimoku Cloud forex trading chart technical analysis"
   },
   "adx-dmi": {
     "status": "no_verified_match",
     "title": "ADX & Directional Movement",
-    "query": "\"ADX & Directional Movement\" forex trading chart technical analysis example"
-  },
-  "parabolic-sar": {
-    "status": "no_verified_match",
-    "title": "Parabolic SAR",
-    "query": "\"Parabolic SAR\" forex trading chart technical analysis example"
-  },
-  "donchian": {
-    "status": "downloaded",
-    "title": "Donchian Channels",
-    "path": "assets/learn-trading/donchian.jpg",
-    "image_title": "Donchian Channel Trading Strategy: Entries and Exits | The Right Trader",
-    "image_description": "Donchian Channel Trading Strategy: Entries and Exits | The Right Trader",
-    "source_page": "https://therighttrader.com/learn/indicator-strategies/donchian-channel-trading-strategy",
-    "image_source": "https://therighttrader.com/learn/ema-trading-strategy/bullish-ema-trading-strategy.webp",
-    "license_filter": "Bing Images Creative Commons filter (L2-L6)",
-    "width": 1600,
-    "height": 900,
-    "relevance_score": 1
+    "query": "ADX & Directional Movement forex trading chart technical analysis"
   },
   "keltner": {
     "status": "no_verified_match",
     "title": "Keltner Channels",
-    "query": "\"Keltner Channels\" forex trading chart technical analysis example"
+    "query": "Keltner Channels forex trading chart technical analysis"
+  },
+  "parabolic-sar": {
+    "status": "no_verified_match",
+    "title": "Parabolic SAR",
+    "query": "Parabolic SAR forex trading chart technical analysis"
+  },
+  "donchian": {
+    "status": "no_verified_match",
+    "title": "Donchian Channels",
+    "query": "Donchian Channels forex trading chart technical analysis"
   },
   "pivot-points": {
     "status": "no_verified_match",
     "title": "Pivot Points",
-    "query": "\"Pivot Points\" forex trading chart technical analysis example"
-  },
-  "round-numbers": {
-    "status": "no_verified_match",
-    "title": "Psychological & Round Number Levels",
-    "query": "\"Psychological & Round Number Levels\" forex trading chart technical analysis example"
+    "query": "Pivot Points forex trading chart technical analysis"
   },
   "dxy-correlation": {
     "status": "no_verified_match",
     "title": "DXY & Currency Strength",
-    "query": "\"DXY & Currency Strength\" forex trading chart technical analysis example"
+    "query": "DXY & Currency Strength forex trading chart technical analysis"
   },
   "interest-rates": {
     "status": "no_verified_match",
     "title": "Interest Rates & Central Banks",
-    "query": "\"Interest Rates & Central Banks\" forex trading chart technical analysis example"
+    "query": "Interest Rates & Central Banks forex trading chart technical analysis"
+  },
+  "round-numbers": {
+    "status": "no_verified_match",
+    "title": "Psychological & Round Number Levels",
+    "query": "Psychological & Round Number Levels forex trading chart technical analysis"
   },
   "inflation-data": {
     "status": "no_verified_match",
     "title": "Inflation: CPI & PCE",
-    "query": "\"Inflation: CPI & PCE\" forex trading chart technical analysis example"
-  },
-  "employment-data": {
-    "status": "no_verified_match",
-    "title": "Employment: NFP, Unemployment & Wages",
-    "query": "\"Employment: NFP, Unemployment & Wages\" forex trading chart technical analysis example"
+    "query": "Inflation: CPI & PCE forex trading chart technical analysis"
   },
   "gdp-data": {
     "status": "no_verified_match",
     "title": "GDP & Growth Data",
-    "query": "\"GDP & Growth Data\" forex trading chart technical analysis example"
+    "query": "GDP & Growth Data forex trading chart technical analysis"
+  },
+  "employment-data": {
+    "status": "no_verified_match",
+    "title": "Employment: NFP, Unemployment & Wages",
+    "query": "Employment: NFP, Unemployment & Wages forex trading chart technical analysis"
   },
   "fomc-policy": {
     "status": "no_verified_match",
     "title": "FOMC, ECB, BoE & BoJ Decisions",
-    "query": "\"FOMC, ECB, BoE & BoJ Decisions\" forex trading chart technical analysis example"
+    "query": "FOMC, ECB, BoE & BoJ Decisions forex trading chart technical analysis"
   },
   "news-calendar": {
     "status": "no_verified_match",
     "title": "Economic Calendar & Event Planning",
-    "query": "\"Economic Calendar & Event Planning\" forex trading chart technical analysis example"
+    "query": "Economic Calendar & Event Planning forex trading chart technical analysis"
   },
   "risk-of-ruin": {
     "status": "no_verified_match",
     "title": "Risk of Ruin & Losing Streaks",
-    "query": "\"Risk of Ruin & Losing Streaks\" forex trading chart technical analysis example"
-  },
-  "kelly-criterion": {
-    "status": "no_verified_match",
-    "title": "Kelly Criterion & Fractional Kelly",
-    "query": "\"Kelly Criterion & Fractional Kelly\" forex trading chart technical analysis example"
+    "query": "Risk of Ruin & Losing Streaks forex trading chart technical analysis"
   },
   "r-multiples": {
     "status": "no_verified_match",
     "title": "R-Multiples & Trade Expectancy",
-    "query": "\"R-Multiples & Trade Expectancy\" forex trading chart technical analysis example"
+    "query": "R-Multiples & Trade Expectancy forex trading chart technical analysis"
+  },
+  "kelly-criterion": {
+    "status": "no_verified_match",
+    "title": "Kelly Criterion & Fractional Kelly",
+    "query": "Kelly Criterion & Fractional Kelly forex trading chart technical analysis"
   },
   "mae-mfe": {
     "status": "no_verified_match",
     "title": "MAE & MFE Analysis",
-    "query": "\"MAE & MFE Analysis\" forex trading chart technical analysis example"
+    "query": "MAE & MFE Analysis forex trading chart technical analysis"
   },
   "portfolio-risk": {
     "status": "no_verified_match",
     "title": "Portfolio Heat & Exposure",
-    "query": "\"Portfolio Heat & Exposure\" forex trading chart technical analysis example"
-  },
-  "trading-plan": {
-    "status": "no_verified_match",
-    "title": "Building a Trading Plan",
-    "query": "\"Building a Trading Plan\" forex trading chart technical analysis example"
+    "query": "Portfolio Heat & Exposure forex trading chart technical analysis"
   },
   "pretrade-checklist": {
     "status": "no_verified_match",
     "title": "Pre-Trade Checklist",
-    "query": "\"Pre-Trade Checklist\" forex trading chart technical analysis example"
+    "query": "Pre-Trade Checklist forex trading chart technical analysis"
+  },
+  "trading-plan": {
+    "status": "no_verified_match",
+    "title": "Building a Trading Plan",
+    "query": "Building a Trading Plan forex trading chart technical analysis"
   },
   "posttrade-review": {
     "status": "no_verified_match",
     "title": "Post-Trade Review",
-    "query": "\"Post-Trade Review\" forex trading chart technical analysis example"
+    "query": "Post-Trade Review forex trading chart technical analysis"
   },
   "overtrading": {
     "status": "no_verified_match",
     "title": "Overtrading & Revenge Trading",
-    "query": "\"Overtrading & Revenge Trading\" forex trading chart technical analysis example"
-  },
-  "fomo": {
-    "status": "no_verified_match",
-    "title": "FOMO & Chasing Price",
-    "query": "\"FOMO & Chasing Price\" forex trading chart technical analysis example"
+    "query": "Overtrading & Revenge Trading forex trading chart technical analysis"
   },
   "confirmation-bias": {
     "status": "no_verified_match",
     "title": "Confirmation Bias & Hindsight",
-    "query": "\"Confirmation Bias & Hindsight\" forex trading chart technical analysis example"
+    "query": "Confirmation Bias & Hindsight forex trading chart technical analysis"
+  },
+  "fomo": {
+    "status": "no_verified_match",
+    "title": "FOMO & Chasing Price",
+    "query": "FOMO & Chasing Price forex trading chart technical analysis"
   },
   "base-quote-currency": {
     "status": "no_verified_match",
     "title": "Base Currency & Quote Currency",
-    "query": "\"Base Currency & Quote Currency\" forex trading chart technical analysis example"
-  },
-  "pips-points-ticks": {
-    "status": "no_verified_match",
-    "title": "Pips, Points & Ticks",
-    "query": "\"Pips, Points & Ticks\" forex trading chart technical analysis example"
-  },
-  "lot-size-contract-size": {
-    "status": "no_verified_match",
-    "title": "Lot Size & Contract Specifications",
-    "query": "\"Lot Size & Contract Specifications\" forex trading chart technical analysis example"
+    "query": "Base Currency & Quote Currency forex trading chart technical analysis"
   },
   "order-types": {
     "status": "no_verified_match",
     "title": "Market, Limit & Stop Orders",
-    "query": "\"Market, Limit & Stop Orders\" forex trading chart technical analysis example"
+    "query": "Market, Limit & Stop Orders forex trading chart technical analysis"
+  },
+  "lot-size-contract-size": {
+    "status": "no_verified_match",
+    "title": "Lot Size & Contract Specifications",
+    "query": "Lot Size & Contract Specifications forex trading chart technical analysis"
+  },
+  "pips-points-ticks": {
+    "status": "no_verified_match",
+    "title": "Pips, Points & Ticks",
+    "query": "Pips, Points & Ticks forex trading chart technical analysis"
   },
   "stop-vs-stop-limit": {
     "status": "no_verified_match",
     "title": "Stop-Market vs Stop-Limit",
-    "query": "\"Stop-Market vs Stop-Limit\" forex trading chart technical analysis example"
+    "query": "Stop-Market vs Stop-Limit forex trading chart technical analysis"
   },
   "rollover-swap": {
     "status": "no_verified_match",
     "title": "Forex Rollover & Swap",
-    "query": "\"Forex Rollover & Swap\" forex trading chart technical analysis example"
+    "query": "Forex Rollover & Swap forex trading chart technical analysis"
   },
   "forex-market-hours": {
     "status": "no_verified_match",
     "title": "Forex Market Hours & Sessions",
-    "query": "\"Forex Market Hours & Sessions\" forex trading chart technical analysis example"
+    "query": "Forex Market Hours & Sessions forex trading chart technical analysis"
   },
   "daylight-saving-time": {
     "status": "no_verified_match",
     "title": "Daylight-Saving Time & Session Shifts",
-    "query": "\"Daylight-Saving Time & Session Shifts\" forex trading chart technical analysis example"
+    "query": "Daylight-Saving Time & Session Shifts forex trading chart technical analysis"
   },
   "economic-surprise": {
     "status": "no_verified_match",
     "title": "Economic Data: Actual vs Forecast",
-    "query": "\"Economic Data: Actual vs Forecast\" forex trading chart technical analysis example"
-  },
-  "central-bank-policy": {
-    "status": "no_verified_match",
-    "title": "Central Bank Policy & Rate Decisions",
-    "query": "\"Central Bank Policy & Rate Decisions\" forex trading chart technical analysis example"
+    "query": "Economic Data: Actual vs Forecast forex trading chart technical analysis"
   },
   "yield-differentials": {
     "status": "no_verified_match",
     "title": "Interest-Rate Differentials & FX",
-    "query": "\"Interest-Rate Differentials & FX\" forex trading chart technical analysis example"
+    "query": "Interest-Rate Differentials & FX forex trading chart technical analysis"
+  },
+  "central-bank-policy": {
+    "status": "no_verified_match",
+    "title": "Central Bank Policy & Rate Decisions",
+    "query": "Central Bank Policy & Rate Decisions forex trading chart technical analysis"
   },
   "intermarket-analysis": {
     "status": "no_verified_match",
     "title": "Intermarket Analysis",
-    "query": "\"Intermarket Analysis\" forex trading chart technical analysis example"
-  },
-  "dxy-and-usd-pairs": {
-    "status": "no_verified_match",
-    "title": "DXY & Major USD Pairs",
-    "query": "\"DXY & Major USD Pairs\" forex trading chart technical analysis example"
+    "query": "Intermarket Analysis forex trading chart technical analysis"
   },
   "multi-timeframe-analysis": {
     "status": "no_verified_match",
     "title": "Multi-Timeframe Analysis",
-    "query": "\"Multi-Timeframe Analysis\" forex trading chart technical analysis example"
+    "query": "Multi-Timeframe Analysis forex trading chart technical analysis"
   },
   "trend-vs-mean-reversion": {
     "status": "no_verified_match",
     "title": "Trend-Following vs Mean-Reversion",
-    "query": "\"Trend-Following vs Mean-Reversion\" forex trading chart technical analysis example"
+    "query": "Trend-Following vs Mean-Reversion forex trading chart technical analysis"
+  },
+  "dxy-and-usd-pairs": {
+    "status": "no_verified_match",
+    "title": "DXY & Major USD Pairs",
+    "query": "DXY & Major USD Pairs forex trading chart technical analysis"
   },
   "volatility-regimes": {
     "status": "no_verified_match",
     "title": "Volatility Regimes",
-    "query": "\"Volatility Regimes\" forex trading chart technical analysis example"
+    "query": "Volatility Regimes forex trading chart technical analysis"
   },
   "volatility-compression": {
     "status": "no_verified_match",
     "title": "Volatility Compression & Expansion",
-    "query": "\"Volatility Compression & Expansion\" forex trading chart technical analysis example"
-  },
-  "stop-placement": {
-    "status": "no_verified_match",
-    "title": "Stop-Loss Placement & Invalidation",
-    "query": "\"Stop-Loss Placement & Invalidation\" forex trading chart technical analysis example"
+    "query": "Volatility Compression & Expansion forex trading chart technical analysis"
   },
   "execution-quality": {
     "status": "no_verified_match",
     "title": "Execution Quality & Fill Analysis",
-    "query": "\"Execution Quality & Fill Analysis\" forex trading chart technical analysis example"
+    "query": "Execution Quality & Fill Analysis forex trading chart technical analysis"
   },
   "broker-feed-quality": {
     "status": "no_verified_match",
     "title": "Broker Feeds, Candles & Data Quality",
-    "query": "\"Broker Feeds, Candles & Data Quality\" forex trading chart technical analysis example"
+    "query": "Broker Feeds, Candles & Data Quality forex trading chart technical analysis"
+  },
+  "stop-placement": {
+    "status": "no_verified_match",
+    "title": "Stop-Loss Placement & Invalidation",
+    "query": "Stop-Loss Placement & Invalidation forex trading chart technical analysis"
   },
   "weekend-gap-risk": {
     "status": "no_verified_match",
     "title": "Weekend Gaps & Gap Risk",
-    "query": "\"Weekend Gaps & Gap Risk\" forex trading chart technical analysis example"
-  },
-  "backtest-overfitting": {
-    "status": "no_verified_match",
-    "title": "Backtest Overfitting & Curve Fitting",
-    "query": "\"Backtest Overfitting & Curve Fitting\" forex trading chart technical analysis example"
+    "query": "Weekend Gaps & Gap Risk forex trading chart technical analysis"
   },
   "out-of-sample-testing": {
     "status": "no_verified_match",
     "title": "In-Sample vs Out-of-Sample Testing",
-    "query": "\"In-Sample vs Out-of-Sample Testing\" forex trading chart technical analysis example"
+    "query": "In-Sample vs Out-of-Sample Testing forex trading chart technical analysis"
+  },
+  "backtest-overfitting": {
+    "status": "no_verified_match",
+    "title": "Backtest Overfitting & Curve Fitting",
+    "query": "Backtest Overfitting & Curve Fitting forex trading chart technical analysis"
   },
   "walk-forward-analysis": {
     "status": "no_verified_match",
     "title": "Walk-Forward Analysis",
-    "query": "\"Walk-Forward Analysis\" forex trading chart technical analysis example"
+    "query": "Walk-Forward Analysis forex trading chart technical analysis"
   },
   "monte-carlo-analysis": {
     "status": "no_verified_match",
     "title": "Monte Carlo Trade Simulation",
-    "query": "\"Monte Carlo Trade Simulation\" forex trading chart technical analysis example"
+    "query": "Monte Carlo Trade Simulation forex trading chart technical analysis"
   },
   "sample-size": {
     "status": "no_verified_match",
     "title": "Sample Size & Statistical Confidence",
-    "query": "\"Sample Size & Statistical Confidence\" forex trading chart technical analysis example"
+    "query": "Sample Size & Statistical Confidence forex trading chart technical analysis"
   }
 }
