@@ -1,8 +1,8 @@
 {
   "market-structure": [
-    "https://forexmechanics.com/technical-analysis/trend-support-resistance/1200/uptrend-downtrend-hh-hl-ll.jpg",
-    "https://forexmechanics.com/technical-analysis/trend-support-resistance/",
-    "Forex market structure: HH, HL, LH, LL"
+    "https://nordfx.com/storage/images/uploads/20260224/Forex_market_structure_image_2.webp",
+    "https://nordfx.com/useful-articles/where-is-forex-trading-done",
+    "Forex Market Structure: Banks, Brokers and Interbank"
   ],
   "bos": [
     "https://innercircletrader.org/wp-content/uploads/2024/01/bos-trading-pattern.png",
@@ -85,9 +85,9 @@
     "Position Sizing and Risk Rule"
   ],
   "risk-reward": [
-    "https://forexmechanics.com/risk-management/risk-reward-ratio/1200/rr-obliczanie-przyklad-eurusd.jpg",
-    "https://forexmechanics.com/risk-management/risk-reward-ratio/",
-    "Forex Risk-to-Reward Ratio"
+    "https://www.traderdetector.com/images/2026/02/a-stepbystep-example-of-a-forex-loqcc.webp",
+    "https://www.traderdetector.com/basics/what-is-forex-trading-a-beginner-s-guide-to-how-it-works/",
+    "Forex Entry, Stop Loss and Take Profit"
   ],
   "news": [
     "https://tradersunion.com/uploads/articles/52817/market-reaction-to-nfp-and-cpi-data-5.jpeg",
@@ -135,9 +135,9 @@
     "VWAP Intraday Chart"
   ],
   "ichimoku": [
-    "https://ichimoku.kumo360.com/images/training/analysis_chart.jpeg",
-    "https://ichimoku.kumo360.com/training",
-    "Ichimoku Cloud"
+    "https://www.ebc.com/upload/default/20250721/54c6b689ec99f354185369379b179990.png",
+    "https://www.ebc.com/forex/-best-technical-analysis-indicators-for-beginners",
+    "Ichimoku Cloud on EURUSD"
   ],
   "volume-profile": [
     "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F27e7db145fb3303650c4e93a697025eded687896-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
@@ -162,7 +162,7 @@
   "correlation": [
     "https://forexmechanics.com/risk-management/portfolio-correlation/1200/macierz-korelacji-forex-8-par-heatmapa.jpg",
     "https://forexmechanics.com/risk-management/portfolio-correlation/",
-    "Forex Currency Correlation Matrix"
+    "Forex Major Pair Correlation Matrix"
   ],
   "sessions": [
     "https://lwfiles.mycourse.app/67db2445087ef2433241cd1b-public/03460dfa9aea505e085283b6da44584b.jpg",
@@ -285,9 +285,9 @@
     "Rounding Top Pattern"
   ],
   "amd-po3": [
-    "https://ictflow.com/images/amd.png",
-    "https://ictflow.com/blog/power-of-three-amd-model",
-    "Power of Three: Accumulation, Manipulation, Distribution"
+    "https://www.ebc.com/upload/portal/20250701/183b8fdaf6b9cb9dd8cf1b716b63c166.jpg",
+    "https://www.ebc.com/forex/accumulation-manipulation-distribution-full-trading-guide",
+    "ICT Power of Three: Accumulation, Manipulation and Distribution"
   ],
   "ote": [
     "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fabc6d8809983b77c04968cdeb20e79870ff1db9f-1200x896.png%3Fw%3D800%26fm%3Dwebp%26q%3D80%26fit%3Dmax&w=3840",
@@ -405,9 +405,9 @@
     "Forex Economic Calendar"
   ],
   "backtesting": [
-    "https://www.fluxcharts.com/_next/image?q=25&url=https%3A%2F%2Ffirebasestorage.googleapis.com%2Fv0%2Fb%2Fmrproject-377023.appspot.com%2Fo%2Farticles%252FFlux-Charts%252Fsfx-automations%252Fintroduction-yqichbbz%252Fwww.tradingview.com_chart_vO4CxYFm_%28Instagram%2520High%2520Res%29%2520%282%29.png%3Falt%3Dmedia&w=828",
-    "https://www.fluxcharts.com/articles/Flux-Charts",
-    "Backtest Performance Report"
+    "https://forexmechanics.com/technical-analysis/trading-automation/1200/backtesting-equity-curve-strategy-results.jpg",
+    "https://forexmechanics.com/technical-analysis/trading-automation/",
+    "Forex Backtesting Equity Curve and Report"
   ],
   "walk-forward-analysis": [
     "https://coinxsight.com/images/blog/inline/backtest-walkforward-analysis.png",
@@ -527,7 +527,7 @@
   "posttrade-review": [
     "https://www.ohyaatradingjournal.com/screenshots/dashboard-charts.png",
     "https://www.ohyaatradingjournal.com/dashboard-analytics",
-    "Trade Journal Review and Mistakes Analysis"
+    "Trading Journal Performance and Mistakes Analysis"
   ],
   "sample-size": [
     "https://mybank.pl/forex/zarzadzanie-ryzykiem/matematyka-strat-risk-of-ruin/1200/wielkosc-probki-a-pewnosc-edge.jpg",
@@ -693,5 +693,20 @@
     "https://www.expat.hsbc.com/content/dam/hsbc/en/wealth/images/wealth-needs/investment-tips/147384-20240125/147384-0002.JPG",
     "https://www.expat.hsbc.com/wealth/insights/learn-to-invest/start-investing/2024-01-25/",
     "Federal Reserve, ECB and Bank of England Policy Rates"
+  ],
+  "daily-weekly-open": [
+    "https://c.mql5.com/31/379/open-close-levels-screen-4631.png",
+    "https://www.mql5.com/en/market/product/42858",
+    "Daily, Weekly and Monthly Open Levels"
+  ],
+  "trend-vs-mean-reversion": [
+    "https://bpcdn.co/images/2016/05/grade12-market-ranging-2-768x467.png",
+    "https://www.babypips.com/forexpedia/sideways-market",
+    "Trending vs Ranging Market"
+  ],
+  "volume": [
+    "https://d33vw3iu5hs0zi.cloudfront.net/media/lg_Image2_Exness_Insights_forex_public_holidays3x_suffix_a9609ecfb0.webp",
+    "https://insights.exness.com/trading-basics/forex-public-holidays/",
+    "EURUSD Candlesticks and Tick Volume"
   ]
 }
