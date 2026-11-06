@@ -9,7 +9,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: learn-trading-image-library
+  group: learn-trading-image-library-fast
   cancel-in-progress: true
 jobs:
   download-and-commit:
