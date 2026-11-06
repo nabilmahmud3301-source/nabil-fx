@@ -243,5 +243,45 @@
     "https://storage.ghost.io/c/f4/3d/f43d7027-0865-4e5d-adbc-3e641f890835/content/images/2026/06/data-src-image-6ebf3052-3fd1-455c-9bbd-aa20af1f967e.png",
     "https://dhan.co/blog/technical-analysis/volume-analysis-confirming-price-action/",
     "Price and Volume Divergence"
+  ],
+  "head-shoulders": [
+    "https://static.ifxdb.com/static-content/305/zd48P_800.jpg",
+    "https://www.instaforex.com/ru/knowledge_base/305-technical-analysis-patterns",
+    "Head and Shoulders Pattern"
+  ],
+  "wedges": [
+    "https://blueberrymarkets.com/media/10lhmzmj/unnamed.png",
+    "https://blueberrymarkets.com/market-analysis/trading-wedge-pattern-a-comprehensive-guide/",
+    "Rising and Falling Wedge Patterns"
+  ],
+  "triangles": [
+    "https://fxmedia.s3.amazonaws.com/articles/Triangle_Patterns-1.jpg",
+    "https://admiralmarkets.com/education/articles/forex-analysis/most-frequently-used-forex-chart-patterns",
+    "Ascending and Descending Triangles"
+  ],
+  "flags-pennants": [
+    "https://www.dukascopy.com/media-storage/3664260190/o/",
+    "https://www.dukascopy.com/swiss/english/marketwatch/articles/forex-patterns/",
+    "Bull and Bear Flag Patterns"
+  ],
+  "market-profile": [
+    "https://docs.motivewave.com/~gitbook/image?dpr=4&quality=100&sign=fe1dae49&sv=2&url=https%3A%2F%2Fcontent.gitbook.com%2Fcontent%2FTKkuQ4IBYTTbN0oyR7L0%2Fblobs%2FofBVWkb5GSACZvQDvKTo%2F0.png&width=768",
+    "https://docs.motivewave.com/user-guide/volume-order-flow-analysis-guide/time-price-opportunity",
+    "Market Profile TPO and Volume Profile"
+  ],
+  "elliott-wave": [
+    "https://tradersunion.com/uploads/articles/282990/elliott-wave-illustration.jpeg",
+    "https://tradersunion.com/technic-analysis/elliott-waves/",
+    "Elliott Wave Count"
+  ],
+  "cumulative-delta": [
+    "https://zitaplus.com/assets/zitaplus/upload/images/m/cumulative-volume-delta-pattern-5052.png",
+    "https://zitaplus.com/blog/analysis/cumulative-volume-delta-divergence-details--strategies/",
+    "Cumulative Volume Delta Divergence"
+  ],
+  "rounding-patterns": [
+    "https://www.ebc.com/upload/default/20250730/9930c61a543495b9165c8ab87da5f02c.png",
+    "https://www.ebc.com/forex/rounding-top-pattern-explained-how-to-spot-market-reversals",
+    "Rounding Top Pattern"
   ]
 }
