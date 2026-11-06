@@ -1,790 +1,730 @@
 {
   "market-structure": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Market Structure",
-    "path": "assets/learn-trading/market-structure.jpg",
-    "source": "https://commons.wikimedia.org/wiki/File:Madina_Building,_a_heritage_structure_and_market_in_Hyderabad_01.jpg",
-    "license": "CC BY-SA 4.0",
-    "artist": "<a href=\"//commons.wikimedia.org/wiki/User:Pinakpani\" title=\"User:Pinakpani\">Pinakpani</a>",
-    "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
-    "width": 4080,
-    "height": 3060,
-    "match_score": 1
+    "query": "\"Market Structure\" forex trading chart technical analysis example"
   },
   "bos": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Break of Structure (BOS)",
-    "path": "assets/learn-trading/bos.jpg",
-    "source": "https://commons.wikimedia.org/wiki/File:The_natural_history_of_the_human_teeth-_explaining_their_structure,_use,_formation,_growth_and_diseases_(IA_b30417260_0001).pdf",
-    "license": "Public domain",
-    "artist": "<div class=\"fn value\">\nHunter, John, 1728-1793</div>",
-    "credit": "<dl><dd><a href=\"//archive.org/details/b30417260_0001\" class=\"extiw\" title=\"iarchive:b30417260 0001\"><bdi class=\"description en\" lang=\"en\" dir=\"ltr\">Internet Archive identifier</bdi>: b30417260_0001</a></dd>\n<dd><a rel=\"nofollow\" class=\"external free\" href=\"https://archive.org/download/b30417260_0001/b30417260_0001.pdf\">https://archive.org/download/b30417260_0001/b30417260_0001.pdf</a></dd></dl>\n<ul><li>IA contributor: Wellcome Library</li></ul>",
-    "width": 1597,
-    "height": 2077,
-    "match_score": 1
+    "query": "\"Break of Structure (BOS)\" forex trading chart technical analysis example"
   },
   "choch": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Change of Character (CHoCH)",
-    "path": "assets/learn-trading/choch.jpg",
-    "source": "https://commons.wikimedia.org/wiki/File:The_ministerial_character_(microform)_-_a_sermon_preached_by_command_of_the_Lord_Bishop_of_the_diocese,_in_St._James%27_Cathedral,_Toronto,_on_Wednesday,_17th_June,_1857_(IA_cihm_22646).pdf",
-    "license": "Public domain",
-    "artist": "<div class=\"fn value\">\nGeddes, J. Gamble (John Gamble), 1811-1891</div>",
-    "credit": "<dl><dd><a href=\"//archive.org/details/cihm_22646\" class=\"extiw\" title=\"iarchive:cihm 22646\"><bdi class=\"description en\" lang=\"en\" dir=\"ltr\">Internet Archive identifier</bdi>: cihm_22646</a></dd>\n<dd><a rel=\"nofollow\" class=\"external free\" href=\"https://archive.org/download/cihm_22646/cihm_22646.pdf\">https://archive.org/download/cihm_22646/cihm_22646.pdf</a></dd></dl>\n<ul><li>IA contributor: Canadiana.org</li>\n<li>IA digitizing sponsor: University of Alberta Libraries</li></ul>",
-    "width": 1160,
-    "height": 1366,
-    "match_score": 1
+    "query": "\"Change of Character (CHoCH)\" forex trading chart technical analysis example"
   },
   "mss": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Market Structure Shift (MSS)",
-    "path": "assets/learn-trading/mss.jpg",
-    "source": "https://commons.wikimedia.org/wiki/File:The_Oglander_memoirs-_extracts_from_the_mss._of_Sir_J._Oglander,_kt._.._(IA_cu31924028038051).pdf",
-    "license": "Public domain",
-    "artist": "<div class=\"fn value\">\n<dl><dd>Oglander, J[ohn], Sir, 1585-1655</dd>\n<dd>Long, William H., 1840-1896, ed</dd></dl></div>",
-    "credit": "<dl><dd><a href=\"//archive.org/details/cu31924028038051\" class=\"extiw\" title=\"iarchive:cu31924028038051\"><bdi class=\"description en\" lang=\"en\" dir=\"ltr\">Internet Archive identifier</bdi>: cu31924028038051</a></dd>\n<dd><a rel=\"nofollow\" class=\"external free\" href=\"https://archive.org/download/cu31924028038051/cu31924028038051.pdf\">https://archive.org/download/cu31924028038051/cu31924028038051.pdf</a></dd></dl>",
-    "width": 777,
-    "height": 1116,
-    "match_score": 1
+    "query": "\"Market Structure Shift (MSS)\" forex trading chart technical analysis example"
   },
   "support-resistance": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Support & Resistance",
-    "path": "assets/learn-trading/support-resistance.jpg",
-    "source": "https://commons.wikimedia.org/wiki/File:International_Conference_in_Support_of_the_Palestine_the_Symbol_of_Resistance,_Tehran_062.jpg",
-    "license": "CC BY 4.0",
-    "artist": "Unknown author<span style=\"display: none;\">Unknown author</span>",
-    "credit": "<a rel=\"nofollow\" class=\"external free\" href=\"http://farsi.khamenei.ir/photo-album?id=5889#i\">http://farsi.khamenei.ir/photo-album?id=5889#i</a>",
-    "width": 4041,
-    "height": 2694,
-    "match_score": 2
+    "query": "\"Support & Resistance\" forex trading chart technical analysis example"
   },
   "trendline": {
     "status": "no_verified_match",
-    "title": "Trendlines & Channels"
+    "title": "Trendlines & Channels",
+    "query": "\"Trendlines & Channels\" forex trading chart technical analysis example"
   },
   "liquidity": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Liquidity & Liquidity Pools",
-    "path": "assets/learn-trading/liquidity.jpg",
-    "source": "https://commons.wikimedia.org/wiki/File:Adjusting_the_capital_asset_pricing_model_for_the_short-run_with_liquidity_proxies,_while_accounting_for_denials_and_deceptions_in_financial_markets_(IA_adjustingcapital1094541419).pdf",
-    "license": "Public domain",
-    "artist": "<div class=\"fn value\">\nMooney, John J., IV</div>",
-    "credit": "<dl><dd><a href=\"//archive.org/details/adjustingcapital1094541419\" class=\"extiw\" title=\"iarchive:adjustingcapital1094541419\"><bdi class=\"description en\" lang=\"en\" dir=\"ltr\">Internet Archive identifier</bdi>: adjustingcapital1094541419</a></dd>\n<dd><a rel=\"nofollow\" class=\"external free\" href=\"https://archive.org/download/adjustingcapital1094541419/adjustingcapital1094541419.pdf\">https://archive.org/download/adjustingcapital1094541419/adjustingcapital1094541419.pdf</a></dd></dl>",
-    "width": 1275,
-    "height": 1650,
-    "match_score": 1
+    "query": "\"Liquidity & Liquidity Pools\" forex trading chart technical analysis example"
   },
   "liquidity-sweep": {
     "status": "no_verified_match",
-    "title": "Liquidity Sweep"
+    "title": "Liquidity Sweep",
+    "query": "\"Liquidity Sweep\" forex trading chart technical analysis example"
   },
   "fvg": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Fair Value Gap (FVG)",
-    "path": "assets/learn-trading/fvg.jpg",
-    "source": "https://commons.wikimedia.org/wiki/File:EI-FVG_(35058732716).jpg",
-    "license": "CC BY-SA 2.0",
-    "artist": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/76052339@N05\">Alec Wilson</a> from Khon Kaen, Thailand",
-    "credit": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/awilson154/35058732716/\">EI-FVG</a>",
-    "width": 2920,
-    "height": 1021,
-    "match_score": 1
+    "query": "\"Fair Value Gap (FVG)\" forex trading chart technical analysis example"
   },
   "order-block": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Order Block (OB)",
-    "path": "assets/learn-trading/order-block.jpg",
-    "source": "https://commons.wikimedia.org/wiki/File:Documents_about_Martin_Luther_King,_Jr.,_Executive_Order_14176,_00548354_listdocuments_requested_f_104-10081-10025.pdf",
-    "license": "Public domain",
-    "artist": "<a href=\"https://www.wikidata.org/wiki/Q48525\" class=\"extiw\" title=\"d:Q48525\"><span title=\"national government of the United States\">Federal Government of the United States</span></a>",
-    "credit": "<a rel=\"nofollow\" class=\"external free\" href=\"https://www.archives.gov/research/mlk\">https://www.archives.gov/research/mlk</a> <a rel=\"nofollow\" class=\"external autonumber\" href=\"https://www.archives.gov/files/research/mlk/releases/2025/0721/00548354_listdocuments_requested_f_104-10081-10025.pdf\">[1]</a>",
-    "width": 2079,
-    "height": 1270,
-    "match_score": 1
+    "query": "\"Order Block (OB)\" forex trading chart technical analysis example"
   },
   "breaker-block": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Breaker Block",
-    "path": "assets/learn-trading/breaker-block.jpg",
-    "source": "https://commons.wikimedia.org/wiki/File:Color_TV_Game_Block.jpg",
-    "license": "CC BY-SA 4.0",
-    "artist": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Artistosteles&action=edit&redlink=1\" class=\"new\" title=\"User:Artistosteles (page does not exist)\">Artistosteles</a>",
-    "credit": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
-    "width": 4160,
-    "height": 2336,
-    "match_score": 1
+    "query": "\"Breaker Block\" forex trading chart technical analysis example"
   },
   "mitigation": {
-    "status": "downloaded",
+    "status": "no_verified_match",
     "title": "Mitigation Block",
-    "path": "assets/learn-trading/mitigation.jpg",
-    "source": "https://commons.wikimedia.org/wiki/File:Installation_of_articulating_concrete_block_on_weir_(076015f7-241f-4acc-9205-7e3d53975ef1).JPG",
-    "license": "Public domain",
-    "artist": "NPS Photo",
-    "credit": "<a rel=\"nofollow\" class=\"external text\" href=\"https://npgallery.nps.gov/\">NPGallery</a>",
-    "width": 6960,
-    "height": 4640,
-    "match_score": 1
+    "query": "\"Mitigation Block\" forex trading chart technical analysis example"
   },
   "ote": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Optimal Trade Entry (OTE)",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Optimal Trade Entry (OTE)\" forex trading chart technical analysis example"
   },
   "premium-discount": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Premium & Discount",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Premium & Discount\" forex trading chart technical analysis example"
   },
   "equal-highs-lows": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Equal Highs & Equal Lows",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Equal Highs & Equal Lows\" forex trading chart technical analysis example"
   },
   "session-levels": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Session Highs & Lows",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Session Highs & Lows\" forex trading chart technical analysis example"
   },
   "pdh-pdl": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Previous Day High & Low",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Previous Day High & Low\" forex trading chart technical analysis example"
   },
   "crt": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Candle Range Theory (CRT)",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Candle Range Theory (CRT)\" forex trading chart technical analysis example"
   },
   "turtle-soup": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Turtle Soup",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Turtle Soup\" forex trading chart technical analysis example"
   },
   "candlesticks": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Candlestick Patterns",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Candlestick Patterns\" forex trading chart technical analysis example"
   },
   "chart-patterns": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Chart Patterns",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Chart Patterns\" forex trading chart technical analysis example"
   },
   "fibonacci": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Fibonacci Retracement",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Fibonacci Retracement\" forex trading chart technical analysis example"
   },
   "volume": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Volume & Volume Profile",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Volume & Volume Profile\" forex trading chart technical analysis example"
   },
   "risk-management": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Risk Management & Position Sizing",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Risk Management & Position Sizing\" forex trading chart technical analysis example"
   },
   "risk-reward": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Risk-to-Reward & R-Multiples",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Risk-to-Reward & R-Multiples\" forex trading chart technical analysis example"
   },
   "psychology": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Trading Psychology & Discipline",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Trading Psychology & Discipline\" forex trading chart technical analysis example"
   },
   "backtesting": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Backtesting & Strategy Validation",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Backtesting & Strategy Validation\" forex trading chart technical analysis example"
   },
   "sessions": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Forex Sessions & Market Hours",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Forex Sessions & Market Hours\" forex trading chart technical analysis example"
   },
   "news": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Economic News & Fundamental Risk",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Economic News & Fundamental Risk\" forex trading chart technical analysis example"
   },
   "swing-points": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Swing Highs & Swing Lows",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Swing Highs & Swing Lows\" forex trading chart technical analysis example"
   },
   "internal-external": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Internal vs External Structure",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Internal vs External Structure\" forex trading chart technical analysis example"
   },
   "range-market": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Range & Consolidation",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Range & Consolidation\" forex trading chart technical analysis example"
   },
   "breakout-retest": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Breakout & Retest",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Breakout & Retest\" forex trading chart technical analysis example"
   },
   "rejection-candle": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Rejection & Reversal Candles",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Rejection & Reversal Candles\" forex trading chart technical analysis example"
   },
   "displacement": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Displacement & Expansion",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Displacement & Expansion\" forex trading chart technical analysis example"
   },
   "inducement": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Inducement",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Inducement\" forex trading chart technical analysis example"
   },
   "bsl-ssl": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Buy-Side & Sell-Side Liquidity",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Buy-Side & Sell-Side Liquidity\" forex trading chart technical analysis example"
   },
   "liquidity-void": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Liquidity Void",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Liquidity Void\" forex trading chart technical analysis example"
   },
   "ifvg": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Inverse Fair Value Gap (IFVG)",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Inverse Fair Value Gap (IFVG)\" forex trading chart technical analysis example"
   },
   "bpr": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Balanced Price Range (BPR)",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Balanced Price Range (BPR)\" forex trading chart technical analysis example"
   },
   "unicorn-model": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Unicorn Model",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Unicorn Model\" forex trading chart technical analysis example"
   },
   "judas-swing": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Judas Swing",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Judas Swing\" forex trading chart technical analysis example"
   },
   "kill-zones": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "ICT Kill Zones",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"ICT Kill Zones\" forex trading chart technical analysis example"
   },
   "amd-po3": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Power of Three (AMD)",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Power of Three (AMD)\" forex trading chart technical analysis example"
   },
   "smt-divergence": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "SMT Divergence",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"SMT Divergence\" forex trading chart technical analysis example"
   },
   "nwog-ndog": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "NWOG & NDOG",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"NWOG & NDOG\" forex trading chart technical analysis example"
   },
   "daily-weekly-open": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Daily & Weekly Open",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Daily & Weekly Open\" forex trading chart technical analysis example"
   },
   "opening-range": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Opening Range",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Opening Range\" forex trading chart technical analysis example"
   },
   "ema-sma": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Moving Averages (EMA & SMA)",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Moving Averages (EMA & SMA)\" forex trading chart technical analysis example"
   },
   "rsi": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Relative Strength Index (RSI)",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Relative Strength Index (RSI)\" forex trading chart technical analysis example"
   },
   "macd": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "MACD",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"MACD\" forex trading chart technical analysis example"
   },
   "atr": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Average True Range (ATR)",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Average True Range (ATR)\" forex trading chart technical analysis example"
   },
   "vwap": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "VWAP",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"VWAP\" forex trading chart technical analysis example"
   },
   "volume-profile": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Volume Profile",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Volume Profile\" forex trading chart technical analysis example"
   },
   "position-sizing": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Position Sizing",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Position Sizing\" forex trading chart technical analysis example"
   },
   "leverage-margin": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Leverage & Margin",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Leverage & Margin\" forex trading chart technical analysis example"
   },
   "spread-slippage": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Spread, Commission & Slippage",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Spread, Commission & Slippage\" forex trading chart technical analysis example"
   },
   "trade-management": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Trade Management & Exits",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Trade Management & Exits\" forex trading chart technical analysis example"
   },
   "trading-journal": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Trading Journal",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Trading Journal\" forex trading chart technical analysis example"
   },
   "forward-testing": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Forward Testing",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Forward Testing\" forex trading chart technical analysis example"
   },
   "expectancy": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Expectancy & Win Rate",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Expectancy & Win Rate\" forex trading chart technical analysis example"
   },
   "drawdown": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Drawdown & Risk of Ruin",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Drawdown & Risk of Ruin\" forex trading chart technical analysis example"
   },
   "correlation": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Currency Correlation & Exposure",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Currency Correlation & Exposure\" forex trading chart technical analysis example"
   },
   "wyckoff": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Wyckoff Method",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Wyckoff Method\" forex trading chart technical analysis example"
   },
   "wyckoff-spring": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Wyckoff Spring",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Wyckoff Spring\" forex trading chart technical analysis example"
   },
   "wyckoff-upthrust": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Wyckoff Upthrust",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Wyckoff Upthrust\" forex trading chart technical analysis example"
   },
   "volume-spread-analysis": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Volume Spread Analysis (VSA)",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Volume Spread Analysis (VSA)\" forex trading chart technical analysis example"
   },
   "accumulation-distribution": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Accumulation & Distribution",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Accumulation & Distribution\" forex trading chart technical analysis example"
   },
   "volume-climax": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Buying & Selling Climax",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Buying & Selling Climax\" forex trading chart technical analysis example"
   },
   "volume-divergence": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Price & Volume Divergence",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Price & Volume Divergence\" forex trading chart technical analysis example"
   },
   "market-profile": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Market Profile & TPO",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Market Profile & TPO\" forex trading chart technical analysis example"
   },
   "poc-vah-val": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "POC, VAH & VAL",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"POC, VAH & VAL\" forex trading chart technical analysis example"
   },
   "footprint-chart": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Footprint Charts & Bid-Ask Delta",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Footprint Charts & Bid-Ask Delta\" forex trading chart technical analysis example"
   },
   "cumulative-delta": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Cumulative Volume Delta (CVD)",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Cumulative Volume Delta (CVD)\" forex trading chart technical analysis example"
   },
   "order-flow-imbalance": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Order Flow Imbalance",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Order Flow Imbalance\" forex trading chart technical analysis example"
   },
   "absorption": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Absorption",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Absorption\" forex trading chart technical analysis example"
   },
   "exhaustion": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Exhaustion & Failed Auction",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Exhaustion & Failed Auction\" forex trading chart technical analysis example"
   },
   "candlestick-engulfing": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Engulfing Candles",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Engulfing Candles\" forex trading chart technical analysis example"
   },
   "pinbar-hammer": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Pin Bar, Hammer & Shooting Star",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Pin Bar, Hammer & Shooting Star\" forex trading chart technical analysis example"
   },
   "inside-bar": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Inside Bar & Mother Bar",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Inside Bar & Mother Bar\" forex trading chart technical analysis example"
   },
   "outside-bar": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Outside Bar",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Outside Bar\" forex trading chart technical analysis example"
   },
   "doji": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Doji & Indecision Candles",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Doji & Indecision Candles\" forex trading chart technical analysis example"
   },
   "double-top-bottom": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Double Top & Double Bottom",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Double Top & Double Bottom\" forex trading chart technical analysis example"
   },
   "head-shoulders": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Head & Shoulders",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Head & Shoulders\" forex trading chart technical analysis example"
   },
   "triangles": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Triangles: Ascending, Descending & Symmetrical",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Triangles: Ascending, Descending & Symmetrical\" forex trading chart technical analysis example"
   },
   "flags-pennants": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Flags & Pennants",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Flags & Pennants\" forex trading chart technical analysis example"
   },
   "wedges": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Rising & Falling Wedges",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Rising & Falling Wedges\" forex trading chart technical analysis example"
   },
   "channels": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Ascending & Descending Channels",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Ascending & Descending Channels\" forex trading chart technical analysis example"
   },
   "rounding-patterns": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Rounding Top & Rounding Bottom",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Rounding Top & Rounding Bottom\" forex trading chart technical analysis example"
   },
   "gaps": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Price Gaps: Common, Breakaway & Exhaustion",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Price Gaps: Common, Breakaway & Exhaustion\" forex trading chart technical analysis example"
   },
   "elliott-wave": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Elliott Wave Basics",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Elliott Wave Basics\" forex trading chart technical analysis example"
   },
   "ichimoku": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Ichimoku Cloud",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Ichimoku Cloud\" forex trading chart technical analysis example"
   },
   "bollinger-bands": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Bollinger Bands",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Bollinger Bands\" forex trading chart technical analysis example"
   },
   "stochastic": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Stochastic Oscillator",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Stochastic Oscillator\" forex trading chart technical analysis example"
   },
   "adx-dmi": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "ADX & Directional Movement",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"ADX & Directional Movement\" forex trading chart technical analysis example"
   },
   "parabolic-sar": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Parabolic SAR",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Parabolic SAR\" forex trading chart technical analysis example"
   },
   "donchian": {
-    "status": "download_error",
+    "status": "downloaded",
     "title": "Donchian Channels",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "path": "assets/learn-trading/donchian.jpg",
+    "image_title": "Donchian Channel Trading Strategy: Entries and Exits | The Right Trader",
+    "image_description": "Donchian Channel Trading Strategy: Entries and Exits | The Right Trader",
+    "source_page": "https://therighttrader.com/learn/indicator-strategies/donchian-channel-trading-strategy",
+    "image_source": "https://therighttrader.com/learn/ema-trading-strategy/bullish-ema-trading-strategy.webp",
+    "license_filter": "Bing Images Creative Commons filter (L2-L6)",
+    "width": 1600,
+    "height": 900,
+    "relevance_score": 1
   },
   "keltner": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Keltner Channels",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Keltner Channels\" forex trading chart technical analysis example"
   },
   "pivot-points": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Pivot Points",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Pivot Points\" forex trading chart technical analysis example"
   },
   "round-numbers": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Psychological & Round Number Levels",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Psychological & Round Number Levels\" forex trading chart technical analysis example"
   },
   "dxy-correlation": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "DXY & Currency Strength",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"DXY & Currency Strength\" forex trading chart technical analysis example"
   },
   "interest-rates": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Interest Rates & Central Banks",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Interest Rates & Central Banks\" forex trading chart technical analysis example"
   },
   "inflation-data": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Inflation: CPI & PCE",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Inflation: CPI & PCE\" forex trading chart technical analysis example"
   },
   "employment-data": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Employment: NFP, Unemployment & Wages",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Employment: NFP, Unemployment & Wages\" forex trading chart technical analysis example"
   },
   "gdp-data": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "GDP & Growth Data",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"GDP & Growth Data\" forex trading chart technical analysis example"
   },
   "fomc-policy": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "FOMC, ECB, BoE & BoJ Decisions",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"FOMC, ECB, BoE & BoJ Decisions\" forex trading chart technical analysis example"
   },
   "news-calendar": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Economic Calendar & Event Planning",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Economic Calendar & Event Planning\" forex trading chart technical analysis example"
   },
   "risk-of-ruin": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Risk of Ruin & Losing Streaks",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Risk of Ruin & Losing Streaks\" forex trading chart technical analysis example"
   },
   "kelly-criterion": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Kelly Criterion & Fractional Kelly",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Kelly Criterion & Fractional Kelly\" forex trading chart technical analysis example"
   },
   "r-multiples": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "R-Multiples & Trade Expectancy",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"R-Multiples & Trade Expectancy\" forex trading chart technical analysis example"
   },
   "mae-mfe": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "MAE & MFE Analysis",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"MAE & MFE Analysis\" forex trading chart technical analysis example"
   },
   "portfolio-risk": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Portfolio Heat & Exposure",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Portfolio Heat & Exposure\" forex trading chart technical analysis example"
   },
   "trading-plan": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Building a Trading Plan",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Building a Trading Plan\" forex trading chart technical analysis example"
   },
   "pretrade-checklist": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Pre-Trade Checklist",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Pre-Trade Checklist\" forex trading chart technical analysis example"
   },
   "posttrade-review": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Post-Trade Review",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Post-Trade Review\" forex trading chart technical analysis example"
   },
   "overtrading": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Overtrading & Revenge Trading",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Overtrading & Revenge Trading\" forex trading chart technical analysis example"
   },
   "fomo": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "FOMO & Chasing Price",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"FOMO & Chasing Price\" forex trading chart technical analysis example"
   },
   "confirmation-bias": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Confirmation Bias & Hindsight",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Confirmation Bias & Hindsight\" forex trading chart technical analysis example"
   },
   "base-quote-currency": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Base Currency & Quote Currency",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Base Currency & Quote Currency\" forex trading chart technical analysis example"
   },
   "pips-points-ticks": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Pips, Points & Ticks",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Pips, Points & Ticks\" forex trading chart technical analysis example"
   },
   "lot-size-contract-size": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Lot Size & Contract Specifications",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Lot Size & Contract Specifications\" forex trading chart technical analysis example"
   },
   "order-types": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Market, Limit & Stop Orders",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Market, Limit & Stop Orders\" forex trading chart technical analysis example"
   },
   "stop-vs-stop-limit": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Stop-Market vs Stop-Limit",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Stop-Market vs Stop-Limit\" forex trading chart technical analysis example"
   },
   "rollover-swap": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Forex Rollover & Swap",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Forex Rollover & Swap\" forex trading chart technical analysis example"
   },
   "forex-market-hours": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Forex Market Hours & Sessions",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Forex Market Hours & Sessions\" forex trading chart technical analysis example"
   },
   "daylight-saving-time": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Daylight-Saving Time & Session Shifts",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Daylight-Saving Time & Session Shifts\" forex trading chart technical analysis example"
   },
   "economic-surprise": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Economic Data: Actual vs Forecast",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Economic Data: Actual vs Forecast\" forex trading chart technical analysis example"
   },
   "central-bank-policy": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Central Bank Policy & Rate Decisions",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Central Bank Policy & Rate Decisions\" forex trading chart technical analysis example"
   },
   "yield-differentials": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Interest-Rate Differentials & FX",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Interest-Rate Differentials & FX\" forex trading chart technical analysis example"
   },
   "intermarket-analysis": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Intermarket Analysis",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Intermarket Analysis\" forex trading chart technical analysis example"
   },
   "dxy-and-usd-pairs": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "DXY & Major USD Pairs",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"DXY & Major USD Pairs\" forex trading chart technical analysis example"
   },
   "multi-timeframe-analysis": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Multi-Timeframe Analysis",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Multi-Timeframe Analysis\" forex trading chart technical analysis example"
   },
   "trend-vs-mean-reversion": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Trend-Following vs Mean-Reversion",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Trend-Following vs Mean-Reversion\" forex trading chart technical analysis example"
   },
   "volatility-regimes": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Volatility Regimes",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Volatility Regimes\" forex trading chart technical analysis example"
   },
   "volatility-compression": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Volatility Compression & Expansion",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Volatility Compression & Expansion\" forex trading chart technical analysis example"
   },
   "stop-placement": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Stop-Loss Placement & Invalidation",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Stop-Loss Placement & Invalidation\" forex trading chart technical analysis example"
   },
   "execution-quality": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Execution Quality & Fill Analysis",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Execution Quality & Fill Analysis\" forex trading chart technical analysis example"
   },
   "broker-feed-quality": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Broker Feeds, Candles & Data Quality",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Broker Feeds, Candles & Data Quality\" forex trading chart technical analysis example"
   },
   "weekend-gap-risk": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Weekend Gaps & Gap Risk",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Weekend Gaps & Gap Risk\" forex trading chart technical analysis example"
   },
   "backtest-overfitting": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Backtest Overfitting & Curve Fitting",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Backtest Overfitting & Curve Fitting\" forex trading chart technical analysis example"
   },
   "out-of-sample-testing": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "In-Sample vs Out-of-Sample Testing",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"In-Sample vs Out-of-Sample Testing\" forex trading chart technical analysis example"
   },
   "walk-forward-analysis": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Walk-Forward Analysis",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Walk-Forward Analysis\" forex trading chart technical analysis example"
   },
   "monte-carlo-analysis": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Monte Carlo Trade Simulation",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Monte Carlo Trade Simulation\" forex trading chart technical analysis example"
   },
   "sample-size": {
-    "status": "download_error",
+    "status": "no_verified_match",
     "title": "Sample Size & Statistical Confidence",
-    "error": "Expecting value: line 1 column 1 (char 0)"
+    "query": "\"Sample Size & Statistical Confidence\" forex trading chart technical analysis example"
   }
 }
