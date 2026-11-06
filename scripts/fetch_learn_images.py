@@ -11,6 +11,10 @@ topics=[]; seen=set()
 for m in re.finditer(r"\{id:'([^']+)',title:'([^']+)',cat:'([^']+)'",PAGE):
  tid,title,cat=m.groups()
  if tid not in seen: seen.add(tid); topics.append((tid,title,cat))
+# Three topic groups use tuple arrays instead of object literals.
+for m in re.finditer(r"\['([^']+)','([^']+)','([^']+)'",PAGE):
+ tid,title,cat=m.groups()
+ if tid not in seen: seen.add(tid); topics.append((tid,title,cat))
 if len(topics)!=144: raise SystemExit(f"Safety stop: expected 144 unique topics, found {len(topics)}")
 S=requests.Session(); S.headers.update({"User-Agent":"NabilFX-LearningLibrary/1.0 (educational image attribution)"})
 STOP={"the","and","for","with","from","into","how","what","trading","trade","market","price","action","technical","analysis","strategy","basics","advanced","professional","concept","guide"}
