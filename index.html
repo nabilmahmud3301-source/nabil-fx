@@ -9018,13 +9018,16 @@ window.renderBacktestMetrics=function(r,meta={}){
     return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 520" role="img" aria-label="'+esc(label)+' illustrated trading lesson"><defs><linearGradient id="learnPanel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#111b27"/><stop offset="1" stop-color="#080d13"/></linearGradient></defs><rect width="1100" height="520" rx="16" fill="#05080d" stroke="#263647"/><path d="M0 72H1100" stroke="#b83b50" stroke-width="2"/><text x="28" y="43" fill="#f3f6fa" font-size="25" font-weight="800" font-family="Inter,Arial,sans-serif">'+esc(label.toUpperCase())+'</text><text x="1070" y="42" fill="#91a2b5" font-size="11" text-anchor="end" font-weight="700" font-family="Inter,Arial,sans-serif">'+esc(cat.toUpperCase())+'</text><svg x="18" y="84" width="720" height="340" viewBox="0 0 720 340">'+grid+T(52,28,title,C.white,14)+T(655,28,cat.toUpperCase(),C.muted,9)+bars+'<path d="'+path+'" fill="none" stroke="'+C.white+'" stroke-width="2.6" opacity=".65"/>'+o+vol+L(50,310,665,310,'#344354')+T(52,329,'ILLUSTRATIVE PRICE ACTION · NOT LIVE DATA',C.muted,9)+'</svg><rect x="755" y="84" width="325" height="340" rx="12" fill="url(#learnPanel)" stroke="#33475b"/><rect x="775" y="104" width="285" height="34" rx="7" fill="#54202c" stroke="#a33a4c"/><text x="792" y="127" fill="#fff" font-size="16" font-weight="800" font-family="Inter,Arial,sans-serif">CORE IDEA</text>'+introSvg+'<path d="M775 270H1060" stroke="#304052"/><text x="778" y="297" fill="'+C.green+'" font-size="13" font-weight="800" font-family="Inter,Arial,sans-serif">HOW TO IDENTIFY</text>'+bulletSvg+'<rect x="18" y="440" width="1062" height="58" rx="10" fill="#0d1520" stroke="#293b4e"/><text x="38" y="464" fill="'+C.gold+'" font-size="11" font-weight="800" font-family="Inter,Arial,sans-serif">LEARNING FOCUS</text><text x="38" y="484" fill="#dce5ee" font-size="12" font-family="Inter,Arial,sans-serif">'+esc((topic.tip||topic.how||'Study the chart, define the rule, and wait for confirmation.').slice(0,145))+'</text></svg>';
   }
   // Topic-specific reference images selected from trading education sources.
+  // Paired bullish + bearish chart references for matching Learn Trading concepts.
   function topicImage(t){
     const refs={
-      'market-structure':'https://static.wixstatic.com/media/66f85b_d5f5c141282b43f985bb08bda745cb8c~mv2.png/v1/fill/w_980,h_575,al_c,q_90/66f85b_d5f5c141282b43f985bb08bda745cb8c~mv2.png',
-      'mss':'https://cdn.arongroups.co/uploads/2025/10/MSS-2-1.jpg',
-      'choch':'https://forexbee.co/wp-content/uploads/2023/05/change-of-pattern-in-EURUSD-1024x623.png',
-      'support-resistance':'https://www.holoforex.com/storage/medias/yEkFAdvMvkGvXmiC0MgAb4JJjEClyXASpl9iZSh7.jpg',
-      'liquidity-sweep':'https://thetradingstreet.com/uploads/blog/liquidity-in-trading-how-internal-external-liquidity-move-price/image_1f3a848f-f99b-42f0-b1a2-d17f7c042ea5.png'
+      'market-structure':'https://forexmechanics.com/technical-analysis-forex/1200/uptrend-downtrend-hh-hl-lh-ll.jpg',
+      'bos':'https://images.squarespace-cdn.com/content/v1/65b2962d46997020b44bd729/4276edb1-78bd-4731-8d36-0c286ec212c0/alcu%2B-%2B2024-06-24T214837.727.png',
+      'choch':'https://cdn.prod.website-files.com/697103179acf24479947e31c/697a7c95f76d38f1475d1345_articles%252FTrading-Concepts%252FPrice-Action%252FChange-of-Character%252Fimage1.webp',
+      'mss':'https://cdn.prod.website-files.com/697103179acf24479947e31c/697a7c95f76d38f1475d1345_articles%252FTrading-Concepts%252FPrice-Action%252FChange-of-Character%252Fimage1.webp',
+      'fvg':'https://images.squarespace-cdn.com/content/v1/65b2962d46997020b44bd729/2428ff11-5365-465a-94bf-ffe4e25d580b/Bullish%2Band%2BBearish%2BFair%2BValue%2BGap.png?format=1500w',
+      'order-block':'https://www.dominionmarkets.com/what-is-order-block-in-forex/images/what-is-order-block-in-forex-03.jpg',
+      'liquidity-sweep':'https://pinescriptmarket.com/learn/price-action/liquidity-sweep/bullish-liquidity-sweep-bearish-liquidity-sweep.png'
     };
     return refs[t.id] || ('assets/learn-trading/' + t.id + '.jpg');
   }
