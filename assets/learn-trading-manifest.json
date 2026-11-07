@@ -9,10 +9,13 @@
     "height": 853
   },
   "bos": {
-    "status": "download_error",
+    "status": "downloaded",
     "title": "Break of Structure (BOS)",
+    "path": "assets/learn-trading/bos.jpg",
     "source_page": "https://innercircletrader.org/smart-money-concepts/break-of-structure/",
-    "error": "HTTPSConnectionPool(host='innercircletrader.org', port=443): Max retries exceeded with url: /wp-content/uploads/2024/01/bos-trading-pattern.png (Caused by ConnectTimeoutError(<HTTPSConnection(host='innercircletrader.org', port=443) at 0x710"
+    "original_image": "https://innercircletrader.org/wp-content/uploads/2024/01/bos-trading-pattern.png",
+    "width": 1756,
+    "height": 1104
   },
   "breaker-block": {
     "status": "downloaded",
@@ -546,10 +549,13 @@
     "height": 1013
   },
   "smt-divergence": {
-    "status": "download_error",
+    "status": "downloaded",
     "title": "SMT Divergence",
+    "path": "assets/learn-trading/smt-divergence.jpg",
     "source_page": "https://innercircletrader.org/ict/ict-smt-divergences/",
-    "error": "HTTPSConnectionPool(host='innercircletrader.org', port=443): Max retries exceeded with url: /wp-content/uploads/2024/11/1-5.png (Caused by ConnectTimeoutError(<HTTPSConnection(host='innercircletrader.org', port=443) at 0x710f3878b1a0>, 'Con"
+    "original_image": "https://innercircletrader.org/wp-content/uploads/2024/11/1-5.png",
+    "width": 1200,
+    "height": 628
   },
   "judas-swing": {
     "status": "downloaded",
@@ -894,10 +900,13 @@
     "height": 905
   },
   "accumulation-distribution": {
-    "status": "download_error",
+    "status": "downloaded",
     "title": "Accumulation Distribution Indicator on EURUSD",
+    "path": "assets/learn-trading/accumulation-distribution.jpg",
     "source_page": "https://asiaprofx.com/indikator-accumulationdistribution",
-    "error": "HTTPSConnectionPool(host='asiaprofx.com', port=443): Max retries exceeded with url: /uploads/images/2021/09/image_750x_615414f191252.jpg (Caused by ConnectTimeoutError(<HTTPSConnection(host='asiaprofx.com', port=443) at 0x710f387b9a00>, 'Co"
+    "original_image": "https://asiaprofx.com/uploads/images/2021/09/image_750x_615414f191252.jpg",
+    "width": 750,
+    "height": 503
   },
   "fomo": {
     "status": "downloaded",
