@@ -9021,7 +9021,7 @@ window.renderBacktestMetrics=function(r,meta={}){
   // This prevents unrelated external images or duplicate topic references from appearing.
   function topicImage(t){
     const id=String(t && t.id || '').trim().toLowerCase();
-    return 'assets/learn-trading/' + id + '.jpg';
+    return 'assets/learn-trading/' + id + '.svg';
   }
   function filtered(){return topics.filter(t=>(activeCategory==='All Topics'||t.cat===activeCategory)&&(!query||(t.title+' '+t.cat+' '+t.tags+' '+t.intro).toLowerCase().includes(query)));}
   function renderCategories(){
