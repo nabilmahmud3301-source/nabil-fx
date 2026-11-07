@@ -1,0 +1,74 @@
+NABIL FX PWA — INTEGRATION STEPS (GitHub Pages project site)
+
+IMPORTANT: These files are prepared for your existing repository. They are NOT live until uploaded and index.html is updated.
+
+1) Upload these files to the repository ROOT beside index.html:
+   - manifest.json
+   - service-worker.js
+   - app-icon.svg
+
+2) In index.html, inside <head> (after the viewport meta tag is fine), add:
+   <link rel="manifest" href="/nabil-fx/manifest.json">
+   <meta name="theme-color" content="#ff2438">
+   <meta name="apple-mobile-web-app-capable" content="yes">
+   <meta name="apple-mobile-web-app-title" content="Nabil Fx">
+   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+   <link rel="icon" href="/nabil-fx/app-icon.svg" type="image/svg+xml">
+
+3) Add this button somewhere visible in index.html where you want the install option:
+   <button id="installNabilFx" class="btn primary" hidden>Install Nabil Fx</button>
+   <p id="installHelp" class="hint" aria-live="polite"></p>
+
+4) Add this script just before </body> in index.html:
+   <script>
+   (() => {
+     const btn = document.getElementById('installNabilFx');
+     const help = document.getElementById('installHelp');
+     if (!btn || !help) return;
+     let installPrompt = null;
+     const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+     if ('serviceWorker' in navigator && location.protocol === 'https:') {
+       window.addEventListener('load', () => {
+         navigator.serviceWorker.register('/nabil-fx/service-worker.js', {scope:'/nabil-fx/'})
+           .catch(err => console.warn('Nabil Fx offline support unavailable:', err));
+       });
+     }
+     window.addEventListener('beforeinstallprompt', event => {
+       event.preventDefault();
+       installPrompt = event;
+       btn.hidden = false;
+       help.textContent = 'Install Nabil Fx on this device.';
+     });
+     btn.addEventListener('click', async () => {
+       if (installPrompt) {
+         installPrompt.prompt();
+         await installPrompt.userChoice;
+         installPrompt = null;
+         btn.hidden = true;
+       } else if (isIOS) {
+         help.textContent = 'iPhone/iPad: Safari-তে Share চাপুন, তারপর Add to Home Screen নির্বাচন করুন।';
+       } else {
+         help.textContent = 'Browser menu (⋮ বা Share) খুলে Install app / Add to Home Screen নির্বাচন করুন।';
+       }
+     });
+     if (isIOS) {
+       btn.hidden = false;
+       help.textContent = 'iPhone/iPad: Safari-তে Share → Add to Home Screen নির্বাচন করুন।';
+     }
+     window.addEventListener('appinstalled', () => {
+       btn.hidden = true;
+       help.textContent = 'Nabil Fx installed successfully.';
+     });
+   })();
+   </script>
+
+5) Commit changes. GitHub Pages should redeploy automatically.
+   Live site: https://nabilmahmud3301-source.github.io/nabil-fx/
+
+Update behavior:
+- The service worker uses network-first for HTML and same-origin assets, so published website changes should appear on next load/refresh when online.
+- The service worker cannot force a device to refresh while the app is closed, and browser/platform caching rules can vary.
+- iOS Safari supports adding a website to the Home Screen; the install button is not a universal one-click installer on every iPhone version.
+- This creates an installable website/PWA, not a native App Store / Microsoft Store app.
+
+Before replacing or editing index.html, keep a backup. Do not overwrite any existing site code with this bundle.

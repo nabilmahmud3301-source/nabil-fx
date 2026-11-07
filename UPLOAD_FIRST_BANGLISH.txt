@@ -1,0 +1,9 @@
+NABIL FX BACKTESTING — GITHUB UPLOAD
+
+1) ZIP extract korun.
+2) GitHub repository > Add file > Upload files e jan.
+3) Extract kora folder-er VITORER shob file/folder ekshathe select kore upload korun; outer folder upload korben na.
+4) index.html root-e thakbe, videos folder-er vitore 4 ta MP4 thakbe.
+5) Commit changes korun.
+
+IMPORTANT: Existing Supabase URL/key jodi apni nijer moto configure kore thaken, upload-er age supabase-config.js er backup nin; ZIP-er placeholder config diye replace hole abar configure korte hobe. Onno kono existing user data ei ZIP-er moddhe nei.

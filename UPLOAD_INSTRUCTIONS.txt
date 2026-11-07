@@ -1,0 +1,10 @@
+NABIL FX APP INSTALL — UPLOAD INSTRUCTIONS
+
+1. In GitHub repo nabil-fx, upload/replace index.html with Nabil_Fx_index_updated.html (rename it to index.html).
+2. Ensure manifest.json, service-worker.js, and app-icon.svg are in repository root.
+3. Commit changes to main and wait for GitHub Pages deployment.
+4. Test:
+   https://nabilmahmud3301-source.github.io/nabil-fx/manifest.json
+   https://nabilmahmud3301-source.github.io/nabil-fx/service-worker.js
+5. Open homepage and click "Install Nabil Fx App". If browser doesn't offer prompt, the button explains browser-specific install steps.
+Note: This is a PWA/web app, not an Android APK. The button only triggers native install prompt when the browser supports and considers the site installable.

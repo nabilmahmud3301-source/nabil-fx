@@ -1,0 +1,1343 @@
+{
+  "market-structure": {
+    "status": "downloaded",
+    "title": "Forex Market Structure: Banks, Brokers and Interbank",
+    "path": "assets/learn-trading/market-structure.jpg",
+    "source_page": "https://nordfx.com/useful-articles/where-is-forex-trading-done",
+    "original_image": "https://nordfx.com/storage/images/uploads/20260224/Forex_market_structure_image_2.webp",
+    "width": 1280,
+    "height": 853
+  },
+  "bos": {
+    "status": "download_error",
+    "title": "Break of Structure (BOS)",
+    "source_page": "https://innercircletrader.org/smart-money-concepts/break-of-structure/",
+    "error": "HTTPSConnectionPool(host='innercircletrader.org', port=443): Max retries exceeded with url: /wp-content/uploads/2024/01/bos-trading-pattern.png (Caused by ConnectTimeoutError(<HTTPSConnection(host='innercircletrader.org', port=443) at 0x710"
+  },
+  "breaker-block": {
+    "status": "downloaded",
+    "title": "ICT Breaker and Mitigation Block",
+    "path": "assets/learn-trading/breaker-block.jpg",
+    "source_page": "https://www.brokerxplorer.com/article/advanced-ict-trading-all-about-breaker-and-mitigation-blocks-6489",
+    "original_image": "https://www.brokerxplorer.com/upload/content/2024-11/advanced-ict-trading-all-about-breakers-and-mitigation-blocks-6489-173209633114.png",
+    "width": 1375,
+    "height": 599
+  },
+  "choch": {
+    "status": "downloaded",
+    "title": "Change of Character and Order Block",
+    "path": "assets/learn-trading/choch.jpg",
+    "source_page": "https://vocus.cc/article/64b0f022fd897800012260cc",
+    "original_image": "https://resize-image.vocus.cc/resize?compression=6&norotation=true&sign=2DPcob1znUOduxBImPXsCQ32YNcbj_dnp3rimlAqc-g&url=https%3A%2F%2Fimages.vocus.cc%2F26ca5c89-e396-478d-b65b-c20614f4c2b1.png&width=1200",
+    "width": 1200,
+    "height": 640
+  },
+  "support-resistance": {
+    "status": "downloaded",
+    "title": "Support and Resistance",
+    "path": "assets/learn-trading/support-resistance.jpg",
+    "source_page": "https://fbs.eu/en/analytics/tips/top-5-support-and-resistance-indicators-and-strategies-28649",
+    "original_image": "https://cdn.fbs.eu/img/articles/28649/1663167176-f19c9085129709ee14d013be869df69b_1200x1200_q90v3.png",
+    "width": 1200,
+    "height": 725
+  },
+  "equal-highs-lows": {
+    "status": "downloaded",
+    "title": "Equal Highs and Equal Lows",
+    "path": "assets/learn-trading/equal-highs-lows.jpg",
+    "source_page": "https://www.xs.com/en/blog/equal-highs-eqh/",
+    "original_image": "https://www.xs.com/storage/ht-ck-images/Bt6ktpLANR5plK7Og15LlKBCUNu8BG0MXJE6WyWR.png",
+    "width": 1536,
+    "height": 1024
+  },
+  "order-block": {
+    "status": "downloaded",
+    "title": "Bullish and Bearish Order Block",
+    "path": "assets/learn-trading/order-block.jpg",
+    "source_page": "https://www.ebc.com/forex/what-is-an-order-block-in-trading-beginner-s-guide",
+    "original_image": "https://www.ebc.com/upload/default/20250522/553e26fa6abab06cc14f636624968ba1.png",
+    "width": 1275,
+    "height": 854
+  },
+  "premium-discount": {
+    "status": "downloaded",
+    "title": "ICT Dealing Range and Premium/Discount",
+    "path": "assets/learn-trading/premium-discount.jpg",
+    "source_page": "https://fxnx.com/en/blog/ict-dealing-range-map-institutional-moves",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F6fcb7869866ad246f9a87fe751e2a3e885abd773-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "width": 800,
+    "height": 597
+  },
+  "liquidity-sweep": {
+    "status": "downloaded",
+    "title": "Liquidity Sweep",
+    "path": "assets/learn-trading/liquidity-sweep.jpg",
+    "source_page": "https://www.holoforex.com/blogs/trading-with-price-action",
+    "original_image": "https://www.holoforex.com/storage/medias/a1bqFy81gsmnsBMeyRgFCOZgg8rEqddzW34pnMLB.jpg",
+    "width": 1536,
+    "height": 1024
+  },
+  "session-levels": {
+    "status": "downloaded",
+    "title": "Asian, London and New York Session Ranges",
+    "path": "assets/learn-trading/session-levels.jpg",
+    "source_page": "https://arongroups.co/technical-analyze/ict-killzone-indicator/",
+    "original_image": "https://cdn.arongroups.co/uploads/2026/01/ICT-Killzone-Indicator-3.jpg",
+    "width": 931,
+    "height": 600
+  },
+  "mitigation": {
+    "status": "downloaded",
+    "title": "Mitigation Block",
+    "path": "assets/learn-trading/mitigation.jpg",
+    "source_page": "https://arongroups.co/technical-analyze/ict-pd-arrays/",
+    "original_image": "https://cdn.arongroups.co/uploads/2026/02/pd-array-9-1024x667.jpg",
+    "width": 1024,
+    "height": 667
+  },
+  "chart-patterns": {
+    "status": "downloaded",
+    "title": "Double Top and Head and Shoulders",
+    "path": "assets/learn-trading/chart-patterns.jpg",
+    "source_page": "https://www.litefinance.org/blog/for-beginners/trading-strategies/intraday-trading-strategies/",
+    "original_image": "https://cdn.litemarkets.com/cache/uploads/blog_post/blog_posts/intraday-trading-strategies/2025-new-logo/Intraday-Strategy-5.jpg?q=75&s=df60b179c119de491e196b002e8b6fb5",
+    "width": 1000,
+    "height": 447
+  },
+  "risk-management": {
+    "status": "downloaded",
+    "title": "Position Sizing and Risk Rule",
+    "path": "assets/learn-trading/risk-management.jpg",
+    "source_page": "https://fxnx.com/en/blog/2-risk-rule-mastering-position-sizing-long-term-survival",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F03b3162a13f99119f551276e2eb370a260ec26a4-1200x896.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "width": 800,
+    "height": 597
+  },
+  "candlesticks": {
+    "status": "downloaded",
+    "title": "Common Candlestick Patterns",
+    "path": "assets/learn-trading/candlesticks.jpg",
+    "source_page": "https://beuke.org/technical-analysis/",
+    "original_image": "https://beuke.org/images/candlestick-patterns.png",
+    "width": 1785,
+    "height": 1200
+  },
+  "range-market": {
+    "status": "downloaded",
+    "title": "Forex Uptrend, Downtrend and Range Market Structure",
+    "path": "assets/learn-trading/range-market.jpg",
+    "source_page": "https://www.charttalks.com/markets/forex/why-forex-market-structure-confuses-most-traders",
+    "original_image": "https://media.charttalks.com/blog/67ba3997753f213449be8921/1777847913677-generated-image-22.webp",
+    "width": 1600,
+    "height": 900
+  },
+  "risk-reward": {
+    "status": "downloaded",
+    "title": "Forex Entry, Stop Loss and Take Profit",
+    "path": "assets/learn-trading/risk-reward.jpg",
+    "source_page": "https://www.traderdetector.com/basics/what-is-forex-trading-a-beginner-s-guide-to-how-it-works/",
+    "original_image": "https://www.traderdetector.com/images/2026/02/a-stepbystep-example-of-a-forex-loqcc.webp",
+    "width": 1536,
+    "height": 1024
+  },
+  "news": {
+    "status": "downloaded",
+    "title": "NFP and CPI Market Reaction",
+    "path": "assets/learn-trading/news.jpg",
+    "source_page": "https://tradersunion.com/economy-calendar/how-to-use/",
+    "original_image": "https://tradersunion.com/uploads/articles/52817/market-reaction-to-nfp-and-cpi-data-5.jpeg",
+    "width": 1800,
+    "height": 835
+  },
+  "trendline": {
+    "status": "downloaded",
+    "title": "EURUSD Ascending Trendline Channel",
+    "path": "assets/learn-trading/trendline.jpg",
+    "source_page": "https://tradeciety.com/how-to-trade-the-trendline-channel",
+    "original_image": "https://tradeciety.com/hs-fs/hubfs/Trendline%20Channel%20Upward.png?height=4635&name=Trendline+Channel+Upward.png&width=8994",
+    "width": 1800,
+    "height": 928
+  },
+  "leverage-margin": {
+    "status": "downloaded",
+    "title": "Margin, Leverage, Lots and Spread",
+    "path": "assets/learn-trading/leverage-margin.jpg",
+    "source_page": "https://www.tradingview.com/chart/EURUSD/PH0NI38H-EDU-Bite-Sized-Mini-Series-Margin-Lots-Spread-What-are-they/",
+    "original_image": "https://s3.tradingview.com/p/PH0NI38H.png",
+    "width": 1583,
+    "height": 902
+  },
+  "fibonacci": {
+    "status": "downloaded",
+    "title": "Fibonacci Retracement Levels",
+    "path": "assets/learn-trading/fibonacci.jpg",
+    "source_page": "https://b2broker.com/news/fibonacci-retracement-levels-comprehensive-guide/",
+    "original_image": "https://media.b2broker.com/app/uploads/2024/10/Fibonacci-retracement-chart-visualization-1000x657.png",
+    "width": 1000,
+    "height": 657
+  },
+  "kill-zones": {
+    "status": "downloaded",
+    "title": "London and New York Kill Zones",
+    "path": "assets/learn-trading/kill-zones.jpg",
+    "source_page": "https://www.ebc.com/forex/what-is-a-kill-zone-in-trading-a-guide-to-market-timing",
+    "original_image": "https://www.ebc.com/upload/portal/20260402/183720f7d8838ea17fba985bdf66ae94.png",
+    "width": 1536,
+    "height": 1024
+  },
+  "pivot-points": {
+    "status": "downloaded",
+    "title": "Pivot Points",
+    "path": "assets/learn-trading/pivot-points.jpg",
+    "source_page": "https://tradeciety.com/5-ways-to-find-support-and-resistance-levels",
+    "original_image": "https://tradeciety.com/hubfs/Imported_Blog_Media/Pivot-Point-Support-and-Resistance.png",
+    "width": 1437,
+    "height": 785
+  },
+  "fvg": {
+    "status": "downloaded",
+    "title": "Fair Value Gap and Consequent Encroachment",
+    "path": "assets/learn-trading/fvg.jpg",
+    "source_page": "https://fxnx.com/en/blog/precision-trading-consequent-encroachment-50-fvg",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fff032c4316891a6c2d6934df95efe6d0fa541312-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80%26fit%3Dmax&w=3840",
+    "width": 800,
+    "height": 597
+  },
+  "multi-timeframe-analysis": {
+    "status": "downloaded",
+    "title": "Multi-Timeframe Chart Analysis",
+    "path": "assets/learn-trading/multi-timeframe-analysis.jpg",
+    "source_page": "https://webview.octaworks.net/education/article/how-candlestick-charts-work/",
+    "original_image": "https://webview.octaworks.net/pics/a/2_charts_article.png",
+    "width": 1800,
+    "height": 1013
+  },
+  "bollinger-bands": {
+    "status": "downloaded",
+    "title": "Bollinger Bands Squeeze",
+    "path": "assets/learn-trading/bollinger-bands.jpg",
+    "source_page": "https://tradersunion.com/interesting-articles/top-10-forex-chart-patterns-you-should-know/forex-chart-analysis/types-forex-trading-charts/",
+    "original_image": "https://tradersunion.com/uploads/articles/19853/bollinger-band-strategy-14.jpeg",
+    "width": 1580,
+    "height": 887
+  },
+  "ichimoku": {
+    "status": "downloaded",
+    "title": "Ichimoku Cloud on EURUSD",
+    "path": "assets/learn-trading/ichimoku.jpg",
+    "source_page": "https://www.ebc.com/forex/-best-technical-analysis-indicators-for-beginners",
+    "original_image": "https://www.ebc.com/upload/default/20250721/54c6b689ec99f354185369379b179990.png",
+    "width": 1197,
+    "height": 575
+  },
+  "atr": {
+    "status": "downloaded",
+    "title": "Average True Range indicator",
+    "path": "assets/learn-trading/atr.jpg",
+    "source_page": "https://www.mql5.com/en/code/42408",
+    "original_image": "https://c.mql5.com/18/106/MT5chart.png",
+    "width": 720,
+    "height": 480
+  },
+  "rsi": {
+    "status": "downloaded",
+    "title": "RSI Overbought and Oversold",
+    "path": "assets/learn-trading/rsi.jpg",
+    "source_page": "https://www.cmcmarkets.com/en-gb/forex/forex-trading-strategies",
+    "original_image": "https://cdn.cmcmarkets.com/contentful/vl2kvsmutclx/759pgUfvghx3q9GNb0CroT/70a15d3e68e492642a9a584a1192d8cf/Overbought_and_sold_forex_trading_strategy_extra.webp?imwidth=1920",
+    "width": 768,
+    "height": 558
+  },
+  "adx-dmi": {
+    "status": "downloaded",
+    "title": "ADX Directional Movement",
+    "path": "assets/learn-trading/adx-dmi.jpg",
+    "source_page": "https://www.seputarforex.org/artikel/mengukur-kekuatan-trend-dengan-indikator-adx-123144-31",
+    "original_image": "https://www.seputarforex.org/sf2016materi/post/2013-04/mengukur-kekuatan-trend-dengan-indikator-adx-123144-1.webp",
+    "width": 767,
+    "height": 470
+  },
+  "volume-profile": {
+    "status": "downloaded",
+    "title": "Volume Profile with POC and Nodes",
+    "path": "assets/learn-trading/volume-profile.jpg",
+    "source_page": "https://fxnx.com/en/blog/volume-profile-spot-institutional-poc-trade-smarter",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F27e7db145fb3303650c4e93a697025eded687896-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "width": 800,
+    "height": 597
+  },
+  "vwap": {
+    "status": "downloaded",
+    "title": "VWAP Intraday Chart",
+    "path": "assets/learn-trading/vwap.jpg",
+    "source_page": "https://liquidity-provider.com/articles/volume-weighted-average-price-vwap-definition/",
+    "original_image": "https://liquidity-provider.com/app/uploads/2024/03/trading-with-vwap-indicator-1600x882.png",
+    "width": 1600,
+    "height": 882
+  },
+  "stochastic": {
+    "status": "downloaded",
+    "title": "Stochastic Oscillator",
+    "path": "assets/learn-trading/stochastic.jpg",
+    "source_page": "https://medium.com/@digitalexchangeid/stochastic-oscillator-80c6c86c2380",
+    "original_image": "https://miro.medium.com/v2/1%2A1QqO2aelbfmdmPL3cL25Tg.jpeg",
+    "width": 914,
+    "height": 631
+  },
+  "correlation": {
+    "status": "downloaded",
+    "title": "Forex Currency Pair Correlation Matrix",
+    "path": "assets/learn-trading/correlation.jpg",
+    "source_page": "https://fxtrendo.com/forex-correlation-guide/",
+    "original_image": "https://fxtrendo.com/wp-content/uploads/2025/07/unnamed-file-206.png",
+    "width": 1800,
+    "height": 864
+  },
+  "sessions": {
+    "status": "downloaded",
+    "title": "Forex Market Hours and Sessions",
+    "path": "assets/learn-trading/sessions.jpg",
+    "source_page": "https://www.pipdemy.com/blog/the-complete-guide-to-forex-market-hours",
+    "original_image": "https://lwfiles.mycourse.app/67db2445087ef2433241cd1b-public/03460dfa9aea505e085283b6da44584b.jpg",
+    "width": 1536,
+    "height": 1024
+  },
+  "order-types": {
+    "status": "downloaded",
+    "title": "Types of Trading Orders",
+    "path": "assets/learn-trading/order-types.jpg",
+    "source_page": "https://www.tradingview.com/chart/XAUUSD/y2csATte-Types-of-Orders-in-Forex-Trading-Everything-You-Need-to-Know/",
+    "original_image": "https://s3.tradingview.com/y/y2csATte_big.png",
+    "width": 1767,
+    "height": 840
+  },
+  "donchian": {
+    "status": "downloaded",
+    "title": "Donchian Channels",
+    "path": "assets/learn-trading/donchian.jpg",
+    "source_page": "https://www.brokerxplorer.com/article/your-guide-to-trading-with-donchian-channels-4358",
+    "original_image": "https://www.brokerxplorer.com/upload/content/2023-04/your-guide-to-trading-with-donchian-channels-4358-2.jpg",
+    "width": 750,
+    "height": 500
+  },
+  "macd": {
+    "status": "downloaded",
+    "title": "MACD Signal Line and Histogram",
+    "path": "assets/learn-trading/macd.jpg",
+    "source_page": "https://www.babypips.com/forexpedia/macd",
+    "original_image": "https://bpcdn.co/images/2015/03/25135506/MACD-1200x682.png",
+    "width": 1200,
+    "height": 682
+  },
+  "dxy-correlation": {
+    "status": "downloaded",
+    "title": "US Dollar Index and EURUSD Correlation",
+    "path": "assets/learn-trading/dxy-correlation.jpg",
+    "source_page": "https://www.seputarforex.org/artikel/mengenal-us-dollar-index-125873-31",
+    "original_image": "https://www.seputarforex.org/sf2016materi/post/2018-05/draft-revisi-mengenal-us-dollar-index-283455-54384.webp",
+    "width": 1260,
+    "height": 628
+  },
+  "keltner": {
+    "status": "downloaded",
+    "title": "Keltner Channels",
+    "path": "assets/learn-trading/keltner.jpg",
+    "source_page": "https://www.ebc.com/forex/keltner-channels-a-volatility-based-trading-indicator",
+    "original_image": "https://www.ebc.com/upload/portal/20250417/8916a0b8f6e73f102d93304f67d4fbc5.png",
+    "width": 600,
+    "height": 400
+  },
+  "ema-sma": {
+    "status": "downloaded",
+    "title": "GBPUSD 20 and 50 Period Moving Average Crossover",
+    "path": "assets/learn-trading/ema-sma.jpg",
+    "source_page": "https://medium.com/@digitalexchangeid/moving-average-220b9ed1a3ea",
+    "original_image": "https://miro.medium.com/v2/resize%3Afit%3A1400/1%2A4_lFn_DPerHI9BcK_uubXg.jpeg",
+    "width": 914,
+    "height": 631
+  },
+  "kelly-criterion": {
+    "status": "downloaded",
+    "title": "Kelly Criterion Optimal Position Sizing",
+    "path": "assets/learn-trading/kelly-criterion.jpg",
+    "source_page": "https://mbrenndoerfer.com/writing/quantitative-trading-strategies-overview-alpha-backtesting",
+    "original_image": "https://assets.mbrenndoerfer.com/notebooks/1_quant_trading_overview_files/kelly-criterion-surface.png",
+    "width": 1781,
+    "height": 1200
+  },
+  "risk-of-ruin": {
+    "status": "downloaded",
+    "title": "Losing Streak Probability and Drawdown",
+    "path": "assets/learn-trading/risk-of-ruin.jpg",
+    "source_page": "https://thweis.com/calculate-maximum-trade-risk/",
+    "original_image": "https://thweis.com/img/uploads/2020/05/Winrate4-1.png",
+    "width": 990,
+    "height": 551
+  },
+  "expectancy": {
+    "status": "downloaded",
+    "title": "Strategy Equity Curve and Drawdown",
+    "path": "assets/learn-trading/expectancy.jpg",
+    "source_page": "https://forexmechanics.com/traders-workshop/strategy-building/",
+    "original_image": "https://forexmechanics.com/traders-workshop/strategy-building/1200/equity-curve-with-drawdown-positive-expectancy-strategy.jpg",
+    "width": 1200,
+    "height": 760
+  },
+  "volume-divergence": {
+    "status": "downloaded",
+    "title": "Price and Volume Divergence",
+    "path": "assets/learn-trading/volume-divergence.jpg",
+    "source_page": "https://dhan.co/blog/technical-analysis/volume-analysis-confirming-price-action/",
+    "original_image": "https://storage.ghost.io/c/f4/3d/f43d7027-0865-4e5d-adbc-3e641f890835/content/images/2026/06/data-src-image-6ebf3052-3fd1-455c-9bbd-aa20af1f967e.png",
+    "width": 1800,
+    "height": 1119
+  },
+  "footprint-chart": {
+    "status": "downloaded",
+    "title": "Footprint Chart Bid and Ask Delta",
+    "path": "assets/learn-trading/footprint-chart.jpg",
+    "source_page": "https://fxnx.com/en/blog/footprint-charts-see-inside-forex-candles",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F8a5682461258e3f2f8642dd0dbd6957e7b68a4b8-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80%26fit%3Dmax&w=3840",
+    "width": 800,
+    "height": 597
+  },
+  "trading-journal": {
+    "status": "downloaded",
+    "title": "Trading Journal Performance Dashboard",
+    "path": "assets/learn-trading/trading-journal.jpg",
+    "source_page": "https://journalhub.app/",
+    "original_image": "https://journalhub.app/public/images/journalhub5.jpg",
+    "width": 1732,
+    "height": 940
+  },
+  "wyckoff": {
+    "status": "downloaded",
+    "title": "Wyckoff Accumulation Schematic",
+    "path": "assets/learn-trading/wyckoff.jpg",
+    "source_page": "https://tradingview.com.vn/mau-hinh-vsa-tao-day-trong-forex-khai-niem-dac-diem-nhan-dien-va-vi-du-minh-hoa/",
+    "original_image": "https://gldt.mql5.vn/2025/10/mau-hinh-vsa-tao-day-2.png",
+    "width": 1800,
+    "height": 1080
+  },
+  "employment-data": {
+    "status": "downloaded",
+    "title": "Forex Economic Reports",
+    "path": "assets/learn-trading/employment-data.jpg",
+    "source_page": "https://fxnx.com/en/blog/5-economic-reports-that-can-impact-forex-fxnx-insights",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fc5395ec83fbfbd1417363a5161fb1ef567bfd808-1200x896.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "width": 800,
+    "height": 597
+  },
+  "monte-carlo-analysis": {
+    "status": "downloaded",
+    "title": "Monte Carlo Strategy Simulation",
+    "path": "assets/learn-trading/monte-carlo-analysis.jpg",
+    "source_page": "https://fxnx.com/en/blog/monte-carlo-stress-test-your-forex-strategy",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fec6d88e7f64cf76a0616f716a96aec7d8729d8db-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "width": 800,
+    "height": 597
+  },
+  "market-profile": {
+    "status": "downloaded",
+    "title": "Market Profile TPO and Volume Profile",
+    "path": "assets/learn-trading/market-profile.jpg",
+    "source_page": "https://docs.motivewave.com/user-guide/volume-order-flow-analysis-guide/time-price-opportunity",
+    "original_image": "https://docs.motivewave.com/~gitbook/image?dpr=4&quality=100&sign=fe1dae49&sv=2&url=https%3A%2F%2Fcontent.gitbook.com%2Fcontent%2FTKkuQ4IBYTTbN0oyR7L0%2Fblobs%2FofBVWkb5GSACZvQDvKTo%2F0.png&width=768",
+    "width": 1001,
+    "height": 522
+  },
+  "triangles": {
+    "status": "downloaded",
+    "title": "Ascending and Descending Triangles",
+    "path": "assets/learn-trading/triangles.jpg",
+    "source_page": "https://admiralmarkets.com/education/articles/forex-analysis/most-frequently-used-forex-chart-patterns",
+    "original_image": "https://fxmedia.s3.amazonaws.com/articles/Triangle_Patterns-1.jpg",
+    "width": 1408,
+    "height": 768
+  },
+  "wedges": {
+    "status": "downloaded",
+    "title": "Rising and Falling Wedge Patterns",
+    "path": "assets/learn-trading/wedges.jpg",
+    "source_page": "https://blueberrymarkets.com/market-analysis/trading-wedge-pattern-a-comprehensive-guide/",
+    "original_image": "https://blueberrymarkets.com/media/10lhmzmj/unnamed.png",
+    "width": 1280,
+    "height": 720
+  },
+  "elliott-wave": {
+    "status": "downloaded",
+    "title": "Elliott Wave Count",
+    "path": "assets/learn-trading/elliott-wave.jpg",
+    "source_page": "https://tradersunion.com/technic-analysis/elliott-waves/",
+    "original_image": "https://tradersunion.com/uploads/articles/282990/elliott-wave-illustration.jpeg",
+    "width": 1220,
+    "height": 574
+  },
+  "head-shoulders": {
+    "status": "downloaded",
+    "title": "Head and Shoulders Pattern",
+    "path": "assets/learn-trading/head-shoulders.jpg",
+    "source_page": "https://www.instaforex.com/ru/knowledge_base/305-technical-analysis-patterns",
+    "original_image": "https://static.ifxdb.com/static-content/305/zd48P_800.jpg",
+    "width": 800,
+    "height": 480
+  },
+  "flags-pennants": {
+    "status": "downloaded",
+    "title": "Bull and Bear Flag Patterns",
+    "path": "assets/learn-trading/flags-pennants.jpg",
+    "source_page": "https://www.dukascopy.com/swiss/english/marketwatch/articles/forex-patterns/",
+    "original_image": "https://www.dukascopy.com/media-storage/3664260190/o/",
+    "width": 1800,
+    "height": 1013
+  },
+  "rounding-patterns": {
+    "status": "downloaded",
+    "title": "Rounding Top Pattern",
+    "path": "assets/learn-trading/rounding-patterns.jpg",
+    "source_page": "https://www.ebc.com/forex/rounding-top-pattern-explained-how-to-spot-market-reversals",
+    "original_image": "https://www.ebc.com/upload/default/20250730/9930c61a543495b9165c8ab87da5f02c.png",
+    "width": 1253,
+    "height": 575
+  },
+  "cumulative-delta": {
+    "status": "downloaded",
+    "title": "Cumulative Volume Delta Divergence",
+    "path": "assets/learn-trading/cumulative-delta.jpg",
+    "source_page": "https://zitaplus.com/blog/analysis/cumulative-volume-delta-divergence-details--strategies/",
+    "original_image": "https://zitaplus.com/assets/zitaplus/upload/images/m/cumulative-volume-delta-pattern-5052.png",
+    "width": 1408,
+    "height": 768
+  },
+  "ifvg": {
+    "status": "downloaded",
+    "title": "Inverse Fair Value Gap",
+    "path": "assets/learn-trading/ifvg.jpg",
+    "source_page": "https://www.ebc.com/forex/inverse-fair-value-gaps-in-smc-how-to-trade-efficiently",
+    "original_image": "https://www.ebc.com/upload/default/20250704/312d26c6ac79ba40fbd56567ae5ede91.png",
+    "width": 1006,
+    "height": 582
+  },
+  "bpr": {
+    "status": "downloaded",
+    "title": "ICT Balanced Price Range on EURUSD",
+    "path": "assets/learn-trading/bpr.jpg",
+    "source_page": "https://in.tradingview.com/script/UBIzzw2R-ICT-Balanced-Price-Range-TradingFinder-BPR-FVG-IFVG/",
+    "original_image": "https://s3.tradingview.com/u/UBIzzw2R_big.png?v=1723555567",
+    "width": 1800,
+    "height": 794
+  },
+  "amd-po3": {
+    "status": "downloaded",
+    "title": "ICT Power of Three: Accumulation, Manipulation and Distribution",
+    "path": "assets/learn-trading/amd-po3.jpg",
+    "source_page": "https://www.ebc.com/forex/accumulation-manipulation-distribution-full-trading-guide",
+    "original_image": "https://www.ebc.com/upload/portal/20250701/183b8fdaf6b9cb9dd8cf1b716b63c166.jpg",
+    "width": 600,
+    "height": 400
+  },
+  "turtle-soup": {
+    "status": "downloaded",
+    "title": "ICT Turtle Soup Liquidity Sweep",
+    "path": "assets/learn-trading/turtle-soup.jpg",
+    "source_page": "https://www.fluxcharts.com/articles/ict-turtle-soup-strategy-explained-how-to-identify-and-trade-it",
+    "original_image": "https://cdn.prod.website-files.com/697103179acf24479947e31c/697a7ca2660f6271d0df77f9_articles%252Ftrading-strategies%252Fict-strategies%252Fict-turtle-soup%252FICT%2520Turtle%2520Soup%25206.png",
+    "width": 1800,
+    "height": 1013
+  },
+  "smt-divergence": {
+    "status": "download_error",
+    "title": "SMT Divergence",
+    "source_page": "https://innercircletrader.org/ict/ict-smt-divergences/",
+    "error": "HTTPSConnectionPool(host='innercircletrader.org', port=443): Max retries exceeded with url: /wp-content/uploads/2024/11/1-5.png (Caused by ConnectTimeoutError(<HTTPSConnection(host='innercircletrader.org', port=443) at 0x710f3878b1a0>, 'Con"
+  },
+  "judas-swing": {
+    "status": "downloaded",
+    "title": "ICT Judas Swing",
+    "path": "assets/learn-trading/judas-swing.jpg",
+    "source_page": "https://en.rattibha.com/thread/1682411376071909376",
+    "original_image": "https://pbs.twimg.com/media/F1kgOhcXoAEfcPQ.jpg",
+    "width": 1200,
+    "height": 663
+  },
+  "displacement": {
+    "status": "downloaded",
+    "title": "ICT Displacement, BOS, FVG and Liquidity Sweep",
+    "path": "assets/learn-trading/displacement.jpg",
+    "source_page": "https://www.brokerxplorer.com/article/forex-education-what-is-the-ict-concept-6184",
+    "original_image": "https://www.brokerxplorer.com/upload/content/2024-09/forex-education-what-is-the-ict-concept-6184-17277737835.jpg",
+    "width": 650,
+    "height": 400
+  },
+  "order-flow-imbalance": {
+    "status": "downloaded",
+    "title": "ICT Volume Imbalance",
+    "path": "assets/learn-trading/order-flow-imbalance.jpg",
+    "source_page": "https://www.quantum-algo.com/blog/guides/ict-volume-imbalance/",
+    "original_image": "https://www.quantum-algo.com/img/guides/ict-volume-imbalance-fill-to-consequent-encroachment-and-continue-v546.webp",
+    "width": 1400,
+    "height": 787
+  },
+  "ote": {
+    "status": "downloaded",
+    "title": "ICT Fibonacci OTE Zone",
+    "path": "assets/learn-trading/ote.jpg",
+    "source_page": "https://fxnx.com/en/blog/mastering-the-ict-fibonacci-retracement-a-traders-guide",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fabc6d8809983b77c04968cdeb20e79870ff1db9f-1200x896.png%3Fw%3D800%26fm%3Dwebp%26q%3D80%26fit%3Dmax&w=3840",
+    "width": 800,
+    "height": 597
+  },
+  "candlestick-engulfing": {
+    "status": "downloaded",
+    "title": "Bullish and Bearish Engulfing",
+    "path": "assets/learn-trading/candlestick-engulfing.jpg",
+    "source_page": "https://www.ea-coder.com/how-to-read-and-understand-forex-candlestick-charts/",
+    "original_image": "https://www.ea-coder.com/wp-content/uploads/2014/07/Chart-image-of-a-bullish-and-bearish-engulfing-patter.png",
+    "width": 828,
+    "height": 545
+  },
+  "inside-bar": {
+    "status": "downloaded",
+    "title": "Mother Bar and Inside Bar",
+    "path": "assets/learn-trading/inside-bar.jpg",
+    "source_page": "https://www.seputarforex.org/artikel/cara-trading-memanfaatkan-mother-barinside-bar-combo-299240-31",
+    "original_image": "https://www.seputarforex.org/sf2016materi/post/-0001-11/cara-trading-memanfaatkan-mother-barinside-bar-combo-299240-27570.png",
+    "width": 958,
+    "height": 638
+  },
+  "doji": {
+    "status": "downloaded",
+    "title": "EURUSD Doji Candle",
+    "path": "assets/learn-trading/doji.jpg",
+    "source_page": "https://www.forexcrunch.com/blog/2020/09/14/eur-usd-price-analysis-weekly-doji-suggests-indecision/",
+    "original_image": "https://editorial.blob.core.windows.net/miscelaneous-input/8Vm1Qjg1F2F3x6jQR9ZTqbyr7UZMI55Hli7Uag07/EUR_USD-9-637356402701244197.png",
+    "width": 1405,
+    "height": 692
+  },
+  "breakout-retest": {
+    "status": "downloaded",
+    "title": "Breakout and Retest",
+    "path": "assets/learn-trading/breakout-retest.jpg",
+    "source_page": "https://www.alsahm.com/education/article/understanding-support-and-resistance-levels/3/technical-analysis-basics",
+    "original_image": "https://static2.alsahm.com/public/college/images/2023/09/04/905335907718864897.png",
+    "width": 750,
+    "height": 485
+  },
+  "pinbar-hammer": {
+    "status": "downloaded",
+    "title": "Pin Bar and Shooting Star",
+    "path": "assets/learn-trading/pinbar-hammer.jpg",
+    "source_page": "https://prathaptrader.com/learn/price-action-trading/",
+    "original_image": "https://prathaptrader.com/img/learn/pa-pin-bar.png",
+    "width": 1276,
+    "height": 728
+  },
+  "gaps": {
+    "status": "downloaded",
+    "title": "Breakaway, Runaway and Exhaustion Gaps",
+    "path": "assets/learn-trading/gaps.jpg",
+    "source_page": "https://fxnx.com/es/blog/dominando-brechas-ict-3-tipos-explicados",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F9bb5d7ce66d4414a87d48cbdab5582793738c867-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "width": 800,
+    "height": 597
+  },
+  "outside-bar": {
+    "status": "downloaded",
+    "title": "Bullish and Bearish Outside Bars",
+    "path": "assets/learn-trading/outside-bar.jpg",
+    "source_page": "https://sabiotrade.com/blog/best-forex-trading-strategies",
+    "original_image": "https://sabiotrade.com/cdn/2024/02/Outsidebar.png",
+    "width": 1239,
+    "height": 643
+  },
+  "base-quote-currency": {
+    "status": "downloaded",
+    "title": "Base Currency, Quote Currency and Spread",
+    "path": "assets/learn-trading/base-quote-currency.jpg",
+    "source_page": "https://www.trading212.com/learn/cfd-trading/forex-trading",
+    "original_image": "https://a.storyblok.com/f/179899/1235x840/ab57f548ae/forex_spread_trading_212.png",
+    "width": 1235,
+    "height": 840
+  },
+  "lot-size-contract-size": {
+    "status": "downloaded",
+    "title": "Forex Lot and Contract Sizes",
+    "path": "assets/learn-trading/lot-size-contract-size.jpg",
+    "source_page": "https://arongroups.co/glossary/contract-size/",
+    "original_image": "https://cdn.arongroups.co/uploads/2024/10/contract-size-6.jpg",
+    "width": 1100,
+    "height": 600
+  },
+  "rollover-swap": {
+    "status": "downloaded",
+    "title": "Forex Rollover and Swap Fee",
+    "path": "assets/learn-trading/rollover-swap.jpg",
+    "source_page": "https://www.babypips.com/forexpedia/rollover-fee",
+    "original_image": "https://bpcdn.co/images/2019/02/12210216/rollover.png",
+    "width": 760,
+    "height": 500
+  },
+  "forex-market-hours": {
+    "status": "downloaded",
+    "title": "Forex Market Session Hours",
+    "path": "assets/learn-trading/forex-market-hours.jpg",
+    "source_page": "https://newyorkcityservers.com/blog/best-time-to-trade-forex",
+    "original_image": "https://newyorkcityservers.com//_next/image?q=75&url=https%3A%2F%2Fnewyorkcityservers.com%2Fblog2%2Fwp-content%2Fuploads%2F2026%2F02%2Fimage-10.jpeg&w=828",
+    "width": 800,
+    "height": 427
+  },
+  "trading-plan": {
+    "status": "downloaded",
+    "title": "Forex Trading Plan Checklist",
+    "path": "assets/learn-trading/trading-plan.jpg",
+    "source_page": "https://www.tradingview.com/chart/EURUSD/a58y68F7-Trading-on-Financial-Markets-Your-Guide-to-Trade-Planning/",
+    "original_image": "https://s3.tradingview.com/a/a58y68F7_mid.webp",
+    "width": 932,
+    "height": 550
+  },
+  "news-calendar": {
+    "status": "downloaded",
+    "title": "Forex Economic Calendar",
+    "path": "assets/learn-trading/news-calendar.jpg",
+    "source_page": "https://www.forexpeacearmy.com/r/forex-articles/2296/how-to-understand-an-economic-calendar",
+    "original_image": "https://www.forexpeacearmy.com/community/s3/articles/a-screen-shot-of-a-computer-description-automatic.jpeg",
+    "width": 1120,
+    "height": 815
+  },
+  "inflation-data": {
+    "status": "downloaded",
+    "title": "CPI and Core PCE Inflation",
+    "path": "assets/learn-trading/inflation-data.jpg",
+    "source_page": "https://www.lighthousemacro.com/p/the-beacon-the-last-mile-of-disinflation",
+    "original_image": "https://substackcdn.com/image/fetch/%24s_%21NklS%21%2Cf_auto%2Cq_auto%3Agood%2Cfl_progressive%3Asteep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0bf2edb3-90a7-4ae0-9293-947c75ff891e_3360x2110.png",
+    "width": 1800,
+    "height": 1130
+  },
+  "dxy-and-usd-pairs": {
+    "status": "downloaded",
+    "title": "Currency Strength Heat Map",
+    "path": "assets/learn-trading/dxy-and-usd-pairs.jpg",
+    "source_page": "https://www.theforexchronicles.com/the-best-websites-for-monitoring-currency-strengths/",
+    "original_image": "https://www.theforexchronicles.com/wp-content/uploads/2023/10/Investing-Currencies-Heat-Map.png",
+    "width": 915,
+    "height": 810
+  },
+  "backtesting": {
+    "status": "downloaded",
+    "title": "Forex Backtesting Equity Curve and Report",
+    "path": "assets/learn-trading/backtesting.jpg",
+    "source_page": "https://forexmechanics.com/technical-analysis/trading-automation/",
+    "original_image": "https://forexmechanics.com/technical-analysis/trading-automation/1200/backtesting-equity-curve-strategy-results.jpg",
+    "width": 1200,
+    "height": 800
+  },
+  "psychology": {
+    "status": "downloaded",
+    "title": "Trading Psychology: Revenge and Panic",
+    "path": "assets/learn-trading/psychology.jpg",
+    "source_page": "https://fullertonmarkets.medium.com/how-to-master-the-right-mindset-for-successful-trading-ac15459ed8ca",
+    "original_image": "https://miro.medium.com/v2/resize%3Afit%3A1400/0%2AOsqWuhJxXON_E7h3.jpg",
+    "width": 1200,
+    "height": 627
+  },
+  "backtest-overfitting": {
+    "status": "downloaded",
+    "title": "Backtest Overfitting vs Real-Time",
+    "path": "assets/learn-trading/backtest-overfitting.jpg",
+    "source_page": "https://forexmechanics.com/es/plataformas-herramientas/demo-backtesting/",
+    "original_image": "https://forexmechanics.com/platforms-tools/demo-backtesting/1200/overfitting-backtest-curve-vs-reality.jpg",
+    "width": 1200,
+    "height": 800
+  },
+  "stop-placement": {
+    "status": "downloaded",
+    "title": "Entry, Stop Loss and Invalidation",
+    "path": "assets/learn-trading/stop-placement.jpg",
+    "source_page": "https://x.com/midrizzy1",
+    "original_image": "https://pbs.twimg.com/media/HJQdr48WsAAcLhP.jpg",
+    "width": 1102,
+    "height": 1200
+  },
+  "volatility-compression": {
+    "status": "downloaded",
+    "title": "ATR Volatility Contraction and Expansion",
+    "path": "assets/learn-trading/volatility-compression.jpg",
+    "source_page": "https://www.stockforecasttoday.com/post/what-causes-market-volatility-when-atr-rises-after-extended-rallies",
+    "original_image": "https://static.wixstatic.com/media/065dd4_0d8b42e65b4e44ab92b92f8f470ae2e4~mv2.png/v1/fill/w_1536%2Ch_1024%2Cal_c/065dd4_0d8b42e65b4e44ab92b92f8f470ae2e4~mv2.png",
+    "width": 1536,
+    "height": 1024
+  },
+  "pips-points-ticks": {
+    "status": "downloaded",
+    "title": "Pips, Pipettes, Points and Ticks",
+    "path": "assets/learn-trading/pips-points-ticks.jpg",
+    "source_page": "https://mybank.pl/forex/podstawowe-pojecia/jednostki-miary-pips-point-tick/",
+    "original_image": "https://mybank.pl/forex/podstawowe-pojecia/jednostki-miary-pips-point-tick/1200/jednostki-miary-forex-pips-point-tick.jpg",
+    "width": 1200,
+    "height": 800
+  },
+  "walk-forward-analysis": {
+    "status": "downloaded",
+    "title": "Walk-Forward Analysis",
+    "path": "assets/learn-trading/walk-forward-analysis.jpg",
+    "source_page": "https://coinxsight.com/blog/strategy/backtesting-methodology-guide",
+    "original_image": "https://coinxsight.com/images/blog/inline/backtest-walkforward-analysis.png",
+    "width": 1024,
+    "height": 1024
+  },
+  "spread-slippage": {
+    "status": "downloaded",
+    "title": "Forex Slippage and Liquidity",
+    "path": "assets/learn-trading/spread-slippage.jpg",
+    "source_page": "https://www.holoforex.com/blogs/forex-slippage-explained",
+    "original_image": "https://www.holoforex.com/storage/medias/wnH3cEZ3YeQLRthvBjUxIpkulJhMDnooUXwWFx3z.jpg",
+    "width": 1536,
+    "height": 1024
+  },
+  "liquidity": {
+    "status": "downloaded",
+    "title": "Order Book Liquidity Heatmap",
+    "path": "assets/learn-trading/liquidity.jpg",
+    "source_page": "https://bookmap.com/knowledgebase/pt/docs/KB-Indicators-Strength-Level-Indicator",
+    "original_image": "https://bookmap.com/knowledgebase/pt/assets/images/image1-3ebc0ae831eceacfab8f0e893e3717c8.png",
+    "width": 1800,
+    "height": 963
+  },
+  "trade-management": {
+    "status": "downloaded",
+    "title": "Advanced Stop-Loss and Trade Management Techniques",
+    "path": "assets/learn-trading/trade-management.jpg",
+    "source_page": "https://www.traderdetector.com/trading/how-to-place-a-stop-loss-in-forex-beginner-friendly-guide",
+    "original_image": "https://www.traderdetector.com/images/2026/02/advanced-but-beginnersafe-stop-management-techniques-nybip.webp",
+    "width": 1536,
+    "height": 1024
+  },
+  "r-multiples": {
+    "status": "downloaded",
+    "title": "R-Multiple Distribution and Expectancy",
+    "path": "assets/learn-trading/r-multiples.jpg",
+    "source_page": "https://forexmechanics.com/traders-workshop/market-screening-checklist/",
+    "original_image": "https://forexmechanics.com/traders-workshop/market-screening-checklist/1200/histogram-r-multiple-distribution-screening-checklist-forex.jpg",
+    "width": 1200,
+    "height": 760
+  },
+  "yield-differentials": {
+    "status": "downloaded",
+    "title": "Carry Trade Interest Rate Differential",
+    "path": "assets/learn-trading/yield-differentials.jpg",
+    "source_page": "https://research.titanfx.com/forex-trading/fx-structure",
+    "original_image": "https://research-titanfx-cms.titanfx.com/4_1a0ef2475b.png",
+    "width": 800,
+    "height": 500
+  },
+  "central-bank-policy": {
+    "status": "downloaded",
+    "title": "EURJPY Central Bank Policy Rate Divergence",
+    "path": "assets/learn-trading/central-bank-policy.jpg",
+    "source_page": "https://medium.com/the-investors-handbook/when-interest-rates-diverge-fundamental-trading-strategy-1ee86af3389f",
+    "original_image": "https://miro.medium.com/v2/resize%3Afit%3A1400/1%2AzP21QI_m9ZUbBfUZQ51YqA.png",
+    "width": 1185,
+    "height": 854
+  },
+  "round-numbers": {
+    "status": "downloaded",
+    "title": "Psychological Round Number Levels",
+    "path": "assets/learn-trading/round-numbers.jpg",
+    "source_page": "https://www.tradingview.com/chart/EURUSD/JTmgt6lp-PSYCHOLOGICAL-PRICE-LEVELS/",
+    "original_image": "https://s3.tradingview.com/j/JTmgt6lp_big.png",
+    "width": 1800,
+    "height": 807
+  },
+  "weekend-gap-risk": {
+    "status": "downloaded",
+    "title": "Weekend Forex Price Gap",
+    "path": "assets/learn-trading/weekend-gap-risk.jpg",
+    "source_page": "https://fbs.com/fbs-academy/traders-blog/keeping-trades-over-the-weekend-your-chance-or-failure",
+    "original_image": "https://eu-images.contentstack.com/v3/assets/blt73dfd92ee49f59a6/blt0788d23727d3c71e/67d00f38a67cbb59e273818b/MDP-7549_1_1200x675_EN.png",
+    "width": 1200,
+    "height": 675
+  },
+  "volatility-regimes": {
+    "status": "downloaded",
+    "title": "High and Low Volatility with ATR",
+    "path": "assets/learn-trading/volatility-regimes.jpg",
+    "source_page": "https://arongroups.co/technical-analyze/swing-high-swing-low/",
+    "original_image": "https://cdn.arongroups.co/uploads/2026/01/Swing-High-vs-Swing-Low-7-768x478.jpg",
+    "width": 768,
+    "height": 478
+  },
+  "wyckoff-spring": {
+    "status": "downloaded",
+    "title": "Wyckoff Accumulation and Spring",
+    "path": "assets/learn-trading/wyckoff-spring.jpg",
+    "source_page": "https://3commas.io/academy/articles/the-wyckoff-method-explained",
+    "original_image": "https://images.prismic.io/3commas/379c29f6-e148-4d96-8dfc-fe2d7f2fe7d8_2.png?auto=compress%2Cformat&h=694&rect=0%2C0%2C1944%2C1124&w=1200",
+    "width": 1200,
+    "height": 694
+  },
+  "poc-vah-val": {
+    "status": "downloaded",
+    "title": "Market Profile and TPO",
+    "path": "assets/learn-trading/poc-vah-val.jpg",
+    "source_page": "https://fxnx.com/en/blog/market-profile-trading-finding-institutional-fair-value",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F373bd8f78c111628d2360e79c755448269489cfa-1200x896.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "width": 800,
+    "height": 597
+  },
+  "intermarket-analysis": {
+    "status": "downloaded",
+    "title": "Gold, Real Yields and US Dollar",
+    "path": "assets/learn-trading/intermarket-analysis.jpg",
+    "source_page": "https://blog.hycmlab.com/a-few-tips-for-trading-gold-right-now/",
+    "original_image": "https://blog.hycmlab.com/wp-content/uploads/2021/11/Real-yields-and-USD.jpg",
+    "width": 1800,
+    "height": 905
+  },
+  "accumulation-distribution": {
+    "status": "download_error",
+    "title": "Accumulation Distribution Indicator on EURUSD",
+    "source_page": "https://asiaprofx.com/indikator-accumulationdistribution",
+    "error": "HTTPSConnectionPool(host='asiaprofx.com', port=443): Max retries exceeded with url: /uploads/images/2021/09/image_750x_615414f191252.jpg (Caused by ConnectTimeoutError(<HTTPSConnection(host='asiaprofx.com', port=443) at 0x710f387b9a00>, 'Co"
+  },
+  "fomo": {
+    "status": "downloaded",
+    "title": "FOMO Chasing a Breakout",
+    "path": "assets/learn-trading/fomo.jpg",
+    "source_page": "https://fxnx.com/en/blog/fomo-trading-the-science-of-the-amygdala-hijack-5-rules",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fec96dc37ed9ecdc5fd4e90e7c6c70dff7648ce5c-1200x896.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "width": 800,
+    "height": 597
+  },
+  "overtrading": {
+    "status": "downloaded",
+    "title": "Revenge Trading and Overtrading",
+    "path": "assets/learn-trading/overtrading.jpg",
+    "source_page": "https://medium.com/write-a-catalyst/revenge-trading-explained-the-mistake-that-cost-me-more-than-any-strategy-ever-did-32c4adc51339",
+    "original_image": "https://miro.medium.com/v2/resize%3Afit%3A1400/1%2AlwyF8Jtyi4i08liXmlHzVw.png",
+    "width": 1400,
+    "height": 933
+  },
+  "posttrade-review": {
+    "status": "downloaded",
+    "title": "Trading Journal Performance Dashboard",
+    "path": "assets/learn-trading/posttrade-review.jpg",
+    "source_page": "https://alpha-charts.com/",
+    "original_image": "https://alpha-charts.com/images/dashboard-1.png",
+    "width": 908,
+    "height": 769
+  },
+  "mae-mfe": {
+    "status": "downloaded",
+    "title": "MAE and MFE on a Trading Chart",
+    "path": "assets/learn-trading/mae-mfe.jpg",
+    "source_page": "https://www.tradingheroes.com/mfe-mae-explained/",
+    "original_image": "https://www.tradingheroes.com/wp-content/uploads/chart-example.jpg",
+    "width": 1800,
+    "height": 1066
+  },
+  "pretrade-checklist": {
+    "status": "downloaded",
+    "title": "Forex Pre-Trade Checklist",
+    "path": "assets/learn-trading/pretrade-checklist.jpg",
+    "source_page": "https://www.traderdetector.com/trading/how-to-build-a-forex-trading-plan-template-step-by-step",
+    "original_image": "https://www.traderdetector.com/images/2026/02/pretrade-checklist-and-daily-routine-execution-nzmcg.webp",
+    "width": 1536,
+    "height": 1024
+  },
+  "sample-size": {
+    "status": "downloaded",
+    "title": "Sample Size and Statistical Confidence",
+    "path": "assets/learn-trading/sample-size.jpg",
+    "source_page": "https://mybank.pl/forex/zarzadzanie-ryzykiem/matematyka-strat-risk-of-ruin/",
+    "original_image": "https://mybank.pl/forex/zarzadzanie-ryzykiem/matematyka-strat-risk-of-ruin/1200/wielkosc-probki-a-pewnosc-edge.jpg",
+    "width": 1200,
+    "height": 800
+  },
+  "forward-testing": {
+    "status": "downloaded",
+    "title": "Demo vs Live Forward Execution",
+    "path": "assets/learn-trading/forward-testing.jpg",
+    "source_page": "https://mybank.pl/forex/platformy-narzedzia/demo-backtesting-forward-testing/",
+    "original_image": "https://mybank.pl/forex/platformy-narzedzia/demo-backtesting-forward-testing/1200/slippage-demo-vs-live-comparison.jpg",
+    "width": 1200,
+    "height": 800
+  },
+  "portfolio-risk": {
+    "status": "downloaded",
+    "title": "Portfolio Heat and Risk Exposure",
+    "path": "assets/learn-trading/portfolio-risk.jpg",
+    "source_page": "https://signalwavesai.com/articles/modern-position-sizing-risk-control-2025",
+    "original_image": "https://signalwavesai.com/images/articles/Modern-Position-Sizing-%26-Risk-Control-2025/portfolio-heat-management.png",
+    "width": 1536,
+    "height": 1024
+  },
+  "parabolic-sar": {
+    "status": "downloaded",
+    "title": "Parabolic SAR on EURUSD",
+    "path": "assets/learn-trading/parabolic-sar.jpg",
+    "source_page": "https://naga.com/eu/academy/parabolic-sar",
+    "original_image": "https://cms.naga.com/image_957f4d8496.png",
+    "width": 1044,
+    "height": 755
+  },
+  "wyckoff-upthrust": {
+    "status": "downloaded",
+    "title": "Wyckoff Upthrust After Distribution",
+    "path": "assets/learn-trading/wyckoff-upthrust.jpg",
+    "source_page": "https://fxnx.com/en/blog/wyckoff-utad-master-distribution-reversals",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F2dd7c6795280b9ec328a116d31e3f80c87e21f4f-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80%26fit%3Dmax&w=3840",
+    "width": 800,
+    "height": 597
+  },
+  "exhaustion": {
+    "status": "downloaded",
+    "title": "Footprint Chart Exhaustion and Balance",
+    "path": "assets/learn-trading/exhaustion.jpg",
+    "source_page": "https://beyondcandlesticks.substack.com/p/understanding-order-flow-pt-2",
+    "original_image": "https://substackcdn.com/image/fetch/%24s_%21F2_g%21%2Cf_auto%2Cq_auto%3Agood%2Cfl_progressive%3Asteep/https%3A/substack-post-media.s3.amazonaws.com/public/images/53f57265-d900-410a-b1df-800a21ae9955_2422x1392.png",
+    "width": 1800,
+    "height": 1035
+  },
+  "absorption": {
+    "status": "downloaded",
+    "title": "Footprint Chart Absorption Pattern",
+    "path": "assets/learn-trading/absorption.jpg",
+    "source_page": "https://coinxsight.com/blog/indicators/order-flow-trading-guide",
+    "original_image": "https://coinxsight.com/images/blog/inline/order-flow-footprint-chart.png",
+    "width": 1024,
+    "height": 1024
+  },
+  "crt": {
+    "status": "downloaded",
+    "title": "Candle Range Theory: Range, Manipulation and Distribution",
+    "path": "assets/learn-trading/crt.jpg",
+    "source_page": "https://www.quantum-algo.com/blog/guides/candle-range-theory-crt/",
+    "original_image": "https://www.quantum-algo.com/img/guides/candle-range-theory-three-candles-range-manipulation-distribution-v545.webp",
+    "width": 1400,
+    "height": 787
+  },
+  "opening-range": {
+    "status": "downloaded",
+    "title": "London Opening Range Breakout",
+    "path": "assets/learn-trading/opening-range.jpg",
+    "source_page": "https://fxopen.com/blog/en/opening-range-breakout-strategy/",
+    "original_image": "https://fxopen.com/blog/en/content/images/2025/09/data-src-image-10ac22cc-2260-4279-9dd4-b0115e67ac50.png",
+    "width": 1420,
+    "height": 780
+  },
+  "liquidity-void": {
+    "status": "downloaded",
+    "title": "Displacement, Imbalance and Liquidity Void",
+    "path": "assets/learn-trading/liquidity-void.jpg",
+    "source_page": "https://www.brokerxplorer.com/article/forex-learning-fair-value-gap-fvg-in-ict-concept-6393",
+    "original_image": "https://www.brokerxplorer.com/upload/content/2024-10/forex-learning-fair-value-gap-fvg-in-ict-concept-6393-17286307585.jpg",
+    "width": 650,
+    "height": 440
+  },
+  "inducement": {
+    "status": "downloaded",
+    "title": "Inducement and Liquidity at POI",
+    "path": "assets/learn-trading/inducement.jpg",
+    "source_page": "https://en.rattibha.com/thread/1729063137666834593",
+    "original_image": "https://pbs.twimg.com/media/F_7d3TDWwAAWfPa.jpg",
+    "width": 997,
+    "height": 520
+  },
+  "nwog": {
+    "status": "downloaded",
+    "title": "New Week Opening Gap",
+    "path": "assets/learn-trading/nwog.jpg",
+    "source_page": "https://arongroups.co/technical-analyze/ict-nwog-new-week-opening-gap/",
+    "original_image": "https://cdn.arongroups.co/uploads/2026/05/image3-7-1024x670.png",
+    "width": 1024,
+    "height": 670
+  },
+  "internal-external": {
+    "status": "downloaded",
+    "title": "Internal and External Range Liquidity",
+    "path": "assets/learn-trading/internal-external.jpg",
+    "source_page": "https://liquidity-provider.com/articles/internal-vs-external-range-liquidity-in-ict-trading/",
+    "original_image": "https://liquidity-provider.com/app/uploads/2025/07/example-of-irl-and-erl-on-chart-1536x704.png",
+    "width": 1536,
+    "height": 704
+  },
+  "london-killzone": {
+    "status": "downloaded",
+    "title": "London Killzone and Asian Range",
+    "path": "assets/learn-trading/london-killzone.jpg",
+    "source_page": "https://www.youtube.com/watch?v=AmwFBku47dU",
+    "original_image": "https://i.ytimg.com/vi/AmwFBku47dU/maxresdefault.jpg",
+    "width": 1280,
+    "height": 720
+  },
+  "ict-2022-model": {
+    "status": "downloaded",
+    "title": "ICT 2022 Model Buy Setup",
+    "path": "assets/learn-trading/ict-2022-model.jpg",
+    "source_page": "https://x.com/bullprooftrader/status/1901618127529459940",
+    "original_image": "https://pbs.twimg.com/media/GmPndKPXIAAsug0.jpg",
+    "width": 960,
+    "height": 827
+  },
+  "ndog": {
+    "status": "downloaded",
+    "title": "New Day Opening Gap",
+    "path": "assets/learn-trading/ndog.jpg",
+    "source_page": "https://en.rattibha.com/thread/1810297940952375713",
+    "original_image": "https://pbs.twimg.com/media/GR94ds_WIAARNQK.jpg",
+    "width": 1104,
+    "height": 943
+  },
+  "fvg-ce": {
+    "status": "downloaded",
+    "title": "ICT Consequent Encroachment: Precision FVG Entry",
+    "path": "assets/learn-trading/fvg-ce.jpg",
+    "source_page": "https://fxnx.com/en/blog/ict-consequent-encroachment-precision-fvg-entry",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F2f5c5bf5806d4f28863298dfc063275e038a010c-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "width": 800,
+    "height": 597
+  },
+  "silver-bullet": {
+    "status": "downloaded",
+    "title": "ICT Silver Bullet Window: Sweep and FVG Entry",
+    "path": "assets/learn-trading/silver-bullet.jpg",
+    "source_page": "https://fxnx.com/en/blog/ict-killzones-master-xauusd-timing-maximum-profit",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fc242aa6a936f193b8b6b4f95f656fd6cf32c8c31-1200x896.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "width": 800,
+    "height": 597
+  },
+  "unicorn-model": {
+    "status": "downloaded",
+    "title": "Bullish ICT Unicorn: Breaker Block and FVG",
+    "path": "assets/learn-trading/unicorn-model.jpg",
+    "source_page": "https://www.fluxcharts.com/articles/ict-unicorn-strategy-explained-how-to-identify-and-trade-it",
+    "original_image": "https://cdn.prod.website-files.com/697103179acf24479947e31c/697a7ca24cf0c7e92370068a_articles%252Ftrading-strategies%252Fict-strategies%252Fict-unicorn%252FICT%2520Unicorn%25204.png",
+    "width": 1800,
+    "height": 1013
+  },
+  "channels": {
+    "status": "downloaded",
+    "title": "Ascending, Descending and Sideways Channels",
+    "path": "assets/learn-trading/channels.jpg",
+    "source_page": "https://www.babypips.com/learn/forex/channels",
+    "original_image": "https://bpcdn.co/images/2016/05/grade1-channel.png",
+    "width": 1020,
+    "height": 620
+  },
+  "volume-climax": {
+    "status": "downloaded",
+    "title": "Wyckoff Buying Climax and Distribution",
+    "path": "assets/learn-trading/volume-climax.jpg",
+    "source_page": "https://www.tradingview.com/chart/BTCUSD/iOqHUQKi-After-Much-Thought-Looks-Like-Wyckoff-Distribution-Schematic-1/",
+    "original_image": "https://i.imgur.com/nOJl0Dd.png",
+    "width": 975,
+    "height": 585
+  },
+  "position-sizing": {
+    "status": "downloaded",
+    "title": "Forex Position Size Calculator",
+    "path": "assets/learn-trading/position-sizing.jpg",
+    "source_page": "https://fxnx.com/en/blog/forex-position-size-calculator-master-your-risk",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F68a912a49ae3e9e5f1716c8b75e8e52825ca4b14-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "width": 800,
+    "height": 597
+  },
+  "nwog-ndog": {
+    "status": "downloaded",
+    "title": "ICT New Week Opening Gap (NWOG)",
+    "path": "assets/learn-trading/nwog-ndog.jpg",
+    "source_page": "https://arongroups.co/forex-articles/ben-felix-portfolio/",
+    "original_image": "https://cdn.arongroups.co/uploads/2026/05/Index-Image.jpg.png",
+    "width": 800,
+    "height": 450
+  },
+  "drawdown": {
+    "status": "downloaded",
+    "title": "Trading Equity Curve and Drawdown",
+    "path": "assets/learn-trading/drawdown.jpg",
+    "source_page": "https://capstonetradingsystems.com/products/gap-continuation-2020-nq",
+    "original_image": "https://cdn.shopify.com/s/files/1/0786/8776/4694/files/equity_dd_gap-continuation-2020-nq_8837344d-5ec1-4acc-a8d0-1fbe799ffb49.png?v=1783087295",
+    "width": 1580,
+    "height": 700
+  },
+  "pdh-pdl": {
+    "status": "downloaded",
+    "title": "PDH and PDL Levels on EURUSD",
+    "path": "assets/learn-trading/pdh-pdl.jpg",
+    "source_page": "https://www.mql5.com/en/market/product/93461",
+    "original_image": "https://c.mql5.com/31/869/smart-market-structure-concepts-mt5-screen-7412.png",
+    "width": 1747,
+    "height": 1039
+  },
+  "mss": {
+    "status": "downloaded",
+    "title": "Market Structure Shift (MSS)",
+    "path": "assets/learn-trading/mss.jpg",
+    "source_page": "https://note.com/ailucky/n/nb8344e017800",
+    "original_image": "https://assets.st-note.com/img/1777092325-Nu9XTYpdBhvQ4eWyDi6Eotj2.png?width=1200",
+    "width": 1200,
+    "height": 655
+  },
+  "swing-points": {
+    "status": "downloaded",
+    "title": "Forex Swing Highs and Swing Lows",
+    "path": "assets/learn-trading/swing-points.jpg",
+    "source_page": "https://www.actionforex.com/articles/forex-trading/26596-what-is-price-action-in-forex-trading/",
+    "original_image": "https://www.actionforex.com/images/articles/icmarkets/201707110204.gif",
+    "width": 600,
+    "height": 397
+  },
+  "stop-vs-stop-limit": {
+    "status": "downloaded",
+    "title": "Stop-Market vs Stop-Limit Orders",
+    "path": "assets/learn-trading/stop-vs-stop-limit.jpg",
+    "source_page": "https://www.babypips.com/trading/trading-order-types-guide",
+    "original_image": "https://bpcdn.co/images/2026/02/06113914/1-Babypips_PrimeXBT_The_Traders_Toolkit_7_Order_Types_Every_Beginner-docx-Google-Docs-02-06-2026_11_39_AM.png",
+    "width": 1244,
+    "height": 460
+  },
+  "bsl-ssl": {
+    "status": "downloaded",
+    "title": "Buy-Side and Sell-Side Liquidity Pools",
+    "path": "assets/learn-trading/bsl-ssl.jpg",
+    "source_page": "https://www.fluxcharts.com/articles/ict-turtle-soup-strategy-explained-how-to-identify-and-trade-it",
+    "original_image": "https://cdn.prod.website-files.com/697103179acf24479947e31c/697a7ca2660f6271d0df7801_articles%252Ftrading-strategies%252Fict-strategies%252Fict-turtle-soup%252FICT%2520Turtle%2520Soup%25202.png",
+    "width": 1800,
+    "height": 1013
+  },
+  "daylight-saving-time": {
+    "status": "downloaded",
+    "title": "Forex Session Hours and Daylight Saving",
+    "path": "assets/learn-trading/daylight-saving-time.jpg",
+    "source_page": "https://research.titanfx.com/forex-trading/tokyo-trading-time",
+    "original_image": "https://research-titanfx-cms.titanfx.com/2_5c4ebb49ed.png",
+    "width": 800,
+    "height": 500
+  },
+  "economic-surprise": {
+    "status": "downloaded",
+    "title": "Average USDJPY Movement Around NFP Announcements",
+    "path": "assets/learn-trading/economic-surprise.jpg",
+    "source_page": "https://www.investing.com/analysis/dollar-rally-continues-227347",
+    "original_image": "https://d1-invdn-com.akamaized.net/content/pic02f1334a47ab33a8f7f4b455952a7b86.png",
+    "width": 694,
+    "height": 426
+  },
+  "rejection-candle": {
+    "status": "downloaded",
+    "title": "Bullish Pin Bar Rejection at Support",
+    "path": "assets/learn-trading/rejection-candle.jpg",
+    "source_page": "https://tradeciety.com/8-candlestick-trading-strategies-for-forex",
+    "original_image": "https://26693533.fs1.hubspotusercontent-eu1.net/hubfs/26693533/Imported_Blog_Media/1-pin-bar-candlestick-strategy.png",
+    "width": 1451,
+    "height": 784
+  },
+  "confirmation-bias": {
+    "status": "downloaded",
+    "title": "Confirmation Bias in Trading",
+    "path": "assets/learn-trading/confirmation-bias.jpg",
+    "source_page": "https://www.tradingview.com/chart/XAUUSD/4mmAHt3n-Learn-What-is-Confirmation-Bias-Trading-Psychology/",
+    "original_image": "https://s3.tradingview.com/4/4mmAHt3n_big.png",
+    "width": 1800,
+    "height": 973
+  },
+  "double-top-bottom": {
+    "status": "downloaded",
+    "title": "Double Top and Double Bottom Patterns",
+    "path": "assets/learn-trading/double-top-bottom.jpg",
+    "source_page": "https://www.dukascopy.jp/useful-information/wiki/fx-double-top-bottom/",
+    "original_image": "https://www.dukascopy.com/media-storage/878310184/o/0/webp/",
+    "width": 1800,
+    "height": 1013
+  },
+  "interest-rates": {
+    "status": "downloaded",
+    "title": "Federal Reserve, ECB and Bank of England Policy Rates",
+    "path": "assets/learn-trading/interest-rates.jpg",
+    "source_page": "https://www.expat.hsbc.com/wealth/insights/learn-to-invest/start-investing/2024-01-25/",
+    "original_image": "https://www.expat.hsbc.com/content/dam/hsbc/en/wealth/images/wealth-needs/investment-tips/147384-20240125/147384-0002.JPG",
+    "width": 701,
+    "height": 495
+  },
+  "gdp-data": {
+    "status": "downloaded",
+    "title": "US GDP Growth Rate",
+    "path": "assets/learn-trading/gdp-data.jpg",
+    "source_page": "https://www.fxempire.com/forecasts/article/gold-xauusd-and-silver-build-positive-price-momentum-as-tariff-ruling-pressures-us-dollar-1522746",
+    "original_image": "https://responsive.fxempire.com/v7/_fxempire_/2025/05/US_GDP_Growth_Rate.png?func=crop&q=70",
+    "width": 1200,
+    "height": 820
+  },
+  "daily-weekly-open": {
+    "status": "downloaded",
+    "title": "Daily, Weekly and Monthly Open Levels",
+    "path": "assets/learn-trading/daily-weekly-open.jpg",
+    "source_page": "https://www.mql5.com/en/market/product/42858",
+    "original_image": "https://c.mql5.com/31/379/open-close-levels-screen-4631.png",
+    "width": 640,
+    "height": 480
+  },
+  "trend-vs-mean-reversion": {
+    "status": "downloaded",
+    "title": "Trending vs Ranging Market",
+    "path": "assets/learn-trading/trend-vs-mean-reversion.jpg",
+    "source_page": "https://www.babypips.com/forexpedia/sideways-market",
+    "original_image": "https://bpcdn.co/images/2016/05/grade12-market-ranging-2-768x467.png",
+    "width": 768,
+    "height": 467
+  },
+  "volume": {
+    "status": "downloaded",
+    "title": "EURUSD Candlesticks and Tick Volume",
+    "path": "assets/learn-trading/volume.jpg",
+    "source_page": "https://insights.exness.com/trading-basics/forex-public-holidays/",
+    "original_image": "https://d33vw3iu5hs0zi.cloudfront.net/media/lg_Image2_Exness_Insights_forex_public_holidays3x_suffix_a9609ecfb0.webp",
+    "width": 992,
+    "height": 568
+  },
+  "broker-feed-quality": {
+    "status": "downloaded",
+    "title": "Side-by-Side Broker Forex Chart Feed Comparison",
+    "path": "assets/learn-trading/broker-feed-quality.jpg",
+    "source_page": "https://forums.babypips.com/t/chart-comparison-of-three-brokers/382138",
+    "original_image": "https://f.bpcdn.co/optimized/4X/8/1/0/810e2939eb35fb4d1bea2935245d800d98552b54_2_690x387.png",
+    "width": 690,
+    "height": 387
+  },
+  "fomc-policy": {
+    "status": "downloaded",
+    "title": "Federal Reserve FOMC Rate Decision Calendar",
+    "path": "assets/learn-trading/fomc-policy.jpg",
+    "source_page": "https://www.priceactioncontext.com/post/how-the-federal-reserve-s-rate-decision-calendar-should-shape-your-forex-trading-plan",
+    "original_image": "https://static.wixstatic.com/media/787b9e_ce3522dd01ad428c9d41e41ce3c8910c~mv2.png/v1/fill/w_1000%2Ch_667%2Cal_c%2Cq_90%2Cusm_0.66_1.00_0.01/787b9e_ce3522dd01ad428c9d41e41ce3c8910c~mv2.png",
+    "width": 1000,
+    "height": 667
+  },
+  "out-of-sample-testing": {
+    "status": "downloaded",
+    "title": "In-Sample vs Out-of-Sample Portfolio Performance",
+    "path": "assets/learn-trading/out-of-sample-testing.jpg",
+    "source_page": "https://mbrenndoerfer.com/writing/backtesting-trading-strategies-simulation-frameworks",
+    "original_image": "https://cnassets.uk/notebooks/1_backtesting_simulation_files/in-sample-out-sample-comparison.png",
+    "width": 1783,
+    "height": 1200
+  },
+  "volume-spread-analysis": {
+    "status": "downloaded",
+    "title": "Volume Spread Analysis on Forex Chart",
+    "path": "assets/learn-trading/volume-spread-analysis.jpg",
+    "source_page": "https://academyfx.ru/vsa-analiz",
+    "original_image": "https://academyfx.ru/images/2018/5/obemnyj_analiz_rynka_vsa_e0268.png",
+    "width": 740,
+    "height": 486
+  },
+  "execution-quality": {
+    "status": "downloaded",
+    "title": "Forex Order Fill and Execution Quality Analysis",
+    "path": "assets/learn-trading/execution-quality.jpg",
+    "source_page": "https://mybank.pl/forex/strategie-handlowe/trading-algorytmiczny/",
+    "original_image": "https://mybank.pl/forex/strategie-handlowe/trading-algorytmiczny/1200/fill-quality-analysis-myfxbook-tca.jpg",
+    "width": 1200,
+    "height": 800
+  }
+}

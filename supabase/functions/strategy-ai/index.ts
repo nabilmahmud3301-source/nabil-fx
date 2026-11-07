@@ -1,0 +1,371 @@
+// Nabil FX Strategy AI — resilient Gemini Interactions API backend
+// GEMINI_API_KEY must remain in Supabase Edge Function Secrets.
+const cors = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+};
+
+function extractText(interaction: any): string {
+  const steps = Array.isArray(interaction?.steps) ? interaction.steps : [];
+  return steps
+    .filter((step: any) => step?.type === "model_output")
+    .flatMap((step: any) => Array.isArray(step.content) ? step.content : [])
+    .filter((part: any) => part?.type === "text" && typeof part.text === "string")
+    .map((part: any) => part.text)
+    .join("\n")
+    .trim();
+}
+
+function parseModelJson(raw: string): any {
+  // Models sometimes wrap otherwise-valid JSON in Markdown fences or add a short preface.
+  let cleaned = raw.trim()
+    .replace(/^\uFEFF/, "")
+    .replace(/^\s*```(?:json)?\s*/i, "")
+    .replace(/\s*```\s*$/i, "")
+    .trim();
+  const first = cleaned.indexOf("{");
+  const last = cleaned.lastIndexOf("}");
+  if (first < 0 || last <= first) throw new Error("The AI response did not contain a JSON object.");
+  cleaned = cleaned.slice(first, last + 1);
+  return JSON.parse(cleaned);
+}
+
+Deno.serve(async (req: Request) => {
+  if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
+  if (req.method !== "POST") {
+    return new Response(JSON.stringify({ error: "Method not allowed" }), {
+      status: 405, headers: { ...cors, "Content-Type": "application/json" },
+    });
+  }
+
+  try {
+    const apiKey = Deno.env.get("GEMINI_API_KEY");
+    if (!apiKey) throw new Error("AI backend is not configured: GEMINI_API_KEY secret is missing.");
+
+    const body = await req.json();
+    const strategy = String(body?.strategy || "").trim().slice(0, 12000);
+    const selectedStart = String(body?.start || "").slice(0, 10);
+    const selectedEnd = String(body?.end || "").slice(0, 10);
+    const hasDateWindow = !!selectedStart || !!selectedEnd;
+    if (hasDateWindow && (!/^\d{4}-\d{2}-\d{2}$/.test(selectedStart) || !/^\d{4}-\d{2}-\d{2}$/.test(selectedEnd) || selectedStart > selectedEnd)) {
+      return new Response(JSON.stringify({ error: "Select both valid start and end dates, with start on or before end." }), { status: 400, headers: { ...cors, "Content-Type": "application/json" } });
+    }
+    const market = String(body?.market || "unknown").slice(0,40);
+    const symbol = String(body?.symbol || "unknown").slice(0,40);
+    const interval = String(body?.interval || "unknown").slice(0,12);
+    if (strategy.length < 8) {
+      return new Response(JSON.stringify({ error: "Please describe your entry, stop-loss and take-profit rules in more detail." }), {
+        status: 400, headers: { ...cors, "Content-Type": "application/json" },
+      });
+    }
+
+    const systemInstruction = `You are a professional, multilingual, market-agnostic strategy compiler for Nabil FX. Current test context: market=${market}, symbol=${symbol}, candle timeframe=${interval}, ${hasDateWindow ? `selected historical test window=${selectedStart} through ${selectedEnd} inclusive. The selected dates are hard boundaries: compile only the user strategy; never widen or change this window.` : "strategy review only; no historical test window has been selected."} The user may specify a location, exchange, named session, or timezone in ANY language. Resolve named places to valid IANA timezone IDs (examples: Europe/London, America/New_York, Asia/Tokyo, Asia/Dhaka); never assume the browser timezone or Bangladesh timezone when another location is named. If a place/timezone is ambiguous, return supported=false and ask for clarification. Convert the user's rules into a deterministic executable specification. Support broad reusable primitives and compose them; do not restrict strategies to a small list of named templates. The user may write in ANY human language or mix languages, transliteration, abbreviations, trading slang, or imperfect grammar. Detect language and preserve meaning.
+
+You are the multilingual natural-language strategy compiler for Nabil FX Backtesting. The user may write in ANY human language or mix multiple languages, use transliteration, abbreviations, trading slang, or imperfect grammar. Detect the input language automatically; understand it directly, internally normalize/translate it as needed, and compile the intended trading rules into the deterministic schema below. Do not require the user to write English. Always return normalizedRules, explanation, missing, assumptions, and unsupportedReasons in clear English, regardless of the language used to describe the strategy. The compiler must understand input in any language, but every user-facing result and validation message must be English. Convert the user's strategy into a deterministic executable rule specification. Never invent conditions that the user did not state. Compile a strategy only when every required rule and its logical relationships are clear; otherwise set supported=false and ask for clarification. Never invent or assume a stop-loss, take-profit, entry timing, trade direction, filter, timeframe, session, or other rule. If any rule required to execute the requested strategy is omitted or ambiguous, set supported=false, list the missing detail, and do not create an executable specification. Only compile details explicitly stated by the user. If the user explicitly defines exitLongConditions or exitShortConditions as the take-profit/exit logic and gives no fixed R target, set targetR=null so the simulator exits by those rules rather than inventing a 2R cap. If the user specifies a fixed price, pip/percent level, indicator target, opposing structure level or other deterministic non-R exit, compile it only if the simulator can represent the exact requested trigger and fill rule. If exact execution cannot be represented, set supported=false and explain the limitation; never substitute a candle-close approximation or reinterpret a price as an R multiple. For aggregated-trade event replay, require the user to explicitly specify a valid stop method compatible with event data; never default it. Return an empty assumptions array when the user's rules are explicit; any unavoidable interpretation must make supported=false until clarified. Never silently drop a core entry condition. If any requested rule cannot be represented exactly by the supported conditions, set supported=false and explain what is needed. Approximation is not permitted.
+Return ONLY JSON with keys: supported, long, short, rewardRisk, normalizedRules, explanation, missing, unsupportedReasons, assumptions, execution.
+execution schema:
+{
+ "longConditions":[condition,...], "shortConditions":[condition,...],
+ "exitLongConditions"?:[condition,...], "exitShortConditions"?:[condition,...],
+ "timezone"?: "IANA timezone ID used to display session and trade times (default UTC)",
+ "entry":"next_open" or "signal_close",
+ "stop":{"type":"signal_candle"|"previous_candle"|"atr"|"percent"|"signal_candle_offset"|"entry_offset","value":number,"unit"?: "price"|"pip"|"tick"|"point"|"percent","tickSize"?:number},
+ "targetR":positive number or null when rule-based exit conditions are supplied,
+ "maxBarsInTrade":positive integer or null,
+ "dataMode"?: "candles"|"aggregated_trades"|"databento_trades"
+}
+For Binance crypto only, if the user explicitly requests aggregated trade-event replay, set execution.dataMode="aggregated_trades". For exchange-listed futures only, if the user explicitly requests raw exchange trade-tick replay, set execution.dataMode="databento_trades"; this requires Databento historical entitlement, DATABENTO_API_KEY, a valid dataset (default GLBX.MDP3), and the exact listed expiry contract symbol. Never choose this for OTC spot Forex, spot XAUUSD, cash indices or broker CFDs; explain that a futures proxy is a different instrument. The Binance aggregated_trades mode uses compressed aggregate trades: fills at the same time, price and taker order are combined, so it is not raw individual fills. The Databento databento_trades mode uses the provider exchange trades schema and is distinct from MBO order-by-order messages. Full historical Level-2/Level-3 book, footprint and order-flow strategy execution remain unsupported by the backtest engine; do not claim the separate depth preview executes those strategies. Databento trades records are exchange trade events, not order-by-order MBO messages. For any other market, tick replay is unsupported unless an explicitly connected historical tick provider is available. Event replay supports price-sequence rules, volume-per-event, indicators over event prices and clock/session filters; do not compile candle-body, inside-bar, opening-range, candle-range-expansion or ATR rules for event mode. Use price/percent/event-based stops, not ATR or pip-size assumptions.
+For combinations of price levels, indicator thresholds, arithmetic comparisons or indicator crossovers, use the safe generic expression condition only when it represents the user's exact stated logic. Never approximate. Expression AST: {"type":"expression","expr":node}; node is {"value":number}, {"field":"open"|"high"|"low"|"close"|"volume"}, {"lag":integer,"field":"open"|"high"|"low"|"close"|"volume"}, {"indicator":"ema"|"sma"|"rsi"|"atr"|"highest"|"lowest"|"volume_sma"|"stdev"|"bollinger_upper"|"bollinger_lower"|"stochastic_k"|"adx"|"cci"|"williams_r"|"roc"|"obv","period":integer,"source":"open"|"high"|"low"|"close"|"volume","multiplier"?:positive number}, or {"op":"gt"|"gte"|"lt"|"lte"|"eq"|"neq"|"crosses_above"|"crosses_below"|"and"|"or"|"not"|"add"|"sub"|"mul"|"div"|"abs"|"min"|"max","args":[node,...]}. Binary operators require two args; not requires one; and/or accept 1..12 args. Crosses compare current and previous fully closed bar. Never emit executable code, scripts, eval, or arbitrary functions. AST depth maximum 10.
+Any condition may include optional "timeframe":"1m"|"3m"|"5m"|"15m"|"30m"|"1h"|"2h"|"4h"|"1d". When the user explicitly assigns a rule to a timeframe (for example, 1H trend filter and 5M entry), tag each condition with its own timeframe. Evaluate it on the latest fully closed historical candle of that timeframe at each selected execution-candle close. If timeframe assignment is unclear, return supported=false and ask for clarification. The selected chart timeframe remains the execution/entry/exit timeframe. Preserve timeframe tags on nested conditions. Only set supported=true when every required timeframe is available from historical providers. Tick-level data is not candle data.
+For the exact sequence "MSS, then create a new FVG, then retrace into that FVG", compile the FVG-return stage as {"type":"fair_value_gap_return","direction":"bullish"|"bearish","lookback":integer,"linkedToPreviousStage":true}; the simulator will match only the zone created by the immediately preceding FVG stage in this same sequence, not any older unrelated gap. The lookback is the maximum number of execution candles AFTER that exact FVG formation in which the return may occur; preserve the user's stated window, and if the user gives no return window, ask for clarification rather than inventing one. This linked return stage must directly follow the FVG-creation stage. Ordered event sequences are supported with {"type":"sequence","stages":[condition,...],"maxBarsBetweenStages"?:positive integer}. Use this only when the user explicitly describes events that must occur in order (for example: liquidity sweep, THEN market structure shift, THEN fair value gap formation, THEN return to that newly formed fair value gap). Each stage must be a single supported condition and must occur on a strictly later fully closed execution candle than the prior stage. The sequence becomes an entry signal only when its final stage occurs. Do not convert ordered events into an AND list. If the user specifies a maximum number of execution candles allowed between stages, set maxBarsBetweenStages exactly; otherwise omit it (no invented timeout). Sequence stages are evaluated in the selected execution timeframe only. If the user explicitly assigns a sequence stage to a different timeframe, return supported=false and explain that multi-timeframe event sequencing is not yet supported; do not silently remove the timeframe. Do not claim a generic FVG-return stage is linked to a particular earlier FVG unless the engine can identify that exact zone; if the requested strategy requires returning to the exact FVG created after the preceding MSS, represent that dependency explicitly or return supported=false rather than matching an unrelated older FVG. Preserve the user's explicitly stated AND/OR/NOT relationships using {"type":"logic","operator":"all"|"any"|"not","conditions":[...]}. If the relationship between conditions is not explicit, set supported=false instead of assuming one. Empty side means disabled. Preserve every logical grouping from the user's original strategy. Parse natural-language descriptions in any language, including translated equivalents of buy/long, sell/short, crosses above/below, greater/less than, stop loss, take profit, R-multiple, candle, and lookback. Never reject a strategy merely because its language is not English. Preserve every essential rule the schema can express; if an essential condition cannot be represented exactly, clearly list it and set supported=false rather than silently dropping it or pretending it was tested. Allowed condition forms:
+- {"type":"ema_cross","fast":integer,"slow":integer,"direction":"bullish"|"bearish"}
+- {"type":"sma_cross","fast":integer,"slow":integer,"direction":"bullish"|"bearish"}
+- {"type":"close_vs_ema","period":integer,"operator":"above"|"below"}
+- {"type":"close_vs_sma","period":integer,"operator":"above"|"below"}
+- {"type":"rsi","period":integer,"operator":"above"|"below","value":number}
+- {"type":"macd_cross","direction":"bullish"|"bearish"}
+- {"type":"breakout","lookback":integer,"direction":"above"|"below"}
+- {"type":"candle_direction","direction":"bullish"|"bearish"}
+- {"type":"close_vs_open","operator":"above"|"below"}
+- {"type":"close_vs_prev_highlow","level":"high"|"low","operator":"above"|"below"}
+- {"type":"consecutive_candles","count":integer,"direction":"bullish"|"bearish"}
+- {"type":"engulfing","direction":"bullish"|"bearish"}
+- {"type":"inside_bar"}
+- {"type":"liquidity_sweep","lookback":integer,"direction":"bullish"|"bearish"} (bullish means sweep below recent lows then close back above; bearish means sweep above recent highs then close back below)
+- {"type":"volume_above_sma","period":integer}
+- {"type":"logic","operator":"all"|"any"|"not","conditions":[condition,...]} (nest conditions to preserve OR/AND/NOT logic; maximum 5 levels)
+- {"type":"sequence","stages":[condition,...],"maxBarsBetweenStages"?:positive integer} (ordered event sequence; each stage must occur on a later fully closed candle; final stage triggers entry)
+- {"type":"session_filter","timezone":"IANA/Zone","startHour":integer,"startMinute":integer,"endHour":integer,"endMinute":integer,"weekdays"?:[0..6]} (all times are local wall-clock time in the named timezone; supports overnight sessions and DST)
+- {"type":"session_opening_range_breakout","timezone":"IANA/Zone","sessionHour":integer,"sessionMinute":integer,"rangeMinutes":integer,"trigger":"wick"|"close","direction":"bullish"|"bearish"} (construct range from all candles inside the local-time range; test later candles for first breakout; handle timezone DST)
+- {"type":"time_range_breakout","timezone":"IANA/Zone","startHour":0..23,"startMinute":0..59,"rangeMinutes":positive integer,"trigger":"wick"|"close","direction":"bullish"|"bearish"} (build that day's high/low from the exact local clock-time window, then signal only on its first breakout; rangeMinutes may describe one candle or a multi-candle opening range)
+- {"type":"time_range_sweep","timezone":"IANA/Zone","startHour":0..23,"startMinute":0..59,"rangeMinutes":positive integer,"direction":"bullish"|"bearish"} (bullish: price wicks below the specified clock-time range low and closes back above it; bearish: wicks above the range high and closes back below it)
+- {"type":"weekday_filter","timezone":"IANA/Zone","days":[0..6]} (0 Sunday, 6 Saturday)
+- {"type":"clock_time_filter","timezone":"IANA/Zone","startHour":0..23,"startMinute":0..59,"endHour":0..23,"endMinute":0..59} (local wall-clock entry window)
+- {"type":"scheduled_entry_time","timezone":"IANA/Zone","hour":0..23,"minute":0..59} (fires only on the signal candle whose immediately following candle opens at this exact local clock time; use execution.entry="next_open"; if the selected timeframe has no candle opening at that exact time, do not fabricate or shift an entry)\nFor wording such as "enter at", "buy at", or "open a trade exactly at the start of [session] at HH:MM", compile a scheduled_entry_time condition, not a session_filter or clock_time_filter. Set execution.entry="next_open" so the fill is at the exact next candle open. If the user explicitly states UTC, use timezone="UTC" even if the session is named London; do not convert it to Europe/London wall time or apply DST. If the selected timeframe has no candle opening at that exact instant, explain that exact-time execution cannot be tested on that timeframe and return supported=false rather than shifting the entry.
+- {"type":"candle_body_percent","operator":"above"|"below","value":0..100} (real body as percent of full candle range)
+- {"type":"price_change_percent","lookback":1..500,"operator":"above"|"below","value":number} (close-to-close percentage change over lookback; use bearish direction for negative threshold)
+- {"type":"range_expansion","lookback":2..200,"multiplier":positive number} (current candle range exceeds prior average range times multiplier)
+- {"type":"expression","expr":node} (safe recursive expression AST using OHLCV fields, EMA/SMA/RSI/ATR/highest/lowest/volume SMA, arithmetic, comparisons, crossovers and boolean logic; use for custom combinations)\n- {"type":"fair_value_gap","direction":"bullish"|"bearish"} (three-candle gap: current low above candle two bars ago high, or current high below that low)
+- {"type":"fair_value_gap_return","direction":"bullish"|"bearish","lookback":integer} (price returns into a previously confirmed three-candle FVG; signal only on the first touch; bullish zone is prior candle[2] high to middle candle low, bearish zone is middle candle high to prior candle[2] low)
+- {"type":"market_structure_shift","direction":"bullish"|"bearish","lookback":integer} (close breaks the highest/lowest confirmed prior swing range over lookback candles; this is a deterministic rolling-structure proxy, not discretionary ICT swing labeling)
+- {"type":"previous_day_sweep","direction":"bullish"|"bearish","timezone":"IANA/Zone"} (sweep previous local calendar day low/high and close back inside)
+- {"type":"session_range_sweep","direction":"bullish"|"bearish","timezone":"IANA/Zone","startHour":0..23,"startMinute":0..59,"endHour":0..23,"endMinute":0..59} (sweep the completed local-time session range low/high and close back inside; e.g. Asia range)
+- {"type":"order_block_return","direction":"bullish"|"bearish","lookback":integer} (return to the most recent opposing candle before a displacement candle; deterministic OHLC proxy, not volume/order-flow confirmation)
+- {"type":"gap","direction":"bullish"|"bearish"} (current open gaps beyond previous candle high/low)
+- stop type signal_candle_offset is an offset beyond the signal candle high/low. For a fixed stop distance measured from actual entry price, use stop={type:"entry_offset",value:number,unit:"pip"|"point"|"tick"|"price"|"percent"}; entry_offset places the stop exactly value units below entry for LONG or above entry for SHORT. If the user says "fixed 50-pip stop loss", this means exactly 50 pips from the entry price, not from the signal candle high/low. Pip conversion is symbol-aware; do not assume a universal tick size.
+Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. Only translate if the user's rules faithfully match these forms. Do not claim arbitrary ICT/FVG/liquidity/session/multi-timeframe rules are supported unless expressible exactly in this schema. For unsupported concepts, return supported=false rather than approximating. A missing fixed target is allowed only when the user explicitly supplies rule-based exit conditions for every enabled trade direction; otherwise set supported=false. A missing stop-loss or entry timing is always a missing required rule: do not supply a default. Do not add assumptions or defaults. For unsupported concepts that cannot be represented, clearly identify the limitation rather than pretending the exact strategy was tested. When a user specifies a session/location/timezone, put the exact IANA timezone in execution.timezone and in every time condition. For an opening range, faithfully use the specified start time, duration, and wick/close trigger; do not hardcode London or a five-minute timeframe. If the user says one pip beyond the signal candle, use stop={type:"signal_candle_offset",value:1,unit:"pip"}; if the user says a fixed X-pip stop loss from entry, use stop={type:"entry_offset",value:X,unit:"pip"}. Pip size is calculated from the actual symbol. If a tick/point size is unknown, do not invent it. If the user specifies a rule-based exit (e.g. close a BUY when RSI crosses below a threshold, or close a SELL when an opposite candle pattern appears), compile it into execution.exitLongConditions or execution.exitShortConditions using the same condition schema. These exit conditions are checked on each later candle close; all conditions in each exit array are ANDed unless nested logic is used. Do not put entry triggers in exit arrays. If no custom exit rule is stated, return empty arrays. Preserve entry timing, direction, stop/target, filters, trade frequency, weekdays, and exit rules. If the strategy says both directions, create conditions for each direction. For EMA crossover set EMA cross conditions. Long/short arrays are evaluated independently. Include a concise normalizedRules description.`;
+
+    // Primary Gemini 3.x models first, then independent stable 2.5 fallbacks.
+    // Gemini 3.7 is intentionally omitted: Google documents automatic routing
+    // from 3.7 to 3.8 on the Developer API, so it is not an independent fallback.
+    const models = ["gemini-3.8-flash", "gemini-3.1-flash-lite", "gemini-2.5-flash", "gemini-2.5-flash-lite"];
+    const failures: string[] = [];
+    let semanticFallbackUsed = false;
+
+    modelLoop: for (const model of models) {
+      // Retry transient capacity/rate-limit/server errors once with bounded
+      // exponential backoff. Keep the worst-case request below Supabase's
+      // 150-second Free-tier wall-clock ceiling.
+      for (let attempt = 0; attempt < 2; attempt++) {
+        try {
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), 14000);
+          let response: Response;
+          try {
+            response = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
+              method: "POST",
+              headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
+              signal: controller.signal,
+              body: JSON.stringify({
+                model,
+                store: false,
+                system_instruction: systemInstruction,
+                input: strategy,
+              }),
+            });
+          } finally {
+            clearTimeout(timeout);
+          }
+
+          const result = await response.json().catch(() => ({}));
+          if (!response.ok) {
+            const message = result?.error?.message || "Gemini API returned HTTP " + response.status + ".";
+            const retryable = [408, 429, 500, 502, 503, 504].includes(response.status);
+            if (retryable && attempt === 0) {
+              const retryAfterHeader = Number(response.headers.get("retry-after") || 0);
+              const backoffMs = retryAfterHeader > 0
+                ? Math.min(4000, retryAfterHeader * 1000)
+                : 1200 + Math.floor(Math.random() * 800);
+              failures.push(model + ": HTTP " + response.status + "; retrying once after " + backoffMs + "ms");
+              await new Promise((resolve) => setTimeout(resolve, backoffMs));
+              continue;
+            }
+            failures.push(model + ": " + message);
+            break;
+          }
+
+          if (result?.status && result.status !== "completed") {
+            failures.push(model + ": response status " + String(result.status));
+            break;
+          }
+
+          const raw = extractText(result);
+          if (!raw) {
+            failures.push(model + ": empty model output");
+            break;
+          }
+
+          let parsed: any;
+          try {
+            parsed = parseModelJson(raw);
+          } catch (_parseError) {
+            failures.push(model + ": invalid JSON output");
+            break;
+          }
+
+          if (typeof parsed?.supported !== "boolean") {
+            failures.push(model + ": missing supported boolean");
+            break;
+          }
+
+          const execution = parsed?.execution && typeof parsed.execution === "object" ? parsed.execution : null;
+
+          // The simulator currently loads OHLCV candles for one selected interval only.
+          // Reject rules requiring synchronized timeframes or historical event/tick data.
+          const multiTimeframePattern = /multi[ -]?timeframe|\\bmtf\\b|higher[ -]?timeframe|lower[ -]?timeframe|multiple timeframes|timeframe alignment|top[ -]?down analysis|\\b(?:1m|3m|5m|15m|30m|1h|2h|4h|1d)\\b.{0,60}\\b(?:1m|3m|5m|15m|30m|1h|2h|4h|1d)\\b/i;
+          const tickDataPattern = /tick[ -]?(?:level|by[ -]?tick|data|chart|feed)|every tick|trade[ -]?by[ -]?trade|each trade event/i;
+          const orderFlowPattern = /order[ -]?flow|footprint|time[ -]?and[ -]?sales|tape[ -]?reading|bid[ -]?ask[ -]?stream|level[ -]?2|market[ -]?depth|\\bDOM\\b/i;
+          const unsupportedDataReasons: string[] = [];
+          const hasTimeframeTag = (items: any[]): boolean => Array.isArray(items) && items.some((c:any) => !!c?.timeframe || (c?.type === "logic" && hasTimeframeTag(c.conditions)));
+          const mtfCompiled = hasTimeframeTag(execution?.longConditions) || hasTimeframeTag(execution?.shortConditions) || hasTimeframeTag(execution?.exitLongConditions) || hasTimeframeTag(execution?.exitShortConditions);
+          if (multiTimeframePattern.test(strategy) && !mtfCompiled) unsupportedDataReasons.push("The strategy describes multiple timeframes, but the AI did not compile explicit timeframe-tagged conditions. Clarify which rule belongs to each timeframe.");
+          const allConditions = [...(execution?.longConditions || []), ...(execution?.shortConditions || []), ...(execution?.exitLongConditions || []), ...(execution?.exitShortConditions || [])];
+          const hasConditionType = (items:any[],types:string[]):boolean => Array.isArray(items) && items.some((c:any)=>types.includes(c?.type) || (c?.type==="logic" && hasConditionType(c.conditions,types)));
+          const hasUntimedConditionType = (items:any[],types:string[]):boolean => Array.isArray(items) && items.some((c:any)=>(types.includes(c?.type)&&!c?.timeframe)||(c?.type==="logic"&&hasUntimedConditionType(c.conditions,types)));
+          const tickRequested = tickDataPattern.test(strategy) || ["aggregated_trades","databento_trades"].includes(String(execution?.dataMode));
+          if (orderFlowPattern.test(strategy)) unsupportedDataReasons.push("Historical bid/ask depth, footprint and order-flow event data is not available from the connected free data source.");
+          if (execution?.dataMode === "aggregated_trades" && market !== "crypto") unsupportedDataReasons.push("Binance aggregated trade replay is only available for crypto.");
+          if (execution?.dataMode === "databento_trades" && market !== "futures") unsupportedDataReasons.push("Databento raw exchange tick replay is only enabled for exchange-listed futures contracts. OTC Forex, spot Gold and broker CFDs cannot be relabeled as futures.");
+          if (tickRequested && !["aggregated_trades","databento_trades"].includes(String(execution?.dataMode))) unsupportedDataReasons.push("Raw tick replay requires an explicitly connected historical trade-tick provider.");
+          if (["aggregated_trades","databento_trades"].includes(String(execution?.dataMode)) && (hasUntimedConditionType(allConditions,["session_opening_range_breakout","time_range_breakout","time_range_sweep","session_range_sweep","previous_day_sweep","candle_body_percent","range_expansion","inside_bar","engulfing","fair_value_gap","fair_value_gap_return","market_structure_shift","order_block_return","liquidity_sweep","breakout","consecutive_candles","candle_direction"]) || execution?.stop?.type === "atr")) unsupportedDataReasons.push("This rule requires candle OHLC structure that cannot be faithfully evaluated on individual trade events unless it explicitly names a candle timeframe. Use candle mode or tag each candle condition with its timeframe.");
+          if (["aggregated_trades","databento_trades"].includes(String(execution?.dataMode)) && execution?.stop?.unit === "pip") unsupportedDataReasons.push("Pip-based stops are not valid for raw trade-event replay. Specify a price or verified tick/point-size offset.");
+          const validTypes = new Set(["sequence","expression","ema_cross","sma_cross","close_vs_ema","close_vs_sma","rsi","macd_cross","breakout","candle_direction","close_vs_open","close_vs_prev_highlow","consecutive_candles","engulfing","inside_bar","liquidity_sweep","volume_above_sma","session_filter","session_opening_range_breakout","time_range_breakout","time_range_sweep","weekday_filter","clock_time_filter","scheduled_entry_time","candle_body_percent","price_change_percent","range_expansion","fair_value_gap","fair_value_gap_return","market_structure_shift","previous_day_sweep","session_range_sweep","order_block_return","gap","logic"]);
+          const validExpression = (node:any,depth=0):boolean => {
+            if(!node||typeof node!=="object"||depth>10)return false;
+            if(Object.prototype.hasOwnProperty.call(node,"value"))return Number.isFinite(Number(node.value))&&Object.keys(node).length===1;
+            if(node.field!==undefined)return ["open","high","low","close","volume"].includes(String(node.field))&&(Object.keys(node).length===1||(Number.isInteger(node.lag)&&node.lag>=1&&node.lag<=500));
+            if(node.indicator!==undefined)return ["ema","sma","rsi","atr","highest","lowest","volume_sma","stdev","bollinger_upper","bollinger_lower","stochastic_k","adx","cci","williams_r","roc","obv"].includes(String(node.indicator))&&Number.isInteger(node.period)&&node.period>=2&&node.period<=500&&["open","high","low","close","volume"].includes(String(node.source||"close"))&&(node.multiplier===undefined||(Number.isFinite(Number(node.multiplier))&&Number(node.multiplier)>0&&Number(node.multiplier)<=10));
+            const op=String(node.op||"").toLowerCase(),args=node.args;
+            if(!Array.isArray(args))return false;
+            if(["and","or"].includes(op))return args.length>=1&&args.length<=12&&args.every((x:any)=>validExpression(x,depth+1));
+            if(["min","max"].includes(op))return args.length>=2&&args.length<=12&&args.every((x:any)=>validExpression(x,depth+1));
+            if(op==="not"||op==="abs")return args.length===1&&validExpression(args[0],depth+1);
+            if(["gt","gte","lt","lte","eq","neq","crosses_above","crosses_below","add","sub","mul","div"].includes(op))return args.length===2&&args.every((x:any)=>validExpression(x,depth+1));
+            return false;
+          };
+          const validCondition = (c: any, depth = 0): boolean => {
+            if (!c || typeof c !== "object" || depth > 5 || !validTypes.has(c.type)) return false;
+            if (c.timeframe !== undefined && !["1m","3m","5m","15m","30m","1h","2h","4h","1d"].includes(String(c.timeframe))) return false;
+            if (c.type === "sequence") {
+              if (depth !== 0 || !Array.isArray(c.stages) || c.stages.length < 2 || c.stages.length > 8) return false;
+              if (c.maxBarsBetweenStages !== undefined && (!Number.isInteger(c.maxBarsBetweenStages) || c.maxBarsBetweenStages < 1 || c.maxBarsBetweenStages > 5000)) return false;
+              if (c.stages.some((stage:any) => !stage || stage.type === "sequence" || !!stage.timeframe || !validCondition(stage, depth + 1))) return false;
+              return c.stages.every((stage:any,index:number) => {
+                if (stage.type === "fair_value_gap_return" && stage.linkedToPreviousStage === true) {
+                  const previous=c.stages[index-1];
+                  return !!previous && previous.type === "fair_value_gap" && previous.direction === stage.direction;
+                }
+                return stage.linkedToPreviousStage !== true;
+              });
+            }
+            if (c.type === "expression") return validExpression(c.expr);
+            if (c.type === "logic") return ["all","any","not"].includes(String(c.operator || "all").toLowerCase()) && Array.isArray(c.conditions) && c.conditions.length > 0 && c.conditions.length <= 12 && c.conditions.every((x: any) => validCondition(x, depth + 1));
+            if (c.type === "session_range_sweep") return ["bullish","bearish"].includes(c.direction) && typeof c.timezone === "string" && [c.startHour,c.endHour].every((n:any)=>Number.isInteger(Number(n))&&Number(n)>=0&&Number(n)<=23) && [c.startMinute??0,c.endMinute??0].every((n:any)=>Number.isInteger(Number(n))&&Number(n)>=0&&Number(n)<=59);
+            if (["session_filter","session_opening_range_breakout","time_range_breakout","time_range_sweep"].includes(c.type)) {
+              const hour=Number(c.startHour ?? c.sessionHour ?? 0), minute=Number(c.startMinute ?? c.sessionMinute ?? 0);
+              const duration=Number(c.rangeMinutes ?? 5);
+              const direction=String(c.direction||"");
+              return Number.isInteger(hour)&&hour>=0&&hour<=23&&Number.isInteger(minute)&&minute>=0&&minute<=59&&Number.isFinite(duration)&&duration>=1&&duration<=1440&&(!c.timezone||typeof c.timezone==="string")&&(c.type==="session_filter"||["bullish","bearish"].includes(direction));
+            }
+            if (["ema_cross","sma_cross"].includes(c.type)) return Number.isInteger(c.fast) && Number.isInteger(c.slow) && c.fast >= 2 && c.slow > c.fast && c.slow <= 200 && ["bullish","bearish"].includes(c.direction);
+            if (["close_vs_ema","close_vs_sma","rsi","volume_above_sma"].includes(c.type)) return Number.isInteger(c.period) && c.period >= 2 && c.period <= 200 && (c.type !== "rsi" || (Number.isFinite(Number(c.value)) && Number(c.value) >= 0 && Number(c.value) <= 100));
+            if (c.type === "breakout" || c.type === "liquidity_sweep") return Number.isInteger(c.lookback) && c.lookback >= 2 && c.lookback <= 500 && ["above","below","bullish","bearish"].includes(c.direction);
+            if (c.type === "candle_direction" || c.type === "consecutive_candles" || c.type === "engulfing") return ["bullish","bearish"].includes(c.direction) && (c.type !== "consecutive_candles" || (Number.isInteger(c.count) && c.count >= 2 && c.count <= 50));
+            if (c.type === "weekday_filter") return Array.isArray(c.days) && c.days.length>0 && c.days.every((d: any)=>Number.isInteger(Number(d))&&Number(d)>=0&&Number(d)<=6) && (!c.timezone||typeof c.timezone==="string");
+            if (c.type === "scheduled_entry_time") return Number.isInteger(c.hour) && c.hour >= 0 && c.hour <= 23 && Number.isInteger(c.minute) && c.minute >= 0 && c.minute <= 59 && typeof c.timezone === "string" && c.timezone.length > 0;
+            if (c.type === "clock_time_filter") return [c.startHour,c.endHour].every((n: any)=>Number.isInteger(Number(n))&&Number(n)>=0&&Number(n)<=23) && [c.startMinute??0,c.endMinute??0].every((n: any)=>Number.isInteger(Number(n))&&Number(n)>=0&&Number(n)<=59) && (!c.timezone||typeof c.timezone==="string");
+            if (c.type === "candle_body_percent") return ["above","below"].includes(c.operator)&&Number.isFinite(Number(c.value))&&Number(c.value)>=0&&Number(c.value)<=100;
+            if (c.type === "price_change_percent") return Number.isInteger(c.lookback)&&c.lookback>=1&&c.lookback<=500&&["above","below","bullish","bearish"].includes(c.operator||c.direction)&&Number.isFinite(Number(c.value))&&Number(c.value)>=0;
+            if (c.type === "range_expansion") return Number.isInteger(c.lookback)&&c.lookback>=2&&c.lookback<=200&&Number.isFinite(Number(c.multiplier))&&Number(c.multiplier)>0&&Number(c.multiplier)<=20;
+            if (["fair_value_gap","gap"].includes(c.type)) return ["bullish","bearish"].includes(c.direction);
+            if (["fair_value_gap_return","market_structure_shift","order_block_return"].includes(c.type)) return ["bullish","bearish"].includes(c.direction) && Number.isInteger(c.lookback) && c.lookback >= 3 && c.lookback <= 500;
+            if (c.type === "previous_day_sweep") return ["bullish","bearish"].includes(c.direction) && typeof c.timezone === "string" && c.timezone.length > 0;
+            if (c.type === "session_range_sweep") return ["bullish","bearish"].includes(c.direction) && typeof c.timezone === "string" && [c.startHour,c.endHour].every((n:any)=>Number.isInteger(Number(n))&&Number(n)>=0&&Number(n)<=23) && [c.startMinute??0,c.endMinute??0].every((n:any)=>Number.isInteger(Number(n))&&Number(n)>=0&&Number(n)<=59);
+            if (c.type === "close_vs_open") return ["above","below"].includes(c.operator);
+            if (c.type === "close_vs_prev_highlow") return ["high","low"].includes(c.level) && ["above","below"].includes(c.operator);
+            return c.type === "inside_bar" || c.type === "macd_cross";
+          };
+          const validConditions = (items: any[]) => Array.isArray(items) && items.length <= 12 && items.every((c: any) => validCondition(c));
+          const containsSequence = (items:any[]):boolean => Array.isArray(items) && items.some((c:any)=>c?.type==="sequence" || (c?.type==="logic" && containsSequence(c.conditions)));
+          const dataModeValid = execution?.dataMode === undefined || ["candles","aggregated_trades","databento_trades"].includes(String(execution.dataMode));
+          const stop = execution?.stop;
+          const stopOffsetUnit = String(stop?.unit || "price");
+          const stopOffsetValid = ["signal_candle_offset","entry_offset"].includes(String(stop?.type)) &&
+            Number.isFinite(Number(stop.value)) && Number(stop.value) > 0 &&
+            ["price","pip","tick","point","percent"].includes(stopOffsetUnit) &&
+            (!["tick","point"].includes(stopOffsetUnit) ||
+              (Number.isFinite(Number(stop.tickSize ?? stop.pointSize)) && Number(stop.tickSize ?? stop.pointSize) > 0));
+          const stopValid = !!stop && (
+            ["signal_candle","previous_candle"].includes(stop.type) ||
+            (["atr","percent"].includes(stop.type) && Number.isFinite(Number(stop.value)) && Number(stop.value) > 0) ||
+            stopOffsetValid
+          );
+          const executionValid = !!execution && dataModeValid &&
+            validConditions(execution.longConditions) &&
+            validConditions(execution.shortConditions) &&
+            (execution.exitLongConditions === undefined || (validConditions(execution.exitLongConditions) && !containsSequence(execution.exitLongConditions))) &&
+            (execution.exitShortConditions === undefined || (validConditions(execution.exitShortConditions) && !containsSequence(execution.exitShortConditions))) &&
+            (execution.longConditions.length > 0 || execution.shortConditions.length > 0) &&
+            ["next_open","signal_close"].includes(execution.entry) &&
+            stopValid &&
+            ((Number.isFinite(Number(execution.targetR)) && Number(execution.targetR) > 0) ||
+              (execution.targetR === null &&
+                (execution.longConditions.length === 0 || (Array.isArray(execution.exitLongConditions) && execution.exitLongConditions.length > 0)) &&
+                (execution.shortConditions.length === 0 || (Array.isArray(execution.exitShortConditions) && execution.exitShortConditions.length > 0))));
+          const exactCompileValid = parsed.supported === true &&
+            executionValid &&
+            unsupportedDataReasons.length === 0 &&
+            !(Array.isArray(parsed.unsupportedReasons) && parsed.unsupportedReasons.length > 0) &&
+            !(Array.isArray(parsed.assumptions) && parsed.assumptions.length > 0) &&
+            !(Array.isArray(parsed.missing) && parsed.missing.length > 0);
+          if (!exactCompileValid) {
+            const diagnostics = [
+              String(parsed.explanation || ""),
+              ...(Array.isArray(parsed.missing) ? parsed.missing.map((x: unknown) => "Missing: " + String(x)) : []),
+              ...(Array.isArray(parsed.assumptions) ? parsed.assumptions.map((x: unknown) => "Assumption: " + String(x)) : []),
+              ...(Array.isArray(parsed.unsupportedReasons) ? parsed.unsupportedReasons.map((x: unknown) => String(x)) : []),
+              ...unsupportedDataReasons,
+              !executionValid ? "The returned entry, stop-loss, take-profit or condition structure failed execution validation." : "",
+            ].filter(Boolean).join(" ").slice(0, 900);
+            failures.push(model + ": exact compilation rejected. " + (diagnostics || "The model did not return a complete executable rule set."));
+            // A semantic rejection from one model is not final: ask one independent
+            // model to compile the same original strategy. Never substitute a template
+            // or silently alter the user's requested rules.
+            if (semanticFallbackUsed) break modelLoop;
+            semanticFallbackUsed = true;
+            break;
+          }
+
+          const safe = {
+            supported: true,
+            long: parsed.long === true,
+            short: parsed.short === true,
+            rewardRisk: Number.isFinite(Number(parsed.rewardRisk)) && Number(parsed.rewardRisk) > 0 ? Number(parsed.rewardRisk) : null,
+            normalizedRules: String(parsed.normalizedRules || "").slice(0, 3000),
+            explanation: String(parsed.explanation || "Strategy analyzed.").slice(0, 3000),
+            missing: Array.isArray(parsed.missing) ? parsed.missing.map((x: unknown) => String(x).slice(0, 200)).slice(0, 12) : [],
+            assumptions: Array.isArray(parsed.assumptions) ? parsed.assumptions.map((x: unknown) => String(x).slice(0, 300)).slice(0, 12) : [],
+            unsupportedReasons: [...(Array.isArray(parsed.unsupportedReasons) ? parsed.unsupportedReasons.map((x: unknown) => String(x).slice(0, 200)).slice(0, 12) : []), ...unsupportedDataReasons].slice(0, 12),
+            execution: executionValid && unsupportedDataReasons.length === 0 && !(Array.isArray(parsed.unsupportedReasons) && parsed.unsupportedReasons.length > 0) ? {
+              longConditions: execution.longConditions,
+              shortConditions: execution.shortConditions,
+              exitLongConditions: Array.isArray(execution.exitLongConditions) ? execution.exitLongConditions : [],
+              exitShortConditions: Array.isArray(execution.exitShortConditions) ? execution.exitShortConditions : [],
+              entry: execution.entry,
+              stop: execution.stop,
+              targetR: execution.targetR === null ? null : Number(execution.targetR),
+              maxBarsInTrade: Number.isFinite(Number(execution.maxBarsInTrade)) ? Math.max(1, Math.min(5000, Number(execution.maxBarsInTrade))) : null,
+              timezone: typeof execution.timezone === "string" ? execution.timezone.slice(0,80) : "UTC",
+              dataMode: ["aggregated_trades","databento_trades"].includes(String(execution.dataMode)) ? execution.dataMode : "candles",
+            } : null,
+            model,
+          };
+
+          return new Response(JSON.stringify(safe), {
+            headers: { ...cors, "Content-Type": "application/json" },
+          });
+        } catch (modelError) {
+          const message = modelError instanceof Error ? modelError.message : "Unknown model error";
+          const timedOut = modelError instanceof Error && (modelError.name === "TimeoutError" || modelError.name === "AbortError");
+          if (timedOut && attempt === 0) {
+            failures.push(model + ": timed out; retrying once");
+            await new Promise((resolve) => setTimeout(resolve, 900));
+            continue;
+          }
+          failures.push(model + ": " + message);
+          break;
+        }
+      }
+    }
+
+    console.error("strategy-ai: all Gemini model attempts failed:", failures.join(" | "));
+    const details = failures.map((item) => item.slice(0, 260)).join(" | ").slice(0, 1100);
+    throw new Error("Gemini strategy compiler could not complete. " + (details || "No usable response was returned by the configured models.") + " Please retry shortly.");
+  } catch (error) {
+    console.error("strategy-ai error:", error);
+    return new Response(JSON.stringify({ error: error instanceof Error ? error.message : "Unexpected AI error." }), {
+      status: 500, headers: { ...cors, "Content-Type": "application/json" },
+    });
+  }
+});
