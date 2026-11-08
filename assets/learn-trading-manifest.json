@@ -27,13 +27,10 @@
     "height": 597
   },
   "choch": {
-    "status": "downloaded",
-    "title": "Candlestick Chart Showing BOS and Change of Character",
-    "path": "assets/learn-trading/choch.jpg",
-    "source_page": "https://rayalgo.com/docs/the-market-structure-blueprint-understanding-bos-choch/",
-    "original_image": "https://rayalgo.com/wp-content/uploads/2025/09/alcu-2024-06-24T214837.727-1-1024x576.png",
-    "width": 1024,
-    "height": 576
+    "status": "original-illustration",
+    "title": "Change of Character — Bullish and Bearish Structure Shifts",
+    "path": "assets/learn-trading/choch.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "support-resistance": {
     "status": "downloaded",
@@ -153,13 +150,10 @@
     "height": 835
   },
   "trendline": {
-    "status": "downloaded",
-    "title": "EURUSD Ascending Trendline Channel",
-    "path": "assets/learn-trading/trendline.jpg",
-    "source_page": "https://tradeciety.com/how-to-trade-the-trendline-channel",
-    "original_image": "https://tradeciety.com/hs-fs/hubfs/Trendline%20Channel%20Upward.png?height=4635&name=Trendline+Channel+Upward.png&width=8994",
-    "width": 1800,
-    "height": 928
+    "status": "original-illustration",
+    "title": "Trendlines & Channels — Bullish Ascending and Bearish Descending Examples",
+    "path": "assets/learn-trading/trendline.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "leverage-margin": {
     "status": "downloaded",
@@ -243,13 +237,10 @@
     "height": 480
   },
   "rsi": {
-    "status": "downloaded",
-    "title": "RSI Bullish Divergence Example",
-    "path": "assets/learn-trading/rsi.jpg",
-    "source_page": "https://ninjatrader.com/futures/blogs/5-essential-tools-for-swing-trading-futures/",
-    "original_image": "https://ninjatrader.com/getmedia/403f9015-dd6c-467d-b385-e0c221d1c9a0/Swing-trading-4.jpg",
-    "width": 936,
-    "height": 506
+    "status": "original-illustration",
+    "title": "Relative Strength Index — Bullish and Bearish Divergence Examples",
+    "path": "assets/learn-trading/rsi.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "adx-dmi": {
     "status": "downloaded",
@@ -414,13 +405,10 @@
     "height": 940
   },
   "wyckoff": {
-    "status": "downloaded",
-    "title": "Wyckoff Accumulation Schematic",
-    "path": "assets/learn-trading/wyckoff.jpg",
-    "source_page": "https://tradingview.com.vn/mau-hinh-vsa-tao-day-trong-forex-khai-niem-dac-diem-nhan-dien-va-vi-du-minh-hoa/",
-    "original_image": "https://gldt.mql5.vn/2025/10/mau-hinh-vsa-tao-day-2.png",
-    "width": 1800,
-    "height": 1080
+    "status": "original-illustration",
+    "title": "Wyckoff Accumulation and Distribution — Bullish and Bearish Schematics",
+    "path": "assets/learn-trading/wyckoff.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "employment-data": {
     "status": "downloaded",
@@ -495,13 +483,10 @@
     "height": 1013
   },
   "rounding-patterns": {
-    "status": "downloaded",
-    "title": "Rounding Top Pattern",
-    "path": "assets/learn-trading/rounding-patterns.jpg",
-    "source_page": "https://www.ebc.com/forex/rounding-top-pattern-explained-how-to-spot-market-reversals",
-    "original_image": "https://www.ebc.com/upload/default/20250730/9930c61a543495b9165c8ab87da5f02c.png",
-    "width": 1253,
-    "height": 575
+    "status": "original-illustration",
+    "title": "Rounding Bottom and Rounding Top — Bullish and Bearish Examples",
+    "path": "assets/learn-trading/rounding-patterns.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "cumulative-delta": {
     "status": "downloaded",
@@ -567,13 +552,10 @@
     "height": 663
   },
   "displacement": {
-    "status": "downloaded",
-    "title": "ICT Displacement, BOS, FVG and Liquidity Sweep",
-    "path": "assets/learn-trading/displacement.jpg",
-    "source_page": "https://www.brokerxplorer.com/article/forex-education-what-is-the-ict-concept-6184",
-    "original_image": "https://www.brokerxplorer.com/upload/content/2024-09/forex-education-what-is-the-ict-concept-6184-17277737835.jpg",
-    "width": 650,
-    "height": 400
+    "status": "original-illustration",
+    "title": "Bullish and Bearish Displacement and Expansion Examples",
+    "path": "assets/learn-trading/displacement.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "order-flow-imbalance": {
     "status": "downloaded",
@@ -801,13 +783,10 @@
     "height": 1024
   },
   "liquidity": {
-    "status": "downloaded",
-    "title": "Order Book Liquidity Heatmap",
-    "path": "assets/learn-trading/liquidity.jpg",
-    "source_page": "https://bookmap.com/knowledgebase/pt/docs/KB-Indicators-Strength-Level-Indicator",
-    "original_image": "https://bookmap.com/knowledgebase/pt/assets/images/image1-3ebc0ae831eceacfab8f0e893e3717c8.png",
-    "width": 1800,
-    "height": 963
+    "status": "original-illustration",
+    "title": "Buy-Side and Sell-Side Liquidity Pools — Chart Examples",
+    "path": "assets/learn-trading/liquidity.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "trade-management": {
     "status": "downloaded",
@@ -1062,13 +1041,10 @@
     "height": 670
   },
   "internal-external": {
-    "status": "downloaded",
-    "title": "Internal and External Range Liquidity",
-    "path": "assets/learn-trading/internal-external.jpg",
-    "source_page": "https://liquidity-provider.com/articles/internal-vs-external-range-liquidity-in-ict-trading/",
-    "original_image": "https://liquidity-provider.com/app/uploads/2025/07/example-of-irl-and-erl-on-chart-1536x704.png",
-    "width": 1536,
-    "height": 704
+    "status": "original-illustration",
+    "title": "Internal and External Market Structure — Bullish and Bearish Examples",
+    "path": "assets/learn-trading/internal-external.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "london-killzone": {
     "status": "downloaded",
@@ -1150,15 +1126,6 @@
     "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F68a912a49ae3e9e5f1716c8b75e8e52825ca4b14-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
     "width": 800,
     "height": 597
-  },
-  "nwog-ndog": {
-    "status": "downloaded",
-    "title": "ICT New Week Opening Gap (NWOG)",
-    "path": "assets/learn-trading/nwog-ndog.jpg",
-    "source_page": "https://arongroups.co/forex-articles/ben-felix-portfolio/",
-    "original_image": "https://cdn.arongroups.co/uploads/2026/05/Index-Image.jpg.png",
-    "width": 800,
-    "height": 450
   },
   "drawdown": {
     "status": "downloaded",
@@ -1296,13 +1263,10 @@
     "height": 467
   },
   "volume": {
-    "status": "downloaded",
-    "title": "EURUSD Candlesticks and Tick Volume",
-    "path": "assets/learn-trading/volume.jpg",
-    "source_page": "https://insights.exness.com/trading-basics/forex-public-holidays/",
-    "original_image": "https://d33vw3iu5hs0zi.cloudfront.net/media/lg_Image2_Exness_Insights_forex_public_holidays3x_suffix_a9609ecfb0.webp",
-    "width": 992,
-    "height": 568
+    "status": "original-illustration",
+    "title": "Volume Confirmation — Bullish Breakout and Bearish Breakdown",
+    "path": "assets/learn-trading/volume.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "broker-feed-quality": {
     "status": "downloaded",
