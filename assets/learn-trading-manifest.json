@@ -19,12 +19,12 @@
   },
   "breaker-block": {
     "status": "downloaded",
-    "title": "ICT Breaker and Mitigation Block",
+    "title": "Bullish and Bearish ICT Breaker Block Setups",
     "path": "assets/learn-trading/breaker-block.jpg",
-    "source_page": "https://www.brokerxplorer.com/article/advanced-ict-trading-all-about-breaker-and-mitigation-blocks-6489",
-    "original_image": "https://www.brokerxplorer.com/upload/content/2024-11/advanced-ict-trading-all-about-breakers-and-mitigation-blocks-6489-173209633114.png",
-    "width": 1375,
-    "height": 599
+    "source_page": "https://fxnx.com/en/blog/master-breaker-blocks-ict-guide-2026-trading",
+    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fe6c7af07f61c1290fbc79d2c81a22e9d642ac886-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
+    "width": 800,
+    "height": 597
   },
   "choch": {
     "status": "downloaded",
@@ -64,12 +64,12 @@
   },
   "premium-discount": {
     "status": "downloaded",
-    "title": "ICT Dealing Range and Premium/Discount",
+    "title": "Premium, Discount and 50% Equilibrium",
     "path": "assets/learn-trading/premium-discount.jpg",
-    "source_page": "https://fxnx.com/en/blog/ict-dealing-range-map-institutional-moves",
-    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F6fcb7869866ad246f9a87fe751e2a3e885abd773-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
-    "width": 800,
-    "height": 597
+    "source_page": "https://thetradingstreet.com/blog/top-down-analysis-trading-how-to-use-smart-money-concepts-for-accurate-entries",
+    "original_image": "https://thetradingstreet.com/uploads/blog/top-down-analysis-trading-how-to-use-smart-money-concepts-for-accurate-entries/image_1eb231d7-470a-4379-a294-49d1022d4108.png",
+    "width": 753,
+    "height": 751
   },
   "liquidity-sweep": {
     "status": "downloaded",
@@ -91,7 +91,7 @@
   },
   "mitigation": {
     "status": "downloaded",
-    "title": "Mitigation Block",
+    "title": "Bullish and Bearish Mitigation Block Examples",
     "path": "assets/learn-trading/mitigation.jpg",
     "source_page": "https://arongroups.co/technical-analyze/ict-pd-arrays/",
     "original_image": "https://cdn.arongroups.co/uploads/2026/02/pd-array-9-1024x667.jpg",
@@ -100,12 +100,12 @@
   },
   "chart-patterns": {
     "status": "downloaded",
-    "title": "Double Top and Head and Shoulders",
+    "title": "Classic Bullish and Bearish Chart Pattern Examples",
     "path": "assets/learn-trading/chart-patterns.jpg",
-    "source_page": "https://www.litefinance.org/blog/for-beginners/trading-strategies/intraday-trading-strategies/",
-    "original_image": "https://cdn.litemarkets.com/cache/uploads/blog_post/blog_posts/intraday-trading-strategies/2025-new-logo/Intraday-Strategy-5.jpg?q=75&s=df60b179c119de491e196b002e8b6fb5",
-    "width": 1000,
-    "height": 447
+    "source_page": "https://blog.structuretradelab.com/category/strategy-analysis/chart-patterns/",
+    "original_image": "https://blog.structuretradelab.com/category/strategy-analysis/chart-patterns/chart-patterns-featured.webp",
+    "width": 1344,
+    "height": 756
   },
   "risk-management": {
     "status": "downloaded",
@@ -127,12 +127,12 @@
   },
   "range-market": {
     "status": "downloaded",
-    "title": "Forex Uptrend, Downtrend and Range Market Structure",
+    "title": "Sideways Range Between Support and Resistance",
     "path": "assets/learn-trading/range-market.jpg",
-    "source_page": "https://www.charttalks.com/markets/forex/why-forex-market-structure-confuses-most-traders",
-    "original_image": "https://media.charttalks.com/blog/67ba3997753f213449be8921/1777847913677-generated-image-22.webp",
+    "source_page": "https://www.axi.com/int/blog/education/trading-strategies",
+    "original_image": "https://d2tpnh780x5es.cloudfront.net/rebrand-prod/axnlzyhk/range-trading.png",
     "width": 1600,
-    "height": 900
+    "height": 1007
   },
   "risk-reward": {
     "status": "downloaded",
