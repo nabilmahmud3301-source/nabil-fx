@@ -69,13 +69,10 @@
     "height": 751
   },
   "liquidity-sweep": {
-    "status": "downloaded",
-    "title": "Candlestick Liquidity Sweep and Displacement Example",
-    "path": "assets/learn-trading/liquidity-sweep.jpg",
-    "source_page": "https://medium.com/%40wernerotto/lecture-7-liquidity-the-fuel-that-moves-the-market-61f429d086b5",
-    "original_image": "https://miro.medium.com/v2/1%2ApibeAgTmymvOMNIKPdKQYQ.png",
-    "width": 1024,
-    "height": 1024
+    "status": "original-illustration",
+    "title": "Liquidity Sweep — Bullish Sell-Side and Bearish Buy-Side Sweeps",
+    "path": "assets/learn-trading/liquidity-sweep.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "session-levels": {
     "status": "downloaded",
@@ -558,13 +555,10 @@
     "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "order-flow-imbalance": {
-    "status": "downloaded",
-    "title": "ICT Volume Imbalance",
-    "path": "assets/learn-trading/order-flow-imbalance.jpg",
-    "source_page": "https://www.quantum-algo.com/blog/guides/ict-volume-imbalance/",
-    "original_image": "https://www.quantum-algo.com/img/guides/ict-volume-imbalance-fill-to-consequent-encroachment-and-continue-v546.webp",
-    "width": 1400,
-    "height": 787
+    "status": "original-illustration",
+    "title": "Order Flow Imbalance — Buyer-Initiated and Seller-Initiated Examples",
+    "path": "assets/learn-trading/order-flow-imbalance.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "ote": {
     "status": "downloaded",
@@ -1056,13 +1050,10 @@
     "height": 720
   },
   "ict-2022-model": {
-    "status": "downloaded",
-    "title": "ICT 2022 Model Buy Setup",
-    "path": "assets/learn-trading/ict-2022-model.jpg",
-    "source_page": "https://x.com/bullprooftrader/status/1901618127529459940",
-    "original_image": "https://pbs.twimg.com/media/GmPndKPXIAAsug0.jpg",
-    "width": 960,
-    "height": 827
+    "status": "original-illustration",
+    "title": "ICT 2022 Model — Bullish and Bearish Liquidity Sweep Setups",
+    "path": "assets/learn-trading/ict-2022-model.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "ndog": {
     "status": "downloaded",
@@ -1092,13 +1083,10 @@
     "height": 597
   },
   "unicorn-model": {
-    "status": "downloaded",
-    "title": "Bullish ICT Unicorn: Breaker Block and FVG",
-    "path": "assets/learn-trading/unicorn-model.jpg",
-    "source_page": "https://www.fluxcharts.com/articles/ict-unicorn-strategy-explained-how-to-identify-and-trade-it",
-    "original_image": "https://cdn.prod.website-files.com/697103179acf24479947e31c/697a7ca24cf0c7e92370068a_articles%252Ftrading-strategies%252Fict-strategies%252Fict-unicorn%252FICT%2520Unicorn%25204.png",
-    "width": 1800,
-    "height": 1013
+    "status": "original-illustration",
+    "title": "ICT Unicorn Model — Bullish and Bearish Breaker plus FVG Examples",
+    "path": "assets/learn-trading/unicorn-model.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "channels": {
     "status": "downloaded",
@@ -1146,13 +1134,10 @@
     "height": 1039
   },
   "mss": {
-    "status": "downloaded",
-    "title": "Displacement and Market Structure Shift (MSS)",
-    "path": "assets/learn-trading/mss.jpg",
-    "source_page": "https://medium.com/%40wernerotto/lecture-10-when-price-gets-loud-displacement-and-market-structure-shifts-64efb3a39c37",
-    "original_image": "https://miro.medium.com/v2/1%2AlPAlUO9XR1u_MdIVraKm7Q.png",
-    "width": 1024,
-    "height": 1024
+    "status": "original-illustration",
+    "title": "Market Structure Shift — Bullish and Bearish MSS Examples",
+    "path": "assets/learn-trading/mss.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "swing-points": {
     "status": "downloaded",
@@ -1200,13 +1185,10 @@
     "height": 426
   },
   "rejection-candle": {
-    "status": "downloaded",
-    "title": "Bullish Pin Bar Rejection at Support",
-    "path": "assets/learn-trading/rejection-candle.jpg",
-    "source_page": "https://tradeciety.com/8-candlestick-trading-strategies-for-forex",
-    "original_image": "https://26693533.fs1.hubspotusercontent-eu1.net/hubfs/26693533/Imported_Blog_Media/1-pin-bar-candlestick-strategy.png",
-    "width": 1451,
-    "height": 784
+    "status": "original-illustration",
+    "title": "Rejection Candles — Bullish Support Rejection and Bearish Resistance Rejection",
+    "path": "assets/learn-trading/rejection-candle.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "confirmation-bias": {
     "status": "downloaded",
