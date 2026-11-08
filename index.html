@@ -4112,6 +4112,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 
 
 <section id="page-liquidity" class="view nfx-liquidity-page" aria-label="Liquidity Heatmap">
+  <header class="nfx-market-terminal-intro" id="nfx-market-terminal-intro"><div><div class="nfx-market-terminal-eyebrow"><i></i> NABIL <b>Fx</b> / PROFESSIONAL MARKET TERMINAL</div><h1>Market <span>Intelligence</span></h1><p>Real-time order flow, resting liquidity and exchange-reported liquidation activity.</p></div><div class="nfx-market-terminal-meta"><i></i> EXCHANGE DATA <b></b> USDⓈ-M FUTURES</div></header>
   <div class="nfx-liq-market-tabs" role="tablist" aria-label="Market type">
     <div class="nfx-feed-switch nfx-feed-fixed"><span>VERIFIED PUBLIC FEED</span><strong>BINANCE USDⓈ-M FUTURES</strong></div>
     <button type="button" class="nfx-liq-market-tab active" data-liq-market="crypto" role="tab" aria-selected="true">Crypto</button>
@@ -4175,7 +4176,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
       <div hidden aria-hidden="true"><span id="nfxLiqBidVelocitySub"></span><span id="nfxLiqAskVelocitySub"></span></div>
     </section>
     <section class="nfx-liq-timeline-panel nfx-liq-workspace-card" id="nfxLiqBookHeatmap" aria-label="Liquidity timeline heatmap">
-      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">LIVE CAPTURE</div><h3>Liquidity Heatmap</h3><p>Live resting orders by price and time · <strong id="nfxLiqBookFeedDesc">BYBIT 1000-LEVEL DEPTH · 200MS</strong> · <strong id="nfxLiqTimelineSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><span class="nfx-liq-live-tag" id="nfxLiqBookStatus"><i></i> LIVE DEPTH</span><div class="nfx-est-liq-ranges" role="group" aria-label="Heatmap time range"><button type="button" data-book-liq-range="3600" class="active" aria-pressed="true">1H</button><button type="button" data-book-liq-range="7200" aria-pressed="false">2H</button><button type="button" data-book-liq-range="14400" aria-pressed="false">4H</button><button type="button" data-book-liq-range="43200" aria-pressed="false">12H</button><button type="button" data-book-liq-range="86400" aria-pressed="false">1D</button><button type="button" data-book-liq-range="172800" aria-pressed="false">2D</button><button type="button" data-book-liq-range="259200" aria-pressed="false">3D</button><button type="button" data-book-liq-range="604800" aria-pressed="false">7D</button><button id="nfxLiqResetHistory" type="button">Reset</button></div><select id="nfxLiqWindow" aria-label="Liquidity heatmap timeframe" hidden><option value="3600" selected>1 HOUR</option><option value="7200">2 HOURS</option><option value="14400">4 HOURS</option><option value="43200">12 HOURS</option><option value="86400">1 DAY</option><option value="172800">2 DAYS</option><option value="259200">3 DAYS</option><option value="604800">7 DAYS</option></select><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqBookHeatmap" aria-label="Expand liquidity heatmap">⛶ <span>Expand</span></button></div></div>
+      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">LIVE CAPTURE</div><h3>Liquidity Heatmap</h3><p>Live resting orders by price and time · <strong id="nfxLiqBookFeedDesc">BINANCE USDⓈ-M LIVE DEPTH</strong> · <strong id="nfxLiqTimelineSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><span class="nfx-liq-live-tag" id="nfxLiqBookStatus"><i></i> LIVE DEPTH</span><div class="nfx-est-liq-ranges" role="group" aria-label="Heatmap time range"><button type="button" data-book-liq-range="3600" class="active" aria-pressed="true">1H</button><button type="button" data-book-liq-range="7200" aria-pressed="false">2H</button><button type="button" data-book-liq-range="14400" aria-pressed="false">4H</button><button type="button" data-book-liq-range="43200" aria-pressed="false">12H</button><button type="button" data-book-liq-range="86400" aria-pressed="false">1D</button><button type="button" data-book-liq-range="172800" aria-pressed="false">2D</button><button type="button" data-book-liq-range="259200" aria-pressed="false">3D</button><button type="button" data-book-liq-range="604800" aria-pressed="false">7D</button><button id="nfxLiqResetHistory" type="button">Reset</button></div><select id="nfxLiqWindow" aria-label="Liquidity heatmap timeframe" hidden><option value="3600" selected>1 HOUR</option><option value="7200">2 HOURS</option><option value="14400">4 HOURS</option><option value="43200">12 HOURS</option><option value="86400">1 DAY</option><option value="172800">2 DAYS</option><option value="259200">3 DAYS</option><option value="604800">7 DAYS</option></select><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqBookHeatmap" aria-label="Expand liquidity heatmap">⛶ <span>Expand</span></button></div></div>
       <div class="nfx-heatmap-stats" id="nfxBookHeatmapStats"><div><span>CAPTURED SNAPSHOTS</span><b id="nfxBookStatSnapshots">0</b></div><div><span>VISIBLE DEPTH</span><b id="nfxBookStatDepth">—</b></div><div><span>BEST SPREAD</span><b id="nfxBookStatSpread">—</b></div><div><span>BOOK IMBALANCE</span><b id="nfxBookStatImbalance">—</b></div></div><div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqTimelineCanvas" aria-label="Live order book liquidity by price and time"></canvas><div id="nfxLiqTimelineEmpty" class="nfx-liq-timeline-empty">Building live heatmap… historical columns appear as live snapshots arrive.</div></div>
       <div class="nfx-liq-timeline-axis"><span>OLDER</span><span>PRICE · TIME</span><span>NOW →</span></div>
       <div class="nfx-liq-timeline-note">Captured top-100 visible resting levels from the selected exchange. Heatmap history starts collecting when the feed connects.</div>
@@ -7479,7 +7480,7 @@ document.addEventListener('click', function(event) {
     if(!fromHistory)setStatus('Live depth stream · '+marketLabel(currentSymbol),'connected');
   }
   var fullDepthTimer=null,fullDepthBusy=false,lastVenueCount=1,lastVenueNames=['Binance USDⓈ-M Futures'];
-  function updateVenueLabels(names){var venue=activeProvider.toUpperCase()+' USDⓈ-M FUTURES';var source=$('nfxPobSourceName');if(source)source.textContent=venue;var feed=$('nfxPobFeedName');if(feed)feed.textContent=activeProvider.toUpperCase()+' FUTURES · LIVE DEPTH';var tag=$('nfxPobFeedTag');if(tag)tag.textContent=activeProvider==='bybit'?'200 MS · 1000 LEVEL':'100 MS STREAM';var desc=$('nfxLiqBookFeedDesc');if(desc)desc.textContent=activeProvider==='bybit'?'BYBIT 1000-LEVEL DEPTH · 200MS':'BINANCE DIFF-DEPTH · 100MS';var sub=$('nfxPobVenueSubtitle');if(sub)sub.textContent='Live liquidity ladder · '+venue+' · venue-specific visible orders';var contract=$('nfxPobContractVenue');if(contract)contract.textContent=venue;var bookSpec=$('nfxBookSpecSource');if(bookSpec)bookSpec.textContent=activeProvider==='bybit'?'BYBIT PUBLIC LINEAR API':'BINANCE USDⓈ-M PUBLIC API';var liqSpec=$('nfxLiqSpecSource');if(liqSpec)liqSpec.textContent=activeProvider==='bybit'?'BYBIT PUBLIC LIQUIDATION STREAM':'BINANCE FORCE-ORDER STREAM';var kick=document.querySelector('#nfxLiqLiquidationHeatmap .nfx-liq-kicker');if(kick)kick.textContent=activeProvider==='bybit'?'BYBIT · ALL REPORTED LIQUIDATIONS':'BINANCE · FORCE-ORDER SNAPSHOTS';var liqSub=document.querySelector('#nfxLiqLiquidationHeatmap .nfx-liq-timeline-head p');if(liqSub)liqSub.innerHTML='Exchange-reported forced-liquidation executions only · <strong id="nfxLiqLiquidationSymbol">'+String(currentSymbol||'BTCUSDT').replace(/USDT$/,'/USDT')+'</strong> · '+activeProvider.toUpperCase();}
+  function updateVenueLabels(names){var venue=activeProvider.toUpperCase()+' USDⓈ-M FUTURES';var source=$('nfxPobSourceName');if(source)source.textContent=venue;var feed=$('nfxPobFeedName');if(feed)feed.textContent=activeProvider.toUpperCase()+' FUTURES · LIVE DEPTH';var tag=$('nfxPobFeedTag');if(tag)tag.textContent=activeProvider==='bybit'?'200 MS · 1000 LEVEL':'100 MS STREAM';var desc=$('nfxLiqBookFeedDesc');if(desc)desc.textContent=activeProvider==='bybit'?'BINANCE USDⓈ-M LIVE DEPTH':'BINANCE DIFF-DEPTH · 100MS';var sub=$('nfxPobVenueSubtitle');if(sub)sub.textContent='Live liquidity ladder · '+venue+' · venue-specific visible orders';var contract=$('nfxPobContractVenue');if(contract)contract.textContent=venue;var bookSpec=$('nfxBookSpecSource');if(bookSpec)bookSpec.textContent=activeProvider==='bybit'?'BYBIT PUBLIC LINEAR API':'BINANCE USDⓈ-M PUBLIC API';var liqSpec=$('nfxLiqSpecSource');if(liqSpec)liqSpec.textContent=activeProvider==='bybit'?'BYBIT PUBLIC LIQUIDATION STREAM':'BINANCE FORCE-ORDER STREAM';var kick=document.querySelector('#nfxLiqLiquidationHeatmap .nfx-liq-kicker');if(kick)kick.textContent=activeProvider==='bybit'?'BYBIT · ALL REPORTED LIQUIDATIONS':'BINANCE · FORCE-ORDER SNAPSHOTS';var liqSub=document.querySelector('#nfxLiqLiquidationHeatmap .nfx-liq-timeline-head p');if(liqSub)liqSub.innerHTML='Exchange-reported forced-liquidation executions only · <strong id="nfxLiqLiquidationSymbol">'+String(currentSymbol||'BTCUSDT').replace(/USDT$/,'/USDT')+'</strong> · '+activeProvider.toUpperCase();}
   function connectBybitBook(){
     if(activeMarket!=='crypto'||document.hidden)return;
     var sym=String(currentSymbol||'btcusdt').toUpperCase(),bidsMap=new Map(),asksMap=new Map(),pingTimer=null,ready=false;
@@ -9132,4 +9133,99 @@ window.renderBacktestMetrics=function(r,meta={}){
 #page-liquidity .nfx-liq-timeline-note{font-size:10px!important;line-height:1.65!important;color:#71859b!important;margin-top:12px!important}
 #page-liquidity #nfxOrderFlowDesk{padding:20px!important}
 @media(max-width:760px){#page-liquidity .nfx-market-search{padding:14px!important}#page-liquidity .nfx-heatmap-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}#page-liquidity .nfx-liq-timeline-head{display:block!important}#page-liquidity .nfx-liq-card-actions{justify-content:flex-start!important;margin-top:12px!important}#page-liquidity .nfx-liq-chart-frame .nfx-liq-timeline-wrap{height:420px!important;min-height:340px!important}#page-liquidity #nfxLiqLivePanel .nfx-obx-book{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}}
+</style>
+
+
+<style id="nfx-premium-market-terminal-v2">
+#page-liquidity{max-width:1600px!important;padding:30px clamp(14px,2.4vw,38px) 64px!important;color:#e7edf7!important}
+#page-liquidity .nfx-market-terminal-intro{position:relative;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;min-height:124px;margin:0 0 24px;padding:24px 28px;border:1px solid #28394e;border-radius:18px;overflow:hidden;background:radial-gradient(ellipse at 88% 0%,#bf314226,transparent 38%),linear-gradient(115deg,#111d2b,#0a121e 65%,#101723);box-shadow:0 20px 55px #0005,inset 0 1px #ffffff0b}
+#page-liquidity .nfx-market-terminal-intro:after{content:"";position:absolute;right:8%;top:-75px;width:230px;height:230px;border:1px solid #ffffff0b;border-radius:50%;box-shadow:0 0 0 25px #ffffff05,0 0 0 55px #ffffff03;pointer-events:none}
+#page-liquidity .nfx-market-terminal-eyebrow{display:flex;align-items:center;gap:8px;color:#a8b6c9;font-size:9px;font-weight:850;letter-spacing:1.7px}
+#page-liquidity .nfx-market-terminal-eyebrow i,#page-liquidity .nfx-market-terminal-meta i{width:7px;height:7px;border-radius:50%;background:#ef5264;box-shadow:0 0 12px #ff405899}
+#page-liquidity .nfx-market-terminal-eyebrow b{color:#ff5264}
+#page-liquidity .nfx-market-terminal-intro h1{margin:12px 0 5px;color:#f6f8fc;font-size:clamp(27px,3.2vw,39px);line-height:1.05;letter-spacing:-1.35px;font-weight:850}
+#page-liquidity .nfx-market-terminal-intro h1 span{color:#f05a69}
+#page-liquidity .nfx-market-terminal-intro p{margin:0;color:#91a2b8;font-size:12px;line-height:1.65}
+#page-liquidity .nfx-market-terminal-meta{position:relative;z-index:1;display:flex;align-items:center;gap:10px;padding:10px 13px;border:1px solid #30435a;border-radius:9px;background:#09121eaa;color:#b8c6d8;font-size:9px;font-weight:800;letter-spacing:1px}
+#page-liquidity .nfx-market-terminal-meta b{width:1px;height:13px;background:#34445a}
+#page-liquidity .nfx-liq-market-tabs{gap:10px!important;align-items:center!important;border:0!important;padding:0 0 13px!important}
+#page-liquidity .nfx-feed-fixed{border-color:#29394e!important;background:#0c1623!important;border-radius:9px!important}
+#page-liquidity .nfx-liq-market-tab{height:36px!important;padding:0 17px!important;border:1px solid #2a3b50!important;border-radius:8px!important;background:#0e1927!important;color:#b4c2d4!important;font-size:11px!important;font-weight:800!important}
+#page-liquidity .nfx-liq-market-tab.active{border-color:#a83d4d!important;background:linear-gradient(135deg,#48202a,#211821)!important;color:#fff!important}
+#page-liquidity .nfx-market-search{display:grid!important;grid-template-columns:minmax(210px,.8fr) minmax(280px,1.2fr)!important;align-items:center!important;gap:13px 28px!important;padding:20px 22px!important;margin:0 0 20px!important;border:1px solid #293b50!important;border-radius:14px!important;background:linear-gradient(115deg,#111e2d,#0a131f 72%)!important;box-shadow:0 12px 35px #0004!important}
+#page-liquidity .nfx-market-search-kicker{color:#ef6875!important;font-size:9px!important;font-weight:850!important;letter-spacing:1.5px!important}
+#page-liquidity .nfx-market-search-copy h2{margin:5px 0 3px!important;color:#f0f4fa!important;font-size:18px!important;font-weight:800!important}
+#page-liquidity .nfx-market-search-copy p{margin:0!important;color:#879ab1!important;font-size:11px!important}
+#page-liquidity .nfx-market-search-form{display:flex!important;gap:9px!important;min-width:0!important;margin:0!important}
+#page-liquidity .nfx-market-search-input-wrap{display:flex!important;align-items:center!important;gap:10px!important;min-width:0!important;flex:1!important;height:43px!important;padding:0 13px!important;border:1px solid #30445c!important;border-radius:9px!important;background:#080f19!important}
+#page-liquidity .nfx-market-search-input-wrap input{height:100%!important;padding:0!important;border:0!important;background:transparent!important;color:#edf3fb!important;font-size:12px!important;box-shadow:none!important}
+#page-liquidity .nfx-market-search-button{height:43px!important;padding:0 17px!important;border:1px solid #c44959!important;border-radius:9px!important;background:linear-gradient(135deg,#d84b5d,#a92d40)!important;color:white!important;font-size:11px!important;font-weight:850!important;white-space:nowrap!important}
+#page-liquidity .nfx-market-search-meta{grid-column:1/-1!important;display:flex!important;align-items:center!important;gap:9px!important;padding-top:11px!important;border-top:1px solid #ffffff0d!important;color:#8294aa!important;font-size:10px!important}
+#page-liquidity .nfx-market-search-current{margin-left:auto!important;color:#8294aa!important}
+#page-liquidity .nfx-market-search-current strong{color:#e9eff8!important}
+#page-liquidity .nfx-liq-dashboard{display:flex!important;flex-direction:column!important;gap:19px!important}
+#page-liquidity #nfxLiqLivePanel,#page-liquidity #nfxLiqBookHeatmap,#page-liquidity #nfxLiqLiquidationHeatmap,#page-liquidity #nfxOrderFlowDesk{border:1px solid #2a3b50!important;border-radius:15px!important;background:linear-gradient(145deg,#101b29,#0b131e 62%,#0a111a)!important;box-shadow:0 16px 42px #0005,inset 0 1px #ffffff09!important;overflow:hidden!important}
+#page-liquidity #nfxLiqLivePanel{padding:20px!important}
+#page-liquidity #nfxLiqBookHeatmap,#page-liquidity #nfxLiqLiquidationHeatmap{padding:21px!important;background:linear-gradient(145deg,#101c2b,#0a121d 78%)!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-top{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:16px!important;padding:0 0 17px!important;border-bottom:1px solid #26374b!important;background:transparent!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-eyebrow{color:#8fa2b8!important;font-size:9px!important;letter-spacing:1.35px!important;font-weight:850!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-brand h2{margin:7px 0 3px!important;color:#f3f6fb!important;font-size:24px!important;font-weight:850!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-brand p{color:#879ab1!important;font-size:11px!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-summary{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:9px!important;padding:16px 0!important;background:transparent!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-contract,#page-liquidity #nfxLiqLivePanel .nfx-obx-metric{min-width:0!important;padding:12px 13px!important;border:1px solid #293b50!important;border-radius:9px!important;background:linear-gradient(145deg,#142235,#0e1927)!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-caption,#page-liquidity #nfxLiqLivePanel .nfx-obx-metric>span{color:#8296ae!important;font-size:8px!important;letter-spacing:1.05px!important;font-weight:850!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-contractline strong{color:#f0f5fb!important;font-size:18px!important;font-weight:850!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-metric strong{display:block!important;margin-top:8px!important;color:#e9f0f8!important;font-size:clamp(14px,1.5vw,19px)!important;font-variant-numeric:tabular-nums!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-metric small,#page-liquidity #nfxLiqLivePanel .nfx-obx-contract small{color:#788da5!important;font-size:9px!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-toolbar{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;flex-wrap:wrap!important;padding:12px 0!important;border-block:1px solid #233449!important;background:transparent!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-book{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:12px!important;margin-top:14px!important;padding:12px!important;border:1px solid #2b3d52!important;border-radius:11px!important;background:#080f19!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-side{min-width:0!important;border:1px solid #1d2c3e!important;border-radius:8px!important;background:#0b1521!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-sidehead{padding:10px 11px!important;border-bottom:1px solid #24354a!important;background:#101d2c!important;color:#c9d5e4!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-colheads{color:#7489a2!important;background:#0d1825!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-ladder{background:transparent!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-mid,#page-liquidity #nfxLiqLivePanel .nfx-obx-spread{padding:10px!important;border-block:1px solid #29394d!important;background:#111f2e!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-footer{margin-top:12px!important;padding-top:12px!important;border-top:1px solid #26374b!important;background:transparent!important}
+#page-liquidity .nfx-liq-timeline-head{align-items:center!important;padding-bottom:15px!important}
+#page-liquidity .nfx-liq-kicker{color:#e66a78!important;font-size:9px!important;letter-spacing:1.45px!important;font-weight:850!important}
+#page-liquidity .nfx-liq-timeline-head h3{margin:7px 0 5px!important;color:#f1f5fb!important;font-size:23px!important;letter-spacing:-.6px!important;font-weight:850!important}
+#page-liquidity .nfx-liq-timeline-head p{color:#8fa2b8!important;font-size:11px!important;line-height:1.6!important}
+#page-liquidity .nfx-liq-card-actions{gap:8px!important}
+#page-liquidity .nfx-liq-chart-frame{border:1px solid #293c52!important;border-radius:10px!important;background:#070e17!important}
+#page-liquidity .nfx-liq-chart-frame .nfx-liq-timeline-wrap{height:clamp(350px,40vw,510px)!important;min-height:350px!important}
+#page-liquidity .nfx-liq-timeline-axis{color:#72869f!important;border-color:#27394e!important;font-size:9px!important;letter-spacing:1px!important}
+#page-liquidity .nfx-liq-timeline-note{margin-top:13px!important;padding-top:12px!important;border-top:1px solid #25364a!important;color:#8295ad!important;font-size:10px!important;line-height:1.7!important}
+#page-liquidity .nfx-heatmap-stats{gap:1px!important;border:1px solid #2a3b50!important;border-radius:10px!important;background:#2a3b50!important}
+#page-liquidity .nfx-heatmap-stats>div{background:linear-gradient(145deg,#142235,#0c1724)!important}
+#page-liquidity .nfx-liq-live-tag{border:1px solid #285c52!important;border-radius:6px!important;background:#102b29!important;color:#74e2c2!important;font-size:9px!important;font-weight:850!important}
+#page-liquidity .nfx-est-liq-ranges button{height:31px!important;min-width:38px!important;border:1px solid #2d4057!important;border-radius:6px!important;background:#0d1927!important;color:#aebed1!important;font-size:9px!important;font-weight:800!important}
+#page-liquidity .nfx-est-liq-ranges button.active{border-color:#b64b59!important;background:#351e28!important;color:#fff!important}
+#page-liquidity .nfx-liq-fullscreen-btn{min-height:34px!important;border:1px solid #344a62!important;border-radius:7px!important;background:#132235!important;color:#dce7f4!important;font-size:10px!important;font-weight:800!important}
+#page-liquidity .nfx-liq-fullscreen-btn:hover{border-color:#d45a68!important;background:#281a25!important}
+#page-liquidity #nfxOrderFlowDesk{padding:21px!important}
+#page-liquidity .nfx-ofd-head{padding-bottom:15px!important;border-bottom:1px solid #293b50!important}
+#page-liquidity .nfx-ofd-head h2{color:#f1f5fb!important;font-size:23px!important;font-weight:850!important}
+#page-liquidity .nfx-ofd-head p{color:#8ea1b8!important;font-size:11px!important}
+#page-liquidity .nfx-ofd-metrics>div{border:1px solid #2b3d52!important;border-radius:9px!important;background:linear-gradient(145deg,#142235,#0c1724)!important}
+#page-liquidity .nfx-ofd-chart-card,#page-liquidity .nfx-ofd-tape-card{border:1px solid #2b3d52!important;border-radius:10px!important;background:#0a1420!important}
+@media(max-width:900px){#page-liquidity #nfxLiqLivePanel .nfx-obx-summary{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-width:650px){
+ #page-liquidity{padding:17px 10px 42px!important}
+ #page-liquidity .nfx-market-terminal-intro{display:block!important;min-height:0!important;padding:20px 17px!important;margin-bottom:17px!important}
+ #page-liquidity .nfx-market-terminal-meta{display:inline-flex!important;margin-top:16px!important}
+ #page-liquidity .nfx-liq-market-tabs{flex-wrap:wrap!important}
+ #page-liquidity .nfx-market-search{display:block!important;padding:15px!important}
+ #page-liquidity .nfx-market-search-form{margin-top:13px!important}
+ #page-liquidity .nfx-market-search-button{padding:0 11px!important}
+ #page-liquidity .nfx-market-search-meta{display:flex!important;flex-wrap:wrap!important;margin-top:12px!important}
+ #page-liquidity .nfx-market-search-current{margin-left:0!important}
+ #page-liquidity #nfxLiqLivePanel,#page-liquidity #nfxLiqBookHeatmap,#page-liquidity #nfxLiqLiquidationHeatmap,#page-liquidity #nfxOrderFlowDesk{padding:13px!important;border-radius:12px!important}
+ #page-liquidity #nfxLiqLivePanel .nfx-obx-top{align-items:flex-start!important}
+ #page-liquidity #nfxLiqLivePanel .nfx-obx-summary{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #page-liquidity #nfxLiqLivePanel .nfx-obx-book{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:6px!important;padding:7px!important}
+ #page-liquidity .nfx-liq-timeline-head{display:block!important}
+ #page-liquidity .nfx-liq-card-actions{justify-content:flex-start!important;margin-top:12px!important}
+ #page-liquidity .nfx-liq-chart-frame .nfx-liq-timeline-wrap{height:390px!important;min-height:320px!important}
+ #page-liquidity .nfx-liq-timeline-head h3{font-size:20px!important}
+}
+@media(max-width:390px){#page-liquidity .nfx-market-search-form{flex-direction:column!important}#page-liquidity .nfx-market-search-button{width:100%!important}#page-liquidity #nfxLiqLivePanel .nfx-obx-metric strong{font-size:13px!important}}
 </style>
