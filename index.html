@@ -9039,9 +9039,16 @@ window.renderBacktestMetrics=function(r,meta={}){
   // Each lesson uses its own verified local chart, with corrections for identified mismatches.
   // Purpose-built diagrams replace mislabeled or incomplete sources for selected concepts.
   function topicImage(t){
-    const custom=['market-structure','liquidity','pdh-pdl','nwog-ndog','rsi','unicorn-model','head-shoulders','dxy-and-usd-pairs','rejection-candle','breaker-block','bsl-ssl','central-bank-policy','double-top-bottom','employment-data','fvg-ce','gaps','leverage-margin','mae-mfe','monte-carlo-analysis','opening-range','ote','parabolic-sar','pips-points-ticks','poc-vah-val','position-sizing','psychology','sample-size','session-levels','silver-bullet','smt-divergence','spread-slippage','turtle-soup','volume-profile','volume-climax','volume-divergence','vwap','wyckoff-spring'];
-    if(custom.includes(t.id)) return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(diagram(t));
-    return 'assets/learn-trading/'+t.id+'.jpg';
+    // Prefer real local chart examples; redirect only known mismatched files to a closer topic reference.
+    const imageMap={
+      'market-structure':'internal-external',
+      'liquidity':'bsl-ssl',
+      'pdh-pdl':'daily-weekly-open',
+      'head-shoulders':'chart-patterns',
+      'dxy-and-usd-pairs':'dxy-correlation',
+      'nwog-ndog':'nwog'
+    };
+    return 'assets/learn-trading/'+(imageMap[t.id]||t.id)+'.jpg';
   }
   function topicVisual(t){
     return '<figure class="nfx-learn-visual"><img src="'+topicImage(t)+'" alt="'+esc(t.title)+' — topic-specific educational trading chart" loading="lazy"><figcaption>'+esc(t.title)+' · topic-matched educational chart reference · not live market data</figcaption></figure>';
