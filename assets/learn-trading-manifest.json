@@ -18,13 +18,10 @@
     "height": 1024
   },
   "breaker-block": {
-    "status": "downloaded",
-    "title": "Bullish and Bearish ICT Breaker Block Setups",
-    "path": "assets/learn-trading/breaker-block.jpg",
-    "source_page": "https://fxnx.com/en/blog/master-breaker-blocks-ict-guide-2026-trading",
-    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fe6c7af07f61c1290fbc79d2c81a22e9d642ac886-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
-    "width": 800,
-    "height": 597
+    "status": "original-illustration",
+    "title": "Bullish and Bearish Breaker Block — Failed Zone Retests",
+    "path": "assets/learn-trading/breaker-block.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "choch": {
     "status": "original-illustration",
@@ -48,22 +45,16 @@
     "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "order-block": {
-    "status": "downloaded",
-    "title": "Bullish and Bearish Forex Order Block Zones",
-    "path": "assets/learn-trading/order-block.jpg",
-    "source_page": "https://www.dominionmarkets.com/what-is-order-block-in-forex/",
-    "original_image": "https://www.dominionmarkets.com/what-is-order-block-in-forex/images/what-is-order-block-in-forex-03.jpg",
-    "width": 1000,
-    "height": 750
+    "status": "original-illustration",
+    "title": "Bullish and Bearish Order Block — Last Opposing Candle Zones",
+    "path": "assets/learn-trading/order-block.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "premium-discount": {
-    "status": "downloaded",
-    "title": "Premium, Discount and 50% Equilibrium",
-    "path": "assets/learn-trading/premium-discount.jpg",
-    "source_page": "https://thetradingstreet.com/blog/top-down-analysis-trading-how-to-use-smart-money-concepts-for-accurate-entries",
-    "original_image": "https://thetradingstreet.com/uploads/blog/top-down-analysis-trading-how-to-use-smart-money-concepts-for-accurate-entries/image_1eb231d7-470a-4379-a294-49d1022d4108.png",
-    "width": 753,
-    "height": 751
+    "status": "original-illustration",
+    "title": "Premium, Discount and 50% Equilibrium Dealing Range",
+    "path": "assets/learn-trading/premium-discount.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "liquidity-sweep": {
     "status": "original-illustration",
@@ -78,13 +69,10 @@
     "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "mitigation": {
-    "status": "downloaded",
-    "title": "Bullish and Bearish Mitigation Block Examples",
-    "path": "assets/learn-trading/mitigation.jpg",
-    "source_page": "https://arongroups.co/technical-analyze/ict-pd-arrays/",
-    "original_image": "https://cdn.arongroups.co/uploads/2026/02/pd-array-9-1024x667.jpg",
-    "width": 1024,
-    "height": 667
+    "status": "original-illustration",
+    "title": "Bullish and Bearish Mitigation Block Retests",
+    "path": "assets/learn-trading/mitigation.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "chart-patterns": {
     "status": "downloaded",
