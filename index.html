@@ -8979,7 +8979,17 @@ window.renderBacktestMetrics=function(r,meta={}){
     for(let i=0;i<24;i++){const close=Math.max(74,Math.min(240,prev+(rnd(i)-.47)*27));const high=Math.max(prev,close)+8+rnd(i+2)*13,low=Math.min(prev,close)-7-rnd(i+4)*12,x=54+i*25;bars+=candle(x,prev,close,high,low);vol+=R(x,296-(18+rnd(i+19)*42),13,18+rnd(i+19)*42,close<prev?C.red:C.green);pts.push([x+6.5,close]);prev=close;}
     const path=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
     let o='',type='CONCEPT SCHEMATIC';
-    if(/nwog|ndog/.test(id)){
+    if(/head-shoulders/.test(id)){
+      o+=R(58,92,286,155,'#73a9e818',C.blue)+R(370,92,286,155,'#48c7a018',C.green)+T(76,115,'HEAD & SHOULDERS',C.blue,10)+T(388,115,'INVERSE HEAD & SHOULDERS',C.green,9)+L(78,210,320,210,C.gold,'5 4')+L(390,210,632,210,C.gold,'5 4')+T(82,232,'BEARISH REVERSAL',C.red,9)+T(394,232,'BULLISH REVERSAL',C.green,9);
+    }else if(/dxy-and-usd-pairs/.test(id)){
+      o+=R(58,92,286,155,'#73a9e818',C.blue)+R(370,92,286,155,'#e0788418',C.red)+T(76,115,'DXY STRENGTHENS',C.blue,10)+T(388,115,'DXY WEAKENS',C.red,10)+L(82,210,320,150,C.blue,'3 4')+L(392,150,632,210,C.red,'3 4')+T(82,232,'EURUSD / GBPUSD OFTEN FALL',C.white,9)+T(392,232,'EURUSD / GBPUSD OFTEN RISE',C.white,9);
+    }else if(/rejection-candle/.test(id)){
+      o+=R(58,92,286,155,'#48c7a018',C.green)+R(370,92,286,155,'#e0788418',C.red)+T(76,115,'BULLISH PIN BAR',C.green,10)+T(388,115,'BEARISH SHOOTING STAR',C.red,10)+L(82,210,320,210,C.green,'5 4')+L(392,150,632,150,C.red,'5 4')+T(82,232,'REJECTION AT SUPPORT',C.white,9)+T(392,232,'REJECTION AT RESISTANCE',C.white,9);
+    }else if(/market-structure/.test(id)){
+      o+=R(58,92,286,155,'#48c7a018',C.green)+R(370,92,286,155,'#e0788418',C.red)+T(76,115,'BULLISH STRUCTURE',C.green,10)+T(388,115,'BEARISH STRUCTURE',C.red,10)+L(82,220,135,170,C.green)+L(135,170,188,195,C.green)+L(188,195,242,135,C.green)+L(242,135,320,158,C.green)+T(86,238,'HH · HL · HH',C.white,9)+L(392,135,445,190,C.red)+L(445,190,498,160,C.red)+L(498,160,552,220,C.red)+L(552,220,632,188,C.red)+T(396,238,'LL · LH · LL',C.white,9);
+    }else if(/liquidity/.test(id)){
+      o+=R(58,92,286,155,'#73a9e818',C.blue)+R(370,92,286,155,'#e0788418',C.red)+T(76,115,'BUY-SIDE LIQUIDITY',C.blue,10)+T(388,115,'SELL-SIDE LIQUIDITY',C.red,10)+L(82,165,320,165,C.blue,'6 5')+L(392,195,632,195,C.red,'6 5')+T(82,232,'ABOVE EQUAL HIGHS',C.white,9)+T(392,232,'BELOW EQUAL LOWS',C.white,9);
+    }else if(/nwog|ndog/.test(id)){
       o+=R(72,106,270,116,'#73a9e822',C.blue)+R(382,106,270,116,'#48c7a022',C.green)+T(91,132,'NWOG · NEW WEEK OPEN',C.blue,11)+T(401,132,'NDOG · NEW DAY OPEN',C.green,11)+L(92,174,320,174,C.blue,'5 4')+L(402,174,620,174,C.green,'5 4')+T(92,205,'WEEKEND GAP / CE',C.white,9)+T(402,205,'DAILY OPEN GAP / CE',C.white,9);
     }else if(/rsi/.test(id)){
       o+=R(60,92,285,155,'#48c7a018',C.green)+R(370,92,285,155,'#e0788418',C.red)+T(78,115,'BULLISH DIVERGENCE',C.green,10)+T(388,115,'BEARISH DIVERGENCE',C.red,10)+L(82,210,320,210,C.green,'4 4')+L(392,210,630,210,C.red,'4 4')+T(82,232,'PRICE LL · RSI HL',C.white,9)+T(392,232,'PRICE HH · RSI LH',C.white,9);
@@ -9029,17 +9039,9 @@ window.renderBacktestMetrics=function(r,meta={}){
   // Each lesson uses its own verified local chart, with corrections for identified mismatches.
   // Purpose-built diagrams replace mislabeled or incomplete sources for selected concepts.
   function topicImage(t){
-    const overrides={
-      'market-structure':'internal-external',
-      'liquidity':'bsl-ssl',
-      'volume':'volume-profile',
-      'head-shoulders':'chart-patterns',
-      'dxy-and-usd-pairs':'dxy-correlation',
-      'rejection-candle':'pinbar-hammer'
-    };
-    const custom=['pdh-pdl','nwog-ndog','rsi','unicorn-model'];
+    const custom=['market-structure','liquidity','pdh-pdl','nwog-ndog','rsi','unicorn-model','head-shoulders','dxy-and-usd-pairs','rejection-candle'];
     if(custom.includes(t.id)) return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(diagram(t));
-    return 'assets/learn-trading/'+(overrides[t.id]||t.id)+'.jpg';
+    return 'assets/learn-trading/'+t.id+'.jpg';
   }
   function topicVisual(t){
     return '<figure class="nfx-learn-visual"><img src="'+topicImage(t)+'" alt="'+esc(t.title)+' — topic-specific educational trading chart" loading="lazy"><figcaption>'+esc(t.title)+' · topic-matched educational chart reference · not live market data</figcaption></figure>';
