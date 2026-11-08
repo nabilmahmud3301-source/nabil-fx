@@ -9875,263 +9875,111 @@ window.renderBacktestMetrics=function(r,meta={}){
 }
 </style>
 
-<style id="nfx-coinglass-terminal-v7">
-/* Unified CoinGlass-inspired market terminal. Existing feeds, canvas IDs and controls remain untouched. */
-#page-liquidity{--cg-bg:#070b10;--cg-panel:#0d131b;--cg-line:#202c38;--cg-muted:#8292a3;--cg-text:#e6edf5;background:var(--cg-bg)!important}
-#page-liquidity .nfx-market-terminal-head{padding:22px 24px!important;margin-bottom:14px!important;border:1px solid var(--cg-line)!important;border-radius:7px!important;background:linear-gradient(110deg,#111b27,#0b1119 65%,#101923)!important}
-#page-liquidity .nfx-market-terminal-head h1{font-size:clamp(23px,2.3vw,31px)!important;letter-spacing:-.8px!important}
-#page-liquidity .nfx-market-search{display:grid!important;grid-template-columns:minmax(210px,.8fr) minmax(280px,1.2fr)!important;gap:12px 22px!important;align-items:center!important;padding:15px 18px!important;margin-bottom:14px!important;border:1px solid var(--cg-line)!important;border-radius:6px!important;background:var(--cg-panel)!important}
-#page-liquidity .nfx-market-search-copy h2{margin:2px 0 3px!important;font-size:16px!important;color:var(--cg-text)!important}
-#page-liquidity .nfx-market-search-copy p,#page-liquidity .nfx-market-search-meta{color:var(--cg-muted)!important;font-size:9px!important}
-#page-liquidity .nfx-market-search-meta{grid-column:1/-1!important;padding-top:9px!important;border-top:1px solid var(--cg-line)!important}
-#page-liquidity .nfx-market-search-input-wrap{min-height:42px!important;border:1px solid #2b3948!important;border-radius:4px!important;background:#080e15!important}
-#page-liquidity .nfx-market-search-input-wrap input{color:#e7eef6!important;font-size:12px!important}
-#page-liquidity .nfx-market-search-button{min-height:42px!important;border:1px solid #365b53!important;border-radius:4px!important;background:#12372e!important;color:#baf3dc!important;font-size:10px!important;font-weight:800!important}
-#page-liquidity .nfx-liq-dashboard{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important;align-items:stretch!important}
-#page-liquidity #nfxLiqLivePanel,#page-liquidity #nfxOrderFlowDesk{grid-column:1/-1!important;min-width:0!important}
-#page-liquidity #nfxLiqLivePanel,#page-liquidity #nfxLiqBookHeatmap,#page-liquidity #nfxLiqLiquidationHeatmap,#page-liquidity #nfxOrderFlowDesk{min-width:0!important;border:1px solid #263442!important;border-radius:6px!important;background:var(--cg-panel)!important;box-shadow:0 8px 28px #0005!important}
-#page-liquidity #nfxLiqLivePanel{padding:18px!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-top{display:flex!important;justify-content:space-between!important;align-items:center!important;padding-bottom:14px!important;margin-bottom:13px!important;border-bottom:1px solid var(--cg-line)!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-eyebrow{font-size:8px!important;letter-spacing:1.2px!important;color:#91a2b3!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-top h2{font-size:21px!important;color:#edf3f8!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-top p{font-size:10px!important;color:#8393a3!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-summary{display:grid!important;grid-template-columns:1.25fr repeat(5,minmax(0,1fr))!important;gap:0!important;padding:0!important;border:1px solid var(--cg-line)!important;border-radius:4px!important;background:#090f16!important;overflow:hidden!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-contract,#page-liquidity #nfxLiqLivePanel .nfx-obx-metric{min-width:0!important;padding:12px 10px!important;border:0!important;border-right:1px solid #1d2934!important;background:transparent!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-summary>*:last-child{border-right:0!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-caption,#page-liquidity #nfxLiqLivePanel .nfx-obx-metric>span{font-size:8px!important;letter-spacing:.8px!important;color:#7f91a2!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-contractline strong{font-size:17px!important;color:#f1f5f9!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-metric strong{font-size:clamp(12px,1.2vw,16px)!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-metric small{font-size:8px!important;color:#738496!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-toolbar{margin:11px 0!important;padding:10px 12px!important;border:1px solid var(--cg-line)!important;border-radius:4px!important;background:#0a1118!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-feed b{font-size:9px!important;letter-spacing:.7px!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-feed small{font-size:8px!important;color:#7f91a2!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-levels button,#page-liquidity #nfxLiqBookHeatmap .nfx-est-liq-ranges button,#page-liquidity #nfxLiqLiquidationHeatmap .nfx-est-liq-ranges button{min-width:32px!important;height:27px!important;padding:0 8px!important;border:1px solid #2a3947!important;border-radius:3px!important;background:#101923!important;color:#9eafbf!important;font-size:8px!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-levels button.active,#page-liquidity #nfxLiqBookHeatmap .nfx-est-liq-ranges button.active,#page-liquidity #nfxLiqLiquidationHeatmap .nfx-est-liq-ranges button.active{border-color:#3e7666!important;background:#12372e!important;color:#baf3dc!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-book{display:grid!important;grid-template-columns:minmax(0,1fr) 190px minmax(0,1fr)!important;gap:9px!important;align-items:stretch!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-side{min-width:0!important;border:1px solid var(--cg-line)!important;border-radius:4px!important;background:#080e14!important;overflow:hidden!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-sidehead{padding:10px 11px!important;border-bottom:1px solid var(--cg-line)!important;background:#101923!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-sidehead b{font-size:10px!important;letter-spacing:1px!important}
-#page-liquidity #nfxLiqLivePanel .nfx-liq-levels{height:clamp(340px,35vw,470px)!important;max-height:470px!important;min-height:300px!important;padding:7px!important;background:#080e14!important;scrollbar-width:thin!important}
-#page-liquidity #nfxLiqLivePanel .nfx-liq-row{min-height:24px!important;font-size:10px!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-mid{display:flex!important;flex-direction:column!important;justify-content:center!important;gap:11px!important;min-width:0!important;padding:15px 11px!important;border:1px solid #2b3947!important;border-radius:4px!important;background:linear-gradient(180deg,#111c27,#0b121a)!important;text-align:center!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-midlabel{font-size:8px!important;letter-spacing:1px!important;color:#8da0b2!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-mid>strong{font-size:clamp(19px,2vw,27px)!important;color:#f1f5f9!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-spread,#page-liquidity #nfxLiqLivePanel .nfx-obx-depthsplit>div{border:1px solid #273541!important;border-radius:3px!important;background:#080e14!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-footer{display:flex!important;justify-content:space-between!important;align-items:center!important;gap:12px!important;flex-wrap:wrap!important;margin-top:11px!important;padding-top:11px!important;border-top:1px solid var(--cg-line)!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-footer small,#page-liquidity #nfxLiqLivePanel .nfx-obx-footer span{font-size:8px!important;color:#8293a3!important}
-#page-liquidity #nfxLiqBookHeatmap,#page-liquidity #nfxLiqLiquidationHeatmap{display:flex!important;flex-direction:column!important;padding:16px!important}
-#page-liquidity #nfxLiqBookHeatmap .nfx-liq-timeline-head,#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:11px!important;padding-bottom:12px!important;border-bottom:1px solid var(--cg-line)!important}
-#page-liquidity #nfxLiqBookHeatmap .nfx-liq-timeline-head h3,#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head h3{font-size:18px!important;color:#eaf0f6!important}
-#page-liquidity #nfxLiqBookHeatmap .nfx-liq-timeline-head p,#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head p{font-size:9px!important;color:#8495a6!important}
-#page-liquidity #nfxLiqBookHeatmap .nfx-liq-card-actions,#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-card-actions{display:flex!important;justify-content:flex-start!important;align-items:center!important;gap:7px!important;flex-wrap:wrap!important}
-#page-liquidity #nfxBookHeatmapStats,#page-liquidity #nfxLiquidationHeatmapStats{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:1px!important;margin:12px 0!important;border:1px solid var(--cg-line)!important;border-radius:4px!important;background:var(--cg-line)!important;overflow:hidden!important}
-#page-liquidity #nfxBookHeatmapStats>div,#page-liquidity #nfxLiquidationHeatmapStats>div{padding:10px!important;background:#0a1118!important;border:0!important}
-#page-liquidity #nfxBookHeatmapStats span,#page-liquidity #nfxLiquidationHeatmapStats span{font-size:7px!important;color:#7f91a2!important}
-#page-liquidity #nfxBookHeatmapStats b,#page-liquidity #nfxLiquidationHeatmapStats b{font-size:14px!important;color:#e6edf5!important}
-#page-liquidity #nfxLiqBookHeatmap .nfx-liq-timeline-wrap,#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-chart-frame .nfx-liq-timeline-wrap{flex:1 1 auto!important;min-height:330px!important;height:clamp(330px,34vw,470px)!important;border:1px solid #263442!important;border-radius:4px!important;background:#070c12!important;overflow:hidden!important}
-#page-liquidity #nfxLiqBookHeatmap canvas,#page-liquidity #nfxLiqLiquidationHeatmap canvas{width:100%!important;height:100%!important;display:block!important}
-#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-chart-frame{margin:0!important;border:1px solid #263442!important;border-radius:4px!important;background:#070c12!important;overflow:hidden!important}
-#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-chart-topline{padding:10px!important;border-bottom:1px solid var(--cg-line)!important;background:#101923!important;font-size:8px!important;color:#8da0b2!important}
-#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-model-legend{display:flex!important;gap:10px!important;flex-wrap:wrap!important;margin:0 0 10px!important;padding:10px!important;border:1px solid var(--cg-line)!important;border-radius:4px!important;background:#0a1118!important;font-size:7px!important;color:#9eafbf!important}
-#page-liquidity #nfxLiqBookHeatmap .nfx-liq-timeline-axis,#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-timeline-axis{margin:9px 0 0!important;color:#77899a!important;font-size:7px!important}
-#page-liquidity #nfxLiqBookHeatmap .nfx-liq-timeline-note,#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-timeline-note{margin-top:10px!important;padding:9px 11px!important;border:1px solid #202c38!important;border-radius:3px!important;background:#0a1118!important;color:#7f91a2!important;font-size:8px!important;line-height:1.6!important}
-#page-liquidity #nfxOrderFlowDesk{padding:18px!important}
-#page-liquidity #nfxOrderFlowDesk .nfx-ofd-head{padding-bottom:13px!important;border-bottom:1px solid var(--cg-line)!important}
-#page-liquidity #nfxOrderFlowDesk .nfx-ofd-head h2{font-size:19px!important;color:#eaf0f6!important}
-#page-liquidity #nfxOrderFlowDesk .nfx-ofd-head p{font-size:9px!important;color:#8495a6!important}
-#page-liquidity #nfxOrderFlowDesk .nfx-ofd-metrics{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:1px!important;margin:13px 0!important;border:1px solid var(--cg-line)!important;background:var(--cg-line)!important}
-#page-liquidity #nfxOrderFlowDesk .nfx-ofd-metrics>div{padding:11px!important;background:#0a1118!important}
-#page-liquidity #nfxOrderFlowDesk .nfx-ofd-metrics span{font-size:7px!important;color:#8192a3!important}
-#page-liquidity #nfxOrderFlowDesk .nfx-ofd-metrics b{font-size:15px!important;color:#e6edf5!important}
-#page-liquidity #nfxOrderFlowDesk .nfx-ofd-chart-card,#page-liquidity #nfxOrderFlowDesk .nfx-ofd-tape-card{border:1px solid var(--cg-line)!important;border-radius:4px!important;background:#090f16!important}
-#page-liquidity #nfxOrderFlowDesk .nfx-ofd-subhead{padding:11px!important;border-bottom:1px solid var(--cg-line)!important;background:#101923!important}
-#page-liquidity #nfxCvdCard,#page-liquidity #nfxOpenInterestCard,#page-liquidity #nfxFundingCard{border:1px solid #263442!important;border-radius:5px!important;background:#0d131b!important;box-shadow:0 8px 22px #0004!important}
-@media(max-width:1100px){#page-liquidity #nfxLiqLivePanel .nfx-obx-summary{grid-template-columns:repeat(3,minmax(0,1fr))!important}#page-liquidity #nfxLiqLivePanel .nfx-obx-book{grid-template-columns:minmax(0,1fr) 155px minmax(0,1fr)!important}#page-liquidity #nfxOrderFlowDesk .nfx-ofd-metrics{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
-@media(max-width:760px){#page-liquidity .nfx-market-search{grid-template-columns:1fr!important}#page-liquidity .nfx-market-search-meta{grid-column:auto!important}#page-liquidity .nfx-liq-dashboard{grid-template-columns:1fr!important}#page-liquidity #nfxLiqLivePanel,#page-liquidity #nfxOrderFlowDesk{grid-column:1!important}#page-liquidity #nfxLiqLivePanel .nfx-obx-summary{grid-template-columns:repeat(2,minmax(0,1fr))!important}#page-liquidity #nfxLiqLivePanel .nfx-obx-book{grid-template-columns:1fr 1fr!important}#page-liquidity #nfxLiqLivePanel .nfx-obx-mid{grid-column:1/-1!important;grid-row:1!important;min-height:165px!important}#page-liquidity #nfxLiqLivePanel .nfx-liq-levels{height:300px!important;max-height:300px!important;min-height:260px!important}#page-liquidity #nfxOrderFlowDesk .nfx-ofd-metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important}#page-liquidity #nfxLiqBookHeatmap .nfx-liq-timeline-wrap,#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-chart-frame .nfx-liq-timeline-wrap{height:340px!important;min-height:300px!important}}
-@media(max-width:420px){#page-liquidity #nfxLiqLivePanel,#page-liquidity #nfxLiqBookHeatmap,#page-liquidity #nfxLiqLiquidationHeatmap,#page-liquidity #nfxOrderFlowDesk{padding:12px!important}#page-liquidity #nfxLiqLivePanel .nfx-obx-metric strong{font-size:12px!important}#page-liquidity #nfxLiqLivePanel .nfx-liq-row{font-size:8px!important;gap:3px!important}}
-</style>
-
-<style id="nfx-liquidity-layout-correction-v8">
-/* Final layout authority: resolve the accumulated legacy layout overrides. */
-#page-liquidity #nfxLiqDashboard{
-  display:grid!important;
-  grid-template-columns:repeat(12,minmax(0,1fr))!important;
-  gap:16px!important;
-  align-items:stretch!important;
-  width:100%!important;
-}
-#page-liquidity #nfxLiqDashboard>*{min-width:0!important;max-width:100%!important;box-sizing:border-box!important}
-#page-liquidity #nfxLiqLivePanel{grid-column:1/-1!important;grid-row:auto!important}
-#page-liquidity #nfxLiqBookHeatmap{grid-column:1/span 6!important;grid-row:auto!important}
-#page-liquidity #nfxLiqLiquidationHeatmap{grid-column:7/span 6!important;grid-row:auto!important}
-#page-liquidity #nfxOrderFlowDesk{grid-column:1/-1!important;grid-row:auto!important}
-#page-liquidity #nfxLiqLivePanel,
-#page-liquidity #nfxLiqBookHeatmap,
-#page-liquidity #nfxLiqLiquidationHeatmap,
-#page-liquidity #nfxOrderFlowDesk{
-  min-width:0!important;
-  width:100%!important;
-  box-sizing:border-box!important;
-  border:1px solid #263442!important;
-  border-radius:8px!important;
-  background:#0b1119!important;
-  box-shadow:0 12px 32px #0006!important;
-}
-#page-liquidity #nfxLiqLivePanel{padding:18px!important}
-#page-liquidity #nfxLiqBookHeatmap,
-#page-liquidity #nfxLiqLiquidationHeatmap{padding:16px!important;display:flex!important;flex-direction:column!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-book{
-  display:grid!important;
-  grid-template-columns:minmax(0,1fr) 180px minmax(0,1fr)!important;
-  gap:10px!important;
-  align-items:stretch!important;
-}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-side{min-width:0!important;overflow:hidden!important}
-#page-liquidity #nfxLiqLivePanel .nfx-liq-levels{
-  min-width:0!important;height:clamp(300px,32vw,440px)!important;
-  min-height:280px!important;max-height:440px!important;overflow:auto!important;
-}
-#page-liquidity #nfxLiqBookHeatmap .nfx-liq-timeline-head,
-#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head{
-  display:flex!important;flex-direction:column!important;align-items:stretch!important;
-  justify-content:flex-start!important;gap:12px!important;min-width:0!important;
-}
-#page-liquidity #nfxLiqBookHeatmap .nfx-liq-card-actions,
-#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-card-actions{
-  display:flex!important;align-items:center!important;justify-content:flex-start!important;
-  flex-wrap:wrap!important;gap:6px!important;min-width:0!important;
-}
-#page-liquidity #nfxLiqBookHeatmap .nfx-est-liq-ranges,
-#page-liquidity #nfxLiqLiquidationHeatmap .nfx-est-liq-ranges{display:flex!important;flex-wrap:wrap!important;gap:5px!important}
-#page-liquidity #nfxLiqBookHeatmap .nfx-liq-timeline-wrap,
-#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-chart-frame .nfx-liq-timeline-wrap{
-  position:relative!important;display:block!important;flex:0 0 auto!important;
-  width:100%!important;height:clamp(300px,31vw,420px)!important;
-  min-height:280px!important;max-height:none!important;overflow:hidden!important;
-}
-#page-liquidity #nfxLiqBookHeatmap canvas,
-#page-liquidity #nfxLiqLiquidationHeatmap canvas{
-  display:block!important;width:100%!important;height:100%!important;max-width:100%!important;
-}
-#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-chart-frame{min-width:0!important;width:100%!important;overflow:hidden!important}
-#page-liquidity #nfxOrderFlowDesk{padding:18px!important}
-#page-liquidity #nfxOrderFlowDesk .nfx-ofd-main{
-  display:grid!important;grid-template-columns:minmax(0,1.35fr) minmax(300px,.85fr)!important;
-  gap:14px!important;padding:14px 0!important;
-}
-#page-liquidity #nfxOrderFlowDesk .nfx-ofd-chart-card,
-#page-liquidity #nfxOrderFlowDesk .nfx-ofd-tape-card{min-width:0!important;overflow:hidden!important}
-#page-liquidity #nfxOrderFlowDesk .nfx-ofd-tape{max-width:100%!important;overflow:auto!important}
-#page-liquidity #nfxLiqLivePanel.nfx-liq-expanded-fallback,
-#page-liquidity #nfxLiqBookHeatmap.nfx-liq-expanded-fallback,
-#page-liquidity #nfxLiqLiquidationHeatmap.nfx-liq-expanded-fallback,
-#page-liquidity #nfxOrderFlowDesk.nfx-liq-expanded-fallback{
-  position:fixed!important;z-index:1000000!important;inset:12px!important;
-  width:auto!important;height:auto!important;max-width:none!important;max-height:none!important;
-  min-height:0!important;overflow:auto!important;display:block!important;
-  background:#080d14!important;box-shadow:0 0 0 9999px #000c!important;
-}
-#page-liquidity #nfxLiqLivePanel.nfx-liq-expanded-fallback .nfx-liq-levels{height:42vh!important;max-height:none!important}
-#page-liquidity #nfxLiqBookHeatmap.nfx-liq-expanded-fallback .nfx-liq-timeline-wrap,
-#page-liquidity #nfxLiqLiquidationHeatmap.nfx-liq-expanded-fallback .nfx-liq-timeline-wrap{height:calc(100vh - 270px)!important;min-height:360px!important}
-@media(max-width:1050px){
-  #page-liquidity #nfxLiqDashboard{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:13px!important}
-  #page-liquidity #nfxLiqLivePanel,#page-liquidity #nfxOrderFlowDesk{grid-column:1/-1!important}
-  #page-liquidity #nfxLiqBookHeatmap{grid-column:1!important}
-  #page-liquidity #nfxLiqLiquidationHeatmap{grid-column:2!important}
-  #page-liquidity #nfxLiqLivePanel .nfx-obx-summary{grid-template-columns:repeat(3,minmax(0,1fr))!important}
-  #page-liquidity #nfxLiqLivePanel .nfx-obx-book{grid-template-columns:minmax(0,1fr) 145px minmax(0,1fr)!important}
-  #page-liquidity #nfxLiqLivePanel .nfx-liq-levels{height:340px!important}
-}
-@media(max-width:720px){
-  #page-liquidity #nfxLiqDashboard{grid-template-columns:minmax(0,1fr)!important;gap:12px!important}
-  #page-liquidity #nfxLiqLivePanel,
-  #page-liquidity #nfxLiqBookHeatmap,
-  #page-liquidity #nfxLiqLiquidationHeatmap,
-  #page-liquidity #nfxOrderFlowDesk{grid-column:1!important;padding:13px!important}
-  #page-liquidity #nfxLiqLivePanel .nfx-obx-summary{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-  #page-liquidity #nfxLiqLivePanel .nfx-obx-book{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}
-  #page-liquidity #nfxLiqLivePanel .nfx-obx-mid{grid-column:1/-1!important;grid-row:1!important;min-height:150px!important}
-  #page-liquidity #nfxLiqLivePanel .nfx-liq-levels{height:300px!important;min-height:250px!important}
-  #page-liquidity #nfxLiqBookHeatmap .nfx-liq-timeline-wrap,
-  #page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-chart-frame .nfx-liq-timeline-wrap{height:340px!important;min-height:280px!important}
-  #page-liquidity #nfxOrderFlowDesk .nfx-ofd-main{grid-template-columns:minmax(0,1fr)!important;gap:10px!important}
-  #page-liquidity #nfxOrderFlowDesk .nfx-ofd-metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-}
-@media(max-width:390px){
-  #page-liquidity #nfxLiqLivePanel .nfx-obx-summary{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}
-  #page-liquidity #nfxLiqLivePanel .nfx-obx-book{gap:6px!important}
-  #page-liquidity #nfxLiqLivePanel .nfx-obx-colheads{font-size:7px!important}
-  #page-liquidity #nfxLiqLivePanel .nfx-liq-row{font-size:8px!important}
-}
-</style>
 
 
-<style id="nfx-liquidity-flat-terminal-v9">
-/* Flat premium terminal: remove card boxes while retaining every live widget and control. */
-#page-liquidity{--nfx-flat-line:#202a35;--nfx-flat-muted:#8190a0;background:#080c11!important}
-#page-liquidity .nfx-market-terminal-head,#page-liquidity .nfx-market-search,
-#page-liquidity #nfxLiqLivePanel,#page-liquidity #nfxLiqBookHeatmap,
-#page-liquidity #nfxLiqLiquidationHeatmap,#page-liquidity #nfxOrderFlowDesk,
-#page-liquidity #nfxCvdCard,#page-liquidity #nfxOpenInterestCard,#page-liquidity #nfxFundingCard{
- border:0!important;border-radius:0!important;box-shadow:none!important;background:transparent!important}
-#page-liquidity .nfx-market-terminal-head{padding:20px 0 17px!important;margin:0 0 14px!important;border-bottom:1px solid var(--nfx-flat-line)!important}
-#page-liquidity .nfx-market-search{display:grid!important;grid-template-columns:minmax(220px,.8fr) minmax(280px,1.2fr)!important;gap:12px 24px!important;padding:14px 0!important;margin:0 0 20px!important;border-bottom:1px solid var(--nfx-flat-line)!important}
-#page-liquidity .nfx-market-search-input-wrap{border:1px solid #303b48!important;border-radius:3px!important;background:#0b1118!important}
-#page-liquidity #nfxLiqDashboard{display:grid!important;grid-template-columns:repeat(12,minmax(0,1fr))!important;gap:0 26px!important;align-items:start!important}
-#page-liquidity #nfxLiqDashboard>*{min-width:0!important;box-sizing:border-box!important}
-#page-liquidity #nfxLiqLivePanel,#page-liquidity #nfxOrderFlowDesk{grid-column:1/-1!important;width:100%!important;padding:18px 0 22px!important;margin:0!important;border-bottom:1px solid var(--nfx-flat-line)!important}
-#page-liquidity #nfxLiqBookHeatmap,#page-liquidity #nfxLiqLiquidationHeatmap{grid-column:span 6!important;width:100%!important;padding:20px 0 22px!important;margin:0!important;display:flex!important;flex-direction:column!important;border-bottom:1px solid var(--nfx-flat-line)!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-top,#page-liquidity #nfxOrderFlowDesk .nfx-ofd-head{padding:0 0 14px!important;margin:0 0 14px!important;border-bottom:1px solid var(--nfx-flat-line)!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-summary{display:grid!important;grid-template-columns:1.25fr repeat(5,minmax(0,1fr))!important;gap:0!important;padding:9px 0!important;border:0!important;border-top:1px solid var(--nfx-flat-line)!important;border-bottom:1px solid var(--nfx-flat-line)!important;border-radius:0!important;background:transparent!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-contract,#page-liquidity #nfxLiqLivePanel .nfx-obx-metric{min-width:0!important;padding:9px 13px!important;border:0!important;border-right:1px solid var(--nfx-flat-line)!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-summary>*:last-child{border-right:0!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-toolbar{margin:13px 0!important;padding:9px 0!important;border:0!important;border-bottom:1px solid var(--nfx-flat-line)!important;border-radius:0!important;background:transparent!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-book{display:grid!important;grid-template-columns:minmax(0,1fr) 180px minmax(0,1fr)!important;gap:16px!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-side{min-width:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-sidehead{padding:9px 0!important;border-bottom:1px solid var(--nfx-flat-line)!important;background:transparent!important}
-#page-liquidity #nfxLiqLivePanel .nfx-liq-levels{height:clamp(300px,32vw,440px)!important;min-height:280px!important;max-height:440px!important;padding:8px 0!important;background:transparent!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-mid{justify-content:center!important;gap:12px!important;padding:16px 10px!important;border:0!important;border-left:1px solid var(--nfx-flat-line)!important;border-right:1px solid var(--nfx-flat-line)!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-spread,#page-liquidity #nfxLiqLivePanel .nfx-obx-depthsplit>div{border:0!important;border-top:1px solid var(--nfx-flat-line)!important;border-radius:0!important;background:transparent!important}
-#page-liquidity #nfxLiqLivePanel .nfx-obx-footer{margin-top:13px!important;padding-top:12px!important;border-top:1px solid var(--nfx-flat-line)!important}
-#page-liquidity #nfxLiqBookHeatmap .nfx-liq-timeline-head,#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:12px!important;padding:0 0 13px!important;border-bottom:1px solid var(--nfx-flat-line)!important}
-#page-liquidity #nfxLiqBookHeatmap .nfx-liq-card-actions,#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-card-actions{display:flex!important;align-items:center!important;justify-content:flex-start!important;flex-wrap:wrap!important;gap:7px!important}
-#page-liquidity #nfxBookHeatmapStats,#page-liquidity #nfxLiquidationHeatmapStats{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:0!important;margin:13px 0!important;border:0!important;border-top:1px solid var(--nfx-flat-line)!important;border-bottom:1px solid var(--nfx-flat-line)!important;border-radius:0!important;background:transparent!important}
-#page-liquidity #nfxBookHeatmapStats>div,#page-liquidity #nfxLiquidationHeatmapStats>div{padding:10px 9px!important;border:0!important;border-right:1px solid var(--nfx-flat-line)!important;background:transparent!important}
-#page-liquidity #nfxBookHeatmapStats>div:last-child,#page-liquidity #nfxLiquidationHeatmapStats>div:last-child{border-right:0!important}
-#page-liquidity #nfxLiqBookHeatmap .nfx-liq-timeline-wrap,#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-chart-frame .nfx-liq-timeline-wrap{position:relative!important;width:100%!important;height:clamp(300px,31vw,420px)!important;min-height:280px!important;border:0!important;border-top:1px solid #17222d!important;border-bottom:1px solid #17222d!important;border-radius:0!important;background:#080d13!important;overflow:hidden!important}
-#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-chart-frame{margin:0!important;border:0!important;border-radius:0!important;background:transparent!important}
-#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-chart-topline{padding:9px 0!important;border-bottom:1px solid var(--nfx-flat-line)!important;background:transparent!important}
-#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-model-legend{display:flex!important;gap:12px!important;flex-wrap:wrap!important;margin:0 0 10px!important;padding:9px 0!important;border:0!important;border-bottom:1px solid var(--nfx-flat-line)!important;border-radius:0!important;background:transparent!important}
-#page-liquidity #nfxLiqBookHeatmap .nfx-liq-timeline-note,#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-timeline-note{margin-top:10px!important;padding:8px 0!important;border:0!important;border-radius:0!important;background:transparent!important;color:var(--nfx-flat-muted)!important}
-#page-liquidity #nfxOrderFlowDesk .nfx-ofd-metrics{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:0!important;margin:13px 0!important;border:0!important;border-top:1px solid var(--nfx-flat-line)!important;border-bottom:1px solid var(--nfx-flat-line)!important;background:transparent!important}
-#page-liquidity #nfxOrderFlowDesk .nfx-ofd-metrics>div{padding:12px 13px!important;border:0!important;border-right:1px solid var(--nfx-flat-line)!important;background:transparent!important}
-#page-liquidity #nfxOrderFlowDesk .nfx-ofd-metrics>div:last-child{border-right:0!important}
-#page-liquidity #nfxOrderFlowDesk .nfx-ofd-main{display:grid!important;grid-template-columns:minmax(0,1.35fr) minmax(300px,.85fr)!important;gap:24px!important;padding:14px 0!important}
-#page-liquidity #nfxOrderFlowDesk .nfx-ofd-chart-card,#page-liquidity #nfxOrderFlowDesk .nfx-ofd-tape-card{min-width:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
-#page-liquidity #nfxOrderFlowDesk .nfx-ofd-subhead{padding:9px 0!important;border-bottom:1px solid var(--nfx-flat-line)!important;background:transparent!important}
-#page-liquidity #nfxOrderFlowDesk .nfx-ofd-foot{padding-top:12px!important;border-top:1px solid var(--nfx-flat-line)!important}
-#page-liquidity #nfxCvdCard,#page-liquidity #nfxOpenInterestCard,#page-liquidity #nfxFundingCard{padding:14px 0!important;border-top:1px solid var(--nfx-flat-line)!important;border-bottom:1px solid var(--nfx-flat-line)!important;margin:0!important}
-#page-liquidity .nfx-est-liq-ranges button,#page-liquidity .nfx-obx-levels button{border:1px solid #293541!important;border-radius:3px!important;background:transparent!important;box-shadow:none!important}
-#page-liquidity .nfx-est-liq-ranges button.active,#page-liquidity .nfx-obx-levels button.active{border-color:#477c6c!important;background:#10251f!important}
-@media(max-width:1050px){
- #page-liquidity #nfxLiqLivePanel .nfx-obx-summary{grid-template-columns:repeat(3,minmax(0,1fr))!important}
- #page-liquidity #nfxLiqLivePanel .nfx-obx-book{grid-template-columns:minmax(0,1fr) 145px minmax(0,1fr)!important}
- #page-liquidity #nfxOrderFlowDesk .nfx-ofd-metrics{grid-template-columns:repeat(3,minmax(0,1fr))!important}
-}
-@media(max-width:720px){
- #page-liquidity .nfx-market-search{grid-template-columns:1fr!important}
- #page-liquidity #nfxLiqDashboard{grid-template-columns:minmax(0,1fr)!important;gap:0!important}
- #page-liquidity #nfxLiqLivePanel,#page-liquidity #nfxLiqBookHeatmap,#page-liquidity #nfxLiqLiquidationHeatmap,#page-liquidity #nfxOrderFlowDesk{grid-column:1/-1!important}
- #page-liquidity #nfxLiqBookHeatmap,#page-liquidity #nfxLiqLiquidationHeatmap{padding:18px 0!important}
- #page-liquidity #nfxLiqLivePanel .nfx-obx-summary{grid-template-columns:repeat(2,minmax(0,1fr))!important}
- #page-liquidity #nfxLiqLivePanel .nfx-obx-book{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:9px!important}
- #page-liquidity #nfxLiqLivePanel .nfx-obx-mid{grid-column:1/-1!important;grid-row:1!important;min-height:145px!important;border:0!important;border-bottom:1px solid var(--nfx-flat-line)!important}
- #page-liquidity #nfxLiqLivePanel .nfx-liq-levels{height:300px!important;min-height:250px!important}
- #page-liquidity #nfxBookHeatmapStats,#page-liquidity #nfxLiquidationHeatmapStats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
- #page-liquidity #nfxBookHeatmapStats>div:nth-child(2),#page-liquidity #nfxLiquidationHeatmapStats>div:nth-child(2){border-right:0!important}
- #page-liquidity #nfxOrderFlowDesk .nfx-ofd-main{grid-template-columns:minmax(0,1fr)!important;gap:16px!important}
- #page-liquidity #nfxOrderFlowDesk .nfx-ofd-metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-}
-@media(max-width:390px){#page-liquidity #nfxLiqLivePanel .nfx-obx-book{gap:6px!important}#page-liquidity #nfxLiqLivePanel .nfx-obx-colheads{font-size:7px!important}#page-liquidity #nfxLiqLivePanel .nfx-liq-row{font-size:8px!important}}
+
+
+
+
+
+
+<style id="nfx-liquidity-terminal-rebuild-v10">
+#page-liquidity{--liq-bg:#080c12;--liq-surface:#0d141d;--liq-surface-2:#101a25;--liq-line:#253241;--liq-line-soft:#1a2632;--liq-text:#e8edf4;--liq-muted:#8291a2;--liq-green:#20c997;--liq-red:#ef5967;background:var(--liq-bg)!important;color:var(--liq-text)!important;padding:clamp(14px,2.2vw,30px)!important}
+#page-liquidity *{box-sizing:border-box}
+#page-liquidity .nfx-market-terminal-intro{display:flex!important;justify-content:space-between!important;align-items:flex-end!important;gap:24px!important;padding:4px 0 22px!important;margin:0 0 18px!important;border-bottom:1px solid var(--liq-line)!important;background:transparent!important}
+#page-liquidity .nfx-market-terminal-eyebrow,#page-liquidity .nfx-obx-eyebrow,#page-liquidity .nfx-ofd-kicker{color:#aab6c4!important;letter-spacing:.13em!important;font-size:10px!important}
+#page-liquidity .nfx-market-terminal-intro h1{font-size:clamp(27px,3vw,40px)!important;line-height:1.1!important;letter-spacing:-.035em!important;margin:10px 0 8px!important}
+#page-liquidity .nfx-market-terminal-intro h1 span{color:#dce5ef!important}
+#page-liquidity .nfx-market-terminal-intro p{color:var(--liq-muted)!important;font-size:13px!important;margin:0!important}
+#page-liquidity .nfx-market-terminal-meta{font-size:10px!important;letter-spacing:.1em!important;color:#a5b4c3!important}
+#page-liquidity .nfx-liq-market-tabs{display:flex!important;align-items:center!important;gap:10px!important;padding:0 0 15px!important;border-bottom:1px solid var(--liq-line-soft)!important}
+#page-liquidity .nfx-feed-switch{background:transparent!important;border:0!important;padding:0 16px 0 0!important;border-right:1px solid var(--liq-line)!important;border-radius:0!important}
+#page-liquidity .nfx-liq-market-tab{background:var(--liq-surface-2)!important;border:1px solid var(--liq-line)!important;border-radius:4px!important;color:#cbd5df!important}
+#page-liquidity .nfx-liq-market-tab.active{border-color:#a33a48!important;background:#24151b!important;color:#fff!important}
+#page-liquidity .nfx-market-search{display:grid!important;grid-template-columns:minmax(210px,.8fr) minmax(260px,1.2fr)!important;align-items:center!important;gap:10px 28px!important;padding:18px 0!important;margin:0!important;background:transparent!important;border:0!important;border-bottom:1px solid var(--liq-line)!important;border-radius:0!important;box-shadow:none!important}
+#page-liquidity .nfx-market-search-copy h2{font-size:17px!important;margin:3px 0!important}
+#page-liquidity .nfx-market-search-copy p,#page-liquidity .nfx-market-search-meta{font-size:11px!important;color:var(--liq-muted)!important}
+#page-liquidity .nfx-market-search-form{display:flex!important;gap:8px!important}
+#page-liquidity .nfx-market-search-input-wrap{min-width:0!important;flex:1!important;background:#0c131b!important;border:1px solid #2a3745!important;border-radius:4px!important}
+#page-liquidity .nfx-market-search-input-wrap input{color:#edf3f8!important}
+#page-liquidity .nfx-market-search-button{background:#a9273a!important;border:1px solid #c33b4d!important;border-radius:4px!important;white-space:nowrap!important}
+#page-liquidity .nfx-market-search-meta{grid-column:1/-1!important;display:flex!important;gap:9px!important;align-items:center!important;flex-wrap:wrap!important}
+#page-liquidity #nfxLiqDashboard{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:0 28px!important;width:100%!important;margin:0!important;align-items:start!important}
+#page-liquidity #nfxLiqDashboard>*{min-width:0!important;max-width:100%!important}
+#page-liquidity #nfxLiqLivePanel,#page-liquidity #nfxOrderFlowDesk{grid-column:1/-1!important;width:100%!important;margin:0!important;padding:24px 0!important;background:transparent!important;border:0!important;border-bottom:1px solid var(--liq-line)!important;border-radius:0!important;box-shadow:none!important}
+#page-liquidity #nfxLiqBookHeatmap,#page-liquidity #nfxLiqLiquidationHeatmap{grid-column:span 1!important;min-width:0!important;width:100%!important;margin:0!important;padding:24px 0!important;background:transparent!important;border:0!important;border-bottom:1px solid var(--liq-line)!important;border-radius:0!important;box-shadow:none!important}
+#page-liquidity .nfx-obx-top,#page-liquidity .nfx-ofd-head{display:flex!important;justify-content:space-between!important;align-items:center!important;gap:16px!important;padding:0 0 15px!important;margin:0 0 14px!important;border-bottom:1px solid var(--liq-line)!important}
+#page-liquidity .nfx-obx-top h2,#page-liquidity .nfx-ofd-head h2{font-size:21px!important;letter-spacing:-.02em!important;margin:5px 0!important}
+#page-liquidity .nfx-obx-top p,#page-liquidity .nfx-ofd-head p{font-size:11px!important;color:var(--liq-muted)!important;margin:0!important}
+#page-liquidity .nfx-obx-topright,#page-liquidity .nfx-ofd-head-right{display:flex!important;align-items:center!important;gap:12px!important;flex-wrap:wrap!important}
+#page-liquidity .nfx-liq-fullscreen-btn,#page-liquidity #nfxOfdExpand{border:1px solid var(--liq-line)!important;border-radius:4px!important;background:#0d151e!important;color:#cbd5df!important;padding:8px 11px!important}
+#page-liquidity .nfx-obx-summary{display:grid!important;grid-template-columns:1.35fr repeat(5,minmax(0,1fr))!important;gap:0!important;margin:0 0 15px!important;padding:10px 0!important;background:#0c131b!important;border:1px solid var(--liq-line)!important;border-radius:5px!important}
+#page-liquidity .nfx-obx-contract,#page-liquidity .nfx-obx-metric{min-width:0!important;padding:8px 13px!important;border:0!important;border-right:1px solid var(--liq-line)!important;background:transparent!important;box-shadow:none!important}
+#page-liquidity .nfx-obx-summary>*:last-child{border-right:0!important}
+#page-liquidity .nfx-obx-caption,#page-liquidity .nfx-obx-metric>span{font-size:9px!important;color:var(--liq-muted)!important;letter-spacing:.08em!important}
+#page-liquidity .nfx-obx-contractline strong{font-size:17px!important;color:#f2f6fa!important}
+#page-liquidity .nfx-obx-metric strong{display:block!important;font-size:clamp(12px,1.2vw,16px)!important;margin:7px 0 3px!important;white-space:nowrap!important}
+#page-liquidity .nfx-obx-metric small,#page-liquidity .nfx-obx-contract small{font-size:9px!important;color:var(--liq-muted)!important}
+#page-liquidity .nfx-obx-toolbar{display:flex!important;justify-content:space-between!important;align-items:center!important;gap:12px!important;flex-wrap:wrap!important;padding:10px 12px!important;margin:0 0 14px!important;background:#0c131b!important;border:1px solid var(--liq-line)!important;border-radius:4px!important}
+#page-liquidity .nfx-obx-feed,#page-liquidity .nfx-obx-tools{display:flex!important;align-items:center!important;gap:9px!important}
+#page-liquidity .nfx-obx-feed b{font-size:10px!important;letter-spacing:.08em!important}
+#page-liquidity .nfx-obx-feed small,#page-liquidity .nfx-obx-tools>span{font-size:9px!important;color:var(--liq-muted)!important}
+#page-liquidity .nfx-obx-levels{display:flex!important;gap:4px!important}
+#page-liquidity .nfx-obx-levels button{min-width:34px!important;padding:6px 8px!important;border:1px solid var(--liq-line)!important;border-radius:3px!important;background:#101a25!important;color:#c7d1dc!important}
+#page-liquidity .nfx-obx-levels button.active{background:#203a35!important;border-color:#397a67!important;color:#d9fff2!important}
+#page-liquidity .nfx-obx-book{display:grid!important;grid-template-columns:minmax(0,1fr) 190px minmax(0,1fr)!important;gap:14px!important;align-items:stretch!important}
+#page-liquidity .nfx-obx-side{min-width:0!important;background:#0b121a!important;border:1px solid var(--liq-line)!important;border-radius:5px!important;overflow:hidden!important}
+#page-liquidity .nfx-obx-sidehead{padding:11px 12px!important;background:#101923!important;border-bottom:1px solid var(--liq-line)!important}
+#page-liquidity .nfx-obx-colheads{display:grid!important;grid-template-columns:1fr .7fr .7fr!important;gap:4px!important;font-size:9px!important;color:var(--liq-muted)!important}
+#page-liquidity .nfx-obx-colheads span:not(:first-child){text-align:right!important}
+#page-liquidity .nfx-liq-levels{height:clamp(310px,31vw,430px)!important;min-height:270px!important;max-height:430px!important;overflow:auto!important;padding:8px 10px!important}
+#page-liquidity .nfx-obx-mid{display:flex!important;flex-direction:column!important;justify-content:center!important;gap:11px!important;min-width:0!important;padding:16px 12px!important;background:#0d151e!important;border:1px solid var(--liq-line)!important;border-radius:5px!important;text-align:center!important}
+#page-liquidity .nfx-obx-mid>strong{font-size:clamp(19px,2vw,28px)!important;color:#f3f6fa!important;overflow-wrap:anywhere!important}
+#page-liquidity .nfx-obx-midlabel,#page-liquidity .nfx-obx-midnote{font-size:9px!important;color:var(--liq-muted)!important}
+#page-liquidity .nfx-obx-spread,#page-liquidity .nfx-obx-depthsplit>div{padding:9px!important;background:#101a24!important;border:1px solid var(--liq-line-soft)!important;border-radius:3px!important}
+#page-liquidity .nfx-obx-bestrow{display:flex!important;justify-content:space-between!important;gap:6px!important;font-size:10px!important}
+#page-liquidity .nfx-obx-sidefoot,#page-liquidity .nfx-obx-footer{display:flex!important;justify-content:space-between!important;align-items:center!important;gap:12px!important;flex-wrap:wrap!important;padding:11px 12px!important;border-top:1px solid var(--liq-line)!important;color:var(--liq-muted)!important;font-size:9px!important}
+#page-liquidity .nfx-liq-timeline-head{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:12px!important;padding:0 0 14px!important;border-bottom:1px solid var(--liq-line)!important}
+#page-liquidity .nfx-liq-timeline-head h3{font-size:19px!important;margin:5px 0!important;letter-spacing:-.02em!important}
+#page-liquidity .nfx-liq-timeline-head p{font-size:10px!important;line-height:1.6!important;color:var(--liq-muted)!important;margin:0!important}
+#page-liquidity .nfx-liq-card-actions{display:flex!important;align-items:center!important;gap:8px!important;flex-wrap:wrap!important}
+#page-liquidity .nfx-est-liq-ranges{display:flex!important;gap:4px!important;flex-wrap:wrap!important}
+#page-liquidity .nfx-est-liq-ranges button{min-width:34px!important;padding:7px 8px!important;border:1px solid var(--liq-line)!important;border-radius:3px!important;background:#0e1721!important;color:#c4cfda!important;font-size:9px!important}
+#page-liquidity .nfx-est-liq-ranges button.active{background:#26352f!important;border-color:#477c6c!important;color:#e4fff3!important}
+#page-liquidity .nfx-heatmap-stats{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:0!important;margin:13px 0!important;padding:9px 0!important;background:#0c131b!important;border:1px solid var(--liq-line)!important;border-radius:4px!important}
+#page-liquidity .nfx-heatmap-stats>div{min-width:0!important;padding:5px 10px!important;border:0!important;border-right:1px solid var(--liq-line)!important;background:transparent!important}
+#page-liquidity .nfx-heatmap-stats>div:last-child{border:0!important}
+#page-liquidity .nfx-heatmap-stats span{display:block!important;font-size:8px!important;color:var(--liq-muted)!important;letter-spacing:.06em!important}
+#page-liquidity .nfx-heatmap-stats b{display:block!important;font-size:14px!important;margin-top:5px!important;color:#e7edf4!important}
+#page-liquidity .nfx-liq-model-legend{display:flex!important;gap:12px!important;flex-wrap:wrap!important;padding:9px 0!important;border-bottom:1px solid var(--liq-line-soft)!important;font-size:9px!important;color:#b8c4d0!important}
+#page-liquidity .nfx-liq-chart-frame{margin:0!important;background:transparent!important;border:0!important}
+#page-liquidity .nfx-liq-chart-topline{display:flex!important;justify-content:space-between!important;gap:10px!important;padding:10px 0!important;color:var(--liq-muted)!important;font-size:9px!important}
+#page-liquidity .nfx-liq-timeline-wrap{position:relative!important;width:100%!important;height:clamp(290px,28vw,390px)!important;min-height:260px!important;overflow:hidden!important;background:#080e15!important;border:1px solid #1c2a38!important;border-radius:4px!important}
+#page-liquidity .nfx-liq-timeline-wrap canvas{display:block!important;width:100%!important;height:100%!important}
+#page-liquidity .nfx-liq-timeline-empty{font-size:11px!important;color:var(--liq-muted)!important}
+#page-liquidity .nfx-liq-timeline-axis{display:flex!important;justify-content:space-between!important;padding:8px 1px!important;color:var(--liq-muted)!important;font-size:8px!important}
+#page-liquidity .nfx-liq-timeline-note{padding:10px 0!important;color:var(--liq-muted)!important;font-size:9px!important;line-height:1.6!important;border-top:1px solid var(--liq-line-soft)!important}
+#page-liquidity .nfx-ofd-metrics{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:0!important;margin:14px 0!important;background:#0c131b!important;border:1px solid var(--liq-line)!important;border-radius:4px!important}
+#page-liquidity .nfx-ofd-metrics>div{min-width:0!important;padding:12px!important;border:0!important;border-right:1px solid var(--liq-line)!important;background:transparent!important}
+#page-liquidity .nfx-ofd-metrics>div:last-child{border:0!important}
+#page-liquidity .nfx-ofd-metrics span{font-size:8px!important;color:var(--liq-muted)!important}
+#page-liquidity .nfx-ofd-metrics b{display:block!important;font-size:17px!important;margin:6px 0!important;color:#e9eff5!important}
+#page-liquidity .nfx-ofd-metrics small{font-size:9px!important;color:var(--liq-muted)!important}
+#page-liquidity .nfx-ofd-main{display:grid!important;grid-template-columns:minmax(0,1.3fr) minmax(300px,.9fr)!important;gap:22px!important;padding:12px 0!important}
+#page-liquidity .nfx-ofd-chart-card,#page-liquidity .nfx-ofd-tape-card{min-width:0!important;background:#0b121a!important;border:1px solid var(--liq-line)!important;border-radius:5px!important;overflow:hidden!important}
+#page-liquidity .nfx-ofd-subhead{display:flex!important;justify-content:space-between!important;gap:10px!important;padding:11px 13px!important;background:#101923!important;border-bottom:1px solid var(--liq-line)!important;font-size:9px!important;color:#cbd5df!important}
+#page-liquidity #nfxOfdChart{display:block!important;width:100%!important;max-width:100%!important}
+#page-liquidity .nfx-ofd-tape-head,#page-liquidity .nfx-ofd-tape-row{display:grid!important;grid-template-columns:.8fr .7fr 1.2fr .8fr 1fr!important;gap:5px!important}
+#page-liquidity .nfx-ofd-tape-head{padding:9px!important;color:var(--liq-muted)!important;font-size:8px!important;border-bottom:1px solid var(--liq-line)!important}
+#page-liquidity .nfx-ofd-tape{max-height:340px!important;overflow:auto!important}
+#page-liquidity .nfx-ofd-foot{display:flex!important;justify-content:space-between!important;gap:10px!important;flex-wrap:wrap!important;padding:12px 0!important;border-top:1px solid var(--liq-line)!important;color:var(--liq-muted)!important;font-size:8px!important}
+#page-liquidity #nfxCvdCard,#page-liquidity #nfxOpenInterestCard,#page-liquidity #nfxFundingCard{display:inline-flex!important;vertical-align:top!important;flex-direction:column!important;width:calc(33.333% - 14px)!important;min-height:110px!important;margin:16px 18px 0 0!important;padding:15px!important;background:#0c131b!important;border:1px solid var(--liq-line)!important;border-radius:5px!important;box-shadow:none!important}
+#page-liquidity #nfxFundingCard{margin-right:0!important}
+#page-liquidity .nfx-of-card strong{font-size:19px!important;color:#edf2f7!important;margin:8px 0!important}
+#page-liquidity .nfx-of-label,#page-liquidity .nfx-of-sub{font-size:9px!important;color:var(--liq-muted)!important}
+#page-liquidity .nfx-liq-disclaimer{margin:18px 0 0!important;padding:12px 0!important;border-top:1px solid var(--liq-line)!important;color:var(--liq-muted)!important;font-size:9px!important}
+#page-liquidity .nfx-liq-expanded-fallback{z-index:99999!important;background:#080c12!important;padding:24px!important;overflow:auto!important}
+@media(max-width:1050px){#page-liquidity #nfxLiqDashboard{gap:0 18px!important}#page-liquidity .nfx-obx-summary{grid-template-columns:repeat(3,minmax(0,1fr))!important}#page-liquidity .nfx-obx-contract,#page-liquidity .nfx-obx-metric{border-bottom:1px solid var(--liq-line-soft)!important}#page-liquidity .nfx-obx-book{grid-template-columns:minmax(0,1fr) 150px minmax(0,1fr)!important}#page-liquidity .nfx-ofd-metrics{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-width:720px){#page-liquidity{padding:12px!important}#page-liquidity .nfx-market-terminal-intro{align-items:flex-start!important;flex-direction:column!important;gap:12px!important}#page-liquidity .nfx-market-search{grid-template-columns:1fr!important;gap:10px!important}#page-liquidity #nfxLiqDashboard{grid-template-columns:minmax(0,1fr)!important}#page-liquidity #nfxLiqLivePanel,#page-liquidity #nfxLiqBookHeatmap,#page-liquidity #nfxLiqLiquidationHeatmap,#page-liquidity #nfxOrderFlowDesk{grid-column:1/-1!important}#page-liquidity .nfx-obx-summary{grid-template-columns:repeat(2,minmax(0,1fr))!important}#page-liquidity .nfx-obx-book{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:8px!important}#page-liquidity .nfx-obx-mid{grid-column:1/-1!important;grid-row:1!important;min-height:145px!important}#page-liquidity .nfx-liq-levels{height:300px!important;min-height:240px!important}#page-liquidity .nfx-heatmap-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}#page-liquidity .nfx-heatmap-stats>div:nth-child(2){border-right:0!important}#page-liquidity .nfx-ofd-metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important}#page-liquidity .nfx-ofd-main{grid-template-columns:1fr!important;gap:12px!important}#page-liquidity #nfxCvdCard,#page-liquidity #nfxOpenInterestCard,#page-liquidity #nfxFundingCard{width:100%!important;margin:10px 0 0!important}}
+@media(max-width:390px){#page-liquidity .nfx-obx-book{gap:5px!important}#page-liquidity .nfx-obx-colheads{font-size:7px!important}#page-liquidity .nfx-obx-mid{padding:12px 8px!important}}
 </style>
