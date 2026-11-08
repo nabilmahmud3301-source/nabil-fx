@@ -9017,35 +9017,17 @@ window.renderBacktestMetrics=function(r,meta={}){
     const label=topic.title||'Trading concept';
     return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 520" role="img" aria-label="'+esc(label)+' illustrated trading lesson"><defs><linearGradient id="learnPanel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#111b27"/><stop offset="1" stop-color="#080d13"/></linearGradient></defs><rect width="1100" height="520" rx="16" fill="#05080d" stroke="#263647"/><path d="M0 72H1100" stroke="#b83b50" stroke-width="2"/><text x="28" y="43" fill="#f3f6fa" font-size="25" font-weight="800" font-family="Inter,Arial,sans-serif">'+esc(label.toUpperCase())+'</text><text x="1070" y="42" fill="#91a2b5" font-size="11" text-anchor="end" font-weight="700" font-family="Inter,Arial,sans-serif">'+esc(cat.toUpperCase())+'</text><svg x="18" y="84" width="720" height="340" viewBox="0 0 720 340">'+grid+T(52,28,title,C.white,14)+T(655,28,cat.toUpperCase(),C.muted,9)+bars+'<path d="'+path+'" fill="none" stroke="'+C.white+'" stroke-width="2.6" opacity=".65"/>'+o+vol+L(50,310,665,310,'#344354')+T(52,329,'ILLUSTRATIVE PRICE ACTION · NOT LIVE DATA',C.muted,9)+'</svg><rect x="755" y="84" width="325" height="340" rx="12" fill="url(#learnPanel)" stroke="#33475b"/><rect x="775" y="104" width="285" height="34" rx="7" fill="#54202c" stroke="#a33a4c"/><text x="792" y="127" fill="#fff" font-size="16" font-weight="800" font-family="Inter,Arial,sans-serif">CORE IDEA</text>'+introSvg+'<path d="M775 270H1060" stroke="#304052"/><text x="778" y="297" fill="'+C.green+'" font-size="13" font-weight="800" font-family="Inter,Arial,sans-serif">HOW TO IDENTIFY</text>'+bulletSvg+'<rect x="18" y="440" width="1062" height="58" rx="10" fill="#0d1520" stroke="#293b4e"/><text x="38" y="464" fill="'+C.gold+'" font-size="11" font-weight="800" font-family="Inter,Arial,sans-serif">LEARNING FOCUS</text><text x="38" y="484" fill="#dce5ee" font-size="12" font-family="Inter,Arial,sans-serif">'+esc((topic.tip||topic.how||'Study the chart, define the rule, and wait for confirmation.').slice(0,145))+'</text></svg>';
   }
-  // Topic-matched chart references: distinguish major swings, internal swings and candle reactions.
+  // One dedicated reference image per Price Action topic. Each image pairs bullish and bearish examples of that same concept.
   function topicImage(t){
     const refs={
-      'market-structure':'https://blueberrymarkets.com/media/guxpvotg/internal-structure-lower-timeframe.webp',
-      'bos':'https://cms.rally.trade/uploads/rally_trade_market_structure_bullish_bearish_bos_1884ec6cd5.webp',
-      'choch':'https://www.foreximf.com/upload/image/blog/panduan_lengkap_membaca_market_structure_forex_step-by-step_untuk_pemula/2-_mengidentifikasi_puncak_dan_lembah.png',
-      'mss':'https://www.lombardreport.com/uploaded/MSS-YCs0mNFE.png',
-      'support-resistance':'https://img.capital.com/docs/1-1-.png',
-      'trendline':'https://cdn.sanity.io/images/qjqyemfi/production/61e3275530800d282b01c1177e1333834e81cba0-644x505.png?auto=format&fit=max',
-      'candlesticks':'https://26693533.fs1.hubspotusercontent-eu1.net/hubfs/26693533/Imported_Blog_Media/1-pin-bar-candlestick-strategy.png',
-      'liquidity-sweep':'https://thetradingstreet.com/uploads/blog/liquidity-in-trading-how-internal-external-liquidity-move-price/image_1f3a848f-f99b-42f0-b1a2-d17f7c042ea5.png'
+      'market-structure':'https://forexmechanics.com/technical-analysis/trend-support-resistance/1200/uptrend-downtrend-hh-hl-lh-ll.jpg',
+      'bos':'https://s3.tradingview.com/w/w3IuTqIg_big.png',
+      'choch':'https://s3.tradingview.com/d/DEVvq7WB_big.png',
+      'mss':'https://cdn.prod.website-files.com/697103179acf24479947e31c/697a7ca2660f6271d0df77f6_articles%252Ftrading-strategies%252Fict-strategies%252Fict-turtle-soup%252FICT%2520Turtle%2520Soup%25204.webp',
+      'support-resistance':'https://commerciumiq.com/assets/media/glossary/candlesticks-at-support-and-resistance/candlesticks-at-support-and-resistance-context.svg?v=r6c10k-candle-defect-closure',
+      'trendline':'https://www.strike.money/wp-content/uploads/2024/03/Types-of-Trend-Channels.jpg'
     };
     return refs[t.id] || ('assets/learn-trading/' + t.id + '.jpg');
-  }
-  function topicExtraVisuals(t){
-    const extras={
-      'market-structure':[
-        ['https://i.pinimg.com/originals/49/04/32/4904320610eb87f77572fb47b1e08413.jpg','Internal vs external swings','Major external highs/lows frame the larger move; smaller internal swings form inside it.'],
-        ['https://blueberrymarkets.com/media/guxpvotg/internal-structure-lower-timeframe.webp','Internal structure inside a bearish trend','A lower-timeframe pullback can move against the higher-timeframe structure without reversing it.']
-      ],
-      'bos':[
-        ['https://cdn.arongroups.co/uploads/2025/12/market-structure-indicator-13.jpg','Bearish BOS on a candlestick chart','A bearish break is shown below a prior swing low; use a consistent candle-close rule.']
-      ],
-      'candlesticks':[
-        ['https://forexmechanics.com/technical-analysis/price-action/1200/price-action-classic-setups.jpg','Rejection and reversal candle patterns','Compare pin-bar rejection with engulfing and other reversal patterns.'],
-        ['https://pbs.twimg.com/media/E_BbOh9XIAUudvz.jpg','Bearish pin-bar rejection at resistance','The long upper wick shows rejection; wait for confirmation rather than treating the wick alone as a trade signal.']
-      ]
-    };
-    return (extras[t.id]||[]).map(v=>'<figure class="nfx-learn-visual"><img src="'+v[0]+'" alt="'+esc(v[1])+'" loading="lazy" onerror="this.closest(\'figure\').hidden=true"><figcaption><strong>'+esc(v[1])+'</strong> · '+esc(v[2])+'</figcaption></figure>').join('');
   }
   function filtered(){return topics.filter(t=>(activeCategory==='All Topics'||t.cat===activeCategory)&&(!query||(t.title+' '+t.cat+' '+t.tags+' '+t.intro).toLowerCase().includes(query)));}
   function renderCategories(){
@@ -9063,7 +9045,7 @@ window.renderBacktestMetrics=function(r,meta={}){
   function openTopic(id){
     const t=topics.find(x=>x.id===id);if(!t)return;selected=id;
     $('nfxLearnTopicGrid').hidden=true;$('nfxLearnResultsHead').hidden=true;$('nfxLearnEmpty').hidden=true;$('nfxLearnDetail').hidden=false;
-    $('nfxLearnDetailContent').innerHTML=`<div class="nfx-learn-kicker">${esc(t.cat.toUpperCase())} · COMPLETE TOPIC GUIDE</div><h2>${esc(t.title)}</h2><p>${esc(t.intro)}</p><figure class="nfx-learn-visual"><img src="${topicImage(t)}" alt="${esc(t.title)} — topic-specific trading chart reference" loading="lazy" onerror="this.closest('figure').hidden=true"><figcaption>${esc(t.title)} · topic-specific chart reference</figcaption></figure>${topicExtraVisuals(t)}<h3>02 · How it works</h3><p>${esc(t.how)}</p><div class="nfx-learn-detail-grid"><section class="nfx-learn-info nfx-learn-valid"><h3>✓ VALID CONDITIONS</h3><ul>${t.valid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section><section class="nfx-learn-info nfx-learn-invalid"><h3>✕ INVALID / WEAK CONDITIONS</h3><ul>${t.invalid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section></div><h3>03 · How to mark it on a chart</h3><ol>${t.mark.map(x=>'<li>'+esc(x)+'</li>').join('')}</ol><div class="nfx-learn-info"><h3>PRO TRADING NOTE</h3><p>${esc(t.tip)}</p></div><h3>04 · Professional chart-reading workflow</h3><ol><li>Start with a clean chart and mark only the relevant higher-timeframe context.</li><li>Identify the exact candles / swing points that satisfy this lesson's definition.</li><li>Draw the zone or level using the stated boundaries; note the timeframe beside it.</li><li>Wait for the confirmation rule. Do not assume the first touch is an entry.</li><li>Define entry trigger, stop-loss invalidation and target before placing an order.</li><li>Capture the chart before the outcome, then journal both valid winners and valid losses.</li></ol><div class="nfx-learn-info"><h3>VALIDATION STANDARD</h3><p>The images above are educational chart references from external publishers; they are not live market data or trade signals. Confirm current market behaviour on your own broker feed. Record the instrument, timezone, spread, session and rule version so the result can be reproduced.</p></div>`;
+    $('nfxLearnDetailContent').innerHTML=`<div class="nfx-learn-kicker">${esc(t.cat.toUpperCase())} · COMPLETE TOPIC GUIDE</div><h2>${esc(t.title)}</h2><p>${esc(t.intro)}</p><figure class="nfx-learn-visual"><img src="${topicImage(t)}" alt="${esc(t.title)} — topic-specific trading chart reference" loading="lazy" onerror="this.closest('figure').hidden=true"><figcaption>${esc(t.title)} · topic-specific chart reference</figcaption></figure><h3>02 · How it works</h3><p>${esc(t.how)}</p><div class="nfx-learn-detail-grid"><section class="nfx-learn-info nfx-learn-valid"><h3>✓ VALID CONDITIONS</h3><ul>${t.valid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section><section class="nfx-learn-info nfx-learn-invalid"><h3>✕ INVALID / WEAK CONDITIONS</h3><ul>${t.invalid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section></div><h3>03 · How to mark it on a chart</h3><ol>${t.mark.map(x=>'<li>'+esc(x)+'</li>').join('')}</ol><div class="nfx-learn-info"><h3>PRO TRADING NOTE</h3><p>${esc(t.tip)}</p></div><h3>04 · Professional chart-reading workflow</h3><ol><li>Start with a clean chart and mark only the relevant higher-timeframe context.</li><li>Identify the exact candles / swing points that satisfy this lesson's definition.</li><li>Draw the zone or level using the stated boundaries; note the timeframe beside it.</li><li>Wait for the confirmation rule. Do not assume the first touch is an entry.</li><li>Define entry trigger, stop-loss invalidation and target before placing an order.</li><li>Capture the chart before the outcome, then journal both valid winners and valid losses.</li></ol><div class="nfx-learn-info"><h3>VALIDATION STANDARD</h3><p>The images above are educational chart references from external publishers; they are not live market data or trade signals. Confirm current market behaviour on your own broker feed. Record the instrument, timezone, spread, session and rule version so the result can be reproduced.</p></div>`;
     $('nfxLearnDetail').scrollIntoView({behavior:'smooth',block:'start'});
   }
   document.addEventListener('click',e=>{
