@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 520" role="img" aria-label="BREAKER BLOCK bullish and bearish trading examples">
+<defs><linearGradient id="bg" x2="0" y2="1"><stop stop-color="#0c1420"/><stop offset="1" stop-color="#060a10"/></linearGradient></defs>
+<rect width="1100" height="520" rx="18" fill="url(#bg)" stroke="#34465b"/>
+<text x="42" y="48" fill="#f4f7fb" font-family="Arial,sans-serif" font-size="25" font-weight="700">BREAKER BLOCK</text>
+<text x="1055" y="47" text-anchor="end" fill="#93a4b8" font-family="Arial,sans-serif" font-size="12">EDUCATIONAL CHART EXAMPLES</text>
+<g transform="translate(35 78)"><rect width="500" height="350" rx="12" fill="#0a111b" stroke="#315444"/><text x="22" y="34" fill="#42c99a" font-family="Arial,sans-serif" font-size="18" font-weight="700">BULLISH BREAKER</text>
+<path d="M25 90H475 M25 160H475 M25 230H475 M25 300H475" stroke="#263443" stroke-dasharray="3 7"/>
+<rect x="155" y="135" width="175" height="48" rx="4" fill="#42c99a" fill-opacity=".20" stroke="#42c99a" stroke-width="2"/>
+<text x="168" y="128" fill="#42c99a" font-family="Arial,sans-serif" font-size="13" font-weight="700">FAILED RESISTANCE → SUPPORT</text>
+<path d="M35 278 L75 250 L115 268 L150 205 L190 220 L230 150 L270 185 L305 95 L345 130 L385 72 L455 90" fill="none" stroke="#dce6f0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M230 150 L270 185 L305 95" fill="none" stroke="#42c99a" stroke-width="5"/>
+<path d="M305 95 L295 117 M305 95 L325 105" stroke="#42c99a" stroke-width="3" fill="none"/>
+<text x="22" y="328" fill="#b9c7d6" font-family="Arial,sans-serif" font-size="13">Prior bearish block is broken, then retested from above</text></g>
+<g transform="translate(565 78)"><rect width="500" height="350" rx="12" fill="#0a111b" stroke="#6b3b45"/><text x="22" y="34" fill="#e87986" font-family="Arial,sans-serif" font-size="18" font-weight="700">BEARISH BREAKER</text>
+<path d="M25 90H475 M25 160H475 M25 230H475 M25 300H475" stroke="#263443" stroke-dasharray="3 7"/>
+<rect x="155" y="135" width="175" height="48" rx="4" fill="#e87986" fill-opacity=".20" stroke="#e87986" stroke-width="2"/>
+<text x="168" y="128" fill="#e87986" font-family="Arial,sans-serif" font-size="13" font-weight="700">FAILED SUPPORT → RESISTANCE</text>
+<path d="M35 72 L75 95 L115 70 L150 130 L190 110 L230 185 L270 150 L305 245 L345 210 L385 280 L455 260" fill="none" stroke="#dce6f0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M230 185 L270 150 L305 245" fill="none" stroke="#e87986" stroke-width="5"/>
+<path d="M305 245 L295 223 M305 245 L325 235" stroke="#e87986" stroke-width="3" fill="none"/>
+<text x="22" y="328" fill="#b9c7d6" font-family="Arial,sans-serif" font-size="13">Prior bullish block is broken, then retested from below</text></g>
+<rect x="35" y="448" width="1030" height="42" rx="8" fill="#111c29" stroke="#2d4054"/>
+<text x="55" y="475" fill="#d8e2ec" font-family="Arial,sans-serif" font-size="14">Mark the zone before price returns. Confirm context, reaction and invalidation; the illustration is not a trade signal.</text>
+</svg>
