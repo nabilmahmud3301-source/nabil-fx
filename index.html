@@ -8979,7 +8979,9 @@ window.renderBacktestMetrics=function(r,meta={}){
     for(let i=0;i<24;i++){const close=Math.max(74,Math.min(240,prev+(rnd(i)-.47)*27));const high=Math.max(prev,close)+8+rnd(i+2)*13,low=Math.min(prev,close)-7-rnd(i+4)*12,x=54+i*25;bars+=candle(x,prev,close,high,low);vol+=R(x,296-(18+rnd(i+19)*42),13,18+rnd(i+19)*42,close<prev?C.red:C.green);pts.push([x+6.5,close]);prev=close;}
     const path=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
     let o='',type='CONCEPT SCHEMATIC';
-    if(/liquidity|equal-high|bsl|ssl|sweep|turtle-soup|judas|inducement/.test(id)){
+    if(/pdh|pdl|previous-day|prior-day/.test(id)){
+      o=L(58,112,660,112,C.red,'7 6')+L(58,242,660,242,C.blue,'7 6')+T(62,101,'PREVIOUS DAY HIGH (PDH)',C.red,10)+T(62,259,'PREVIOUS DAY LOW (PDL)',C.blue,10)+R(486,151,142,48,'#d5b16b18',C.gold)+T(497,170,'TODAY’S RANGE',C.gold,10)+T(497,187,'BETWEEN PDH / PDL',C.white,9);
+    }else if(/liquidity|equal-high|bsl|ssl|sweep|turtle-soup|judas|inducement/.test(id)){
       o=L(58,125,660,125,C.red,'7 6')+L(58,226,660,226,C.blue,'7 6')+T(62,115,'BUY-SIDE LIQUIDITY',C.red,10)+T(62,243,'SELL-SIDE LIQUIDITY',C.blue,10)+R(535,82,96,25,'#e0788420',C.red)+T(544,99,'LIQUIDITY RAID',C.red,9);
     }else if(/fvg|fair-value|order-block|breaker|mitigation|bpr|unicorn|ote/.test(id)){
       o+=R(280,135,115,45,'#73a9e833',C.blue)+T(286,128,'IMBALANCE',C.blue,10)+R(438,184,105,37,'#48c7a022',C.green)+T(445,207,'REACTION',C.green,10)+L(335,85,335,245,C.gold,'3 5')+T(343,96,'RETEST',C.gold,10);
@@ -9018,13 +9020,19 @@ window.renderBacktestMetrics=function(r,meta={}){
     const label=topic.title||'Trading concept';
     return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 520" role="img" aria-label="'+esc(label)+' illustrated trading lesson"><defs><linearGradient id="learnPanel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#111b27"/><stop offset="1" stop-color="#080d13"/></linearGradient></defs><rect width="1100" height="520" rx="16" fill="#05080d" stroke="#263647"/><path d="M0 72H1100" stroke="#b83b50" stroke-width="2"/><text x="28" y="43" fill="#f3f6fa" font-size="25" font-weight="800" font-family="Inter,Arial,sans-serif">'+esc(label.toUpperCase())+'</text><text x="1070" y="42" fill="#91a2b5" font-size="11" text-anchor="end" font-weight="700" font-family="Inter,Arial,sans-serif">'+esc(cat.toUpperCase())+'</text><svg x="18" y="84" width="720" height="340" viewBox="0 0 720 340">'+grid+T(52,28,title,C.white,14)+T(655,28,cat.toUpperCase(),C.muted,9)+bars+'<path d="'+path+'" fill="none" stroke="'+C.white+'" stroke-width="2.6" opacity=".65"/>'+o+vol+L(50,310,665,310,'#344354')+T(52,329,'ILLUSTRATIVE PRICE ACTION · NOT LIVE DATA',C.muted,9)+'</svg><rect x="755" y="84" width="325" height="340" rx="12" fill="url(#learnPanel)" stroke="#33475b"/><rect x="775" y="104" width="285" height="34" rx="7" fill="#54202c" stroke="#a33a4c"/><text x="792" y="127" fill="#fff" font-size="16" font-weight="800" font-family="Inter,Arial,sans-serif">CORE IDEA</text>'+introSvg+'<path d="M775 270H1060" stroke="#304052"/><text x="778" y="297" fill="'+C.green+'" font-size="13" font-weight="800" font-family="Inter,Arial,sans-serif">HOW TO IDENTIFY</text>'+bulletSvg+'<rect x="18" y="440" width="1062" height="58" rx="10" fill="#0d1520" stroke="#293b4e"/><text x="38" y="464" fill="'+C.gold+'" font-size="11" font-weight="800" font-family="Inter,Arial,sans-serif">LEARNING FOCUS</text><text x="38" y="484" fill="#dce5ee" font-size="12" font-family="Inter,Arial,sans-serif">'+esc((topic.tip||topic.how||'Study the chart, define the rule, and wait for confirmation.').slice(0,145))+'</text></svg>';
   }
-  // Use the lesson-specific chart illustration generated from each topic's own definition.
-  // This avoids unrelated/broken third-party image URLs and mismatched stock images.
+  // Use the verified local image assigned to each lesson. Override only known mismatches.
+  // PDH/PDL uses a clean, purpose-built level diagram because its downloaded source was mislabeled.
   function topicImage(t){
-    return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(diagram(t));
+    const overrides={
+      'market-structure':'internal-external',
+      'liquidity':'bsl-ssl',
+      'volume':'volume-profile'
+    };
+    if(t.id==='pdh-pdl') return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(diagram(t));
+    return 'assets/learn-trading/'+(overrides[t.id]||t.id)+'.jpg';
   }
   function topicVisual(t){
-    return '<figure class="nfx-learn-visual"><img src="'+topicImage(t)+'" alt="'+esc(t.title)+' — topic-specific educational candlestick chart and identification guide" loading="lazy"><figcaption>'+esc(t.title)+' · topic-specific educational chart illustration · not live market data</figcaption></figure>';
+    return '<figure class="nfx-learn-visual"><img src="'+topicImage(t)+'" alt="'+esc(t.title)+' — topic-specific educational trading chart" loading="lazy"><figcaption>'+esc(t.title)+' · topic-matched educational chart reference · not live market data</figcaption></figure>';
   }
   function filtered(){return topics.filter(t=>(activeCategory==='All Topics'||t.cat===activeCategory)&&(!query||(t.title+' '+t.cat+' '+t.tags+' '+t.intro).toLowerCase().includes(query)));}
   function renderCategories(){
