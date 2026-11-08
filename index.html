@@ -9040,10 +9040,10 @@ window.renderBacktestMetrics=function(r,meta={}){
     };
     const pair=pairs[t.id];
     if(pair){
-      const panels=pair.map(p=>'<div class="nfx-learn-pair-panel"><img src="'+p[0]+'" alt="'+esc(p[1])+'" loading="lazy" onerror="this.closest(\\'figure\\').hidden=true"><span>'+esc(p[1])+'</span></div>').join('');
+      const panels=pair.map(p=>'<div class="nfx-learn-pair-panel"><img src="'+p[0]+'" alt="'+esc(p[1])+'" loading="lazy"><span>'+esc(p[1])+'</span></div>').join('');
       return '<figure class="nfx-learn-visual"><div class="nfx-learn-pair">'+panels+'</div><figcaption>'+esc(t.title)+' · bullish and bearish examples in one comparison figure</figcaption></figure>';
     }
-    return '<figure class="nfx-learn-visual"><img src="'+topicImage(t)+'" alt="'+esc(t.title)+' — bullish and bearish chart examples" loading="lazy" onerror="this.closest(\\'figure\\').hidden=true"><figcaption>'+esc(t.title)+' · one topic-specific reference showing both directions</figcaption></figure>';
+    return '<figure class="nfx-learn-visual"><img src="'+topicImage(t)+'" alt="'+esc(t.title)+' — bullish and bearish chart examples" loading="lazy"><figcaption>'+esc(t.title)+' · one topic-specific reference showing both directions</figcaption></figure>';
   }
   function filtered(){return topics.filter(t=>(activeCategory==='All Topics'||t.cat===activeCategory)&&(!query||(t.title+' '+t.cat+' '+t.tags+' '+t.intro).toLowerCase().includes(query)));}
   function renderCategories(){
