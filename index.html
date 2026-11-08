@@ -9046,12 +9046,15 @@ window.renderBacktestMetrics=function(r,meta={}){
       'choch':'choch',
       'mss':'mss',
       'liquidity-sweep':'liquidity-sweep',
+      'turtle-soup':'turtle-soup',
+      'risk-management':'risk-management',
+      'pdh-pdl':'pdh-pdl',
       'head-shoulders':'chart-patterns',
       'breaker-block':'order-block',
       'dxy-and-usd-pairs':'dxy-correlation'
     };
     const id=imageMap[t.id]||t.id;
-    const original=['choch','mss','liquidity-sweep'].includes(t.id);
+    const original=['choch','mss','liquidity-sweep','turtle-soup','risk-management','pdh-pdl'].includes(t.id);
     return 'assets/learn-trading/'+id+(original?'.svg':'.jpg');
   }
   function topicVisual(t){
