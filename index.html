@@ -8979,8 +8979,8 @@ window.renderBacktestMetrics=function(r,meta={}){
     for(let i=0;i<24;i++){const close=Math.max(74,Math.min(240,prev+(rnd(i)-.47)*27));const high=Math.max(prev,close)+8+rnd(i+2)*13,low=Math.min(prev,close)-7-rnd(i+4)*12,x=54+i*25;bars+=candle(x,prev,close,high,low);vol+=R(x,296-(18+rnd(i+19)*42),13,18+rnd(i+19)*42,close<prev?C.red:C.green);pts.push([x+6.5,close]);prev=close;}
     const path=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
     let o='',type='CONCEPT SCHEMATIC';
-    if(/head-shoulders/.test(id)){
-      o+=R(58,92,286,155,'#73a9e818',C.blue)+R(370,92,286,155,'#48c7a018',C.green)+T(76,115,'HEAD & SHOULDERS',C.blue,10)+T(388,115,'INVERSE HEAD & SHOULDERS',C.green,9)+L(78,210,320,210,C.gold,'5 4')+L(390,210,632,210,C.gold,'5 4')+T(82,232,'BEARISH REVERSAL',C.red,9)+T(394,232,'BULLISH REVERSAL',C.green,9);
+    if(/head-shoulders|double-top-bottom/.test(id)){
+      o+=R(58,92,286,155,'#73a9e818',C.blue)+R(370,92,286,155,'#48c7a018',C.green)+T(76,115,/double-top-bottom/.test(id)?'DOUBLE TOP (M)': 'HEAD & SHOULDERS',C.blue,10)+T(388,115,/double-top-bottom/.test(id)?'DOUBLE BOTTOM (W)':'INVERSE HEAD & SHOULDERS',C.green,9)+L(78,210,320,210,C.gold,'5 4')+L(390,210,632,210,C.gold,'5 4')+T(82,232,'BEARISH REVERSAL',C.red,9)+T(394,232,'BULLISH REVERSAL',C.green,9);
     }else if(/dxy-and-usd-pairs/.test(id)){
       o+=R(58,92,286,155,'#73a9e818',C.blue)+R(370,92,286,155,'#e0788418',C.red)+T(76,115,'DXY STRENGTHENS',C.blue,10)+T(388,115,'DXY WEAKENS',C.red,10)+L(82,210,320,150,C.blue,'3 4')+L(392,150,632,210,C.red,'3 4')+T(82,232,'EURUSD / GBPUSD OFTEN FALL',C.white,9)+T(392,232,'EURUSD / GBPUSD OFTEN RISE',C.white,9);
     }else if(/rejection-candle/.test(id)){
@@ -9039,7 +9039,7 @@ window.renderBacktestMetrics=function(r,meta={}){
   // Each lesson uses its own verified local chart, with corrections for identified mismatches.
   // Purpose-built diagrams replace mislabeled or incomplete sources for selected concepts.
   function topicImage(t){
-    const custom=['market-structure','liquidity','pdh-pdl','nwog-ndog','rsi','unicorn-model','head-shoulders','dxy-and-usd-pairs','rejection-candle'];
+    const custom=['market-structure','liquidity','pdh-pdl','nwog-ndog','rsi','unicorn-model','head-shoulders','dxy-and-usd-pairs','rejection-candle','breaker-block','bsl-ssl','central-bank-policy','double-top-bottom','employment-data','fvg-ce','gaps','leverage-margin','mae-mfe','monte-carlo-analysis','opening-range','ote','parabolic-sar','pips-points-ticks','poc-vah-val','position-sizing','psychology','sample-size','session-levels','silver-bullet','smt-divergence','spread-slippage','turtle-soup','volume-profile','volume-climax','volume-divergence','vwap','wyckoff-spring'];
     if(custom.includes(t.id)) return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(diagram(t));
     return 'assets/learn-trading/'+t.id+'.jpg';
   }
