@@ -9039,9 +9039,16 @@ window.renderBacktestMetrics=function(r,meta={}){
   // Each lesson uses its own verified local chart, with corrections for identified mismatches.
   // Purpose-built diagrams replace mislabeled or incomplete sources for selected concepts.
     function topicImage(t){
-    // Temporary: do not display generated generic illustrations as if they were real topic references.
-    // Topic-specific real-image assets are being prepared separately.
-    return 'assets/learn-trading/'+String(t.id||'')+'.jpg';
+    // Curated, one-to-one external chart references. Unmatched lessons keep their own local asset.
+    const verifiedTopicImages={
+      'market-structure':'https://cdn.buttercms.com/OyXEmLC8QuL6VRMt5hvg',
+      'support-resistance':'https://forexstore.com/data/source/Resistance-and-Support-01.png',
+      'double-top-bottom':'https://tmgm-cdn2.com/images/2026-04-07/oqnVjNzEzR.webp',
+      'head-shoulders':'https://pub-bbd7a5e39ace471789419f06775be4ec.r2.dev/files/rubricator/head-and-shoulders-pattern-top.png',
+      'fibonacci':'https://liquidity-provider.com/app/uploads/2024/12/fibonacci-retracement-indicator-chart-visualization-800x440.png',
+      'volume-profile':'https://help.cqg.com/cqgic/25/ImagesExt/image13_208.png'
+    };
+    return verifiedTopicImages[t.id]||('assets/learn-trading/'+String(t.id||'')+'.jpg');
   }
 function topicVisual(t){
     if(t.id==='nwog-ndog'){
