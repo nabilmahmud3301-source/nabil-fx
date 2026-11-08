@@ -9736,3 +9736,141 @@ window.renderBacktestMetrics=function(r,meta={}){
  #page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-model-legend .intensity{margin-left:0!important}
 }
 </style>
+
+
+<style id="nfx-market-panels-interior-rebuild-v6">
+/* Full interior visual rebuild for Order Book + both heatmaps. Functional IDs and data streams are preserved. */
+#page-liquidity #nfxLiqLivePanel,
+#page-liquidity #nfxLiqBookHeatmap,
+#page-liquidity #nfxLiqLiquidationHeatmap{
+  color:#dce4ec!important;background:#0a0f15!important;border:1px solid #303b47!important;
+  border-radius:8px!important;box-shadow:0 18px 48px rgba(0,0,0,.3)!important;
+}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-summary,
+#page-liquidity #nfxBookHeatmapStats,
+#page-liquidity #nfxLiquidationHeatmapStats{
+  background:#0e151d!important;border-color:#303b47!important;border-radius:5px!important;
+}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-contract,
+#page-liquidity #nfxLiqLivePanel .nfx-obx-metric,
+#page-liquidity #nfxBookHeatmapStats>div,
+#page-liquidity #nfxLiquidationHeatmapStats>div{
+  background:transparent!important;border-color:#283440!important;box-shadow:none!important;
+}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-contractline{display:flex!important;align-items:center!important;gap:9px!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-perp{
+  padding:3px 6px!important;border:1px solid #4b5968!important;border-radius:3px!important;
+  background:#18222c!important;color:#b8c4d0!important;font-size:7px!important;font-weight:800!important;letter-spacing:.8px!important;
+}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-metric strong,
+#page-liquidity #nfxBookHeatmapStats b,
+#page-liquidity #nfxLiquidationHeatmapStats b{font-variant-numeric:tabular-nums!important;font-feature-settings:"tnum"!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-metric .bid-text,
+#page-liquidity #nfxLiqLivePanel .nfx-obx-bestrow .bid-text{color:#38c995!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-metric .ask-text,
+#page-liquidity #nfxLiqLivePanel .nfx-obx-bestrow .ask-text{color:#f07883!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-toolbar{background:#0e151d!important;border:1px solid #293541!important;border-radius:5px!important;padding:10px 12px!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-feed{display:flex!important;align-items:center!important;gap:10px!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-live{width:7px!important;height:7px!important;box-shadow:0 0 0 4px rgba(55,199,145,.09)!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-tools{display:flex!important;align-items:center!important;gap:9px!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-unit{padding-left:10px!important;border-left:1px solid #303b47!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-book{gap:8px!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-side{border:1px solid #303b47!important;border-radius:5px!important;background:#0b1219!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-sidehead{background:#111a24!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-sidehead>div:first-child{display:flex!important;align-items:center!important;gap:8px!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-sidehead>div:first-child i{width:6px!important;height:6px!important;border-radius:50%!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-askside .nfx-obx-sidehead>div:first-child i{background:#ef727e!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-bidside .nfx-obx-sidehead>div:first-child i{background:#39c995!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-colheads{display:grid!important;grid-template-columns:1.2fr 1fr 1fr!important;gap:6px!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-colheads span{text-align:right!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-colheads span:first-child{text-align:left!important}
+#page-liquidity #nfxLiqLivePanel .nfx-liq-levels{
+  background:linear-gradient(180deg,#0a1118 0%,#0c141c 100%)!important;
+  padding:7px 8px!important;gap:3px!important;
+}
+#page-liquidity #nfxLiqLivePanel .nfx-liq-row{
+  position:relative!important;display:grid!important;grid-template-columns:1.2fr 1fr 1fr!important;gap:6px!important;
+  align-items:center!important;min-height:23px!important;padding:3px 7px!important;overflow:hidden!important;
+  border:0!important;border-radius:2px!important;background:transparent!important;
+  color:#aebbc7!important;font-size:9px!important;line-height:1.2!important;
+}
+#page-liquidity #nfxLiqLivePanel .nfx-liq-row>span{text-align:right!important;position:relative!important;z-index:1!important}
+#page-liquidity #nfxLiqLivePanel .nfx-liq-row>span:first-child{text-align:left!important;font-weight:700!important}
+#page-liquidity #nfxLiqLivePanel .nfx-liq-row.ask{background:linear-gradient(90deg,rgba(239,105,120,.025),rgba(239,105,120,.09))!important}
+#page-liquidity #nfxLiqLivePanel .nfx-liq-row.bid{background:linear-gradient(90deg,rgba(48,196,139,.025),rgba(48,196,139,.09))!important}
+#page-liquidity #nfxLiqLivePanel .nfx-liq-row.ask:after,
+#page-liquidity #nfxLiqLivePanel .nfx-liq-row.bid:after{
+  content:""!important;position:absolute!important;top:0!important;bottom:0!important;right:0!important;width:var(--depth-width,0%)!important;
+  opacity:.14!important;pointer-events:none!important;
+}
+#page-liquidity #nfxLiqLivePanel .nfx-liq-row.ask:after{background:#ef6978!important}
+#page-liquidity #nfxLiqLivePanel .nfx-liq-row.bid:after{background:#30c48b!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-mid{
+  border:1px solid #364453!important;border-radius:5px!important;
+  background:linear-gradient(180deg,#131e29 0%,#0e151e 100%)!important;
+}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-mid>strong{font-variant-numeric:tabular-nums!important;white-space:nowrap!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-spread{border-color:#354251!important;background:#0b1219!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-depthsplit{display:grid!important;grid-template-columns:1fr 1fr!important;gap:6px!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-depthsplit>div{border-color:#303c48!important;background:#0b1219!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-sidefoot{display:flex!important;justify-content:space-between!important;align-items:center!important;background:#101923!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-footer{gap:16px!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-legend{display:flex!important;align-items:center!important;gap:14px!important;flex-wrap:wrap!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-velocity{display:flex!important;gap:14px!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-velocity b{color:#dbe4ed!important;font-variant-numeric:tabular-nums!important}
+#page-liquidity #nfxLiqLivePanel .nfx-obx-source{margin-left:auto!important}
+#page-liquidity #nfxLiqBookHeatmap .nfx-liq-timeline-head,
+#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head{align-items:center!important}
+#page-liquidity #nfxLiqBookHeatmap .nfx-liq-timeline-head>div:first-child,
+#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head>div:first-child{min-width:220px!important}
+#page-liquidity #nfxLiqBookHeatmap .nfx-liq-timeline-head p strong,
+#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head p strong{color:#dce5ed!important;font-weight:700!important}
+#page-liquidity #nfxLiqBookHeatmap .nfx-liq-card-actions,
+#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-card-actions{gap:7px!important}
+#page-liquidity #nfxLiqBookHeatmap .nfx-est-liq-ranges,
+#page-liquidity #nfxLiqLiquidationHeatmap .nfx-est-liq-ranges{align-items:center!important}
+#page-liquidity #nfxLiqBookHeatmap .nfx-est-liq-ranges button:hover,
+#page-liquidity #nfxLiqLiquidationHeatmap .nfx-est-liq-ranges button:hover,
+#page-liquidity #nfxLiqLivePanel .nfx-obx-levels button:hover{background:#202b37!important;color:#f4f7fa!important}
+#page-liquidity #nfxLiqBookHeatmap .nfx-liq-timeline-wrap,
+#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-chart-frame{position:relative!important}
+#page-liquidity #nfxLiqBookHeatmap .nfx-liq-timeline-wrap:before,
+#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-chart-frame:before{
+  content:""!important;position:absolute!important;inset:0!important;pointer-events:none!important;z-index:1!important;
+  background:linear-gradient(180deg,rgba(31,47,62,.12),transparent 22%,transparent 80%,rgba(5,10,15,.12))!important;
+}
+#page-liquidity #nfxLiqBookHeatmap canvas,
+#page-liquidity #nfxLiqLiquidationHeatmap canvas{position:relative!important;z-index:0!important}
+#page-liquidity #nfxLiqBookHeatmap .nfx-liq-timeline-empty,
+#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-timeline-empty{
+  color:#9aa9b8!important;font-size:11px!important;letter-spacing:.15px!important;
+}
+#page-liquidity #nfxLiqBookHeatmap .nfx-liq-timeline-axis,
+#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-timeline-axis{padding-top:2px!important;color:#8d9baa!important}
+#page-liquidity #nfxLiqBookHeatmap .nfx-liq-timeline-note,
+#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-timeline-note{
+  border:0!important;border-left:2px solid #536476!important;border-radius:0 3px 3px 0!important;
+  background:#101821!important;padding:10px 13px!important;color:#98a6b4!important;
+}
+#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-model-legend{
+  justify-content:flex-start!important;border:1px solid #303b47!important;background:#0e151d!important;
+}
+#page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-model-legend .intensity{
+  margin-left:auto!important;padding-left:12px!important;border-left:1px solid #34404c!important;
+}
+@media(max-width:900px){
+ #page-liquidity #nfxLiqLivePanel .nfx-obx-summary{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ #page-liquidity #nfxLiqLivePanel .nfx-obx-book{grid-template-columns:1fr 1fr!important}
+ #page-liquidity #nfxLiqLivePanel .nfx-obx-mid{grid-column:1/-1!important;grid-row:1!important}
+}
+@media(max-width:620px){
+ #page-liquidity #nfxLiqLivePanel .nfx-obx-summary{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #page-liquidity #nfxLiqLivePanel .nfx-obx-toolbar{align-items:flex-start!important;flex-direction:column!important}
+ #page-liquidity #nfxLiqLivePanel .nfx-obx-tools{width:100%!important;justify-content:space-between!important}
+ #page-liquidity #nfxLiqLivePanel .nfx-obx-book{grid-template-columns:1fr 1fr!important}
+ #page-liquidity #nfxLiqBookHeatmap .nfx-liq-card-actions,
+ #page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-card-actions{justify-content:flex-start!important}
+ #page-liquidity #nfxLiqBookHeatmap .nfx-liq-model-legend .intensity,
+ #page-liquidity #nfxLiqLiquidationHeatmap .nfx-liq-model-legend .intensity{margin-left:0!important;padding-left:0!important;border-left:0!important}
+}
+</style>
