@@ -28,9 +28,9 @@
   },
   "choch": {
     "status": "download_error",
-    "title": "Bullish and Bearish Change of Character (CHoCH)",
-    "source_page": "https://www.mql5.com/en/articles/19365",
-    "error": "Image file size outside safe range"
+    "title": "Bullish and Bearish CHoCH Patterns",
+    "source_page": "https://www.xs.com/en/blog/choch-trading/",
+    "error": "410 Client Error: Gone for url: https://www.xs.com/storage/blogs/uploaded-images/bearish-vs-bullish-choch.jpg"
   },
   "support-resistance": {
     "status": "downloaded",
