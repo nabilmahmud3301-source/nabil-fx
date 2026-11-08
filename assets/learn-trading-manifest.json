@@ -477,13 +477,13 @@
     "height": 574
   },
   "head-shoulders": {
-    "status": "downloaded",
-    "title": "Double Top and Double Bottom Reversal Patterns",
-    "path": "assets/learn-trading/head-shoulders.jpg",
-    "source_page": "https://fxnx.com/en/blog/fx-reversals-double-top-bottom-strategy-2026",
-    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F70e2f0bddf2616688245b645cafd87c8c826f407-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
-    "width": 800,
-    "height": 597
+    "status": "original_educational_svg",
+    "title": "Head & Shoulders — Bearish and Inverse Bullish Examples",
+    "path": "assets/learn-trading/head-shoulders.svg",
+    "source_page": "Original Nabil FX educational illustration",
+    "original_image": null,
+    "width": 1000,
+    "height": 560
   },
   "flags-pennants": {
     "status": "downloaded",
@@ -1348,5 +1348,113 @@
     "original_image": "https://mybank.pl/forex/strategie-handlowe/trading-algorytmiczny/1200/fill-quality-analysis-myfxbook-tca.jpg",
     "width": 1200,
     "height": 800
+  },
+  "investing-vs-trading": {
+    "status": "original_educational_svg",
+    "title": "Investing vs Trading — Bullish and Bearish Examples",
+    "path": "assets/learn-trading/investing-vs-trading.svg",
+    "source_page": "Original Nabil FX educational illustration",
+    "original_image": null,
+    "width": 1000,
+    "height": 560
+  },
+  "stocks-shares-basics": {
+    "status": "original_educational_svg",
+    "title": "Stocks & Share Ownership — Bullish and Bearish Examples",
+    "path": "assets/learn-trading/stocks-shares-basics.svg",
+    "source_page": "Original Nabil FX educational illustration",
+    "original_image": null,
+    "width": 1000,
+    "height": 560
+  },
+  "etfs-index-funds": {
+    "status": "original_educational_svg",
+    "title": "ETFs & Index Funds — Bullish and Bearish Examples",
+    "path": "assets/learn-trading/etfs-index-funds.svg",
+    "source_page": "Original Nabil FX educational illustration",
+    "original_image": null,
+    "width": 1000,
+    "height": 560
+  },
+  "financial-statements": {
+    "status": "original_educational_svg",
+    "title": "Reading Financial Statements — Bullish and Bearish Examples",
+    "path": "assets/learn-trading/financial-statements.svg",
+    "source_page": "Original Nabil FX educational illustration",
+    "original_image": null,
+    "width": 1000,
+    "height": 560
+  },
+  "valuation-pe-ratio": {
+    "status": "original_educational_svg",
+    "title": "Valuation: P/E, P/B & PEG — Bullish and Bearish Examples",
+    "path": "assets/learn-trading/valuation-pe-ratio.svg",
+    "source_page": "Original Nabil FX educational illustration",
+    "original_image": null,
+    "width": 1000,
+    "height": 560
+  },
+  "dcf-valuation": {
+    "status": "original_educational_svg",
+    "title": "Discounted Cash Flow (DCF) — Bullish and Bearish Examples",
+    "path": "assets/learn-trading/dcf-valuation.svg",
+    "source_page": "Original Nabil FX educational illustration",
+    "original_image": null,
+    "width": 1000,
+    "height": 560
+  },
+  "dividend-investing": {
+    "status": "original_educational_svg",
+    "title": "Dividend Investing & Yield — Bullish and Bearish Examples",
+    "path": "assets/learn-trading/dividend-investing.svg",
+    "source_page": "Original Nabil FX educational illustration",
+    "original_image": null,
+    "width": 1000,
+    "height": 560
+  },
+  "bonds-yields-duration": {
+    "status": "original_educational_svg",
+    "title": "Bonds, Yields & Duration — Bullish and Bearish Examples",
+    "path": "assets/learn-trading/bonds-yields-duration.svg",
+    "source_page": "Original Nabil FX educational illustration",
+    "original_image": null,
+    "width": 1000,
+    "height": 560
+  },
+  "asset-allocation": {
+    "status": "original_educational_svg",
+    "title": "Asset Allocation — Bullish and Bearish Examples",
+    "path": "assets/learn-trading/asset-allocation.svg",
+    "source_page": "Original Nabil FX educational illustration",
+    "original_image": null,
+    "width": 1000,
+    "height": 560
+  },
+  "diversification": {
+    "status": "original_educational_svg",
+    "title": "Diversification & Correlation — Bullish and Bearish Examples",
+    "path": "assets/learn-trading/diversification.svg",
+    "source_page": "Original Nabil FX educational illustration",
+    "original_image": null,
+    "width": 1000,
+    "height": 560
+  },
+  "portfolio-rebalancing": {
+    "status": "original_educational_svg",
+    "title": "Portfolio Rebalancing — Bullish and Bearish Examples",
+    "path": "assets/learn-trading/portfolio-rebalancing.svg",
+    "source_page": "Original Nabil FX educational illustration",
+    "original_image": null,
+    "width": 1000,
+    "height": 560
+  },
+  "earnings-season": {
+    "status": "original_educational_svg",
+    "title": "Earnings Season & Guidance — Bullish and Bearish Examples",
+    "path": "assets/learn-trading/earnings-season.svg",
+    "source_page": "Original Nabil FX educational illustration",
+    "original_image": null,
+    "width": 1000,
+    "height": 560
   }
 }
