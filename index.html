@@ -9021,14 +9021,16 @@ window.renderBacktestMetrics=function(r,meta={}){
   // One dedicated reference image per Price Action topic. Each image pairs bullish and bearish examples of that same concept.
   function topicImage(t){
     const refs={
-      'market-structure':'https://blueberrymarkets.com/media/guxpvotg/internal-structure-lower-timeframe.webp',
-      'bos':'https://s3.tradingview.com/w/w3IuTqIg_big.png',
+      'market-structure':'https://cdn.buttercms.com/OyXEmLC8QuL6VRMt5hvg',
+      'bos':'https://cms.rally.trade/uploads/rally_trade_market_structure_bullish_bearish_bos_1884ec6cd5.webp',
       'choch':'https://therighttrader.com/learn/change-of-character/bullish-change-of-character-chart.webp',
       'mss':'https://cdn.prod.website-files.com/697103179acf24479947e31c/697a7ca2660f6271d0df77f6_articles%252Ftrading-strategies%252Fict-strategies%252Fict-turtle-soup%252FICT%2520Turtle%2520Soup%25204.webp',
-      'support-resistance':'https://commerciumiq.com/assets/media/glossary/candlesticks-at-support-and-resistance/candlesticks-at-support-and-resistance-context.svg?v=r6c10k-candle-defect-closure',
+      'support-resistance':'https://forextradelab.com/images/blog/support-resistance-zones.webp',
       'trendline':'https://www.strike.money/wp-content/uploads/2024/03/Types-of-Trend-Channels.jpg',
       'internal-external':'https://c.mql5.com/2/221/f2__1.png',
-      'rejection-candle':'https://www.ebc.com/upload/default/20250904/ff7867d00d9ac5500963920a86eb08e1.png',
+      'range-market':'https://forexmechanics.com/technical-analysis/trend-support-resistance/1200/price-channel-consolidation-range.jpg',
+      'breakout-retest':'https://i.pinimg.com/originals/d6/0a/94/d60a94bdab260344ede47d020a9b1104.jpg',
+      'rejection-candle':'https://c.mql5.com/31/876/price-action-entry-alerts-screen-6114.png',
       'candlesticks':'https://26693533.fs1.hubspotusercontent-eu1.net/hubfs/26693533/Imported_Blog_Media/1-pin-bar-candlestick-strategy.png'
     };
     return refs[t.id] || ('assets/learn-trading/' + t.id + '.jpg');
@@ -9043,7 +9045,7 @@ window.renderBacktestMetrics=function(r,meta={}){
       const panels=pair.map(p=>'<div class="nfx-learn-pair-panel"><img src="'+p[0]+'" alt="'+esc(p[1])+'" loading="lazy"><span>'+esc(p[1])+'</span></div>').join('');
       return '<figure class="nfx-learn-visual"><div class="nfx-learn-pair">'+panels+'</div><figcaption>'+esc(t.title)+' · bullish and bearish examples in one comparison figure</figcaption></figure>';
     }
-    return '<figure class="nfx-learn-visual"><img src="'+topicImage(t)+'" alt="'+esc(t.title)+' — bullish and bearish chart examples" loading="lazy"><figcaption>'+esc(t.title)+' · one topic-specific reference showing both directions</figcaption></figure>';
+    return '<figure class="nfx-learn-visual"><img src="'+topicImage(t)+'" alt="'+esc(t.title)+' — bullish and bearish chart examples" loading="lazy"><figcaption>'+esc(t.title)+' · topic-specific chart reference</figcaption></figure>';
   }
   function filtered(){return topics.filter(t=>(activeCategory==='All Topics'||t.cat===activeCategory)&&(!query||(t.title+' '+t.cat+' '+t.tags+' '+t.intro).toLowerCase().includes(query)));}
   function renderCategories(){
