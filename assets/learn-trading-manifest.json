@@ -1,9 +1,12 @@
 {
   "market-structure": {
-    "status": "download_error",
-    "title": "Real EURUSD Chart: Higher Highs, Higher Lows, Lower Highs and Lower Lows",
-    "source_page": "https://forexmechanics.com/technical-analysis-forex/",
-    "error": "404 Client Error: Not Found for url: https://forexmechanics.com/technical-analysis-forex/1200/uptrend-downtrend-hh-hl-lh-ll.jpg"
+    "status": "downloaded",
+    "title": "Bullish and Bearish Forex Market Structure: HH, HL, LH and LL",
+    "path": "assets/learn-trading/market-structure.jpg",
+    "source_page": "https://forexmechanics.com/technical-analysis/trend-support-resistance/",
+    "original_image": "https://forexmechanics.com/technical-analysis/trend-support-resistance/1200/uptrend-downtrend-hh-hl-lh-ll.jpg",
+    "width": 1200,
+    "height": 800
   },
   "bos": {
     "status": "downloaded",
