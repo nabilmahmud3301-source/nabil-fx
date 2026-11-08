@@ -42,13 +42,10 @@
     "height": 1024
   },
   "equal-highs-lows": {
-    "status": "downloaded",
-    "title": "Equal Highs and Equal Lows",
-    "path": "assets/learn-trading/equal-highs-lows.jpg",
-    "source_page": "https://www.xs.com/en/blog/equal-highs-eqh/",
-    "original_image": "https://www.xs.com/storage/ht-ck-images/Bt6ktpLANR5plK7Og15LlKBCUNu8BG0MXJE6WyWR.png",
-    "width": 1536,
-    "height": 1024
+    "status": "original-illustration",
+    "title": "Equal Highs and Equal Lows — Buy-Side and Sell-Side Liquidity",
+    "path": "assets/learn-trading/equal-highs-lows.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "order-block": {
     "status": "downloaded",
@@ -75,13 +72,10 @@
     "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "session-levels": {
-    "status": "downloaded",
-    "title": "Asian, London and New York Session Ranges",
-    "path": "assets/learn-trading/session-levels.jpg",
-    "source_page": "https://arongroups.co/technical-analyze/ict-killzone-indicator/",
-    "original_image": "https://cdn.arongroups.co/uploads/2026/01/ICT-Killzone-Indicator-3.jpg",
-    "width": 931,
-    "height": 600
+    "status": "original-illustration",
+    "title": "Session Highs and Lows — Asia Range and London/New York Reaction",
+    "path": "assets/learn-trading/session-levels.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "mitigation": {
     "status": "downloaded",
@@ -225,13 +219,10 @@
     "height": 575
   },
   "atr": {
-    "status": "downloaded",
-    "title": "Average True Range indicator",
-    "path": "assets/learn-trading/atr.jpg",
-    "source_page": "https://www.mql5.com/en/code/42408",
-    "original_image": "https://c.mql5.com/18/106/MT5chart.png",
-    "width": 720,
-    "height": 480
+    "status": "original-illustration",
+    "title": "Average True Range — Low and High Volatility Regimes",
+    "path": "assets/learn-trading/atr.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "rsi": {
     "status": "original-illustration",
@@ -249,22 +240,16 @@
     "height": 470
   },
   "volume-profile": {
-    "status": "downloaded",
-    "title": "Volume Profile with POC, Value Area and LVN",
-    "path": "assets/learn-trading/volume-profile.jpg",
-    "source_page": "https://fxnx.com/en/blog/volume-profile-spot-institutional-poc-trade-smarter",
-    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2F27e7db145fb3303650c4e93a697025eded687896-2400x1792.png%3Fw%3D800%26fm%3Dwebp%26q%3D80&w=3840",
-    "width": 800,
-    "height": 597
+    "status": "original-illustration",
+    "title": "Volume Profile — High-Volume and Low-Volume Nodes",
+    "path": "assets/learn-trading/volume-profile.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "vwap": {
-    "status": "downloaded",
-    "title": "VWAP Intraday Chart",
-    "path": "assets/learn-trading/vwap.jpg",
-    "source_page": "https://liquidity-provider.com/articles/volume-weighted-average-price-vwap-definition/",
-    "original_image": "https://liquidity-provider.com/app/uploads/2024/03/trading-with-vwap-indicator-1600x882.png",
-    "width": 1600,
-    "height": 882
+    "status": "original-illustration",
+    "title": "VWAP — Bullish Price Above and Bearish Price Below VWAP",
+    "path": "assets/learn-trading/vwap.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "stochastic": {
     "status": "downloaded",
@@ -312,13 +297,10 @@
     "height": 500
   },
   "macd": {
-    "status": "downloaded",
-    "title": "MACD Bullish and Bearish Crossover",
-    "path": "assets/learn-trading/macd.jpg",
-    "source_page": "https://www.icicidirect.com/ilearn/technical-analysis/courses/chapter-11-technical-indicators-part-1-macd-and-stochastics",
-    "original_image": "https://www.icicidirect.com/images/11.1-202309141228121907891.png",
-    "width": 854,
-    "height": 584
+    "status": "original-illustration",
+    "title": "MACD — Bullish and Bearish Signal-Line Crossovers",
+    "path": "assets/learn-trading/macd.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "dxy-correlation": {
     "status": "downloaded",
@@ -339,13 +321,10 @@
     "height": 400
   },
   "ema-sma": {
-    "status": "downloaded",
-    "title": "GBPUSD 20 and 50 Period Moving Average Crossover",
-    "path": "assets/learn-trading/ema-sma.jpg",
-    "source_page": "https://medium.com/@digitalexchangeid/moving-average-220b9ed1a3ea",
-    "original_image": "https://miro.medium.com/v2/resize%3Afit%3A1400/1%2A4_lFn_DPerHI9BcK_uubXg.jpeg",
-    "width": 914,
-    "height": 631
+    "status": "original-illustration",
+    "title": "Moving Averages — Bullish and Bearish EMA/SMA Alignment",
+    "path": "assets/learn-trading/ema-sma.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "kelly-criterion": {
     "status": "downloaded",
@@ -513,31 +492,22 @@
     "height": 794
   },
   "amd-po3": {
-    "status": "downloaded",
-    "title": "ICT Power of Three: Accumulation, Manipulation and Distribution",
-    "path": "assets/learn-trading/amd-po3.jpg",
-    "source_page": "https://www.ebc.com/forex/accumulation-manipulation-distribution-full-trading-guide",
-    "original_image": "https://www.ebc.com/upload/portal/20250701/183b8fdaf6b9cb9dd8cf1b716b63c166.jpg",
-    "width": 600,
-    "height": 400
+    "status": "original-illustration",
+    "title": "ICT Power of Three — Bullish and Bearish Accumulation Manipulation Distribution",
+    "path": "assets/learn-trading/amd-po3.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "turtle-soup": {
-    "status": "downloaded",
-    "title": "ICT Turtle Soup Liquidity Sweep",
-    "path": "assets/learn-trading/turtle-soup.jpg",
-    "source_page": "https://www.fluxcharts.com/articles/ict-turtle-soup-strategy-explained-how-to-identify-and-trade-it",
-    "original_image": "https://cdn.prod.website-files.com/697103179acf24479947e31c/697a7ca2660f6271d0df77f9_articles%252Ftrading-strategies%252Fict-strategies%252Fict-turtle-soup%252FICT%2520Turtle%2520Soup%25206.png",
-    "width": 1800,
-    "height": 1013
+    "status": "original-illustration",
+    "title": "ICT Turtle Soup — Bullish Low Sweep and Bearish High Sweep",
+    "path": "assets/learn-trading/turtle-soup.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "smt-divergence": {
-    "status": "downloaded",
-    "title": "SMT Divergence",
-    "path": "assets/learn-trading/smt-divergence.jpg",
-    "source_page": "https://innercircletrader.org/ict/ict-smt-divergences/",
-    "original_image": "https://innercircletrader.org/wp-content/uploads/2024/11/1-5.png",
-    "width": 1200,
-    "height": 628
+    "status": "original-illustration",
+    "title": "SMT Divergence — Bullish and Bearish Correlated-Market Examples",
+    "path": "assets/learn-trading/smt-divergence.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "judas-swing": {
     "status": "downloaded",
@@ -561,13 +531,10 @@
     "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "ote": {
-    "status": "downloaded",
-    "title": "ICT Fibonacci OTE Zone",
-    "path": "assets/learn-trading/ote.jpg",
-    "source_page": "https://fxnx.com/en/blog/mastering-the-ict-fibonacci-retracement-a-traders-guide",
-    "original_image": "https://fxnx.com/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F1tyytg47%2Fproduction%2Fabc6d8809983b77c04968cdeb20e79870ff1db9f-1200x896.png%3Fw%3D800%26fm%3Dwebp%26q%3D80%26fit%3Dmax&w=3840",
-    "width": 800,
-    "height": 597
+    "status": "original-illustration",
+    "title": "Optimal Trade Entry — Bullish Discount and Bearish Premium OTE Zones",
+    "path": "assets/learn-trading/ote.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "candlestick-engulfing": {
     "status": "downloaded",
@@ -999,13 +966,10 @@
     "height": 787
   },
   "opening-range": {
-    "status": "downloaded",
-    "title": "London Opening Range Breakout",
-    "path": "assets/learn-trading/opening-range.jpg",
-    "source_page": "https://fxopen.com/blog/en/opening-range-breakout-strategy/",
-    "original_image": "https://fxopen.com/blog/en/content/images/2025/09/data-src-image-10ac22cc-2260-4279-9dd4-b0115e67ac50.png",
-    "width": 1420,
-    "height": 780
+    "status": "original-illustration",
+    "title": "Opening Range — Bullish Breakout and Bearish Breakdown",
+    "path": "assets/learn-trading/opening-range.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "liquidity-void": {
     "status": "downloaded",
@@ -1125,13 +1089,10 @@
     "height": 700
   },
   "pdh-pdl": {
-    "status": "downloaded",
-    "title": "PDH and PDL Levels on EURUSD",
-    "path": "assets/learn-trading/pdh-pdl.jpg",
-    "source_page": "https://www.mql5.com/en/market/product/93461",
-    "original_image": "https://c.mql5.com/31/869/smart-market-structure-concepts-mt5-screen-7412.png",
-    "width": 1747,
-    "height": 1039
+    "status": "original-illustration",
+    "title": "Previous Day High and Low — PDH and PDL Reference Levels",
+    "path": "assets/learn-trading/pdh-pdl.svg",
+    "source_page": "Original Nabil FX topic-specific educational illustration"
   },
   "mss": {
     "status": "original-illustration",
