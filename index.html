@@ -3934,6 +3934,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 #page-learn .nfx-learn-topic-card{min-height:250px}
 #page-learn .nfx-learn-visual svg{display:block;width:100%;height:auto;max-height:520px;border:1px solid #1c2a38;border-radius:10px}
 #page-learn .nfx-learn-visual figcaption{color:#8d9caf;font-size:11px;margin-top:8px}
+#page-learn .nfx-learn-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}#page-learn .nfx-learn-pair-panel{min-width:0;background:#080d14;border:1px solid #1c2a38;border-radius:10px;overflow:hidden}#page-learn .nfx-learn-pair-panel img{display:block;width:100%;height:auto;max-height:340px;object-fit:contain;background:#080d14}#page-learn .nfx-learn-pair-panel span{display:block;padding:8px 10px;color:#d7e0eb;font-size:11px;font-weight:700;text-align:center;border-top:1px solid #1c2a38}@media(max-width:620px){#page-learn .nfx-learn-pair{grid-template-columns:1fr}#page-learn .nfx-learn-pair-panel img{max-height:260px}}
 #page-learn .nfx-learn-topic-card:focus-visible,#page-learn .nfx-learn-category:focus-visible,#page-learn .nfx-learn-back:focus-visible{outline:2px solid #d35b6a!important;outline-offset:3px}
 @media(max-width:900px){
  #page-learn .nfx-learn-topic-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -9022,15 +9023,27 @@ window.renderBacktestMetrics=function(r,meta={}){
     const refs={
       'market-structure':'https://blueberrymarkets.com/media/guxpvotg/internal-structure-lower-timeframe.webp',
       'bos':'https://s3.tradingview.com/w/w3IuTqIg_big.png',
-      'choch':'https://cdn.prod.website-files.com/697103179acf24479947e31c/697a7c95f76d38f1475d1345_articles%252FTrading-Concepts%252FPrice-Action%252FChange-of-Character%252Fimage1.webp',
+      'choch':'https://therighttrader.com/learn/change-of-character/bullish-change-of-character-chart.webp',
       'mss':'https://cdn.prod.website-files.com/697103179acf24479947e31c/697a7ca2660f6271d0df77f6_articles%252Ftrading-strategies%252Fict-strategies%252Fict-turtle-soup%252FICT%2520Turtle%2520Soup%25204.webp',
       'support-resistance':'https://commerciumiq.com/assets/media/glossary/candlesticks-at-support-and-resistance/candlesticks-at-support-and-resistance-context.svg?v=r6c10k-candle-defect-closure',
       'trendline':'https://www.strike.money/wp-content/uploads/2024/03/Types-of-Trend-Channels.jpg',
-      'internal-external':'https://www.fxstreet.cz/img/web/fx1/1713332213-price-action-15042024-5.png',
+      'internal-external':'https://c.mql5.com/2/221/f2__1.png',
       'rejection-candle':'https://www.ebc.com/upload/default/20250904/ff7867d00d9ac5500963920a86eb08e1.png',
       'candlesticks':'https://26693533.fs1.hubspotusercontent-eu1.net/hubfs/26693533/Imported_Blog_Media/1-pin-bar-candlestick-strategy.png'
     };
     return refs[t.id] || ('assets/learn-trading/' + t.id + '.jpg');
+  }
+  function topicVisual(t){
+    const pairs={
+      'choch':[['https://therighttrader.com/learn/change-of-character/bullish-change-of-character-chart.webp','Bullish CHoCH'],['https://therighttrader.com/learn/change-of-character/bearish-change-of-character-chart.webp','Bearish CHoCH']],
+      'internal-external':[['https://c.mql5.com/2/221/f2__1.png','Bullish internal and external structure'],['https://c.mql5.com/2/221/f3__1.png','Bearish internal and external structure']]
+    };
+    const pair=pairs[t.id];
+    if(pair){
+      const panels=pair.map(p=>'<div class="nfx-learn-pair-panel"><img src="'+p[0]+'" alt="'+esc(p[1])+'" loading="lazy" onerror="this.closest(\\'figure\\').hidden=true"><span>'+esc(p[1])+'</span></div>').join('');
+      return '<figure class="nfx-learn-visual"><div class="nfx-learn-pair">'+panels+'</div><figcaption>'+esc(t.title)+' · bullish and bearish examples in one comparison figure</figcaption></figure>';
+    }
+    return '<figure class="nfx-learn-visual"><img src="'+topicImage(t)+'" alt="'+esc(t.title)+' — bullish and bearish chart examples" loading="lazy" onerror="this.closest(\\'figure\\').hidden=true"><figcaption>'+esc(t.title)+' · one topic-specific reference showing both directions</figcaption></figure>';
   }
   function filtered(){return topics.filter(t=>(activeCategory==='All Topics'||t.cat===activeCategory)&&(!query||(t.title+' '+t.cat+' '+t.tags+' '+t.intro).toLowerCase().includes(query)));}
   function renderCategories(){
@@ -9048,7 +9061,7 @@ window.renderBacktestMetrics=function(r,meta={}){
   function openTopic(id){
     const t=topics.find(x=>x.id===id);if(!t)return;selected=id;
     $('nfxLearnTopicGrid').hidden=true;$('nfxLearnResultsHead').hidden=true;$('nfxLearnEmpty').hidden=true;$('nfxLearnDetail').hidden=false;
-    $('nfxLearnDetailContent').innerHTML=`<div class="nfx-learn-kicker">${esc(t.cat.toUpperCase())} · COMPLETE TOPIC GUIDE</div><h2>${esc(t.title)}</h2><p>${esc(t.intro)}</p><figure class="nfx-learn-visual"><img src="${topicImage(t)}" alt="${esc(t.title)} — topic-specific trading chart reference" loading="lazy" onerror="this.closest('figure').hidden=true"><figcaption>${esc(t.title)} · topic-specific chart reference</figcaption></figure><h3>02 · How it works</h3><p>${esc(t.how)}</p><div class="nfx-learn-detail-grid"><section class="nfx-learn-info nfx-learn-valid"><h3>✓ VALID CONDITIONS</h3><ul>${t.valid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section><section class="nfx-learn-info nfx-learn-invalid"><h3>✕ INVALID / WEAK CONDITIONS</h3><ul>${t.invalid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section></div><h3>03 · How to mark it on a chart</h3><ol>${t.mark.map(x=>'<li>'+esc(x)+'</li>').join('')}</ol><div class="nfx-learn-info"><h3>PRO TRADING NOTE</h3><p>${esc(t.tip)}</p></div><h3>04 · Professional chart-reading workflow</h3><ol><li>Start with a clean chart and mark only the relevant higher-timeframe context.</li><li>Identify the exact candles / swing points that satisfy this lesson's definition.</li><li>Draw the zone or level using the stated boundaries; note the timeframe beside it.</li><li>Wait for the confirmation rule. Do not assume the first touch is an entry.</li><li>Define entry trigger, stop-loss invalidation and target before placing an order.</li><li>Capture the chart before the outcome, then journal both valid winners and valid losses.</li></ol><div class="nfx-learn-info"><h3>VALIDATION STANDARD</h3><p>The images above are educational chart references from external publishers; they are not live market data or trade signals. Confirm current market behaviour on your own broker feed. Record the instrument, timezone, spread, session and rule version so the result can be reproduced.</p></div>`;
+    $('nfxLearnDetailContent').innerHTML=`<div class="nfx-learn-kicker">${esc(t.cat.toUpperCase())} · COMPLETE TOPIC GUIDE</div><h2>${esc(t.title)}</h2><p>${esc(t.intro)}</p>${topicVisual(t)}<h3>02 · How it works</h3><p>${esc(t.how)}</p><div class="nfx-learn-detail-grid"><section class="nfx-learn-info nfx-learn-valid"><h3>✓ VALID CONDITIONS</h3><ul>${t.valid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section><section class="nfx-learn-info nfx-learn-invalid"><h3>✕ INVALID / WEAK CONDITIONS</h3><ul>${t.invalid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section></div><h3>03 · How to mark it on a chart</h3><ol>${t.mark.map(x=>'<li>'+esc(x)+'</li>').join('')}</ol><div class="nfx-learn-info"><h3>PRO TRADING NOTE</h3><p>${esc(t.tip)}</p></div><h3>04 · Professional chart-reading workflow</h3><ol><li>Start with a clean chart and mark only the relevant higher-timeframe context.</li><li>Identify the exact candles / swing points that satisfy this lesson's definition.</li><li>Draw the zone or level using the stated boundaries; note the timeframe beside it.</li><li>Wait for the confirmation rule. Do not assume the first touch is an entry.</li><li>Define entry trigger, stop-loss invalidation and target before placing an order.</li><li>Capture the chart before the outcome, then journal both valid winners and valid losses.</li></ol><div class="nfx-learn-info"><h3>VALIDATION STANDARD</h3><p>The images above are educational chart references from external publishers; they are not live market data or trade signals. Confirm current market behaviour on your own broker feed. Record the instrument, timezone, spread, session and rule version so the result can be reproduced.</p></div>`;
     $('nfxLearnDetail').scrollIntoView({behavior:'smooth',block:'start'});
   }
   document.addEventListener('click',e=>{
