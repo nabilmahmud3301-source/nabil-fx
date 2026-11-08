@@ -9048,7 +9048,7 @@ window.renderBacktestMetrics=function(r,meta={}){
     return 'assets/learn-trading/'+String(t.id||'')+'.jpg';
   }
   function topicVisual(t){
-    return '<figure class="nfx-learn-visual"><img src="'+topicImage(t)+'" alt="'+esc(t.title)+' — topic-specific educational trading chart" loading="lazy"><figcaption>'+esc(t.title)+' · educational chart reference · not live market data</figcaption></figure>';
+    return '<figure class="nfx-learn-visual"><img src="'+topicImage(t)+'" alt="'+esc(t.title)+' — topic-specific educational trading chart" loading="eager" decoding="async" onerror="this.closest(\'figure\').hidden=true"><figcaption>'+esc(t.title)+' · educational chart reference · not live market data</figcaption></figure>';
   }
   function filtered(){return topics.filter(t=>(activeCategory==='All Topics'||t.cat===activeCategory)&&(!query||(t.title+' '+t.cat+' '+t.tags+' '+t.intro).toLowerCase().includes(query)));}
   function renderCategories(){
