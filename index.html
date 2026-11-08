@@ -9039,19 +9039,20 @@ window.renderBacktestMetrics=function(r,meta={}){
   // Each lesson uses its own verified local chart, with corrections for identified mismatches.
   // Purpose-built diagrams replace mislabeled or incomplete sources for selected concepts.
   function topicImage(t){
-    // Prefer real local chart examples; redirect only known mismatched files to a closer topic reference.
+    // Use the closest verified topic-specific local chart; avoid known mismatches and branded substitutes.
     const imageMap={
       'market-structure':'internal-external',
-      'liquidity':'bsl-ssl',
-      'pdh-pdl':'daily-weekly-open',
+      'liquidity':'equal-highs-lows',
       'head-shoulders':'chart-patterns',
-      'dxy-and-usd-pairs':'dxy-correlation',
-      'nwog-ndog':'nwog'
+      'dxy-and-usd-pairs':'dxy-correlation'
     };
     return 'assets/learn-trading/'+(imageMap[t.id]||t.id)+'.jpg';
   }
   function topicVisual(t){
-    return '<figure class="nfx-learn-visual"><img src="'+topicImage(t)+'" alt="'+esc(t.title)+' — topic-specific educational trading chart" loading="lazy"><figcaption>'+esc(t.title)+' · topic-matched educational chart reference · not live market data</figcaption></figure>';
+    if(t.id==='nwog-ndog'){
+      return '<figure class="nfx-learn-visual"><div class="nfx-learn-visual-pair" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px"><img src="assets/learn-trading/nwog.jpg" alt="New Week Opening Gap (NWOG) chart example" loading="lazy"><img src="assets/learn-trading/ndog.jpg" alt="New Day Opening Gap (NDOG) chart example" loading="lazy"></div><figcaption>NWOG and NDOG · separate topic-specific chart examples · not live market data</figcaption></figure>';
+    }
+    return '<figure class="nfx-learn-visual"><img src="'+topicImage(t)+'" alt="'+esc(t.title)+' — topic-specific educational trading chart" loading="lazy"><figcaption>'+esc(t.title)+' · educational chart reference · not live market data</figcaption></figure>';
   }
   function filtered(){return topics.filter(t=>(activeCategory==='All Topics'||t.cat===activeCategory)&&(!query||(t.title+' '+t.cat+' '+t.tags+' '+t.intro).toLowerCase().includes(query)));}
   function renderCategories(){
