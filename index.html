@@ -9039,15 +9039,20 @@ window.renderBacktestMetrics=function(r,meta={}){
   // Each lesson uses its own verified local chart, with corrections for identified mismatches.
   // Purpose-built diagrams replace mislabeled or incomplete sources for selected concepts.
   function topicImage(t){
-    // Use the closest verified topic-specific local chart; avoid known mismatches and branded substitutes.
+    // Prefer verified topic-specific charts. Corrected concepts use original, unbranded bull/bear chart assets.
     const imageMap={
       'market-structure':'internal-external',
       'liquidity':'equal-highs-lows',
+      'choch':'choch',
+      'mss':'mss',
+      'liquidity-sweep':'liquidity-sweep',
       'head-shoulders':'chart-patterns',
       'breaker-block':'order-block',
       'dxy-and-usd-pairs':'dxy-correlation'
     };
-    return 'assets/learn-trading/'+(imageMap[t.id]||t.id)+'.jpg';
+    const id=imageMap[t.id]||t.id;
+    const original=['choch','mss','liquidity-sweep'].includes(t.id);
+    return 'assets/learn-trading/'+id+(original?'.svg':'.jpg');
   }
   function topicVisual(t){
     if(t.id==='nwog-ndog'){
