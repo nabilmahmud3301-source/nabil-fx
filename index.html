@@ -9043,7 +9043,7 @@ window.renderBacktestMetrics=function(r,meta={}){
   // Use the locally stored, topic-matched image library for every lesson.
   // Market Structure is the sole missing local download, so use its verified chart reference.
   function topicImage(t){
-    const svgTopics=new Set(["head-shoulders","trendline","rsi","rounding-patterns","wyckoff","volume","choch","displacement","liquidity","internal-external","rejection-candle","ict-2022-model","unicorn-model","liquidity-sweep","order-flow-imbalance","mss","investing-vs-trading","stocks-shares-basics","etfs-index-funds","financial-statements","valuation-pe-ratio","dcf-valuation","dividend-investing","bonds-yields-duration","asset-allocation","diversification","portfolio-rebalancing","earnings-season"]);
+    const svgTopics=new Set(["head-shoulders","trendline","rsi","rounding-patterns","wyckoff","volume","choch","displacement","liquidity","internal-external","rejection-candle","ict-2022-model","unicorn-model","liquidity-sweep","order-flow-imbalance","mss","ote","equal-highs-lows","session-levels","pdh-pdl","turtle-soup","amd-po3","smt-divergence","opening-range","ema-sma","macd","atr","vwap","volume-profile", "investing-vs-trading","stocks-shares-basics","etfs-index-funds","financial-statements","valuation-pe-ratio","dcf-valuation","dividend-investing","bonds-yields-duration","asset-allocation","diversification","portfolio-rebalancing","earnings-season"]);
     if(svgTopics.has(t.id)) return 'assets/learn-trading/'+String(t.id)+'.svg';
     return 'assets/learn-trading/'+String(t.id||'')+'.jpg';
   }
