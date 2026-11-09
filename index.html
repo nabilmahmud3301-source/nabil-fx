@@ -372,6 +372,33 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 @media(max-width:760px){#nfxLiqLiquidationHeatmap .nfx-liq-timeline-head{align-items:flex-start;flex-direction:column;gap:10px}#nfxLiqLiquidationHeatmap .nfx-liq-card-actions{flex-wrap:wrap}}
 
 
+/* Precise Order Book surfaces requested: all visible summary, sides and mid-price blocks. */
+#nfxLiqDashboard #nfxLiqLivePanel,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-top,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-summary,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-contract,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-metric,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-toolbar,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-book,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-side,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-sidehead,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-colheads,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-ladder,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-mid,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-spread,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-bestrow,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-depthsplit,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-sidefoot,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-footer {
+  background:#000000!important;
+  background-image:none!important;
+}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-book{border-color:#202833!important}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-summary,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-sidehead,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-footer{border-color:#202833!important}
+
+
 /* NFx premium heatmap data strips and venue-aware surfaces */
 .nfx-heatmap-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;margin:0 0 12px;border:1px solid #243247;border-radius:10px;overflow:hidden;background:#243247;box-shadow:0 8px 24px #0005}
 .nfx-heatmap-stats>div{min-width:0;padding:11px 14px;background:linear-gradient(145deg,#101b2a,#0a111c)}
@@ -391,68 +418,6 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 @media(max-width:700px){.nfx-heatmap-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.nfx-heatmap-stats>div{padding:9px 10px}.nfx-heatmap-stats span{font-size:8px}.nfx-heatmap-stats b{font-size:13px}}
 
 @media(max-width:420px){.nfx-heatmap-spec-head>div small{font-size:8px}.nfx-heatmap-spec-state{font-size:7px;padding:4px 6px}.nfx-heatmap-spec-grid small{font-size:9px}}
-
-/* NABIL Fx liquidity terminal — rebuilt visual system */
-#page-liquidity .view-heading{font-size:clamp(25px,3vw,34px);letter-spacing:-1.1px;font-weight:800;color:#f3f7fc}
-#page-liquidity .view-lead{max-width:780px;color:#91a2b8;line-height:1.65}
-#page-liquidity .nfx-liq-dashboard{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:22px!important;align-items:start}
-#page-liquidity .nfx-liq-workspace-card{min-width:0!important;overflow:hidden;border:1px solid #25364a!important;border-radius:16px!important;background:linear-gradient(145deg,#101b2a 0%,#0b1420 55%,#09111b 100%)!important;box-shadow:0 18px 48px #0007,inset 0 1px #ffffff0b!important}
-#page-liquidity #nfxLiqLivePanel{padding:0!important}
-#page-liquidity .nfx-obx-top{padding:22px 24px!important;background:linear-gradient(105deg,#14243a 0%,#0e1928 55%,#101722 100%)!important;border-bottom:1px solid #2a3b50!important}
-#page-liquidity .nfx-obx-eyebrow{color:#7f9bb9!important;font-size:10px!important;letter-spacing:1.6px!important;font-weight:800!important}
-#page-liquidity .nfx-obx-brand h2{font-size:25px!important;letter-spacing:-.7px!important;color:#f4f7fc!important;margin:8px 0 4px!important}
-#page-liquidity .nfx-obx-brand p{color:#9aacc1!important;font-size:12px!important}
-#page-liquidity .nfx-obx-summary{margin:0!important;padding:16px 20px!important;grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:8px!important;border-bottom:1px solid #25364a!important;background:#0b1420!important}
-#page-liquidity .nfx-obx-contract,#page-liquidity .nfx-obx-metric{min-width:0!important;padding:13px 12px!important;border:1px solid #26384d!important;border-radius:10px!important;background:linear-gradient(155deg,#142236,#0e1826)!important}
-#page-liquidity .nfx-obx-contract{grid-column:span 2}
-#page-liquidity .nfx-obx-metric>span,#page-liquidity .nfx-obx-caption{color:#849bb5!important;font-size:9px!important;letter-spacing:1.1px!important;font-weight:800!important}
-#page-liquidity .nfx-obx-metric strong,#page-liquidity .nfx-obx-contractline strong{font-size:clamp(14px,1.5vw,19px)!important;color:#edf4fc!important;font-variant-numeric:tabular-nums!important}
-#page-liquidity .nfx-obx-metric small,#page-liquidity .nfx-obx-contract small{color:#8194aa!important;font-size:10px!important}
-#page-liquidity .nfx-obx-book{padding:16px 20px 18px!important;gap:12px!important;background:#09121e!important}
-#page-liquidity .nfx-obx-side{padding:0!important;border:1px solid #26384d!important;border-radius:11px!important;background:linear-gradient(180deg,#101d2b,#0b1420)!important}
-#page-liquidity .nfx-obx-sidehead,#page-liquidity .nfx-obx-colheads{background:#111e2d!important;border-color:#26384d!important}
-#page-liquidity .nfx-obx-ladder{background:transparent!important}
-#page-liquidity .nfx-obx-mid{padding:18px 12px!important;border:1px solid #31465e!important;border-radius:11px!important;background:radial-gradient(ellipse at 50% 0%,#203951 0%,#111f30 58%,#0c1623 100%)!important;box-shadow:inset 0 1px #ffffff0d!important}
-#page-liquidity .nfx-obx-spread,#page-liquidity .nfx-obx-bestrow{background:#142337!important;border-color:#30465e!important}
-#page-liquidity .nfx-obx-footer{background:#0d1927!important;border-top:1px solid #26384d!important}
-#page-liquidity .nfx-liq-timeline-panel{padding:20px!important}
-#page-liquidity .nfx-liq-timeline-head{display:flex!important;align-items:flex-start!important;justify-content:space-between!important;gap:18px!important;padding:2px 0 17px!important;border-bottom:1px solid #26384d!important}
-#page-liquidity .nfx-liq-kicker{color:#79a9c8!important;font-size:9px!important;letter-spacing:1.6px!important;font-weight:850!important}
-#page-liquidity .nfx-liq-timeline-head h3{margin:7px 0 5px!important;font-size:clamp(20px,2vw,25px)!important;letter-spacing:-.65px!important;color:#f1f6fd!important}
-#page-liquidity .nfx-liq-timeline-head p{color:#9aacc1!important;font-size:12px!important;line-height:1.6!important}
-#page-liquidity .nfx-liq-card-actions{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:10px!important;flex-wrap:wrap!important}
-#page-liquidity .nfx-liq-live-tag{padding:7px 10px!important;border:1px solid #276552!important;border-radius:6px!important;background:#0d2925!important;color:#76e0bd!important;font-size:9px!important;font-weight:850!important;letter-spacing:.8px!important}
-#page-liquidity .nfx-est-liq-ranges{padding:4px!important;gap:3px!important;border:1px solid #2a3d53!important;border-radius:8px!important;background:#09131f!important}
-#page-liquidity .nfx-est-liq-ranges button{min-height:29px!important;padding:5px 8px!important;border:1px solid transparent!important;border-radius:5px!important;background:transparent!important;color:#9db0c7!important;font-size:9px!important;font-weight:800!important}
-#page-liquidity .nfx-est-liq-ranges button.active,#page-liquidity .nfx-est-liq-ranges button:hover{border-color:#365d72!important;background:#173246!important;color:#e5f5ff!important}
-#page-liquidity .nfx-liq-fullscreen-btn{border:1px solid #344b64!important;border-radius:7px!important;background:#142337!important;color:#d8e6f5!important;padding:8px 11px!important}
-#page-liquidity .nfx-liq-timeline-wrap{margin-top:15px!important;border:1px solid #293d53!important;border-radius:11px!important;background:linear-gradient(180deg,#0a1522,#07101a)!important;overflow:hidden!important}
-#page-liquidity .nfx-liq-timeline-note{margin-top:12px!important;padding-top:11px!important;border-top:1px solid #26384d!important;color:#8196ad!important;font-size:10px!important;line-height:1.6!important}
-#page-liquidity .nfx-heatmap-stats{margin:14px 0 0!important;border:1px solid #2a3e55!important;border-radius:10px!important;background:#2a3e55!important;box-shadow:none!important}
-#page-liquidity .nfx-heatmap-stats>div{padding:12px 14px!important;background:linear-gradient(145deg,#15263a,#0e1927)!important}
-#page-liquidity .nfx-heatmap-stats span{color:#91a8c1!important}
-#page-liquidity .nfx-heatmap-stats b{color:#edf5ff!important}
-#page-liquidity .nfx-cg-liq-toolbar{padding:10px!important;border:1px solid #2a3e55!important;border-radius:9px!important;background:#0a1420!important;box-shadow:none!important}
-#page-liquidity .nfx-cg-model-switch,#page-liquidity .nfx-cg-view-switch{gap:4px!important}
-#page-liquidity .nfx-cg-model-switch button,#page-liquidity .nfx-cg-view-switch button{border:1px solid #2b4058!important;border-radius:5px!important;background:#101e2d!important;color:#9fb1c7!important}
-#page-liquidity .nfx-cg-model-switch button.active,#page-liquidity .nfx-cg-view-switch button.active{border-color:#b43b4b!important;background:#3a1b27!important;color:#ffe9ed!important}
-#page-liquidity .nfx-cg-threshold{color:#9db0c6!important}
-#page-liquidity .nfx-liq-status{color:#a8bdd2!important}
-@media(max-width:900px){
- #page-liquidity .nfx-obx-summary{grid-template-columns:repeat(3,minmax(0,1fr))!important}
- #page-liquidity .nfx-obx-contract{grid-column:span 3}
- #page-liquidity .nfx-liq-timeline-head{flex-direction:column!important}
- #page-liquidity .nfx-liq-card-actions{justify-content:flex-start!important}
-}
-@media(max-width:620px){
- #page-liquidity .nfx-obx-top{padding:17px 14px!important}
- #page-liquidity .nfx-obx-summary{padding:12px!important;grid-template-columns:repeat(2,minmax(0,1fr))!important}
- #page-liquidity .nfx-obx-contract{grid-column:span 2}
- #page-liquidity .nfx-obx-book{grid-template-columns:minmax(0,1fr)!important;padding:12px!important}
- #page-liquidity .nfx-obx-mid{order:-1}
- #page-liquidity .nfx-liq-timeline-panel{padding:14px!important}
- #page-liquidity .nfx-heatmap-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-}
 </style>
 <style>
 /* Final Home-only refinement: compact founder card above a premium red/white title */
@@ -3969,7 +3934,6 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 #page-learn .nfx-learn-topic-card{min-height:250px}
 #page-learn .nfx-learn-visual svg{display:block;width:100%;height:auto;max-height:520px;border:1px solid #1c2a38;border-radius:10px}
 #page-learn .nfx-learn-visual figcaption{color:#8d9caf;font-size:11px;margin-top:8px}
-#page-learn .nfx-learn-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}#page-learn .nfx-learn-pair-panel{min-width:0;background:#080d14;border:1px solid #1c2a38;border-radius:10px;overflow:hidden}#page-learn .nfx-learn-pair-panel img{display:block;width:100%;height:auto;max-height:340px;object-fit:contain;background:#080d14}#page-learn .nfx-learn-pair-panel span{display:block;padding:8px 10px;color:#d7e0eb;font-size:11px;font-weight:700;text-align:center;border-top:1px solid #1c2a38}@media(max-width:620px){#page-learn .nfx-learn-pair{grid-template-columns:1fr}#page-learn .nfx-learn-pair-panel img{max-height:260px}}
 #page-learn .nfx-learn-topic-card:focus-visible,#page-learn .nfx-learn-category:focus-visible,#page-learn .nfx-learn-back:focus-visible{outline:2px solid #d35b6a!important;outline-offset:3px}
 @media(max-width:900px){
  #page-learn .nfx-learn-topic-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -4128,7 +4092,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 
 
     <section class="nfx-contact-page view" id="page-contact" aria-label="Contact NABIL Fx">
-      <div class="nfx-contact-header"><p class="nfx-contact-eyebrow">GET IN TOUCH</p><h2>Contact Us / Join Our Community</h2><p>Choose your preferred channel to connect with <span style="color:#fff">NABIL</span> <span style="color:#ff2438">Fx</span>.</p></div>
+      <div class="nfx-contact-header"><p class="nfx-contact-eyebrow">GET IN TOUCH</p><h2>Contact Us</h2><p>Choose your preferred channel to connect with <span style="color:#fff">NABIL</span> <span style="color:#ff2438">Fx</span>.</p></div>
       <div class="nfx-contact-links">
         <a class="nfx-contact-link" href="mailto:nabilmahmud3301@gmail.com" aria-label="Email NABIL Fx at nabilmahmud3301@gmail.com" target="_self">
           <span class="nfx-contact-icon nfx-gmail-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="#EA4335" d="M2.5 6.5v12h4V9.1L12 13l5.5-3.9v9.4h4v-12c0-1.6-1.8-2.4-3-1.5L12 9.3 5.5 5C4.3 4.1 2.5 4.9 2.5 6.5Z"/><path fill="#4285F4" d="M2.5 7.2 6.5 10v8.5h-4z"/><path fill="#34A853" d="M17.5 10 21.5 7.2v11.3h-4z"/></svg></span>
@@ -4137,10 +4101,6 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
         <a class="nfx-contact-link" href="https://t.me/nabilfx3301" target="_blank" rel="noopener noreferrer" aria-label="Open NABIL Fx Telegram channel">
           <span class="nfx-contact-icon nfx-telegram-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#229ED9"/><path fill="#fff" d="m5.2 11.6 12.1-4.7c.6-.2 1.1.2.9 1l-2.1 10c-.2.7-.6.9-1.2.5l-3.4-2.5-1.7 1.7c-.2.2-.4.3-.7.3l.3-3.5 6.4-5.8c.3-.3-.1-.4-.4-.2l-7.9 5-3.4-1.1c-.7-.2-.7-.6 1.1-1.3Z"/></svg></span>
           <span><strong>Telegram</strong><small>@nabilfx3301</small></span><span class="nfx-contact-arrow" aria-hidden="true">↗</span>
-        </a>
-        <a class="nfx-contact-link" href="https://www.facebook.com/nabilfx3301" target="_blank" rel="noopener noreferrer" aria-label="Visit NABIL Fx Facebook page">
-          <span class="nfx-contact-icon nfx-facebook-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#1877F2"/><path fill="#fff" d="M13.5 20v-7.1h2.4l.4-2.8h-2.8V8.3c0-.8.2-1.4 1.4-1.4h1.5V4.4c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.1H8v2.8h2.5V20z"/></svg></span>
-          <span><strong>Facebook</strong><small>facebook.com/nabilfx3301</small></span><span class="nfx-contact-arrow" aria-hidden="true">↗</span>
         </a>
       </div>
       </section>
@@ -4158,14 +4118,6 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
       <button type="submit" class="nfx-market-search-button">View heatmap <span aria-hidden="true">↗</span></button>
     </form>
     <div class="nfx-market-search-meta"><span class="nfx-market-dot"></span><span id="nfxMarketCount">Loading available crypto markets…</span><span class="nfx-market-search-current">Selected: <strong id="nfxMarketCurrent">BTC/USDT</strong></span></div>
-  </section>
-  <section class="nfx-liquidity-terminal-intro" aria-label="NABIL Fx market liquidity terminal">
-    <div class="nfx-terminal-intro-copy">
-      <div class="nfx-terminal-eyebrow"><span></span> NABIL Fx <i>/</i> MARKET MICROSTRUCTURE</div>
-      <h1>Liquidity &amp; Order Flow Terminal</h1>
-      <p>Real-time futures depth, historical liquidity concentration and exchange liquidation activity.</p>
-    </div>
-    <div class="nfx-terminal-intro-meta"><span class="nfx-terminal-live-dot"></span><b>LIVE MARKET DATA</b><small>Exchange WebSocket feeds</small></div>
   </section>
   <div class="nfx-liq-dashboard" id="nfxLiqDashboard">
     <section class="nfx-liq-panel nfx-liq-workspace-card nfx-orderbook-next" id="nfxLiqLivePanel" aria-label="NFx professional live order book">
@@ -4226,7 +4178,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
     </section>
     <section class="nfx-liq-timeline-panel nfx-liq-workspace-card" id="nfxLiqLiquidationHeatmap" aria-label="Live futures liquidation heatmap">
       <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker"><span style="color:#fff">NABIL</span> <span style="color:#ff2438">Fx</span> <span class="nfx-liq-kicker-divider">/</span> DERIVATIVES INTELLIGENCE</div><h3>Liquidation Heatmap</h3><p>Estimated liquidation levels and observed exchange executions <span class="nfx-liq-symbol-separator">·</span> <strong id="nfxLiqLiquidationSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><span class="nfx-liq-live-tag" id="nfxLiqEstStatus"><i></i> LIVE FEED</span><div class="nfx-cg-liq-toolbar"><div class="nfx-cg-model-switch" role="group" aria-label="Liquidation model"><span>MODEL</span><button type="button" data-nfx-model="1" class="active" aria-pressed="true">MODEL 1</button><button type="button" data-nfx-model="2" aria-pressed="false">MODEL 2</button><button type="button" data-nfx-model="3" aria-pressed="false">MODEL 3</button></div><div class="nfx-cg-view-switch" role="group" aria-label="Liquidation side view"><button type="button" data-nfx-liq-view="all" class="active" aria-pressed="true">ALL</button><button type="button" data-nfx-liq-view="long" aria-pressed="false">LONG</button><button type="button" data-nfx-liq-view="short" aria-pressed="false">SHORT</button><button type="button" data-nfx-liq-view="trade" aria-pressed="false">TRADE</button></div><label class="nfx-cg-threshold">LIQUIDITY THRESHOLD <input id="nfxEstLiqThreshold" type="range" min="20" max="95" step="5" value="45"><b id="nfxEstLiqThresholdValue">45%</b></label><select id="nfxEstLiqModel" aria-label="Liquidation model" hidden><option value="1">MODEL 1 · BALANCED</option><option value="2">MODEL 2 · HIGH LEVERAGE</option><option value="3">MODEL 3 · BROAD RANGE</option></select></div><div class="nfx-est-liq-ranges" role="group" aria-label="Heatmap time range"><button type="button" data-est-liq-range="1h" class="active">1H</button><button type="button" data-est-liq-range="2h">2H</button><button type="button" data-est-liq-range="4h">4H</button><button type="button" data-est-liq-range="12h">12H</button><button type="button" data-est-liq-range="1d">1D</button><button type="button" data-est-liq-range="2d">2D</button><button type="button" data-est-liq-range="3d">3D</button><button type="button" data-est-liq-range="7d">7D</button><button type="button" data-est-liq-zoom="reset">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqLiquidationHeatmap" aria-label="Expand liquidation heatmap">⛶ <span>Expand</span></button></div></div>
-      <div class="nfx-heatmap-stats nfx-liquidation-stats" id="nfxLiquidationHeatmapStats"><div><span>ACTUAL PRINTS</span><b id="nfxLiqStatEvents">0</b></div><div><span>ACTUAL NOTIONAL</span><b id="nfxLiqStatNotional">—</b></div><div><span>LONG PRINTS</span><b id="nfxLiqStatLong">—</b></div><div><span>SHORT PRINTS</span><b id="nfxLiqStatShort">—</b></div></div><div class="nfx-liq-model-legend"><span><i class="long"></i> LONG LIQUIDATION ZONES</span><span><i class="short"></i> SHORT LIQUIDATION ZONES</span><span class="intensity"><i></i> RELATIVE CLUSTER INTENSITY</span></div><div class="nfx-liq-chart-frame"><div class="nfx-liq-chart-topline"><span><i></i> LIQUIDATION INTENSITY MAP</span><span>PRICE LEVELS <b>·</b> TIME DISTRIBUTION</span></div><div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqLiquidationCanvas" aria-label="Estimated liquidation zones with observed exchange liquidation prints by price and time" style="width:100%;height:100%;display:block"></canvas><div id="nfxLiqLiquidationEmpty" class="nfx-liq-timeline-empty">Waiting for actual futures liquidation events…</div></div></div>
+      <div class="nfx-heatmap-stats nfx-liquidation-stats" id="nfxLiquidationHeatmapStats"><div><span>ACTUAL PRINTS</span><b id="nfxLiqStatEvents">0</b></div><div><span>ACTUAL NOTIONAL</span><b id="nfxLiqStatNotional">—</b></div><div><span>LONG PRINTS</span><b id="nfxLiqStatLong">—</b></div><div><span>SHORT PRINTS</span><b id="nfxLiqStatShort">—</b></div></div><div class="nfx-liq-model-legend"><span><i class="long"></i> LONG LIQUIDATION ZONES</span><span><i class="short"></i> SHORT LIQUIDATION ZONES</span><span class="intensity"><i></i> RELATIVE CLUSTER INTENSITY</span></div><div class="nfx-liq-chart-frame"><div class="nfx-liq-chart-topline"><span><i></i> LIQUIDATION INTENSITY MAP</span><span>PRICE LEVELS <b>·</b> TIME DISTRIBUTION</span></div><div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqLiquidationCanvas" aria-label="Verified exchange liquidation executions by price and time" style="width:100%;height:100%;display:block"></canvas><div id="nfxLiqLiquidationEmpty" class="nfx-liq-timeline-empty">Waiting for actual futures liquidation events…</div></div></div>
       <div class="nfx-liq-timeline-axis"><span>OLDER</span><span>SYMBOL · TIME</span><span>NOW →</span></div>
       <div class="nfx-liq-timeline-note">Estimated clusters are modelled from public open-interest history, nearby market prices and leverage assumptions. Public OI does not disclose account-side positioning or entry prices, so levels and intensity are estimates—not CoinGlass data or verified liquidation USD. Actual exchange liquidation prints are overlaid separately.</div>
 
@@ -7522,7 +7474,7 @@ document.addEventListener('click', function(event) {
     if(!fromHistory)setStatus('Live depth stream · '+marketLabel(currentSymbol),'connected');
   }
   var fullDepthTimer=null,fullDepthBusy=false,lastVenueCount=1,lastVenueNames=['Binance USDⓈ-M Futures'];
-  function updateVenueLabels(names){var venue=activeProvider.toUpperCase()+' USDⓈ-M FUTURES';var source=$('nfxPobSourceName');if(source)source.textContent=venue;var feed=$('nfxPobFeedName');if(feed)feed.textContent=activeProvider.toUpperCase()+' FUTURES · LIVE DEPTH';var tag=$('nfxPobFeedTag');if(tag)tag.textContent=activeProvider==='bybit'?'200 MS · 1000 LEVEL':'100 MS STREAM';var desc=$('nfxLiqBookFeedDesc');if(desc)desc.textContent=activeProvider==='bybit'?'BYBIT 1000-LEVEL DEPTH · 200MS':'BINANCE DIFF-DEPTH · 100MS';var sub=$('nfxPobVenueSubtitle');if(sub)sub.textContent='Live liquidity ladder · '+venue+' · venue-specific visible orders';var contract=$('nfxPobContractVenue');if(contract)contract.textContent=venue;var bookSpec=$('nfxBookSpecSource');if(bookSpec)bookSpec.textContent=activeProvider==='bybit'?'BYBIT PUBLIC LINEAR API':'BINANCE USDⓈ-M PUBLIC API';var liqSpec=$('nfxLiqSpecSource');if(liqSpec)liqSpec.textContent=activeProvider==='bybit'?'BYBIT PUBLIC LIQUIDATION STREAM':'BINANCE FORCE-ORDER STREAM';var kick=document.querySelector('#nfxLiqLiquidationHeatmap .nfx-liq-kicker');if(kick)kick.textContent=activeProvider==='bybit'?'BYBIT · ALL REPORTED LIQUIDATIONS':'BINANCE · FORCE-ORDER SNAPSHOTS';var liqSub=document.querySelector('#nfxLiqLiquidationHeatmap .nfx-liq-timeline-head p');if(liqSub)liqSub.innerHTML='Estimated liquidation zones from open interest · observed forced-liquidation prints overlaid · <strong id="nfxLiqLiquidationSymbol">'+String(currentSymbol||'BTCUSDT').replace(/USDT$/,'/USDT')+'</strong> · '+activeProvider.toUpperCase();}
+  function updateVenueLabels(names){var venue=activeProvider.toUpperCase()+' USDⓈ-M FUTURES';var source=$('nfxPobSourceName');if(source)source.textContent=venue;var feed=$('nfxPobFeedName');if(feed)feed.textContent=activeProvider.toUpperCase()+' FUTURES · LIVE DEPTH';var tag=$('nfxPobFeedTag');if(tag)tag.textContent=activeProvider==='bybit'?'200 MS · 1000 LEVEL':'100 MS STREAM';var desc=$('nfxLiqBookFeedDesc');if(desc)desc.textContent=activeProvider==='bybit'?'BYBIT 1000-LEVEL DEPTH · 200MS':'BINANCE DIFF-DEPTH · 100MS';var sub=$('nfxPobVenueSubtitle');if(sub)sub.textContent='Live liquidity ladder · '+venue+' · venue-specific visible orders';var contract=$('nfxPobContractVenue');if(contract)contract.textContent=venue;var bookSpec=$('nfxBookSpecSource');if(bookSpec)bookSpec.textContent=activeProvider==='bybit'?'BYBIT PUBLIC LINEAR API':'BINANCE USDⓈ-M PUBLIC API';var liqSpec=$('nfxLiqSpecSource');if(liqSpec)liqSpec.textContent=activeProvider==='bybit'?'BYBIT PUBLIC LIQUIDATION STREAM':'BINANCE FORCE-ORDER STREAM';var kick=document.querySelector('#nfxLiqLiquidationHeatmap .nfx-liq-kicker');if(kick)kick.textContent=activeProvider==='bybit'?'BYBIT · ALL REPORTED LIQUIDATIONS':'BINANCE · FORCE-ORDER SNAPSHOTS';var liqSub=document.querySelector('#nfxLiqLiquidationHeatmap .nfx-liq-timeline-head p');if(liqSub)liqSub.innerHTML='Exchange-reported forced-liquidation executions only · <strong id="nfxLiqLiquidationSymbol">'+String(currentSymbol||'BTCUSDT').replace(/USDT$/,'/USDT')+'</strong> · '+activeProvider.toUpperCase();}
   function connectBybitBook(){
     if(activeMarket!=='crypto'||document.hidden)return;
     var sym=String(currentSymbol||'btcusdt').toUpperCase(),bidsMap=new Map(),asksMap=new Map(),pingTimer=null,ready=false;
@@ -7755,9 +7707,9 @@ document.addEventListener('click', function(event) {
     if(!window._nfxHistorySaveTimer)window._nfxHistorySaveTimer=setTimeout(function(){window._nfxHistorySaveTimer=null;saveHistoryCache();},2500);
   }
   function renderTimeline(forceRender){
-    // Refresh the live depth heatmap at 300ms while coalescing direct chart interactions.
+    // Keep the 900ms data-refresh throttle, but never throttle direct chart interaction.
     if(!forceRender){
-      var renderNow=Date.now(),lastRender=window._nfxLiqLastTimelineRender||0,wait=300-(renderNow-lastRender);
+      var renderNow=Date.now(),lastRender=window._nfxLiqLastTimelineRender||0,wait=900-(renderNow-lastRender);
       if(wait>0){if(!window._nfxLiqTimelineRenderTimer){window._nfxLiqTimelineRenderTimer=setTimeout(function(){window._nfxLiqTimelineRenderTimer=null;renderTimeline();},wait);}return;}
       window._nfxLiqLastTimelineRender=renderNow;
     }
@@ -8889,6 +8841,7 @@ window.renderBacktestMetrics=function(r,meta={}){
     ['kill-zones','ICT Kill Zones','Sessions & Time','London New York kill zone timing','Kill zones are time windows traders focus on around major session activity.','Choose the source convention and timezone, then account for daylight-saving changes. Treat the window as a filter for when to study setups, not a directional signal.'],
     ['amd-po3','Power of Three (AMD)','ICT Advanced','accumulation manipulation distribution PO3','Power of Three describes an accumulation, manipulation and distribution narrative around a selected range or session.','Define the accumulation range first. Identify a possible false move beyond one edge, then wait for evidence of directional expansion; the sequence is a hypothesis, not a daily certainty.'],
     ['smt-divergence','SMT Divergence','ICT Advanced','SMT divergence correlated markets highs lows','SMT divergence compares correlated markets when one makes a new high or low and the other does not.','Choose genuinely related instruments and synchronise their feeds and timeframes. Mark comparable swing points; divergence is context only and can persist or fail.'],
+    ['nwog-ndog','NWOG & NDOG','ICT Advanced','new week opening gap new day opening gap','NWOG and NDOG refer to gaps between selected weekly or daily opening reference prices and the prior close.','Use one documented session boundary and data feed. Draw the gap only after the new period opens; decentralised forex feeds may produce different values.'],
     ['daily-weekly-open','Daily & Weekly Open','Sessions & Time','daily open weekly open reference price','Daily and weekly opening prices are reference levels used to frame price relative to the current period open.','Record the exact broker feed and timezone. Compare price above or below the open as context, not as a standalone long/short rule.'],
     ['opening-range','Opening Range','Sessions & Time','opening range breakout ORB high low','An opening range is the high-low interval formed during a specified period after a market session begins.','Choose the market, opening time and range duration before the session. Mark the completed range and define whether a breakout needs a close, retest or volume confirmation.'],
     ['ema-sma','Moving Averages (EMA & SMA)','Technical Analysis','moving average EMA SMA trend chart','Moving averages smooth historical prices and can help describe trend direction or dynamic reference areas.','Choose the length and calculation type before testing. A moving average lags price and can whipsaw in ranges; it should not be treated as guaranteed support or resistance.'],
@@ -8994,17 +8947,12 @@ window.renderBacktestMetrics=function(r,meta={}){
     ['sample-size','Sample Size & Statistical Confidence','Strategy Research','trading backtest sample size confidence intervals expectancy','A backtest result is uncertain, especially when it comes from a small or highly clustered sample.','Report trade count, date coverage, market regimes and uncertainty alongside win rate and expectancy. Do not treat a short streak as proof; collect more independent observations and test across conditions.']
   ];
 
-
-  const additionalIctTopics=[["london-killzone","London Killzone","ICT Advanced","London killzone Asian range sweep session timing","The London Killzone is a time window traders use to study early London-session liquidity and volatility, often relative to the Asian range.","Define the London window in a named timezone and account for daylight-saving changes. Mark the Asian high and low, then observe whether price sweeps either side and whether a separate confirmation appears. A time window alone is not a setup."],["ict-2022-model","ICT 2022 Model","ICT Advanced","ICT 2022 model liquidity sweep market structure shift fair value gap","The ICT 2022 Model is a discretionary intraday framework often combining higher-timeframe bias, a liquidity sweep, market-structure shift and fair-value-gap entry.","Write the exact version you are testing: bias timeframe, liquidity target, sweep rule, MSS close rule, FVG definition, entry, stop and target. Do not assume every sweep followed by an impulse is a valid model trade."],["ndog","New Day Opening Gap (NDOG)","ICT Advanced","NDOG new day opening gap forex daily open gap","NDOG is a reference gap between selected daily opening prices under a chosen session convention.","Specify the daily boundary, broker feed and timezone. Compare the new daily open with the prior reference close, mark the gap boundaries, and test how price behaves around them. Spot-FX feeds can differ."],["fvg-ce","Consequent Encroachment (CE)","ICT Advanced","FVG consequent encroachment 50 percent midpoint","Consequent Encroachment is the 50% midpoint of a Fair Value Gap, used by some ICT traders as a precision reference.","First define a valid three-candle FVG and mark its full boundaries. Calculate the midpoint, then record whether your model requires a touch, close, rejection or lower-timeframe trigger. A midpoint touch is not a guaranteed reaction."],["silver-bullet","ICT Silver Bullet","ICT Advanced","ICT silver bullet time window liquidity sweep FVG","The Silver Bullet is a time-specific ICT setup framework commonly combining a liquidity run, displacement and a fair-value-gap entry.","Choose the exact time window and timezone before the session. Define the liquidity level, displacement/MSS confirmation, FVG entry rule, invalidation and target. Test each window separately; do not force a setup when conditions are absent."],["nwog","New Week Opening Gap (NWOG)","ICT Advanced","NWOG new week opening gap weekly open forex","NWOG is a weekly opening reference gap based on a selected Friday close and Sunday/Monday open convention.","Document the broker and weekly session boundary, then mark the gap after the new week begins. Compare price interaction with the zone, but do not assume every gap must fill."]];
-  const investingTopics=[["investing-vs-trading","Investing vs Trading","Investing Foundations","investing trading time horizon compounding active trading","Investing generally focuses on ownership and long-term capital growth; trading focuses on shorter-term price movement and execution.","Compare time horizon, turnover, costs, tax treatment, research method and risk capacity. Investors may use valuation and business quality; traders may use price, liquidity and defined setups. Either approach can lose money."],["stocks-shares-basics","Stocks & Share Ownership","Investing Foundations","stocks shares equity ownership dividends voting rights","A share represents a fractional ownership interest in a company, with rights and risks defined by the share class and jurisdiction.","Study the company, share class, voting rights, dividend policy, dilution and listing venue. A rising share price can reflect improving expectations; a falling price can reflect weaker fundamentals or changing risk appetite."],["etfs-index-funds","ETFs & Index Funds","Investing Foundations","ETF index funds diversification expense ratio tracking error","An exchange-traded fund holds a basket of assets and trades on an exchange; an index fund aims to track a stated benchmark.","Check the benchmark, holdings, expense ratio, tracking difference, liquidity, spread, replication method and domicile. Index exposure diversifies company-specific risk but does not remove market risk."],["financial-statements","Reading Financial Statements","Investing Foundations","income statement balance sheet cash flow statement","The income statement, balance sheet and cash-flow statement show profitability, financial position and cash generation from different angles.","Read several reporting periods together. Compare revenue, margins, debt, working capital and operating cash flow; check accounting notes and one-off items. Rising earnings without supporting cash flow deserves investigation."],["valuation-pe-ratio","Valuation: P/E, P/B & PEG","Investing Foundations","price earnings ratio price book PEG valuation","Valuation ratios compare a company’s market price with measures such as earnings, book value or expected growth.","Use comparable companies and the same accounting basis. Consider cyclicality, debt, growth quality and interest rates; a low multiple can signal undervaluation or deteriorating prospects, while a high multiple can price in strong growth."],["dcf-valuation","Discounted Cash Flow (DCF)","Investing Foundations","DCF intrinsic value free cash flow discount rate terminal value","A discounted cash-flow model estimates business value by discounting forecast future cash flows to today.","Build explicit revenue, margin, reinvestment and free-cash-flow assumptions; choose a justified discount rate and terminal value. Test bull/base/bear scenarios and sensitivity. DCF outputs are assumption-dependent, not precise facts."],["dividend-investing","Dividend Investing & Yield","Investing Foundations","dividend yield payout ratio dividend growth sustainability","Dividend investing evaluates cash distributions and whether a company can sustain or grow them over time.","Review free cash flow, payout ratio, debt, earnings stability and dividend history. A high yield can reflect a falling share price or an unsustainable payout; total return includes both income and price change."],["bonds-yields-duration","Bonds, Yields & Duration","Investing Foundations","bond prices yields duration coupon maturity","A bond is a debt instrument; its price is influenced by coupon, maturity, credit risk and prevailing market yields.","Understand the inverse relationship between price and yield, and how duration estimates sensitivity to yield changes. Credit spreads can widen even when government yields fall; assess both rate and issuer risk."],["asset-allocation","Asset Allocation","Investing Foundations","asset allocation stocks bonds cash risk tolerance time horizon","Asset allocation divides a portfolio among asset classes to match goals, time horizon and risk capacity.","Set target weights using liquidity needs, horizon, risk tolerance and liabilities. Stress-test how equities, bonds and cash may behave in different regimes; no fixed allocation is suitable for everyone."],["diversification","Diversification & Correlation","Investing Foundations","portfolio diversification correlation concentration risk","Diversification spreads exposure across assets, sectors, regions and risk drivers to reduce reliance on one outcome.","Check holdings overlap, sector concentration, currency exposure and correlations during stress. Owning many funds does not guarantee diversification if their underlying holdings are similar."],["portfolio-rebalancing","Portfolio Rebalancing","Investing Foundations","portfolio rebalancing target weights drift bands","Rebalancing restores a portfolio toward its target allocation after market movements change asset weights.","Choose calendar or threshold-based rules, account for fees and taxes, and consider directing new contributions toward underweight assets. Rebalancing controls risk drift; it does not guarantee higher returns."],["earnings-season","Earnings Season & Guidance","Investing Foundations","earnings season analyst expectations guidance beat miss","Earnings season is when listed companies report results and often update forward guidance.","Compare reported results with consensus and prior guidance, but examine segment growth, margins, cash flow and outlook. A headline beat can still be bearish if guidance or quality disappoints."]];
   const makeExtra=(x)=>({id:x[0],title:x[1],cat:x[2],tags:x[3],intro:x[4],how:x[5],valid:['The concept is defined before the chart outcome is known.','The timeframe, instrument and confirmation rule are stated clearly.','The observation is checked against broader context and risk.'],invalid:['Treating the label as an automatic entry signal.','Changing the definition after seeing the outcome.','Ignoring costs, invalidation or market conditions.'],mark:['Choose the instrument, timeframe and relevant context.','Mark the exact candles, swing points, level or indicator values required by the definition.','Wait for the stated confirmation; record what would invalidate the idea.','Review both successful and failed examples using the same rule.'],tip:'Treat this concept as a testable framework. Definitions vary across educators and markets; document your version and validate it independently.'});
   topics.push(...extraTopics.map(makeExtra));
   topics.push(...advancedTopics.map(makeExtra));
   topics.push(...specialistTopics.map(makeExtra));
-  topics.push(...additionalIctTopics.map(makeExtra));
-  topics.push(...investingTopics.map(makeExtra));
   const $=id=>document.getElementById(id);
-  const categories=['All Topics','Investing Foundations','Price Action','ICT / SMC','ICT Advanced','CRT Models','Technical Analysis','Sessions & Time','Risk & Execution','Wyckoff & Volume','Chart Patterns','Forex Fundamentals','Market Mechanics','Macro & Intermarket','Strategy Research','Advanced Risk','Trading Psychology'];
+  const categories=['All Topics','Price Action','ICT / SMC','ICT Advanced','CRT Models','Technical Analysis','Sessions & Time','Risk & Execution','Wyckoff & Volume','Chart Patterns','Forex Fundamentals','Market Mechanics','Macro & Intermarket','Strategy Research','Advanced Risk','Trading Psychology'];
   let activeCategory='All Topics',query='',selected=null;
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const seenTopicIds=new Set(),seenTopicTitles=new Set();
@@ -9030,25 +8978,7 @@ window.renderBacktestMetrics=function(r,meta={}){
     for(let i=0;i<24;i++){const close=Math.max(74,Math.min(240,prev+(rnd(i)-.47)*27));const high=Math.max(prev,close)+8+rnd(i+2)*13,low=Math.min(prev,close)-7-rnd(i+4)*12,x=54+i*25;bars+=candle(x,prev,close,high,low);vol+=R(x,296-(18+rnd(i+19)*42),13,18+rnd(i+19)*42,close<prev?C.red:C.green);pts.push([x+6.5,close]);prev=close;}
     const path=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
     let o='',type='CONCEPT SCHEMATIC';
-    if(/head-shoulders|double-top-bottom/.test(id)){
-      o+=R(58,92,286,155,'#73a9e818',C.blue)+R(370,92,286,155,'#48c7a018',C.green)+T(76,115,/double-top-bottom/.test(id)?'DOUBLE TOP (M)': 'HEAD & SHOULDERS',C.blue,10)+T(388,115,/double-top-bottom/.test(id)?'DOUBLE BOTTOM (W)':'INVERSE HEAD & SHOULDERS',C.green,9)+L(78,210,320,210,C.gold,'5 4')+L(390,210,632,210,C.gold,'5 4')+T(82,232,'BEARISH REVERSAL',C.red,9)+T(394,232,'BULLISH REVERSAL',C.green,9);
-    }else if(/dxy-and-usd-pairs/.test(id)){
-      o+=R(58,92,286,155,'#73a9e818',C.blue)+R(370,92,286,155,'#e0788418',C.red)+T(76,115,'DXY STRENGTHENS',C.blue,10)+T(388,115,'DXY WEAKENS',C.red,10)+L(82,210,320,150,C.blue,'3 4')+L(392,150,632,210,C.red,'3 4')+T(82,232,'EURUSD / GBPUSD OFTEN FALL',C.white,9)+T(392,232,'EURUSD / GBPUSD OFTEN RISE',C.white,9);
-    }else if(/rejection-candle/.test(id)){
-      o+=R(58,92,286,155,'#48c7a018',C.green)+R(370,92,286,155,'#e0788418',C.red)+T(76,115,'BULLISH PIN BAR',C.green,10)+T(388,115,'BEARISH SHOOTING STAR',C.red,10)+L(82,210,320,210,C.green,'5 4')+L(392,150,632,150,C.red,'5 4')+T(82,232,'REJECTION AT SUPPORT',C.white,9)+T(392,232,'REJECTION AT RESISTANCE',C.white,9);
-    }else if(/market-structure/.test(id)){
-      o+=R(58,92,286,155,'#48c7a018',C.green)+R(370,92,286,155,'#e0788418',C.red)+T(76,115,'BULLISH STRUCTURE',C.green,10)+T(388,115,'BEARISH STRUCTURE',C.red,10)+L(82,220,135,170,C.green)+L(135,170,188,195,C.green)+L(188,195,242,135,C.green)+L(242,135,320,158,C.green)+T(86,238,'HH · HL · HH',C.white,9)+L(392,135,445,190,C.red)+L(445,190,498,160,C.red)+L(498,160,552,220,C.red)+L(552,220,632,188,C.red)+T(396,238,'LL · LH · LL',C.white,9);
-    }else if(/liquidity/.test(id)){
-      o+=R(58,92,286,155,'#73a9e818',C.blue)+R(370,92,286,155,'#e0788418',C.red)+T(76,115,'BUY-SIDE LIQUIDITY',C.blue,10)+T(388,115,'SELL-SIDE LIQUIDITY',C.red,10)+L(82,165,320,165,C.blue,'6 5')+L(392,195,632,195,C.red,'6 5')+T(82,232,'ABOVE EQUAL HIGHS',C.white,9)+T(392,232,'BELOW EQUAL LOWS',C.white,9);
-    }else if(/nwog|ndog/.test(id)){
-      o+=R(72,106,270,116,'#73a9e822',C.blue)+R(382,106,270,116,'#48c7a022',C.green)+T(91,132,'NWOG · NEW WEEK OPEN',C.blue,11)+T(401,132,'NDOG · NEW DAY OPEN',C.green,11)+L(92,174,320,174,C.blue,'5 4')+L(402,174,620,174,C.green,'5 4')+T(92,205,'WEEKEND GAP / CE',C.white,9)+T(402,205,'DAILY OPEN GAP / CE',C.white,9);
-    }else if(/rsi/.test(id)){
-      o+=R(60,92,285,155,'#48c7a018',C.green)+R(370,92,285,155,'#e0788418',C.red)+T(78,115,'BULLISH DIVERGENCE',C.green,10)+T(388,115,'BEARISH DIVERGENCE',C.red,10)+L(82,210,320,210,C.green,'4 4')+L(392,210,630,210,C.red,'4 4')+T(82,232,'PRICE LL · RSI HL',C.white,9)+T(392,232,'PRICE HH · RSI LH',C.white,9);
-    }else if(/unicorn/.test(id)){
-      o+=R(60,92,285,155,'#48c7a018',C.green)+R(370,92,285,155,'#e0788418',C.red)+T(78,115,'BULLISH UNICORN',C.green,10)+T(388,115,'BEARISH UNICORN',C.red,10)+R(105,145,190,35,'#73a9e833',C.blue)+R(415,145,190,35,'#e0788433',C.red)+T(113,167,'BREAKER + BULLISH FVG',C.white,9)+T(423,167,'BREAKER + BEARISH FVG',C.white,9)+L(200,195,200,225,C.green,'3 4')+L(510,195,510,225,C.red,'3 4');
-    }else if(/pdh|pdl|previous-day|prior-day/.test(id)){
-      o=L(58,112,660,112,C.red,'7 6')+L(58,242,660,242,C.blue,'7 6')+T(62,101,'PREVIOUS DAY HIGH (PDH)',C.red,10)+T(62,259,'PREVIOUS DAY LOW (PDL)',C.blue,10)+R(486,151,142,48,'#d5b16b18',C.gold)+T(497,170,'TODAY’S RANGE',C.gold,10)+T(497,187,'BETWEEN PDH / PDL',C.white,9);
-    }else if(/liquidity|equal-high|bsl|ssl|sweep|turtle-soup|judas|inducement/.test(id)){
+    if(/liquidity|equal-high|bsl|ssl|sweep|turtle-soup|judas|inducement/.test(id)){
       o=L(58,125,660,125,C.red,'7 6')+L(58,226,660,226,C.blue,'7 6')+T(62,115,'BUY-SIDE LIQUIDITY',C.red,10)+T(62,243,'SELL-SIDE LIQUIDITY',C.blue,10)+R(535,82,96,25,'#e0788420',C.red)+T(544,99,'LIQUIDITY RAID',C.red,9);
     }else if(/fvg|fair-value|order-block|breaker|mitigation|bpr|unicorn|ote/.test(id)){
       o+=R(280,135,115,45,'#73a9e833',C.blue)+T(286,128,'IMBALANCE',C.blue,10)+R(438,184,105,37,'#48c7a022',C.green)+T(445,207,'REACTION',C.green,10)+L(335,85,335,245,C.gold,'3 5')+T(343,96,'RETEST',C.gold,10);
@@ -9087,23 +9017,13 @@ window.renderBacktestMetrics=function(r,meta={}){
     const label=topic.title||'Trading concept';
     return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 520" role="img" aria-label="'+esc(label)+' illustrated trading lesson"><defs><linearGradient id="learnPanel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#111b27"/><stop offset="1" stop-color="#080d13"/></linearGradient></defs><rect width="1100" height="520" rx="16" fill="#05080d" stroke="#263647"/><path d="M0 72H1100" stroke="#b83b50" stroke-width="2"/><text x="28" y="43" fill="#f3f6fa" font-size="25" font-weight="800" font-family="Inter,Arial,sans-serif">'+esc(label.toUpperCase())+'</text><text x="1070" y="42" fill="#91a2b5" font-size="11" text-anchor="end" font-weight="700" font-family="Inter,Arial,sans-serif">'+esc(cat.toUpperCase())+'</text><svg x="18" y="84" width="720" height="340" viewBox="0 0 720 340">'+grid+T(52,28,title,C.white,14)+T(655,28,cat.toUpperCase(),C.muted,9)+bars+'<path d="'+path+'" fill="none" stroke="'+C.white+'" stroke-width="2.6" opacity=".65"/>'+o+vol+L(50,310,665,310,'#344354')+T(52,329,'ILLUSTRATIVE PRICE ACTION · NOT LIVE DATA',C.muted,9)+'</svg><rect x="755" y="84" width="325" height="340" rx="12" fill="url(#learnPanel)" stroke="#33475b"/><rect x="775" y="104" width="285" height="34" rx="7" fill="#54202c" stroke="#a33a4c"/><text x="792" y="127" fill="#fff" font-size="16" font-weight="800" font-family="Inter,Arial,sans-serif">CORE IDEA</text>'+introSvg+'<path d="M775 270H1060" stroke="#304052"/><text x="778" y="297" fill="'+C.green+'" font-size="13" font-weight="800" font-family="Inter,Arial,sans-serif">HOW TO IDENTIFY</text>'+bulletSvg+'<rect x="18" y="440" width="1062" height="58" rx="10" fill="#0d1520" stroke="#293b4e"/><text x="38" y="464" fill="'+C.gold+'" font-size="11" font-weight="800" font-family="Inter,Arial,sans-serif">LEARNING FOCUS</text><text x="38" y="484" fill="#dce5ee" font-size="12" font-family="Inter,Arial,sans-serif">'+esc((topic.tip||topic.how||'Study the chart, define the rule, and wait for confirmation.').slice(0,145))+'</text></svg>';
   }
-  // Use the locally stored, topic-matched image library for every lesson.
-  // Market Structure is the sole missing local download, so use its verified chart reference.
-  function topicImage(t){
-    const svgTopics=new Set(["head-shoulders","trendline","rsi","rounding-patterns","wyckoff","volume","choch","displacement","liquidity","internal-external","rejection-candle","ict-2022-model","unicorn-model","liquidity-sweep","order-flow-imbalance","mss","investing-vs-trading","stocks-shares-basics","etfs-index-funds","financial-statements","valuation-pe-ratio","dcf-valuation","dividend-investing","bonds-yields-duration","asset-allocation","diversification","portfolio-rebalancing","earnings-season"]);
-    if(svgTopics.has(t.id)) return 'assets/learn-trading/'+String(t.id)+'.svg';
-    return 'assets/learn-trading/'+String(t.id||'')+'.jpg';
-  }
-  function topicVisual(t){
-    return '<figure class="nfx-learn-visual"><img src="'+topicImage(t)+'" alt="'+esc(t.title)+' — topic-specific educational trading chart" loading="eager" decoding="async" onerror="this.closest(\'figure\').hidden=true"><figcaption>'+esc(t.title)+' · educational chart reference · not live market data</figcaption></figure>';
-  }
   function filtered(){return topics.filter(t=>(activeCategory==='All Topics'||t.cat===activeCategory)&&(!query||(t.title+' '+t.cat+' '+t.tags+' '+t.intro).toLowerCase().includes(query)));}
   function renderCategories(){
     $('nfxLearnCategories').innerHTML=categories.map(c=>`<button type="button" class="nfx-learn-category ${activeCategory===c?'active':''}" data-learn-category="${esc(c)}"><span>${esc(c)}</span><small>${c==='All Topics'?topics.length:topics.filter(t=>t.cat===c).length}</small></button>`).join('');
   }
   function renderCards(){
     const list=filtered();
-    $('nfxLearnTopicGrid').innerHTML=list.map(t=>`<button type="button" class="nfx-learn-topic-card" data-learn-topic="${t.id}"><img class="nfx-learn-topic-thumb" src="${topicImage(t)}" alt="${esc(t.title)} trading chart example" loading="lazy" onerror="this.hidden=true"><span class="nfx-learn-topic-copy"><small>${esc(t.cat.toUpperCase())}</small><strong>${esc(t.title)}</strong><span>${esc(t.intro)}</span></span></button>`).join('');
+    $('nfxLearnTopicGrid').innerHTML=list.map(t=>`<button type="button" class="nfx-learn-topic-card" data-learn-topic="${t.id}"><span class="nfx-learn-topic-copy"><small>${esc(t.cat.toUpperCase())}</small><strong>${esc(t.title)}</strong><span>${esc(t.intro)}</span></span></button>`).join('');
     $('nfxLearnCount').textContent=list.length+' TOPICS';
     $('nfxLearnSearchMeta').textContent=query?'Showing '+list.length+' matching topic(s).':'Browse '+topics.length+' lessons across '+(categories.length-1)+' learning areas.';
     $('nfxLearnEmpty').hidden=list.length!==0;
@@ -9113,7 +9033,7 @@ window.renderBacktestMetrics=function(r,meta={}){
   function openTopic(id){
     const t=topics.find(x=>x.id===id);if(!t)return;selected=id;
     $('nfxLearnTopicGrid').hidden=true;$('nfxLearnResultsHead').hidden=true;$('nfxLearnEmpty').hidden=true;$('nfxLearnDetail').hidden=false;
-    $('nfxLearnDetailContent').innerHTML=`<div class="nfx-learn-kicker">${esc(t.cat.toUpperCase())} · COMPLETE TOPIC GUIDE</div><h2>${esc(t.title)}</h2><p>${esc(t.intro)}</p>${topicVisual(t)}<h3>02 · How it works</h3><p>${esc(t.how)}</p><div class="nfx-learn-detail-grid"><section class="nfx-learn-info nfx-learn-valid"><h3>✓ VALID CONDITIONS</h3><ul>${t.valid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section><section class="nfx-learn-info nfx-learn-invalid"><h3>✕ INVALID / WEAK CONDITIONS</h3><ul>${t.invalid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section></div><h3>03 · How to mark it on a chart</h3><ol>${t.mark.map(x=>'<li>'+esc(x)+'</li>').join('')}</ol><div class="nfx-learn-info"><h3>PRO TRADING NOTE</h3><p>${esc(t.tip)}</p></div><h3>04 · Professional chart-reading workflow</h3><ol><li>Start with a clean chart and mark only the relevant higher-timeframe context.</li><li>Identify the exact candles / swing points that satisfy this lesson's definition.</li><li>Draw the zone or level using the stated boundaries; note the timeframe beside it.</li><li>Wait for the confirmation rule. Do not assume the first touch is an entry.</li><li>Define entry trigger, stop-loss invalidation and target before placing an order.</li><li>Capture the chart before the outcome, then journal both valid winners and valid losses.</li></ol><div class="nfx-learn-info"><h3>VALIDATION STANDARD</h3><p>The images above are educational chart references from external publishers; they are not live market data or trade signals. Confirm current market behaviour on your own broker feed. Record the instrument, timezone, spread, session and rule version so the result can be reproduced.</p></div>`;
+    $('nfxLearnDetailContent').innerHTML=`<div class="nfx-learn-kicker">${esc(t.cat.toUpperCase())} · COMPLETE TOPIC GUIDE</div><h2>${esc(t.title)}</h2><p>${esc(t.intro)}</p><h3>02 · How it works</h3><p>${esc(t.how)}</p><div class="nfx-learn-detail-grid"><section class="nfx-learn-info nfx-learn-valid"><h3>✓ VALID CONDITIONS</h3><ul>${t.valid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section><section class="nfx-learn-info nfx-learn-invalid"><h3>✕ INVALID / WEAK CONDITIONS</h3><ul>${t.invalid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section></div><h3>03 · How to mark it on a chart</h3><ol>${t.mark.map(x=>'<li>'+esc(x)+'</li>').join('')}</ol><div class="nfx-learn-info"><h3>PRO TRADING NOTE</h3><p>${esc(t.tip)}</p></div><h3>04 · Professional chart-reading workflow</h3><ol><li>Start with a clean chart and mark only the relevant higher-timeframe context.</li><li>Identify the exact candles / swing points that satisfy this lesson's definition.</li><li>Draw the zone or level using the stated boundaries; note the timeframe beside it.</li><li>Wait for the confirmation rule. Do not assume the first touch is an entry.</li><li>Define entry trigger, stop-loss invalidation and target before placing an order.</li><li>Capture the chart before the outcome, then journal both valid winners and valid losses.</li></ol><div class="nfx-learn-info"><h3>VALIDATION STANDARD</h3><p>The illustration above is an original educational schematic designed to explain this topic; it is not a live chart, historical trade record or trade signal. Confirm real market behaviour on your own broker feed. Record the instrument, timezone, spread, session and rule version so the result can be reproduced.</p></div>`;
     $('nfxLearnDetail').scrollIntoView({behavior:'smooth',block:'start'});
   }
   document.addEventListener('click',e=>{
@@ -9127,16 +9047,6 @@ window.renderBacktestMetrics=function(r,meta={}){
 })();
 </script>
 
-<style id="nfx-learn-photo-polish">
-#page-learn .nfx-learn-topic-card{display:flex;flex-direction:column;min-height:0!important}
-#page-learn .nfx-learn-topic-thumb{display:block;width:100%;height:156px;flex:0 0 156px;object-fit:contain;object-position:center;background:#070b10;border:0;border-bottom:1px solid #273241;padding:5px}
-#page-learn .nfx-learn-topic-copy{display:flex;flex-direction:column;gap:7px;flex:1;padding:14px 15px 16px!important}
-#page-learn .nfx-learn-topic-copy strong{line-height:1.35}
-#page-learn .nfx-learn-visual{margin:18px 0 22px;padding:12px;border:1px solid #263344;border-radius:13px;background:#080d14}
-#page-learn .nfx-learn-visual img{display:block;width:100%;max-height:520px;object-fit:contain;object-position:center;margin:auto;border-radius:8px;background:#070b10}
-#page-learn .nfx-learn-visual figcaption{color:#8d9caf;font-size:11px;margin-top:9px;text-align:right}
-@media(max-width:620px){#page-learn .nfx-learn-topic-thumb{height:132px;flex-basis:132px}#page-learn .nfx-learn-topic-copy{padding:11px!important}}
-</style>
 
 <style id="nfx-learn-mobile-usability-fix">
 /* Responsive Learn Trading layout. Scoped to the Learn Trading page. */
@@ -9284,404 +9194,6 @@ window.renderBacktestMetrics=function(r,meta={}){
   #page-learn .nfx-learn-hero { gap:8px !important; padding:16px 10px !important; }
   #page-learn .nfx-learn-emblem { flex-basis:62px !important; width:62px !important; height:62px !important; }
   #page-learn .nfx-learn-emblem .nfx-learn-brand-lockup { font-size:20px !important; }
-}
-</style>
-
-<style id="nfx-learn-topic-image-styles">
-#page-learn .nfx-learn-topic-card{display:flex;flex-direction:column;overflow:hidden;text-align:left}
-#page-learn .nfx-learn-topic-thumb{display:block;width:100%;height:150px;object-fit:cover;background:#080d13;border-bottom:1px solid #263444}
-#page-learn .nfx-learn-topic-thumb[hidden]{display:none}
-#page-learn .nfx-learn-topic-copy{display:flex;flex-direction:column;gap:7px;padding:15px}
-#page-learn .nfx-learn-topic-copy strong{line-height:1.3}
-@media(max-width:640px){#page-learn .nfx-learn-topic-thumb{height:120px}}
-</style>
-
-<style id="nfx-liquidity-terminal-rebuild-2026">
-/* NABIL Fx — rebuilt liquidity terminal presentation. Existing feed IDs and handlers are retained. */
-.nfx-liquidity-terminal-intro{
-  display:flex;align-items:flex-end;justify-content:space-between;gap:22px;
-  margin:22px 0 18px;padding:25px 28px;position:relative;overflow:hidden;
-  background:linear-gradient(112deg,#101720 0%,#0b1119 58%,#11131a 100%);
-  border:1px solid #27313d;border-left:3px solid #e52b3c;border-radius:12px;
-  box-shadow:0 14px 34px rgba(0,0,0,.22)
-}
-.nfx-liquidity-terminal-intro:after{content:"";position:absolute;right:-65px;top:-125px;width:340px;height:260px;border:1px solid #293544;border-radius:50%;box-shadow:0 0 0 28px #ffffff04,0 0 0 58px #ffffff03;pointer-events:none}
-.nfx-terminal-intro-copy,.nfx-terminal-intro-meta{position:relative;z-index:1}
-.nfx-terminal-eyebrow{display:flex;align-items:center;gap:9px;color:#e9a4aa;font:800 9px/1.2 system-ui;letter-spacing:.18em;text-transform:uppercase}
-.nfx-terminal-eyebrow>span{width:6px;height:6px;border-radius:50%;background:#ed3547;box-shadow:0 0 12px #ed354788}
-.nfx-terminal-eyebrow i{font-style:normal;color:#687789}
-.nfx-terminal-intro-copy h1{margin:10px 0 6px;color:#f3f6fa;font:750 clamp(23px,3vw,34px)/1.12 system-ui;letter-spacing:-.045em}
-.nfx-terminal-intro-copy p{margin:0;color:#8e9bac;font:400 12px/1.6 system-ui}
-.nfx-terminal-intro-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;color:#7fe0b5;font:800 9px system-ui;letter-spacing:.09em}
-.nfx-terminal-live-dot{width:7px;height:7px;border-radius:50%;background:#32d49a;box-shadow:0 0 11px #32d49a99}
-.nfx-terminal-intro-meta small{display:block;flex-basis:100%;text-align:right;color:#728195;font:500 10px system-ui;letter-spacing:0}
-#nfxLiqDashboard.nfx-liq-dashboard{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:18px!important;width:100%!important;max-width:100%!important;margin:0!important}
-#nfxLiqDashboard>.nfx-liq-workspace-card{width:100%!important;min-width:0!important;margin:0!important;box-sizing:border-box!important;overflow:hidden!important;border:1px solid #26313e!important;border-radius:11px!important;background:#0a0f15!important;color:#e8edf4!important;box-shadow:0 12px 32px #0005!important}
-#nfxLiqDashboard #nfxLiqLivePanel{padding:0!important;border-top:2px solid #d93645!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-top{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:18px!important;padding:19px 22px!important;background:#0d141d!important;border-bottom:1px solid #222d39!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-eyebrow{color:#c0a4a7!important;font-size:8px!important;letter-spacing:.17em!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-eyebrow i{background:#e43c4a!important;box-shadow:0 0 9px #e43c4a77!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-top h2{margin:7px 0 4px!important;color:#f4f6fa!important;font-size:24px!important;letter-spacing:-.04em!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-top p{color:#8290a2!important;font-size:10px!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-summary{display:grid!important;grid-template-columns:1.3fr repeat(5,minmax(0,1fr))!important;gap:1px!important;padding:1px!important;background:#26313d!important;border:0!important;border-bottom:1px solid #26313d!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-contract,#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-metric{min-width:0!important;padding:14px 15px!important;background:#0b1118!important;border:0!important;border-radius:0!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-caption,#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-metric>span{color:#7f8da0!important;font-size:8px!important;letter-spacing:.12em!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-contractline strong{color:#f1f5f9!important;font-size:17px!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-metric strong{font-size:clamp(12px,1.15vw,16px)!important;color:#e5edf6!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-metric small,#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-contract small{color:#718094!important;font-size:9px!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-toolbar{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;padding:12px 18px!important;background:#0d141d!important;border:0!important;border-bottom:1px solid #222d39!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-feed b{color:#dce5ef!important;font-size:9px!important;letter-spacing:.1em!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-feed small{color:#718196!important;font-size:8px!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-streamtag{border:1px solid #28493f!important;background:#0c211a!important;color:#75dcb0!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-tools>span{color:#77869a!important;font-size:8px!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-levels button{min-width:34px!important;height:27px!important;border:1px solid #2b3948!important;border-radius:5px!important;background:#111a25!important;color:#aebdce!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-levels button.active{border-color:#b93643!important;background:#29151a!important;color:#ffb4bc!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-book{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(150px,.36fr) minmax(0,1fr)!important;gap:10px!important;padding:13px!important;background:#080d13!important;border:0!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-side{min-width:0!important;padding:9px!important;border:1px solid #202b37!important;border-radius:7px!important;background:#0b1118!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-sidehead{padding:8px 7px 10px!important;border-bottom:1px solid #26313c!important;background:transparent!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-sidehead b{font-size:10px!important;letter-spacing:.12em!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-colheads{color:#728196!important;font-size:8px!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-ladder{height:420px!important;max-height:420px!important;min-height:260px!important;background:transparent!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-row{min-height:22px!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-mid{align-self:center!important;border:1px solid #273441!important;border-radius:7px!important;background:#0e151e!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-footer{padding:12px 18px!important;border-top:1px solid #222d39!important;background:#0b1118!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-status{font-size:9px!important}
-#nfxLiqDashboard #nfxLiqBookHeatmap,#nfxLiqDashboard #nfxLiqLiquidationHeatmap{padding:0!important;border-top:2px solid #c93443!important}
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-head,#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head{display:flex!important;align-items:flex-start!important;justify-content:space-between!important;gap:20px!important;padding:20px 22px 17px!important;border:0!important;border-bottom:1px solid #25303c!important;background:#0d141d!important}
-#nfxLiqDashboard .nfx-liq-kicker{color:#d99ba1!important;font-size:8px!important;font-weight:850!important;letter-spacing:.17em!important}
-#nfxLiqDashboard .nfx-liq-timeline-head h3{margin:7px 0 5px!important;color:#f1f5f9!important;font-size:23px!important;letter-spacing:-.04em!important}
-#nfxLiqDashboard .nfx-liq-timeline-head p{margin:0!important;color:#8795a7!important;font-size:10px!important;line-height:1.6!important}
-#nfxLiqDashboard .nfx-liq-timeline-head p strong{color:#dce5ef!important}
-#nfxLiqDashboard .nfx-liq-card-actions{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:9px!important;max-width:100%!important}
-#nfxLiqDashboard .nfx-liq-live-tag{white-space:nowrap!important;border:1px solid #285644!important;border-radius:5px!important;background:#0c2019!important;color:#7de0b2!important;font-size:8px!important}
-#nfxLiqDashboard .nfx-est-liq-ranges{gap:3px!important;padding:3px!important;border:1px solid #273442!important;border-radius:6px!important;background:#080e15!important}
-#nfxLiqDashboard .nfx-est-liq-ranges button{min-width:34px!important;height:27px!important;padding:0 7px!important;border:1px solid transparent!important;border-radius:4px!important;background:transparent!important;color:#91a0b2!important;font-size:8px!important}
-#nfxLiqDashboard .nfx-est-liq-ranges button.active{border-color:#71323b!important;background:#2a171c!important;color:#ffb6bd!important}
-#nfxLiqDashboard .nfx-liq-fullscreen-btn{height:29px!important;padding:0 10px!important;border:1px solid #344354!important;border-radius:5px!important;background:#121c27!important;color:#cbd6e3!important;font-size:9px!important}
-#nfxLiqDashboard .nfx-liq-fullscreen-btn:hover{border-color:#c63b49!important;color:#fff!important}
-#nfxLiqDashboard .nfx-heatmap-stats{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:1px!important;margin:0!important;padding:1px!important;border:0!important;border-bottom:1px solid #26313c!important;border-radius:0!important;background:#26313c!important;box-shadow:none!important}
-#nfxLiqDashboard .nfx-heatmap-stats>div{padding:12px 16px!important;background:#0a1118!important}
-#nfxLiqDashboard .nfx-heatmap-stats span{color:#77869a!important;font-size:8px!important;letter-spacing:.12em!important}
-#nfxLiqDashboard .nfx-heatmap-stats b{color:#e5edf6!important;font-size:15px!important}
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-wrap,#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap{height:500px!important;min-height:380px!important;margin:14px 18px 0!important;border:1px solid #273544!important;border-radius:7px!important;background:#070c12!important;overflow:hidden!important}
-#nfxLiqDashboard #nfxLiqTimelineCanvas,#nfxLiqDashboard #nfxLiqLiquidationCanvas{display:block!important;width:100%!important;height:100%!important}
-#nfxLiqDashboard .nfx-liq-timeline-axis{display:flex!important;justify-content:space-between!important;margin:0 18px!important;padding:9px 2px!important;color:#69798e!important;font:750 8px system-ui!important;letter-spacing:.1em!important}
-#nfxLiqDashboard .nfx-liq-timeline-note{margin:0 18px 17px!important;padding:11px 0 0!important;border-top:1px solid #202b37!important;color:#77869a!important;font-size:9px!important;line-height:1.6!important}
-#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-model-legend{margin:13px 18px 0!important;padding:10px 12px!important;border:1px solid #263340!important;border-radius:6px!important;background:#0b121a!important;color:#9baabd!important;font-size:8px!important}
-#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-chart-frame{margin:0!important;padding:0!important;border:0!important;background:transparent!important}
-#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-chart-topline{margin:12px 18px 0!important;padding:0 2px 8px!important;color:#8594a8!important;border:0!important;font-size:8px!important}
-#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-chart-frame .nfx-liq-timeline-wrap{margin-top:0!important}
-#nfxLiqDashboard #nfxOrderFlowDesk{margin-top:0!important}
-@media(max-width:1050px){
- #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-summary{grid-template-columns:repeat(3,minmax(0,1fr))!important}
- #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-book{grid-template-columns:minmax(0,1fr) minmax(120px,.32fr) minmax(0,1fr)!important}
- #nfxLiqDashboard .nfx-liq-timeline-head{flex-direction:column!important}
- #nfxLiqDashboard .nfx-liq-card-actions{justify-content:flex-start!important;flex-wrap:wrap!important}
-}
-@media(max-width:700px){
- .nfx-liquidity-terminal-intro{align-items:flex-start!important;flex-direction:column!important;padding:19px 16px!important;gap:12px!important}
- .nfx-terminal-intro-meta{justify-content:flex-start!important}
- .nfx-terminal-intro-meta small{flex-basis:auto!important;text-align:left!important}
- #nfxLiqDashboard{gap:13px!important}
- #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-top{align-items:flex-start!important;flex-direction:column!important;padding:16px!important}
- #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-summary{grid-template-columns:repeat(2,minmax(0,1fr))!important}
- #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-contract{grid-column:1/-1!important}
- #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-toolbar{align-items:flex-start!important;flex-direction:column!important;padding:11px!important}
- #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-book{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:7px!important;padding:8px!important}
- #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-mid{grid-column:1/-1!important;grid-row:1!important}
- #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-ladder{height:320px!important;max-height:320px!important;min-height:250px!important}
- #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-side{padding:5px!important}
- #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-sidehead{padding:7px 4px!important}
- #nfxLiqDashboard .nfx-liq-timeline-head{padding:16px!important}
- #nfxLiqDashboard .nfx-liq-card-actions{width:100%!important;justify-content:flex-start!important}
- #nfxLiqDashboard .nfx-est-liq-ranges{flex-wrap:wrap!important}
- #nfxLiqDashboard .nfx-heatmap-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
- #nfxLiqDashboard .nfx-heatmap-stats>div{padding:10px 12px!important}
- #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-wrap,#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap{height:390px!important;min-height:320px!important;margin:10px 10px 0!important}
- #nfxLiqDashboard .nfx-liq-timeline-axis{margin:0 10px!important}
- #nfxLiqDashboard .nfx-liq-timeline-note{margin:0 10px 14px!important}
- #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-model-legend{margin:10px 10px 0!important}
- #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-chart-topline{margin:10px 10px 0!important}
-}
-@media(prefers-reduced-motion:reduce){#nfxLiqDashboard *,.nfx-liquidity-terminal-intro *{transition:none!important;animation:none!important}}
-</style>
-
-
-
-<style id="nfx-unified-market-terminal-v5">
-/* Unified institutional terminal skin — presentation only; live data/renderers remain untouched. */
-#nfxLiqDashboard{
-  --nfx-bg:#080d13;--nfx-panel:#0c131c;--nfx-panel-2:#101a25;--nfx-line:#233142;
-  --nfx-muted:#8191a5;--nfx-text:#e7edf5;--nfx-green:#19c99a;--nfx-red:#f05b68;--nfx-blue:#70a8df;
-  display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:18px!important;
-  color:var(--nfx-text)!important;
-}
-#nfxLiqDashboard .nfx-liq-workspace-card{
-  min-width:0!important;overflow:hidden!important;border:1px solid var(--nfx-line)!important;
-  border-radius:12px!important;background:var(--nfx-panel)!important;
-  box-shadow:0 12px 32px rgba(0,0,0,.22),inset 0 1px rgba(255,255,255,.025)!important;
-}
-#nfxLiqDashboard #nfxLiqLivePanel{padding:0!important;border-top:2px solid #4b6d8e!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-top{
-  display:flex!important;align-items:center!important;justify-content:space-between!important;gap:16px!important;
-  padding:20px 22px!important;background:#0d151f!important;border-bottom:1px solid var(--nfx-line)!important;
-}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-eyebrow{
-  color:#91a6bd!important;font-size:9px!important;letter-spacing:.16em!important;font-weight:800!important;
-}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-brand h2{
-  margin:7px 0 4px!important;color:#f2f6fb!important;font-size:22px!important;
-  line-height:1.15!important;letter-spacing:-.035em!important;font-weight:750!important;
-}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-brand p{margin:0!important;color:var(--nfx-muted)!important;font-size:11px!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-summary{
-  display:grid!important;grid-template-columns:1.35fr repeat(5,minmax(0,1fr))!important;
-  gap:0!important;margin:0!important;padding:0 12px!important;background:#0a1119!important;
-  border-bottom:1px solid var(--nfx-line)!important;
-}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-contract,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-metric{
-  min-width:0!important;padding:15px 13px!important;background:transparent!important;
-  border:0!important;border-right:1px solid #1c2937!important;border-radius:0!important;
-}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-metric:last-child{border-right:0!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-contractline strong{
-  color:#f3f7fc!important;font-size:17px!important;font-weight:750!important;letter-spacing:-.02em!important;
-}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-caption,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-metric>span{
-  color:#8293a8!important;font-size:8px!important;letter-spacing:.13em!important;font-weight:800!important;
-}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-metric strong{
-  display:block!important;margin-top:7px!important;color:#e7edf5!important;
-  font:700 15px/1.15 ui-monospace,SFMono-Regular,Menlo,monospace!important;font-variant-numeric:tabular-nums!important;
-}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-metric small,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-contract small{color:#718197!important;font-size:9px!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-toolbar{
-  display:flex!important;align-items:center!important;justify-content:space-between!important;gap:14px!important;
-  min-height:56px!important;padding:10px 18px!important;background:#0d151f!important;
-  border-bottom:1px solid var(--nfx-line)!important;
-}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-feed b{color:#dce6f1!important;font-size:10px!important;letter-spacing:.1em!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-feed small{color:#77899f!important;font-size:9px!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-tools>span{color:#8192a7!important;font-size:8px!important;letter-spacing:.12em!important;font-weight:800!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-levels button{
-  min-width:34px!important;height:27px!important;border:1px solid #2a3a4c!important;border-radius:5px!important;
-  background:#101b27!important;color:#aebdd0!important;font-size:9px!important;font-weight:750!important;
-}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-levels button.active{
-  border-color:#53789c!important;background:#1a2b3d!important;color:#e5f1ff!important;
-}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-book{
-  display:grid!important;grid-template-columns:minmax(0,1fr) 210px minmax(0,1fr)!important;
-  gap:12px!important;padding:14px!important;background:#080e15!important;border:0!important;
-}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-side{
-  min-width:0!important;overflow:hidden!important;border:1px solid #1e2c3a!important;
-  border-radius:8px!important;background:#0b131c!important;
-}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-sidehead{
-  min-height:48px!important;padding:10px 12px!important;background:#101a25!important;
-  border-bottom:1px solid #1e2c3a!important;
-}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-sidehead b{font-size:10px!important;letter-spacing:.12em!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-sidehead span,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-colheads{color:#8292a6!important;font-size:8px!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-ladder{
-  height:clamp(330px,42vh,470px)!important;max-height:470px!important;min-height:300px!important;
-  padding:7px 8px!important;background:#0a121b!important;
-}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-row{
-  min-height:24px!important;border-bottom:1px solid rgba(255,255,255,.025)!important;
-  font:10px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace!important;
-}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-mid{
-  align-self:stretch!important;display:flex!important;flex-direction:column!important;justify-content:center!important;
-  min-width:0!important;padding:18px 13px!important;border:1px solid #2a3b4e!important;
-  border-radius:8px!important;background:linear-gradient(180deg,#111d2a,#0b131d)!important;
-}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-mid>strong{
-  margin:10px 0 5px!important;color:#f4f7fb!important;font-size:clamp(18px,2vw,25px)!important;
-  font-variant-numeric:tabular-nums!important;letter-spacing:-.04em!important;
-}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-midlabel{color:#8b9db2!important;font-size:8px!important;letter-spacing:.13em!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-spread,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-bestrow,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-depthsplit{
-  padding:9px 0!important;border-top:1px solid #263545!important;background:transparent!important;
-}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-bestrow span,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-depthsplit span{color:#8292a6!important;font-size:8px!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-bestrow b,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-depthsplit b{font:700 10px ui-monospace,monospace!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-sidefoot{
-  padding:10px 12px!important;border-top:1px solid #1e2c3a!important;background:#101a25!important;
-}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-footer{
-  display:flex!important;align-items:center!important;justify-content:space-between!important;gap:14px!important;
-  flex-wrap:wrap!important;padding:12px 18px!important;background:#0d151f!important;
-  border-top:1px solid var(--nfx-line)!important;
-}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-footer span,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-footer small,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-source{color:#8292a6!important;font-size:9px!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-source b{color:#c5d2e0!important}
-
-/* Both heatmaps share one panel language, with distinct chart-first workspaces. */
-#nfxLiqDashboard #nfxLiqBookHeatmap,
-#nfxLiqDashboard #nfxLiqLiquidationHeatmap{
-  padding:0!important;border-top:2px solid #4b6d8e!important;background:#0c131c!important;
-}
-#nfxLiqDashboard #nfxLiqLiquidationHeatmap{border-top-color:#9c5964!important}
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-head,
-#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head{
-  display:flex!important;align-items:flex-start!important;justify-content:space-between!important;gap:18px!important;
-  padding:20px 22px 16px!important;background:#0d151f!important;border:0!important;
-  border-bottom:1px solid var(--nfx-line)!important;
-}
-#nfxLiqDashboard .nfx-liq-kicker{
-  color:#91a7bd!important;font-size:8px!important;letter-spacing:.16em!important;font-weight:850!important;
-}
-#nfxLiqDashboard .nfx-liq-timeline-head h3{
-  margin:7px 0 5px!important;color:#f1f5fa!important;font-size:21px!important;
-  font-weight:750!important;letter-spacing:-.035em!important;
-}
-#nfxLiqDashboard .nfx-liq-timeline-head p{
-  margin:0!important;color:#8798ad!important;font-size:10px!important;line-height:1.55!important;
-}
-#nfxLiqDashboard .nfx-liq-card-actions{
-  display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:9px!important;flex-wrap:wrap!important;
-}
-#nfxLiqDashboard .nfx-liq-live-tag{
-  border:1px solid #285d53!important;border-radius:5px!important;background:#10251f!important;
-  color:#70d7b8!important;font-size:8px!important;letter-spacing:.09em!important;font-weight:850!important;
-}
-#nfxLiqDashboard .nfx-est-liq-ranges button,
-#nfxLiqDashboard .nfx-cg-model-switch button,
-#nfxLiqDashboard .nfx-cg-view-switch button{
-  min-height:28px!important;padding:0 9px!important;border:1px solid #2a3a4d!important;border-radius:5px!important;
-  background:#101a26!important;color:#aab9ca!important;font-size:8px!important;font-weight:800!important;
-  letter-spacing:.04em!important;transition:background .15s,border-color .15s,color .15s!important;
-}
-#nfxLiqDashboard .nfx-est-liq-ranges button.active,
-#nfxLiqDashboard .nfx-cg-model-switch button.active,
-#nfxLiqDashboard .nfx-cg-view-switch button.active{
-  border-color:#6286a9!important;background:#1a2c3e!important;color:#f0f6fc!important;
-}
-#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-est-liq-ranges button.active{
-  border-color:#a15b67!important;background:#321c25!important;color:#ffdce0!important;
-}
-#nfxLiqDashboard .nfx-heatmap-stats{
-  display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:1px!important;
-  margin:0!important;border:0!important;border-bottom:1px solid var(--nfx-line)!important;
-  border-radius:0!important;background:#1d2a38!important;box-shadow:none!important;
-}
-#nfxLiqDashboard .nfx-heatmap-stats>div{
-  min-width:0!important;padding:13px 17px!important;background:#0b131c!important;
-}
-#nfxLiqDashboard .nfx-heatmap-stats span{
-  color:#8293a8!important;font-size:8px!important;letter-spacing:.13em!important;font-weight:850!important;
-}
-#nfxLiqDashboard .nfx-heatmap-stats b{
-  margin-top:7px!important;color:#e8eff7!important;font:750 15px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace!important;
-  font-variant-numeric:tabular-nums!important;
-}
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-wrap,
-#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap{
-  height:clamp(430px,58vh,650px)!important;min-height:430px!important;margin:14px 16px 0!important;
-  border:1px solid #253548!important;border-radius:8px!important;background:#070c12!important;overflow:hidden!important;
-}
-#nfxLiqDashboard #nfxLiqTimelineCanvas,
-#nfxLiqDashboard #nfxLiqLiquidationCanvas{
-  display:block!important;width:100%!important;height:100%!important;background:#070c12!important;
-}
-#nfxLiqDashboard .nfx-liq-timeline-axis{
-  display:flex!important;justify-content:space-between!important;gap:10px!important;
-  padding:9px 18px 5px!important;color:#78899d!important;font-size:8px!important;letter-spacing:.1em!important;
-}
-#nfxLiqDashboard .nfx-liq-timeline-note{
-  margin:8px 18px 16px!important;padding:11px 0 0!important;border-top:1px solid #1e2b39!important;
-  color:#7f90a5!important;font-size:9px!important;line-height:1.6!important;
-}
-#nfxLiqDashboard .nfx-liq-model-legend{
-  display:flex!important;align-items:center!important;gap:18px!important;flex-wrap:wrap!important;
-  padding:12px 20px!important;background:#0a1119!important;border-bottom:1px solid #1e2b39!important;
-}
-#nfxLiqDashboard .nfx-liq-chart-frame{margin:14px 16px 0!important;padding:10px!important;border:1px solid #253548!important;border-radius:8px!important;background:#080e15!important}
-#nfxLiqDashboard .nfx-liq-chart-topline{
-  display:flex!important;justify-content:space-between!important;gap:12px!important;padding:2px 4px 10px!important;
-  color:#91a2b6!important;font-size:8px!important;letter-spacing:.12em!important;font-weight:850!important;
-}
-#nfxLiqDashboard .nfx-liq-chart-frame .nfx-liq-timeline-wrap{
-  margin:0!important;height:clamp(410px,55vh,620px)!important;min-height:410px!important;border:0!important;
-}
-#nfxLiqDashboard .nfx-liq-fullscreen-btn{
-  min-height:30px!important;padding:0 10px!important;border:1px solid #30445a!important;border-radius:5px!important;
-  background:#111d2a!important;color:#d2deeb!important;font-size:9px!important;font-weight:750!important;
-}
-#nfxLiqDashboard .nfx-liq-fullscreen-btn:hover{border-color:#6688aa!important;background:#192b3d!important}
-@media(max-width:1050px){
- #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-summary{grid-template-columns:repeat(3,minmax(0,1fr))!important}
- #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-book{grid-template-columns:minmax(0,1fr) 175px minmax(0,1fr)!important}
-}
-@media(max-width:760px){
- #nfxLiqDashboard{gap:13px!important}
- #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-top,
- #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-head,
- #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head{padding:15px!important;flex-direction:column!important;align-items:stretch!important}
- #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-topright{display:flex!important;justify-content:space-between!important}
- #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-summary{grid-template-columns:repeat(2,minmax(0,1fr))!important;padding:0 8px!important}
- #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-contract,
- #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-metric{padding:11px 9px!important}
- #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-book{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:8px!important;padding:9px!important}
- #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-mid{grid-column:1/-1!important;grid-row:1!important;min-height:180px!important}
- #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-ladder{height:320px!important;min-height:280px!important}
- #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-colheads{gap:5px!important;font-size:7px!important}
- #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-toolbar{padding:10px!important;align-items:flex-start!important;flex-direction:column!important}
- #nfxLiqDashboard .nfx-liq-card-actions{justify-content:flex-start!important}
- #nfxLiqDashboard .nfx-heatmap-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
- #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-wrap,
- #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap{height:370px!important;min-height:370px!important;margin:9px 9px 0!important}
- #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-chart-frame{margin:9px!important;padding:7px!important}
- #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-chart-frame .nfx-liq-timeline-wrap{height:350px!important;min-height:350px!important}
- #nfxLiqDashboard .nfx-liq-model-legend{gap:9px!important;padding:10px!important}
- #nfxLiqDashboard .nfx-liq-timeline-note{margin:8px 11px 13px!important}
-}
-
-/* Market discovery and terminal entry hierarchy */
-#page-liquidity.nfx-liquidity-page{max-width:1600px!important;margin-inline:auto!important;padding:24px clamp(12px,2vw,28px) 42px!important}
-#page-liquidity .nfx-liq-market-tabs{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:14px!important;flex-wrap:wrap!important;padding:10px 12px!important;margin:0 0 14px!important;border:1px solid #202c3a!important;border-radius:10px!important;background:#0b121b!important}
-#page-liquidity .nfx-feed-switch{display:flex!important;align-items:center!important;gap:7px!important;flex-wrap:wrap!important}
-#page-liquidity .nfx-feed-switch>span{margin-right:6px!important;color:#8293a7!important;font-size:9px!important;font-weight:850!important;letter-spacing:.14em!important}
-#page-liquidity .nfx-feed-switch button,#page-liquidity .nfx-liq-market-tab{min-height:32px!important;padding:0 12px!important;border:1px solid #2a394a!important;border-radius:6px!important;background:#111c28!important;color:#aebed0!important;font-size:9px!important;font-weight:800!important;letter-spacing:.05em!important}
-#page-liquidity .nfx-feed-switch button.active,#page-liquidity .nfx-liq-market-tab.active{border-color:#52769a!important;background:#1a2b3d!important;color:#f1f6fc!important}
-#page-liquidity .nfx-market-search{display:grid!important;grid-template-columns:minmax(220px,.8fr) minmax(300px,1.5fr)!important;gap:10px 24px!important;align-items:center!important;padding:17px 20px!important;margin:0 0 16px!important;border:1px solid #243344!important;border-radius:11px!important;background:linear-gradient(110deg,#101b28,#0b131d 70%)!important;box-shadow:0 10px 30px #0003!important}
-#page-liquidity .nfx-market-search-copy h2{margin:4px 0!important;color:#eef3f9!important;font-size:17px!important;letter-spacing:-.025em!important}
-#page-liquidity .nfx-market-search-copy p{margin:0!important;color:#8293a7!important;font-size:10px!important}
-#page-liquidity .nfx-market-search-kicker{color:#7f9bb8!important;font-size:8px!important;font-weight:850!important;letter-spacing:.15em!important}
-#page-liquidity .nfx-market-search-form{display:flex!important;gap:8px!important;min-width:0!important}
-#page-liquidity .nfx-market-search-input-wrap{min-width:0!important;flex:1!important;border:1px solid #2b3c4f!important;border-radius:7px!important;background:#080f17!important}
-#page-liquidity .nfx-market-search-input-wrap input{min-height:40px!important;color:#e8eff7!important}
-#page-liquidity .nfx-market-search-button{min-height:40px!important;padding:0 15px!important;border:1px solid #4c7194!important;border-radius:7px!important;background:#1a3045!important;color:#edf5ff!important;font-size:10px!important;font-weight:800!important}
-#page-liquidity .nfx-market-search-meta{grid-column:1/-1!important;display:flex!important;align-items:center!important;gap:9px!important;color:#7f90a4!important;font-size:9px!important}
-#page-liquidity .nfx-market-search-current{margin-left:auto!important}
-#page-liquidity .nfx-liquidity-terminal-intro{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:20px!important;padding:20px 22px!important;margin:0 0 16px!important;border:1px solid #263648!important;border-left:3px solid #c34d5b!important;border-radius:10px!important;background:linear-gradient(110deg,#111c29,#0a1119 72%)!important;box-shadow:0 12px 30px #0003!important}
-#page-liquidity .nfx-terminal-eyebrow{color:#a0b1c4!important;font-size:9px!important;font-weight:850!important;letter-spacing:.15em!important}
-#page-liquidity .nfx-terminal-intro-copy h1{margin:8px 0 5px!important;color:#f2f5fa!important;font-size:clamp(22px,2.5vw,30px)!important;line-height:1.12!important;letter-spacing:-.045em!important}
-#page-liquidity .nfx-terminal-intro-copy p{margin:0!important;color:#8798ac!important;font-size:11px!important;line-height:1.6!important}
-#page-liquidity .nfx-terminal-intro-meta{flex:0 0 auto!important;display:grid!important;grid-template-columns:10px auto!important;gap:4px 9px!important;align-items:center!important;padding:11px 13px!important;border:1px solid #24443f!important;border-radius:7px!important;background:#0d201d!important}
-#page-liquidity .nfx-terminal-intro-meta small{grid-column:2!important;color:#7fa89e!important;font-size:8px!important}
-#page-liquidity .nfx-terminal-intro-meta b{color:#a7e3d2!important;font-size:9px!important;letter-spacing:.08em!important}
-#nfxLiqDashboard .nfx-liq-timeline-head p strong{color:#dce8f4!important}
-@media(max-width:760px){
- #page-liquidity.nfx-liquidity-page{padding:14px 10px 30px!important}
- #page-liquidity .nfx-market-search{grid-template-columns:minmax(0,1fr)!important;padding:14px!important}
- #page-liquidity .nfx-market-search-meta{flex-wrap:wrap!important}
- #page-liquidity .nfx-market-search-current{margin-left:0!important}
- #page-liquidity .nfx-liquidity-terminal-intro{align-items:flex-start!important;flex-direction:column!important;padding:16px!important}
- #page-liquidity .nfx-terminal-intro-meta{width:max-content!important}
- #page-liquidity .nfx-market-search-form{flex-direction:column!important}
 }
 </style>
 
