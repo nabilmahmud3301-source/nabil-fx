@@ -4191,7 +4191,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
     </section>
     <section class="nfx-liq-timeline-panel nfx-liq-workspace-card" id="nfxLiqLiquidationHeatmap" aria-label="Live futures liquidation heatmap">
       <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker"><span style="color:#fff">NABIL</span> <span style="color:#ff2438">Fx</span> <span class="nfx-liq-kicker-divider">/</span> DERIVATIVES INTELLIGENCE</div><h3>Liquidation Heatmap</h3><p>Estimated liquidation levels and observed exchange executions <span class="nfx-liq-symbol-separator">·</span> <strong id="nfxLiqLiquidationSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><span class="nfx-liq-live-tag" id="nfxLiqEstStatus"><i></i> LIVE FEED</span><div class="nfx-cg-liq-toolbar"><div class="nfx-cg-model-switch" role="group" aria-label="Liquidation model"><span>MODEL</span><button type="button" data-nfx-model="1" class="active" aria-pressed="true">MODEL 1</button><button type="button" data-nfx-model="2" aria-pressed="false">MODEL 2</button><button type="button" data-nfx-model="3" aria-pressed="false">MODEL 3</button></div><div class="nfx-cg-view-switch" role="group" aria-label="Liquidation side view"><button type="button" data-nfx-liq-view="all" class="active" aria-pressed="true">ALL</button><button type="button" data-nfx-liq-view="long" aria-pressed="false">LONG</button><button type="button" data-nfx-liq-view="short" aria-pressed="false">SHORT</button><button type="button" data-nfx-liq-view="trade" aria-pressed="false">TRADE</button></div><label class="nfx-cg-threshold">LIQUIDITY THRESHOLD <input id="nfxEstLiqThreshold" type="range" min="20" max="95" step="5" value="45"><b id="nfxEstLiqThresholdValue">45%</b></label><select id="nfxEstLiqModel" aria-label="Liquidation model" hidden><option value="1">MODEL 1 · BALANCED</option><option value="2">MODEL 2 · HIGH LEVERAGE</option><option value="3">MODEL 3 · BROAD RANGE</option></select></div><div class="nfx-est-liq-ranges" role="group" aria-label="Heatmap time range"><button type="button" data-est-liq-range="1h" class="active">1H</button><button type="button" data-est-liq-range="2h">2H</button><button type="button" data-est-liq-range="4h">4H</button><button type="button" data-est-liq-range="12h">12H</button><button type="button" data-est-liq-range="1d">1D</button><button type="button" data-est-liq-range="2d">2D</button><button type="button" data-est-liq-range="3d">3D</button><button type="button" data-est-liq-range="7d">7D</button><button type="button" data-est-liq-zoom="reset">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqLiquidationHeatmap" aria-label="Expand liquidation heatmap">⛶ <span>Expand</span></button></div></div>
-      <div class="nfx-heatmap-stats nfx-liquidation-stats" id="nfxLiquidationHeatmapStats"><div><span>ACTUAL PRINTS</span><b id="nfxLiqStatEvents">0</b></div><div><span>ACTUAL NOTIONAL</span><b id="nfxLiqStatNotional">—</b></div><div><span>LONG PRINTS</span><b id="nfxLiqStatLong">—</b></div><div><span>SHORT PRINTS</span><b id="nfxLiqStatShort">—</b></div></div><div class="nfx-liq-model-legend"><span><i class="long"></i> LONG LIQUIDATION ZONES</span><span><i class="short"></i> SHORT LIQUIDATION ZONES</span><span class="intensity"><i></i> RELATIVE CLUSTER INTENSITY</span></div><div class="nfx-liq-chart-frame"><div class="nfx-liq-chart-topline"><span><i></i> LIQUIDATION INTENSITY MAP</span><span>PRICE LEVELS <b>·</b> TIME DISTRIBUTION</span></div><div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqLiquidationCanvas" aria-label="Verified exchange liquidation executions by price and time" style="width:100%;height:100%;display:block"></canvas><div id="nfxLiqLiquidationEmpty" class="nfx-liq-timeline-empty">Waiting for actual futures liquidation events…</div></div></div>
+      <div class="nfx-heatmap-stats nfx-liquidation-stats" id="nfxLiquidationHeatmapStats"><div><span>ACTUAL PRINTS</span><b id="nfxLiqStatEvents">0</b></div><div><span>ACTUAL NOTIONAL</span><b id="nfxLiqStatNotional">—</b></div><div><span>LONG PRINTS</span><b id="nfxLiqStatLong">—</b></div><div><span>SHORT PRINTS</span><b id="nfxLiqStatShort">—</b></div></div><div class="nfx-liq-model-legend"><span><i class="long"></i> LONG LIQUIDATION ZONES</span><span><i class="short"></i> SHORT LIQUIDATION ZONES</span><span class="intensity"><i></i> RELATIVE CLUSTER INTENSITY</span></div><div class="nfx-liq-chart-frame"><div class="nfx-liq-chart-topline"><span><i></i> LIQUIDATION INTENSITY MAP</span><span>PRICE LEVELS <b>·</b> TIME DISTRIBUTION</span></div><div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqLiquidationCanvas" aria-label="Estimated liquidation zones with observed exchange liquidation prints by price and time" style="width:100%;height:100%;display:block"></canvas><div id="nfxLiqLiquidationEmpty" class="nfx-liq-timeline-empty">Waiting for actual futures liquidation events…</div></div></div>
       <div class="nfx-liq-timeline-axis"><span>OLDER</span><span>SYMBOL · TIME</span><span>NOW →</span></div>
       <div class="nfx-liq-timeline-note">Estimated clusters are modelled from public open-interest history, nearby market prices and leverage assumptions. Public OI does not disclose account-side positioning or entry prices, so levels and intensity are estimates—not CoinGlass data or verified liquidation USD. Actual exchange liquidation prints are overlaid separately.</div>
 
@@ -9372,190 +9372,248 @@ window.renderBacktestMetrics=function(r,meta={}){
 </style>
 
 
-<style id="nfx-terminal-premium-layout-v3">
-/* NABIL Fx terminal: coherent page grid, richer depth surfaces, larger chart workspaces */
-#nfxLiqDashboard.nfx-liq-dashboard{
- display:grid!important;grid-template-columns:repeat(12,minmax(0,1fr))!important;
- gap:18px!important;align-items:stretch!important;width:100%!important;
+
+<style id="nfx-unified-market-terminal-v5">
+/* Unified institutional terminal skin — presentation only; live data/renderers remain untouched. */
+#nfxLiqDashboard{
+  --nfx-bg:#080d13;--nfx-panel:#0c131c;--nfx-panel-2:#101a25;--nfx-line:#233142;
+  --nfx-muted:#8191a5;--nfx-text:#e7edf5;--nfx-green:#19c99a;--nfx-red:#f05b68;--nfx-blue:#70a8df;
+  display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:18px!important;
+  color:var(--nfx-text)!important;
 }
-#nfxLiqDashboard>#nfxLiqLivePanel{grid-column:1/-1!important}
-#nfxLiqDashboard>#nfxLiqBookHeatmap{grid-column:1/span 6!important}
-#nfxLiqDashboard>#nfxLiqLiquidationHeatmap{grid-column:7/span 6!important}
-#nfxLiqDashboard>#nfxOrderFlowDesk{grid-column:1/-1!important;min-width:0!important}
-#nfxLiqDashboard>.nfx-liq-workspace-card{
- border:1px solid #29384a!important;border-radius:13px!important;
- background:linear-gradient(145deg,#111b28 0%,#0b121c 48%,#080e16 100%)!important;
- box-shadow:0 18px 48px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.035)!important;
+#nfxLiqDashboard .nfx-liq-workspace-card{
+  min-width:0!important;overflow:hidden!important;border:1px solid var(--nfx-line)!important;
+  border-radius:12px!important;background:var(--nfx-panel)!important;
+  box-shadow:0 12px 32px rgba(0,0,0,.22),inset 0 1px rgba(255,255,255,.025)!important;
 }
-#nfxLiqDashboard #nfxLiqLivePanel{border-top:2px solid #d93645!important}
-#nfxLiqDashboard #nfxLiqBookHeatmap,#nfxLiqDashboard #nfxLiqLiquidationHeatmap{
- border-top:2px solid #c83a49!important;min-width:0!important;
+#nfxLiqDashboard #nfxLiqLivePanel{padding:0!important;border-top:2px solid #4b6d8e!important}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-top{
+  display:flex!important;align-items:center!important;justify-content:space-between!important;gap:16px!important;
+  padding:20px 22px!important;background:#0d151f!important;border-bottom:1px solid var(--nfx-line)!important;
 }
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-top,
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-head,
-#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head{
- background:linear-gradient(105deg,#121e2c,#0d151f 72%,#111722)!important;
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-eyebrow{
+  color:#91a6bd!important;font-size:9px!important;letter-spacing:.16em!important;font-weight:800!important;
 }
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-brand h2{
+  margin:7px 0 4px!important;color:#f2f6fb!important;font-size:22px!important;
+  line-height:1.15!important;letter-spacing:-.035em!important;font-weight:750!important;
+}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-brand p{margin:0!important;color:var(--nfx-muted)!important;font-size:11px!important}
 #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-summary{
- background:#29394b!important;border-bottom:1px solid #29394b!important;
+  display:grid!important;grid-template-columns:1.35fr repeat(5,minmax(0,1fr))!important;
+  gap:0!important;margin:0!important;padding:0 12px!important;background:#0a1119!important;
+  border-bottom:1px solid var(--nfx-line)!important;
 }
 #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-contract,
 #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-metric{
- background:linear-gradient(155deg,#142131,#0d1723)!important;
+  min-width:0!important;padding:15px 13px!important;background:transparent!important;
+  border:0!important;border-right:1px solid #1c2937!important;border-radius:0!important;
 }
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-metric:last-child{border-right:0!important}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-contractline strong{
+  color:#f3f7fc!important;font-size:17px!important;font-weight:750!important;letter-spacing:-.02em!important;
+}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-caption,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-metric>span{
+  color:#8293a8!important;font-size:8px!important;letter-spacing:.13em!important;font-weight:800!important;
+}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-metric strong{
+  display:block!important;margin-top:7px!important;color:#e7edf5!important;
+  font:700 15px/1.15 ui-monospace,SFMono-Regular,Menlo,monospace!important;font-variant-numeric:tabular-nums!important;
+}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-metric small,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-contract small{color:#718197!important;font-size:9px!important}
 #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-toolbar{
- background:#101a26!important;border-bottom:1px solid #263648!important;
+  display:flex!important;align-items:center!important;justify-content:space-between!important;gap:14px!important;
+  min-height:56px!important;padding:10px 18px!important;background:#0d151f!important;
+  border-bottom:1px solid var(--nfx-line)!important;
+}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-feed b{color:#dce6f1!important;font-size:10px!important;letter-spacing:.1em!important}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-feed small{color:#77899f!important;font-size:9px!important}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-tools>span{color:#8192a7!important;font-size:8px!important;letter-spacing:.12em!important;font-weight:800!important}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-levels button{
+  min-width:34px!important;height:27px!important;border:1px solid #2a3a4c!important;border-radius:5px!important;
+  background:#101b27!important;color:#aebdd0!important;font-size:9px!important;font-weight:750!important;
+}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-levels button.active{
+  border-color:#53789c!important;background:#1a2b3d!important;color:#e5f1ff!important;
 }
 #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-book{
- background:linear-gradient(180deg,#0a121d,#080e16)!important;
+  display:grid!important;grid-template-columns:minmax(0,1fr) 210px minmax(0,1fr)!important;
+  gap:12px!important;padding:14px!important;background:#080e15!important;border:0!important;
 }
 #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-side{
- background:linear-gradient(180deg,#101b28,#0b131d)!important;
- border:1px solid #2a3a4d!important;border-radius:9px!important;
+  min-width:0!important;overflow:hidden!important;border:1px solid #1e2c3a!important;
+  border-radius:8px!important;background:#0b131c!important;
 }
 #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-sidehead{
- background:linear-gradient(90deg,#172638,#111c29)!important;
- border-bottom:1px solid #2b3d51!important;border-radius:6px 6px 0 0!important;
+  min-height:48px!important;padding:10px 12px!important;background:#101a25!important;
+  border-bottom:1px solid #1e2c3a!important;
 }
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-colheads{
- display:grid!important;grid-template-columns:1.25fr .8fr .8fr!important;
- gap:5px!important;color:#8194aa!important;
-}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-sidehead b{font-size:10px!important;letter-spacing:.12em!important}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-sidehead span,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-colheads{color:#8292a6!important;font-size:8px!important}
 #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-ladder{
- background:repeating-linear-gradient(180deg,#0e1925 0,#0e1925 21px,#101d2a 22px,#101d2a 43px)!important;
- scrollbar-color:#34485f #0a121b!important;
+  height:clamp(330px,42vh,470px)!important;max-height:470px!important;min-height:300px!important;
+  padding:7px 8px!important;background:#0a121b!important;
 }
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-ladder>*{
- border-bottom:1px solid rgba(123,148,176,.10)!important;
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-row{
+  min-height:24px!important;border-bottom:1px solid rgba(255,255,255,.025)!important;
+  font:10px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace!important;
 }
 #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-mid{
- background:linear-gradient(160deg,#172638,#0d1723)!important;
- border:1px solid #34465b!important;border-radius:9px!important;
- box-shadow:inset 0 1px 0 #ffffff08,0 8px 20px #0003!important;
+  align-self:stretch!important;display:flex!important;flex-direction:column!important;justify-content:center!important;
+  min-width:0!important;padding:18px 13px!important;border:1px solid #2a3b4e!important;
+  border-radius:8px!important;background:linear-gradient(180deg,#111d2a,#0b131d)!important;
 }
 #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-mid>strong{
- color:#f4f7fb!important;text-shadow:0 0 22px #ffffff12!important;
+  margin:10px 0 5px!important;color:#f4f7fb!important;font-size:clamp(18px,2vw,25px)!important;
+  font-variant-numeric:tabular-nums!important;letter-spacing:-.04em!important;
 }
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-midlabel{color:#8b9db2!important;font-size:8px!important;letter-spacing:.13em!important}
 #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-spread,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-bestrow,
 #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-depthsplit{
- background:#0a121c!important;border:1px solid #27394d!important;border-radius:6px!important;
+  padding:9px 0!important;border-top:1px solid #263545!important;background:transparent!important;
+}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-bestrow span,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-depthsplit span{color:#8292a6!important;font-size:8px!important}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-bestrow b,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-depthsplit b{font:700 10px ui-monospace,monospace!important}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-sidefoot{
+  padding:10px 12px!important;border-top:1px solid #1e2c3a!important;background:#101a25!important;
 }
 #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-footer{
- background:#0e1722!important;border-top:1px solid #29394b!important;
+  display:flex!important;align-items:center!important;justify-content:space-between!important;gap:14px!important;
+  flex-wrap:wrap!important;padding:12px 18px!important;background:#0d151f!important;
+  border-top:1px solid var(--nfx-line)!important;
 }
-#nfxLiqDashboard #nfxLiqLivePanel .ask-text{color:#ff7180!important}
-#nfxLiqDashboard #nfxLiqLivePanel .bid-text{color:#37d6b0!important}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-footer span,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-footer small,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-source{color:#8292a6!important;font-size:9px!important}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-source b{color:#c5d2e0!important}
+
+/* Both heatmaps share one panel language, with distinct chart-first workspaces. */
+#nfxLiqDashboard #nfxLiqBookHeatmap,
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap{
+  padding:0!important;border-top:2px solid #4b6d8e!important;background:#0c131c!important;
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap{border-top-color:#9c5964!important}
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-head,
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head{
+  display:flex!important;align-items:flex-start!important;justify-content:space-between!important;gap:18px!important;
+  padding:20px 22px 16px!important;background:#0d151f!important;border:0!important;
+  border-bottom:1px solid var(--nfx-line)!important;
+}
+#nfxLiqDashboard .nfx-liq-kicker{
+  color:#91a7bd!important;font-size:8px!important;letter-spacing:.16em!important;font-weight:850!important;
+}
+#nfxLiqDashboard .nfx-liq-timeline-head h3{
+  margin:7px 0 5px!important;color:#f1f5fa!important;font-size:21px!important;
+  font-weight:750!important;letter-spacing:-.035em!important;
+}
+#nfxLiqDashboard .nfx-liq-timeline-head p{
+  margin:0!important;color:#8798ad!important;font-size:10px!important;line-height:1.55!important;
+}
+#nfxLiqDashboard .nfx-liq-card-actions{
+  display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:9px!important;flex-wrap:wrap!important;
+}
+#nfxLiqDashboard .nfx-liq-live-tag{
+  border:1px solid #285d53!important;border-radius:5px!important;background:#10251f!important;
+  color:#70d7b8!important;font-size:8px!important;letter-spacing:.09em!important;font-weight:850!important;
+}
+#nfxLiqDashboard .nfx-est-liq-ranges button,
+#nfxLiqDashboard .nfx-cg-model-switch button,
+#nfxLiqDashboard .nfx-cg-view-switch button{
+  min-height:28px!important;padding:0 9px!important;border:1px solid #2a3a4d!important;border-radius:5px!important;
+  background:#101a26!important;color:#aab9ca!important;font-size:8px!important;font-weight:800!important;
+  letter-spacing:.04em!important;transition:background .15s,border-color .15s,color .15s!important;
+}
+#nfxLiqDashboard .nfx-est-liq-ranges button.active,
+#nfxLiqDashboard .nfx-cg-model-switch button.active,
+#nfxLiqDashboard .nfx-cg-view-switch button.active{
+  border-color:#6286a9!important;background:#1a2c3e!important;color:#f0f6fc!important;
+}
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-est-liq-ranges button.active{
+  border-color:#a15b67!important;background:#321c25!important;color:#ffdce0!important;
+}
 #nfxLiqDashboard .nfx-heatmap-stats{
- background:#2a3a4d!important;border-bottom:1px solid #2a3a4d!important;
+  display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:1px!important;
+  margin:0!important;border:0!important;border-bottom:1px solid var(--nfx-line)!important;
+  border-radius:0!important;background:#1d2a38!important;box-shadow:none!important;
 }
 #nfxLiqDashboard .nfx-heatmap-stats>div{
- background:linear-gradient(145deg,#142131,#0d1723)!important;
+  min-width:0!important;padding:13px 17px!important;background:#0b131c!important;
+}
+#nfxLiqDashboard .nfx-heatmap-stats span{
+  color:#8293a8!important;font-size:8px!important;letter-spacing:.13em!important;font-weight:850!important;
+}
+#nfxLiqDashboard .nfx-heatmap-stats b{
+  margin-top:7px!important;color:#e8eff7!important;font:750 15px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace!important;
+  font-variant-numeric:tabular-nums!important;
 }
 #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-wrap,
 #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap{
- height:clamp(460px,54vh,640px)!important;min-height:440px!important;
- margin:14px 15px 0!important;border:1px solid #2b4057!important;
- border-radius:9px!important;background:#08111b!important;
- box-shadow:inset 0 1px 0 #ffffff06,0 8px 24px #0003!important;
+  height:clamp(430px,58vh,650px)!important;min-height:430px!important;margin:14px 16px 0!important;
+  border:1px solid #253548!important;border-radius:8px!important;background:#070c12!important;overflow:hidden!important;
 }
 #nfxLiqDashboard #nfxLiqTimelineCanvas,
 #nfxLiqDashboard #nfxLiqLiquidationCanvas{
- background:linear-gradient(180deg,#0b1725,#07101a)!important;
+  display:block!important;width:100%!important;height:100%!important;background:#070c12!important;
 }
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-head,
-#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head{
- min-height:126px!important;padding:19px 19px 16px!important;
+#nfxLiqDashboard .nfx-liq-timeline-axis{
+  display:flex!important;justify-content:space-between!important;gap:10px!important;
+  padding:9px 18px 5px!important;color:#78899d!important;font-size:8px!important;letter-spacing:.1em!important;
 }
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-head h3,
-#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head h3{
- font-size:22px!important;letter-spacing:-.045em!important;
+#nfxLiqDashboard .nfx-liq-timeline-note{
+  margin:8px 18px 16px!important;padding:11px 0 0!important;border-top:1px solid #1e2b39!important;
+  color:#7f90a5!important;font-size:9px!important;line-height:1.6!important;
 }
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-card-actions,
-#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-card-actions{
- max-width:100%!important;gap:7px!important;
+#nfxLiqDashboard .nfx-liq-model-legend{
+  display:flex!important;align-items:center!important;gap:18px!important;flex-wrap:wrap!important;
+  padding:12px 20px!important;background:#0a1119!important;border-bottom:1px solid #1e2b39!important;
 }
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-est-liq-ranges,
-#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-est-liq-ranges{
- flex-wrap:wrap!important;max-width:100%!important;
+#nfxLiqDashboard .nfx-liq-chart-frame{margin:14px 16px 0!important;padding:10px!important;border:1px solid #253548!important;border-radius:8px!important;background:#080e15!important}
+#nfxLiqDashboard .nfx-liq-chart-topline{
+  display:flex!important;justify-content:space-between!important;gap:12px!important;padding:2px 4px 10px!important;
+  color:#91a2b6!important;font-size:8px!important;letter-spacing:.12em!important;font-weight:850!important;
 }
-#nfxLiqDashboard .nfx-liq-timeline-axis{color:#8193a9!important}
-#nfxLiqDashboard .nfx-liq-timeline-note{color:#8797aa!important}
-#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-model-legend{
- background:linear-gradient(100deg,#101c29,#0b141e)!important;
- border-color:#2b3c50!important;border-radius:8px!important;
+#nfxLiqDashboard .nfx-liq-chart-frame .nfx-liq-timeline-wrap{
+  margin:0!important;height:clamp(410px,55vh,620px)!important;min-height:410px!important;border:0!important;
 }
-#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-chart-topline{
- color:#a8b7c9!important;letter-spacing:.1em!important;
+#nfxLiqDashboard .nfx-liq-fullscreen-btn{
+  min-height:30px!important;padding:0 10px!important;border:1px solid #30445a!important;border-radius:5px!important;
+  background:#111d2a!important;color:#d2deeb!important;font-size:9px!important;font-weight:750!important;
 }
-#nfxOrderFlowDesk{
- border:1px solid #29394c!important;border-radius:13px!important;
- background:linear-gradient(145deg,#111b28,#080e16)!important;
- box-shadow:0 16px 42px #0005!important;overflow:hidden!important;
-}
-@media(max-width:1100px){
- #nfxLiqDashboard>#nfxLiqBookHeatmap{grid-column:1/-1!important}
- #nfxLiqDashboard>#nfxLiqLiquidationHeatmap{grid-column:1/-1!important}
- #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-wrap,
- #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap{height:clamp(420px,58vh,600px)!important}
+#nfxLiqDashboard .nfx-liq-fullscreen-btn:hover{border-color:#6688aa!important;background:#192b3d!important}
+@media(max-width:1050px){
+ #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-summary{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-book{grid-template-columns:minmax(0,1fr) 175px minmax(0,1fr)!important}
 }
 @media(max-width:760px){
- #nfxLiqDashboard.nfx-liq-dashboard{grid-template-columns:minmax(0,1fr)!important;gap:13px!important}
- #nfxLiqDashboard>#nfxLiqLivePanel,
- #nfxLiqDashboard>#nfxLiqBookHeatmap,
- #nfxLiqDashboard>#nfxLiqLiquidationHeatmap,
- #nfxLiqDashboard>#nfxOrderFlowDesk{grid-column:1/-1!important}
- #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-book{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}
- #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-wrap,
- #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap{
-  height:390px!important;min-height:340px!important;margin:10px 10px 0!important;
- }
+ #nfxLiqDashboard{gap:13px!important}
+ #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-top,
  #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-head,
- #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head{padding:15px!important}
- #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-ladder{height:330px!important;max-height:330px!important}
-}
-</style>
-
-
-<style id="nfx-institutional-terminal-v4">
-/* Institutional terminal refinement: restrained surfaces, clear hierarchy, chart-first layout. */
-#nfxLiqDashboard.nfx-liq-dashboard{gap:16px!important}
-#nfxLiqDashboard>.nfx-liq-workspace-card,
-#nfxOrderFlowDesk{border:1px solid #263548!important;border-radius:10px!important;background:#090f18!important;box-shadow:0 14px 38px rgba(0,0,0,.38),inset 0 1px rgba(255,255,255,.025)!important}
-#nfxLiqDashboard #nfxLiqLivePanel{border-top:2px solid #d84452!important}
-#nfxLiqDashboard #nfxLiqBookHeatmap,
-#nfxLiqDashboard #nfxLiqLiquidationHeatmap{border-top:2px solid #344b64!important;background:#0a111a!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-top,
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-head,
-#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head{background:#0e1722!important;border-bottom:1px solid #263548!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-summary{gap:1px!important;background:#263548!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-contract,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-metric{background:#0d1722!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-side{background:#0a121c!important;border:1px solid #26384b!important;border-radius:6px!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-sidehead{background:#111e2b!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-mid{background:#111e2b!important;border:1px solid #30465d!important;box-shadow:none!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-ladder{background:#080f17!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-ladder>*{border-bottom:1px solid rgba(135,158,185,.075)!important}
-#nfxLiqDashboard .nfx-heatmap-stats{gap:1px!important;border:1px solid #26384b!important;background:#26384b!important;border-radius:7px!important;box-shadow:none!important}
-#nfxLiqDashboard .nfx-heatmap-stats>div{background:#0d1722!important;padding:12px 14px!important}
-#nfxLiqDashboard .nfx-heatmap-stats span{color:#8194aa!important;letter-spacing:.13em!important}
-#nfxLiqDashboard .nfx-heatmap-stats b{color:#edf4fc!important;font-size:clamp(14px,1.2vw,18px)!important}
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-wrap,
-#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap{border:1px solid #26384b!important;border-radius:7px!important;background:#070d15!important;box-shadow:inset 0 1px rgba(255,255,255,.025)!important}
-#nfxLiqDashboard #nfxLiqTimelineCanvas,
-#nfxLiqDashboard #nfxLiqLiquidationCanvas{display:block!important;background:#070d15!important}
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-head h3,
-#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head h3{font-size:20px!important;font-weight:750!important;letter-spacing:-.035em!important}
-#nfxLiqDashboard .nfx-est-liq-ranges button{border-radius:5px!important;padding:7px 10px!important;font-size:9px!important;letter-spacing:.035em!important}
-#nfxLiqDashboard .nfx-est-liq-ranges button.active{background:#17332f!important;border-color:#35a990!important;color:#b9f5e7!important;box-shadow:inset 0 0 0 1px rgba(53,169,144,.12)!important}
-#nfxLiqDashboard .nfx-liq-fullscreen-btn{border-radius:5px!important}
-#nfxLiqDashboard .nfx-liq-timeline-note{color:#8191a5!important;font-size:9px!important}
-#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-model-legend{border-radius:6px!important;background:#0d1722!important}
-@media(max-width:760px){
- #nfxLiqDashboard.nfx-liq-dashboard{gap:12px!important}
- #nfxLiqDashboard .nfx-heatmap-stats>div{padding:10px!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-head{padding:15px!important;flex-direction:column!important;align-items:stretch!important}
+ #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-topright{display:flex!important;justify-content:space-between!important}
+ #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-summary{grid-template-columns:repeat(2,minmax(0,1fr))!important;padding:0 8px!important}
+ #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-contract,
+ #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-metric{padding:11px 9px!important}
+ #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-book{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:8px!important;padding:9px!important}
+ #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-mid{grid-column:1/-1!important;grid-row:1!important;min-height:180px!important}
+ #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-ladder{height:320px!important;min-height:280px!important}
+ #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-colheads{gap:5px!important;font-size:7px!important}
+ #nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-toolbar{padding:10px!important;align-items:flex-start!important;flex-direction:column!important}
+ #nfxLiqDashboard .nfx-liq-card-actions{justify-content:flex-start!important}
+ #nfxLiqDashboard .nfx-heatmap-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
  #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-wrap,
- #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap{height:390px!important;min-height:340px!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap{height:370px!important;min-height:370px!important;margin:9px 9px 0!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-chart-frame{margin:9px!important;padding:7px!important}
+ #nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-chart-frame .nfx-liq-timeline-wrap{height:350px!important;min-height:350px!important}
+ #nfxLiqDashboard .nfx-liq-model-legend{gap:9px!important;padding:10px!important}
+ #nfxLiqDashboard .nfx-liq-timeline-note{margin:8px 11px 13px!important}
 }
 </style>
+
 </body>
 </html>
