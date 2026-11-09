@@ -9856,3 +9856,41 @@ window.renderBacktestMetrics=function(r,meta={}){
 
 </body>
 </html>
+
+<script id="nfx-page-navigation-recovery">
+/* Independent navigation safety net: keeps page switching available even if an unrelated
+   feature script fails. It only controls visibility and active state of existing views. */
+(function(){
+  const known = new Set(['home','chart','liquidity','news','learn','cvd','openinterest','fundingrate','bookmap','volumeprofile','backtest','notes','journal','account','contact']);
+  function openPage(page){
+    if(!known.has(page)) return;
+    document.querySelectorAll('.view').forEach(function(view){
+      const active = view.id === 'page-' + page;
+      view.classList.toggle('active', active);
+      view.style.display = active ? (page === 'home' ? 'flex' : 'block') : 'none';
+    });
+    document.querySelectorAll('.home-only').forEach(function(el){
+      el.style.display = page === 'home' ? '' : 'none';
+    });
+    document.querySelectorAll('.nav-btn[data-page]').forEach(function(btn){
+      btn.classList.toggle('active', btn.dataset.page === page);
+    });
+    document.querySelectorAll('.nav-btn[data-page="liquidity"]').forEach(function(btn){
+      btn.classList.toggle('active', page === 'liquidity' || ['cvd','openinterest','fundingrate','bookmap','volumeprofile'].includes(page));
+    });
+    if(page === 'liquidity') window.dispatchEvent(new Event('nfx-liquidity-open'));
+    if(['bookmap','volumeprofile'].includes(page)) window.dispatchEvent(new Event('nfx-pro-chart-open'));
+    window.scrollTo({top:0,behavior:'instant'});
+  }
+  document.addEventListener('click', function(event){
+    const button = event.target && event.target.closest ? event.target.closest('[data-page]') : null;
+    if(!button) return;
+    const page = button.dataset.page;
+    if(!known.has(page)) return;
+    try { if(typeof window.showNabilPage === 'function') window.showNabilPage(page); } catch(error) {}
+    openPage(page);
+  }, true);
+  if(typeof window.showNabilPage !== 'function') window.showNabilPage = openPage;
+})();
+</script>
+
