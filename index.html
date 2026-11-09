@@ -4303,6 +4303,14 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 
 
 <section id="page-liquidity" class="view nfx-liquidity-page" aria-label="Liquidity Heatmap">
+  <header class="nfx-crypto-intro" aria-label="Crypto market terminal">
+    <div class="nfx-crypto-intro-main">
+      <span class="nfx-crypto-overline">NABIL Fx <i></i> MARKET TERMINAL</span>
+      <h1>ONLY <em>CRYPTO</em></h1>
+      <p>Live digital asset market data · Exchange-based liquidity</p>
+    </div>
+    <div class="nfx-crypto-intro-status"><span class="nfx-crypto-live-dot"></span><span>CRYPTO MARKETS</span></div>
+  </header>
   <div class="nfx-liq-market-tabs" role="tablist" aria-label="Market type">
     <div class="nfx-feed-switch" aria-label="Market data provider"><span>DATA FEED</span><button type="button" class="active" data-nfx-provider="bybit">BYBIT · 1000 LEVEL</button><button type="button" data-nfx-provider="binance">BINANCE</button></div>
     <button type="button" class="nfx-liq-market-tab active" data-liq-market="crypto" role="tab" aria-selected="true">Crypto</button>
@@ -9517,6 +9525,86 @@ window.renderBacktestMetrics=function(r,meta={}){
 #page-liquidity .nfx-liq-fullscreen-btn{border:1px solid #333!important;border-radius:4px!important;background:#101010!important;color:#ddd!important}
 @media(max-width:1100px){#page-liquidity #nfxLiqDashboard.nfx-liq-dashboard{grid-template-columns:minmax(0,1fr)!important;grid-template-areas:"book" "liq" "liquidation"!important}#page-liquidity #nfxLiqLivePanel .nfx-obx-summary{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
 @media(max-width:680px){#page-liquidity.nfx-liquidity-page{padding:12px!important}#page-liquidity #nfxLiqLivePanel,#page-liquidity #nfxLiqBookHeatmap,#page-liquidity #nfxLiqLiquidationHeatmap{padding:12px!important}#page-liquidity #nfxLiqLivePanel .nfx-obx-summary{grid-template-columns:repeat(2,minmax(0,1fr))!important}#page-liquidity #nfxLiqLivePanel .nfx-obx-book{grid-template-columns:minmax(0,1fr)!important}#page-liquidity #nfxLiqLivePanel .nfx-obx-mid{order:-1}#page-liquidity #nfxLiqBookHeatmap .nfx-heatmap-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}#page-liquidity .nfx-market-search-form{flex-basis:100%!important}#page-liquidity .nfx-market-search-meta{font-size:10px!important}}
+</style>
+
+<style id="nfx-crypto-header-polish">
+#page-liquidity .nfx-crypto-intro{
+  max-width:1680px!important;margin:0 auto 22px!important;padding:0 0 18px!important;
+  display:flex!important;align-items:flex-end!important;justify-content:space-between!important;
+  gap:18px!important;border-bottom:1px solid #242424!important;position:relative!important;
+}
+#page-liquidity .nfx-crypto-intro:after{
+  content:""!important;position:absolute!important;left:0!important;bottom:-1px!important;
+  width:76px!important;height:2px!important;background:#b32635!important;
+}
+#page-liquidity .nfx-crypto-intro-main{min-width:0!important}
+#page-liquidity .nfx-crypto-overline{
+  display:flex!important;align-items:center!important;gap:9px!important;margin:0 0 9px!important;
+  color:#888!important;font-size:9px!important;font-weight:800!important;letter-spacing:.2em!important;
+}
+#page-liquidity .nfx-crypto-overline i{display:block!important;width:3px!important;height:3px!important;border-radius:50%!important;background:#bd2938!important}
+#page-liquidity .nfx-crypto-intro h1{
+  margin:0!important;color:#f5f5f5!important;font-size:clamp(27px,3.1vw,39px)!important;
+  line-height:1!important;font-weight:850!important;letter-spacing:-.055em!important;
+}
+#page-liquidity .nfx-crypto-intro h1 em{font-style:normal!important;color:#d12d3c!important}
+#page-liquidity .nfx-crypto-intro p{margin:9px 0 0!important;color:#858585!important;font-size:11px!important;letter-spacing:.025em!important}
+#page-liquidity .nfx-crypto-intro-status{
+  display:flex!important;align-items:center!important;gap:8px!important;flex:0 0 auto!important;
+  padding:8px 11px!important;border:1px solid #292929!important;border-radius:4px!important;
+  background:#080808!important;color:#aaa!important;font-size:9px!important;font-weight:800!important;letter-spacing:.12em!important;
+}
+#page-liquidity .nfx-crypto-live-dot{width:6px!important;height:6px!important;border-radius:50%!important;background:#c52c3b!important;box-shadow:0 0 9px #c52c3b66!important}
+#page-liquidity .nfx-liq-market-tabs{
+  max-width:1680px!important;margin:0 auto 13px!important;padding:0 0 11px!important;
+  border-bottom:1px solid #191919!important;gap:12px!important;
+}
+#page-liquidity .nfx-feed-switch{gap:6px!important}
+#page-liquidity .nfx-feed-switch>span{margin-right:5px!important;color:#777!important;font-size:9px!important;letter-spacing:.16em!important}
+#page-liquidity .nfx-feed-switch button,#page-liquidity .nfx-liq-market-tab{
+  min-height:32px!important;padding:0 12px!important;border:1px solid #292929!important;
+  border-radius:4px!important;background:#080808!important;color:#999!important;
+  font-size:10px!important;font-weight:750!important;letter-spacing:.065em!important;transition:background .18s,border-color .18s,color .18s!important;
+}
+#page-liquidity .nfx-feed-switch button:hover,#page-liquidity .nfx-liq-market-tab:hover{border-color:#6e252c!important;color:#fff!important}
+#page-liquidity .nfx-feed-switch button.active,#page-liquidity .nfx-liq-market-tab.active{
+  border-color:#8f2933!important;background:linear-gradient(180deg,#211013,#12090b)!important;color:#fff!important;
+  box-shadow:inset 0 0 0 1px #7d202a22!important;
+}
+#page-liquidity .nfx-liq-commandbar{
+  max-width:1680px!important;margin:0 auto 18px!important;padding:0!important;
+  display:flex!important;align-items:center!important;justify-content:space-between!important;gap:14px!important;
+}
+#page-liquidity .nfx-market-search-form{flex:1 1 500px!important;max-width:720px!important;gap:8px!important}
+#page-liquidity .nfx-market-search-input-wrap{
+  min-height:42px!important;padding:0 14px!important;border:1px solid #292929!important;
+  border-radius:4px!important;background:#080808!important;transition:border-color .18s,background .18s!important;
+}
+#page-liquidity .nfx-market-search-input-wrap:focus-within{border-color:#87303a!important;background:#0b0909!important}
+#page-liquidity .nfx-market-search-input-wrap>span{font-size:18px!important;color:#a52b38!important}
+#page-liquidity .nfx-market-search-input-wrap input{font-size:12px!important;letter-spacing:.01em!important}
+#page-liquidity .nfx-market-search-button{
+  min-height:42px!important;padding:0 17px!important;border:1px solid #a52b38!important;
+  border-radius:4px!important;background:linear-gradient(180deg,#b52b3a,#8d1c29)!important;
+  color:#fff!important;font-size:10px!important;font-weight:850!important;letter-spacing:.055em!important;
+  box-shadow:0 4px 16px #9e1f2b20!important;transition:filter .18s,transform .18s!important;
+}
+#page-liquidity .nfx-market-search-button:hover{filter:brightness(1.13)!important;transform:translateY(-1px)!important}
+#page-liquidity .nfx-market-search-meta{gap:8px!important;color:#858585!important;font-size:10px!important}
+#page-liquidity .nfx-market-dot{width:6px!important;height:6px!important;border-radius:50%!important;background:#c42b3b!important;box-shadow:0 0 8px #c42b3b55!important}
+#page-liquidity .nfx-market-search-current{padding-left:10px!important;border-left:1px solid #292929!important;color:#777!important}
+#page-liquidity .nfx-market-search-current strong{color:#eee!important;font-weight:750!important}
+@media(max-width:680px){
+ #page-liquidity .nfx-crypto-intro{align-items:flex-start!important;margin-bottom:17px!important;padding-bottom:15px!important}
+ #page-liquidity .nfx-crypto-intro h1{font-size:29px!important}
+ #page-liquidity .nfx-crypto-intro-status{padding:7px 8px!important;font-size:8px!important}
+ #page-liquidity .nfx-crypto-intro p{max-width:230px!important;line-height:1.5!important}
+ #page-liquidity .nfx-liq-market-tabs{align-items:flex-start!important}
+ #page-liquidity .nfx-feed-switch{width:100%!important}
+ #page-liquidity .nfx-liq-commandbar{align-items:stretch!important}
+ #page-liquidity .nfx-market-search-form{flex:1 1 100%!important;max-width:none!important}
+ #page-liquidity .nfx-market-search-meta{width:100%!important;justify-content:space-between!important}
+}
 </style>
 </body>
 </html>
