@@ -4305,22 +4305,22 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 <section id="page-liquidity" class="view nfx-liquidity-page" aria-label="Liquidity Heatmap">
   <header class="nfx-crypto-intro" aria-label="Crypto market terminal">
     <div class="nfx-crypto-intro-main">
-      <span class="nfx-crypto-overline">NABIL Fx <i></i> MARKET TERMINAL</span>
-      <h1>ONLY <em>CRYPTO</em></h1>
-      <p>Live digital asset market data · Exchange-based liquidity</p>
+      <span class="nfx-crypto-overline">NABIL <em>Fx</em> <i></i> MARKET DATA</span>
+      <h1>ONLY CRYPTO</h1>
     </div>
-    <div class="nfx-crypto-intro-status"><span class="nfx-crypto-live-dot"></span><span>CRYPTO MARKETS</span></div>
   </header>
-  <div class="nfx-liq-market-tabs" role="tablist" aria-label="Market type">
-    <div class="nfx-feed-switch" aria-label="Market data provider"><span>DATA FEED</span><button type="button" class="active" data-nfx-provider="bybit">BYBIT · 1000 LEVEL</button><button type="button" data-nfx-provider="binance">BINANCE</button></div>
-    <button type="button" class="nfx-liq-market-tab active" data-liq-market="crypto" role="tab" aria-selected="true">Crypto</button>
-  </div>
-  <div class="nfx-liq-commandbar" aria-label="Market controls">
-    <form class="nfx-market-search-form" id="nfxMarketSearchForm" autocomplete="off">
-      <label class="nfx-market-search-input-wrap" for="nfxMarketSearchInput"><span aria-hidden="true">⌕</span><input id="nfxMarketSearchInput" type="search" list="nfxMarketSuggestions" placeholder="Search symbol or coin — e.g. BTC, ETHUSDT" spellcheck="false" aria-label="Search crypto market"><datalist id="nfxMarketSuggestions"></datalist></label>
-      <button type="submit" class="nfx-market-search-button">View heatmap <span aria-hidden="true">↗</span></button>
-    </form>
-    <div class="nfx-market-search-meta"><span class="nfx-market-dot"></span><span id="nfxMarketCount">Loading available crypto markets…</span><span class="nfx-market-search-current">Selected: <strong id="nfxMarketCurrent">BTC/USDT</strong></span></div>
+  <div class="nfx-market-controls-shell">
+    <div class="nfx-liq-market-tabs" role="tablist" aria-label="Market type">
+      <div class="nfx-feed-switch" aria-label="Market data provider"><span>EXCHANGE</span><button type="button" class="active" data-nfx-provider="bybit">BYBIT · 1000 LEVEL</button><button type="button" data-nfx-provider="binance">BINANCE</button></div>
+      <button type="button" class="nfx-liq-market-tab active" data-liq-market="crypto" role="tab" aria-selected="true">CRYPTO</button>
+    </div>
+    <div class="nfx-liq-commandbar" aria-label="Market controls">
+      <form class="nfx-market-search-form" id="nfxMarketSearchForm" autocomplete="off">
+        <label class="nfx-market-search-input-wrap" for="nfxMarketSearchInput"><span aria-hidden="true">⌕</span><input id="nfxMarketSearchInput" type="search" list="nfxMarketSuggestions" placeholder="Search crypto market — BTC, ETHUSDT…" spellcheck="false" aria-label="Search crypto market"><datalist id="nfxMarketSuggestions"></datalist></label>
+        <button type="submit" class="nfx-market-search-button">SEARCH MARKET <span aria-hidden="true">↗</span></button>
+      </form>
+      <div class="nfx-market-search-meta"><span class="nfx-market-dot"></span><span id="nfxMarketCount">Loading available crypto markets…</span><span class="nfx-market-search-current">SELECTED <strong id="nfxMarketCurrent">BTC/USDT</strong></span></div>
+    </div>
   </div>
   <div class="nfx-liq-dashboard" id="nfxLiqDashboard">
     <section class="nfx-liq-panel nfx-liq-workspace-card nfx-orderbook-next" id="nfxLiqLivePanel" aria-label="NFx professional live order book">
@@ -9604,6 +9604,45 @@ window.renderBacktestMetrics=function(r,meta={}){
  #page-liquidity .nfx-liq-commandbar{align-items:stretch!important}
  #page-liquidity .nfx-market-search-form{flex:1 1 100%!important;max-width:none!important}
  #page-liquidity .nfx-market-search-meta{width:100%!important;justify-content:space-between!important}
+}
+</style>
+
+<style id="nfx-crypto-header-aligned">
+#page-liquidity.nfx-liquidity-page{max-width:1320px!important;padding:28px 18px 50px!important}
+#page-liquidity .nfx-crypto-intro{max-width:none!important;margin:0 0 18px!important;padding:0!important;border:0!important;display:flex!important;align-items:center!important;justify-content:flex-start!important}
+#page-liquidity .nfx-crypto-intro:after{display:none!important}
+#page-liquidity .nfx-crypto-overline{display:flex!important;align-items:center!important;gap:7px!important;margin:0 0 5px!important;color:#999!important;font-size:10px!important;font-weight:750!important;letter-spacing:.13em!important}
+#page-liquidity .nfx-crypto-overline em{font-style:normal!important;color:#ff2438!important}
+#page-liquidity .nfx-crypto-overline i{width:3px!important;height:3px!important;border-radius:50%!important;background:#ff2438!important}
+#page-liquidity .nfx-crypto-intro h1{margin:0!important;color:#f6f6f6!important;font-size:clamp(23px,2.4vw,29px)!important;line-height:1.15!important;font-weight:800!important;letter-spacing:-.035em!important}
+#page-liquidity .nfx-market-controls-shell{max-width:none!important;margin:0 0 18px!important;padding:13px 14px!important;border:1px solid #292929!important;border-radius:12px!important;background:#101010!important;box-shadow:0 8px 24px #0003!important}
+#page-liquidity .nfx-liq-market-tabs{max-width:none!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;margin:0 0 12px!important;padding:0 0 11px!important;border:0!important;border-bottom:1px solid #292929!important;background:transparent!important}
+#page-liquidity .nfx-feed-switch{display:flex!important;align-items:center!important;gap:7px!important;flex-wrap:wrap!important}
+#page-liquidity .nfx-feed-switch>span{margin:0 5px 0 0!important;color:#888!important;font-size:10px!important;font-weight:750!important;letter-spacing:.1em!important}
+#page-liquidity .nfx-feed-switch button,#page-liquidity .nfx-liq-market-tab{min-height:34px!important;padding:0 12px!important;border:1px solid #343434!important;border-radius:7px!important;background:#080808!important;color:#bcbcbc!important;font-size:10px!important;font-weight:750!important;letter-spacing:.035em!important;box-shadow:none!important}
+#page-liquidity .nfx-feed-switch button:hover,#page-liquidity .nfx-liq-market-tab:hover{border-color:#777!important;color:#fff!important}
+#page-liquidity .nfx-feed-switch button.active,#page-liquidity .nfx-liq-market-tab.active{border-color:#a32634!important;background:#211013!important;color:#fff!important;box-shadow:inset 0 0 0 1px #a3263422!important}
+#page-liquidity .nfx-liq-commandbar{max-width:none!important;margin:0!important;padding:0!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:14px!important}
+#page-liquidity .nfx-market-search-form{flex:1 1 500px!important;max-width:620px!important;gap:8px!important}
+#page-liquidity .nfx-market-search-input-wrap{min-height:40px!important;padding:0 12px!important;border:1px solid #343434!important;border-radius:7px!important;background:#080808!important}
+#page-liquidity .nfx-market-search-input-wrap:focus-within{border-color:#a32634!important;background:#090909!important}
+#page-liquidity .nfx-market-search-input-wrap>span{color:#aaa!important;font-size:17px!important}
+#page-liquidity .nfx-market-search-input-wrap input{font-size:12px!important;letter-spacing:0!important}
+#page-liquidity .nfx-market-search-button{min-height:40px!important;padding:0 15px!important;border:1px solid #a32634!important;border-radius:7px!important;background:#a32634!important;color:#fff!important;font-size:10px!important;font-weight:800!important;letter-spacing:.04em!important;box-shadow:none!important}
+#page-liquidity .nfx-market-search-button:hover{background:#bd2939!important;filter:none!important;transform:none!important}
+#page-liquidity .nfx-market-search-meta{display:flex!important;align-items:center!important;gap:8px!important;color:#929292!important;font-size:10px!important}
+#page-liquidity .nfx-market-dot{width:6px!important;height:6px!important;border-radius:50%!important;background:#aaa!important;box-shadow:none!important}
+#page-liquidity .nfx-market-search-current{padding-left:11px!important;border-left:1px solid #343434!important;color:#888!important}
+#page-liquidity .nfx-market-search-current strong{margin-left:5px!important;color:#f1f1f1!important;font-weight:750!important}
+@media(max-width:680px){
+ #page-liquidity.nfx-liquidity-page{padding:20px 12px 40px!important}
+ #page-liquidity .nfx-crypto-intro{margin-bottom:14px!important}
+ #page-liquidity .nfx-market-controls-shell{padding:11px!important;margin-bottom:14px!important}
+ #page-liquidity .nfx-liq-market-tabs{align-items:flex-start!important;flex-direction:column!important}
+ #page-liquidity .nfx-feed-switch{width:100%!important}
+ #page-liquidity .nfx-liq-commandbar{align-items:stretch!important;flex-direction:column!important}
+ #page-liquidity .nfx-market-search-form{flex:1 1 auto!important;max-width:none!important;width:100%!important}
+ #page-liquidity .nfx-market-search-meta{width:100%!important;justify-content:flex-start!important;flex-wrap:wrap!important}
 }
 </style>
 </body>
