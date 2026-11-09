@@ -372,33 +372,6 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 @media(max-width:760px){#nfxLiqLiquidationHeatmap .nfx-liq-timeline-head{align-items:flex-start;flex-direction:column;gap:10px}#nfxLiqLiquidationHeatmap .nfx-liq-card-actions{flex-wrap:wrap}}
 
 
-/* Precise Order Book surfaces requested: all visible summary, sides and mid-price blocks. */
-#nfxLiqDashboard #nfxLiqLivePanel,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-top,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-summary,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-contract,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-metric,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-toolbar,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-book,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-side,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-sidehead,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-colheads,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-ladder,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-mid,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-spread,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-bestrow,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-depthsplit,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-sidefoot,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-footer {
-  background:#000000!important;
-  background-image:none!important;
-}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-book{border-color:#202833!important}
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-summary,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-sidehead,
-#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-footer{border-color:#202833!important}
-
-
 /* NFx premium heatmap data strips and venue-aware surfaces */
 .nfx-heatmap-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;margin:0 0 12px;border:1px solid #243247;border-radius:10px;overflow:hidden;background:#243247;box-shadow:0 8px 24px #0005}
 .nfx-heatmap-stats>div{min-width:0;padding:11px 14px;background:linear-gradient(145deg,#101b2a,#0a111c)}
@@ -418,6 +391,68 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 @media(max-width:700px){.nfx-heatmap-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.nfx-heatmap-stats>div{padding:9px 10px}.nfx-heatmap-stats span{font-size:8px}.nfx-heatmap-stats b{font-size:13px}}
 
 @media(max-width:420px){.nfx-heatmap-spec-head>div small{font-size:8px}.nfx-heatmap-spec-state{font-size:7px;padding:4px 6px}.nfx-heatmap-spec-grid small{font-size:9px}}
+
+/* NABIL Fx liquidity terminal — rebuilt visual system */
+#page-liquidity .view-heading{font-size:clamp(25px,3vw,34px);letter-spacing:-1.1px;font-weight:800;color:#f3f7fc}
+#page-liquidity .view-lead{max-width:780px;color:#91a2b8;line-height:1.65}
+#page-liquidity .nfx-liq-dashboard{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:22px!important;align-items:start}
+#page-liquidity .nfx-liq-workspace-card{min-width:0!important;overflow:hidden;border:1px solid #25364a!important;border-radius:16px!important;background:linear-gradient(145deg,#101b2a 0%,#0b1420 55%,#09111b 100%)!important;box-shadow:0 18px 48px #0007,inset 0 1px #ffffff0b!important}
+#page-liquidity #nfxLiqLivePanel{padding:0!important}
+#page-liquidity .nfx-obx-top{padding:22px 24px!important;background:linear-gradient(105deg,#14243a 0%,#0e1928 55%,#101722 100%)!important;border-bottom:1px solid #2a3b50!important}
+#page-liquidity .nfx-obx-eyebrow{color:#7f9bb9!important;font-size:10px!important;letter-spacing:1.6px!important;font-weight:800!important}
+#page-liquidity .nfx-obx-brand h2{font-size:25px!important;letter-spacing:-.7px!important;color:#f4f7fc!important;margin:8px 0 4px!important}
+#page-liquidity .nfx-obx-brand p{color:#9aacc1!important;font-size:12px!important}
+#page-liquidity .nfx-obx-summary{margin:0!important;padding:16px 20px!important;grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:8px!important;border-bottom:1px solid #25364a!important;background:#0b1420!important}
+#page-liquidity .nfx-obx-contract,#page-liquidity .nfx-obx-metric{min-width:0!important;padding:13px 12px!important;border:1px solid #26384d!important;border-radius:10px!important;background:linear-gradient(155deg,#142236,#0e1826)!important}
+#page-liquidity .nfx-obx-contract{grid-column:span 2}
+#page-liquidity .nfx-obx-metric>span,#page-liquidity .nfx-obx-caption{color:#849bb5!important;font-size:9px!important;letter-spacing:1.1px!important;font-weight:800!important}
+#page-liquidity .nfx-obx-metric strong,#page-liquidity .nfx-obx-contractline strong{font-size:clamp(14px,1.5vw,19px)!important;color:#edf4fc!important;font-variant-numeric:tabular-nums!important}
+#page-liquidity .nfx-obx-metric small,#page-liquidity .nfx-obx-contract small{color:#8194aa!important;font-size:10px!important}
+#page-liquidity .nfx-obx-book{padding:16px 20px 18px!important;gap:12px!important;background:#09121e!important}
+#page-liquidity .nfx-obx-side{padding:0!important;border:1px solid #26384d!important;border-radius:11px!important;background:linear-gradient(180deg,#101d2b,#0b1420)!important}
+#page-liquidity .nfx-obx-sidehead,#page-liquidity .nfx-obx-colheads{background:#111e2d!important;border-color:#26384d!important}
+#page-liquidity .nfx-obx-ladder{background:transparent!important}
+#page-liquidity .nfx-obx-mid{padding:18px 12px!important;border:1px solid #31465e!important;border-radius:11px!important;background:radial-gradient(ellipse at 50% 0%,#203951 0%,#111f30 58%,#0c1623 100%)!important;box-shadow:inset 0 1px #ffffff0d!important}
+#page-liquidity .nfx-obx-spread,#page-liquidity .nfx-obx-bestrow{background:#142337!important;border-color:#30465e!important}
+#page-liquidity .nfx-obx-footer{background:#0d1927!important;border-top:1px solid #26384d!important}
+#page-liquidity .nfx-liq-timeline-panel{padding:20px!important}
+#page-liquidity .nfx-liq-timeline-head{display:flex!important;align-items:flex-start!important;justify-content:space-between!important;gap:18px!important;padding:2px 0 17px!important;border-bottom:1px solid #26384d!important}
+#page-liquidity .nfx-liq-kicker{color:#79a9c8!important;font-size:9px!important;letter-spacing:1.6px!important;font-weight:850!important}
+#page-liquidity .nfx-liq-timeline-head h3{margin:7px 0 5px!important;font-size:clamp(20px,2vw,25px)!important;letter-spacing:-.65px!important;color:#f1f6fd!important}
+#page-liquidity .nfx-liq-timeline-head p{color:#9aacc1!important;font-size:12px!important;line-height:1.6!important}
+#page-liquidity .nfx-liq-card-actions{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:10px!important;flex-wrap:wrap!important}
+#page-liquidity .nfx-liq-live-tag{padding:7px 10px!important;border:1px solid #276552!important;border-radius:6px!important;background:#0d2925!important;color:#76e0bd!important;font-size:9px!important;font-weight:850!important;letter-spacing:.8px!important}
+#page-liquidity .nfx-est-liq-ranges{padding:4px!important;gap:3px!important;border:1px solid #2a3d53!important;border-radius:8px!important;background:#09131f!important}
+#page-liquidity .nfx-est-liq-ranges button{min-height:29px!important;padding:5px 8px!important;border:1px solid transparent!important;border-radius:5px!important;background:transparent!important;color:#9db0c7!important;font-size:9px!important;font-weight:800!important}
+#page-liquidity .nfx-est-liq-ranges button.active,#page-liquidity .nfx-est-liq-ranges button:hover{border-color:#365d72!important;background:#173246!important;color:#e5f5ff!important}
+#page-liquidity .nfx-liq-fullscreen-btn{border:1px solid #344b64!important;border-radius:7px!important;background:#142337!important;color:#d8e6f5!important;padding:8px 11px!important}
+#page-liquidity .nfx-liq-timeline-wrap{margin-top:15px!important;border:1px solid #293d53!important;border-radius:11px!important;background:linear-gradient(180deg,#0a1522,#07101a)!important;overflow:hidden!important}
+#page-liquidity .nfx-liq-timeline-note{margin-top:12px!important;padding-top:11px!important;border-top:1px solid #26384d!important;color:#8196ad!important;font-size:10px!important;line-height:1.6!important}
+#page-liquidity .nfx-heatmap-stats{margin:14px 0 0!important;border:1px solid #2a3e55!important;border-radius:10px!important;background:#2a3e55!important;box-shadow:none!important}
+#page-liquidity .nfx-heatmap-stats>div{padding:12px 14px!important;background:linear-gradient(145deg,#15263a,#0e1927)!important}
+#page-liquidity .nfx-heatmap-stats span{color:#91a8c1!important}
+#page-liquidity .nfx-heatmap-stats b{color:#edf5ff!important}
+#page-liquidity .nfx-cg-liq-toolbar{padding:10px!important;border:1px solid #2a3e55!important;border-radius:9px!important;background:#0a1420!important;box-shadow:none!important}
+#page-liquidity .nfx-cg-model-switch,#page-liquidity .nfx-cg-view-switch{gap:4px!important}
+#page-liquidity .nfx-cg-model-switch button,#page-liquidity .nfx-cg-view-switch button{border:1px solid #2b4058!important;border-radius:5px!important;background:#101e2d!important;color:#9fb1c7!important}
+#page-liquidity .nfx-cg-model-switch button.active,#page-liquidity .nfx-cg-view-switch button.active{border-color:#b43b4b!important;background:#3a1b27!important;color:#ffe9ed!important}
+#page-liquidity .nfx-cg-threshold{color:#9db0c6!important}
+#page-liquidity .nfx-liq-status{color:#a8bdd2!important}
+@media(max-width:900px){
+ #page-liquidity .nfx-obx-summary{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ #page-liquidity .nfx-obx-contract{grid-column:span 3}
+ #page-liquidity .nfx-liq-timeline-head{flex-direction:column!important}
+ #page-liquidity .nfx-liq-card-actions{justify-content:flex-start!important}
+}
+@media(max-width:620px){
+ #page-liquidity .nfx-obx-top{padding:17px 14px!important}
+ #page-liquidity .nfx-obx-summary{padding:12px!important;grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #page-liquidity .nfx-obx-contract{grid-column:span 2}
+ #page-liquidity .nfx-obx-book{grid-template-columns:minmax(0,1fr)!important;padding:12px!important}
+ #page-liquidity .nfx-obx-mid{order:-1}
+ #page-liquidity .nfx-liq-timeline-panel{padding:14px!important}
+ #page-liquidity .nfx-heatmap-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
 </style>
 <style>
 /* Final Home-only refinement: compact founder card above a premium red/white title */
