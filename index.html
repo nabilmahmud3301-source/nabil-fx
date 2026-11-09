@@ -4226,6 +4226,118 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 }
 </style>
 
+
+<style id="nfx-heatmap-black-premium-v2">
+/* Strictly scoped to Heatmap / Order Book page. */
+#page-liquidity.nfx-liquidity-page,
+#page-liquidity.nfx-liquidity-page *{box-sizing:border-box}
+#page-liquidity.nfx-liquidity-page{background:#000!important;color:#f4f6fa!important}
+#page-liquidity.nfx-liquidity-page:before{color:#ff4355!important}
+#page-liquidity.nfx-liquidity-page:after{color:#8c96a5!important}
+#page-liquidity .nfx-liq-market-tabs,
+#page-liquidity .nfx-market-search,
+#page-liquidity #nfxLiqDashboard>.nfx-liq-workspace-card,
+#page-liquidity #nfxOrderFlowDesk{
+ background:#000!important;background-image:none!important;
+ border:1px solid #252525!important;border-radius:10px!important;
+ box-shadow:0 10px 34px #000!important;
+}
+#page-liquidity .nfx-market-search{padding:22px 24px!important}
+#page-liquidity .nfx-market-search-copy h2{color:#f5f5f5!important}
+#page-liquidity .nfx-market-search-input-wrap,
+#page-liquidity .nfx-market-search input{background:#050505!important;color:#fff!important}
+#page-liquidity .nfx-feed-switch button,
+#page-liquidity .nfx-liq-market-tab,
+#page-liquidity #nfxLiqDashboard button{
+ background:#080808!important;border-color:#303030!important;color:#bfc4cc!important;
+}
+#page-liquidity .nfx-feed-switch button.active,
+#page-liquidity .nfx-liq-market-tab.active,
+#page-liquidity #nfxLiqDashboard button.active{
+ background:#19090c!important;border-color:#b52b3a!important;color:#fff!important;
+ box-shadow:inset 0 -2px #f2384c!important;
+}
+#page-liquidity #nfxLiqDashboard.nfx-liq-dashboard{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ grid-template-areas:"book book" "flow flow" "liquidity liquidation"!important;
+ gap:14px!important;align-items:stretch!important;
+}
+#page-liquidity #nfxLiqLivePanel{grid-area:book!important}
+#page-liquidity #nfxOrderFlowDesk{grid-area:flow!important;min-width:0!important;margin:0!important;padding:0!important}
+#page-liquidity #nfxLiqBookHeatmap{grid-area:liquidity!important}
+#page-liquidity #nfxLiqLiquidationHeatmap{grid-area:liquidation!important}
+#page-liquidity #nfxLiqDashboard>.nfx-liq-workspace-card,
+#page-liquidity #nfxOrderFlowDesk{color:#f0f0f0!important}
+#page-liquidity #nfxLiqDashboard .nfx-obx-top,
+#page-liquidity #nfxLiqDashboard .nfx-obx-summary,
+#page-liquidity #nfxLiqDashboard .nfx-obx-toolbar,
+#page-liquidity #nfxLiqDashboard .nfx-obx-book,
+#page-liquidity #nfxLiqDashboard .nfx-obx-side,
+#page-liquidity #nfxLiqDashboard .nfx-obx-sidehead,
+#page-liquidity #nfxLiqDashboard .nfx-obx-mid,
+#page-liquidity #nfxLiqDashboard .nfx-obx-footer,
+#page-liquidity #nfxLiqDashboard .nfx-obx-contract,
+#page-liquidity #nfxLiqDashboard .nfx-obx-metric,
+#page-liquidity #nfxLiqDashboard .nfx-ofd-head,
+#page-liquidity #nfxLiqDashboard .nfx-ofd-metrics>div,
+#page-liquidity #nfxLiqDashboard .nfx-ofd-chart-card,
+#page-liquidity #nfxLiqDashboard .nfx-ofd-tape-card,
+#page-liquidity #nfxLiqDashboard .nfx-liq-timeline-wrap,
+#page-liquidity #nfxLiqDashboard .nfx-heatmap-stats>div{
+ background:#000!important;background-image:none!important;
+ border-color:#292929!important;
+}
+#page-liquidity #nfxLiqDashboard .nfx-obx-top,
+#page-liquidity #nfxLiqDashboard .nfx-ofd-head,
+#page-liquidity #nfxLiqDashboard .nfx-liq-timeline-head{
+ padding:20px 22px!important;border-bottom:1px solid #292929!important;
+}
+#page-liquidity #nfxLiqDashboard .nfx-obx-top h2,
+#page-liquidity #nfxLiqDashboard .nfx-ofd-head h2,
+#page-liquidity #nfxLiqDashboard .nfx-liq-timeline-head h3{
+ color:#fff!important;font-weight:750!important;letter-spacing:-.035em!important;
+}
+#page-liquidity #nfxLiqDashboard .nfx-obx-eyebrow,
+#page-liquidity #nfxLiqDashboard .nfx-ofd-kicker,
+#page-liquidity #nfxLiqDashboard .nfx-liq-kicker{color:#ff4658!important}
+#page-liquidity #nfxLiqDashboard .nfx-obx-side,
+#page-liquidity #nfxLiqDashboard .nfx-ofd-chart-card,
+#page-liquidity #nfxLiqDashboard .nfx-ofd-tape-card,
+#page-liquidity #nfxLiqDashboard .nfx-liq-timeline-wrap{
+ border:1px solid #262626!important;border-radius:7px!important;
+}
+#page-liquidity #nfxLiqDashboard .nfx-obx-metric,
+#page-liquidity #nfxLiqDashboard .nfx-obx-contract,
+#page-liquidity #nfxLiqDashboard .nfx-heatmap-stats>div{
+ border-radius:6px!important;
+}
+#page-liquidity #nfxLiqDashboard .nfx-obx-metric strong,
+#page-liquidity #nfxLiqDashboard .nfx-ofd-metrics b,
+#page-liquidity #nfxLiqDashboard .nfx-heatmap-stats b{color:#f4f4f4!important}
+#page-liquidity #nfxLiqDashboard .nfx-liq-timeline-head p,
+#page-liquidity #nfxLiqDashboard .nfx-ofd-head p,
+#page-liquidity #nfxLiqDashboard .nfx-obx-top p{color:#929292!important}
+#page-liquidity #nfxLiqDashboard .nfx-liq-timeline-note,
+#page-liquidity .nfx-liq-disclaimer{background:#000!important;color:#858585!important;border-color:#282828!important}
+#page-liquidity #nfxOrderFlowDesk .nfx-ofd-head{background:#000!important}
+#page-liquidity #nfxOrderFlowDesk .nfx-ofd-metrics{background:#000!important;border-color:#292929!important}
+#page-liquidity #nfxOrderFlowDesk .nfx-ofd-main{background:#000!important}
+#page-liquidity #nfxOrderFlowDesk .nfx-ofd-subhead{background:#050505!important}
+@media(max-width:1050px){
+ #page-liquidity #nfxLiqDashboard.nfx-liq-dashboard{
+  grid-template-columns:minmax(0,1fr)!important;
+  grid-template-areas:"book" "flow" "liquidity" "liquidation"!important;
+ }
+}
+@media(max-width:760px){
+ #page-liquidity .nfx-market-search{padding:15px!important}
+ #page-liquidity #nfxLiqDashboard .nfx-obx-top,
+ #page-liquidity #nfxLiqDashboard .nfx-ofd-head,
+ #page-liquidity #nfxLiqDashboard .nfx-liq-timeline-head{padding:14px!important}
+ #page-liquidity #nfxLiqDashboard #nfxOrderFlowDesk{padding:0!important}
+}
+</style>
+
 </head>
 <body>
 <div id="nfx-page-loader" role="status" aria-live="polite" aria-label="Loading NABIL Fx workspace">
@@ -4391,6 +4503,13 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
       </footer>
       <div hidden aria-hidden="true"><span id="nfxLiqBidVelocitySub"></span><span id="nfxLiqAskVelocitySub"></span></div>
     </section>
+    <section id="nfxOrderFlowDesk" aria-label="Live order flow terminal">
+      <header class="nfx-ofd-head"><div><div class="nfx-ofd-kicker"><span style="color:#fff">NABIL</span> <span style="color:#ff2438">Fx</span> / MARKET MICROSTRUCTURE</div><h2>Order Flow</h2><p>Live aggressor-side executions · Binance USDⓈ-M aggregate trades</p></div><div class="nfx-ofd-head-right"><span id="nfxOfdStatus" class="nfx-ofd-status"><i></i> CONNECTING</span><button type="button" id="nfxOfdExpand">⛶ Expand</button></div></header>
+      <div class="nfx-ofd-metrics">
+        <div><span>MARKET BUY VOLUME</span><b id="nfxOfdBuy">—</b><small id="nfxOfdBuyPct">Aggressive buyers</small></div><div><span>MARKET SELL VOLUME</span><b id="nfxOfdSell">—</b><small id="nfxOfdSellPct">Aggressive sellers</small></div><div><span>NET DELTA</span><b id="nfxOfdDelta">—</b><small id="nfxOfdDeltaPct">Buy volume − sell volume</small></div><div><span>CUMULATIVE DELTA</span><b id="nfxOfdCvd">—</b><small>Since this session connected</small></div><div><span>TRADE COUNT</span><b id="nfxOfdCount">0</b><small id="nfxOfdSymbol">BTCUSDT</small></div>
+      </div>
+      <div class="nfx-ofd-main"><section class="nfx-ofd-chart-card"><div class="nfx-ofd-subhead"><b>DELTA FLOW</b><span>1-MINUTE AGGRESSOR DELTA</span></div><canvas id="nfxOfdChart" height="270" aria-label="One-minute buy and sell volume delta chart"></canvas><div class="nfx-ofd-legend"><span><i class="buy"></i> BUY DELTA</span><span><i class="sell"></i> SELL DELTA</span><span><i class="net"></i> NET CVD</span></div></section>
+
     <section class="nfx-liq-timeline-panel nfx-liq-workspace-card" id="nfxLiqBookHeatmap" aria-label="Liquidity timeline heatmap">
       <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">LIVE CAPTURE</div><h3>Liquidity Heatmap</h3><p>Live resting orders by price and time · <strong id="nfxLiqBookFeedDesc">BYBIT 1000-LEVEL DEPTH · 200MS</strong> · <strong id="nfxLiqTimelineSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><span class="nfx-liq-live-tag" id="nfxLiqBookStatus"><i></i> LIVE DEPTH</span><div class="nfx-est-liq-ranges" role="group" aria-label="Heatmap time range"><button type="button" data-book-liq-range="3600" class="active" aria-pressed="true">1H</button><button type="button" data-book-liq-range="7200" aria-pressed="false">2H</button><button type="button" data-book-liq-range="14400" aria-pressed="false">4H</button><button type="button" data-book-liq-range="43200" aria-pressed="false">12H</button><button type="button" data-book-liq-range="86400" aria-pressed="false">1D</button><button type="button" data-book-liq-range="172800" aria-pressed="false">2D</button><button type="button" data-book-liq-range="259200" aria-pressed="false">3D</button><button type="button" data-book-liq-range="604800" aria-pressed="false">7D</button><button id="nfxLiqResetHistory" type="button">Reset</button></div><select id="nfxLiqWindow" aria-label="Liquidity heatmap timeframe" hidden><option value="3600" selected>1 HOUR</option><option value="7200">2 HOURS</option><option value="14400">4 HOURS</option><option value="43200">12 HOURS</option><option value="86400">1 DAY</option><option value="172800">2 DAYS</option><option value="259200">3 DAYS</option><option value="604800">7 DAYS</option></select><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqBookHeatmap" aria-label="Expand liquidity heatmap">⛶ <span>Expand</span></button></div></div>
       <div class="nfx-heatmap-stats" id="nfxBookHeatmapStats"><div><span>CAPTURED SNAPSHOTS</span><b id="nfxBookStatSnapshots">0</b></div><div><span>VISIBLE DEPTH</span><b id="nfxBookStatDepth">—</b></div><div><span>BEST SPREAD</span><b id="nfxBookStatSpread">—</b></div><div><span>BOOK IMBALANCE</span><b id="nfxBookStatImbalance">—</b></div></div><div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqTimelineCanvas" aria-label="Live order book liquidity by price and time"></canvas><div id="nfxLiqTimelineEmpty" class="nfx-liq-timeline-empty">Building live heatmap… historical columns appear as live snapshots arrive.</div></div>
@@ -4406,12 +4525,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 
     </section>
 
-    <section id="nfxOrderFlowDesk" aria-label="Live order flow terminal">
-      <header class="nfx-ofd-head"><div><div class="nfx-ofd-kicker"><span style="color:#fff">NABIL</span> <span style="color:#ff2438">Fx</span> / MARKET MICROSTRUCTURE</div><h2>Order Flow</h2><p>Live aggressor-side executions · Binance USDⓈ-M aggregate trades</p></div><div class="nfx-ofd-head-right"><span id="nfxOfdStatus" class="nfx-ofd-status"><i></i> CONNECTING</span><button type="button" id="nfxOfdExpand">⛶ Expand</button></div></header>
-      <div class="nfx-ofd-metrics">
-        <div><span>MARKET BUY VOLUME</span><b id="nfxOfdBuy">—</b><small id="nfxOfdBuyPct">Aggressive buyers</small></div><div><span>MARKET SELL VOLUME</span><b id="nfxOfdSell">—</b><small id="nfxOfdSellPct">Aggressive sellers</small></div><div><span>NET DELTA</span><b id="nfxOfdDelta">—</b><small id="nfxOfdDeltaPct">Buy volume − sell volume</small></div><div><span>CUMULATIVE DELTA</span><b id="nfxOfdCvd">—</b><small>Since this session connected</small></div><div><span>TRADE COUNT</span><b id="nfxOfdCount">0</b><small id="nfxOfdSymbol">BTCUSDT</small></div>
-      </div>
-      <div class="nfx-ofd-main"><section class="nfx-ofd-chart-card"><div class="nfx-ofd-subhead"><b>DELTA FLOW</b><span>1-MINUTE AGGRESSOR DELTA</span></div><canvas id="nfxOfdChart" height="270" aria-label="One-minute buy and sell volume delta chart"></canvas><div class="nfx-ofd-legend"><span><i class="buy"></i> BUY DELTA</span><span><i class="sell"></i> SELL DELTA</span><span><i class="net"></i> NET CVD</span></div></section><section class="nfx-ofd-tape-card"><div class="nfx-ofd-subhead"><b>LIVE TRADE TAPE</b><span id="nfxOfdTapeCount">LATEST PRINTS</span></div><div class="nfx-ofd-tape-head"><span>TIME</span><span>SIDE</span><span>PRICE</span><span>SIZE</span><span>NOTIONAL</span></div><div id="nfxOfdTape" class="nfx-ofd-tape"><div class="nfx-ofd-empty">Waiting for live aggregate trades…</div></div></section></div>
+    <section class="nfx-ofd-tape-card"><div class="nfx-ofd-subhead"><b>LIVE TRADE TAPE</b><span id="nfxOfdTapeCount">LATEST PRINTS</span></div><div class="nfx-ofd-tape-head"><span>TIME</span><span>SIDE</span><span>PRICE</span><span>SIZE</span><span>NOTIONAL</span></div><div id="nfxOfdTape" class="nfx-ofd-tape"><div class="nfx-ofd-empty">Waiting for live aggregate trades…</div></div></section></div>
       <footer class="nfx-ofd-foot"><span>DATA SOURCE: BINANCE USDⓈ-M FUTURES · AGGTRADE STREAM</span><span>AGGRESSOR SIDE FROM EXCHANGE FLAG · NOT A FULL EXCHANGE FOOTPRINT</span></footer>
     </section>
   </div>
