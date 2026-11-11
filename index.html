@@ -8130,7 +8130,7 @@ window.renderBacktestMetrics=function(r,meta={}){
     let type='PRICE ACTION MODEL',detail='STRUCTURE + CONFIRMATION';
     if(/liquidity-sweep|sweep|stop-run|raid|turtle-soup|judas/.test(id)){type='LIQUIDITY SWEEP';detail='LEVEL RAID · REJECTION · CONFIRMATION';}
     else if(/equal-high|equal-low|liquidity-pool|buy-side|sell-side|inducement|pdh|pdl|asia-high|asia-low|session-high|session-low/.test(id)){type='LIQUIDITY LEVELS';detail='VISIBLE HIGH / LOW POOLS';}
-    else if(/fair-value|\\bfvg\\b|imbalance|volume-imbalance/.test(id)){type='FAIR VALUE GAP';detail='THREE-CANDLE IMBALANCE';}
+    else if(/fair-value|\bfvg\b|imbalance|volume-imbalance/.test(id)){type='FAIR VALUE GAP';detail='THREE-CANDLE IMBALANCE';}
     else if(/order-block|breaker|mitigation|rejection-block|propulsion|refinement/.test(id)){type='PRICE ZONE MODEL';detail='ORIGIN CANDLE · DISPLACEMENT · RETEST';}
     else if(/bos|choch|mss|market-structure|swing|internal-external|trend-structure/.test(id)){type='MARKET STRUCTURE';detail='SWING BREAK · DIRECTIONAL SHIFT';}
     else if(/fibonacci|premium-discount|ote|retracement|extension|equilibrium/.test(id)){type='FIBONACCI / VALUE ZONE';detail='RANGE · MIDPOINT · RETRACEMENT';}
