@@ -3928,6 +3928,13 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 #page-learn .nfx-learn-topic-card:hover{border-color:#a43a4b;background:#171820;transform:translateY(-2px)}
 #page-learn .nfx-learn-thumb{height:105px;display:block;overflow:hidden;border-bottom:1px solid #303947;background:#080c11}
 #page-learn .nfx-learn-thumb img{width:100%;height:100%;display:block;object-fit:cover;object-position:center}
+#page-learn .nfx-learn-thumb img{object-fit:contain;padding:4px;box-sizing:border-box}
+#page-learn .nfx-learn-fallback{display:block;width:100%;height:100%;overflow:hidden}
+#page-learn .nfx-learn-fallback svg{display:block;width:100%;height:100%;object-fit:cover}
+#page-learn .nfx-learn-visual>img{display:block;width:100%;height:auto;max-height:520px;object-fit:contain;border:1px solid #1c2a38;border-radius:10px;background:#080d13}
+#page-learn .nfx-learn-visual>.nfx-learn-fallback{height:auto}
+#page-learn .nfx-learn-visual>.nfx-learn-fallback svg{width:100%;height:auto;max-height:520px}
+
 
 #page-learn .nfx-learn-thumb{height:142px;background:#080d13;overflow:hidden}
 #page-learn .nfx-learn-thumb svg{display:block;width:100%;height:100%;object-fit:cover}
@@ -8199,13 +8206,29 @@ window.renderBacktestMetrics=function(r,meta={}){
     const title=(topic.title||'Trading concept').toUpperCase();
     return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 475" role="img" aria-label="'+escSvg(topic.title)+' bullish and bearish educational examples"><rect width="1120" height="475" rx="16" fill="'+C.bg+'" stroke="#263647"/><path d="M0 65H1120" stroke="#b83b50" stroke-width="2"/>'+txt(26,39,title,C.white,21)+txt(1090,38,(topic.cat||'TRADING EDUCATION').toUpperCase(),C.muted,9,'end')+panel(28,true)+panel(582,false)+txt(30,461,detail,C.gold,9)+txt(1090,461,'ILLUSTRATIVE · NOT LIVE MARKET DATA',C.muted,8,'end')+'</svg>';
   }
+  // Curated externally hosted chart references for the core ICT/price-action lessons.
+  // Each image is matched only to its own concept; unmatched topics retain their topic-specific schematic.
+  function topicImage(topic){
+    const k=(topic.title+' '+topic.tags+' '+topic.cat).toLowerCase();
+    if(/fair value gap|\bfvg\b|imbalance/.test(k))return 'https://beirmancapital.com/wp-content/uploads/2025/06/Fair-Value-Gap-01-1024x694.jpg';
+    if(/order block|\border block\b|\bob\b/.test(k))return 'https://pinescriptmarket.com/learn/price-action/order-blocks/order-block-bearish-bullish-identification.png';
+    if(/liquidity sweep|liquidity grab|stop hunt|stop run|buy.side liquidity|sell.side liquidity/.test(k))return 'https://thetradingstreet.com/uploads/blog/liquidity-in-trading-how-internal-external-liquidity-move-price/image_85405e2a-0de3-4879-a5dd-623819dd7c9c.png';
+    if(/smart money concept|\bsmc\b|inner circle trader|\bict\b/.test(k))return 'https://official-cms-images.s3.us-east-2.amazonaws.com/static/images/marketNews/20251112/US500_2025-11-12_08-59-42_22579.png';
+    return '';
+  }
+  function topicImageMarkup(topic,compact){
+    const src=topicImage(topic),fallback=diagram(topic);
+    return src
+      ? '<img src="'+esc(src)+'" alt="'+esc(topic.title)+' chart example" loading="lazy" referrerpolicy="no-referrer" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><span class="nfx-learn-fallback" hidden>'+fallback+'</span>'
+      : '<span class="nfx-learn-fallback">'+fallback+'</span>';
+  }
   function filtered(){return topics.filter(t=>(activeCategory==='All Topics'||t.cat===activeCategory)&&(!query||(t.title+' '+t.cat+' '+t.tags+' '+t.intro).toLowerCase().includes(query)));}
   function renderCategories(){
     $('nfxLearnCategories').innerHTML=categories.map(c=>`<button type="button" class="nfx-learn-category ${activeCategory===c?'active':''}" data-learn-category="${esc(c)}"><span>${esc(c)}</span><small>${c==='All Topics'?topics.length:topics.filter(t=>t.cat===c).length}</small></button>`).join('');
   }
   function renderCards(){
     const list=filtered();
-    $('nfxLearnTopicGrid').innerHTML=list.map(t=>`<button type="button" class="nfx-learn-topic-card" data-learn-topic="${t.id}"><span class="nfx-learn-topic-copy"><small>${esc(t.cat.toUpperCase())}</small><strong>${esc(t.title)}</strong><span>${esc(t.intro)}</span></span></button>`).join('');
+    $('nfxLearnTopicGrid').innerHTML=list.map(t=>`<button type="button" class="nfx-learn-topic-card" data-learn-topic="${t.id}"><span class="nfx-learn-thumb">${topicImageMarkup(t,true)}</span><span class="nfx-learn-topic-copy"><small>${esc(t.cat.toUpperCase())}</small><strong>${esc(t.title)}</strong><span>${esc(t.intro)}</span></span></button>`).join('');
     $('nfxLearnCount').textContent=list.length+' TOPICS';
     $('nfxLearnSearchMeta').textContent=query?'Showing '+list.length+' matching topic(s).':'Browse '+topics.length+' lessons across '+(categories.length-1)+' learning areas.';
     $('nfxLearnEmpty').hidden=list.length!==0;
@@ -8215,7 +8238,7 @@ window.renderBacktestMetrics=function(r,meta={}){
   function openTopic(id){
     const t=topics.find(x=>x.id===id);if(!t)return;selected=id;
     $('nfxLearnTopicGrid').hidden=true;$('nfxLearnResultsHead').hidden=true;$('nfxLearnEmpty').hidden=true;$('nfxLearnDetail').hidden=false;
-    $('nfxLearnDetailContent').innerHTML=`<div class="nfx-learn-kicker">${esc(t.cat.toUpperCase())} · COMPLETE TOPIC GUIDE</div><h2>${esc(t.title)}</h2><p>${esc(t.intro)}</p><div class="nfx-learn-visual" role="img" aria-label="${esc(t.title)} bullish and bearish chart examples">${diagram(t)}</div><h3>02 · How it works</h3><p>${esc(t.how)}</p><div class="nfx-learn-detail-grid"><section class="nfx-learn-info nfx-learn-valid"><h3>✓ VALID CONDITIONS</h3><ul>${t.valid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section><section class="nfx-learn-info nfx-learn-invalid"><h3>✕ INVALID / WEAK CONDITIONS</h3><ul>${t.invalid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section></div><h3>03 · How to mark it on a chart</h3><ol>${t.mark.map(x=>'<li>'+esc(x)+'</li>').join('')}</ol><div class="nfx-learn-info"><h3>PRO TRADING NOTE</h3><p>${esc(t.tip)}</p></div><h3>04 · Professional chart-reading workflow</h3><ol><li>Start with a clean chart and mark only the relevant higher-timeframe context.</li><li>Identify the exact candles / swing points that satisfy this lesson's definition.</li><li>Draw the zone or level using the stated boundaries; note the timeframe beside it.</li><li>Wait for the confirmation rule. Do not assume the first touch is an entry.</li><li>Define entry trigger, stop-loss invalidation and target before placing an order.</li><li>Capture the chart before the outcome, then journal both valid winners and valid losses.</li></ol><div class="nfx-learn-info"><h3>VALIDATION STANDARD</h3><p>The illustration above is an original educational schematic designed to explain this topic; it is not a live chart, historical trade record or trade signal. Confirm real market behaviour on your own broker feed. Record the instrument, timezone, spread, session and rule version so the result can be reproduced.</p></div>`;
+    $('nfxLearnDetailContent').innerHTML=`<div class="nfx-learn-kicker">${esc(t.cat.toUpperCase())} · COMPLETE TOPIC GUIDE</div><h2>${esc(t.title)}</h2><p>${esc(t.intro)}</p><div class="nfx-learn-visual" role="img" aria-label="${esc(t.title)} chart examples">${topicImageMarkup(t,false)}</div><h3>02 · How it works</h3><p>${esc(t.how)}</p><div class="nfx-learn-detail-grid"><section class="nfx-learn-info nfx-learn-valid"><h3>✓ VALID CONDITIONS</h3><ul>${t.valid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section><section class="nfx-learn-info nfx-learn-invalid"><h3>✕ INVALID / WEAK CONDITIONS</h3><ul>${t.invalid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section></div><h3>03 · How to mark it on a chart</h3><ol>${t.mark.map(x=>'<li>'+esc(x)+'</li>').join('')}</ol><div class="nfx-learn-info"><h3>PRO TRADING NOTE</h3><p>${esc(t.tip)}</p></div><h3>04 · Professional chart-reading workflow</h3><ol><li>Start with a clean chart and mark only the relevant higher-timeframe context.</li><li>Identify the exact candles / swing points that satisfy this lesson's definition.</li><li>Draw the zone or level using the stated boundaries; note the timeframe beside it.</li><li>Wait for the confirmation rule. Do not assume the first touch is an entry.</li><li>Define entry trigger, stop-loss invalidation and target before placing an order.</li><li>Capture the chart before the outcome, then journal both valid winners and valid losses.</li></ol><div class="nfx-learn-info"><h3>VALIDATION STANDARD</h3><p>The illustration above is an original educational schematic designed to explain this topic; it is not a live chart, historical trade record or trade signal. Confirm real market behaviour on your own broker feed. Record the instrument, timezone, spread, session and rule version so the result can be reproduced.</p></div>`;
     $('nfxLearnDetail').scrollIntoView({behavior:'smooth',block:'start'});
   }
   document.addEventListener('click',e=>{
