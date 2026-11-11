@@ -8208,16 +8208,40 @@ window.renderBacktestMetrics=function(r,meta={}){
   }
   // Curated externally hosted chart references for the core ICT/price-action lessons.
   // Each image is matched only to its own concept; unmatched topics retain their topic-specific schematic.
-  function topicImage(topic){
-    const k=(topic.title+' '+topic.tags+' '+topic.cat).toLowerCase();
-    if(/fair value gap|\bfvg\b|imbalance/.test(k))return 'https://beirmancapital.com/wp-content/uploads/2025/06/Fair-Value-Gap-01-1024x694.jpg';
-    if(/order block|\border block\b|\bob\b/.test(k))return 'https://pinescriptmarket.com/learn/price-action/order-blocks/order-block-bearish-bullish-identification.png';
-    if(/liquidity sweep|liquidity grab|stop hunt|stop run|buy.side liquidity|sell.side liquidity/.test(k))return 'https://thetradingstreet.com/uploads/blog/liquidity-in-trading-how-internal-external-liquidity-move-price/image_85405e2a-0de3-4879-a5dd-623819dd7c9c.png';
-    if(/smart money concept|\bsmc\b|inner circle trader|\bict\b/.test(k))return 'https://official-cms-images.s3.us-east-2.amazonaws.com/static/images/marketNews/20251112/US500_2025-11-12_08-59-42_22579.png';
-    return '';
-  }
+  // Individually researched external chart examples. Each key is one exact lesson ID;
+  // paired URLs are rendered together as separate bullish and bearish examples.
+  const topicImageSources={
+    'market-structure':'https://forexmechanics.com/technical-analysis/trend-support-resistance/1200/uptrend-downtrend-hh-hl-lh-ll.jpg',
+    'bos':'https://cms.rally.trade/uploads/rally_trade_market_structure_bullish_bearish_bos_1884ec6cd5.webp',
+    'choch':'https://s3.tradingview.com/d/DEVvq7WB_big.png',
+    'mss':['https://cdn.arongroups.co/uploads/2025/10/MSS-8-1.jpg','https://cdn.arongroups.co/uploads/2025/10/MSS-4-1.jpg'],
+    'support-resistance':'https://www.holoforex.com/storage/medias/yEkFAdvMvkGvXmiC0MgAb4JJjEClyXASpl9iZSh7.jpg',
+    'trendline':'https://www.strike.money/wp-content/uploads/2024/03/Types-of-Trend-Channels.jpg',
+    'liquidity':'https://miro.medium.com/v2/resize%3Afit%3A1358/1%2A--hZWCfPCfPuZb8mTp6FqA.png',
+    'liquidity-sweep':'https://pinescriptmarket.com/learn/price-action/liquidity-sweep/bullish-liquidity-sweep-bearish-liquidity-sweep.png',
+    'fvg':'https://beirmancapital.com/wp-content/uploads/2025/06/Fair-Value-Gap-01-1024x694.jpg',
+    'order-block':'https://www.ebc.com/upload/default/20250522/553e26fa6abab06cc14f636624968ba1.png',
+    'ote':['https://www.signalwavesai.com/images/articles/ICT-Trading-Strategy/ict-optimal-trade-entry.png','https://www.brokerxplorer.com/upload/content/2024-11/all-you-need-to-learn-about-ict-optimal-trade-entry-ote-6492-17315236803.png'],
+    'premium-discount':'https://pbs.twimg.com/media/GDLeGvubEAA0Uvd.jpg',
+    'equal-highs-lows':'https://www.xs.com/storage/ht-ck-images/Bt6ktpLANR5plK7Og15LlKBCUNu8BG0MXJE6WyWR.png',
+    'session-levels':'https://fxdreema.com/forum/assets/uploads/files/1761096869926-aeb279d1-cd7b-4882-a451-0fb9cd427a8e-image.png',
+    'pdh-pdl':'https://www.forexfactory.com/attachment/image/4990350?d=1751274457',
+    'candlesticks':'https://bullbearmarket.in/images/candlestick-reversal-patterns.png',
+    'chart-patterns':'https://pbs.twimg.com/media/Gx1TS3DX0AIPhVA.jpg',
+    'fibonacci':'https://www.forexracer.com/wp-content/uploads/2022/12/bullish-bearish-retracements.jpg',
+    'volume':'https://eu-images.contentstack.com/v3/assets/blt73dfd92ee49f59a6/blt69ef75e2d1b464a1/68a5c25e638d6d5e751eff54/Image_4.jpg',
+    'risk-reward':'https://miro.medium.com/v2/resize%3Afit%3A1400/1%2AX0nj_JjZ2qa2kltSjrku3Q.png',
+    'psychology':'https://media.licdn.com/dms/image/v2/D4D22AQHCb6K-ekGGHA/feedshare-shrink_800/B4DZz6r8YpKUAc-/0/1773732349735?e=2147483647&t=h5cVKM7E-CYsq4hAL6qM-Q26mUjaKJsQI8XUo6yEKMo&v=beta',
+    'backtesting':'https://timtrice.github.io/backtesting-strategies/_main_files/figure-html/unnamed-chunk-12-2.png',
+    'news':'https://www.forexpeacearmy.com/community/s3/articles/a-screen-shot-of-a-computer-description-automatic.jpeg'
+  };
+  function topicImage(topic){return topicImageSources[topic.id]||'';}
   function topicImageMarkup(topic,compact){
     const src=topicImage(topic),fallback=diagram(topic);
+    if(Array.isArray(src)){
+      const names=['BULLISH EXAMPLE','BEARISH EXAMPLE'];
+      return '<span class="nfx-learn-pair" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;width:100%;height:100%;overflow:hidden">'+src.map((url,i)=>'<span style="display:flex;flex-direction:column;min-width:0;height:100%;overflow:hidden;background:#080c11"><small style="display:block;padding:4px 2px;text-align:center;color:'+(i===0?'#49c99b':'#f07883')+';font-size:8px;font-weight:900;letter-spacing:.08em">'+names[i]+'</small><img src="'+esc(url)+'" alt="'+esc(topic.title)+' '+names[i].toLowerCase()+'" loading="lazy" referrerpolicy="no-referrer" style="display:block;width:100%;height:calc(100% - 20px);min-height:0;object-fit:contain" onerror="this.hidden=true"></span>').join('')+'</span>';
+    }
     return src
       ? '<img src="'+esc(src)+'" alt="'+esc(topic.title)+' chart example" loading="lazy" referrerpolicy="no-referrer" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><span class="nfx-learn-fallback" hidden>'+fallback+'</span>'
       : '<span class="nfx-learn-fallback">'+fallback+'</span>';
