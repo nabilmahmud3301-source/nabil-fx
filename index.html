@@ -8128,7 +8128,14 @@ window.renderBacktestMetrics=function(r,meta={}){
     const rect=(x,y,w,h,fill,stroke='none',r=4)=>'<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="'+r+'" fill="'+fill+'" stroke="'+stroke+'"/>';
     const candle=(x,o,cl,hi,lo,color,w=10)=>line(x+w/2,hi,x+w/2,lo,color)+rect(x,Math.min(o,cl),w,Math.max(3,Math.abs(cl-o)),color);
     let type='PRICE ACTION MODEL',detail='STRUCTURE + CONFIRMATION';
-    if(/liquidity-sweep|sweep|stop-run|raid|turtle-soup|judas/.test(id)){type='LIQUIDITY SWEEP';detail='LEVEL RAID · REJECTION · CONFIRMATION';}
+    if(/liquidity-sweep|sweep|stop-run|raid|turtle-soup|judas|wyckoff-spring|wyckoff-upthrust/.test(id)){type='LIQUIDITY SWEEP';detail='LEVEL RAID · REJECTION · CONFIRMATION';}
+    else if(/crt|candle-range-theory/.test(id)){type='CANDLE RANGE THEORY';detail='RANGE HIGH · RANGE LOW · MIDPOINT';}
+    else if(/displacement|expansion/.test(id)){type='DISPLACEMENT';detail='IMPULSE · STRUCTURE BREAK · RETRACE';}
+    else if(/amd|power-of-three/.test(id)){type='ACCUMULATION · MANIPULATION · DISTRIBUTION';detail='RANGE BUILD · LIQUIDITY RUN · EXPANSION';}
+    else if(/smt-divergence|divergence/.test(id)){type='MARKET DIVERGENCE';detail='RELATED MARKETS · NON-CONFIRMATION';}
+    else if(/nwog|ndog|gap/.test(id)){type='OPENING GAP';detail='GAP ZONE · FILL · CONTINUATION';}
+    else if(/unicorn|bpr|ifvg|liquidity-void/.test(id)){type='IMBALANCE CONFLUENCE';detail='OVERLAPPING / INVERTED IMBALANCE ZONE';}
+    else if(/wyckoff|accumulation-distribution|volume-climax/.test(id)){type='WYCKOFF / VOLUME PHASE';detail='ACCUMULATION · MARKUP · DISTRIBUTION';}
     else if(/equal-high|equal-low|liquidity-pool|buy-side|sell-side|inducement|pdh|pdl|asia-high|asia-low|session-high|session-low/.test(id)){type='LIQUIDITY LEVELS';detail='VISIBLE HIGH / LOW POOLS';}
     else if(/fair-value|\bfvg\b|imbalance|volume-imbalance/.test(id)){type='FAIR VALUE GAP';detail='THREE-CANDLE IMBALANCE';}
     else if(/order-block|breaker|mitigation|rejection-block|propulsion|refinement/.test(id)){type='PRICE ZONE MODEL';detail='ORIGIN CANDLE · DISPLACEMENT · RETEST';}
@@ -8147,7 +8154,14 @@ window.renderBacktestMetrics=function(r,meta={}){
     const overlay=(x,dir)=>{
       const up=dir==='bull',col=up?C.bull:C.bear,op=up?C.bear:C.bull;
       let a='';
-      if(type==='LIQUIDITY SWEEP'){const y=up?205:105;a+=line(x+35,y,x+440,y,C.gold,'6 5')+txt(x+42,y-8,up?'SELL-SIDE POOL':'BUY-SIDE POOL',C.gold,9);a+=line(x+250,y-34,x+250,y+22,col)+txt(x+265,y+(up?28:-24),up?'SWEEP LOW → RECLAIM':'SWEEP HIGH → REJECT',col,9);}
+      if(type==='CANDLE RANGE THEORY'){a+=rect(x+90,120,330,125,col+'15',col)+line(x+90,120,x+420,120,C.gold,'5 4')+line(x+90,245,x+420,245,C.gold,'5 4')+line(x+90,182,x+420,182,C.blue,'3 5')+txt(x+98,112,'RANGE HIGH',C.gold,8)+txt(x+98,260,'RANGE LOW',C.gold,8)+txt(x+255,177,'50% MIDPOINT',C.blue,8,'middle');}
+      else if(type==='DISPLACEMENT'){a+=rect(x+205,120,110,130,col+'16',col)+line(x+95,230,x+390,115,col,'4 5')+txt(x+260,105,up?'BULLISH IMPULSE':'BEARISH IMPULSE',col,9,'middle')+txt(x+260,270,'DISPLACEMENT LEG',C.white,8,'middle');}
+      else if(type==='ACCUMULATION · MANIPULATION · DISTRIBUTION'){[['ACCUMULATION',x+45,C.blue],['MANIPULATION',x+190,C.gold],['DISTRIBUTION',x+340,col]].forEach(v=>{a+=rect(v[1],140,105,70,v[2]+'20',v[2])+txt(v[1]+52,180,v[0],v[2],8,'middle');});a+=line(x+150,175,x+185,175,C.muted,'3 4')+line(x+295,175,x+335,175,C.muted,'3 4');}
+      else if(type==='MARKET DIVERGENCE'){a+=rect(x+60,105,175,145,'#101b28',C.blue)+rect(x+260,105,175,145,'#101b28',col)+txt(x+147,125,'MARKET A',C.blue,9,'middle')+txt(x+347,125,'MARKET B',col,9,'middle')+line(x+80,210,x+215,160,C.blue,'3 4')+line(x+280,160,x+415,210,col,'3 4')+txt(x+250,275,'DIVERGENCE / NON-CONFIRMATION',C.white,8,'middle');}
+      else if(type==='OPENING GAP'){a+=rect(x+195,145,105,72,col+'20',col)+line(x+55,145,x+435,145,C.gold,'4 4')+line(x+55,217,x+435,217,C.gold,'4 4')+txt(x+247,135,up?'BULLISH GAP':'BEARISH GAP',col,9,'middle')+txt(x+247,239,'GAP FILL / HOLD',C.white,8,'middle');}
+      else if(type==='IMBALANCE CONFLUENCE'){a+=rect(x+160,140,145,65,col+'20',col)+rect(x+235,175,145,65,C.blue+'20',C.blue)+txt(x+232,130,'OVERLAPPING IMBALANCE',col,8,'middle')+txt(x+270,260,'CONFLUENCE ZONE',C.white,8,'middle');}
+      else if(type==='WYCKOFF / VOLUME PHASE'){[['ACCUMULATION',x+35,C.blue],['MARKUP',x+165,C.bull],['DISTRIBUTION',x+285,C.gold],['MARKDOWN',x+400,C.bear]].forEach(v=>{a+=rect(v[1],155,85,48,v[2]+'20',v[2])+txt(v[1]+42,184,v[0],v[2],7,'middle');});}
+      else if(type==='LIQUIDITY SWEEP'){const y=up?205:105;a+=line(x+35,y,x+440,y,C.gold,'6 5')+txt(x+42,y-8,up?'SELL-SIDE POOL':'BUY-SIDE POOL',C.gold,9);a+=line(x+250,y-34,x+250,y+22,col)+txt(x+265,y+(up?28:-24),up?'SWEEP LOW → RECLAIM':'SWEEP HIGH → REJECT',col,9);}
       else if(type==='LIQUIDITY LEVELS'){const y=up?202:112;a+=line(x+30,y,x+445,y,C.gold,'5 5')+txt(x+36,y-8,up?'EQUAL LOWS / SSL':'EQUAL HIGHS / BSL',C.gold,9)+rect(x+300,y-13,90,26,col+'22',col)+txt(x+345,y+4,up?'RUN LOWS':'RUN HIGHS',col,8,'middle');}
       else if(type==='FAIR VALUE GAP'){const y=up?137:188;a+=rect(x+210,y,112,38,col+'25',col)+txt(x+266,y-8,up?'BULLISH FVG':'BEARISH FVG',col,9,'middle')+line(x+190,y+19,x+345,y+19,col,'4 4')+txt(x+266,y+53,'IMBALANCE / RETEST',C.white,8,'middle');}
       else if(type==='PRICE ZONE MODEL'){const y=up?168:185;a+=rect(x+180,y,105,42,col+'25',col)+txt(x+232,y-8,up?'BULLISH ZONE':'BEARISH ZONE',col,9,'middle')+line(x+230,y-28,x+230,y+65,C.gold,'4 4')+txt(x+294,y+16,'RETEST',C.gold,9);}
