@@ -8118,56 +8118,72 @@ window.renderBacktestMetrics=function(r,meta={}){
   // External/shared stock-image overrides are intentionally removed.
 
   function diagram(topic){
-    const seed=Array.from(String(topic.id||topic.title)).reduce((n,c)=>((n*31)+c.charCodeAt(0))>>>0,17);
-    const rnd=i=>{const x=Math.sin((seed+i*97.13)*.0174533)*43758.5453;return x-Math.floor(x);};
-    const id=(topic.id+' '+topic.title).toLowerCase(),cat=topic.cat||'TRADING EDUCATION';
-    const C={bg:'#080d13',grid:'#182330',muted:'#7f91a5',white:'#e6edf5',red:'#e07884',green:'#48c7a0',blue:'#73a9e8',gold:'#d5b16b'};
-    const L=(x1,y1,x2,y2,c=C.muted,d='')=>'<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+c+'" stroke-width="2" '+(d?'stroke-dasharray="'+d+'"':'')+'/>';
-    const R=(x,y,w,h,f,st='none',rx=4)=>'<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="'+rx+'" fill="'+f+'" stroke="'+st+'"/>';
-    const T=(x,y,t,c=C.white,z=11)=>'<text x="'+x+'" y="'+y+'" fill="'+c+'" font-size="'+z+'" font-weight="700" font-family="Inter,Arial,sans-serif">'+esc(t)+'</text>';
-    const candle=(x,o,cl,h,l,w=13)=>{const c=cl<o?C.red:C.green;return L(x+w/2,h,x+w/2,l,c)+R(x,Math.min(o,cl),w,Math.max(4,Math.abs(cl-o)),c);};
-    let bars='',vol='',pts=[],prev=178;
-    for(let i=0;i<24;i++){const close=Math.max(74,Math.min(240,prev+(rnd(i)-.47)*27));const high=Math.max(prev,close)+8+rnd(i+2)*13,low=Math.min(prev,close)-7-rnd(i+4)*12,x=54+i*25;bars+=candle(x,prev,close,high,low);vol+=R(x,296-(18+rnd(i+19)*42),13,18+rnd(i+19)*42,close<prev?C.red:C.green);pts.push([x+6.5,close]);prev=close;}
-    const path=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
-    let o='',type='CONCEPT SCHEMATIC';
-    if(/liquidity|equal-high|bsl|ssl|sweep|turtle-soup|judas|inducement/.test(id)){
-      o=L(58,125,660,125,C.red,'7 6')+L(58,226,660,226,C.blue,'7 6')+T(62,115,'BUY-SIDE LIQUIDITY',C.red,10)+T(62,243,'SELL-SIDE LIQUIDITY',C.blue,10)+R(535,82,96,25,'#e0788420',C.red)+T(544,99,'LIQUIDITY RAID',C.red,9);
-    }else if(/fvg|fair-value|order-block|breaker|mitigation|bpr|unicorn|ote/.test(id)){
-      o+=R(280,135,115,45,'#73a9e833',C.blue)+T(286,128,'IMBALANCE',C.blue,10)+R(438,184,105,37,'#48c7a022',C.green)+T(445,207,'REACTION',C.green,10)+L(335,85,335,245,C.gold,'3 5')+T(343,96,'RETEST',C.gold,10);
-    }else if(/bos|choch|mss|structure|swing|internal-external/.test(id)){
-      o=L(55,168,655,168,C.gold,'6 5')+T(62,158,'PRIOR SWING LEVEL',C.gold,10)+L(445,168,445,86,C.green,'3 4')+R(452,73,105,24,'#48c7a022',C.green)+T(460,90,/choch|mss/.test(id)?'CHARACTER SHIFT':'STRUCTURE BREAK',C.green,9);
-    }else if(/fibonacci|premium-discount|retracement/.test(id)){
-      [105,139,173,207,241].forEach((y,i)=>{const c=i===2?C.gold:C.blue;o+=L(170,y,630,y,c,i===2?'5 4':'2 6')+T(118,y+4,['100%','78.6%','50%','23.6%','0%'][i],c,10);});o+=R(170,174,460,31,'#d5b16b18',C.gold);
-    }else if(/session|kill-zone|opening-range|daily-weekly-open|daylight|market-hours/.test(id)){
-      [['ASIA',58,125,C.blue],['LONDON',190,170,C.green],['NEW YORK',368,245,C.gold]].forEach(([t,x,w,c])=>{o+=R(x,95,w,150,c+'22',c,5)+T(x+10,117,t,c,11);});o+=L(58,257,650,257)+T(60,278,'SESSION TIME →',C.muted,10);
-    }else if(/rsi|macd|stochastic|adx|atr|ema|sma|vwap|ichimoku|bollinger|donchian|keltner|sar|pivot|indicator/.test(id)){
-      o+=R(48,248,610,61,'#101a25','#253547')+L(60,278,645,278,C.muted,'2 5');let q='';for(let i=0;i<25;i++)q+=(i?'L':'M')+(62+i*23)+' '+(280+Math.sin(i*.63+seed)*18)+' ';o+='<path d="'+q+'" fill="none" stroke="'+C.blue+'" stroke-width="2.5"/>'+L(60,263,645,263,C.red,'3 5')+L(60,294,645,294,C.green,'3 5')+T(62,240,'INDICATOR / SIGNAL PANEL',C.blue,10);
-    }else if(/volume|profile|footprint|delta|order-flow|absorption|exhaustion|vsa|wyckoff|poc|vah|val|tpo/.test(id)){
-      o+=R(470,90,160,155,'#0e1721','#34485c');for(let i=0;i<6;i++){const y=105+i*22,w=30+rnd(i+70)*105;o+=R(480,y,w,13,i%2?C.red:C.green)+T(590,y+11,['ASK','BID','ASK','BID','ASK','BID'][i],C.muted,8);}o+=T(480,264,'BID × ASK / VOLUME',C.gold,9);
-    }else if(/risk|stop|position|leverage|margin|reward|r-multiple|drawdown|ruin|kelly|mae|mfe|portfolio|gap-risk|invalidation/.test(id)){
-      o+=R(255,100,190,72,'#48c7a01a',C.green)+R(255,172,190,75,'#e078841a',C.red)+L(55,172,655,172,C.gold,'6 5')+T(270,126,'TARGET / REWARD',C.green,11)+T(270,198,'ENTRY / RISK',C.gold,11)+T(270,226,'STOP / INVALIDATION',C.red,10)+L(475,110,475,242,C.muted,'3 4')+T(485,182,'R:R',C.white,12);
-    }else if(/backtest|forward-test|expectancy|sample-size|out-of-sample|walk-forward|monte-carlo|overfit|statistical|journal|review/.test(id)){
-      o+=R(55,92,275,152,'#101a25','#34485c')+R(350,92,275,152,'#101a25','#34485c')+T(72,115,'IN-SAMPLE',C.blue,11)+T(367,115,'OUT-OF-SAMPLE',C.gold,11)+L(340,90,340,245,C.muted,'4 5');let q='',z='';for(let i=0;i<10;i++){q+=(i?'L':'M')+(75+i*24)+' '+(210-Math.sin(i*.55+seed)*34-i*3)+' ';z+=(i?'L':'M')+(370+i*24)+' '+(210-Math.sin(i*.55+seed+2)*23-i*2)+' ';}o+='<path d="'+q+'" fill="none" stroke="'+C.green+'" stroke-width="2.5"/><path d="'+z+'" fill="none" stroke="'+C.gold+'" stroke-width="2.5"/>';
-    }else if(/news|economic|inflation|employment|gdp|fomc|central-bank|interest-rate|yield|macro|dxy|intermarket|correlation/.test(id)){
-      o+=L(340,75,340,245,C.gold,'5 5')+R(275,80,130,28,'#d5b16b20',C.gold)+T(285,99,'DATA RELEASE',C.gold,10)+T(64,270,'EXPECTATION',C.blue,10)+T(510,270,'ACTUAL / REACTION',C.green,10);
-    }else if(/order-type|market-order|limit-order|stop-order|execution|spread|slippage|pip|tick|lot|contract|swap|rollover|broker|feed|currency/.test(id)){
-      o+=R(70,105,240,120,'#101a25','#34485c',5)+R(390,105,240,120,'#101a25','#34485c',5)+T(90,132,'BID',C.green,12)+T(410,132,'ASK',C.red,12)+T(90,170,'BUYERS',C.muted,10)+T(410,170,'SELLERS',C.muted,10)+L(310,165,390,165,C.gold,'4 4')+T(325,151,'SPREAD',C.gold,9);
-    }else if(/psychology|fomo|overtrading|revenge|bias|discipline|checklist|trading-plan/.test(id)){
-      [['PLAN',65],['WAIT',225],['EXECUTE',385],['REVIEW',545]].forEach(([t,x],i)=>{o+=R(x,135,105,55,'#101a25',i===2?C.green:C.blue,6)+T(x+14,168,t,i===2?C.green:C.blue,11);if(i<3)o+=L(x+106,162,x+154,162,C.gold,'3 4');});
-    }else if(/candlestick|engulf|pinbar|hammer|shooting-star|inside-bar|outside-bar|doji|candle/.test(id)){
-      o='';for(let i=0;i<8;i++){const x=135+i*58,op=130+(rnd(i+4)-.5)*65,cl=op+(rnd(i+30)-.5)*70,hi=Math.min(op,cl)-15-rnd(i+60)*20,lo=Math.max(op,cl)+15+rnd(i+80)*20;o+=candle(x,op,cl,hi,lo,25);}o+=T(120,270,'OPEN · HIGH · LOW · CLOSE',C.muted,11);
-    }else if(/trend|channel|range|consolidation|breakout|retest|triangle|flag|pennant|wedge|double-top|head-shoulders|rounding|elliott/.test(id)){
-      o+=L(70,95,620,95,C.gold,'5 5')+L(70,235,620,235,C.gold,'5 5')+T(75,85,'RESISTANCE',C.gold,10)+T(75,253,'SUPPORT',C.gold,10)+L(140,220,560,115,C.blue,'3 5')+T(480,108,'TREND / PATTERN',C.blue,10);
-    }else{o=R(260,115,185,88,'#101a25',C.blue,5)+T(280,148,'CONCEPT MODEL',C.blue,12)+T(280,174,'OBSERVE → DEFINE → TEST',C.white,10);}
-    let grid='';for(let x=55;x<=655;x+=100)grid+=L(x,52,x,300,C.grid,'2 6');for(let y=65;y<=295;y+=55)grid+=L(50,y,665,y,C.grid,'2 6');
+    const seed=Array.from(String(topic.id||topic.title)).reduce((n,c)=>((n*31)+c.charCodeAt(0))>>>0,23);
+    const rnd=i=>{const x=Math.sin((seed+i*91.73)*.0174533)*43758.5453;return x-Math.floor(x);};
+    const escSvg=v=>esc(String(v||''));
+    const id=(topic.id+' '+topic.title+' '+(topic.tags||'')+' '+(topic.cat||'')).toLowerCase();
+    const C={bg:'#080d13',panel:'#0b131d',grid:'#1b2a39',muted:'#91a2b5',white:'#e8eef5',bull:'#39c99a',bear:'#ef6877',gold:'#e1bd70',blue:'#77aeea'};
+    const txt=(x,y,t,c=C.white,z=11,anchor='start')=>'<text x="'+x+'" y="'+y+'" fill="'+c+'" font-size="'+z+'" text-anchor="'+anchor+'" font-weight="700" font-family="Inter,Arial,sans-serif">'+escSvg(t)+'</text>';
+    const line=(x1,y1,x2,y2,c=C.muted,d='')=>'<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+c+'" stroke-width="2" '+(d?'stroke-dasharray="'+d+'"':'')+'/>';
+    const rect=(x,y,w,h,fill,stroke='none',r=4)=>'<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="'+r+'" fill="'+fill+'" stroke="'+stroke+'"/>';
+    const candle=(x,o,cl,hi,lo,color,w=10)=>line(x+w/2,hi,x+w/2,lo,color)+rect(x,Math.min(o,cl),w,Math.max(3,Math.abs(cl-o)),color);
+    let type='PRICE ACTION MODEL',detail='STRUCTURE + CONFIRMATION';
+    if(/liquidity-sweep|sweep|stop-run|raid|turtle-soup|judas/.test(id)){type='LIQUIDITY SWEEP';detail='LEVEL RAID · REJECTION · CONFIRMATION';}
+    else if(/equal-high|equal-low|liquidity-pool|buy-side|sell-side|inducement|pdh|pdl|asia-high|asia-low|session-high|session-low/.test(id)){type='LIQUIDITY LEVELS';detail='VISIBLE HIGH / LOW POOLS';}
+    else if(/fair-value|\\bfvg\\b|imbalance|volume-imbalance/.test(id)){type='FAIR VALUE GAP';detail='THREE-CANDLE IMBALANCE';}
+    else if(/order-block|breaker|mitigation|rejection-block|propulsion|refinement/.test(id)){type='PRICE ZONE MODEL';detail='ORIGIN CANDLE · DISPLACEMENT · RETEST';}
+    else if(/bos|choch|mss|market-structure|swing|internal-external|trend-structure/.test(id)){type='MARKET STRUCTURE';detail='SWING BREAK · DIRECTIONAL SHIFT';}
+    else if(/fibonacci|premium-discount|ote|retracement|extension|equilibrium/.test(id)){type='FIBONACCI / VALUE ZONE';detail='RANGE · MIDPOINT · RETRACEMENT';}
+    else if(/session|kill-zone|opening-range|market-hours|daylight|london|new-york|tokyo|asia-range/.test(id)){type='SESSION MODEL';detail='TIME WINDOW · RANGE · BREAK';}
+    else if(/candlestick|engulf|pinbar|hammer|shooting-star|inside-bar|outside-bar|doji|candle/.test(id)){type='CANDLESTICK MODEL';detail='CANDLE BODY · WICK · CLOSE';}
+    else if(/triangle|flag|pennant|wedge|double-top|double-bottom|head-shoulder|rounding|elliott|harmonic|chart-pattern|channel|range|breakout|retest/.test(id)){type='CHART PATTERN';detail='PATTERN FORMATION · BREAK / FAILURE';}
+    else if(/rsi|macd|stochastic|adx|atr|ema|sma|vwap|ichimoku|bollinger|donchian|keltner|sar|pivot|indicator|moving-average/.test(id)){type='TECHNICAL INDICATOR';detail='SIGNAL · TREND · MOMENTUM';}
+    else if(/volume|profile|footprint|delta|order-flow|absorption|exhaustion|vsa|wyckoff|poc|vah|val|tpo|accumulation|distribution/.test(id)){type='VOLUME / ORDER FLOW';detail='PARTICIPATION · ACCEPTANCE · REJECTION';}
+    else if(/risk|stop|position|leverage|margin|reward|r-multiple|drawdown|ruin|kelly|mae|mfe|invalidation|sizing/.test(id)){type='RISK MANAGEMENT';detail='DEFINED RISK · REWARD · INVALIDATION';}
+    else if(/backtest|forward-test|expectancy|sample-size|out-of-sample|walk-forward|monte-carlo|overfit|statistical|journal|review|strategy-research/.test(id)){type='STRATEGY TESTING';detail='HYPOTHESIS · SAMPLE · VALIDATION';}
+    else if(/news|economic|inflation|employment|gdp|fomc|central-bank|interest-rate|yield|macro|dxy|intermarket|correlation|forex-fundamental/.test(id)){type='MACRO / FUNDAMENTAL DRIVER';detail='EXPECTATION · DATA · PRICE RESPONSE';}
+    else if(/stock|equity|company|valuation|invest|portfolio|dividend|earnings|balance-sheet|cash-flow|etf|fund|bond|fixed-income|option|future|derivative|commodity|reit|asset-allocation/.test(id)){type='INVESTMENT / ASSET ANALYSIS';detail='BULL CASE · BEAR CASE · RISK';}
+    else if(/psychology|fomo|overtrading|revenge|bias|discipline|checklist|trading-plan/.test(id)){type='TRADING PROCESS';detail='PLAN · EXECUTE · REVIEW';}
+    const overlay=(x,dir)=>{
+      const up=dir==='bull',col=up?C.bull:C.bear,op=up?C.bear:C.bull;
+      let a='';
+      if(type==='LIQUIDITY SWEEP'){const y=up?205:105;a+=line(x+35,y,x+440,y,C.gold,'6 5')+txt(x+42,y-8,up?'SELL-SIDE POOL':'BUY-SIDE POOL',C.gold,9);a+=line(x+250,y-34,x+250,y+22,col)+txt(x+265,y+(up?28:-24),up?'SWEEP LOW → RECLAIM':'SWEEP HIGH → REJECT',col,9);}
+      else if(type==='LIQUIDITY LEVELS'){const y=up?202:112;a+=line(x+30,y,x+445,y,C.gold,'5 5')+txt(x+36,y-8,up?'EQUAL LOWS / SSL':'EQUAL HIGHS / BSL',C.gold,9)+rect(x+300,y-13,90,26,col+'22',col)+txt(x+345,y+4,up?'RUN LOWS':'RUN HIGHS',col,8,'middle');}
+      else if(type==='FAIR VALUE GAP'){const y=up?137:188;a+=rect(x+210,y,112,38,col+'25',col)+txt(x+266,y-8,up?'BULLISH FVG':'BEARISH FVG',col,9,'middle')+line(x+190,y+19,x+345,y+19,col,'4 4')+txt(x+266,y+53,'IMBALANCE / RETEST',C.white,8,'middle');}
+      else if(type==='PRICE ZONE MODEL'){const y=up?168:185;a+=rect(x+180,y,105,42,col+'25',col)+txt(x+232,y-8,up?'BULLISH ZONE':'BEARISH ZONE',col,9,'middle')+line(x+230,y-28,x+230,y+65,C.gold,'4 4')+txt(x+294,y+16,'RETEST',C.gold,9);}
+      else if(type==='MARKET STRUCTURE'){const y=up?180:145;a+=line(x+30,y,x+445,y,C.gold,'5 5')+txt(x+38,y-8,up?'PRIOR SWING HIGH':'PRIOR SWING LOW',C.gold,9)+rect(x+310,y+(up?-32:8),112,25,col+'22',col)+txt(x+366,y+(up?-15:25),up?'BULLISH BOS / MSS':'BEARISH BOS / MSS',col,8,'middle');}
+      else if(type==='FIBONACCI / VALUE ZONE'){[0,1,2,3].forEach((j)=>{const y=up?105+j*35:105+j*35;a+=line(x+130,y,x+435,y,j===2?C.gold:C.blue,j===2?'5 4':'2 5')+txt(x+100,y+4,['0.0','0.382','0.5 EQ','0.618'][j],j===2?C.gold:C.blue,8,'end');});a+=rect(x+130,up?168:168,305,34,col+'19',col);}
+      else if(type==='SESSION MODEL'){[['ASIA',x+45,105,C.blue],['LONDON',x+175,160,C.gold],['NEW YORK',x+350,215,col]].forEach(v=>{a+=rect(v[1],v[2]-35,78,75,v[3]+'20',v[3])+txt(v[1]+39,v[2]+7,v[0],v[3],8,'middle');});a+=txt(x+260,270,up?'BULLISH SESSION EXPANSION':'BEARISH SESSION EXPANSION',col,8,'middle');}
+      else if(type==='CANDLESTICK MODEL'){a+=rect(x+185,up?120:180,80,75,col+'20',col)+txt(x+225,up?112:270,up?'BULLISH CANDLE':'BEARISH CANDLE',col,9,'middle')+line(x+225,up?95:165,x+225,up?285:285,col);}
+      else if(type==='CHART PATTERN'){a+=line(x+55,up?215:105,x+435,up?215:105,C.gold,'5 5')+txt(x+60,(up?215:105)-8,up?'SUPPORT / NECKLINE':'RESISTANCE / NECKLINE',C.gold,8)+line(x+135,up?195:125,x+350,up?120:200,col,'3 5')+txt(x+250,up?108:220,up?'BULLISH BREAKOUT':'BEARISH BREAKDOWN',col,9,'middle');}
+      else if(type==='TECHNICAL INDICATOR'){a+=rect(x+40,218,410,70,'#101b28','#314458')+line(x+50,253,x+440,253,C.gold,'4 4');let p='';for(let j=0;j<18;j++)p+=(j?'L':'M')+(x+55+j*22)+' '+(up?250-Math.sin(j*.6+seed)*17:250+Math.sin(j*.6+seed)*17)+' ';a+='<path d="'+p+'" fill="none" stroke="'+col+'" stroke-width="2.5"/>'+txt(x+60,210,up?'MOMENTUM CONFIRMATION':'MOMENTUM WEAKNESS',col,8);}
+      else if(type==='VOLUME / ORDER FLOW'){for(let j=0;j<6;j++){const w=35+rnd(j+30)*90;a+=rect(x+220,105+j*25,w,14,j%2?col+'88':op+'88')+txt(x+325,116+j*25,j%2?'BID':'ASK',C.muted,8);}a+=txt(x+220,92,up?'BUYER INITIATIVE':'SELLER INITIATIVE',col,9);}
+      else if(type==='RISK MANAGEMENT'){a+=rect(x+165,95,180,58,C.bull+'20',C.bull)+rect(x+165,153,180,62,C.bear+'20',C.bear)+line(x+150,153,x+370,153,C.gold,'4 4')+txt(x+255,120,'REWARD / TARGET',C.bull,9,'middle')+txt(x+255,190,'RISK / STOP',C.bear,9,'middle')+txt(x+255,235,up?'LONG RISK PLAN':'SHORT RISK PLAN',col,9,'middle');}
+      else if(type==='STRATEGY TESTING'){a+=rect(x+60,95,165,145,'#101b28','#314458')+rect(x+260,95,165,145,'#101b28','#314458')+txt(x+142,116,'IN-SAMPLE',C.blue,9,'middle')+txt(x+342,116,'OUT-OF-SAMPLE',C.gold,9,'middle')+line(x+240,95,x+240,240,C.muted,'4 4')+txt(x+142,220,up?'POSITIVE EDGE':'NEGATIVE EDGE',col,8,'middle')+txt(x+342,220,'VALIDATE',C.white,8,'middle');}
+      else if(type==='MACRO / FUNDAMENTAL DRIVER'){a+=rect(x+60,108,150,90,'#101b28',C.gold)+rect(x+280,108,150,90,'#101b28',col)+txt(x+135,137,'EXPECTED',C.gold,9,'middle')+txt(x+135,158,'DATA RELEASE',C.white,9,'middle')+txt(x+355,137,'ACTUAL',col,9,'middle')+txt(x+355,158,up?'POSITIVE SURPRISE':'NEGATIVE SURPRISE',col,8,'middle')+line(x+215,153,x+275,153,C.gold,'3 4');}
+      else if(type==='INVESTMENT / ASSET ANALYSIS'){a+=rect(x+55,105,175,125,'#101b28',col)+rect(x+260,105,175,125,'#101b28',op)+txt(x+142,130,up?'BULL CASE':'BEAR CASE',col,10,'middle')+txt(x+142,157,up?'GROWTH / CASH FLOW':'DOWNSIDE / DEBT',C.white,8,'middle')+txt(x+142,178,up?'VALUATION UPSIDE':'VALUATION RISK',C.white,8,'middle')+txt(x+347,130,up?'RISK CHECK':'RISK CHECK',op,10,'middle')+txt(x+347,157,up?'THESIS INVALIDATION':'THESIS INVALIDATION',C.white,8,'middle');}
+      else if(type==='TRADING PROCESS'){[['PLAN',x+40],['WAIT',x+145],['EXECUTE',x+250],['REVIEW',x+355]].forEach((v,j)=>{a+=rect(v[1],145,80,48,'#101b28',j===2?col:C.blue)+txt(v[1]+40,174,v[0],j===2?col:C.white,8,'middle');});}
+      else {a+=line(x+50,up?210:110,x+440,up?110:210,col,'3 5')+rect(x+190,up?125:175,110,38,col+'20',col)+txt(x+245,up?149:199,up?'BULLISH EXAMPLE':'BEARISH EXAMPLE',col,8,'middle');}
+      return a;
+    };
+    const panel=(x,up)=>{
+      const col=up?C.bull:C.bear,head=up?'BULLISH EXAMPLE':'BEARISH EXAMPLE';
+      let out=rect(x,90,510,345,C.panel,'#26394b',10)+rect(x+14,103,482,34,up?'#10362f':'#3a1d27',col,6)+txt(x+28,126,head,col,15)+txt(x+490,125,up?'LONG SCENARIO':'SHORT SCENARIO',C.muted,8,'end');
+      for(let gx=x+25;gx<x+495;gx+=58)out+=line(gx,151,gx,386,C.grid,'2 5');
+      for(let gy=160;gy<390;gy+=45)out+=line(x+20,gy,x+490,gy,C.grid,'2 5');
+      let prev=up?300:190;
+      for(let j=0;j<25;j++){
+        const drift=up?(-2.9):(2.9),close=Math.max(105,Math.min(350,prev+drift+(rnd(j+(up?2:92))-.48)*24));
+        const hi=Math.min(prev,close)-5-rnd(j+11)*12,lo=Math.max(prev,close)+5+rnd(j+17)*12;
+        const color=close<prev?C.bear:C.bull;
+        out+=candle(x+28+j*18,prev,close,hi,lo,color,9);prev=close;
+      }
+      out+=overlay(x,up);
+      out+=line(x+20,391,x+490,391,'#34485c')+txt(x+25,412,up?'CONFIRMATION BEFORE ENTRY':'INVALIDATION BEFORE ENTRY',C.muted,8);
+      return out;
+    };
     const title=(topic.title||'Trading concept').toUpperCase();
-    const wrap=(value,max=34)=>{const words=String(value||'').split(/\s+/),lines=[];let line='';for(const word of words){if((line+' '+word).trim().length>max&&line){lines.push(line);line=word;}else line=(line+' '+word).trim();}if(line)lines.push(line);return lines;};
-    const introLines=wrap(topic.intro||topic.how||'A practical trading concept explained with a chart.',39).slice(0,5);
-    const steps=(Array.isArray(topic.mark)&&topic.mark.length?topic.mark:Array.isArray(topic.valid)?topic.valid:[]).slice(0,3);
-    const bulletSvg=steps.map((step,i)=>{const lines=wrap(step,37).slice(0,2);return '<circle cx="778" cy="'+(390+i*43)+'" r="4" fill="'+(i===0?C.green:C.gold)+'"/>'+lines.map((line,k)=>T(792,394+i*43+k*13,line,C.white,10)).join('');}).join('');
-    const introSvg=introLines.map((line,i)=>T(778,164+i*19,line,i===0?C.white:C.muted,12)).join('');
-    const label=topic.title||'Trading concept';
-    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 520" role="img" aria-label="'+esc(label)+' illustrated trading lesson"><defs><linearGradient id="learnPanel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#111b27"/><stop offset="1" stop-color="#080d13"/></linearGradient></defs><rect width="1100" height="520" rx="16" fill="#05080d" stroke="#263647"/><path d="M0 72H1100" stroke="#b83b50" stroke-width="2"/><text x="28" y="43" fill="#f3f6fa" font-size="25" font-weight="800" font-family="Inter,Arial,sans-serif">'+esc(label.toUpperCase())+'</text><text x="1070" y="42" fill="#91a2b5" font-size="11" text-anchor="end" font-weight="700" font-family="Inter,Arial,sans-serif">'+esc(cat.toUpperCase())+'</text><svg x="18" y="84" width="720" height="340" viewBox="0 0 720 340">'+grid+T(52,28,title,C.white,14)+T(655,28,cat.toUpperCase(),C.muted,9)+bars+'<path d="'+path+'" fill="none" stroke="'+C.white+'" stroke-width="2.6" opacity=".65"/>'+o+vol+L(50,310,665,310,'#344354')+T(52,329,'ILLUSTRATIVE PRICE ACTION · NOT LIVE DATA',C.muted,9)+'</svg><rect x="755" y="84" width="325" height="340" rx="12" fill="url(#learnPanel)" stroke="#33475b"/><rect x="775" y="104" width="285" height="34" rx="7" fill="#54202c" stroke="#a33a4c"/><text x="792" y="127" fill="#fff" font-size="16" font-weight="800" font-family="Inter,Arial,sans-serif">CORE IDEA</text>'+introSvg+'<path d="M775 270H1060" stroke="#304052"/><text x="778" y="297" fill="'+C.green+'" font-size="13" font-weight="800" font-family="Inter,Arial,sans-serif">HOW TO IDENTIFY</text>'+bulletSvg+'<rect x="18" y="440" width="1062" height="58" rx="10" fill="#0d1520" stroke="#293b4e"/><text x="38" y="464" fill="'+C.gold+'" font-size="11" font-weight="800" font-family="Inter,Arial,sans-serif">LEARNING FOCUS</text><text x="38" y="484" fill="#dce5ee" font-size="12" font-family="Inter,Arial,sans-serif">'+esc((topic.tip||topic.how||'Study the chart, define the rule, and wait for confirmation.').slice(0,145))+'</text></svg>';
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 475" role="img" aria-label="'+escSvg(topic.title)+' bullish and bearish educational examples"><rect width="1120" height="475" rx="16" fill="'+C.bg+'" stroke="#263647"/><path d="M0 65H1120" stroke="#b83b50" stroke-width="2"/>'+txt(26,39,title,C.white,21)+txt(1090,38,(topic.cat||'TRADING EDUCATION').toUpperCase(),C.muted,9,'end')+panel(28,true)+panel(582,false)+txt(30,461,detail,C.gold,9)+txt(1090,461,'ILLUSTRATIVE · NOT LIVE MARKET DATA',C.muted,8,'end')+'</svg>';
   }
   function filtered(){return topics.filter(t=>(activeCategory==='All Topics'||t.cat===activeCategory)&&(!query||(t.title+' '+t.cat+' '+t.tags+' '+t.intro).toLowerCase().includes(query)));}
   function renderCategories(){
@@ -8185,7 +8201,7 @@ window.renderBacktestMetrics=function(r,meta={}){
   function openTopic(id){
     const t=topics.find(x=>x.id===id);if(!t)return;selected=id;
     $('nfxLearnTopicGrid').hidden=true;$('nfxLearnResultsHead').hidden=true;$('nfxLearnEmpty').hidden=true;$('nfxLearnDetail').hidden=false;
-    $('nfxLearnDetailContent').innerHTML=`<div class="nfx-learn-kicker">${esc(t.cat.toUpperCase())} · COMPLETE TOPIC GUIDE</div><h2>${esc(t.title)}</h2><p>${esc(t.intro)}</p><h3>02 · How it works</h3><p>${esc(t.how)}</p><div class="nfx-learn-detail-grid"><section class="nfx-learn-info nfx-learn-valid"><h3>✓ VALID CONDITIONS</h3><ul>${t.valid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section><section class="nfx-learn-info nfx-learn-invalid"><h3>✕ INVALID / WEAK CONDITIONS</h3><ul>${t.invalid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section></div><h3>03 · How to mark it on a chart</h3><ol>${t.mark.map(x=>'<li>'+esc(x)+'</li>').join('')}</ol><div class="nfx-learn-info"><h3>PRO TRADING NOTE</h3><p>${esc(t.tip)}</p></div><h3>04 · Professional chart-reading workflow</h3><ol><li>Start with a clean chart and mark only the relevant higher-timeframe context.</li><li>Identify the exact candles / swing points that satisfy this lesson's definition.</li><li>Draw the zone or level using the stated boundaries; note the timeframe beside it.</li><li>Wait for the confirmation rule. Do not assume the first touch is an entry.</li><li>Define entry trigger, stop-loss invalidation and target before placing an order.</li><li>Capture the chart before the outcome, then journal both valid winners and valid losses.</li></ol><div class="nfx-learn-info"><h3>VALIDATION STANDARD</h3><p>The illustration above is an original educational schematic designed to explain this topic; it is not a live chart, historical trade record or trade signal. Confirm real market behaviour on your own broker feed. Record the instrument, timezone, spread, session and rule version so the result can be reproduced.</p></div>`;
+    $('nfxLearnDetailContent').innerHTML=`<div class="nfx-learn-kicker">${esc(t.cat.toUpperCase())} · COMPLETE TOPIC GUIDE</div><h2>${esc(t.title)}</h2><p>${esc(t.intro)}</p><div class="nfx-learn-visual" role="img" aria-label="${esc(t.title)} bullish and bearish chart examples">${diagram(t)}</div><h3>02 · How it works</h3><p>${esc(t.how)}</p><div class="nfx-learn-detail-grid"><section class="nfx-learn-info nfx-learn-valid"><h3>✓ VALID CONDITIONS</h3><ul>${t.valid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section><section class="nfx-learn-info nfx-learn-invalid"><h3>✕ INVALID / WEAK CONDITIONS</h3><ul>${t.invalid.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></section></div><h3>03 · How to mark it on a chart</h3><ol>${t.mark.map(x=>'<li>'+esc(x)+'</li>').join('')}</ol><div class="nfx-learn-info"><h3>PRO TRADING NOTE</h3><p>${esc(t.tip)}</p></div><h3>04 · Professional chart-reading workflow</h3><ol><li>Start with a clean chart and mark only the relevant higher-timeframe context.</li><li>Identify the exact candles / swing points that satisfy this lesson's definition.</li><li>Draw the zone or level using the stated boundaries; note the timeframe beside it.</li><li>Wait for the confirmation rule. Do not assume the first touch is an entry.</li><li>Define entry trigger, stop-loss invalidation and target before placing an order.</li><li>Capture the chart before the outcome, then journal both valid winners and valid losses.</li></ol><div class="nfx-learn-info"><h3>VALIDATION STANDARD</h3><p>The illustration above is an original educational schematic designed to explain this topic; it is not a live chart, historical trade record or trade signal. Confirm real market behaviour on your own broker feed. Record the instrument, timezone, spread, session and rule version so the result can be reproduced.</p></div>`;
     $('nfxLearnDetail').scrollIntoView({behavior:'smooth',block:'start'});
   }
   document.addEventListener('click',e=>{
@@ -8218,6 +8234,8 @@ window.renderBacktestMetrics=function(r,meta={}){
 #page-learn .nfx-learn-detail li { overflow-wrap:anywhere; }
 #page-learn .nfx-learn-visual,
 #page-learn .nfx-learn-direction-card { min-width:0; max-width:100%; }
+#page-learn .nfx-learn-visual { margin:18px 0 24px; padding:8px; border:1px solid #263647; border-radius:12px; background:#070c12; overflow:hidden; }
+#page-learn .nfx-learn-visual svg { width:100%; height:auto; display:block; }
 #page-learn .nfx-learn-visual img,
 #page-learn .nfx-learn-visual svg,
 #page-learn .nfx-learn-direction-card img { display:block; max-width:100%; height:auto; }
