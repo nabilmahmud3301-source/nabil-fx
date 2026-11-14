@@ -66,6 +66,7 @@ SUCCESS assets/learn-trading/fomc-policy-0.webp
 SUCCESS assets/learn-trading/news-calendar-0.webp
 SUCCESS assets/learn-trading/risk-of-ruin-0.webp
 SUCCESS assets/learn-trading/kelly-criterion-0.webp
+SUCCESS assets/learn-trading/r-multiples-0.webp
 SUCCESS assets/learn-trading/mae-mfe-0.webp
 SUCCESS assets/learn-trading/trading-plan-0.webp
 SUCCESS assets/learn-trading/correlation-covariance-0.webp
@@ -160,10 +161,13 @@ SUCCESS assets/learn-trading/crt-0.webp
 SUCCESS assets/learn-trading/crt-1.webp
 SUCCESS assets/learn-trading/turtle-soup-0.webp
 SUCCESS assets/learn-trading/turtle-soup-1.webp
+SUCCESS assets/learn-trading/risk-management-0.webp
 SUCCESS assets/learn-trading/risk-management-1.webp
 SUCCESS assets/learn-trading/sessions-0.webp
 SUCCESS assets/learn-trading/breakout-retest-0.webp
 SUCCESS assets/learn-trading/rejection-candle-0.webp
+SUCCESS assets/learn-trading/inducement-0.webp
+SUCCESS assets/learn-trading/inducement-1.webp
 SUCCESS assets/learn-trading/liquidity-void-0.webp
 SUCCESS assets/learn-trading/unicorn-model-0.webp
 SUCCESS assets/learn-trading/judas-swing-0.webp
@@ -194,6 +198,7 @@ SUCCESS assets/learn-trading/accumulation-distribution-0.webp
 SUCCESS assets/learn-trading/doji-0.webp
 SUCCESS assets/learn-trading/wedges-0.webp
 SUCCESS assets/learn-trading/elliott-wave-0.webp
+SUCCESS assets/learn-trading/ichimoku-0.webp
 SUCCESS assets/learn-trading/pretrade-checklist-0.webp
 SUCCESS assets/learn-trading/posttrade-review-0.webp
 SUCCESS assets/learn-trading/overtrading-0.webp
@@ -206,6 +211,7 @@ SUCCESS assets/learn-trading/stop-vs-stop-limit-0.webp
 SUCCESS assets/learn-trading/rollover-swap-0.webp
 SUCCESS assets/learn-trading/forex-market-hours-0.webp
 SUCCESS assets/learn-trading/daylight-saving-time-0.webp
+SUCCESS assets/learn-trading/economic-surprise-0.webp
 SUCCESS assets/learn-trading/central-bank-policy-0.webp
 SUCCESS assets/learn-trading/yield-differentials-0.webp
 SUCCESS assets/learn-trading/intermarket-analysis-0.webp
@@ -221,9 +227,3 @@ SUCCESS assets/learn-trading/out-of-sample-testing-0.webp
 SUCCESS assets/learn-trading/walk-forward-analysis-0.webp
 SUCCESS assets/learn-trading/monte-carlo-analysis-0.webp
 SUCCESS assets/learn-trading/sample-size-0.webp
-FAILED r-multiples/0: HTTP Error 404: Not Found | HTTP Error 404: Not Found | HTTP Error 404: Not Found
-FAILED risk-management/0: HTTP Error 404: Not Found | HTTP Error 404: Not Found | HTTP Error 404: Not Found
-FAILED inducement/0: <urlopen error [Errno -2] Name or service not known> | HTTP Error 404: Not Found | HTTP Error 404: Not Found
-FAILED inducement/1: HTTP Error 404: Not Found | HTTP Error 404: Not Found | HTTP Error 404: Not Found
-FAILED ichimoku/0: HTTP Error 400: Bad Request | HTTP Error 404: Not Found | HTTP Error 404: Not Found
-FAILED economic-surprise/0: HTTP Error 404: Not Found | HTTP Error 404: Not Found | HTTP Error 404: Not Found
