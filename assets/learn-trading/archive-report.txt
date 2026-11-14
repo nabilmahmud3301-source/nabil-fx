@@ -6,6 +6,8 @@ SUCCESS assets/learn-trading/mss-1.webp
 SUCCESS assets/learn-trading/support-resistance-0.webp
 SUCCESS assets/learn-trading/trendline-0.webp
 SUCCESS assets/learn-trading/liquidity-0.webp
+SUCCESS assets/learn-trading/liquidity-sweep-0.webp
+SUCCESS assets/learn-trading/fvg-0.webp
 SUCCESS assets/learn-trading/order-block-0.webp
 SUCCESS assets/learn-trading/ote-0.webp
 SUCCESS assets/learn-trading/ote-1.webp
@@ -72,8 +74,10 @@ SUCCESS assets/learn-trading/trade-management-0.webp
 SUCCESS assets/learn-trading/expectancy-0.webp
 SUCCESS assets/learn-trading/drawdown-0.webp
 SUCCESS assets/learn-trading/portfolio-risk-0.webp
+SUCCESS assets/learn-trading/order-types-0.webp
 SUCCESS assets/learn-trading/stop-placement-0.webp
 SUCCESS assets/learn-trading/weekend-gap-risk-0.webp
+SUCCESS assets/learn-trading/portfolio-diversification-0.webp
 SUCCESS assets/learn-trading/portfolio-drawdown-0.webp
 SUCCESS assets/learn-trading/stock-market-basics-0.webp
 SUCCESS assets/learn-trading/common-preferred-stock-0.webp
@@ -87,6 +91,7 @@ SUCCESS assets/learn-trading/swing-investing-trading-0.webp
 SUCCESS assets/learn-trading/earnings-trading-0.webp
 SUCCESS assets/learn-trading/stock-sector-rotation-0.webp
 SUCCESS assets/learn-trading/relative-strength-stocks-0.webp
+SUCCESS assets/learn-trading/short-selling-stocks-0.webp
 SUCCESS assets/learn-trading/stock-market-indices-0.webp
 SUCCESS assets/learn-trading/financial-statements-0.webp
 SUCCESS assets/learn-trading/income-statement-0.webp
@@ -129,6 +134,7 @@ SUCCESS assets/learn-trading/reit-investing-0.webp
 SUCCESS assets/learn-trading/bond-basics-0.webp
 SUCCESS assets/learn-trading/bond-price-yield-0.webp
 SUCCESS assets/learn-trading/duration-convexity-0.webp
+SUCCESS assets/learn-trading/credit-ratings-spreads-0.webp
 SUCCESS assets/learn-trading/government-corporate-bonds-0.webp
 SUCCESS assets/learn-trading/bond-ladder-0.webp
 SUCCESS assets/learn-trading/options-basics-0.webp
@@ -146,6 +152,7 @@ SUCCESS assets/learn-trading/etf-fund-basics-0.webp
 SUCCESS assets/learn-trading/futures-contracts-0.webp
 SUCCESS assets/learn-trading/commodity-investing-0.webp
 SUCCESS assets/learn-trading/crypto-investing-risk-0.webp
+SUCCESS assets/learn-trading/investment-scam-due-diligence-0.webp
 SUCCESS assets/learn-trading/breaker-block-0.webp
 SUCCESS assets/learn-trading/mitigation-0.webp
 SUCCESS assets/learn-trading/mitigation-1.webp
@@ -178,6 +185,7 @@ SUCCESS assets/learn-trading/leverage-margin-0.webp
 SUCCESS assets/learn-trading/spread-slippage-0.webp
 SUCCESS assets/learn-trading/trading-journal-0.webp
 SUCCESS assets/learn-trading/forward-testing-0.webp
+SUCCESS assets/learn-trading/correlation-0.webp
 SUCCESS assets/learn-trading/wyckoff-spring-0.webp
 SUCCESS assets/learn-trading/volume-climax-0.webp
 SUCCESS assets/learn-trading/absorption-0.webp
@@ -203,6 +211,7 @@ SUCCESS assets/learn-trading/yield-differentials-0.webp
 SUCCESS assets/learn-trading/intermarket-analysis-0.webp
 SUCCESS assets/learn-trading/dxy-and-usd-pairs-0.webp
 SUCCESS assets/learn-trading/multi-timeframe-analysis-0.webp
+SUCCESS assets/learn-trading/trend-vs-mean-reversion-0.webp
 SUCCESS assets/learn-trading/volatility-regimes-0.webp
 SUCCESS assets/learn-trading/volatility-compression-0.webp
 SUCCESS assets/learn-trading/execution-quality-0.webp
@@ -212,18 +221,9 @@ SUCCESS assets/learn-trading/out-of-sample-testing-0.webp
 SUCCESS assets/learn-trading/walk-forward-analysis-0.webp
 SUCCESS assets/learn-trading/monte-carlo-analysis-0.webp
 SUCCESS assets/learn-trading/sample-size-0.webp
-FAILED liquidity-sweep/0: <urlopen error [Errno -5] No address associated with hostname>
-FAILED fvg/0: HTTP Error 404: Not Found
-FAILED r-multiples/0: <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1011)>
-FAILED order-types/0: HTTP Error 404: Not Found
-FAILED portfolio-diversification/0: <urlopen error timed out>
-FAILED short-selling-stocks/0: HTTP Error 404: Not Found
-FAILED credit-ratings-spreads/0: HTTP Error 403: Forbidden
-FAILED investment-scam-due-diligence/0: <urlopen error timed out>
-FAILED risk-management/0: HTTP Error 404: Not Found
-FAILED inducement/0: <urlopen error [Errno -2] Name or service not known>
-FAILED inducement/1: HTTP Error 404: Not Found
-FAILED correlation/0: HTTP Error 404: Not Found
-FAILED ichimoku/0: HTTP Error 400: Bad Request
-FAILED economic-surprise/0: HTTP Error 404: Not Found
-FAILED trend-vs-mean-reversion/0: <urlopen error [Errno -2] Name or service not known>
+FAILED r-multiples/0: HTTP Error 404: Not Found | HTTP Error 404: Not Found | HTTP Error 404: Not Found
+FAILED risk-management/0: HTTP Error 404: Not Found | HTTP Error 404: Not Found | HTTP Error 404: Not Found
+FAILED inducement/0: <urlopen error [Errno -2] Name or service not known> | HTTP Error 404: Not Found | HTTP Error 404: Not Found
+FAILED inducement/1: HTTP Error 404: Not Found | HTTP Error 404: Not Found | HTTP Error 404: Not Found
+FAILED ichimoku/0: HTTP Error 400: Bad Request | HTTP Error 404: Not Found | HTTP Error 404: Not Found
+FAILED economic-surprise/0: HTTP Error 404: Not Found | HTTP Error 404: Not Found | HTTP Error 404: Not Found
