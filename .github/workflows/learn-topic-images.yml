@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - ".github/workflows/learn-topic-images.yml"
+      - "index.html"
 
 permissions:
   contents: write
