@@ -55,10 +55,11 @@ jobs:
               urls = re.findall(r"'(https?://[^']+)'", rhs)
               for index, url in enumerate(urls):
                   entries.append((topic_id, index, url))
+          force_refresh = {"absorption", "liquidity-sweep", "volume", "volume-spread-analysis", "tax-efficient-investing"}
           success, failed = [], []
           for topic_id, index, url in entries:
               target = out / f"{topic_id}-{index}.webp"
-              if target.exists() and target.stat().st_size > 1000:
+              if target.exists() and target.stat().st_size > 1000 and topic_id not in force_refresh:
                   success.append(str(target))
                   continue
               candidates = [url]
