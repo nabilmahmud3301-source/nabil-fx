@@ -4251,6 +4251,11 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 </style>
 
 
+<style id="nfx-bar-replay-candle-visibility-fix">
+/* Ensure the actual Lightweight Charts mount keeps the full replay height. */
+#page-chart #nabilReplayPointLab #replayChart{height:680px!important;min-height:540px!important;width:100%!important;display:block!important;visibility:visible!important;opacity:1!important;background:#131722!important;overflow:hidden!important}
+@media(max-width:700px){#page-chart #nabilReplayPointLab #replayChart{height:540px!important;min-height:430px!important}}
+</style>
 <style id="nfx-bar-replay-tradingview-finish">
 /* Bar Replay only — TradingView-inspired chart canvas and drawing workspace. */
 #nabilReplayPointLab .nfx-point-chart{position:relative!important;background:#131722!important;border:1px solid #2a2e39!important;border-radius:2px!important;box-shadow:0 8px 26px #0005!important;overflow:hidden!important}
@@ -6375,9 +6380,10 @@ window.addEventListener('resize',closeAccountDropdown);
     }
     replayChart.applyOptions({layout:{background:{type:'solid',color:'#08090c'},textColor:'#c8c8c8'},grid:{vertLines:{visible:replayGridEnabled,color:'#202229'},horzLines:{visible:replayGridEnabled,color:'#202229'}},timeScale:{barSpacing:5,minBarSpacing:2,rightOffset:8}});
     if(visibleBars.length){
-      // Keep the latest candles inside the viewport; avoid forcing a 100-bar range
-      // when fewer candles have been loaded, which can compress candles off-screen.
-      const from=Math.max(0,visibleBars.length-100);
+      // First fit the complete series, then frame the most recent candles.
+      // This also repairs stale/zero-sized time scales after switching from Live Chart.
+      replayChart.timeScale().fitContent();
+      const from=Math.max(0,visibleBars.length-Math.min(100,visibleBars.length));
       replayChart.timeScale().setVisibleLogicalRange({from,to:visibleBars.length+8});
     }
     const symbol=(replayEls.symbol.value||'EURUSD').trim().toUpperCase();
@@ -6440,7 +6446,13 @@ window.addEventListener('resize',closeAccountDropdown);
       if(!replayBars.length)throw new Error('No historical candles returned for this symbol/date. Try a different symbol, timeframe, or date range.');
       // Show enough candles to make the chart visibly populated after loading.
       // Start Replay still resets to candle one for a clean replay.
-      replayIndex=liveMode?replayBars.length-1:Math.min(49,replayBars.length-1);replaySetButtons(true);replayRender();
+      replayIndex=liveMode?replayBars.length-1:Math.min(49,replayBars.length-1);replaySetButtons(true);
+      // Repaint after the chart has a real, visible layout size; hidden-page initialization
+      // can otherwise leave the first successful data load with an empty canvas.
+      replayResizeChart();
+      replayRender();
+      requestAnimationFrame(()=>{if(replayResizeChart())replayRender();});
+      setTimeout(()=>{if(replayResizeChart())replayRender();},180);
       if(liveMode){
         replayLiveMode=true;replayEls.live?.classList.add('active');
         replayStatus('Live-refresh mode loaded <strong>'+replayBars.length+'</strong> candles for <strong>'+symbol+'</strong> '+interval+' via '+providerUsed+'. Refreshing every 15 seconds while this page is open. Updates depend on the provider and may be delayed; this is not guaranteed exchange/broker real-time data. Click <strong>Load Historical Data</strong> to stop live refresh and use Bar Replay.');
