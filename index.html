@@ -2057,6 +2057,49 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 #page-chart #nabilReplayPointLab .nfx-indicator-dialog{border-color:#35465c!important;border-radius:10px!important;background:rgba(12,19,29,.98)!important}
 #page-chart #nabilReplayPointLab .nfx-drawing-overlay{z-index:7!important}
 @media(max-width:760px){#page-chart #nabilReplayPointLab{padding:12px!important}#page-chart #nabilReplayPointLab .nfx-point-chart{height:500px!important}#page-chart #nabilReplayPointLab .nfx-point-controls{padding:9px!important}}
+
+</style>
+<style id="nfx-chart-replay-premium-page">
+/* NABIL Fx — premium Chart / Bar Replay page. All selectors are scoped to this page. */
+#page-chart{box-sizing:border-box;width:100%;max-width:1680px;margin:0 auto;padding:clamp(18px,2.1vw,32px) clamp(12px,2.2vw,34px) 48px!important;color:#e8edf5}
+#page-chart .nfx-chart-page-hero{display:flex;align-items:flex-end;justify-content:space-between;gap:22px;margin:0 0 20px;padding:0 0 21px;border-bottom:1px solid #263545}
+#page-chart .nfx-chart-page-kicker{display:block;color:#9baabd;font:800 9px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.17em}
+#page-chart .nfx-chart-brand-white{color:#fff}
+#page-chart .nfx-chart-brand-red{color:#ff4355}
+#page-chart .nfx-chart-page-hero h1{margin:9px 0 7px;color:#f4f7fb;font:780 clamp(29px,3.5vw,43px)/1.08 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:-.055em}
+#page-chart .nfx-chart-page-hero h1 em{color:#d7e0eb;font-style:normal}
+#page-chart .nfx-chart-page-hero p{max-width:690px;margin:0;color:#91a0b2;font-size:13px;line-height:1.65}
+#page-chart .nfx-chart-page-stamp{display:inline-flex;align-items:center;gap:9px;flex:0 0 auto;padding:10px 13px;border:1px solid #344354;border-radius:7px;background:linear-gradient(180deg,#111c28,#0b121b);color:#aebdce;font:800 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em}
+#page-chart .nfx-chart-stamp-dot{width:7px;height:7px;border-radius:50%;background:#d65a69;box-shadow:0 0 10px #d65a6977}
+#page-chart .chart-mode-switch{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:0 0 15px;padding:7px;border:1px solid #2a3949;border-radius:10px;background:linear-gradient(145deg,#111a25,#0b1119);box-shadow:0 10px 28px #0003}
+#page-chart .chart-mode-tab{min-height:43px;padding:0 17px;border:1px solid transparent;border-radius:7px;background:transparent;color:#9eacbd;font:750 12px/1 system-ui,sans-serif;letter-spacing:.01em}
+#page-chart .chart-mode-tab:hover{border-color:#35485b;background:#172332;color:#f2f6fb}
+#page-chart .chart-mode-tab.active,#page-chart .chart-mode-tab[data-chart-mode="replay"].active{border-color:#75404b;background:linear-gradient(180deg,#3b2029,#25161d);color:#ffdce1;box-shadow:inset 0 1px #ffffff0d,0 4px 14px #0003}
+#page-chart .chart-mode-caption{margin-left:auto;padding:0 10px;color:#78899d;font-size:10px;letter-spacing:.015em}
+#page-chart #chartWorkspace,#page-chart #nabilReplayPointLab{min-width:0;padding:clamp(13px,1.6vw,22px)!important;border:1px solid #2a3949!important;border-radius:12px!important;background:linear-gradient(150deg,#101a26 0%,#0b121b 55%,#090e15 100%)!important;box-shadow:0 18px 48px #0004,inset 0 1px #ffffff08!important}
+#page-chart .chart-heading-row{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 15px}
+#page-chart .chart-heading-row .view-heading{margin:0;color:#f0f4f9;font-size:clamp(19px,2vw,24px);font-weight:760;letter-spacing:-.04em}
+#page-chart .chart-heading-row .hint{margin:6px 0 0!important;color:#8999ad!important;font-size:11px!important;line-height:1.55}
+#page-chart .chart-fullscreen-btn{min-height:36px;padding:0 13px;border:1px solid #3b4e62;border-radius:7px;background:linear-gradient(180deg,#1b2938,#121d2a);color:#dbe5f0;font-size:10px;font-weight:750}
+#page-chart .chart-fullscreen-btn:hover{border-color:#a34a59;background:#2a1b23;color:#fff}
+#page-chart #chartShell{min-width:0;min-height:clamp(460px,66vh,760px);overflow:hidden;border:1px solid #2c3d50;border-radius:9px;background:#080d14;box-shadow:0 12px 32px #0004}
+#page-chart #tvChart{width:100%;height:clamp(460px,66vh,760px);min-height:460px;background:#080d14}
+#page-chart #chartWorkspace>.hint{margin:11px 2px 0;color:#7f90a4;font-size:10px;line-height:1.6}
+#page-chart #nabilReplayPointLab .nfx-point-controls{display:grid;grid-template-columns:repeat(3,minmax(130px,1fr)) repeat(4,minmax(112px,auto));align-items:end;gap:10px!important;margin:0 0 13px!important;padding:14px!important;border:1px solid #2a3a4d!important;border-radius:9px!important;background:linear-gradient(145deg,#0d1621,#0a1119)!important}
+#page-chart #nabilReplayPointLab .nfx-point-controls label{display:grid;gap:7px;min-width:0;color:#91a2b6!important;font:800 9px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace!important;letter-spacing:.1em}
+#page-chart #nabilReplayPointLab .nfx-point-controls input,#page-chart #nabilReplayPointLab .nfx-point-controls select{box-sizing:border-box;width:100%;min-width:0;height:39px!important;padding:0 11px!important;border:1px solid #34475b!important;border-radius:6px!important;background:#111d2a!important;color:#e5edf6!important;font:650 12px system-ui,sans-serif!important}
+#page-chart #nabilReplayPointLab .nfx-point-controls input:focus,#page-chart #nabilReplayPointLab .nfx-point-controls select:focus{outline:none;border-color:#a64b5a!important;box-shadow:0 0 0 3px #a64b5a20!important}
+#page-chart #nabilReplayPointLab .nfx-point-controls button{min-height:39px!important;padding:0 12px!important;border:1px solid #3a4d62!important;border-radius:6px!important;background:linear-gradient(180deg,#1a2939,#121d2a)!important;color:#dce6f2!important;font:750 10px/1.2 system-ui,sans-serif!important;white-space:nowrap}
+#page-chart #nabilReplayPointLab .nfx-point-controls button:hover:not(:disabled){border-color:#a34a59!important;background:linear-gradient(180deg,#35212a,#24171e)!important;color:#fff!important}
+#page-chart #nabilReplayPointLab .nfx-point-controls button:disabled{opacity:.38;cursor:not-allowed}
+#page-chart #nabilReplayPointLab #nfxPointPlay{border-color:#286a59!important;background:linear-gradient(180deg,#174a3e,#10352d)!important;color:#a2ead5!important}
+#page-chart #nabilReplayPointLab #nfxPointSelect{border-color:#75404b!important;background:linear-gradient(180deg,#3b2029,#25161d)!important;color:#ffdce1!important}
+#page-chart #nabilReplayPointLab .nfx-point-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:40px;padding:9px 13px!important;border:1px solid #2b3b4e!important;border-bottom:0!important;border-radius:8px 8px 0 0!important;background:#111c28!important;color:#a7b6c8!important;font-size:10px!important}
+#page-chart #nabilReplayPointLab .nfx-point-chart{height:clamp(500px,70vh,760px)!important;min-height:500px!important;border:1px solid #2b3b4e!important;border-radius:0 0 8px 8px!important;background:#080d14!important;box-shadow:0 14px 35px #0004!important}
+#page-chart #nabilReplayPointLab>.hint{margin:11px 2px 0;color:#7f90a4;font-size:10px;line-height:1.6}
+@media(max-width:1100px){#page-chart #nabilReplayPointLab .nfx-point-controls{grid-template-columns:repeat(3,minmax(0,1fr))}#page-chart #nabilReplayPointLab .nfx-point-controls button{width:100%}}
+@media(max-width:760px){#page-chart{padding:17px 12px 34px!important}#page-chart .nfx-chart-page-hero{align-items:flex-start;flex-direction:column;gap:13px;margin-bottom:14px;padding-bottom:16px}#page-chart .nfx-chart-page-hero p{font-size:11px}#page-chart .nfx-chart-page-stamp{padding:8px 10px}#page-chart .chart-mode-switch{gap:5px;padding:5px}#page-chart .chart-mode-tab{flex:1;min-width:0;min-height:41px;padding:0 7px;font-size:10px}#page-chart .chart-mode-caption{width:100%;margin:2px 7px 4px;padding:0;font-size:9px}#page-chart #chartWorkspace,#page-chart #nabilReplayPointLab{padding:11px!important;border-radius:9px!important}#page-chart .chart-heading-row{align-items:flex-start}#page-chart .chart-heading-row .view-heading{font-size:18px}#page-chart .chart-fullscreen-btn{min-height:33px;padding:0 9px;font-size:9px}#page-chart #chartShell,#page-chart #tvChart{height:480px;min-height:480px}#page-chart #nabilReplayPointLab .nfx-point-controls{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px!important;padding:9px!important}#page-chart #nabilReplayPointLab .nfx-point-controls label{font-size:8px!important}#page-chart #nabilReplayPointLab .nfx-point-controls button{min-width:0;padding:0 7px!important;font-size:9px!important;white-space:normal}#page-chart #nabilReplayPointLab .nfx-point-meta{align-items:flex-start;flex-direction:column;gap:4px}#page-chart #nabilReplayPointLab .nfx-point-chart{height:540px!important;min-height:480px!important}}
+@media(max-width:390px){#page-chart #nabilReplayPointLab .nfx-point-controls{grid-template-columns:minmax(0,1fr)}#page-chart .chart-heading-row{flex-direction:column}#page-chart .chart-heading-actions{width:100%;display:flex;justify-content:flex-end}}
 </style>
 <style id="nfx-liquidity-controls-final">
 /* Exact control layout and button styling shared with Liquidation Heatmap. */
@@ -4320,6 +4363,14 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
   <p class="nfx-pro-note">Volume profile is accumulated from trades received after connection. Open interest and funding are public Binance Futures contract metrics, not consolidated market-wide figures.</p>
 </section>
 <section id="page-chart" class="view">
+  <header class="nfx-chart-page-hero">
+    <div>
+      <span class="nfx-chart-page-kicker"><span class="nfx-chart-brand-white">NABIL</span> <span class="nfx-chart-brand-red">Fx</span> / MARKET WORKSPACE</span>
+      <h1>Chart <em>&amp; Bar Replay</em></h1>
+      <p>Analyze live price action or study historical market moves in a focused charting workspace.</p>
+    </div>
+    <div class="nfx-chart-page-stamp"><span class="nfx-chart-stamp-dot"></span><span>CHARTING WORKSPACE</span></div>
+  </header>
   <div class="chart-mode-switch" role="tablist" aria-label="Chart workspace mode"><button type="button" class="chart-mode-tab active" data-chart-mode="live" role="tab" aria-selected="true">↗ Real-Time Chart</button><button type="button" class="chart-mode-tab" data-chart-mode="replay" role="tab" aria-selected="false">⏮ Bar Replay</button><span class="chart-mode-caption">Live market chart and historical replay are separate workspaces.</span></div>
   <section id="chartWorkspace" class="panel chart-workspace" data-chart-workspace="live">
     <div class="chart-heading-row">
