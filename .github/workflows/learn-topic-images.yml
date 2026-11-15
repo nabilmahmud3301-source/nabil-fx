@@ -55,7 +55,7 @@ jobs:
               urls = re.findall(r"'(https?://[^']+)'", rhs)
               for index, url in enumerate(urls):
                   entries.append((topic_id, index, url))
-          force_refresh = {"absorption", "liquidity-sweep", "volume", "volume-spread-analysis", "tax-efficient-investing"}
+          force_refresh = {"absorption", "liquidity-sweep", "volume", "volume-spread-analysis", "tax-efficient-investing", "bpr", "crypto-investing-risk", "wyckoff-upthrust"}
           success, failed = [], []
           for topic_id, index, url in entries:
               target = out / f"{topic_id}-{index}.webp"
