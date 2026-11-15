@@ -8433,19 +8433,30 @@ window.renderBacktestMetrics=function(r,meta={}){
     'monte-carlo-analysis':'https://c.mql5.com/2/160/system_1__32.png',
     'sample-size':'https://c.mql5.com/6/942/1283374730696.png'
   };
-  // Use repository-hosted copies only. The archive workflow stores each mapped source as WebP.
+  // Use absolute GitHub Pages paths so images resolve from every Learn Trading view.
   function topicImage(topic){
     const src=topicImageSources[topic.id];
     if(!src)return '';
-    return Array.isArray(src)
-      ? src.map((_,i)=>'assets/learn-trading/'+topic.id+'-'+i+'.webp')
-      : 'assets/learn-trading/'+topic.id+'-0.webp';
+    const file=i=>'/nabil-fx/assets/learn-trading/'+topic.id+'-'+i+'.webp';
+    return Array.isArray(src) ? src.map((_,i)=>file(i)) : file(0);
   }
-  // Never substitute generated chart diagrams when a real image is unavailable.
-  window.nfxLearnImageError=function(img){img.hidden=true;};
+  // If Pages CDN misses a file, retry the same repository asset through GitHub raw.
+  // Never substitute generated chart diagrams.
+  window.nfxLearnImageError=function(img){
+    if(img.dataset.rawFallbackTried!=='1' && img.dataset.rawFallback){
+      img.dataset.rawFallbackTried='1';
+      img.src=img.dataset.rawFallback;
+      return;
+    }
+    img.hidden=true;
+  };
   function topicImageMarkup(topic,compact){
     const src=topicImage(topic);
-    const image=(url,alt,extraStyle='')=>'<img src="'+esc(url)+'" alt="'+esc(alt)+'" loading="lazy" style="'+extraStyle+'" onerror="window.nfxLearnImageError(this)">';
+    const image=(url,alt,extraStyle='')=>{
+      const filename=url.split('/').pop();
+      const raw='https://raw.githubusercontent.com/nabilmahmud3301-source/nabil-fx/main/assets/learn-trading/'+filename;
+      return '<img src="'+esc(url)+'" data-raw-fallback="'+esc(raw)+'" alt="'+esc(alt)+'" loading="'+(compact?'lazy':'eager')+'" decoding="async" style="'+extraStyle+'" onerror="window.nfxLearnImageError(this)">';
+    };
     if(Array.isArray(src)){
       const names=topic.id==='nwog-ndog'?['NWOG EXAMPLE','NDOG EXAMPLE']:['BULLISH EXAMPLE','BEARISH EXAMPLE'];
       return '<span class="nfx-learn-pair" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;width:100%;height:100%;overflow:hidden">'+src.map((url,i)=>'<span style="display:flex;flex-direction:column;min-width:0;height:100%;overflow:hidden;background:#080c11"><small style="display:block;padding:4px 2px;text-align:center;color:'+(i===0?'#49c99b':'#f07883')+';font-size:8px;font-weight:900;letter-spacing:.08em">'+names[i]+'</small>'+image(url,topic.title+' '+names[i].toLowerCase(),'display:block;width:100%;height:calc(100% - 20px);min-height:0;object-fit:contain')+'</span>').join('')+'</span>';
