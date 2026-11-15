@@ -3,6 +3,8 @@ SUCCESS assets/learn-trading/bos-0.webp
 SUCCESS assets/learn-trading/choch-0.webp
 SUCCESS assets/learn-trading/mss-0.webp
 SUCCESS assets/learn-trading/mss-1.webp
+SUCCESS assets/learn-trading/mitigation-0.webp
+SUCCESS assets/learn-trading/mitigation-1.webp
 SUCCESS assets/learn-trading/support-resistance-0.webp
 SUCCESS assets/learn-trading/trendline-0.webp
 SUCCESS assets/learn-trading/liquidity-0.webp
