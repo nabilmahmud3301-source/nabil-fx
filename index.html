@@ -8438,7 +8438,7 @@ window.renderBacktestMetrics=function(r,meta={}){
   function topicImage(topic){
     const src=topicImageSources[topic.id];
     if(!src)return '';
-    const file=i=>'/nabil-fx/assets/learn-trading/'+topic.id+'-'+i+'.webp';
+    const file=i=>'/nabil-fx/assets/learn-trading/'+topic.id+'-'+i+'.webp'+(['fvg','mitigation'].includes(topic.id)?'?v=20261115-2':'');
     return Array.isArray(src) ? src.map((_,i)=>file(i)) : file(0);
   }
   // If Pages CDN misses a file, retry the same repository asset through GitHub raw.
