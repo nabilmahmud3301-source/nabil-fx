@@ -31,6 +31,7 @@ SUCCESS assets/learn-trading/ifvg-0.webp
 SUCCESS assets/learn-trading/bsl-ssl-0.webp
 SUCCESS assets/learn-trading/wyckoff-0.webp
 SUCCESS assets/learn-trading/wyckoff-upthrust-0.webp
+SUCCESS assets/learn-trading/volume-spread-analysis-0.webp
 SUCCESS assets/learn-trading/volume-divergence-0.webp
 SUCCESS assets/learn-trading/market-profile-0.webp
 SUCCESS assets/learn-trading/poc-vah-val-0.webp
@@ -226,4 +227,3 @@ SUCCESS assets/learn-trading/out-of-sample-testing-0.webp
 SUCCESS assets/learn-trading/walk-forward-analysis-0.webp
 SUCCESS assets/learn-trading/monte-carlo-analysis-0.webp
 SUCCESS assets/learn-trading/sample-size-0.webp
-FAILED volume-spread-analysis/0: HTTP Error 404: Not Found | HTTP Error 404: Not Found | HTTP Error 404: Not Found
