@@ -22,7 +22,7 @@ jobs:
           python-version: "3.12"
       - name: Download and convert mapped topic images
         run: |
-          python -m pip install --quiet pillow
+          python -m pip install --quiet pillow cairosvg
           python - <<'PY'
           import re, urllib.request, pathlib, time
           from PIL import Image
