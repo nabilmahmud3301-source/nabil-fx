@@ -7207,13 +7207,19 @@ document.addEventListener('click', function(event) {
     if(r.width>80&&r.height>100)chart.applyOptions({width:Math.floor(r.width),height:Math.floor(r.height)});
   }
   function render(){
-    if(!candles||visibleIndex<0)return;
+    if(!candles||!chart||visibleIndex<0||!allBars.length)return;
+    // The replay panel can become visible after the chart library was initialized.
+    // Re-measure the real container before sending data or setting the visible range.
+    resize();
     const visible=allBars.slice(0,visibleIndex+1);
+    if(!visible.length)return;
     candles.setData(visible);
     updateIndicators(visible);
-    if(!chart.timeScale().getVisibleLogicalRange())chart.timeScale().fitContent();
+    // Always fit after setData: an empty chart can retain a stale logical range.
+    chart.timeScale().fitContent();
+    chart.timeScale().setVisibleLogicalRange({from:Math.max(0,visible.length-Math.min(100,visible.length)),to:visible.length+8});
     drawAll();
-    if(visible.length>90)chart.timeScale().setVisibleLogicalRange({from:Math.max(0,visible.length-100),to:visible.length+8});
+    requestAnimationFrame(()=>{resize();if(chart&&candles&&visibleIndex>=0){chart.timeScale().fitContent();chart.timeScale().setVisibleLogicalRange({from:Math.max(0,visibleIndex+1-Math.min(100,visibleIndex+1)),to:visibleIndex+9});drawAll();}});
     el.count.textContent=visible.length+' / '+allBars.length+' candles';
     const b=visible[visible.length-1];
     const dt=new Date(b.time*1000);
@@ -7260,8 +7266,9 @@ document.addEventListener('click', function(event) {
       el.select.classList.remove('active');el.select.setAttribute('aria-pressed','false');
       stop();render();
     });
-    if(window.ResizeObserver)new ResizeObserver(resize).observe(el.chart);
-    window.addEventListener('resize',resize);
+    if(window.ResizeObserver)new ResizeObserver(()=>{resize();if(allBars.length&&visibleIndex>=0)render();}).observe(el.chart);
+    window.addEventListener('resize',()=>{resize();if(allBars.length&&visibleIndex>=0)render();});
+    document.addEventListener('visibilitychange',()=>{if(!document.hidden){resize();if(allBars.length&&visibleIndex>=0)render();}});
   }
   function ema(values,period){
     const out=[]; if(!values.length)return out;
@@ -7438,7 +7445,10 @@ document.addEventListener('click', function(event) {
       currentSymbol=symbol;currentInterval=el.interval.value;
       drawings=[];draftDrawing=null;drawAll();
       visibleIndex=Math.min(49,allBars.length-1);selecting=false;el.select.classList.remove('active');el.select.setAttribute('aria-pressed','false');
-      render();status('Loaded '+allBars.length+' candles; showing '+(visibleIndex+1)+'. Previous, Next Candle and Play are ready. Use Replay Point to choose a different starting candle, or Show All to reveal every candle.');
+      resize();
+      render();
+      requestAnimationFrame(()=>{resize();render();});
+      status('Loaded '+allBars.length+' candles; showing '+(visibleIndex+1)+'. Previous, Next Candle and Play are ready. Use Replay Point to choose a different starting candle, or Show All to reveal every candle.');
     }catch(e){status(e&&e.message?e.message:'Could not load candles.');}
     finally{el.load.disabled=false;}
   }
