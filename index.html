@@ -6154,7 +6154,14 @@ window.addEventListener('resize',closeAccountDropdown);
       btn.setAttribute('aria-selected',active?'true':'false');
     });
     if(live){loadTradingView();}
-    else {setTimeout(()=>{window.dispatchEvent(new Event('resize'));},80);}
+    else {
+      // Lightweight Charts can be initialized before its hidden parent has a measurable size.
+      // Recalculate the replay canvas after the mode switch and redraw its candles once visible.
+      [80,220,500].forEach(delay=>setTimeout(()=>{
+        window.dispatchEvent(new Event('resize'));
+        if(typeof replayResizeChart==='function' && replayResizeChart() && typeof replayRender==='function' && replayBars.length && replayIndex>=0) replayRender();
+      },delay));
+    }
     try{sessionStorage.setItem('nfx-chart-mode',live?'live':'replay');}catch(_){}
   }
   document.querySelectorAll('[data-chart-mode]').forEach(btn=>btn.addEventListener('click',()=>setChartWorkspaceMode(btn.dataset.chartMode)));
@@ -6367,9 +6374,11 @@ window.addEventListener('resize',closeAccountDropdown);
       }else replayEmaSeries.setData([]);
     }
     replayChart.applyOptions({layout:{background:{type:'solid',color:'#08090c'},textColor:'#c8c8c8'},grid:{vertLines:{visible:replayGridEnabled,color:'#202229'},horzLines:{visible:replayGridEnabled,color:'#202229'}},timeScale:{barSpacing:5,minBarSpacing:2,rightOffset:8}});
-    if(visibleBars.length>1){
+    if(visibleBars.length){
+      // Keep the latest candles inside the viewport; avoid forcing a 100-bar range
+      // when fewer candles have been loaded, which can compress candles off-screen.
       const from=Math.max(0,visibleBars.length-100);
-      replayChart.timeScale().setVisibleLogicalRange({from,to:Math.max(from+100,visibleBars.length+8)});
+      replayChart.timeScale().setVisibleLogicalRange({from,to:visibleBars.length+8});
     }
     const symbol=(replayEls.symbol.value||'EURUSD').trim().toUpperCase();
     const symbolLabel=document.getElementById('replayChartSymbol');
