@@ -6902,10 +6902,15 @@ window.addEventListener('resize',closeAccountDropdown);
           bars=yahooBars;
           providerUsed='Yahoo Finance historical archive (via CORS relay)';
         }catch(historyError){
-          // Keep a broker-feed result only when it already spans the requested dates.
-          // Never silently present a partial historical window as a complete replay.
-          const brokerCoversRange=bars.length&&bars[0].time*1000<=rangeStart+4*86400000&&bars[bars.length-1].time*1000>=rangeEnd-4*86400000;
-          if(!brokerCoversRange)throw new Error('Could not load the complete selected historical period for '+symbol+': '+(historyError.message||historyError)+'. This symbol or timeframe may not be archived by the free data source.');
+          // If the primary feed returned genuine candles for the selected dates,
+          // keep them visible rather than blanking the chart when the archive relay
+          // is unavailable. Clearly label the result as partial; never imply that
+          // the complete requested period was loaded.
+          if(bars.length){
+            providerUsed='Biquote · available candles (partial period; archive unavailable)';
+          }else{
+            throw new Error('No candles were returned by the primary feed, and the historical archive could not be reached: '+(historyError.message||historyError)+'. Try a more recent date range or a supported symbol/timeframe.');
+          }
         }
       }
       // Final guard: no candle outside the requested inclusive calendar dates
