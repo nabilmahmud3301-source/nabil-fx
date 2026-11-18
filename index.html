@@ -4615,6 +4615,12 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
             <button type="button" id="replayDrawingDuplicate" title="Duplicate drawing" aria-label="Duplicate drawing">▣</button>
             <button type="button" id="replayDrawingDelete" class="danger" title="Delete selected drawing" aria-label="Delete selected drawing">×</button>
           </div>
+          <div id="replayDrawingContextMenu" class="nfx-replay-object-menu" role="menu" aria-label="Drawing actions" hidden>
+            <button type="button" data-object-action="lock" role="menuitem"><span class="nfx-object-menu-icon">⌑</span><span>Lock / Unlock</span></button>
+            <button type="button" data-object-action="duplicate" role="menuitem"><span class="nfx-object-menu-icon">▢</span><span>Duplicate</span></button>
+            <div class="nfx-object-menu-separator"></div>
+            <button type="button" data-object-action="delete" role="menuitem" class="is-danger"><span class="nfx-object-menu-icon">⌫</span><span>Delete</span><kbd>Del</kbd></button>
+          </div>
         </div>
       </div>
 
@@ -6465,6 +6471,8 @@ window.addEventListener('resize',closeAccountDropdown);
     if(event.target.closest('#replayDrawingLock')&&replayDrawings[replaySelectedDrawing]){const d=replayDrawings[replaySelectedDrawing];d.locked=!d.locked;replayPaintDrawings();}
   });
   $('replayDrawingWidth')?.addEventListener('change',event=>{if(replayDrawings[replaySelectedDrawing]){replayDrawings[replaySelectedDrawing].width=Number(event.target.value)||1.5;replayPaintDrawings();}});
+  $('replayDrawingContextMenu')?.addEventListener('click',event=>{const action=event.target.closest('[data-object-action]')?.dataset.objectAction,drawing=replayDrawings[replaySelectedDrawing];if(!action||!drawing)return;if(action==='delete')replayDeleteSelectedDrawing();if(action==='duplicate'){const clone=JSON.parse(JSON.stringify(drawing));clone.points=clone.points.map(p=>({time:p.time,price:p.price}));clone.points.forEach(p=>{p.time+=1;p.price+=Math.abs(p.price)*.0002||.00001;});clone.locked=false;replayDrawings.push(clone);replaySelectedDrawing=replayDrawings.length-1;replayPaintDrawings();}if(action==='lock'){drawing.locked=!drawing.locked;replayPaintDrawings();}$('replayDrawingContextMenu').hidden=true;});
+  document.addEventListener('pointerdown',event=>{const menu=$('replayDrawingContextMenu');if(menu&&!menu.hidden&&!event.target.closest('#replayDrawingContextMenu'))menu.hidden=true;});
   function replayStatus(msg){ if(replayEls.status) replayEls.status.innerHTML=msg; }
   function replayStopLive(){if(replayLiveTimer){clearInterval(replayLiveTimer);replayLiveTimer=null;}replayLiveMode=false;replayLiveFetchBusy=false;replayEls.live?.classList.remove('active');}
 
@@ -9632,6 +9640,22 @@ window.renderBacktestMetrics=function(r,meta={}){
  #page-chart #replayWorkspace:fullscreen .nfx-replay-chart-layout{grid-template-columns:40px minmax(0,1fr)!important}
  #page-chart #replayWorkspace:fullscreen .nfx-replay-drawing-toolbar{padding:4px 2px}
 }
+/* Bar Replay drawing UX polish — isolated from all other pages. */
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button{width:36px;height:34px;min-width:36px;flex-basis:34px;border-radius:5px}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button svg{width:20px;height:20px;stroke-width:1.7;vector-effect:non-scaling-stroke}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button[data-replay-draw="cursor"] svg{fill:currentColor;stroke:#131722;stroke-width:1.1}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button.active{background:#26364f;border-color:#4c6f9e;color:#9bc3ff;box-shadow:inset 0 0 0 1px #8db9ff16}
+#page-chart #replayWorkspace .nfx-replay-editbar button svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#page-chart #replayWorkspace .nfx-replay-object-menu{position:absolute;z-index:30;min-width:148px;padding:5px;border:1px solid #39475b;border-radius:7px;background:#171d28;box-shadow:0 12px 32px #000b;color:#e4eaf3}
+#page-chart #replayWorkspace .nfx-replay-object-menu[hidden]{display:none!important}
+#page-chart #replayWorkspace .nfx-replay-object-menu button{display:flex;align-items:center;gap:9px;width:100%;height:30px;padding:0 8px;border:0;border-radius:4px;background:transparent;color:#dce4ef;text-align:left;font:500 11px/1 system-ui;cursor:pointer}
+#page-chart #replayWorkspace .nfx-replay-object-menu button:hover{background:#293548;color:#fff}
+#page-chart #replayWorkspace .nfx-replay-object-menu button.is-danger{color:#ff929e}
+#page-chart #replayWorkspace .nfx-replay-object-menu button.is-danger:hover{background:#47232b;color:#ffb0b8}
+#page-chart #replayWorkspace .nfx-object-menu-icon{display:grid;place-items:center;width:17px;height:17px;color:#9aabc1;font-size:14px}
+#page-chart #replayWorkspace .nfx-object-menu-separator{height:1px;margin:4px 3px;background:#303b4b}
+#page-chart #replayWorkspace .nfx-replay-object-menu kbd{margin-left:auto;padding:2px 4px;border:1px solid #4a5668;border-radius:3px;color:#98a8bd;font:9px system-ui}
+@media(max-width:760px){#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button{width:34px;height:32px;min-width:34px;flex-basis:32px}#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button svg{width:19px;height:19px}}
 </style>
 </body>
 </html>
