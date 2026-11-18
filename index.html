@@ -6184,7 +6184,7 @@ window.addEventListener('resize',closeAccountDropdown);
   // Keep the embedded real-time TradingView chart and the custom historical Bar Replay in separate modes.
   function setChartWorkspaceMode(mode){
     const live=mode!=='replay';
-    const liveSection=$('chartWorkspace'), replaySection=$('nabilReplayPointLab');
+    const liveSection=$('chartWorkspace'), replaySection=$('replayWorkspace');
     if(!liveSection||!replaySection)return;
     liveSection.hidden=!live;
     replaySection.hidden=live;
@@ -6428,6 +6428,13 @@ window.addEventListener('resize',closeAccountDropdown);
     if(statusLabel)statusLabel.textContent=symbol+' · '+replayEls.interval.value+' · '+replayFormatTime(visibleBars[visibleBars.length-1].time);
     document.querySelectorAll('[data-replay-tf]').forEach(b=>b.classList.toggle('active',b.dataset.replayTf===replayEls.interval.value));
     replayUpdateMeta();
+    const tfLabel=document.getElementById('replayChartTf');
+    if(tfLabel)tfLabel.textContent=String(replayEls.interval.value||'1h').toUpperCase();
+    const progress=document.getElementById('replayProgressBar');
+    const progressLabel=document.getElementById('replayProgressLabel');
+    const pct=replayBars.length>1?Math.round((replayIndex/(replayBars.length-1))*100):0;
+    if(progress)progress.style.width=pct+'%';
+    if(progressLabel)progressLabel.textContent=pct+'%';
   }
   function replayStep(delta){
     if(!replayBars.length)return;
