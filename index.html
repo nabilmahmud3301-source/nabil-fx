@@ -4508,7 +4508,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
   <section id="replayWorkspace" class="nfx-replay-workspace" data-chart-workspace="replay" hidden>
     <div class="nfx-replay-header">
       <div><h2><span class="nfx-chart-brand-white">NF</span><span class="nfx-chart-brand-red">x</span> Bar Replay</h2></div>
-      <button id="replayFitChart" class="nfx-replay-quiet-btn" type="button">⤢ Fit chart</button>
+      <div class="nfx-replay-header-actions"><button id="replayFitChart" class="nfx-replay-quiet-btn" type="button">⤢ Fit chart</button><button id="replayFullscreenButton" class="nfx-replay-quiet-btn" type="button" aria-label="Fullscreen Bar Replay" title="Fullscreen Bar Replay">⛶ Fullscreen</button></div>
     </div>
     <div class="nfx-replay-config">
       <div class="replay-market-field"><label for="replaySymbol">MARKET</label><input id="replaySymbol" value="EURUSD" autocomplete="off" spellcheck="false" aria-expanded="false"><div id="replayMarketPicker" class="replay-market-picker" hidden><div class="replay-market-picker-head">SELECT MARKET</div><div id="replayMarketResults" class="replay-market-results"></div></div></div>
@@ -4519,6 +4519,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
       <button id="replayLoad" class="nfx-replay-primary" type="button">Load Historical Data <span>↗</span></button>
     </div>
     <div class="nfx-replay-marketline"><div><span class="nfx-replay-live-dot"></span><strong id="replayMetaSymbol">EURUSD</strong><span id="replayMetaTime">—</span></div><div class="nfx-replay-stats"><span><small>VISIBLE</small><b id="replayMetaCount">Not started</b></span><span><small>TOTAL BARS</small><b id="replayMetaTotal">0</b></span><span class="nfx-replay-data-note">Historical data · Third-party feed</span></div></div>
+
     <div class="nfx-replay-chart-frame">
       <div class="nfx-replay-chart-top">
         <div class="nfx-replay-chart-title"><strong id="replayChartSymbol">EURUSD</strong><span id="replayChartTf">1H</span><span class="nfx-replay-chart-tag">HISTORICAL REPLAY</span></div>
@@ -4530,6 +4531,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
         </div>
       </div>
       <div id="replayChart" class="nfx-replay-chart" aria-label="Historical candlestick replay chart"></div>
+    <div class="nfx-replay-control-dock">
       <div class="nfx-replay-timeline"><span>REPLAY PROGRESS</span><div class="nfx-replay-progress-track"><i id="replayProgressBar"></i></div><span id="replayProgressLabel">0%</span></div>
       <div class="nfx-replay-controls">
         <div class="nfx-replay-transport">
@@ -4542,6 +4544,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
         <div class="nfx-replay-speed"><label for="replaySpeed">PLAYBACK SPEED</label><select id="replaySpeed"><option value="1500">0.5×</option><option value="900" selected>1×</option><option value="450">2×</option><option value="180">5×</option></select></div>
         <button id="replayLive" type="button" class="nfx-replay-quiet-btn">↻ Refresh Data</button>
       </div>
+    </div>
       <div id="replayStatus" class="nfx-replay-status" role="status">Choose a market and click <strong>Load Historical Data</strong> to begin.</div>
     </div>
     <p class="nfx-replay-disclaimer">Market data is provided by free third-party feeds and may differ from your broker or TradingView feed. Availability depends on the selected symbol and timeframe.</p>
@@ -6527,6 +6530,34 @@ window.addEventListener('resize',closeAccountDropdown);
     const cursor=replayEls.chart.querySelector('.replay-replay-cursor');
     if(cursor)cursor.style.display='none';
     replayStatus('Choose your starting candle: move the vertical line to a candle and click it. All candles to its right will be hidden.');
+  });
+  document.getElementById('replayFullscreenButton')?.addEventListener('click',async()=>{
+    const workspace=document.getElementById('replayWorkspace');
+    if(!workspace)return;
+    try{
+      if(document.fullscreenElement===workspace) await document.exitFullscreen();
+      else{
+        if(document.fullscreenElement) await document.exitFullscreen();
+        if(!workspace.requestFullscreen) throw new Error('Fullscreen is not supported by this browser');
+        await workspace.requestFullscreen();
+      }
+    }catch(error){replayStatus('Fullscreen could not be opened. Check your browser permissions and try again.');return;}
+    window.setTimeout(()=>{
+      if(replayChart){
+        const chartEl=document.getElementById('replayChart');
+        if(chartEl)replayChart.resize(chartEl.clientWidth,chartEl.clientHeight);
+        replayChart.timeScale().fitContent();
+      }
+      window.dispatchEvent(new Event('resize'));
+    },180);
+  });
+  document.addEventListener('fullscreenchange',()=>{
+    const btn=document.getElementById('replayFullscreenButton');
+    const active=document.fullscreenElement===document.getElementById('replayWorkspace');
+    if(btn){btn.innerHTML=active?'⛶ Exit Fullscreen':'⛶ Fullscreen';btn.setAttribute('aria-label',active?'Exit Bar Replay fullscreen':'Fullscreen Bar Replay');}
+    window.setTimeout(()=>{
+      if(replayChart){const el=document.getElementById('replayChart');if(el)replayChart.resize(el.clientWidth,el.clientHeight);}
+    },160);
   });
   document.getElementById('replayFitChart')?.addEventListener('click',()=>{
     if(!replayChart||!replayBars.length)return;
@@ -9103,6 +9134,40 @@ window.renderBacktestMetrics=function(r,meta={}){
  #page-chart .nfx-replay-transport .nfx-replay-play{min-width:0;flex:1.5}
  #page-chart .nfx-replay-speed{width:100%;justify-content:flex-start}
  #page-chart .nfx-replay-marketline{align-items:flex-start}
+}
+
+/* Integrated replay controls and full-workspace presentation */
+#page-chart .nfx-replay-header-actions{display:flex;align-items:center;gap:7px;flex-shrink:0}
+#page-chart .nfx-replay-control-dock{display:grid;grid-template-columns:minmax(180px,.85fr) minmax(0,2fr);align-items:center;gap:0;margin:8px 0 10px;overflow:hidden;border:1px solid #29384b;border-radius:8px;background:linear-gradient(110deg,#111c2a,#0d1723)}
+#page-chart .nfx-replay-control-dock .nfx-replay-timeline{min-width:0;border:0;padding:9px 12px}
+#page-chart .nfx-replay-control-dock .nfx-replay-controls{min-width:0;border:0;border-left:1px solid #263447;background:transparent;padding:6px 9px}
+#page-chart .nfx-replay-control-dock .nfx-replay-transport button{height:27px;min-width:30px;padding:0 7px;font-size:9px}
+#page-chart .nfx-replay-control-dock .nfx-replay-transport .nfx-replay-play{min-width:68px}
+#page-chart .nfx-replay-control-dock .nfx-replay-speed{gap:5px}
+#page-chart .nfx-replay-control-dock .nfx-replay-speed label{font-size:7px;white-space:nowrap}
+#page-chart .nfx-replay-control-dock .nfx-replay-speed select{width:62px;height:27px;font-size:9px}
+#page-chart .nfx-replay-control-dock #replayLive{height:27px;padding:0 8px;font-size:9px;white-space:nowrap}
+#page-chart #replayWorkspace:fullscreen{box-sizing:border-box;width:100vw;height:100vh;max-height:100vh;overflow:auto;padding:16px 20px!important;border:0;border-radius:0;background:#080e16}
+#page-chart #replayWorkspace:fullscreen .nfx-replay-chart{height:calc(100vh - 410px);min-height:300px;max-height:none}
+#page-chart #replayWorkspace:fullscreen .nfx-replay-chart-frame{overflow:hidden}
+#page-chart #replayWorkspace:fullscreen .nfx-replay-control-dock{margin:7px 0 9px}
+#page-chart #replayWorkspace:fullscreen .nfx-replay-disclaimer{margin-bottom:4px}
+@media(max-width:900px){
+ #page-chart .nfx-replay-control-dock{grid-template-columns:1fr}
+ #page-chart .nfx-replay-control-dock .nfx-replay-controls{border-left:0;border-top:1px solid #263447}
+ #page-chart #replayWorkspace:fullscreen .nfx-replay-chart{height:calc(100vh - 455px)}
+}
+@media(max-width:620px){
+ #page-chart .nfx-replay-header{flex-wrap:wrap}
+ #page-chart .nfx-replay-header-actions{width:100%;justify-content:flex-end}
+ #page-chart .nfx-replay-control-dock .nfx-replay-controls{flex-wrap:wrap}
+ #page-chart .nfx-replay-control-dock .nfx-replay-transport{width:100%;justify-content:space-between}
+ #page-chart .nfx-replay-control-dock .nfx-replay-transport button{flex:1;min-width:0}
+ #page-chart .nfx-replay-control-dock .nfx-replay-transport .nfx-replay-play{flex:1.4}
+ #page-chart .nfx-replay-control-dock .nfx-replay-speed{flex:1}
+ #page-chart .nfx-replay-control-dock #replayLive{margin-left:auto}
+ #page-chart #replayWorkspace:fullscreen{padding:10px!important}
+ #page-chart #replayWorkspace:fullscreen .nfx-replay-chart{height:calc(100vh - 500px);min-height:250px}
 }
 </style>
 
