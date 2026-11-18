@@ -4520,7 +4520,12 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
     </div>
     <div class="nfx-replay-marketline"><div><span class="nfx-replay-live-dot"></span><strong id="replayMetaSymbol">EURUSD</strong><span id="replayMetaTime">—</span></div><div class="nfx-replay-stats"><span><small>VISIBLE</small><b id="replayMetaCount">Not started</b></span><span><small>TOTAL BARS</small><b id="replayMetaTotal">0</b></span><span class="nfx-replay-data-note">Historical data · Third-party feed</span></div></div>
 
-    <div class="nfx-replay-control-dock">
+
+
+    <div class="nfx-replay-chart-frame">
+      <div class="nfx-replay-chart-top">
+        <div class="nfx-replay-chart-title"><strong id="replayChartSymbol">EURUSD</strong><span id="replayChartTf">1H</span><span class="nfx-replay-chart-tag">HISTORICAL REPLAY</span></div>
+            <div class="nfx-replay-control-dock">
       <div class="nfx-replay-timeline"><span>REPLAY PROGRESS</span><div class="nfx-replay-progress-track"><i id="replayProgressBar"></i></div><span id="replayProgressLabel">0%</span></div>
       <div class="nfx-replay-controls">
         <div class="nfx-replay-transport">
@@ -4534,14 +4539,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
         <button id="replayLive" type="button" class="nfx-replay-quiet-btn">↻ Refresh Data</button>
       </div>
     </div>
-
-    <div class="nfx-replay-chart-frame">
-      <div class="nfx-replay-chart-top">
-        <div class="nfx-replay-chart-title"><strong id="replayChartSymbol">EURUSD</strong><span id="replayChartTf">1H</span><span class="nfx-replay-chart-tag">HISTORICAL REPLAY</span></div>
         <div class="nfx-replay-chart-tools">
-          <button type="button" data-replay-tool="crosshair" class="active" title="Crosshair">＋</button>
-          <button id="replayIndicatorToggle" type="button" title="Toggle EMA 20">EMA 20</button>
-          <button id="replayGridToggle" type="button" class="active" title="Toggle chart grid">▦</button>
           <button id="replaySelectPoint" type="button" title="Choose replay starting candle" aria-pressed="false">⏮ Select Replay Point</button>
         </div>
       </div>
@@ -9260,6 +9258,56 @@ window.renderBacktestMetrics=function(r,meta={}){
  #page-chart #replayWorkspace:fullscreen>.nfx-replay-control-dock{margin:2px 0 4px}
  #page-chart #replayWorkspace:fullscreen .nfx-replay-chart-top{flex-direction:row;align-items:center}
  #page-chart #replayWorkspace:fullscreen .nfx-replay-chart-tools{width:auto}
+}
+
+
+/* Replay controls integrated into the chart header */
+#page-chart #replayWorkspace .nfx-replay-chart-top{
+ display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;
+ min-height:48px;padding:6px 10px;
+}
+#page-chart #replayWorkspace .nfx-replay-chart-title{white-space:nowrap}
+#page-chart #replayWorkspace .nfx-replay-chart-top>.nfx-replay-control-dock{
+ display:flex;align-items:center;min-width:0;gap:12px;margin:0;padding:0;
+ border:0;border-radius:0;background:transparent;overflow:visible;
+}
+#page-chart #replayWorkspace .nfx-replay-chart-top .nfx-replay-timeline{
+ display:flex;flex:1 1 150px;min-width:90px;gap:7px;padding:0;border:0;
+ font-size:7px;letter-spacing:.07em;
+}
+#page-chart #replayWorkspace .nfx-replay-chart-top .nfx-replay-progress-track{height:4px}
+#page-chart #replayWorkspace .nfx-replay-chart-top .nfx-replay-controls{
+ display:flex;flex:0 0 auto;align-items:center;justify-content:flex-end;gap:7px;
+ padding:0;border:0;background:transparent;
+}
+#page-chart #replayWorkspace .nfx-replay-chart-top .nfx-replay-transport{gap:3px}
+#page-chart #replayWorkspace .nfx-replay-chart-top .nfx-replay-transport button{
+ height:27px;min-width:27px;padding:0 6px;font-size:9px;
+}
+#page-chart #replayWorkspace .nfx-replay-chart-top .nfx-replay-transport .nfx-replay-play{min-width:62px}
+#page-chart #replayWorkspace .nfx-replay-chart-top .nfx-replay-speed{gap:4px}
+#page-chart #replayWorkspace .nfx-replay-chart-top .nfx-replay-speed label{font-size:6px;letter-spacing:.05em}
+#page-chart #replayWorkspace .nfx-replay-chart-top .nfx-replay-speed select{width:48px;height:27px;padding:0 4px;font-size:8px}
+#page-chart #replayWorkspace .nfx-replay-chart-top #replayLive{height:27px;padding:0 7px;font-size:8px;white-space:nowrap}
+#page-chart #replayWorkspace .nfx-replay-chart-top .nfx-replay-chart-tools{flex:0 0 auto}
+#page-chart #replayWorkspace .nfx-replay-chart-top .nfx-replay-chart-tools button{height:27px;padding:0 8px;font-size:9px}
+#page-chart #replayWorkspace .nfx-replay-chart-frame{overflow:hidden}
+#page-chart #replayWorkspace:fullscreen>.nfx-replay-chart-frame{flex:1 1 auto;min-height:0}
+#page-chart #replayWorkspace:fullscreen .nfx-replay-chart-top{grid-template-columns:auto minmax(0,1fr) auto;flex:0 0 auto}
+@media(max-width:1100px){
+ #page-chart #replayWorkspace .nfx-replay-chart-top{grid-template-columns:auto minmax(0,1fr);row-gap:7px}
+ #page-chart #replayWorkspace .nfx-replay-chart-top>.nfx-replay-control-dock{grid-column:1/-1;grid-row:2}
+ #page-chart #replayWorkspace .nfx-replay-chart-top .nfx-replay-chart-tools{grid-column:2;grid-row:1;justify-self:end}
+}
+@media(max-width:620px){
+ #page-chart #replayWorkspace .nfx-replay-chart-top{grid-template-columns:1fr auto;gap:6px;padding:6px}
+ #page-chart #replayWorkspace .nfx-replay-chart-top>.nfx-replay-control-dock{grid-column:1/-1;grid-row:2;flex-wrap:wrap;gap:6px}
+ #page-chart #replayWorkspace .nfx-replay-chart-top .nfx-replay-timeline{flex-basis:100%}
+ #page-chart #replayWorkspace .nfx-replay-chart-top .nfx-replay-controls{width:100%;justify-content:space-between;flex-wrap:wrap}
+ #page-chart #replayWorkspace .nfx-replay-chart-top .nfx-replay-transport{flex:1}
+ #page-chart #replayWorkspace .nfx-replay-chart-top .nfx-replay-transport button{flex:1;min-width:0}
+ #page-chart #replayWorkspace .nfx-replay-chart-top .nfx-replay-transport .nfx-replay-play{flex:1.3}
+ #page-chart #replayWorkspace .nfx-replay-chart-top .nfx-replay-chart-tools{grid-column:2;grid-row:1}
 }
 
 </style>
