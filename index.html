@@ -6687,6 +6687,20 @@ window.addEventListener('resize',closeAccountDropdown);
     const d=new Date(ts*1000);
     return d.toLocaleString('en-GB',{timeZone:'UTC',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false})+' UTC';
   }
+  // Keep candle price formatting aligned with each instrument's real tick precision.
+  // The Lightweight Charts default (2 decimals) is too coarse for FX and many crypto pairs.
+  function replayPricePrecision(symbol,bars){
+    const s=String(symbol||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
+    if(/^[A-Z]{6}$/.test(s)&&! /^(XAU|XAG|XPT|XPD)/.test(s))return s.endsWith('JPY')?3:5;
+    if(/^(XAU|XAG|XPT|XPD)USD$/.test(s))return 2;
+    if(/^(ES|NQ|YM|RTY|GC|SI|CL|NG)[FGHJKMNQUVXZ]\\d{1,2}$/.test(s))return 2;
+    if(/USDT$|USDC$|BUSD$|BTCUSD$|ETHUSD$/.test(s)){
+      const prices=(bars||[]).slice(-100).map(b=>Math.abs(Number(b.close))).filter(v=>Number.isFinite(v)&&v>0);
+      const typical=prices.length?prices.sort((a,b)=>a-b)[Math.floor(prices.length/2)]:1;
+      return typical>=1000?2:typical>=1?4:6;
+    }
+    return 2;
+  }
   function replayUpdateMeta(){
     replayEls.metaSymbol.textContent=(replayEls.symbol.value||'').toUpperCase();
     replayEls.metaTotal.textContent=String(replayBars.length);
@@ -6883,6 +6897,10 @@ window.addEventListener('resize',closeAccountDropdown);
       // can enter replay state, even if a feed ignores its date parameters.
       replayBars=bars.filter(inSelectedRange).sort((a,b)=>a.time-b.time).filter((b,i,a)=>i===0||b.time>a[i-1].time);
       if(!replayBars.length)throw new Error('No historical candles returned for this symbol/date. Try a different symbol, timeframe, or date range.');
+      // Apply the instrument's native display precision before drawing candles.
+      // This prevents FX/crypto price labels from being rounded to the chart library's 2-decimal default.
+      const pricePrecision=replayPricePrecision(symbol,replayBars);
+      replaySeries.applyOptions({priceFormat:{type:'price',precision:pricePrecision,minMove:Math.pow(10,-pricePrecision)}});
       // Show enough candles to make the chart visibly populated after loading.
       // Start Replay still resets to candle one for a clean replay.
       replayIndex=liveMode?replayBars.length-1:Math.min(49,replayBars.length-1);replaySetButtons(true);
