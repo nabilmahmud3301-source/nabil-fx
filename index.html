@@ -4518,7 +4518,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
   <section id="replayWorkspace" class="nfx-replay-workspace" data-chart-workspace="replay" hidden>
     <div class="nfx-replay-header">
       <div><h2><span class="nfx-chart-brand-white">NF</span><span class="nfx-chart-brand-red">x</span> Bar Replay</h2></div>
-      <div class="nfx-replay-header-actions"><button id="replayFullscreenButton class="nfx-replay-quiet-btn" type="button" aria-label="Fullscreen Bar Replay" title="Fullscreen Bar Replay">⛶ Fullscreen</button></div>
+      <div class="nfx-replay-header-actions"><button id="replayFullscreenButton" class="nfx-replay-fullscreen-btn" type="button" aria-label="Fullscreen Bar Replay" title="Fullscreen Bar Replay"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M3 16v3a2 2 0 0 0 2 2h3"/></svg><span>Fullscreen</span></button></div>
     </div>
     <div class="nfx-replay-config">
       <div class="replay-market-field"><label for="replaySymbol">MARKET</label><input id="replaySymbol" value="EURUSD" autocomplete="off" spellcheck="false" aria-expanded="false"><div id="replayMarketPicker" class="replay-market-picker" hidden><div class="replay-market-picker-head">SELECT MARKET</div><div id="replayMarketResults" class="replay-market-results"></div></div></div>
@@ -4555,16 +4555,16 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
       </div>
       <div class="nfx-replay-chart-layout">
         <aside class="nfx-replay-drawing-toolbar" aria-label="Chart drawing tools">
-          <button type="button" class="active" data-replay-draw="cursor" title="Cursor / Select" aria-label="Cursor / Select">↖</button>
+          <button type="button" class="active" data-replay-draw="cursor" title="Cursor / Select" aria-label="Cursor / Select"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l13 12-6 1.2L9 22 5 3z"/></svg></button>
           <span class="nfx-replay-draw-divider"></span>
-          <button type="button" data-replay-draw="trend" title="Trend Line" aria-label="Trend Line">／</button>
-          <button type="button" data-replay-draw="hline" title="Horizontal Line" aria-label="Horizontal Line">―</button>
-          <button type="button" data-replay-draw="vline" title="Vertical Line" aria-label="Vertical Line">│</button>
-          <button type="button" data-replay-draw="rect" title="Rectangle" aria-label="Rectangle">▱</button>
-          <button type="button" data-replay-draw="brush" title="Brush" aria-label="Brush">〰</button>
+          <button type="button" data-replay-draw="trend" title="Trend Line" aria-label="Trend Line"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19L19 4M12 4h7v7"/></svg></button>
+          <button type="button" data-replay-draw="hline" title="Horizontal Line" aria-label="Horizontal Line"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18M7 8v8M17 8v8"/></svg></button>
+          <button type="button" data-replay-draw="vline" title="Vertical Line" aria-label="Vertical Line"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M8 7h8M8 17h8"/></svg></button>
+          <button type="button" data-replay-draw="rect" title="Rectangle" aria-label="Rectangle"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="1"/></svg></button>
+          <button type="button" data-replay-draw="brush" title="Brush" aria-label="Brush"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 16c3-8 5 5 8-3s5-6 8-5"/></svg></button>
           <span class="nfx-replay-draw-divider"></span>
-          <button type="button" data-replay-draw="undo" title="Undo Drawing" aria-label="Undo Drawing">↶</button>
-          <button type="button" data-replay-draw="clear" title="Clear Drawings" aria-label="Clear Drawings">⌫</button>
+          <button type="button" data-replay-draw="undo" title="Undo Drawing" aria-label="Undo Drawing"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14L4 9l5-5M4 9h9a7 7 0 0 1 0 14h-2"/></svg></button>
+          <button type="button" data-replay-draw="clear" title="Clear Drawings" aria-label="Clear Drawings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v7M14 11v7M5 7l1 14h12l1-14M9 7V4h6v3"/></svg></button>
         </aside>
         <div id="replayChart" class="nfx-replay-chart" aria-label="Historical candlestick replay chart">
           <canvas id="replayDrawingCanvas" class="nfx-replay-drawing-canvas" aria-label="Replay chart drawing layer"></canvas>
@@ -6440,6 +6440,28 @@ window.addEventListener('resize',closeAccountDropdown);
       handleScale:{mouseWheel:true,pinch:true,axisPressedMouseMove:{time:true,price:true}}
     });
     replaySeries=replayChart.addCandlestickSeries({upColor:'#26a69a',downColor:'#ef5350',borderUpColor:'#26a69a',borderDownColor:'#ef5350',wickUpColor:'#26a69a',wickDownColor:'#ef5350',priceLineVisible:true,lastValueVisible:true,priceLineColor:'#26a69a'});
+    // Mobile price-axis drag: vertically pan the visible price range when the right scale is touched.
+    replayEls.chart.style.touchAction='none';
+    let replayPriceAxisDrag=null;
+    replayEls.chart.addEventListener('pointerdown',event=>{
+      if(event.pointerType!=='touch'||!replaySeries||!replayBars.length)return;
+      const bounds=replayEls.chart.getBoundingClientRect();
+      if(event.clientX<bounds.right-88)return;
+      const range=replaySeries.priceScale().getVisibleRange();
+      if(!range||!Number.isFinite(range.from)||!Number.isFinite(range.to))return;
+      replayPriceAxisDrag={pointerId:event.pointerId,startY:event.clientY,from:range.from,to:range.to,height:Math.max(1,bounds.height)};
+      event.preventDefault();event.stopPropagation();
+      try{replayEls.chart.setPointerCapture(event.pointerId);}catch(e){}
+    },true);
+    replayEls.chart.addEventListener('pointermove',event=>{
+      const drag=replayPriceAxisDrag;if(!drag||drag.pointerId!==event.pointerId)return;
+      event.preventDefault();event.stopPropagation();
+      const delta=(event.clientY-drag.startY)/drag.height*(drag.to-drag.from);
+      try{replaySeries.priceScale().setVisibleRange({from:drag.from-delta,to:drag.to-delta});}catch(e){}
+    },true);
+    const stopPriceAxisDrag=event=>{if(replayPriceAxisDrag&&replayPriceAxisDrag.pointerId===event.pointerId)replayPriceAxisDrag=null;};
+    replayEls.chart.addEventListener('pointerup',stopPriceAxisDrag,true);
+    replayEls.chart.addEventListener('pointercancel',stopPriceAxisDrag,true);
     replayEmaSeries=replayChart.addLineSeries({color:'#f6b73c',lineWidth:2,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});
     const replayCursor=document.createElement('div');
     replayCursor.className='replay-replay-cursor';
@@ -6649,7 +6671,7 @@ window.addEventListener('resize',closeAccountDropdown);
   document.addEventListener('fullscreenchange',()=>{
     const btn=document.getElementById('replayFullscreenButton');
     const active=document.fullscreenElement===document.getElementById('replayWorkspace');
-    if(btn){btn.innerHTML=active?'⛶ Exit Fullscreen':'⛶ Fullscreen';btn.setAttribute('aria-label',active?'Exit Bar Replay fullscreen':'Fullscreen Bar Replay');}
+    if(btn){btn.innerHTML=active?'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M3 16v3a2 2 0 0 0 2 2h3"/></svg><span>Exit Fullscreen</span>':'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M3 16v3a2 2 0 0 0 2 2h3"/></svg><span>Fullscreen</span>';btn.setAttribute('aria-label',active?'Exit Bar Replay fullscreen':'Fullscreen Bar Replay');btn.setAttribute('aria-pressed',String(active));}
     window.setTimeout(()=>{
       if(replayChart){const el=document.getElementById('replayChart');if(el)replayChart.resize(el.clientWidth,el.clientHeight);}
     },160);
@@ -9404,5 +9426,40 @@ window.renderBacktestMetrics=function(r,meta={}){
 
 
 
+
+<style id="nfx-bar-replay-professional-controls">
+/* Bar Replay only: refined TradingView-style drawing rail and dependable fullscreen layout. */
+#page-chart #replayWorkspace .nfx-replay-header-actions{display:flex;align-items:center;gap:8px}
+#page-chart #replayWorkspace .nfx-replay-fullscreen-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:36px;padding:0 12px;border:1px solid #343b49;border-radius:6px;background:#171c27;color:#d7dce6;font:650 11px/1 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:.01em;cursor:pointer;box-shadow:inset 0 1px #ffffff0b;transition:background .15s,border-color .15s,color .15s}
+#page-chart #replayWorkspace .nfx-replay-fullscreen-btn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+#page-chart #replayWorkspace .nfx-replay-fullscreen-btn:hover{border-color:#65748b;background:#222a38;color:#fff;filter:none}
+#page-chart #replayWorkspace .nfx-replay-fullscreen-btn:focus-visible{outline:2px solid #7099d0;outline-offset:2px}
+#page-chart #replayWorkspace .nfx-replay-chart-layout{grid-template-columns:48px minmax(0,1fr);background:#131722}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar{position:relative;z-index:9;align-items:center;gap:3px;padding:8px 5px;background:#131722;border-right:1px solid #2a2e39;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#424956 #131722}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button{position:relative;display:grid;place-items:center;width:36px;height:35px;min-width:36px;flex:0 0 35px;padding:0;border:1px solid transparent;border-radius:4px;background:transparent;color:#b2b5be;font-size:0;cursor:pointer;transition:background .12s,border-color .12s,color .12s}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button svg{display:block;width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button[data-replay-draw="cursor"] svg{fill:currentColor;stroke:#131722;stroke-width:1.1}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button:hover{background:#202631;border-color:#363d49;color:#f0f3fa}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button.active{background:#26364f;border-color:#3b5b89;color:#83b5ff;box-shadow:inset 0 0 0 1px #78a9ff12}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button[data-replay-draw="undo"],#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button[data-replay-draw="clear"]{color:#9da7b6}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button[data-replay-draw="undo"]:hover,#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button[data-replay-draw="clear"]:hover{color:#ff929e}
+#page-chart #replayWorkspace .nfx-replay-draw-divider{width:25px;height:1px;flex:0 0 1px;margin:4px 0;background:#303744}
+#page-chart #replayWorkspace .nfx-replay-chart{touch-action:none}
+#page-chart #replayWorkspace:fullscreen{position:fixed!important;inset:0!important;z-index:2147483000!important;width:100vw!important;height:100dvh!important;max-height:100dvh!important;min-height:0!important;margin:0!important;padding:10px 14px!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;gap:0!important;border:0!important;border-radius:0!important;background:#080e16!important}
+#page-chart #replayWorkspace:fullscreen .nfx-replay-chart-frame{display:flex!important;flex:1 1 auto!important;flex-direction:column!important;min-height:0!important;overflow:hidden!important}
+#page-chart #replayWorkspace:fullscreen .nfx-replay-chart-layout{flex:1 1 auto!important;min-height:0!important;overflow:hidden!important}
+#page-chart #replayWorkspace:fullscreen .nfx-replay-chart{height:100%!important;min-height:0!important;max-height:none!important}
+#page-chart #replayWorkspace:fullscreen .nfx-replay-chart-top{flex:0 0 auto!important}
+#page-chart #replayWorkspace:fullscreen .nfx-replay-status{flex:0 0 auto!important}
+@media(max-width:760px){
+ #page-chart #replayWorkspace .nfx-replay-chart-layout{grid-template-columns:42px minmax(0,1fr)}
+ #page-chart #replayWorkspace .nfx-replay-drawing-toolbar{gap:2px;padding:6px 3px}
+ #page-chart #replayWorkspace .nfx-replay-drawing-toolbar button{width:34px;height:33px;min-width:34px;flex-basis:33px}
+ #page-chart #replayWorkspace .nfx-replay-drawing-toolbar button svg{width:18px;height:18px}
+ #page-chart #replayWorkspace:fullscreen{padding:6px!important}
+ #page-chart #replayWorkspace:fullscreen .nfx-replay-chart-layout{grid-template-columns:40px minmax(0,1fr)!important}
+ #page-chart #replayWorkspace:fullscreen .nfx-replay-drawing-toolbar{padding:5px 2px}
+}
+</style>
 </body>
 </html>
