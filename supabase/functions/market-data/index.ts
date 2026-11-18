@@ -1,5 +1,5 @@
 // Unified historical candle gateway for Nabil FX.
-// Secrets: TWELVEDATA_API_KEY for FX/stocks/indices/commodities; MASSIVE_API_KEY for futures.
+// Sources: Coinbase Exchange for USD-quoted crypto, Twelve Data for FX/equities/indices/commodities, Massive for dated futures.
 const cors = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
