@@ -4343,6 +4343,20 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 #page-chart .nfx-replay-chart{position:relative;min-width:0;overflow:hidden;touch-action:pan-y}
 #page-chart .nfx-replay-drawing-canvas{position:absolute;inset:0;z-index:8;width:100%;height:100%;pointer-events:none;touch-action:none}
 #page-chart .nfx-replay-drawing-canvas.is-drawing{pointer-events:auto;cursor:crosshair}
+#page-chart .nfx-replay-drawing-canvas.is-editing{pointer-events:auto;cursor:move}
+#page-chart .nfx-replay-editbar{position:absolute;z-index:14;top:9px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:5px;max-width:calc(100% - 18px);padding:6px 8px;border:1px solid #35465e;border-radius:7px;background:rgba(13,20,31,.96);box-shadow:0 8px 24px #0008;color:#cbd6e5;font:700 9px/1 system-ui;backdrop-filter:blur(10px)}
+#page-chart .nfx-replay-editbar[hidden]{display:none}
+#page-chart .nfx-replay-editbar-label{padding:0 5px;color:#8fa3bd;letter-spacing:.12em}
+#page-chart .nfx-replay-editbar button{display:grid;place-items:center;width:25px;height:25px;border:1px solid #34445a;border-radius:5px;background:#172334;color:#dce7f6;font-size:16px;cursor:pointer}
+#page-chart .nfx-replay-editbar button:hover{border-color:#7093c1;background:#243750}
+#page-chart .nfx-replay-editbar button.danger:hover{border-color:#a64a57;background:#48212a;color:#ff9ba6}
+#page-chart .nfx-replay-editbar button i{width:13px;height:13px;border:1px solid #ffffff66;border-radius:50%;background:var(--swatch)}
+#page-chart .nfx-replay-editbar-sep{width:1px;height:20px;background:#34445a;margin:0 3px}
+#page-chart .nfx-replay-editbar label{display:flex;align-items:center;gap:5px;color:#8194ad;font-size:8px}
+#page-chart .nfx-replay-editbar select{height:25px;padding:0 5px;border:1px solid #34445a;border-radius:4px;background:#172334;color:#e3ebf7;font-size:9px}
+#page-chart .nfx-replay-drawing-toolbar button svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#page-chart .nfx-replay-drawing-toolbar button.active svg{stroke-width:2}
+@media(max-width:620px){#page-chart .nfx-replay-editbar{top:5px;gap:3px;padding:4px 5px}#page-chart .nfx-replay-editbar-label{display:none}#page-chart .nfx-replay-editbar button{width:23px;height:23px}#page-chart .nfx-replay-editbar label{font-size:7px}#page-chart .nfx-replay-editbar select{max-width:55px}}
 @media(max-width:620px){#page-chart .nfx-replay-chart-layout{grid-template-columns:38px minmax(0,1fr)}#page-chart .nfx-replay-drawing-toolbar{gap:4px;padding:7px 3px}#page-chart .nfx-replay-drawing-toolbar button{width:30px;height:30px;flex-basis:30px;font-size:16px}}
 #page-chart .nfx-replay-chart-tools{display:flex;gap:5px}
 #page-chart .nfx-replay-chart-tools button,#page-chart .nfx-replay-transport button,#page-chart .nfx-replay-quiet-btn{height:32px;padding:0 10px;border:1px solid #304158;border-radius:5px;background:#172334;color:#b8c6d8;font-size:10px;font-weight:700;cursor:pointer}
@@ -4589,6 +4603,18 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
         </aside>
         <div id="replayChart" class="nfx-replay-chart" aria-label="Historical candlestick replay chart">
           <canvas id="replayDrawingCanvas" class="nfx-replay-drawing-canvas" aria-label="Replay chart drawing layer"></canvas>
+          <div id="replayDrawingEditBar" class="nfx-replay-editbar" role="toolbar" aria-label="Selected drawing settings" hidden>
+            <span class="nfx-replay-editbar-label">DRAWING</span>
+            <button type="button" data-draw-color="#f0b86a" aria-label="Gold color" title="Gold"><i style="--swatch:#f0b86a"></i></button>
+            <button type="button" data-draw-color="#5b9cf6" aria-label="Blue color" title="Blue"><i style="--swatch:#5b9cf6"></i></button>
+            <button type="button" data-draw-color="#26a69a" aria-label="Teal color" title="Teal"><i style="--swatch:#26a69a"></i></button>
+            <button type="button" data-draw-color="#ef5350" aria-label="Red color" title="Red"><i style="--swatch:#ef5350"></i></button>
+            <span class="nfx-replay-editbar-sep"></span>
+            <label>WIDTH <select id="replayDrawingWidth" aria-label="Drawing line width"><option value="1">1 px</option><option value="1.5" selected>1.5 px</option><option value="2.5">2.5 px</option><option value="4">4 px</option></select></label>
+            <button type="button" id="replayDrawingLock" title="Lock drawing" aria-label="Lock drawing">♧</button>
+            <button type="button" id="replayDrawingDuplicate" title="Duplicate drawing" aria-label="Duplicate drawing">▣</button>
+            <button type="button" id="replayDrawingDelete" class="danger" title="Delete selected drawing" aria-label="Delete selected drawing">×</button>
+          </div>
         </div>
       </div>
 
@@ -6269,6 +6295,8 @@ window.addEventListener('resize',closeAccountDropdown);
   let replayDrawingMode='cursor', replayDrawings=[], replayDraft=null, replayDrawPointer=null, replaySelectedDrawing=-1;
   const replayDrawingCanvas=$('replayDrawingCanvas');
   const replayDrawingCtx=replayDrawingCanvas?.getContext('2d');
+  const replayDrawingEditBar=$('replayDrawingEditBar');
+  let replayDrawingEditDrag=null;
   function replayDrawingPoint(event){
     const rect=replayDrawingCanvas.getBoundingClientRect();
     const x=event.clientX-rect.left,y=event.clientY-rect.top;
@@ -6291,7 +6319,7 @@ window.addEventListener('resize',closeAccountDropdown);
     replayDrawingCtx.setTransform(dpr,0,0,dpr,0,0);replayDrawingCtx.clearRect(0,0,rect.width,rect.height);
     const paint=(drawing,preview=false,selected=false)=>{
       const pts=(drawing.points||[]).map(replayDrawingXY).filter(Boolean);if(!pts.length)return;
-      const ctx=replayDrawingCtx;ctx.save();ctx.strokeStyle=preview?'#8bbcff':selected?'#69a9ff':'#f0b86a';ctx.fillStyle=selected?'rgba(67,145,255,.19)':'rgba(41,98,160,.13)';ctx.lineWidth=selected?2.2:1.5;ctx.setLineDash(preview?[5,4]:[]);
+      const ctx=replayDrawingCtx;ctx.save();ctx.strokeStyle=preview?'#8bbcff':selected?'#69a9ff':(drawing.color||'#f0b86a');ctx.fillStyle=selected?'rgba(67,145,255,.19)':'rgba(41,98,160,.13)';ctx.lineWidth=Number(drawing.width)||(selected?2.2:1.5);ctx.setLineDash(preview?[5,4]:[]);
       const a=pts[0],b=pts[pts.length-1],left=Math.min(a.x,b.x),right=Math.max(a.x,b.x),top=Math.min(a.y,b.y),bottom=Math.max(a.y,b.y),mid=(a.y+b.y)/2;
       ctx.beginPath();
       if(drawing.tool==='hline'){ctx.moveTo(0,a.y);ctx.lineTo(rect.width,a.y);}
@@ -6322,33 +6350,67 @@ window.addEventListener('resize',closeAccountDropdown);
       else if(drawing.tool==='infoline'){ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();ctx.setLineDash([]);ctx.font='11px system-ui';ctx.fillStyle='#f0c17e';ctx.fillText(Math.abs(b.price-a.price).toFixed(5)+'  |  '+Math.abs(b.time-a.time)+'s',b.x+6,b.y-7);}
       else{ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}
       ctx.restore();
+      if(selected){
+        ctx.save();ctx.fillStyle='#f4f8ff';ctx.strokeStyle='#367ed8';ctx.lineWidth=1.5;
+        const handles=[a,...(pts.length>1?[b]:[])];
+        handles.forEach(p=>{ctx.beginPath();ctx.rect(p.x-4,p.y-4,8,8);ctx.fill();ctx.stroke();});
+        ctx.restore();
+      }
     };
     replayDrawings.forEach((d,i)=>paint(d,false,i===replaySelectedDrawing));if(replayDraft)paint(replayDraft,true);
     const deleteButton=document.querySelector('[data-replay-draw="delete"]');
     if(deleteButton){deleteButton.classList.toggle('has-selection',replaySelectedDrawing>=0);deleteButton.disabled=replaySelectedDrawing<0;deleteButton.setAttribute('aria-pressed',String(replaySelectedDrawing>=0));}
+    if(replayDrawingCanvas)replayDrawingCanvas.classList.toggle('is-editing',replaySelectedDrawing>=0&&replayDrawingMode==='cursor');
+    if(replayDrawingEditBar){
+      replayDrawingEditBar.hidden=replaySelectedDrawing<0;
+      const drawing=replayDrawings[replaySelectedDrawing];
+      if(drawing){
+        const width=$('replayDrawingWidth');if(width)width.value=String(drawing.width||1.5);
+        const lock=$('replayDrawingLock');if(lock){lock.textContent=drawing.locked?'🔒':'♧';lock.title=drawing.locked?'Unlock drawing':'Lock drawing';}
+      }
+    }
   }
   function replaySetDrawingMode(mode){
     replayDrawingMode=mode;
     document.querySelectorAll('[data-replay-draw]').forEach(b=>{const active=b.dataset.replayDraw===mode;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));});
     replayDrawingCanvas?.classList.toggle('is-drawing',mode!=='cursor'&&mode!=='crosshair');
-    if(replayDrawingCanvas)replayDrawingCanvas.style.cursor=mode==='cursor'?'default':mode==='crosshair'?'crosshair':'crosshair';
+    if(replayDrawingCanvas)replayDrawingCanvas.style.cursor=mode==='cursor'?(replaySelectedDrawing>=0?'move':'default'):mode==='crosshair'?'crosshair':'crosshair';
+    if(mode!=='cursor'){replaySelectedDrawing=-1;replayPaintDrawings();}
   }
   if(replayDrawingCanvas){
     replayDrawingCanvas.addEventListener('pointerdown',event=>{
-      if(replayDrawingMode==='cursor'||replayDrawingMode==='crosshair'||replaySelectingPoint)return;
+      if(replaySelectingPoint)return;
+      if(replayDrawingMode==='cursor'&&replaySelectedDrawing>=0){
+        const drawing=replayDrawings[replaySelectedDrawing];if(!drawing||drawing.locked)return;
+        const point=replayDrawingPoint(event);if(!point)return;
+        const xy={x:event.clientX-replayDrawingCanvas.getBoundingClientRect().left,y:event.clientY-replayDrawingCanvas.getBoundingClientRect().top};
+        const pts=(drawing.points||[]).map(replayDrawingXY).filter(Boolean);
+        let handle=-1;for(let i=0;i<pts.length;i++)if(Math.hypot(xy.x-pts[i].x,xy.y-pts[i].y)<11){handle=i;break;}
+        replayDrawingEditDrag={pointerId:event.pointerId,index:replaySelectedDrawing,handle,start:point,original:drawing.points.map(p=>({...p}))};
+        event.preventDefault();event.stopPropagation();replayDrawingCanvas.setPointerCapture(event.pointerId);return;
+      }
+      if(replayDrawingMode==='cursor'||replayDrawingMode==='crosshair')return;
       const point=replayDrawingPoint(event);if(!point)return;
       event.preventDefault();event.stopPropagation();replayDrawPointer=event.pointerId;
       replayDraft={tool:replayDrawingMode,points:[point]};replayDrawingCanvas.setPointerCapture(event.pointerId);replayPaintDrawings();
     });
     replayDrawingCanvas.addEventListener('pointermove',event=>{
+      if(replayDrawingEditDrag&&replayDrawingEditDrag.pointerId===event.pointerId){
+        const drag=replayDrawingEditDrag,drawing=replayDrawings[drag.index],point=replayDrawingPoint(event);if(!drawing||!point)return;
+        const dt=point.time-drag.start.time,dp=point.price-drag.start.price;
+        if(drag.handle>=0){drawing.points[drag.handle]=point;}
+        else{drawing.points=drag.original.map(p=>({time:p.time+dt,price:p.price+dp}));}
+        event.preventDefault();event.stopPropagation();replayPaintDrawings();return;
+      }
       if(replayDrawPointer!==event.pointerId||!replayDraft)return;
       const point=replayDrawingPoint(event);if(point){if(replayDraft.tool==='brush'||replayDraft.tool==='path')replayDraft.points.push(point);else replayDraft.points[1]=point;replayPaintDrawings();}
     });
     const finishReplayDrawing=event=>{
+      if(replayDrawingEditDrag&&replayDrawingEditDrag.pointerId===event.pointerId){replayDrawingEditDrag=null;replayPaintDrawings();return;}
       if(replayDrawPointer!==event.pointerId||!replayDraft)return;
       if(replayDraft.points.length===2||replayDraft.tool==='brush'||replayDraft.tool==='path'){
         if(replayDraft.tool==='text'){const label=window.prompt('Enter chart note:','Note');if(label)replayDraft.label=label;}
-        if(replayDraft.tool!=='text'||replayDraft.label){replayDrawings.push(replayDraft);replaySelectedDrawing=replayDrawings.length-1;}
+        if(replayDraft.tool!=='text'||replayDraft.label){replayDraft.color='#f0b86a';replayDraft.width=1.5;replayDrawings.push(replayDraft);replaySelectedDrawing=replayDrawings.length-1;}
       }
       replayDraft=null;replayDrawPointer=null;replaySetDrawingMode('cursor');replayPaintDrawings();
     };
@@ -6374,6 +6436,17 @@ window.addEventListener('resize',closeAccountDropdown);
     }
     return -1;
   }
+  if(replayDrawingCanvas){
+    replayDrawingCanvas.addEventListener('contextmenu',event=>{
+      const rect=replayDrawingCanvas.getBoundingClientRect(),index=replayFindDrawingAt(event.clientX-rect.left,event.clientY-rect.top);
+      if(index>=0){event.preventDefault();replaySelectedDrawing=index;replayPaintDrawings();if(window.confirm('Delete this drawing?')){replayDrawings.splice(index,1);replaySelectedDrawing=-1;}replayPaintDrawings();}
+    });
+    window.addEventListener('keydown',event=>{
+      if(replaySelectedDrawing<0||replayDrawingMode!=='cursor'||event.target?.matches('input,textarea,select,[contenteditable="true"]'))return;
+      if(event.key==='Delete'||event.key==='Backspace'){event.preventDefault();replayDrawings.splice(replaySelectedDrawing,1);replaySelectedDrawing=-1;replayPaintDrawings();}
+      if(event.key==='Escape'){replaySelectedDrawing=-1;replayPaintDrawings();}
+    });
+  }
   document.querySelectorAll('[data-replay-draw]').forEach(button=>button.addEventListener('click',()=>{
     const mode=button.dataset.replayDraw;
     if(mode==='undo'){replayDrawings.pop();replaySelectedDrawing=-1;replayPaintDrawings();return;}
@@ -6381,6 +6454,17 @@ window.addEventListener('resize',closeAccountDropdown);
     if(mode==='clear'){if(replayDrawings.length&&!window.confirm('Remove all chart drawings?'))return;replayDrawings=[];replaySelectedDrawing=-1;replayDraft=null;replayPaintDrawings();return;}
     replaySetDrawingMode(mode);
   }));
+  function replayDeleteSelectedDrawing(){if(replaySelectedDrawing>=0){replayDrawings.splice(replaySelectedDrawing,1);replaySelectedDrawing=-1;replayPaintDrawings();}}
+  replayDrawingEditBar?.addEventListener('click',event=>{
+    const colorButton=event.target.closest('[data-draw-color]');
+    if(colorButton&&replayDrawings[replaySelectedDrawing]){replayDrawings[replaySelectedDrawing].color=colorButton.dataset.drawColor;replayPaintDrawings();return;}
+    if(event.target.closest('#replayDrawingDelete')){replayDeleteSelectedDrawing();return;}
+    if(event.target.closest('#replayDrawingDuplicate')&&replayDrawings[replaySelectedDrawing]){
+      const clone=JSON.parse(JSON.stringify(replayDrawings[replaySelectedDrawing]));clone.points=clone.points.map(p=>({time:p.time,price:p.price}));clone.points.forEach(p=>{p.time+=1;p.price+=Math.abs(p.price)*.0002||.00001;});clone.locked=false;replayDrawings.push(clone);replaySelectedDrawing=replayDrawings.length-1;replayPaintDrawings();return;
+    }
+    if(event.target.closest('#replayDrawingLock')&&replayDrawings[replaySelectedDrawing]){const d=replayDrawings[replaySelectedDrawing];d.locked=!d.locked;replayPaintDrawings();}
+  });
+  $('replayDrawingWidth')?.addEventListener('change',event=>{if(replayDrawings[replaySelectedDrawing]){replayDrawings[replaySelectedDrawing].width=Number(event.target.value)||1.5;replayPaintDrawings();}});
   function replayStatus(msg){ if(replayEls.status) replayEls.status.innerHTML=msg; }
   function replayStopLive(){if(replayLiveTimer){clearInterval(replayLiveTimer);replayLiveTimer=null;}replayLiveMode=false;replayLiveFetchBusy=false;replayEls.live?.classList.remove('active');}
 
