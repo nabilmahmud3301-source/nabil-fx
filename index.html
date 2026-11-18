@@ -6381,9 +6381,11 @@ window.addEventListener('resize',closeAccountDropdown);
     replayDrawingCanvas.addEventListener('pointerdown',event=>{
       if(replaySelectingPoint)return;
       if(replayDrawingMode==='cursor'&&replaySelectedDrawing>=0){
-        const drawing=replayDrawings[replaySelectedDrawing];if(!drawing||drawing.locked)return;
-        const point=replayDrawingPoint(event);if(!point)return;
+        const drawing=replayDrawings[replaySelectedDrawing];if(!drawing)return;
         const xy={x:event.clientX-replayDrawingCanvas.getBoundingClientRect().left,y:event.clientY-replayDrawingCanvas.getBoundingClientRect().top};
+        if(replayFindDrawingAt(xy.x,xy.y)!==replaySelectedDrawing){replaySelectedDrawing=-1;replayPaintDrawings();return;}
+        if(drawing.locked){event.preventDefault();event.stopPropagation();return;}
+        const point=replayDrawingPoint(event);if(!point)return;
         const pts=(drawing.points||[]).map(replayDrawingXY).filter(Boolean);
         let handle=-1;for(let i=0;i<pts.length;i++)if(Math.hypot(xy.x-pts[i].x,xy.y-pts[i].y)<11){handle=i;break;}
         replayDrawingEditDrag={pointerId:event.pointerId,index:replaySelectedDrawing,handle,start:point,original:drawing.points.map(p=>({...p}))};
