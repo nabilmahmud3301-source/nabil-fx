@@ -4334,6 +4334,16 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 #page-chart .nfx-replay-chart-title{display:flex;align-items:center;gap:9px;color:#e5edf8;font-size:12px}
 #page-chart .nfx-replay-chart-title>span:nth-child(2){padding:3px 6px;border:1px solid #33465e;border-radius:4px;color:#a9bad0;font-size:9px}
 #page-chart .nfx-replay-chart-tag{color:#df7583;font-size:8px;font-weight:850;letter-spacing:.13em}
+#page-chart .nfx-replay-chart-layout{display:grid;grid-template-columns:44px minmax(0,1fr);align-items:stretch;min-width:0;background:#08090c}
+#page-chart .nfx-replay-drawing-toolbar{display:flex;align-items:center;flex-direction:column;gap:5px;padding:9px 5px;background:#10151e;border-right:1px solid #293447}
+#page-chart .nfx-replay-drawing-toolbar button{display:grid;place-items:center;width:32px;height:32px;flex:0 0 32px;border:1px solid transparent;border-radius:6px;background:transparent;color:#aebbd0;font:18px/1 Arial,sans-serif;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
+#page-chart .nfx-replay-drawing-toolbar button:hover{background:#202d3e;color:#fff}
+#page-chart .nfx-replay-drawing-toolbar button.active{border-color:#76505a;background:#3a2029;color:#ff8795;box-shadow:inset 0 0 0 1px #ff536422}
+#page-chart .nfx-replay-draw-divider{width:23px;height:1px;margin:3px 0;background:#344052}
+#page-chart .nfx-replay-chart{position:relative;min-width:0;overflow:hidden;touch-action:pan-y}
+#page-chart .nfx-replay-drawing-canvas{position:absolute;inset:0;z-index:8;width:100%;height:100%;pointer-events:none;touch-action:none}
+#page-chart .nfx-replay-drawing-canvas.is-drawing{pointer-events:auto;cursor:crosshair}
+@media(max-width:620px){#page-chart .nfx-replay-chart-layout{grid-template-columns:38px minmax(0,1fr)}#page-chart .nfx-replay-drawing-toolbar{gap:4px;padding:7px 3px}#page-chart .nfx-replay-drawing-toolbar button{width:30px;height:30px;flex-basis:30px;font-size:16px}}
 #page-chart .nfx-replay-chart-tools{display:flex;gap:5px}
 #page-chart .nfx-replay-chart-tools button,#page-chart .nfx-replay-transport button,#page-chart .nfx-replay-quiet-btn{height:32px;padding:0 10px;border:1px solid #304158;border-radius:5px;background:#172334;color:#b8c6d8;font-size:10px;font-weight:700;cursor:pointer}
 #page-chart .nfx-replay-chart-tools button.active{border-color:#466b9b;background:#1b304a;color:#e2efff}
@@ -4508,7 +4518,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
   <section id="replayWorkspace" class="nfx-replay-workspace" data-chart-workspace="replay" hidden>
     <div class="nfx-replay-header">
       <div><h2><span class="nfx-chart-brand-white">NF</span><span class="nfx-chart-brand-red">x</span> Bar Replay</h2></div>
-      <div class="nfx-replay-header-actions"><button id="replayFitChart" class="nfx-replay-quiet-btn" type="button">⤢ Fit chart</button><button id="replayFullscreenButton" class="nfx-replay-quiet-btn" type="button" aria-label="Fullscreen Bar Replay" title="Fullscreen Bar Replay">⛶ Fullscreen</button></div>
+      <div class="nfx-replay-header-actions"><button id="replayFullscreenButton class="nfx-replay-quiet-btn" type="button" aria-label="Fullscreen Bar Replay" title="Fullscreen Bar Replay">⛶ Fullscreen</button></div>
     </div>
     <div class="nfx-replay-config">
       <div class="replay-market-field"><label for="replaySymbol">MARKET</label><input id="replaySymbol" value="EURUSD" autocomplete="off" spellcheck="false" aria-expanded="false"><div id="replayMarketPicker" class="replay-market-picker" hidden><div class="replay-market-picker-head">SELECT MARKET</div><div id="replayMarketResults" class="replay-market-results"></div></div></div>
@@ -4543,7 +4553,23 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
           <button id="replaySelectPoint" type="button" title="Choose replay starting candle" aria-pressed="false">⏮ Select Replay Point</button>
         </div>
       </div>
-      <div id="replayChart" class="nfx-replay-chart" aria-label="Historical candlestick replay chart"></div>
+      <div class="nfx-replay-chart-layout">
+        <aside class="nfx-replay-drawing-toolbar" aria-label="Chart drawing tools">
+          <button type="button" class="active" data-replay-draw="cursor" title="Cursor / Select" aria-label="Cursor / Select">↖</button>
+          <span class="nfx-replay-draw-divider"></span>
+          <button type="button" data-replay-draw="trend" title="Trend Line" aria-label="Trend Line">／</button>
+          <button type="button" data-replay-draw="hline" title="Horizontal Line" aria-label="Horizontal Line">―</button>
+          <button type="button" data-replay-draw="vline" title="Vertical Line" aria-label="Vertical Line">│</button>
+          <button type="button" data-replay-draw="rect" title="Rectangle" aria-label="Rectangle">▱</button>
+          <button type="button" data-replay-draw="brush" title="Brush" aria-label="Brush">〰</button>
+          <span class="nfx-replay-draw-divider"></span>
+          <button type="button" data-replay-draw="undo" title="Undo Drawing" aria-label="Undo Drawing">↶</button>
+          <button type="button" data-replay-draw="clear" title="Clear Drawings" aria-label="Clear Drawings">⌫</button>
+        </aside>
+        <div id="replayChart" class="nfx-replay-chart" aria-label="Historical candlestick replay chart">
+          <canvas id="replayDrawingCanvas" class="nfx-replay-drawing-canvas" aria-label="Replay chart drawing layer"></canvas>
+        </div>
+      </div>
 
       <div id="replayStatus" class="nfx-replay-status" role="status">Choose a market and click <strong>Load Historical Data</strong> to begin.</div>
     </div>
@@ -6219,6 +6245,73 @@ window.addEventListener('resize',closeAccountDropdown);
     status:$('replayStatus'), metaSymbol:$('replayMetaSymbol'), metaCount:$('replayMetaCount'), metaTime:$('replayMetaTime'), metaTotal:$('replayMetaTotal'), chart:$('replayChart')
   };
   let replayChart=null, replaySeries=null, replayEmaSeries=null, replayEmaEnabled=false, replayGridEnabled=true, replaySelectingPoint=false, replayBars=[], replayIndex=-1, replayTimer=null, replayLiveTimer=null, replayLiveMode=false, replayLiveFetchBusy=false, replayLibPromise=null;
+  let replayDrawingMode='cursor', replayDrawings=[], replayDraft=null, replayDrawPointer=null;
+  const replayDrawingCanvas=$('replayDrawingCanvas');
+  const replayDrawingCtx=replayDrawingCanvas?.getContext('2d');
+  function replayDrawingPoint(event){
+    const rect=replayDrawingCanvas.getBoundingClientRect();
+    const x=event.clientX-rect.left,y=event.clientY-rect.top;
+    const time=replayChart?.timeScale().coordinateToTime(x);
+    const price=replaySeries?.coordinateToPrice(y);
+    if(time===null||time===undefined||price===null||price===undefined||!Number.isFinite(Number(price)))return null;
+    const normalizedTime=typeof time==='number'?time:(time.year?Date.UTC(time.year,time.month-1,time.day)/1000:NaN);
+    return Number.isFinite(normalizedTime)?{time:normalizedTime,price:Number(price)}:null;
+  }
+  function replayDrawingXY(point){
+    if(!replayChart||!replaySeries)return null;
+    const x=replayChart.timeScale().timeToCoordinate(point.time),y=replaySeries.priceToCoordinate(point.price);
+    return x===null||x===undefined||y===null||y===undefined?null:{x,y};
+  }
+  function replayPaintDrawings(){
+    if(!replayDrawingCanvas||!replayDrawingCtx||!replayChart)return;
+    const rect=replayDrawingCanvas.getBoundingClientRect(),dpr=window.devicePixelRatio||1;
+    const w=Math.max(1,Math.floor(rect.width*dpr)),h=Math.max(1,Math.floor(rect.height*dpr));
+    if(replayDrawingCanvas.width!==w||replayDrawingCanvas.height!==h){replayDrawingCanvas.width=w;replayDrawingCanvas.height=h;}
+    replayDrawingCtx.setTransform(dpr,0,0,dpr,0,0);replayDrawingCtx.clearRect(0,0,rect.width,rect.height);
+    const paint=(drawing,preview=false)=>{
+      const pts=(drawing.points||[]).map(replayDrawingXY).filter(Boolean);if(!pts.length)return;
+      const ctx=replayDrawingCtx;ctx.save();ctx.strokeStyle=preview?'#ff9aa6':'#f2bd65';ctx.fillStyle='rgba(242,189,101,.10)';ctx.lineWidth=1.7;ctx.setLineDash(preview?[5,4]:[]);
+      ctx.beginPath();const a=pts[0],b=pts[pts.length-1];
+      if(drawing.tool==='hline'){const y=a.y;ctx.moveTo(0,y);ctx.lineTo(rect.width,y);}
+      else if(drawing.tool==='vline'){const x=a.x;ctx.moveTo(x,0);ctx.lineTo(x,rect.height);}
+      else if(drawing.tool==='rect'){ctx.rect(a.x,a.y,b.x-a.x,b.y-a.y);ctx.fill();ctx.stroke();}
+      else if(drawing.tool==='brush'){ctx.moveTo(a.x,a.y);pts.slice(1).forEach(p=>ctx.lineTo(p.x,p.y));ctx.stroke();}
+      else{ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}
+      ctx.restore();
+    };
+    replayDrawings.forEach(d=>paint(d));if(replayDraft)paint(replayDraft,true);
+  }
+  function replaySetDrawingMode(mode){
+    replayDrawingMode=mode;
+    document.querySelectorAll('[data-replay-draw]').forEach(b=>b.classList.toggle('active',b.dataset.replayDraw===mode));
+    replayDrawingCanvas?.classList.toggle('is-drawing',mode!=='cursor');
+    if(replayDrawingCanvas)replayDrawingCanvas.style.cursor=mode==='cursor'?'default':'crosshair';
+  }
+  if(replayDrawingCanvas){
+    replayDrawingCanvas.addEventListener('pointerdown',event=>{
+      if(replayDrawingMode==='cursor'||replaySelectingPoint)return;
+      const point=replayDrawingPoint(event);if(!point)return;
+      event.preventDefault();event.stopPropagation();replayDrawPointer=event.pointerId;
+      replayDraft={tool:replayDrawingMode,points:[point]};replayDrawingCanvas.setPointerCapture(event.pointerId);replayPaintDrawings();
+    });
+    replayDrawingCanvas.addEventListener('pointermove',event=>{
+      if(replayDrawPointer!==event.pointerId||!replayDraft)return;
+      const point=replayDrawingPoint(event);if(point){if(replayDraft.tool==='brush')replayDraft.points.push(point);else replayDraft.points[1]=point;replayPaintDrawings();}
+    });
+    const finishReplayDrawing=event=>{
+      if(replayDrawPointer!==event.pointerId||!replayDraft)return;
+      if(replayDraft.points.length===2||replayDraft.tool==='brush')replayDrawings.push(replayDraft);
+      replayDraft=null;replayDrawPointer=null;replayPaintDrawings();
+    };
+    replayDrawingCanvas.addEventListener('pointerup',finishReplayDrawing);
+    replayDrawingCanvas.addEventListener('pointercancel',finishReplayDrawing);
+  }
+  document.querySelectorAll('[data-replay-draw]').forEach(button=>button.addEventListener('click',()=>{
+    const mode=button.dataset.replayDraw;
+    if(mode==='undo'){replayDrawings.pop();replayPaintDrawings();return;}
+    if(mode==='clear'){replayDrawings=[];replayDraft=null;replayPaintDrawings();return;}
+    replaySetDrawingMode(mode);
+  }));
   function replayStatus(msg){ if(replayEls.status) replayEls.status.innerHTML=msg; }
   function replayStopLive(){if(replayLiveTimer){clearInterval(replayLiveTimer);replayLiveTimer=null;}replayLiveMode=false;replayLiveFetchBusy=false;replayEls.live?.classList.remove('active');}
 
@@ -6359,6 +6452,7 @@ window.addEventListener('resize',closeAccountDropdown);
       replayCursor.style.left=Math.round(x)+'px';
       replayCursor.style.display='block';
     });
+    replayChart.timeScale().subscribeVisibleLogicalRangeChange(()=>replayPaintDrawings());
     replayChart.subscribeClick(param=>{
       if(!replaySelectingPoint||!param||!param.time||!replayBars.length)return;
       const chosenTime=typeof param.time==='number'?param.time:(param.time.year?Date.UTC(param.time.year,param.time.month-1,param.time.day)/1000:NaN);
@@ -6398,6 +6492,7 @@ window.addEventListener('resize',closeAccountDropdown);
     const height=Math.floor(rect.height||replayEls.chart.clientHeight||0);
     if(width<80||height<100)return false;
     replayChart.applyOptions({width,height});
+    replayPaintDrawings();
     return true;
   }
   function replayRender(){
@@ -6558,11 +6653,6 @@ window.addEventListener('resize',closeAccountDropdown);
     window.setTimeout(()=>{
       if(replayChart){const el=document.getElementById('replayChart');if(el)replayChart.resize(el.clientWidth,el.clientHeight);}
     },160);
-  });
-  document.getElementById('replayFitChart')?.addEventListener('click',()=>{
-    if(!replayChart||!replayBars.length)return;
-    replayChart.timeScale().fitContent();
-    replayChart.timeScale().applyOptions({barSpacing:5,minBarSpacing:2,rightOffset:8});
   });
   document.getElementById('replayGridToggle')?.addEventListener('click',e=>{
     replayGridEnabled=!replayGridEnabled;
