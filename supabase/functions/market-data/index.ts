@@ -73,64 +73,6 @@ Deno.serve(async (req: Request) => {
     }
 
 
-    // Prefer OANDA's own finalized midpoint candles for FX and precious metals.
-    // This is a broker-origin feed, not scraped TradingView data.
-    // Configure OANDA_API_TOKEN and OANDA_ACCOUNT_ID as Supabase Edge Function secrets.
-    const compactSymbol = symbol.replace(/[^A-Z]/g, "");
-    const isFxInstrument = market === "forex" && /^[A-Z]{6}$/.test(compactSymbol);
-    const isOandaMetal = market === "commodities" && /^(XAU|XAG)USD$/.test(compactSymbol);
-    const oandaToken = Deno.env.get("OANDA_API_TOKEN");
-    const oandaAccount = Deno.env.get("OANDA_ACCOUNT_ID");
-    if ((isFxInstrument || isOandaMetal) && oandaToken && oandaAccount) {
-      const environment = (Deno.env.get("OANDA_ENV") || "live").toLowerCase();
-      const apiBase = environment === "practice" ? "https://api-fxpractice.oanda.com" : "https://api-fxtrade.oanda.com";
-      const instrument = isFxInstrument ? compactSymbol.slice(0,3) + "_" + compactSymbol.slice(3) : compactSymbol.slice(0,3) + "_USD";
-      const granularity: Record<string,string> = {"1m":"M1","3m":"M1","5m":"M5","15m":"M15","30m":"M30","1h":"H1","2h":"H2","4h":"H4","1d":"D"};
-      const sourceGranularity = granularity[interval];
-      if (!sourceGranularity) throw new Error("OANDA does not support this timeframe.");
-      const toRfc3339 = (value: string, isEnd: boolean) => {
-        if (!value) return "";
-        if (/^\d{4}-\d{2}-\d{2}$/.test(value)) return value + (isEnd ? "T23:59:59Z" : "T00:00:00Z");
-        const normalized = value.includes("T") ? value : value.replace(" ", "T");
-        return /Z$|[+-]\d{2}:\d{2}$/.test(normalized) ? normalized : normalized + "Z";
-      };
-      const startIso = toRfc3339(start, false), endIso = toRfc3339(end, true);
-      const collected: any[] = [];
-      let cursor = startIso, pages = 0;
-      while (pages < 100) {
-        const url = new URL(apiBase + "/v3/accounts/" + encodeURIComponent(oandaAccount) + "/instruments/" + encodeURIComponent(instrument) + "/candles");
-        url.searchParams.set("granularity", sourceGranularity);
-        url.searchParams.set("price", "M");
-        url.searchParams.set("smooth", "false");
-        url.searchParams.set("count", "5000");
-        if (cursor) url.searchParams.set("from", cursor);
-        if (endIso) url.searchParams.set("to", endIso);
-        const response = await fetch(url, {headers:{"Authorization":"Bearer "+oandaToken,"Accept":"application/json"},signal:AbortSignal.timeout(25000)});
-        const payload = await response.json().catch(()=>({}));
-        if (!response.ok || !Array.isArray(payload?.candles)) throw new Error(payload?.errorMessage || "OANDA historical candles request failed (HTTP "+response.status+"). Check API token, account and instrument access.");
-        const page = payload.candles.filter((x:any)=>x.complete&&x.mid).map((x:any)=>({t:Date.parse(x.time),o:+x.mid.o,h:+x.mid.h,l:+x.mid.l,c:+x.mid.c,v:+(x.volume||0)}))
-          .filter((x:any)=>Number.isFinite(x.t)&&[x.o,x.h,x.l,x.c].every(Number.isFinite));
-        if (!page.length) break;
-        collected.push(...page);
-        const last=page[page.length-1].t;
-        if (page.length<5000 || (endIso&&last>=Date.parse(endIso))) break;
-        cursor=new Date(last+1).toISOString(); pages++;
-      }
-      if (pages>=100) throw new Error("OANDA historical request exceeded the 500,000-candle safety limit. Narrow the date range.");
-      let candles=[...new Map(collected.map((x:any)=>[x.t,x])).values()].sort((a:any,b:any)=>a.t-b.t);
-      if (interval==="3m") {
-        const buckets=new Map<number,any>();
-        for (const bar of candles) {
-          const bucket=Math.floor(bar.t/180000)*180000, current=buckets.get(bucket);
-          if (!current) buckets.set(bucket,{t:bucket,o:bar.o,h:bar.h,l:bar.l,c:bar.c,v:bar.v,count:1});
-          else {current.h=Math.max(current.h,bar.h);current.l=Math.min(current.l,bar.l);current.c=bar.c;current.v+=bar.v;current.count++;}
-        }
-        candles=[...buckets.values()].filter(x=>x.count===3).map(({t,o,h,l,c,v})=>({t,o,h,l,c,v}));
-      }
-      if (candles.length<10) throw new Error("OANDA returned fewer than 10 complete candles for this symbol, timeframe and date range.");
-      return json({candles:candles.slice(-limit),provider:"OANDA v20 · midpoint candles",timezone:"UTC",symbol:instrument,interval,meta:{instrument,price:"M",environment}});
-    }
-
     const key = Deno.env.get("TWELVEDATA_API_KEY");
     if (!key) return json({error:"Market data provider is not configured. Add TWELVEDATA_API_KEY in Supabase Edge Function Secrets. Crypto can still use the direct Binance feed."},503);
     let tdSymbol = symbol;
