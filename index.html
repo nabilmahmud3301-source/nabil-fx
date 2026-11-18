@@ -4616,10 +4616,10 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
             <button type="button" id="replayDrawingDelete" class="danger" title="Delete selected drawing" aria-label="Delete selected drawing"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v7M14 11v7M6 7l1 14h10l1-14M9 7V4h6v3"/></svg></button>
           </div>
           <div id="replayDrawingContextMenu" class="nfx-replay-object-menu" role="menu" aria-label="Drawing actions" hidden>
-            <button type="button" data-object-action="lock" role="menuitem"><span class="nfx-object-menu-icon">⌑</span><span>Lock / Unlock</span></button>
-            <button type="button" data-object-action="duplicate" role="menuitem"><span class="nfx-object-menu-icon">▢</span><span>Duplicate</span></button>
+            <button type="button" data-object-action="lock" role="menuitem"><span class="nfx-object-menu-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span><span>Lock / Unlock</span></button>
+            <button type="button" data-object-action="duplicate" role="menuitem"><span class="nfx-object-menu-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="1.5"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></span><span>Duplicate</span></button>
             <div class="nfx-object-menu-separator"></div>
-            <button type="button" data-object-action="delete" role="menuitem" class="is-danger"><span class="nfx-object-menu-icon">⌫</span><span>Delete</span><kbd>Del</kbd></button>
+            <button type="button" data-object-action="delete" role="menuitem" class="is-danger"><span class="nfx-object-menu-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v7M14 11v7M6 7l1 14h10l1-14M9 7V4h6v3"/></svg></span><span>Delete</span><kbd>Del</kbd></button>
           </div>
         </div>
       </div>
@@ -9659,7 +9659,7 @@ window.renderBacktestMetrics=function(r,meta={}){
 #page-chart #replayWorkspace .nfx-replay-object-menu button:hover{background:#293548;color:#fff}
 #page-chart #replayWorkspace .nfx-replay-object-menu button.is-danger{color:#ff929e}
 #page-chart #replayWorkspace .nfx-replay-object-menu button.is-danger:hover{background:#47232b;color:#ffb0b8}
-#page-chart #replayWorkspace .nfx-object-menu-icon{display:grid;place-items:center;width:17px;height:17px;color:#9aabc1;font-size:14px}
+#page-chart #replayWorkspace .nfx-object-menu-icon{display:grid;place-items:center;width:17px;height:17px;color:#9aabc1}#page-chart #replayWorkspace .nfx-object-menu-icon svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 #page-chart #replayWorkspace .nfx-object-menu-separator{height:1px;margin:4px 3px;background:#303b4b}
 #page-chart #replayWorkspace .nfx-replay-object-menu kbd{margin-left:auto;padding:2px 4px;border:1px solid #4a5668;border-radius:3px;color:#98a8bd;font:9px system-ui}
 @media(max-width:760px){#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button{width:34px;height:32px;min-width:34px;flex-basis:32px}#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button svg{width:19px;height:19px}}
