@@ -50,6 +50,68 @@ Deno.serve(async (req: Request) => {
     if (!symbol) return json({error:"Enter a market symbol."},400);
     const tf = intervalParts(interval);
 
+    const normalizedCryptoSymbol = symbol.replace(/[\\/:_-]/g,"");
+    if (market === "crypto" && /^[A-Z0-9]{2,10}USD$/.test(normalizedCryptoSymbol) && !/(USDT|USDC|BUSD)$/.test(normalizedCryptoSymbol)) {
+      if (!start || !end) return json({error:"Choose both From Date and To Date for an exact USD-quoted crypto replay."},400);
+      const productId = normalizedCryptoSymbol.slice(0,-3) + "-USD";
+      const parseUtcBoundary = (value:string,isEnd:boolean) => /^\\d{4}-\\d{2}-\\d{2}$/.test(value)
+        ? Date.parse(value + (isEnd ? "T23:59:59.999Z" : "T00:00:00.000Z"))
+        : Date.parse(value.replace(" ","T") + "Z");
+      const startMs = parseUtcBoundary(start,false);
+      const endMs = parseUtcBoundary(end,true);
+      if (!Number.isFinite(startMs) || !Number.isFinite(endMs) || endMs <= startMs) return json({error:"Invalid Coinbase date range."},400);
+      const targetMs: Record<string,number> = {"1m":60000,"5m":300000,"15m":900000,"30m":1800000,"1h":3600000,"2h":7200000,"4h":14400000,"1d":86400000};
+      const requestedMs = targetMs[interval];
+      if (!requestedMs) return json({error:"Unsupported Coinbase timeframe."},400);
+      const baseSeconds = interval === "30m" ? 60 : (interval === "2h" || interval === "4h") ? 3600 : requestedMs/1000;
+      const baseMs = baseSeconds*1000;
+      const windows: Array<{start:number;end:number}> = [];
+      let cursor = Math.floor(startMs/baseMs)*baseMs;
+      while (cursor <= endMs && windows.length < 180) {
+        const windowEnd = Math.min(endMs,cursor+baseMs*299-1);
+        windows.push({start:cursor,end:windowEnd});
+        cursor = windowEnd+1;
+      }
+      if (cursor <= endMs) return json({error:"This USD crypto date range is too large for the public Coinbase candle limit. Narrow the selected dates or use the exact Binance USDT market."},413);
+      const baseCandles: any[] = [];
+      for (let i=0;i<windows.length;i+=4) {
+        const batch = await Promise.all(windows.slice(i,i+4).map(async (w) => {
+          const url = new URL("https://api.exchange.coinbase.com/products/"+encodeURIComponent(productId)+"/candles");
+          url.searchParams.set("granularity",String(baseSeconds));
+          url.searchParams.set("start",new Date(w.start).toISOString());
+          url.searchParams.set("end",new Date(w.end).toISOString());
+          const response = await fetch(url,{headers:{Accept:"application/json"},signal:AbortSignal.timeout(15000)});
+          const payload = await response.json().catch(()=>null);
+          if (!response.ok) {
+            const detail = payload && !Array.isArray(payload) ? String(payload.message||payload.error||"") : "";
+            throw new Error("Coinbase "+productId+" returned HTTP "+response.status+(detail?": "+detail:"")+". Check that this exact USD pair is listed.");
+          }
+          if (!Array.isArray(payload)) throw new Error("Coinbase returned an invalid candle response for "+productId+".");
+          return payload;
+        }));
+        for (const rows of batch) for (const row of rows) {
+          if (!Array.isArray(row) || row.length < 6) continue;
+          const t=Number(row[0])*1000;
+          const candle={t:Math.floor(t/1000),o:+row[3],h:+row[2],l:+row[1],c:+row[4],v:+(row[5]||0)};
+          if (Number.isFinite(t) && t>=startMs && t<=endMs && [candle.o,candle.h,candle.l,candle.c].every(Number.isFinite)) baseCandles.push(candle);
+        }
+      }
+      let candles=[...new Map(baseCandles.map((bar:any)=>[bar.t,bar])).values()].sort((a:any,b:any)=>a.t-b.t);
+      if (requestedMs>baseMs) {
+        const buckets=new Map<number,any>();
+        for (const bar of candles) {
+          const bucket=Math.floor((bar.t*1000)/requestedMs)*requestedMs;
+          const current=buckets.get(bucket);
+          if (!current) buckets.set(bucket,{t:Math.floor(bucket/1000),o:bar.o,h:bar.h,l:bar.l,c:bar.c,v:bar.v});
+          else {current.h=Math.max(current.h,bar.h);current.l=Math.min(current.l,bar.l);current.c=bar.c;current.v+=bar.v;}
+        }
+        candles=[...buckets.values()].sort((a:any,b:any)=>a.t-b.t);
+      }
+      if (candles.length<10) return json({error:"Fewer than 10 Coinbase candles were returned for "+productId+" in the selected period. The exact USD pair may not be listed or may not have traded then."},404);
+      if (candles.length>=50000) return json({error:"The selected Coinbase period reached the 50,000-candle safety limit. Narrow the date range."},413);
+      return json({candles,provider:"Coinbase Exchange Spot ("+productId+")",timezone:"UTC",symbol:productId,interval,market:"crypto",dataType:"exchange_ohlc"});
+    }
+
     if (market === "futures") {
       const key = Deno.env.get("MASSIVE_API_KEY");
       if (!key) return json({error:"Futures data provider is not configured. Add MASSIVE_API_KEY in Supabase Edge Function Secrets. Use an actual expiry contract symbol (for example ESU6), not a continuous chart alias."},503);
@@ -72,6 +134,8 @@ Deno.serve(async (req: Request) => {
       return json({candles,provider:"Massive Futures",timezone:"UTC",symbol,interval});
     }
 
+
+    if (market === "futures") return json({error:"A dated exchange-listed futures contract is required. Continuous futures aliases and root symbols are not silently converted to another instrument."},400);
 
     const key = Deno.env.get("TWELVEDATA_API_KEY");
     if (!key) return json({error:"Market data provider is not configured. Add TWELVEDATA_API_KEY in Supabase Edge Function Secrets. Crypto can still use the direct Binance feed."},503);
@@ -143,7 +207,7 @@ Deno.serve(async (req: Request) => {
       candles=[...buckets.values()].filter(x=>x.count===3).map(({t,o,h,l,c,v})=>({t,o,h,l,c,v}));
     }
     if (candles.length < 10) throw new Error("Fewer than 10 complete historical candles returned. The symbol/timeframe may not be available on your provider plan.");
-    return json({candles:candles.slice(-limit),provider:interval==="3m"?"Twelve Data 1m → 3m aggregation":"Twelve Data",timezone,symbol:tdSymbol,interval,meta});
+    return json({candles:candles.slice(-limit),provider:interval==="3m"?"Twelve Data 1m → 3m aggregation":"Twelve Data",timezone,symbol:tdSymbol,interval,market,dataType:"provider_ohlc",meta});
   } catch (error) {
     console.error("market-data error:",error);
     return json({error:error instanceof Error?error.message:"Unexpected market data error."},502);
