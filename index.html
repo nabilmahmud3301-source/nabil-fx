@@ -6755,8 +6755,10 @@ window.addEventListener('resize',closeAccountDropdown);
       const fromDate=replayEls.from.value,toDate=replayEls.to.value;
       if(!liveMode&&(!fromDate||!toDate))throw new Error('Select both From Date and To Date to load the exact historical period.');
       if(fromDate&&toDate&&fromDate>toDate)throw new Error('From Date must be on or before To Date.');
-      const rangeStart=fromDate?Date.parse(fromDate+'T00:00:00.000Z'):null;
-      const rangeEnd=toDate?Date.parse(toDate+'T23:59:59.999Z'):null;
+      // Date inputs are interpreted in the visitor's local timezone so the selected
+      // calendar days match the dates the trader sees in the workspace.
+      const rangeStart=fromDate?new Date(fromDate+'T00:00:00').getTime():null;
+      const rangeEnd=toDate?new Date(toDate+'T23:59:59.999').getTime():null;
       if((fromDate&&!Number.isFinite(rangeStart))||(toDate&&!Number.isFinite(rangeEnd)))throw new Error('The selected date range is invalid.');
       const intervalMs=({'1m':60000,'5m':300000,'15m':900000,'30m':1800000,'1h':3600000,'2h':7200000,'4h':14400000,'1d':86400000})[interval]||3600000;
       const inSelectedRange=b=>liveMode||rangeStart===null||rangeEnd===null||(b.time*1000>=rangeStart&&b.time*1000<=rangeEnd);
