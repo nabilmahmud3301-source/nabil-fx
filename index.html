@@ -4484,6 +4484,12 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
     <div class="nfx-chart-page-stamp"><span class="nfx-chart-stamp-dot"></span><span>CHARTING WORKSPACE</span></div>
   </header>
 
+  <div class="chart-mode-switch" role="tablist" aria-label="Chart workspace mode">
+    <button type="button" class="chart-mode-tab active" data-chart-mode="live" role="tab" aria-selected="true">↗ Live Chart</button>
+    <button type="button" class="chart-mode-tab" data-chart-mode="replay" role="tab" aria-selected="false">⏮ Bar Replay</button>
+    <span class="chart-mode-caption">Live market analysis · Historical candle replay</span>
+  </div>
+
   <section id="chartWorkspace" class="panel chart-workspace" data-chart-workspace="live">
     <div class="chart-heading-row">
       <h2 class="view-heading">Real Time Chart</h2>
@@ -4498,12 +4504,6 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
     </div>
     <p class="hint">TradingView chart. Default timeframe: 1 hour. Use the chart toolbar to change symbols and tools.</p>
   </section>
-
-  <div class="chart-mode-switch" role="tablist" aria-label="Chart workspace mode">
-    <button type="button" class="chart-mode-tab active" data-chart-mode="live" role="tab" aria-selected="true">↗ Live Chart</button>
-    <button type="button" class="chart-mode-tab" data-chart-mode="replay" role="tab" aria-selected="false">⏮ Bar Replay</button>
-    <span class="chart-mode-caption">Live market analysis · Historical candle replay</span>
-  </div>
 
   <section id="replayWorkspace" class="nfx-replay-workspace" data-chart-workspace="replay" hidden>
     <div class="nfx-replay-header">
