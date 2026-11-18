@@ -9702,5 +9702,49 @@ window.renderBacktestMetrics=function(r,meta={}){
  #page-chart #replayWorkspace .nfx-replay-drawing-toolbar button[title]:hover:after{display:none}
 }
 </style>
+
+<style id="nfx-replay-drawing-rail-scroll-fix">
+/* Keep the drawing rail inside the chart viewport before fullscreen too. */
+#page-chart #replayWorkspace .nfx-replay-chart-layout{
+  height:590px!important;
+  max-height:590px!important;
+  min-height:0!important;
+  grid-template-rows:minmax(0,1fr)!important;
+  align-items:stretch!important;
+  overflow:hidden!important;
+}
+#page-chart #replayWorkspace .nfx-replay-chart-layout>.nfx-replay-drawing-toolbar{
+  height:100%!important;
+  min-height:0!important;
+  max-height:100%!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  flex-wrap:nowrap!important;
+  overscroll-behavior-y:contain;
+  scrollbar-width:thin;
+  scrollbar-color:#596273 #131722;
+}
+#page-chart #replayWorkspace .nfx-replay-chart-layout>.nfx-replay-chart{
+  height:100%!important;
+  min-height:0!important;
+  max-height:none!important;
+}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar::-webkit-scrollbar{width:5px}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar::-webkit-scrollbar-track{background:#131722}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar::-webkit-scrollbar-thumb{background:#424b5a;border-radius:8px}
+@media(max-width:900px){
+  #page-chart #replayWorkspace .nfx-replay-chart-layout{height:520px!important;max-height:520px!important}
+}
+@media(max-width:620px){
+  #page-chart #replayWorkspace .nfx-replay-chart-layout{height:470px!important;max-height:470px!important}
+}
+#page-chart #replayWorkspace:fullscreen .nfx-replay-chart-layout{
+  height:auto!important;max-height:none!important;flex:1 1 auto!important;min-height:0!important;
+}
+#page-chart #replayWorkspace:fullscreen .nfx-replay-drawing-toolbar{
+  height:100%!important;max-height:100%!important;min-height:0!important;overflow-y:auto!important;
+}
+</style>
+
 </body>
 </html>
