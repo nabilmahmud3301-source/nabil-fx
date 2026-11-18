@@ -6842,7 +6842,7 @@ window.addEventListener('resize',closeAccountDropdown);
       const isForexPair=/^[A-Z]{6}$/.test(compactPair)&&! /^(XAU|XAG|XPT|XPD)/.test(compactPair)&&!/(BTC|ETH|BNB|SOL|XRP|ADA|DOGE)/.test(compactPair);
       const isMetal=/^(XAU|XAG|XPT|XPD)USD$/.test(compactPair);
       const isCommodity=isMetal||/^(WTI|USOIL|BRENT|NATGAS|COPPER)$/.test(symbol);
-      const isFuturesContract=/^(ES|NQ|YM|RTY|GC|SI|CL|NG)[FGHJKMNQUVXZ]\\d{1,2}$/.test(symbol);
+      const isFuturesContract=/^(ES|NQ|YM|RTY|GC|SI|CL|NG)[FGHJKMNQUVXZ]\d{1,2}$/.test(symbol);
       const isCryptoSymbol=/USDT$|USDC$|BUSD$|BTC$|ETH$|BNB$/.test(symbol)||symbol==='BTCUSD'||symbol==='ETHUSD';
       if(!liveMode&&fromDate&&toDate&&!isCryptoSymbol){
         const client=getNabilSupabaseClient();
