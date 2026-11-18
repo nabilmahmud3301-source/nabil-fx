@@ -6785,7 +6785,7 @@ window.addEventListener('resize',closeAccountDropdown);
       if(!symbol)throw new Error('Please enter a market symbol first.');
       const selectedMarketType=String(replayEls.symbol.dataset.marketType||'').toLowerCase();
       const inferredMarketType=(selectedMarketType&&selectedMarketType!=='other')?selectedMarketType:(
-        /^(ES|NQ|YM|RTY|GC|SI|CL|NG|HG|ZC|ZW|ZS)[FGHJKMNQUVXZ]\d{1,2}$/.test(symbol)?'futures':
+        /^(ES|NQ|YM|RTY|GC|SI|CL|NG|HG|ZC|ZW|ZS)[FGHJKMNQUVXZ]\d{1,2}$/.test(symbol)||/^(ES|NQ|YM|RTY|GC|SI|CL|NG|HG|ZC|ZW|ZS)$/.test(symbol)?'futures':
         /^(XAU|XAG|XPT|XPD)USD$|^(WTI|BRENT|NATGAS)$/.test(symbol)?'commodity':
         /USDT$|USDC$|BUSD$|BTC$|ETH$|BNB$/.test(symbol)||/^(BTC|ETH|LTC|BCH|XRP|SOL)USD$/.test(symbol)?'crypto':
         /^[A-Z]{6}$/.test(symbol)?'forex':
@@ -6895,7 +6895,7 @@ window.addEventListener('resize',closeAccountDropdown);
       const isMetal=/^(XAU|XAG|XPT|XPD)USD$/.test(compactPair);
       const isCommodity=inferredMarketType==='commodity'||isMetal||/^(WTI|USOIL|BRENT|NATGAS|COPPER)$/.test(symbol);
       const isFuturesContract=/^(ES|NQ|YM|RTY|GC|SI|CL|NG|HG|ZC|ZW|ZS)[FGHJKMNQUVXZ]\d{1,2}$/.test(symbol);
-      const isFuturesRoot=/^(CL|GC|SI|HG|NG|ZC|ZW|ZS)$/.test(symbol);
+      const isFuturesRoot=/^(ES|NQ|YM|RTY|CL|GC|SI|HG|NG|ZC|ZW|ZS)$/.test(symbol);
       if(!liveMode&&isFuturesRoot)throw new Error('This is a futures root symbol, not a dated contract. Select the exact expiry contract (for example GCZ6 or CLZ6) so Bar Replay does not substitute another instrument.');
       if(!liveMode&&inferredMarketType==='futures'&&!isFuturesContract)throw new Error('Select an exact dated futures contract (for example ESZ6, GCZ6 or CLZ6). Continuous symbols are not substituted.');
       if(!liveMode&&fromDate&&toDate&&!isBinanceSymbol){
