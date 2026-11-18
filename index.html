@@ -6785,7 +6785,7 @@ window.addEventListener('resize',closeAccountDropdown);
       if(!symbol)throw new Error('Please enter a market symbol first.');
       const selectedMarketType=String(replayEls.symbol.dataset.marketType||'').toLowerCase();
       const inferredMarketType=(selectedMarketType&&selectedMarketType!=='other')?selectedMarketType:(
-        /^(ES|NQ|YM|RTY|GC|SI|CL|NG|HG|ZC|ZW|ZS)[FGHJKMNQUVXZ]\\d{1,2}$/.test(symbol)?'futures':
+        /^(ES|NQ|YM|RTY|GC|SI|CL|NG|HG|ZC|ZW|ZS)[FGHJKMNQUVXZ]\d{1,2}$/.test(symbol)?'futures':
         /^[A-Z]{6}$/.test(symbol)&&!/(BTC|ETH|BNB|SOL|XRP|ADA|DOGE)$/.test(symbol)?'forex':
         /USDT$|USDC$|BUSD$|BTC$|ETH$|BNB$/.test(symbol)||/^(BTC|ETH|LTC|BCH|XRP|SOL)USD$/.test(symbol)?'crypto':
         /^(XAU|XAG|XPT|XPD)USD$|^(WTI|BRENT|NATGAS)$/.test(symbol)?'commodity':
