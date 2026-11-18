@@ -6762,7 +6762,7 @@ window.addEventListener('resize',closeAccountDropdown);
       if((fromDate&&!Number.isFinite(rangeStart))||(toDate&&!Number.isFinite(rangeEnd)))throw new Error('The selected date range is invalid.');
       const intervalMs=({'1m':60000,'5m':300000,'15m':900000,'30m':1800000,'1h':3600000,'2h':7200000,'4h':14400000,'1d':86400000})[interval]||3600000;
       const inSelectedRange=b=>liveMode||rangeStart===null||rangeEnd===null||(b.time*1000>=rangeStart&&b.time*1000<=rangeEnd);
-      const params=new URLSearchParams({interval,limit:String(fromDate&&toDate?10000:limit)});
+      const params=new URLSearchParams({interval,limit:String(fromDate&&toDate?1000:limit)});
       if(fromDate)params.set('from',new Date(rangeStart).toISOString());
       if(toDate)params.set('to',new Date(rangeEnd).toISOString());
       let bars=[];
@@ -6858,7 +6858,7 @@ window.addEventListener('resize',closeAccountDropdown);
           bars=yahooBars;
           providerUsed='Yahoo Finance historical archive (via CORS relay)';
         }catch(historyError){
-          if(!bars.length)throw new Error('The selected dates are outside the free feed history, and the archive fallback failed: '+(historyError.message||historyError));
+          throw new Error('Could not load the complete selected historical period: '+(historyError.message||historyError)+'. Try a supported symbol and date range.');
         }
       }
       // Final guard: no candle outside the requested inclusive calendar dates
