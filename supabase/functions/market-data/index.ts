@@ -50,7 +50,7 @@ Deno.serve(async (req: Request) => {
     if (!symbol) return json({error:"Enter a market symbol."},400);
     const tf = intervalParts(interval);
 
-    const normalizedCryptoSymbol = symbol.replace(/[\\/:_-]/g,"");
+    const normalizedCryptoSymbol = symbol.replace(/[-:\/_]/g,"");
     if (market === "crypto" && /^[A-Z0-9]{2,10}USD$/.test(normalizedCryptoSymbol) && !/(USDT|USDC|BUSD)$/.test(normalizedCryptoSymbol)) {
       if (!start || !end) return json({error:"Choose both From Date and To Date for an exact USD-quoted crypto replay."},400);
       const productId = normalizedCryptoSymbol.slice(0,-3) + "-USD";
