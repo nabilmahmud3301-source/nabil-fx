@@ -6734,8 +6734,10 @@ window.addEventListener('resize',closeAccountDropdown);
       return;
     }
     const visibleBars=replayBars.slice(0,replayIndex+1);
-    // Always send a clean, validated OHLC series to the chart library.
+    // Keep every real time-stamped candle, while letting the price axis
+    // recalculate from the currently visible OHLC range after each replay step.
     replaySeries.setData(visibleBars);
+    replaySeries.priceScale().applyOptions({autoScale:true,scaleMargins:{top:.08,bottom:.08}});
     if(replayEmaSeries){
       if(replayEmaEnabled){
         const period=20,alpha=2/(period+1);let ema=null;
@@ -6745,9 +6747,8 @@ window.addEventListener('resize',closeAccountDropdown);
     }
     replayChart.applyOptions({layout:{background:{type:'solid',color:'#08090c'},textColor:'#c8c8c8'},grid:{vertLines:{visible:replayGridEnabled,color:'#202229'},horzLines:{visible:replayGridEnabled,color:'#202229'}},timeScale:{barSpacing:5,minBarSpacing:2,rightOffset:8}});
     if(visibleBars.length){
-      // First fit the complete series, then frame the most recent candles.
-      // This also repairs stale/zero-sized time scales after switching from Live Chart.
-      replayChart.timeScale().fitContent();
+      // Keep the replay window anchored to the latest visible bars without
+      // repeatedly fitting the entire chart (which causes unwanted chart jumps).
       const from=Math.max(0,visibleBars.length-Math.min(100,visibleBars.length));
       replayChart.timeScale().setVisibleLogicalRange({from,to:visibleBars.length+8});
     }
@@ -6927,7 +6928,12 @@ window.addEventListener('resize',closeAccountDropdown);
       // Apply the instrument's native display precision before drawing candles.
       // This prevents FX/crypto price labels from being rounded to the chart library's 2-decimal default.
       const pricePrecision=replayPricePrecision(symbol,replayBars);
-      replaySeries.applyOptions({priceFormat:{type:'price',precision:pricePrecision,minMove:Math.pow(10,-pricePrecision)}});
+      replaySeries.applyOptions({
+        priceFormat:{type:'price',precision:pricePrecision,minMove:Math.pow(10,-pricePrecision)},
+        priceScale:{autoScale:true,scaleMargins:{top:.08,bottom:.08}}
+      });
+      // Reset any previous manual price-axis pan/zoom for the newly loaded market.
+      replaySeries.priceScale().applyOptions({autoScale:true,scaleMargins:{top:.08,bottom:.08}});
       // Show enough candles to make the chart visibly populated after loading.
       // Start Replay still resets to candle one for a clean replay.
       replayIndex=liveMode?replayBars.length-1:Math.min(49,replayBars.length-1);replaySetButtons(true);
