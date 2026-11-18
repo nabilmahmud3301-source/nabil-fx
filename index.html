@@ -6485,7 +6485,7 @@ window.addEventListener('resize',closeAccountDropdown);
 
   const replayMarketPicker=$('replayMarketPicker'), replayMarketResults=$('replayMarketResults'), replaySymbolInput=$('replaySymbol');
   let replayMarketCache=[], replayMarketsLoaded=false, replayMarketsPromise=null;
-  const replayMarketTypeOrder=['Forex','Crypto','Commodity','Index','Stock','Other'];
+  const replayMarketTypeOrder=['Forex','Crypto','Commodity','Futures','Index','Stock','Other'];
   const replayCuratedMarkets=[
     ['Forex','EURUSD','Euro / US Dollar'],['Forex','GBPUSD','British Pound / US Dollar'],['Forex','USDJPY','US Dollar / Japanese Yen'],['Forex','USDCHF','US Dollar / Swiss Franc'],['Forex','USDCAD','US Dollar / Canadian Dollar'],['Forex','AUDUSD','Australian Dollar / US Dollar'],['Forex','NZDUSD','New Zealand Dollar / US Dollar'],['Forex','EURGBP','Euro / British Pound'],['Forex','EURJPY','Euro / Japanese Yen'],['Forex','GBPJPY','British Pound / Japanese Yen'],['Forex','AUDJPY','Australian Dollar / Japanese Yen'],['Forex','CADJPY','Canadian Dollar / Japanese Yen'],['Forex','CHFJPY','Swiss Franc / Japanese Yen'],['Forex','EURAUD','Euro / Australian Dollar'],['Forex','EURCAD','Euro / Canadian Dollar'],['Forex','EURNZD','Euro / New Zealand Dollar'],['Forex','GBPAUD','British Pound / Australian Dollar'],['Forex','GBPCAD','British Pound / Canadian Dollar'],['Forex','GBPNZD','British Pound / New Zealand Dollar'],['Forex','AUDCAD','Australian Dollar / Canadian Dollar'],['Forex','AUDNZD','Australian Dollar / New Zealand Dollar'],['Forex','NZDJPY','New Zealand Dollar / Japanese Yen'],['Forex','CADCHF','Canadian Dollar / Swiss Franc'],['Forex','AUDCHF','Australian Dollar / Swiss Franc'],['Forex','NZDCHF','New Zealand Dollar / Swiss Franc'],['Forex','EURCHF','Euro / Swiss Franc'],['Forex','GBPCHF','British Pound / Swiss Franc'],['Forex','USDSGD','US Dollar / Singapore Dollar'],['Forex','USDHKD','US Dollar / Hong Kong Dollar'],['Forex','USDTRY','US Dollar / Turkish Lira'],['Forex','USDMXN','US Dollar / Mexican Peso'],['Forex','USDZAR','US Dollar / South African Rand'],['Forex','USDNOK','US Dollar / Norwegian Krone'],['Forex','USDSEK','US Dollar / Swedish Krona'],['Forex','USDCNH','US Dollar / Chinese Yuan'],['Forex','EURPLN','Euro / Polish Zloty'],['Forex','EURTRY','Euro / Turkish Lira'],['Forex','GBPSEK','British Pound / Swedish Krona'],
     ['Crypto','BTCUSD','Bitcoin / US Dollar'],['Crypto','ETHUSD','Ethereum / US Dollar'],['Crypto','BTCUSDT','Bitcoin / Tether'],['Crypto','ETHUSDT','Ethereum / Tether'],['Crypto','BNBUSDT','BNB / Tether'],['Crypto','SOLUSDT','Solana / Tether'],['Crypto','XRPUSDT','XRP / Tether'],['Crypto','ADAUSDT','Cardano / Tether'],['Crypto','DOGEUSDT','Dogecoin / Tether'],['Crypto','AVAXUSDT','Avalanche / Tether'],['Crypto','LINKUSDT','Chainlink / Tether'],['Crypto','LTCUSDT','Litecoin / Tether'],['Crypto','DOTUSDT','Polkadot / Tether'],['Crypto','TRXUSDT','TRON / Tether'],['Crypto','BCHUSDT','Bitcoin Cash / Tether'],['Crypto','SHIBUSDT','Shiba Inu / Tether'],['Crypto','TONUSDT','Toncoin / Tether'],['Crypto','XLMUSDT','Stellar / Tether'],['Crypto','ATOMUSDT','Cosmos / Tether'],['Crypto','NEARUSDT','NEAR / Tether'],
@@ -6498,6 +6498,7 @@ window.addEventListener('resize',closeAccountDropdown);
     if(t.includes('forex')||t.includes('currency'))return 'Forex';
     if(t.includes('crypto'))return 'Crypto';
     if(t.includes('commod')||t.includes('metal')||t.includes('energy'))return 'Commodity';
+    if(t.includes('future')||t.includes('derivative'))return 'Futures';
     if(t.includes('index'))return 'Index';
     if(t.includes('stock')||t.includes('equity'))return 'Stock';
     return 'Other';
@@ -6783,7 +6784,8 @@ window.addEventListener('resize',closeAccountDropdown);
       const symbol=(replayEls.symbol.value||'').trim().toUpperCase().replace(/[^A-Z0-9._:/-]/g,'');
       if(!symbol)throw new Error('Please enter a market symbol first.');
       const selectedMarketType=String(replayEls.symbol.dataset.marketType||'').toLowerCase();
-      const inferredMarketType=selectedMarketType||(
+      const inferredMarketType=(selectedMarketType&&selectedMarketType!=='other')?selectedMarketType:(
+        /^(ES|NQ|YM|RTY|GC|SI|CL|NG|HG|ZC|ZW|ZS)[FGHJKMNQUVXZ]\\d{1,2}$/.test(symbol)?'futures':
         /^[A-Z]{6}$/.test(symbol)&&!/(BTC|ETH|BNB|SOL|XRP|ADA|DOGE)$/.test(symbol)?'forex':
         /USDT$|USDC$|BUSD$|BTC$|ETH$|BNB$/.test(symbol)||/^(BTC|ETH|LTC|BCH|XRP|SOL)USD$/.test(symbol)?'crypto':
         /^(XAU|XAG|XPT|XPD)USD$|^(WTI|BRENT|NATGAS)$/.test(symbol)?'commodity':
@@ -6895,6 +6897,7 @@ window.addEventListener('resize',closeAccountDropdown);
       const isFuturesContract=/^(ES|NQ|YM|RTY|GC|SI|CL|NG|HG|ZC|ZW|ZS)[FGHJKMNQUVXZ]\d{1,2}$/.test(symbol);
       const isFuturesRoot=/^(CL|GC|SI|HG|NG|ZC|ZW|ZS)$/.test(symbol);
       if(!liveMode&&isFuturesRoot)throw new Error('This is a futures root symbol, not a dated contract. Select the exact expiry contract (for example GCZ6 or CLZ6) so Bar Replay does not substitute another instrument.');
+      if(!liveMode&&inferredMarketType==='futures'&&!isFuturesContract)throw new Error('Select an exact dated futures contract (for example ESZ6, GCZ6 or CLZ6). Continuous symbols are not substituted.');
       if(!liveMode&&fromDate&&toDate&&!isBinanceSymbol){
         const client=getNabilSupabaseClient();
         const {data:sessionData,error:sessionError}=await client.auth.getSession();
