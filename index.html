@@ -6777,7 +6777,7 @@ window.addEventListener('resize',closeAccountDropdown);
       }catch(e){/* Try the public crypto feed below if available. */}
       // Enforce the selected dates locally as well as in the provider request.
       bars=bars.filter(inSelectedRange);
-      if(!bars.length){
+      if(!bars.length||(fromDate&&toDate&&(/USDT$|BUSD$|BTC$|ETH$|BNB$/.test(symbol)||symbol==='BTCUSD'||symbol==='ETHUSD'))){
         const cryptoAliases={BTCUSD:'BTCUSDT',ETHUSD:'ETHUSDT'};
         const cryptoSymbol=cryptoAliases[symbol]||symbol;
         const looksCrypto=/USDT$|BUSD$|BTC$|ETH$|BNB$/.test(cryptoSymbol);
@@ -6802,6 +6802,7 @@ window.addEventListener('resize',closeAccountDropdown);
               pages++;
               if(raw.length<1000)break;
             }
+            if(pages>=100&&cursor<=rangeEnd)throw new Error('This date range exceeds the safe 100,000-candle loading limit. Narrow the selected dates or use a higher timeframe.');
             bars=rawAll.map(k=>({time:Math.floor(Number(k[0])/1000),open:Number(k[1]),high:Number(k[2]),low:Number(k[3]),close:Number(k[4])}))
               .filter(b=>Number.isFinite(b.time)&&Number.isFinite(b.open)&&Number.isFinite(b.high)&&Number.isFinite(b.low)&&Number.isFinite(b.close)&&inSelectedRange(b)).sort((a,b)=>a.time-b.time);
           }else{
