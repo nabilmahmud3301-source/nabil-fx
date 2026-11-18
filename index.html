@@ -9225,6 +9225,43 @@ window.renderBacktestMetrics=function(r,meta={}){
  #page-chart #replayWorkspace .nfx-replay-chart-tools{width:100%;flex-wrap:wrap}
 }
 
+
+/* Fullscreen replay: let the chart occupy all remaining viewport space */
+#page-chart #replayWorkspace:fullscreen{
+ display:flex!important;flex-direction:column;gap:0;height:100vh;min-height:0;overflow:hidden;
+ padding:10px 16px!important;box-sizing:border-box;
+}
+#page-chart #replayWorkspace:fullscreen>.nfx-replay-header,
+#page-chart #replayWorkspace:fullscreen>.nfx-replay-config,
+#page-chart #replayWorkspace:fullscreen>.nfx-replay-marketline,
+#page-chart #replayWorkspace:fullscreen>.nfx-replay-control-dock,
+#page-chart #replayWorkspace:fullscreen>.nfx-replay-disclaimer{flex:0 0 auto}
+#page-chart #replayWorkspace:fullscreen>.nfx-replay-header{margin-bottom:6px}
+#page-chart #replayWorkspace:fullscreen>.nfx-replay-config{padding:6px 9px}
+#page-chart #replayWorkspace:fullscreen>.nfx-replay-marketline{padding:4px 3px}
+#page-chart #replayWorkspace:fullscreen>.nfx-replay-control-dock{margin:3px 0 6px}
+#page-chart #replayWorkspace:fullscreen>.nfx-replay-chart-frame{
+ display:flex;flex:1 1 auto;flex-direction:column;min-height:0;overflow:hidden;
+}
+#page-chart #replayWorkspace:fullscreen .nfx-replay-chart-top{flex:0 0 auto}
+#page-chart #replayWorkspace:fullscreen .nfx-replay-chart{
+ flex:1 1 auto;width:100%;height:auto!important;min-height:0!important;max-height:none;
+}
+#page-chart #replayWorkspace:fullscreen .nfx-replay-status{flex:0 0 auto}
+#page-chart #replayWorkspace:fullscreen>.nfx-replay-disclaimer{margin:4px 0 0;font-size:8px}
+@media(max-width:900px){
+ #page-chart #replayWorkspace:fullscreen{padding:8px 10px!important}
+ #page-chart #replayWorkspace:fullscreen>.nfx-replay-config{padding:6px}
+}
+@media(max-width:620px){
+ #page-chart #replayWorkspace:fullscreen{padding:6px!important}
+ #page-chart #replayWorkspace:fullscreen>.nfx-replay-header{margin-bottom:4px}
+ #page-chart #replayWorkspace:fullscreen>.nfx-replay-marketline{padding:3px 2px}
+ #page-chart #replayWorkspace:fullscreen>.nfx-replay-control-dock{margin:2px 0 4px}
+ #page-chart #replayWorkspace:fullscreen .nfx-replay-chart-top{flex-direction:row;align-items:center}
+ #page-chart #replayWorkspace:fullscreen .nfx-replay-chart-tools{width:auto}
+}
+
 </style>
 
 
