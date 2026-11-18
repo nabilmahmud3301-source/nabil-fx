@@ -6691,15 +6691,24 @@ window.addEventListener('resize',closeAccountDropdown);
   // The Lightweight Charts default (2 decimals) is too coarse for FX and many crypto pairs.
   function replayPricePrecision(symbol,bars){
     const s=String(symbol||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
-    if(/^[A-Z]{6}$/.test(s)&&! /^(XAU|XAG|XPT|XPD)/.test(s))return s.endsWith('JPY')?3:5;
-    if(/^(XAU|XAG|XPT|XPD)USD$/.test(s))return 2;
-    if(/^(ES|NQ|YM|RTY|GC|SI|CL|NG)[FGHJKMNQUVXZ]\d{1,2}$/.test(s))return 2;
-    if(/USDT$|USDC$|BUSD$|BTCUSD$|ETHUSD$/.test(s)){
+    let base=2;
+    if(/^[A-Z]{6}$/.test(s)&&! /^(XAU|XAG|XPT|XPD)/.test(s))base=s.endsWith('JPY')?3:5;
+    else if(/^(XAU|XAG|XPT|XPD)USD$/.test(s))base=2;
+    else if(/^(ES|NQ|YM|RTY|GC|SI|CL|NG)[FGHJKMNQUVXZ]\d{1,2}$/.test(s))base=2;
+    else if(/USDT$|USDC$|BUSD$|BTCUSD$|ETHUSD$/.test(s)){
       const prices=(bars||[]).slice(-100).map(b=>Math.abs(Number(b.close))).filter(v=>Number.isFinite(v)&&v>0);
       const typical=prices.length?prices.sort((a,b)=>a-b)[Math.floor(prices.length/2)]:1;
-      return typical>=1000?2:typical>=1?4:6;
+      base=typical>=1000?2:typical>=1?4:6;
     }
-    return 2;
+    // Never hide a genuine price move by rounding more coarsely than the feed's OHLC values.
+    const decimals=value=>{
+      const raw=Math.abs(Number(value)).toString().toLowerCase();
+      const parts=raw.split('e');
+      const fraction=(parts[0].split('.')[1]||'').length;
+      return Math.max(0,Math.min(10,fraction-(Number(parts[1])||0)));
+    };
+    const observed=Math.max(0,...(bars||[]).slice(-500).flatMap(b=>[b.open,b.high,b.low,b.close]).map(decimals));
+    return Math.max(base,observed);
   }
   function replayUpdateMeta(){
     replayEls.metaSymbol.textContent=(replayEls.symbol.value||'').toUpperCase();
@@ -6789,7 +6798,18 @@ window.addEventListener('resize',closeAccountDropdown);
       const rangeEnd=toDate?dhakaDateBoundary(toDate,true):null;
       if((fromDate&&!Number.isFinite(rangeStart))||(toDate&&!Number.isFinite(rangeEnd)))throw new Error('The selected date range is invalid.');
       const intervalMs=({'1m':60000,'5m':300000,'15m':900000,'30m':1800000,'1h':3600000,'2h':7200000,'4h':14400000,'1d':86400000})[interval]||3600000;
-      const inSelectedRange=b=>liveMode||rangeStart===null||rangeEnd===null||(b.time*1000>=rangeStart&&b.time*1000<=rangeEnd);
+      const inSelectedRange=b=>{
+        if(liveMode||rangeStart===null||rangeEnd===null)return true;
+        // Daily bars are stamped at the exchange's session boundary, which can fall
+        // on the previous UTC date. Match daily bars to the selected Dhaka calendar day.
+        if(interval==='1d'){
+          const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Dhaka',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date(b.time*1000));
+          const part=type=>parts.find(p=>p.type===type)?.value||'';
+          const dhakaDate=part('year')+'-'+part('month')+'-'+part('day');
+          return dhakaDate>=fromDate&&dhakaDate<=toDate;
+        }
+        return b.time*1000>=rangeStart&&b.time*1000<=rangeEnd;
+      };
       const params=new URLSearchParams({interval,limit:String(fromDate&&toDate?1000:limit)});
       if(fromDate)params.set('from',new Date(rangeStart).toISOString());
       if(toDate)params.set('to',new Date(rangeEnd).toISOString());
@@ -6866,8 +6886,10 @@ window.addEventListener('resize',closeAccountDropdown);
         const indexAliases={US30:'DJI',DOW:'DJI',NAS100:'NDX',USTEC:'NDX',NASDAQ:'IXIC',US500:'SPX',SPX500:'SPX',SP500:'SPX'};
         const gatewaySymbol=isForexPair?compactPair:(indexAliases[symbol]||symbol);
         const gatewayMarket=isForexPair?'forex':isFuturesContract?'futures':isCommodity?'commodities':'stocks';
-        const gatewayStart=new Date(rangeStart).toISOString().replace('T',' ').slice(0,19);
-        const gatewayEnd=new Date(rangeEnd).toISOString().replace('T',' ').slice(0,19);
+        // Intraday archive requests are explicitly UTC. Daily bars use date-only
+        // boundaries because the provider anchors daily candles to exchange sessions.
+        const gatewayStart=interval==='1d'?fromDate:new Date(rangeStart).toISOString().replace('T',' ').slice(0,19);
+        const gatewayEnd=interval==='1d'?toDate:new Date(rangeEnd).toISOString().replace('T',' ').slice(0,19);
         const {data,error}=await client.functions.invoke('market-data',{body:{
           market:gatewayMarket,
           symbol:gatewaySymbol,
@@ -6897,6 +6919,11 @@ window.addEventListener('resize',closeAccountDropdown);
       // can enter replay state, even if a feed ignores its date parameters.
       replayBars=bars.filter(inSelectedRange).sort((a,b)=>a.time-b.time).filter((b,i,a)=>i===0||b.time>a[i-1].time);
       if(!replayBars.length)throw new Error('No historical candles returned for this symbol/date. Try a different symbol, timeframe, or date range.');
+      const malformed=replayBars.filter(b=>{
+        const epsilon=Math.max(1,Math.abs(b.open),Math.abs(b.high),Math.abs(b.low),Math.abs(b.close))*1e-10;
+        return b.high+epsilon<Math.max(b.open,b.close)||b.low-epsilon>Math.min(b.open,b.close)||b.high+epsilon<b.low;
+      });
+      if(malformed.length)throw new Error('Historical provider returned '+malformed.length+' invalid OHLC candle(s). Data was rejected to avoid displaying inaccurate market prices.');
       // Apply the instrument's native display precision before drawing candles.
       // This prevents FX/crypto price labels from being rounded to the chart library's 2-decimal default.
       const pricePrecision=replayPricePrecision(symbol,replayBars);
