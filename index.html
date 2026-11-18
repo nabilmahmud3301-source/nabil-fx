@@ -6693,7 +6693,7 @@ window.addEventListener('resize',closeAccountDropdown);
     const s=String(symbol||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
     if(/^[A-Z]{6}$/.test(s)&&! /^(XAU|XAG|XPT|XPD)/.test(s))return s.endsWith('JPY')?3:5;
     if(/^(XAU|XAG|XPT|XPD)USD$/.test(s))return 2;
-    if(/^(ES|NQ|YM|RTY|GC|SI|CL|NG)[FGHJKMNQUVXZ]\\d{1,2}$/.test(s))return 2;
+    if(/^(ES|NQ|YM|RTY|GC|SI|CL|NG)[FGHJKMNQUVXZ]\d{1,2}$/.test(s))return 2;
     if(/USDT$|USDC$|BUSD$|BTCUSD$|ETHUSD$/.test(s)){
       const prices=(bars||[]).slice(-100).map(b=>Math.abs(Number(b.close))).filter(v=>Number.isFinite(v)&&v>0);
       const typical=prices.length?prices.sort((a,b)=>a-b)[Math.floor(prices.length/2)]:1;
