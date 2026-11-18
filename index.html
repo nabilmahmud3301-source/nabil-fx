@@ -6608,12 +6608,12 @@ window.addEventListener('resize',closeAccountDropdown);
           return new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Dhaka',year:'numeric',month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(date)+' (BDT)';
         }
       },
-      timeScale:{borderColor:'#293241',timeVisible:true,secondsVisible:false,visible:true,barSpacing:7,minBarSpacing:2,rightOffset:10,lockVisibleTimeRangeOnResize:true},
+      timeScale:{borderColor:'#293241',timeVisible:true,secondsVisible:false,visible:true,barSpacing:9,minBarSpacing:4,rightOffset:10,lockVisibleTimeRangeOnResize:true},
       crosshair:{mode:LightweightCharts.CrosshairMode.Normal,vertLine:{color:'rgba(180,195,215,.55)',width:1,style:LightweightCharts.LineStyle.Dashed,labelBackgroundColor:'#34445a'},horzLine:{color:'rgba(180,195,215,.55)',width:1,style:LightweightCharts.LineStyle.Dashed,labelBackgroundColor:'#34445a'}},
       handleScroll:{mouseWheel:true,pressedMouseMove:true,horzTouchDrag:true,vertTouchDrag:false},
       handleScale:{mouseWheel:true,pinch:true,axisPressedMouseMove:{time:true,price:true}}
     });
-    replaySeries=replayChart.addCandlestickSeries({upColor:'#26a69a',downColor:'#ef5350',borderUpColor:'#26a69a',borderDownColor:'#ef5350',wickUpColor:'#26a69a',wickDownColor:'#ef5350',priceLineVisible:true,lastValueVisible:true,priceLineColor:'#26a69a'});
+    replaySeries=replayChart.addCandlestickSeries({upColor:'#26a69a',downColor:'#ef5350',borderUpColor:'#26a69a',borderDownColor:'#ef5350',wickUpColor:'#26a69a',wickDownColor:'#ef5350',priceLineVisible:true,lastValueVisible:true,priceLineColor:'#26a69a',borderVisible:true,wickVisible:true});
     // Mobile price-axis drag: explicitly pan the numeric price range from the right scale hit-zone.
     replayEls.chart.style.touchAction='none';
     let replayPriceAxisDrag=null;
@@ -6745,7 +6745,7 @@ window.addEventListener('resize',closeAccountDropdown);
         replayEmaSeries.setData(emaData);
       }else replayEmaSeries.setData([]);
     }
-    replayChart.applyOptions({layout:{background:{type:'solid',color:'#08090c'},textColor:'#c8c8c8'},grid:{vertLines:{visible:replayGridEnabled,color:'#202229'},horzLines:{visible:replayGridEnabled,color:'#202229'}},timeScale:{barSpacing:5,minBarSpacing:2,rightOffset:8}});
+    replayChart.applyOptions({layout:{background:{type:'solid',color:'#08090c'},textColor:'#c8c8c8'},grid:{vertLines:{visible:replayGridEnabled,color:'#202229'},horzLines:{visible:replayGridEnabled,color:'#202229'}},timeScale:{barSpacing:9,minBarSpacing:4,rightOffset:8}});
     if(visibleBars.length){
       // Keep the replay window anchored to the latest visible bars without
       // repeatedly fitting the entire chart (which causes unwanted chart jumps).
@@ -6880,10 +6880,8 @@ window.addEventListener('resize',closeAccountDropdown);
       const isFuturesContract=/^(ES|NQ|YM|RTY|GC|SI|CL|NG)[FGHJKMNQUVXZ]\d{1,2}$/.test(symbol);
       const isCryptoSymbol=/USDT$|USDC$|BUSD$|BTC$|ETH$|BNB$/.test(symbol)||symbol==='BTCUSD'||symbol==='ETHUSD';
       if(!liveMode&&fromDate&&toDate&&!isCryptoSymbol){
+        // Historical market candles are public data; Bar Replay does not require an account.
         const client=getNabilSupabaseClient();
-        const {data:sessionData,error:sessionError}=await client.auth.getSession();
-        if(sessionError)throw sessionError;
-        if(!sessionData?.session)throw new Error('Please log in to load archived historical candles for this market.');
         const indexAliases={US30:'DJI',DOW:'DJI',NAS100:'NDX',USTEC:'NDX',NASDAQ:'IXIC',US500:'SPX',SPX500:'SPX',SP500:'SPX'};
         const gatewaySymbol=isForexPair?compactPair:(indexAliases[symbol]||symbol);
         const gatewayMarket=isForexPair?'forex':isFuturesContract?'futures':isCommodity?'commodities':'stocks';
@@ -6971,7 +6969,7 @@ window.addEventListener('resize',closeAccountDropdown);
     replaySeries.setData(replayBars);
     if(replayEmaSeries)replayEmaSeries.setData([]);
     replayChart.timeScale().fitContent();
-    replayChart.timeScale().applyOptions({barSpacing:5,minBarSpacing:2,rightOffset:8});
+    replayChart.timeScale().applyOptions({barSpacing:9,minBarSpacing:4,rightOffset:8});
     const cursor=replayEls.chart.querySelector('.replay-replay-cursor');
     if(cursor)cursor.style.display='none';
     replayStatus('Choose your starting candle: move the vertical line to a candle and click it. All candles to its right will be hidden.');
