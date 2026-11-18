@@ -6818,6 +6818,49 @@ window.addEventListener('resize',closeAccountDropdown);
           if(bars.length)providerUsed='Binance public spot data';
         }
       }
+      // Biquote is a rolling-window feed, so it cannot supply older dates.
+      // Fall back to Yahoo Finance chart history for supported symbols/timeframes.
+      const selectedYahooInterval=({'1m':'1m','5m':'5m','15m':'15m','30m':'30m','1h':'60m','2h':'60m','4h':'60m','1d':'1d'})[interval]||'60m';
+      const yahooAliases={
+        XAUUSD:'GC=F',GOLD:'GC=F',XAGUSD:'SI=F',SILVER:'SI=F',
+        US30:'YM=F',DJI:'YM=F',NAS100:'NQ=F',USTEC:'NQ=F',NASDAQ:'NQ=F',
+        US500:'ES=F',SPX500:'ES=F',SP500:'ES=F',DXY:'DX-Y.NYB',
+        BTCUSD:'BTC-USD',ETHUSD:'ETH-USD'
+      };
+      const yahooSymbol=yahooAliases[symbol]||(/^[A-Z]{6}$/.test(symbol)?symbol+'=X':symbol);
+      const yahooIntraday=['1m','5m','15m','30m','60m'].includes(selectedYahooInterval);
+      if(!liveMode&&fromDate&&toDate&&(!bars.length||bars[0].time*1000>rangeStart+86400000||bars[bars.length-1].time*1000<rangeEnd-86400000)){
+        try{
+          const yahooParams=new URLSearchParams({period1:String(Math.floor(rangeStart/1000)),period2:String(Math.floor(rangeEnd/1000)+1),interval:selectedYahooInterval,events:'history'});
+          const yahooUrl='https://query1.finance.yahoo.com/v8/finance/chart/'+encodeURIComponent(yahooSymbol)+'?'+yahooParams.toString();
+          const yahooResponse=await fetch('https://proxy.cors.dev/'+yahooUrl,{cache:'no-store'});
+          if(!yahooResponse.ok)throw new Error('Historical provider returned HTTP '+yahooResponse.status);
+          const yahooPayload=await yahooResponse.json();
+          const yahooResult=yahooPayload?.chart?.result?.[0];
+          if(yahooPayload?.chart?.error)throw new Error(yahooPayload.chart.error.description||'Historical provider rejected this symbol/date.');
+          if(!yahooResult?.timestamp?.length)throw new Error('No archived candles are available for this symbol and timeframe.');
+          const quote=yahooResult.indicators?.quote?.[0]||{};
+          let yahooBars=yahooResult.timestamp.map((time,index)=>({time:Number(time),open:Number(quote.open?.[index]),high:Number(quote.high?.[index]),low:Number(quote.low?.[index]),close:Number(quote.close?.[index])}))
+            .filter(b=>Number.isFinite(b.time)&&Number.isFinite(b.open)&&Number.isFinite(b.high)&&Number.isFinite(b.low)&&Number.isFinite(b.close)&&inSelectedRange(b))
+            .sort((a,b)=>a.time-b.time);
+          if(interval==='2h'||interval==='4h'){
+            const bucketSeconds=(interval==='2h'?7200:14400);
+            const grouped=new Map();
+            yahooBars.forEach(bar=>{
+              const key=Math.floor(bar.time/bucketSeconds)*bucketSeconds;
+              const current=grouped.get(key);
+              if(!current)grouped.set(key,{time:key,open:bar.open,high:bar.high,low:bar.low,close:bar.close});
+              else{current.high=Math.max(current.high,bar.high);current.low=Math.min(current.low,bar.low);current.close=bar.close;}
+            });
+            yahooBars=[...grouped.values()];
+          }
+          if(!yahooBars.length)throw new Error('No archived candles fall inside the selected dates.');
+          bars=yahooBars;
+          providerUsed='Yahoo Finance historical archive (via CORS relay)';
+        }catch(historyError){
+          if(!bars.length)throw new Error('The selected dates are outside the free feed history, and the archive fallback failed: '+(historyError.message||historyError));
+        }
+      }
       // Final guard: no candle outside the requested inclusive calendar dates
       // can enter replay state, even if a feed ignores its date parameters.
       replayBars=bars.filter(inSelectedRange).sort((a,b)=>a.time-b.time).filter((b,i,a)=>i===0||b.time>a[i-1].time);
