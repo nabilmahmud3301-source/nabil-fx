@@ -88,6 +88,10 @@ Deno.serve(async (req: Request) => {
       url.searchParams.set("outputsize",String(5000));
       url.searchParams.set("order","ASC");
       url.searchParams.set("format","JSON");
+      // Request the complete provider precision and a single consistent UTC
+      // timeline for intraday candles. Daily bars remain exchange-session based.
+      url.searchParams.set("dp","11");
+      url.searchParams.set("timezone",tf.timespan==="day"?"Exchange":"UTC");
       url.searchParams.set("apikey",key);
       if (chunkStart) url.searchParams.set("start_date",chunkStart);
       if (chunkEnd) url.searchParams.set("end_date",chunkEnd);
@@ -120,9 +124,9 @@ Deno.serve(async (req: Request) => {
     const meta = metaHolder.meta || {};
     const type = String(meta?.type || "").toLowerCase();
     const fxOrCrypto = market === "forex" || market === "crypto" || type.includes("forex") || type.includes("currency") || type.includes("crypto");
-    const timezone = String(meta?.exchange_timezone || "UTC");
+    const timezone = tf.timespan==="day" ? String(meta?.exchange_timezone || "UTC") : "UTC";
     let candles = values.map((x:any)=>({
-      t:parseTwelveDate(String(x.datetime),timezone,fxOrCrypto),
+      t:parseTwelveDate(String(x.datetime),timezone,fxOrCrypto || tf.timespan!=="day"),
       o:+x.open,h:+x.high,l:+x.low,c:+x.close,v:+(x.volume||0)
     })).filter((x:any)=>Number.isFinite(x.t)&&[x.o,x.h,x.l,x.c].every(Number.isFinite))
       .sort((a:any,b:any)=>a.t-b.t);
