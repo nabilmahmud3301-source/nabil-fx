@@ -4520,17 +4520,6 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
     </div>
     <div class="nfx-replay-marketline"><div><span class="nfx-replay-live-dot"></span><strong id="replayMetaSymbol">EURUSD</strong><span id="replayMetaTime">—</span></div><div class="nfx-replay-stats"><span><small>VISIBLE</small><b id="replayMetaCount">Not started</b></span><span><small>TOTAL BARS</small><b id="replayMetaTotal">0</b></span><span class="nfx-replay-data-note">Historical data · Third-party feed</span></div></div>
 
-    <div class="nfx-replay-chart-frame">
-      <div class="nfx-replay-chart-top">
-        <div class="nfx-replay-chart-title"><strong id="replayChartSymbol">EURUSD</strong><span id="replayChartTf">1H</span><span class="nfx-replay-chart-tag">HISTORICAL REPLAY</span></div>
-        <div class="nfx-replay-chart-tools">
-          <button type="button" data-replay-tool="crosshair" class="active" title="Crosshair">＋</button>
-          <button id="replayIndicatorToggle" type="button" title="Toggle EMA 20">EMA 20</button>
-          <button id="replayGridToggle" type="button" class="active" title="Toggle chart grid">▦</button>
-          <button id="replaySelectPoint" type="button" title="Choose replay starting candle" aria-pressed="false">⏮ Select Replay Point</button>
-        </div>
-      </div>
-      <div id="replayChart" class="nfx-replay-chart" aria-label="Historical candlestick replay chart"></div>
     <div class="nfx-replay-control-dock">
       <div class="nfx-replay-timeline"><span>REPLAY PROGRESS</span><div class="nfx-replay-progress-track"><i id="replayProgressBar"></i></div><span id="replayProgressLabel">0%</span></div>
       <div class="nfx-replay-controls">
@@ -4545,6 +4534,19 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
         <button id="replayLive" type="button" class="nfx-replay-quiet-btn">↻ Refresh Data</button>
       </div>
     </div>
+
+    <div class="nfx-replay-chart-frame">
+      <div class="nfx-replay-chart-top">
+        <div class="nfx-replay-chart-title"><strong id="replayChartSymbol">EURUSD</strong><span id="replayChartTf">1H</span><span class="nfx-replay-chart-tag">HISTORICAL REPLAY</span></div>
+        <div class="nfx-replay-chart-tools">
+          <button type="button" data-replay-tool="crosshair" class="active" title="Crosshair">＋</button>
+          <button id="replayIndicatorToggle" type="button" title="Toggle EMA 20">EMA 20</button>
+          <button id="replayGridToggle" type="button" class="active" title="Toggle chart grid">▦</button>
+          <button id="replaySelectPoint" type="button" title="Choose replay starting candle" aria-pressed="false">⏮ Select Replay Point</button>
+        </div>
+      </div>
+      <div id="replayChart" class="nfx-replay-chart" aria-label="Historical candlestick replay chart"></div>
+
       <div id="replayStatus" class="nfx-replay-status" role="status">Choose a market and click <strong>Load Historical Data</strong> to begin.</div>
     </div>
     <p class="nfx-replay-disclaimer">Market data is provided by free third-party feeds and may differ from your broker or TradingView feed. Availability depends on the selected symbol and timeframe.</p>
