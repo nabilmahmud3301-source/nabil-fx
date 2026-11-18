@@ -9171,6 +9171,60 @@ window.renderBacktestMetrics=function(r,meta={}){
  #page-chart #replayWorkspace:fullscreen{padding:10px!important}
  #page-chart #replayWorkspace:fullscreen .nfx-replay-chart{height:calc(100vh - 500px);min-height:250px}
 }
+
+/* Bar Replay: compact professional control layout */
+#page-chart #replayWorkspace .nfx-replay-header{margin-bottom:10px}
+#page-chart #replayWorkspace .nfx-replay-config{grid-template-columns:minmax(105px,1.05fr) minmax(105px,1fr) minmax(112px,1fr) minmax(112px,1fr) minmax(105px,.9fr) auto;gap:7px;padding:8px 10px;border-radius:8px}
+#page-chart #replayWorkspace .nfx-replay-config label{margin-bottom:3px;font-size:7px;letter-spacing:.1em}
+#page-chart #replayWorkspace .nfx-replay-config input,
+#page-chart #replayWorkspace .nfx-replay-config select{height:29px;padding:0 7px;border-radius:5px;font-size:10px}
+#page-chart #replayWorkspace .nfx-replay-primary{height:29px;padding:0 10px;font-size:9px;border-radius:5px}
+#page-chart #replayWorkspace .nfx-replay-marketline{min-height:31px;padding:6px 3px 5px;gap:8px}
+#page-chart #replayWorkspace .nfx-replay-marketline>div:first-child{gap:6px;font-size:9px}
+#page-chart #replayWorkspace .nfx-replay-marketline strong{font-size:11px}
+#page-chart #replayWorkspace .nfx-replay-live-dot{width:6px;height:6px}
+#page-chart #replayWorkspace .nfx-replay-stats{gap:12px}
+#page-chart #replayWorkspace .nfx-replay-stats span{display:flex;align-items:center;gap:5px}
+#page-chart #replayWorkspace .nfx-replay-stats small{font-size:7px}
+#page-chart #replayWorkspace .nfx-replay-stats b{font-size:9px}
+#page-chart #replayWorkspace .nfx-replay-stats .nfx-replay-data-note{font-size:8px}
+#page-chart #replayWorkspace .nfx-replay-control-dock{grid-template-columns:minmax(130px,.55fr) minmax(0,2fr);gap:0;margin:4px 0 7px;border-radius:6px}
+#page-chart #replayWorkspace .nfx-replay-control-dock .nfx-replay-timeline{gap:7px;padding:5px 9px;font-size:7px;letter-spacing:.08em}
+#page-chart #replayWorkspace .nfx-replay-progress-track{height:3px}
+#page-chart #replayWorkspace .nfx-replay-timeline>span:last-child{min-width:25px}
+#page-chart #replayWorkspace .nfx-replay-control-dock .nfx-replay-controls{gap:8px;padding:4px 7px}
+#page-chart #replayWorkspace .nfx-replay-control-dock .nfx-replay-transport{gap:3px}
+#page-chart #replayWorkspace .nfx-replay-control-dock .nfx-replay-transport button{height:23px;min-width:25px;padding:0 5px;font-size:8px}
+#page-chart #replayWorkspace .nfx-replay-control-dock .nfx-replay-transport .nfx-replay-play{min-width:57px}
+#page-chart #replayWorkspace .nfx-replay-control-dock .nfx-replay-speed{gap:4px}
+#page-chart #replayWorkspace .nfx-replay-control-dock .nfx-replay-speed label{font-size:6px;letter-spacing:.06em}
+#page-chart #replayWorkspace .nfx-replay-control-dock .nfx-replay-speed select{width:49px;height:23px;padding:0 4px;font-size:8px}
+#page-chart #replayWorkspace .nfx-replay-control-dock #replayLive{height:23px;padding:0 7px;font-size:8px}
+#page-chart #replayWorkspace .nfx-replay-chart-top{min-height:38px;padding:5px 9px}
+#page-chart #replayWorkspace .nfx-replay-chart-tools{gap:4px}
+#page-chart #replayWorkspace .nfx-replay-chart-tools button{height:25px;padding:0 8px;font-size:9px}
+#page-chart #replayWorkspace .nfx-replay-chart{height:590px}
+@media(max-width:900px){
+ #page-chart #replayWorkspace .nfx-replay-config{grid-template-columns:repeat(3,minmax(0,1fr))}
+ #page-chart #replayWorkspace .nfx-replay-control-dock{grid-template-columns:1fr}
+ #page-chart #replayWorkspace .nfx-replay-control-dock .nfx-replay-timeline{border-bottom:1px solid #263447}
+ #page-chart #replayWorkspace .nfx-replay-control-dock .nfx-replay-controls{border-top:0}
+}
+@media(max-width:620px){
+ #page-chart #replayWorkspace .nfx-replay-config{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:8px}
+ #page-chart #replayWorkspace .nfx-replay-config .nfx-replay-primary{grid-column:1/-1}
+ #page-chart #replayWorkspace .nfx-replay-marketline{align-items:flex-start;flex-direction:column}
+ #page-chart #replayWorkspace .nfx-replay-stats{width:100%;flex-wrap:wrap;gap:7px 12px}
+ #page-chart #replayWorkspace .nfx-replay-control-dock .nfx-replay-controls{gap:7px}
+ #page-chart #replayWorkspace .nfx-replay-control-dock .nfx-replay-transport{width:auto;flex:1}
+ #page-chart #replayWorkspace .nfx-replay-control-dock .nfx-replay-transport button{flex:1;min-width:0}
+ #page-chart #replayWorkspace .nfx-replay-control-dock .nfx-replay-transport .nfx-replay-play{flex:1.35}
+ #page-chart #replayWorkspace .nfx-replay-control-dock .nfx-replay-speed{flex:0 0 auto}
+ #page-chart #replayWorkspace .nfx-replay-control-dock #replayLive{margin-left:0}
+ #page-chart #replayWorkspace .nfx-replay-chart-top{align-items:flex-start;flex-direction:column}
+ #page-chart #replayWorkspace .nfx-replay-chart-tools{width:100%;flex-wrap:wrap}
+}
+
 </style>
 
 
