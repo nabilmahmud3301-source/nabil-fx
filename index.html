@@ -6891,7 +6891,7 @@ window.addEventListener('resize',closeAccountDropdown);
       // as the backtesting engine. This avoids fragile browser CORS relays and lets
       // the provider paginate long date windows without inventing candles.
       const compactPair=symbol.replace(/[^A-Z]/g,'');
-      const isForexPair=inferredMarketType==='forex'||(/^[A-Z]{6}$/.test(compactPair)&&! /^(XAU|XAG|XPT|XPD)/.test(compactPair)&&!/(BTC|ETH|BNB|SOL|XRP|ADA|DOGE)/.test(compactPair));
+      const isForexPair=inferredMarketType==='forex';
       const isMetal=/^(XAU|XAG|XPT|XPD)USD$/.test(compactPair);
       const isCommodity=inferredMarketType==='commodity'||isMetal||/^(WTI|USOIL|BRENT|NATGAS|COPPER)$/.test(symbol);
       const isFuturesContract=/^(ES|NQ|YM|RTY|GC|SI|CL|NG|HG|ZC|ZW|ZS)[FGHJKMNQUVXZ]\d{1,2}$/.test(symbol);
