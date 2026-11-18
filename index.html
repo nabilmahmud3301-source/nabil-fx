@@ -4555,31 +4555,37 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
       </div>
       <div class="nfx-replay-chart-layout">
         <aside class="nfx-replay-drawing-toolbar" aria-label="TradingView-style chart drawing tools" role="toolbar" aria-orientation="vertical">
-          <button type="button" class="active" data-replay-draw="cursor" title="Cursor / Select" aria-label="Cursor / Select" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true">M5 3l13 12-6 1.2L9 22 5 3z</svg></button>
-          <button type="button" class="" data-replay-draw="crosshair" title="Crosshair" aria-label="Crosshair" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">M12 2v20M2 12h20M8 12a4 4 0 1 0 8 0 4 4 0 0 0-8 0</svg></button>
+          <button type="button" class="active" data-replay-draw="cursor" title="Cursor / Select" aria-label="Cursor / Select" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l13 12-6 1.2L9 22 5 3z"/></svg></button>
+          <button type="button" class="" data-replay-draw="crosshair" title="Crosshair" aria-label="Crosshair" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v20M2 12h20M8 12a4 4 0 1 0 8 0 4 4 0 0 0-8 0"/></svg></button>
           <span class="nfx-replay-draw-divider" aria-hidden="true"></span>
-          <button type="button" class="" data-replay-draw="trend" title="Trend Line" aria-label="Trend Line" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">M4 19L19 4M12 4h7v7</svg></button>
-          <button type="button" class="" data-replay-draw="ray" title="Ray" aria-label="Ray" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">M4 19L20 3M12 3h8v8</svg></button>
-          <button type="button" class="" data-replay-draw="extended" title="Extended Line" aria-label="Extended Line" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">M3 20L21 2M3 14v6h6M15 2h6v6</svg></button>
-          <button type="button" class="" data-replay-draw="hline" title="Horizontal Line" aria-label="Horizontal Line" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">M3 12h18M7 8v8M17 8v8</svg></button>
-          <button type="button" class="" data-replay-draw="vline" title="Vertical Line" aria-label="Vertical Line" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">M12 3v18M8 7h8M8 17h8</svg></button>
-          <button type="button" class="" data-replay-draw="infoline" title="Info Line / Measure" aria-label="Info Line / Measure" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">M4 18L18 4M8 4h10v10M4 20h16</svg></button>
-          <button type="button" class="" data-replay-draw="channel" title="Parallel Channel" aria-label="Parallel Channel" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">M4 18L18 4M7 21L21 7M4 18l3 3M18 4l3 3</svg></button>
-          <button type="button" class="" data-replay-draw="fib" title="Fibonacci Retracement" aria-label="Fibonacci Retracement" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">M4 4h16M4 9h16M4 14h16M4 20h16M4 4v16</svg></button>
-          <button type="button" class="" data-replay-draw="fibext" title="Fib Extension" aria-label="Fib Extension" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">M3 19L10 5l4 9 7-11M3 19h18</svg></button>
+          <button type="button" class="" data-replay-draw="trend" title="Trend Line" aria-label="Trend Line" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19L19 4M12 4h7v7"/></svg></button>
+          <button type="button" class="" data-replay-draw="ray" title="Ray" aria-label="Ray" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19L20 3M12 3h8v8"/></svg></button>
+          <button type="button" class="" data-replay-draw="extended" title="Extended Line" aria-label="Extended Line" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20L21 2M3 14v6h6M15 2h6v6"/></svg></button>
+          <button type="button" class="" data-replay-draw="hline" title="Horizontal Line" aria-label="Horizontal Line" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18M7 8v8M17 8v8"/></svg></button>
+          <button type="button" data-replay-draw="hray" title="Horizontal Ray" aria-label="Horizontal Ray" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h17m-5-5 5 5-5 5"/></svg></button>
+          <button type="button" class="" data-replay-draw="vline" title="Vertical Line" aria-label="Vertical Line" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M8 7h8M8 17h8"/></svg></button>
+          <button type="button" data-replay-draw="vray" title="Vertical Ray" aria-label="Vertical Ray" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21V4m-5 5 5-5 5 5"/></svg></button>
+          <button type="button" class="" data-replay-draw="infoline" title="Info Line / Measure" aria-label="Info Line / Measure" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18L18 4M8 4h10v10M4 20h16"/></svg></button>
+          <button type="button" class="" data-replay-draw="channel" title="Parallel Channel" aria-label="Parallel Channel" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18L18 4M7 21L21 7M4 18l3 3M18 4l3 3"/></svg></button>
+          <button type="button" class="" data-replay-draw="fib" title="Fibonacci Retracement" aria-label="Fibonacci Retracement" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16M4 9h16M4 14h16M4 20h16M4 4v16"/></svg></button>
+          <button type="button" class="" data-replay-draw="fibext" title="Fib Extension" aria-label="Fib Extension" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 19L10 5l4 9 7-11M3 19h18"/></svg></button>
           <span class="nfx-replay-draw-divider" aria-hidden="true"></span>
-          <button type="button" class="" data-replay-draw="rect" title="Rectangle" aria-label="Rectangle" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">M4 5h16v14H4z</svg></button>
-          <button type="button" class="" data-replay-draw="ellipse" title="Ellipse" aria-label="Ellipse" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z</svg></button>
-          <button type="button" class="" data-replay-draw="brush" title="Brush" aria-label="Brush" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">M4 16c3-8 5 5 8-3s5-6 8-5</svg></button>
-          <button type="button" class="" data-replay-draw="path" title="Path / Polyline" aria-label="Path / Polyline" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">M3 18l6-11 5 8 7-9</svg></button>
-          <button type="button" class="" data-replay-draw="text" title="Text / Note" aria-label="Text / Note" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">M4 5h16M12 5v14M8 19h8</svg></button>
-          <button type="button" class="" data-replay-draw="pricerange" title="Price Range" aria-label="Price Range" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">M4 4h16v16H4zM8 8h8M8 12h5M8 16h8</svg></button>
-          <button type="button" class="" data-replay-draw="daterange" title="Date Range" aria-label="Date Range" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">M4 5h16v15H4zM8 3v4M16 3v4M4 10h16</svg></button>
-          <button type="button" class="" data-replay-draw="long" title="Long Position" aria-label="Long Position" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">M5 19V5M5 5h14M19 5v14M9 9h6M12 6v6</svg></button>
-          <button type="button" class="" data-replay-draw="short" title="Short Position" aria-label="Short Position" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">M5 5v14M5 19h14M19 5v14M9 15h6M12 12v6</svg></button>
+          <button type="button" class="" data-replay-draw="rect" title="Rectangle" aria-label="Rectangle" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4z"/></svg></button>
+          <button type="button" class="" data-replay-draw="ellipse" title="Ellipse" aria-label="Ellipse" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z"/></svg></button>
+          <button type="button" data-replay-draw="triangle" title="Triangle" aria-label="Triangle" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 22 20H2L12 3z"/></svg></button>
+          <button type="button" data-replay-draw="arrow" title="Arrow" aria-label="Arrow" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20 20 4m-8 0h8v8"/></svg></button>
+          <button type="button" data-replay-draw="fibfan" title="Fibonacci Fan" aria-label="Fibonacci Fan" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20 20 4M4 20 20 14M4 20 20 9"/></svg></button>
+          <button type="button" class="" data-replay-draw="brush" title="Brush" aria-label="Brush" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 16c3-8 5 5 8-3s5-6 8-5"/></svg></button>
+          <button type="button" class="" data-replay-draw="path" title="Path / Polyline" aria-label="Path / Polyline" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18l6-11 5 8 7-9"/></svg></button>
+          <button type="button" class="" data-replay-draw="text" title="Text / Note" aria-label="Text / Note" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16M12 5v14M8 19h8"/></svg></button>
+          <button type="button" class="" data-replay-draw="pricerange" title="Price Range" aria-label="Price Range" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8h8M8 12h5M8 16h8"/></svg></button>
+          <button type="button" class="" data-replay-draw="daterange" title="Date Range" aria-label="Date Range" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v15H4zM8 3v4M16 3v4M4 10h16"/></svg></button>
+          <button type="button" class="" data-replay-draw="long" title="Long Position" aria-label="Long Position" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19V5M5 5h14M19 5v14M9 9h6M12 6v6"/></svg></button>
+          <button type="button" class="" data-replay-draw="short" title="Short Position" aria-label="Short Position" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5v14M5 19h14M19 5v14M9 15h6M12 12v6"/></svg></button>
           <span class="nfx-replay-draw-divider" aria-hidden="true"></span>
-          <button type="button" data-replay-draw="undo" title="Undo Drawing" aria-label="Undo Drawing"><svg viewBox="0 0 24 24" aria-hidden="true">M9 14L4 9l5-5M4 9h9a7 7 0 0 1 0 14h-2</svg></button>
-          <button type="button" data-replay-draw="clear" title="Remove All Drawings" aria-label="Remove All Drawings"><svg viewBox="0 0 24 24" aria-hidden="true">M4 7h16M10 11v7M14 11v7M5 7l1 14h12l1-14M9 7V4h6v3</svg></button>
+          <button type="button" data-replay-draw="undo" title="Undo Last Drawing" aria-label="Undo Last Drawing"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14L4 9l5-5M4 9h9a7 7 0 0 1 0 14h-2"/></svg></button>
+          <button type="button" data-replay-draw="delete" title="Delete Selected Drawing" aria-label="Delete Selected Drawing" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v7M14 11v7M5 7l1 14h12l1-14M9 7V4h6v3"/></svg></button>
+          <button type="button" data-replay-draw="clear" title="Remove All Drawings" aria-label="Remove All Drawings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v7M14 11v7M5 7l1 14h12l1-14M9 7V4h6v3"/></svg></button>
         </aside>
         <div id="replayChart" class="nfx-replay-chart" aria-label="Historical candlestick replay chart">
           <canvas id="replayDrawingCanvas" class="nfx-replay-drawing-canvas" aria-label="Replay chart drawing layer"></canvas>
@@ -6260,7 +6266,7 @@ window.addEventListener('resize',closeAccountDropdown);
     status:$('replayStatus'), metaSymbol:$('replayMetaSymbol'), metaCount:$('replayMetaCount'), metaTime:$('replayMetaTime'), metaTotal:$('replayMetaTotal'), chart:$('replayChart')
   };
   let replayChart=null, replaySeries=null, replayEmaSeries=null, replayEmaEnabled=false, replayGridEnabled=true, replaySelectingPoint=false, replayBars=[], replayIndex=-1, replayTimer=null, replayLiveTimer=null, replayLiveMode=false, replayLiveFetchBusy=false, replayLibPromise=null;
-  let replayDrawingMode='cursor', replayDrawings=[], replayDraft=null, replayDrawPointer=null;
+  let replayDrawingMode='cursor', replayDrawings=[], replayDraft=null, replayDrawPointer=null, replaySelectedDrawing=-1;
   const replayDrawingCanvas=$('replayDrawingCanvas');
   const replayDrawingCtx=replayDrawingCanvas?.getContext('2d');
   function replayDrawingPoint(event){
@@ -6283,16 +6289,20 @@ window.addEventListener('resize',closeAccountDropdown);
     const w=Math.max(1,Math.floor(rect.width*dpr)),h=Math.max(1,Math.floor(rect.height*dpr));
     if(replayDrawingCanvas.width!==w||replayDrawingCanvas.height!==h){replayDrawingCanvas.width=w;replayDrawingCanvas.height=h;}
     replayDrawingCtx.setTransform(dpr,0,0,dpr,0,0);replayDrawingCtx.clearRect(0,0,rect.width,rect.height);
-    const paint=(drawing,preview=false)=>{
+    const paint=(drawing,preview=false,selected=false)=>{
       const pts=(drawing.points||[]).map(replayDrawingXY).filter(Boolean);if(!pts.length)return;
-      const ctx=replayDrawingCtx;ctx.save();ctx.strokeStyle=preview?'#8bbcff':'#f0b86a';ctx.fillStyle='rgba(41,98,160,.13)';ctx.lineWidth=1.5;ctx.setLineDash(preview?[5,4]:[]);
+      const ctx=replayDrawingCtx;ctx.save();ctx.strokeStyle=preview?'#8bbcff':selected?'#69a9ff':'#f0b86a';ctx.fillStyle=selected?'rgba(67,145,255,.19)':'rgba(41,98,160,.13)';ctx.lineWidth=selected?2.2:1.5;ctx.setLineDash(preview?[5,4]:[]);
       const a=pts[0],b=pts[pts.length-1],left=Math.min(a.x,b.x),right=Math.max(a.x,b.x),top=Math.min(a.y,b.y),bottom=Math.max(a.y,b.y),mid=(a.y+b.y)/2;
       ctx.beginPath();
       if(drawing.tool==='hline'){ctx.moveTo(0,a.y);ctx.lineTo(rect.width,a.y);}
+      else if(drawing.tool==='hray'){ctx.moveTo(a.x,a.y);ctx.lineTo(rect.width,a.y);}
       else if(drawing.tool==='vline'||drawing.tool==='daterange'){ctx.moveTo(a.x,0);ctx.lineTo(a.x,rect.height);if(drawing.tool==='daterange'&&pts.length>1){ctx.fillRect(left,0,Math.max(1,right-left),rect.height);}}
+      else if(drawing.tool==='vray'){ctx.moveTo(a.x,a.y);ctx.lineTo(a.x,0);}
       else if(drawing.tool==='ray'||drawing.tool==='extended'){
         const dx=b.x-a.x,dy=b.y-a.y;if(Math.abs(dx)>0.01){const t1=drawing.tool==='ray'?Math.max(0,(rect.width-a.x)/dx):(-a.x)/dx,t2=(rect.width-a.x)/dx;ctx.moveTo(a.x+dx*t1,a.y+dy*t1);ctx.lineTo(a.x+dx*t2,a.y+dy*t2);}else{ctx.moveTo(a.x,0);ctx.lineTo(a.x,rect.height);}
       }
+      else if(drawing.tool==='triangle'){ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,a.y);ctx.lineTo((a.x+b.x)/2,b.y);ctx.closePath();ctx.fill();ctx.stroke();}
+      else if(drawing.tool==='arrow'){ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();const angle=Math.atan2(b.y-a.y,b.x-a.x),size=10;ctx.beginPath();ctx.moveTo(b.x,b.y);ctx.lineTo(b.x-size*Math.cos(angle-.48),b.y-size*Math.sin(angle-.48));ctx.moveTo(b.x,b.y);ctx.lineTo(b.x-size*Math.cos(angle+.48),b.y-size*Math.sin(angle+.48));ctx.stroke();}
       else if(drawing.tool==='rect'||drawing.tool==='pricerange'||drawing.tool==='long'||drawing.tool==='short'){
         ctx.rect(left,top,Math.max(1,right-left),Math.max(1,bottom-top));ctx.fill();ctx.stroke();
         if(drawing.tool==='long'||drawing.tool==='short'){ctx.setLineDash([3,3]);ctx.beginPath();ctx.moveTo(left,mid);ctx.lineTo(right,mid);ctx.stroke();ctx.setLineDash([]);}
@@ -6303,6 +6313,7 @@ window.addEventListener('resize',closeAccountDropdown);
         levels.forEach(level=>{const y=a.y+(b.y-a.y)*level;ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(right,y);ctx.stroke();ctx.fillStyle=preview?'#b9d5fa':'#f0c17e';ctx.font='10px system-ui';ctx.fillText((level*100).toFixed(1)+'%',right-42,y-3);});
         ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
       }
+      else if(drawing.tool==='fibfan'){[.236,.382,.5,.618,.786,1].forEach(level=>{ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,a.y+(b.y-a.y)*level);ctx.stroke();});}
       else if(drawing.tool==='channel'){
         const offset=Math.max(14,Math.abs(b.y-a.y)*.22);ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.moveTo(a.x,a.y+offset);ctx.lineTo(b.x,b.y+offset);ctx.moveTo(a.x,a.y);ctx.lineTo(a.x,a.y+offset);ctx.moveTo(b.x,b.y);ctx.lineTo(b.x,b.y+offset);ctx.stroke();
       }
@@ -6312,7 +6323,9 @@ window.addEventListener('resize',closeAccountDropdown);
       else{ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}
       ctx.restore();
     };
-    replayDrawings.forEach(d=>paint(d));if(replayDraft)paint(replayDraft,true);
+    replayDrawings.forEach((d,i)=>paint(d,false,i===replaySelectedDrawing));if(replayDraft)paint(replayDraft,true);
+    const deleteButton=document.querySelector('[data-replay-draw="delete"]');
+    if(deleteButton){deleteButton.classList.toggle('has-selection',replaySelectedDrawing>=0);deleteButton.disabled=replaySelectedDrawing<0;deleteButton.setAttribute('aria-pressed',String(replaySelectedDrawing>=0));}
   }
   function replaySetDrawingMode(mode){
     replayDrawingMode=mode;
@@ -6333,16 +6346,39 @@ window.addEventListener('resize',closeAccountDropdown);
     });
     const finishReplayDrawing=event=>{
       if(replayDrawPointer!==event.pointerId||!replayDraft)return;
-      if(replayDraft.points.length===2||replayDraft.tool==='brush'||replayDraft.tool==='path'){if(replayDraft.tool==='text'){const label=window.prompt('Enter chart note:','Note');if(label)replayDraft.label=label;}if(replayDraft.tool!=='text'||replayDraft.label)replayDrawings.push(replayDraft);}
-      replayDraft=null;replayDrawPointer=null;replayPaintDrawings();
+      if(replayDraft.points.length===2||replayDraft.tool==='brush'||replayDraft.tool==='path'){
+        if(replayDraft.tool==='text'){const label=window.prompt('Enter chart note:','Note');if(label)replayDraft.label=label;}
+        if(replayDraft.tool!=='text'||replayDraft.label){replayDrawings.push(replayDraft);replaySelectedDrawing=replayDrawings.length-1;}
+      }
+      replayDraft=null;replayDrawPointer=null;replaySetDrawingMode('cursor');replayPaintDrawings();
     };
     replayDrawingCanvas.addEventListener('pointerup',finishReplayDrawing);
     replayDrawingCanvas.addEventListener('pointercancel',finishReplayDrawing);
   }
+  function replayDrawingDistance(px,py,a,b){
+    const dx=b.x-a.x,dy=b.y-a.y,len=dx*dx+dy*dy;
+    if(!len)return Math.hypot(px-a.x,py-a.y);
+    const t=Math.max(0,Math.min(1,((px-a.x)*dx+(py-a.y)*dy)/len));
+    return Math.hypot(px-(a.x+t*dx),py-(a.y+t*dy));
+  }
+  function replayFindDrawingAt(x,y){
+    for(let i=replayDrawings.length-1;i>=0;i--){
+      const pts=(replayDrawings[i].points||[]).map(replayDrawingXY).filter(Boolean);if(!pts.length)continue;
+      if(pts.length===1&&Math.hypot(x-pts[0].x,y-pts[0].y)<14)return i;
+      for(let j=1;j<pts.length;j++)if(replayDrawingDistance(x,y,pts[j-1],pts[j])<12)return i;
+      const a=pts[0],b=pts[pts.length-1],l=Math.min(a.x,b.x),r=Math.max(a.x,b.x),t=Math.min(a.y,b.y),bt=Math.max(a.y,b.y),tool=replayDrawings[i].tool;
+      if((tool==='hline'&&Math.abs(y-a.y)<10)||(tool==='vline'&&Math.abs(x-a.x)<10)||(tool==='hray'&&x>=a.x-8&&Math.abs(y-a.y)<10)||(tool==='vray'&&y<=a.y+8&&Math.abs(x-a.x)<10))return i;
+      if(['rect','pricerange','long','short','daterange','ellipse','triangle'].includes(tool)&&x>=l-8&&x<=r+8&&y>=t-8&&y<=bt+8){
+        if(Math.min(Math.abs(x-l),Math.abs(x-r),Math.abs(y-t),Math.abs(y-bt))<13||tool==='daterange')return i;
+      }
+    }
+    return -1;
+  }
   document.querySelectorAll('[data-replay-draw]').forEach(button=>button.addEventListener('click',()=>{
     const mode=button.dataset.replayDraw;
-    if(mode==='undo'){replayDrawings.pop();replayPaintDrawings();return;}
-    if(mode==='clear'){if(replayDrawings.length&&!window.confirm('Remove all chart drawings?'))return;replayDrawings=[];replayDraft=null;replayPaintDrawings();return;}
+    if(mode==='undo'){replayDrawings.pop();replaySelectedDrawing=-1;replayPaintDrawings();return;}
+    if(mode==='delete'){if(replaySelectedDrawing>=0){replayDrawings.splice(replaySelectedDrawing,1);replaySelectedDrawing=-1;replayPaintDrawings();}return;}
+    if(mode==='clear'){if(replayDrawings.length&&!window.confirm('Remove all chart drawings?'))return;replayDrawings=[];replaySelectedDrawing=-1;replayDraft=null;replayPaintDrawings();return;}
     replaySetDrawingMode(mode);
   }));
   function replayStatus(msg){ if(replayEls.status) replayEls.status.innerHTML=msg; }
@@ -6473,26 +6509,33 @@ window.addEventListener('resize',closeAccountDropdown);
       handleScale:{mouseWheel:true,pinch:true,axisPressedMouseMove:{time:true,price:true}}
     });
     replaySeries=replayChart.addCandlestickSeries({upColor:'#26a69a',downColor:'#ef5350',borderUpColor:'#26a69a',borderDownColor:'#ef5350',wickUpColor:'#26a69a',wickDownColor:'#ef5350',priceLineVisible:true,lastValueVisible:true,priceLineColor:'#26a69a'});
-    // Mobile price-axis drag: vertically pan the visible price range when the right scale is touched.
+    // Mobile price-axis drag: explicitly pan the numeric price range from the right scale hit-zone.
     replayEls.chart.style.touchAction='none';
     let replayPriceAxisDrag=null;
     replayEls.chart.addEventListener('pointerdown',event=>{
-      if(event.pointerType!=='touch'||!replaySeries||!replayBars.length)return;
+      if((event.pointerType!=='touch'&&event.pointerType!=='pen')||!replaySeries||!replayBars.length)return;
       const bounds=replayEls.chart.getBoundingClientRect();
-      if(event.clientX<bounds.right-88)return;
-      const range=replaySeries.priceScale().getVisibleRange();
-      if(!range||!Number.isFinite(range.from)||!Number.isFinite(range.to))return;
+      if(event.clientX<bounds.right-112)return;
+      let range=null;
+      try{range=replaySeries.priceScale().getVisibleRange();}catch(_){}
+      if(!range||!Number.isFinite(range.from)||!Number.isFinite(range.to)){
+        const visible=replayBars.slice(0,Math.max(1,replayIndex+1));
+        const lows=visible.map(b=>Number(b.low)).filter(Number.isFinite),highs=visible.map(b=>Number(b.high)).filter(Number.isFinite);
+        if(!lows.length||!highs.length)return;
+        const lo=Math.min(...lows),hi=Math.max(...highs),pad=Math.max((hi-lo)*.08,Math.abs(hi)*.0001,1e-8);
+        range={from:lo-pad,to:hi+pad};
+      }
       replayPriceAxisDrag={pointerId:event.pointerId,startY:event.clientY,from:range.from,to:range.to,height:Math.max(1,bounds.height)};
       event.preventDefault();event.stopPropagation();
-      try{replayEls.chart.setPointerCapture(event.pointerId);}catch(e){}
+      try{replayEls.chart.setPointerCapture(event.pointerId);}catch(_){}
     },true);
     replayEls.chart.addEventListener('pointermove',event=>{
       const drag=replayPriceAxisDrag;if(!drag||drag.pointerId!==event.pointerId)return;
       event.preventDefault();event.stopPropagation();
       const delta=(event.clientY-drag.startY)/drag.height*(drag.to-drag.from);
-      try{replaySeries.priceScale().setVisibleRange({from:drag.from-delta,to:drag.to-delta});}catch(e){}
+      try{replaySeries.priceScale().setVisibleRange({from:drag.from+delta,to:drag.to+delta});}catch(_){}
     },true);
-    const stopPriceAxisDrag=event=>{if(replayPriceAxisDrag&&replayPriceAxisDrag.pointerId===event.pointerId)replayPriceAxisDrag=null;};
+    const stopPriceAxisDrag=event=>{if(replayPriceAxisDrag&&replayPriceAxisDrag.pointerId===event.pointerId){replayPriceAxisDrag=null;try{replayEls.chart.releasePointerCapture(event.pointerId);}catch(_){}}};
     replayEls.chart.addEventListener('pointerup',stopPriceAxisDrag,true);
     replayEls.chart.addEventListener('pointercancel',stopPriceAxisDrag,true);
     replayEmaSeries=replayChart.addLineSeries({color:'#f6b73c',lineWidth:2,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});
@@ -6509,7 +6552,13 @@ window.addEventListener('resize',closeAccountDropdown);
     });
     replayChart.timeScale().subscribeVisibleLogicalRangeChange(()=>replayPaintDrawings());
     replayChart.subscribeClick(param=>{
-      if(!replaySelectingPoint||!param||!param.time||!replayBars.length)return;
+      if(!param)return;
+      if(!replaySelectingPoint&&replayDrawingMode==='cursor'&&param.point){
+        replaySelectedDrawing=replayFindDrawingAt(param.point.x,param.point.y);
+        replayPaintDrawings();
+        return;
+      }
+      if(!replaySelectingPoint||!param.time||!replayBars.length)return;
       const chosenTime=typeof param.time==='number'?param.time:(param.time.year?Date.UTC(param.time.year,param.time.month-1,param.time.day)/1000:NaN);
       if(!Number.isFinite(chosenTime))return;
       let nearest=0,best=Infinity;
@@ -9474,7 +9523,13 @@ window.renderBacktestMetrics=function(r,meta={}){
 #page-chart #replayWorkspace .nfx-replay-drawing-toolbar button:hover{background:#202631;border-color:#363d49;color:#f0f3fa}
 #page-chart #replayWorkspace .nfx-replay-drawing-toolbar button.active{background:#26364f;border-color:#3b5b89;color:#83b5ff;box-shadow:inset 0 0 0 1px #78a9ff12}
 #page-chart #replayWorkspace .nfx-replay-drawing-toolbar button:focus-visible{outline:1px solid #83b5ff;outline-offset:1px}
-#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button[data-replay-draw="undo"],#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button[data-replay-draw="clear"]{color:#9da7b6}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button[data-replay-draw="undo"],#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button[data-replay-draw="delete"],#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button[data-replay-draw="clear"]{color:#9da7b6}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button[data-replay-draw="delete"]:hover{color:#ff929e}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button[data-replay-draw="delete"].has-selection{background:#26364f;border-color:#3b5b89;color:#83b5ff}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button[title]{position:relative}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button:after{content:attr(title);position:absolute;left:calc(100% + 9px);top:50%;transform:translateY(-50%);z-index:30;display:none;padding:6px 9px;border:1px solid #3b4657;border-radius:5px;background:#1b2330;color:#e7edf7;font:600 10px/1.2 system-ui;white-space:nowrap;pointer-events:none;box-shadow:0 5px 16px #0008}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button:hover:after{display:block}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar{overscroll-behavior:contain;touch-action:pan-y}
 #page-chart #replayWorkspace .nfx-replay-drawing-toolbar button[data-replay-draw="undo"]:hover,#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button[data-replay-draw="clear"]:hover{color:#ff929e}
 #page-chart #replayWorkspace .nfx-replay-draw-divider{width:25px;height:1px;flex:0 0 1px;margin:4px 0;background:#303744}
 #page-chart #replayWorkspace .nfx-replay-chart{touch-action:none}
