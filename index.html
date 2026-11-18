@@ -6291,7 +6291,7 @@ window.addEventListener('resize',closeAccountDropdown);
   if(replayJump)replayJump.addEventListener('click',()=>setChartWorkspaceMode('replay'));
   try{if(sessionStorage.getItem('nfx-chart-mode')==='replay')setChartWorkspaceMode('replay');}catch(_){}
 
-  // Free Bar Replay: independent candle chart; source offers no-key OHLC for many FX/CFD/crypto symbols.
+  // Bar Replay routes historical candles to the selected market's provider; live relay data is kept separate.
   const replayEls = {
     symbol:$('replaySymbol'), interval:$('replayInterval'), from:$('replayFrom'), to:$('replayTo'), limit:$('replayLimit'), speed:$('replaySpeed'),
     live:$('replayLive'), load:$('replayLoad'), start:$('replayStart'), prev:$('replayPrev'), play:$('replayPlay'), next:$('replayNext'), end:$('replayEnd'),
@@ -6844,11 +6844,11 @@ window.addEventListener('resize',closeAccountDropdown);
       }
       // Historical replay uses only the market-specific exchange/provider source.
       bars=bars.filter(inSelectedRange);
-      const isBinanceSymbol=inferredMarketType==='crypto'&&(/USDT$|USDC$|BUSD$|BTC$|ETH$|BNB$/.test(symbol));
+      const normalizedReplaySymbol=symbol.replace(/[-:\/_]/g,'');
+      const isBinanceSymbol=inferredMarketType==='crypto'&&(/USDT$|USDC$|BUSD$|BTC$|ETH$|BNB$/.test(normalizedReplaySymbol));
       if(!liveMode&&isBinanceSymbol){
-        const cryptoAliases={BTCUSD:'BTCUSDT',ETHUSD:'ETHUSDT'};
-        const cryptoSymbol=cryptoAliases[symbol]||symbol;
-        const looksCrypto=/USDT$|BUSD$|BTC$|ETH$|BNB$/.test(cryptoSymbol);
+        const cryptoSymbol=normalizedReplaySymbol;
+        const looksCrypto=/USDT$|USDC$|BUSD$|BTC$|ETH$|BNB$/.test(cryptoSymbol);
         if(looksCrypto){
           try{
             const binanceParams=new URLSearchParams({symbol:cryptoSymbol,interval,limit:'1000'});
