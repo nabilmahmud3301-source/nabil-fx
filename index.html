@@ -4419,12 +4419,12 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
   <header class="nfx-chart-page-hero">
     <div>
       <span class="nfx-chart-page-kicker"><span class="nfx-chart-brand-white">NABIL</span> <span class="nfx-chart-brand-red">Fx</span> / MARKET WORKSPACE</span>
-      <h1>Chart <em>&amp; Bar Replay</em></h1>
-      <p>Analyze live price action or study historical market moves in a focused charting workspace.</p>
+      <h1>Chart</h1>
+      <p>Analyze live price action in a focused charting workspace.</p>
     </div>
     <div class="nfx-chart-page-stamp"><span class="nfx-chart-stamp-dot"></span><span>CHARTING WORKSPACE</span></div>
   </header>
-  <div class="chart-mode-switch" role="tablist" aria-label="Chart workspace mode"><button type="button" class="chart-mode-tab active" data-chart-mode="live" role="tab" aria-selected="true">↗ Real-Time Chart</button><button type="button" class="chart-mode-tab" data-chart-mode="replay" role="tab" aria-selected="false">⏮ Bar Replay</button><span class="chart-mode-caption">Live market chart and historical replay are separate workspaces.</span></div>
+
   <section id="chartWorkspace" class="panel chart-workspace" data-chart-workspace="live">
     <div class="chart-heading-row">
       <h2 class="view-heading">Real Time Chart</h2>
@@ -4443,74 +4443,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
   
 
 
-  <section id="nabilReplayPointLab" class="panel nfx-point-lab" data-chart-workspace="replay" hidden>
-    <div class="chart-heading-row">
-      <div><h2 class="view-heading">Bar Replay Chart</h2><p class="hint" style="margin:5px 0 0">Load historical candles and select a replay point to step through price action.</p></div>
-      <div class="chart-heading-actions">
-        <button id="nfxPointFullscreenButton" class="chart-fullscreen-btn" type="button" aria-label="Fullscreen replay chart" title="Fullscreen replay chart"><span>Fullscreen Chart</span></button>
-      </div>
-    </div>
-    <div class="nfx-point-controls">
-      <label>SYMBOL <input id="nfxPointSymbol" value="EURUSD" autocomplete="off" spellcheck="false"></label>
-      <label>TIMEFRAME <select id="nfxPointInterval"><option value="1m">1 minute</option><option value="5m">5 minutes</option><option value="15m">15 minutes</option><option value="30m">30 minutes</option><option value="1h" selected>1 hour</option><option value="4h">4 hours</option><option value="1d">1 day</option></select></label>
-      <label>CANDLES <select id="nfxPointLimit"><option>200</option><option selected>500</option><option>1000</option></select></label>
-      <button type="button" id="nfxPointLoad">Load Data</button>
-      <button type="button" id="nfxPointSelect" aria-pressed="false">⏮ Replay Point</button>
-      <button type="button" id="nfxPointPrev" disabled>← Previous</button>
-      <button type="button" id="nfxPointNext" disabled>Next Candle →</button>
-      <button type="button" id="nfxPointPlay" disabled>▶ Play</button>
-      <button type="button" id="nfxPointReset" disabled>Show All</button>
-    </div>
-    <div id="nfxIndicatorSelections" hidden>
-      <input type="checkbox" id="nfxIndEma9" data-indicator="ema9"><input type="checkbox" id="nfxIndEma20" data-indicator="ema20"><input type="checkbox" id="nfxIndEma50" data-indicator="ema50"><input type="checkbox" id="nfxIndEma100" data-indicator="ema100"><input type="checkbox" id="nfxIndEma200" data-indicator="ema200">
-      <input type="checkbox" id="nfxIndSma20" data-indicator="sma20"><input type="checkbox" id="nfxIndSma50" data-indicator="sma50"><input type="checkbox" id="nfxIndSma100" data-indicator="sma100"><input type="checkbox" id="nfxIndSma200" data-indicator="sma200">
-      <input type="checkbox" id="nfxIndBollinger" data-indicator="bollinger"><input type="checkbox" id="nfxIndRsi" data-indicator="rsi"><input type="checkbox" id="nfxIndMacd" data-indicator="macd">
-      <input type="checkbox" id="nfxIndVwap" data-indicator="vwap"><input type="checkbox" id="nfxIndAtr" data-indicator="atr"><input type="checkbox" id="nfxIndStoch" data-indicator="stoch">
-    </div>
-    <div class="nfx-point-meta"><span id="nfxPointStatus">Choose a symbol and click Load Data.</span><span id="nfxPointCount">0 candles</span></div>
-    <div id="nfxPointChart" class="nfx-point-chart" aria-label="Nabil custom replay point candle chart">
-      <aside id="nfxReplayDrawingBar" class="nfx-replay-drawing-bar" aria-label="Chart drawing tools">
-<div class="nfx-tool-section"><button type="button" data-draw="cursor" class="active" title="Cursor / Crosshair" aria-label="Cursor / Crosshair"><svg viewBox="0 0 24 24"><path d="M5 3l13 11-6 .7-3 5z"/></svg></button><button type="button" data-draw="select" title="Select and move drawings" aria-label="Select and move drawings"><svg viewBox="0 0 24 24"><path d="M4 4l7 16 2-7 7-2z"/><path d="M14 14l6 6"/></svg></button>
-<button type="button" data-draw="brush" title="Brush / Freehand" aria-label="Brush / Freehand"><svg viewBox="0 0 24 24"><path d="M4 17c4-10 5 5 9-4s4 1 7-7"/></svg></button>
-<button type="button" data-draw="text" title="Text Note" aria-label="Text Note"><svg viewBox="0 0 24 24"><path d="M4 5h16M12 5v14M8 19h8"/></svg></button></div>
-<div class="nfx-tool-section"><button type="button" data-draw="trend" title="Trend Line" aria-label="Trend Line"><svg viewBox="0 0 24 24"><path d="M4 20L20 4M12 4h8v8"/></svg></button>
-<button type="button" data-draw="ray" title="Ray" aria-label="Ray"><svg viewBox="0 0 24 24"><path d="M4 20L20 4M12 4h8v8"/></svg></button>
-<button type="button" data-draw="extended" title="Extended Line" aria-label="Extended Line"><svg viewBox="0 0 24 24"><path d="M2 22L22 2"/></svg></button>
-<button type="button" data-draw="horizontal" title="Horizontal Line" aria-label="Horizontal Line"><svg viewBox="0 0 24 24"><path d="M3 12h18"/></svg></button>
-<button type="button" data-draw="hRay" title="Horizontal Ray" aria-label="Horizontal Ray"><svg viewBox="0 0 24 24"><path d="M3 12h18M15 8l4 4-4 4"/></svg></button>
-<button type="button" data-draw="vertical" title="Vertical Line" aria-label="Vertical Line"><svg viewBox="0 0 24 24"><path d="M12 3v18"/></svg></button>
-<button type="button" data-draw="cross" title="Cross Line" aria-label="Cross Line"><svg viewBox="0 0 24 24"><path d="M3 12h18M12 3v18"/></svg></button></div>
-<div class="nfx-tool-section"><button type="button" data-draw="rectangle" title="Rectangle" aria-label="Rectangle"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14"/></svg></button>
-<button type="button" data-draw="circle" title="Ellipse" aria-label="Ellipse"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="8" ry="6"/></svg></button>
-<button type="button" data-draw="arrow" title="Arrow" aria-label="Arrow"><svg viewBox="0 0 24 24"><path d="M4 20L19 5M10 5h9v9"/></svg></button>
-<button type="button" data-draw="parallel" title="Parallel Channel" aria-label="Parallel Channel"><svg viewBox="0 0 24 24"><path d="M4 20L15 9M9 22L20 11M4 20h5"/></svg></button></div>
-<div class="nfx-tool-section"><button type="button" data-draw="fib" title="Fibonacci Retracement" aria-label="Fibonacci Retracement"><svg viewBox="0 0 24 24"><path d="M4 5h16M4 9h12M4 13h16M4 17h10M4 21h16"/></svg></button>
-<button type="button" data-draw="fibExt" title="Fibonacci Extension" aria-label="Fibonacci Extension"><svg viewBox="0 0 24 24"><path d="M4 5h16M4 9h11M4 13h16M4 17h13M4 21h16"/></svg></button>
-<button type="button" data-draw="longPosition" title="Long Position" aria-label="Long Position"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="8"/><rect x="5" y="12" width="14" height="8"/></svg></button>
-<button type="button" data-draw="shortPosition" title="Short Position" aria-label="Short Position"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="8"/><rect x="5" y="12" width="14" height="8"/></svg></button></div>
-<div class="nfx-tool-section"><button type="button" data-draw="undo" title="Undo Last Drawing" aria-label="Undo Last Drawing"><svg viewBox="0 0 24 24"><path d="M9 7L4 12l5 5M4 12h10a6 6 0 0 1 0 12"/></svg></button>
-<button type="button" data-draw="deleteSelected" title="Delete selected drawing (Delete)" aria-label="Delete selected drawing"><svg viewBox="0 0 24 24"><path d="M5 7h14M9 7V4h6v3M7 7l1 13h8l1-13"/></svg></button>
-<button type="button" data-draw="clear" title="Remove All Drawings" aria-label="Remove All Drawings"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13"/></svg></button></div>
-        <div class="nfx-toolbar-brand" title="NABIL Fx chart tools"><span style="color:#fff">N</span><span style="color:#ff2438">Fx</span></div>
-      </aside>
-      <div class="nfx-replay-topbar" role="toolbar" aria-label="Replay chart controls"><div class="nfx-replay-market-label"><strong id="nfxReplaySymbolLabel">EURUSD</strong><span id="nfxReplayIntervalLabel">1H</span><span class="nfx-replay-market-dot">●</span></div>
-        <div class="nfx-replay-topbar-group"><button type="button" data-nfx-replay-action="cursor" class="active" title="Cursor / Crosshair">↖</button><button type="button" data-nfx-replay-action="magnet" aria-pressed="false" title="Magnet mode">⌁</button><button type="button" data-nfx-replay-action="hide" aria-pressed="false" title="Hide drawings">◉</button></div>
-        <span class="nfx-replay-toolbar-divider"></span>
-        <div class="nfx-replay-topbar-group"><button type="button" data-nfx-replay-action="undo" title="Undo drawing">↶</button><button type="button" data-nfx-replay-action="redo" title="Redo drawing">↷</button><button type="button" data-nfx-replay-action="fit" title="Fit chart to data">⤢</button></div>
-        <span class="nfx-replay-toolbar-divider"></span><button type="button" data-nfx-replay-action="indicators" title="Open indicators">ƒx&nbsp; Indicators</button><span class="nfx-replay-toolbar-spacer"></span><span class="nfx-replay-toolbar-label"><span style="color:#fff">NABIL</span> <span style="color:#ff2438">Fx</span> · REPLAY</span>
-      </div>
-      <div class="nfx-chart-indicator-float">
-        <button id="nfxOpenIndicators" type="button" class="nfx-indicators-open">▥ &nbsp; Indicators <span id="nfxActiveIndicatorCount">0</span></button>
-        <div id="nfxIndicatorDialog" class="nfx-indicator-dialog" hidden>
-          <div class="nfx-indicator-dialog-head"><strong>Indicators, Metrics & Strategies</strong><button id="nfxCloseIndicators" type="button" aria-label="Close indicators">×</button></div>
-          <input id="nfxIndicatorSearch" type="search" placeholder="Search indicators (e.g. EMA, RSI, MACD)..." autocomplete="off">
-          <div id="nfxIndicatorResults" class="nfx-indicator-results"></div>
-          <p>Choose an indicator to apply it. Select it again to remove it.</p>
-        </div>
-      </div>
-    </div>
-    <p class="hint">Free market-data availability depends on the symbol and provider. Replay Point works on this new chart only; the two charts above remain unchanged.</p>
-  </section>
+
 
   
 </section>
