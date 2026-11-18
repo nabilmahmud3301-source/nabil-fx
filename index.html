@@ -6918,34 +6918,7 @@ window.addEventListener('resize',closeAccountDropdown);
       }
       // Final guard: no candle outside the requested inclusive calendar dates
       // can enter replay state, even if a feed ignores its date parameters.
-      const orderedBars=bars.filter(inSelectedRange).sort((a,b)=>a.time-b.time)
-        .filter((b,i,a)=>i===0||b.time>a[i-1].time);
-      // Some free feeds repeat an identical OHLC snapshot for many consecutive
-      // timestamps. Those stale rows stack into a misleading flat stripe. Collapse
-      // only long, exact-price repeats on the selected timeframe; keep normal
-      // low-volatility candles and every genuine price change untouched.
-      const replayStaleRunThreshold=8;
-      replayBars=[];
-      for(let i=0;i<orderedBars.length;){
-        const first=orderedBars[i];
-        let j=i+1;
-        while(j<orderedBars.length){
-          const prev=orderedBars[j-1],next=orderedBars[j];
-          const sameOHLC=next.open===first.open&&next.high===first.high&&
-            next.low===first.low&&next.close===first.close;
-          const regularStep=next.time>prev.time&&next.time-prev.time<=intervalMs*1.5;
-          if(!sameOHLC||!regularStep)break;
-          j++;
-        }
-        const runLength=j-i;
-        if(runLength>=replayStaleRunThreshold){
-          // Retain one authentic candle rather than fabricating movement.
-          replayBars.push(first);
-        }else{
-          for(let k=i;k<j;k++)replayBars.push(orderedBars[k]);
-        }
-        i=j;
-      }
+      replayBars=bars.filter(inSelectedRange).sort((a,b)=>a.time-b.time).filter((b,i,a)=>i===0||b.time>a[i-1].time);
       if(!replayBars.length)throw new Error('No historical candles returned for this symbol/date. Try a different symbol, timeframe, or date range.');
       const malformed=replayBars.filter(b=>{
         const epsilon=Math.max(1,Math.abs(b.open),Math.abs(b.high),Math.abs(b.low),Math.abs(b.close))*1e-10;
