@@ -54,7 +54,7 @@ Deno.serve(async (req: Request) => {
     if (market === "crypto" && /^[A-Z0-9]{2,10}USD$/.test(normalizedCryptoSymbol) && !/(USDT|USDC|BUSD)$/.test(normalizedCryptoSymbol)) {
       if (!start || !end) return json({error:"Choose both From Date and To Date for an exact USD-quoted crypto replay."},400);
       const productId = normalizedCryptoSymbol.slice(0,-3) + "-USD";
-      const parseUtcBoundary = (value:string,isEnd:boolean) => /^\\d{4}-\\d{2}-\\d{2}$/.test(value)
+      const parseUtcBoundary = (value:string,isEnd:boolean) => /^\d{4}-\d{2}-\d{2}$/.test(value)
         ? Date.parse(value + (isEnd ? "T23:59:59.999Z" : "T00:00:00.000Z"))
         : Date.parse(value.replace(" ","T") + "Z");
       const startMs = parseUtcBoundary(start,false);
