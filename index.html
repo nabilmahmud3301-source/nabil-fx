@@ -4303,6 +4303,65 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
  #nabilReplayPointLab .nfx-chart-indicator-float{top:48px!important;right:5px!important}
 }
 </style>
+<style id="nfx-premium-bar-replay">
+#page-chart .chart-mode-switch{display:flex;align-items:center;gap:8px;margin:0 0 14px;padding:7px;border:1px solid #263244;border-radius:11px;background:#0b111b}
+#page-chart .chart-mode-tab{min-height:39px;padding:0 17px;border:1px solid transparent;border-radius:7px;background:transparent;color:#9eacbf;font:650 12px system-ui;cursor:pointer}
+#page-chart .chart-mode-tab.active{border-color:#385b83;background:linear-gradient(180deg,#1c3048,#142235);color:#e7f1ff;box-shadow:inset 0 1px #ffffff12}
+#page-chart .chart-mode-caption{margin-left:auto;padding:0 10px;color:#75849a;font-size:10px}
+#page-chart .nfx-replay-workspace{padding:18px;border:1px solid #273448;border-radius:14px;background:linear-gradient(145deg,#0e1520,#0a1018 65%);box-shadow:0 18px 55px #0003}
+#page-chart .nfx-replay-header{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:17px}
+#page-chart .nfx-replay-eyebrow{color:#e45b6a;font-size:9px;font-weight:850;letter-spacing:.17em}
+#page-chart .nfx-replay-header h2{margin:5px 0 4px;color:#edf3fc;font-size:25px;letter-spacing:-.04em}
+#page-chart .nfx-replay-header p{max-width:690px;margin:0;color:#8998ac;font-size:12px;line-height:1.6}
+#page-chart .nfx-replay-config{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr .9fr auto;gap:10px;align-items:end;padding:13px;border:1px solid #263447;border-radius:10px;background:#101a27}
+#page-chart .nfx-replay-config>div{min-width:0;position:relative}
+#page-chart .nfx-replay-config label,#page-chart .nfx-replay-speed label{display:block;margin:0 0 6px;color:#8495aa;font-size:9px;font-weight:800;letter-spacing:.12em}
+#page-chart .nfx-replay-config input,#page-chart .nfx-replay-config select,#page-chart .nfx-replay-speed select{width:100%;height:38px;min-width:0;padding:0 10px;border:1px solid #304158;border-radius:6px;background:#0b131e;color:#e2eaf5;font-size:12px;outline:none}
+#page-chart .nfx-replay-config input:focus,#page-chart .nfx-replay-config select:focus{border-color:#6689b4}
+#page-chart .nfx-replay-primary{height:38px;padding:0 15px;border:1px solid #87404b;border-radius:6px;background:linear-gradient(180deg,#a72f42,#7d2636);color:#fff;font-size:11px;font-weight:800;white-space:nowrap;cursor:pointer}
+#page-chart .nfx-replay-primary:disabled{opacity:.55;cursor:wait}
+#page-chart .nfx-replay-marketline{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 4px 10px}
+#page-chart .nfx-replay-marketline>div:first-child{display:flex;align-items:center;gap:9px;color:#aab7c8;font-size:11px}
+#page-chart .nfx-replay-marketline strong{color:#f0f4fb;font-size:13px}
+#page-chart .nfx-replay-live-dot{width:7px;height:7px;border-radius:50%;background:#50c99b;box-shadow:0 0 10px #50c99b80}
+#page-chart .nfx-replay-stats{display:flex;align-items:center;gap:18px}
+#page-chart .nfx-replay-stats span{display:grid;gap:3px}
+#page-chart .nfx-replay-stats small{color:#718198;font-size:8px;font-weight:800;letter-spacing:.12em}
+#page-chart .nfx-replay-stats b{color:#cdd8e7;font-size:10px;font-weight:650}
+#page-chart .nfx-replay-stats .nfx-replay-data-note{display:block;color:#74849a;font-size:9px}
+#page-chart .nfx-replay-chart-frame{overflow:visible;border:1px solid #29384b;border-radius:9px;background:#0b111a}
+#page-chart .nfx-replay-chart-top{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:48px;padding:7px 12px;border-bottom:1px solid #263447;background:#101925}
+#page-chart .nfx-replay-chart-title{display:flex;align-items:center;gap:9px;color:#e5edf8;font-size:12px}
+#page-chart .nfx-replay-chart-title>span:nth-child(2){padding:3px 6px;border:1px solid #33465e;border-radius:4px;color:#a9bad0;font-size:9px}
+#page-chart .nfx-replay-chart-tag{color:#df7583;font-size:8px;font-weight:850;letter-spacing:.13em}
+#page-chart .nfx-replay-chart-tools{display:flex;gap:5px}
+#page-chart .nfx-replay-chart-tools button,#page-chart .nfx-replay-transport button,#page-chart .nfx-replay-quiet-btn{height:32px;padding:0 10px;border:1px solid #304158;border-radius:5px;background:#172334;color:#b8c6d8;font-size:10px;font-weight:700;cursor:pointer}
+#page-chart .nfx-replay-chart-tools button.active{border-color:#466b9b;background:#1b304a;color:#e2efff}
+#page-chart .nfx-replay-chart{width:100%;height:590px;min-height:420px;background:#0b0e14}
+#page-chart .nfx-replay-timeline{display:flex;align-items:center;gap:10px;padding:9px 13px;border-top:1px solid #263447;color:#77889f;font-size:8px;font-weight:800;letter-spacing:.12em}
+#page-chart .nfx-replay-progress-track{height:4px;flex:1;overflow:hidden;border-radius:5px;background:#202d3d}
+#page-chart .nfx-replay-progress-track i{display:block;width:0;height:100%;border-radius:5px;background:#d64a5d;transition:width .12s linear}
+#page-chart .nfx-replay-timeline>span:last-child{min-width:32px;text-align:right;color:#c2cfdf}
+#page-chart .nfx-replay-controls{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 13px;border-top:1px solid #263447;background:#0e1722}
+#page-chart .nfx-replay-transport{display:flex;gap:6px}
+#page-chart .nfx-replay-transport button{min-width:37px}
+#page-chart .nfx-replay-transport .nfx-replay-play{min-width:86px;border-color:#8a3b4a;background:#7c2938;color:#fff}
+#page-chart .nfx-replay-speed{display:flex;align-items:center;gap:8px}
+#page-chart .nfx-replay-speed label{margin:0}
+#page-chart .nfx-replay-speed select{width:80px;height:32px;border:1px solid #304158;border-radius:5px;background:#111c2a;color:#d8e3f1}
+#page-chart .nfx-replay-status{min-height:35px;padding:10px 13px;border-top:1px solid #263447;color:#91a2b8;font-size:10px;line-height:1.5}
+#page-chart .nfx-replay-status strong{color:#e5edf8}
+#page-chart .nfx-replay-disclaimer{margin:10px 2px 0;color:#68788e;font-size:9px;line-height:1.5}
+#page-chart .replay-market-picker{position:absolute;z-index:50;top:100%;left:0;right:0;max-height:300px;overflow:auto;border:1px solid #34465d;border-radius:7px;background:#0c1521;box-shadow:0 14px 35px #0009}
+#page-chart .replay-market-picker-head{padding:9px 11px;border-bottom:1px solid #263447;color:#8294aa;font-size:8px;font-weight:850;letter-spacing:.13em}
+#page-chart .replay-market-group{padding:8px 10px 4px;color:#db7582;font-size:8px;font-weight:850;letter-spacing:.1em}
+#page-chart .replay-market-option{display:flex;width:100%;justify-content:space-between;gap:8px;padding:8px 10px;border:0;background:transparent;color:#dce6f3;text-align:left;cursor:pointer}
+#page-chart .replay-market-option:hover{background:#17283b}
+#page-chart .replay-market-option strong{font-size:10px}
+#page-chart .replay-market-option span{overflow:hidden;color:#8191a6;font-size:9px;text-overflow:ellipsis;white-space:nowrap}
+@media(max-width:900px){#page-chart .nfx-replay-config{grid-template-columns:repeat(3,minmax(0,1fr))}#page-chart .nfx-replay-primary{width:100%}#page-chart .nfx-replay-chart{height:520px}}
+@media(max-width:620px){#page-chart .chart-mode-switch{flex-wrap:wrap}#page-chart .chart-mode-tab{flex:1;padding:0 8px}#page-chart .chart-mode-caption{width:100%;margin:2px 4px;text-align:center}#page-chart .nfx-replay-workspace{padding:10px}#page-chart .nfx-replay-header{align-items:flex-start}#page-chart .nfx-replay-header h2{font-size:21px}#page-chart .nfx-replay-config{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;padding:10px}#page-chart .nfx-replay-config>div:first-child{grid-column:span 2}#page-chart .nfx-replay-marketline{align-items:flex-start;flex-direction:column}#page-chart .nfx-replay-stats{width:100%;justify-content:space-between;gap:8px}#page-chart .nfx-replay-stats .nfx-replay-data-note{display:none}#page-chart .nfx-replay-chart-top{align-items:flex-start;flex-direction:column}#page-chart .nfx-replay-chart-tools{flex-wrap:wrap}#page-chart .nfx-replay-chart{height:470px;min-height:390px}#page-chart .nfx-replay-controls{align-items:flex-start;flex-direction:column}#page-chart .nfx-replay-speed{width:100%;justify-content:flex-end}}
+</style>
 </head>
 <body>
 <div id="nfx-page-loader" role="status" aria-live="polite" aria-label="Loading NABIL Fx workspace">
@@ -4419,8 +4478,8 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
   <header class="nfx-chart-page-hero">
     <div>
       <span class="nfx-chart-page-kicker"><span class="nfx-chart-brand-white">NABIL</span> <span class="nfx-chart-brand-red">Fx</span> / MARKET WORKSPACE</span>
-      <h1>Chart</h1>
-      <p>Analyze live price action in a focused charting workspace.</p>
+      <h1>Chart <em>&amp; Bar Replay</em></h1>
+      <p>Analyze live markets or replay historical price action in a dedicated trading workspace.</p>
     </div>
     <div class="nfx-chart-page-stamp"><span class="nfx-chart-stamp-dot"></span><span>CHARTING WORKSPACE</span></div>
   </header>
@@ -4440,10 +4499,53 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
     <p class="hint">TradingView chart. Default timeframe: 1 hour. Use the chart toolbar to change symbols and tools.</p>
   </section>
 
-  
+  <div class="chart-mode-switch" role="tablist" aria-label="Chart workspace mode">
+    <button type="button" class="chart-mode-tab active" data-chart-mode="live" role="tab" aria-selected="true">↗ Live Chart</button>
+    <button type="button" class="chart-mode-tab" data-chart-mode="replay" role="tab" aria-selected="false">⏮ Bar Replay</button>
+    <span class="chart-mode-caption">Live market analysis · Historical candle replay</span>
+  </div>
 
-
-
+  <section id="replayWorkspace" class="nfx-replay-workspace" data-chart-workspace="replay" hidden>
+    <div class="nfx-replay-header">
+      <div><span class="nfx-replay-eyebrow">NABIL Fx / MARKET SIMULATOR</span><h2>Bar Replay</h2><p>Study historical price action candle by candle. Choose a replay point, control playback, and analyze the market without seeing future candles.</p></div>
+      <button id="replayFitChart" class="nfx-replay-quiet-btn" type="button">⤢ Fit chart</button>
+    </div>
+    <div class="nfx-replay-config">
+      <div class="replay-market-field"><label for="replaySymbol">MARKET</label><input id="replaySymbol" value="EURUSD" autocomplete="off" spellcheck="false" aria-expanded="false"><div id="replayMarketPicker" class="replay-market-picker" hidden><div class="replay-market-picker-head">SELECT MARKET</div><div id="replayMarketResults" class="replay-market-results"></div></div></div>
+      <div><label for="replayInterval">TIMEFRAME</label><select id="replayInterval"><option value="1m">1 minute</option><option value="5m">5 minutes</option><option value="15m">15 minutes</option><option value="30m">30 minutes</option><option value="1h" selected>1 hour</option><option value="2h">2 hours</option><option value="4h">4 hours</option><option value="1d">1 day</option></select></div>
+      <div><label for="replayFrom">FROM DATE</label><input id="replayFrom" type="date"></div>
+      <div><label for="replayTo">TO DATE</label><input id="replayTo" type="date"></div>
+      <div><label for="replayLimit">CANDLE HISTORY</label><select id="replayLimit"><option value="200">200 bars</option><option value="500" selected>500 bars</option><option value="1000">1,000 bars</option></select></div>
+      <button id="replayLoad" class="nfx-replay-primary" type="button">Load Historical Data <span>↗</span></button>
+    </div>
+    <div class="nfx-replay-marketline"><div><span class="nfx-replay-live-dot"></span><strong id="replayMetaSymbol">EURUSD</strong><span id="replayMetaTime">—</span></div><div class="nfx-replay-stats"><span><small>VISIBLE</small><b id="replayMetaCount">Not started</b></span><span><small>TOTAL BARS</small><b id="replayMetaTotal">0</b></span><span class="nfx-replay-data-note">Historical data · Third-party feed</span></div></div>
+    <div class="nfx-replay-chart-frame">
+      <div class="nfx-replay-chart-top">
+        <div class="nfx-replay-chart-title"><strong id="replayChartSymbol">EURUSD</strong><span id="replayChartTf">1H</span><span class="nfx-replay-chart-tag">HISTORICAL REPLAY</span></div>
+        <div class="nfx-replay-chart-tools">
+          <button type="button" data-replay-tool="crosshair" class="active" title="Crosshair">＋</button>
+          <button id="replayIndicatorToggle" type="button" title="Toggle EMA 20">EMA 20</button>
+          <button id="replayGridToggle" type="button" class="active" title="Toggle chart grid">▦</button>
+          <button id="replaySelectPoint" type="button" title="Choose replay starting candle" aria-pressed="false">⏮ Select Replay Point</button>
+        </div>
+      </div>
+      <div id="replayChart" class="nfx-replay-chart" aria-label="Historical candlestick replay chart"></div>
+      <div class="nfx-replay-timeline"><span>REPLAY PROGRESS</span><div class="nfx-replay-progress-track"><i id="replayProgressBar"></i></div><span id="replayProgressLabel">0%</span></div>
+      <div class="nfx-replay-controls">
+        <div class="nfx-replay-transport">
+          <button id="replayStart" type="button" disabled title="Start from first candle">|◀</button>
+          <button id="replayPrev" type="button" disabled title="Previous candle">◀</button>
+          <button id="replayPlay" class="nfx-replay-play" type="button" disabled>▶ Play</button>
+          <button id="replayNext" type="button" disabled title="Next candle">▶|</button>
+          <button id="replayEnd" type="button" disabled title="Show last candle">▶▶</button>
+        </div>
+        <div class="nfx-replay-speed"><label for="replaySpeed">PLAYBACK SPEED</label><select id="replaySpeed"><option value="1500">0.5×</option><option value="900" selected>1×</option><option value="450">2×</option><option value="180">5×</option></select></div>
+        <button id="replayLive" type="button" class="nfx-replay-quiet-btn">↻ Refresh Data</button>
+      </div>
+      <div id="replayStatus" class="nfx-replay-status" role="status">Choose a market and click <strong>Load Historical Data</strong> to begin.</div>
+    </div>
+    <p class="nfx-replay-disclaimer">Market data is provided by free third-party feeds and may differ from your broker or TradingView feed. Availability depends on the selected symbol and timeframe.</p>
+  </section>
 
   
 </section>
