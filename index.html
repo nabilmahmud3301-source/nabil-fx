@@ -6861,9 +6861,25 @@ window.addEventListener('resize',closeAccountDropdown);
         try{
           const yahooParams=new URLSearchParams({period1:String(Math.floor(rangeStart/1000)),period2:String(Math.floor(rangeEnd/1000)+1),interval:selectedYahooInterval,events:'history'});
           const yahooUrl='https://query1.finance.yahoo.com/v8/finance/chart/'+encodeURIComponent(yahooSymbol)+'?'+yahooParams.toString();
-          const yahooResponse=await fetch('https://proxy.cors.dev/'+yahooUrl,{cache:'no-store'});
-          if(!yahooResponse.ok)throw new Error('Historical provider returned HTTP '+yahooResponse.status);
-          const yahooPayload=await yahooResponse.json();
+          // Public CORS relays can intermittently return 404/5xx. Try more than one
+          // relay before treating the symbol as unsupported.
+          const yahooRelayUrls=[
+            'https://corsproxy.io/?url='+encodeURIComponent(yahooUrl),
+            'https://api.allorigins.win/raw?url='+encodeURIComponent(yahooUrl),
+            'https://proxy.cors.sh/'+yahooUrl
+          ];
+          let yahooPayload=null,lastRelayError=null;
+          for(const relayUrl of yahooRelayUrls){
+            try{
+              const relayResponse=await fetch(relayUrl,{cache:'no-store'});
+              if(!relayResponse.ok)throw new Error('Historical relay returned HTTP '+relayResponse.status);
+              const payload=await relayResponse.json();
+              if(payload?.chart?.result?.length||payload?.chart?.error){yahooPayload=payload;break;}
+              throw new Error('Historical relay returned an unexpected response.');
+            }catch(relayError){lastRelayError=relayError;}
+          }
+          if(!yahooPayload)throw new Error('All historical data relays failed: '+(lastRelayError?.message||'unknown relay error'));
+
           const yahooResult=yahooPayload?.chart?.result?.[0];
           if(yahooPayload?.chart?.error)throw new Error(yahooPayload.chart.error.description||'Historical provider rejected this symbol/date.');
           if(!yahooResult?.timestamp?.length)throw new Error('No archived candles are available for this symbol and timeframe.');
