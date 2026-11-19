@@ -6421,7 +6421,7 @@ window.addEventListener('resize',closeAccountDropdown);
   const replayDrawingToolSelector='#page-chart #replayWorkspace .nfx-replay-drawing-toolbar [data-replay-draw], body > .nfx-tv-tool-menu [data-replay-draw]';
   function replaySetDrawingMode(mode){
     replayDrawingMode=mode;
-    document.querySelectorAll(replayDrawingToolSelector).forEach(b=>{const active=b.dataset.replayDraw===mode;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));});
+    document.querySelectorAll(replayDrawingToolSelector).forEach(b=>{const active=b.dataset.replayDraw===mode;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));if(b.getAttribute('role')==='menuitemradio')b.setAttribute('aria-checked',String(active));});
     replayDrawingCanvas?.classList.toggle('is-drawing',mode!=='cursor'&&mode!=='crosshair');
     if(replayDrawingCanvas)replayDrawingCanvas.style.cursor=mode==='cursor'?(replaySelectedDrawing>=0?'move':'default'):mode==='crosshair'?'crosshair':'crosshair';
     if(mode!=='cursor'){replaySelectedDrawing=-1;replayPaintDrawings();}
@@ -6512,15 +6512,12 @@ window.addEventListener('resize',closeAccountDropdown);
     const byKey=key=>rail.querySelector('button[data-replay-draw="'+key+'"]');
     const groups=[
       {name:'Cursor',keys:['cursor','crosshair']},
-      {name:'Trend Line Tools',keys:['trend','ray','extended','arrow']},
-      {name:'Horizontal Lines',keys:['hline','hray']},
-      {name:'Vertical Lines',keys:['vline','vray']},
-      {name:'Channel',keys:['channel']},
+      {name:'Trend Line Tools',keys:['trend','ray','extended','arrow','hline','hray','vline','vray','channel','infoline']},
       {name:'Fibonacci Tools',keys:['fib','fibext','fibfan']},
       {name:'Brushes',keys:['brush','path']},
       {name:'Geometric Shapes',keys:['rect','ellipse','triangle']},
       {name:'Text & Notes',keys:['text']},
-      {name:'Measurement Tools',keys:['infoline','pricerange','daterange']},
+      {name:'Measurement Tools',keys:['pricerange','daterange']},
       {name:'Position Tools',keys:['long','short']}
     ];
     const menus=[];
@@ -8087,13 +8084,13 @@ document.addEventListener('click', function(event) {
     }));
     function sizeCanvas(){const r=wrap.getBoundingClientRect(),dpr=window.devicePixelRatio||1;drawCanvas.width=Math.max(1,Math.floor(r.width*dpr));drawCanvas.height=Math.max(1,Math.floor(r.height*dpr));drawCanvas.style.width=r.width+'px';drawCanvas.style.height=r.height+'px';drawCtx.setTransform(dpr,0,0,dpr,0,0);drawAll();}
     if(window.ResizeObserver)new ResizeObserver(sizeCanvas).observe(wrap);window.addEventListener('resize',sizeCanvas);sizeCanvas();
-    document.querySelectorAll('[data-replay-draw]').forEach(btn=>btn.addEventListener('click',()=>{
+    wrap.querySelectorAll('[data-replay-draw]').forEach(btn=>btn.addEventListener('click',()=>{
       const key=btn.dataset.replayDraw;
       const mode=({cursor:'select',crosshair:'crosshair',trend:'trend',ray:'ray',extended:'extended',hline:'horizontal',hray:'hRay',vline:'vertical',vray:'vRay',infoline:'infoLine',channel:'parallel',fib:'fib',fibext:'fibExt',rect:'rectangle',ellipse:'circle',triangle:'triangle',arrow:'arrow',fibfan:'fibFan',brush:'brush',path:'brush',text:'text',pricerange:'priceRange',daterange:'dateRange',long:'longPosition',short:'shortPosition',undo:'undo',delete:'deleteSelected',clear:'clear'})[key];
       if(mode==='clear'){if(window.confirm('Remove all drawings from this replay chart?')){drawings=[];redoDrawings=[];draftDrawing=null;selectedDrawing=null;drawAll();status('All drawings removed.');}return;}
       if(mode==='deleteSelected'){if(selectedDrawing){const index=drawings.indexOf(selectedDrawing);if(index>=0)drawings.splice(index,1);selectedDrawing=null;drawAll();status('Selected drawing deleted.');}return;}
       if(mode==='undo'){if(drawings.length)redoDrawings.push(drawings.pop());draftDrawing=null;drawAll();status('Last drawing removed.');return;}
-      drawMode=mode;selectedDrawing=null;document.querySelectorAll('[data-replay-draw]').forEach(b=>{const active=b===btn;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));});
+      drawMode=mode;selectedDrawing=null;wrap.querySelectorAll('[data-replay-draw]').forEach(b=>{const active=b===btn;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));});
       document.querySelectorAll('[data-nfx-replay-action="cursor"]').forEach(b=>b.classList.toggle('active',mode==='select'));
       drawCanvas.classList.toggle('is-drawing',drawMode!=='select'&&drawMode!=='cursor'&&drawMode!=='crosshair');drawCanvas.classList.toggle('is-editing',drawMode==='select');drawCanvas.classList.toggle('is-crosshair',drawMode==='crosshair');
       status(drawMode==='select'?'Cursor selected — select and move drawings.':drawMode==='crosshair'?'Crosshair selected.':key+' selected — click or drag on the chart to draw.');
