@@ -71,6 +71,29 @@ button:focus:not(:focus-visible){outline:none}
 /* Learn Trading: topic-specific external chart examples on cards and lesson pages. */
 #page-learn .nfx-learn-topic-card{min-height:0!important}
 #page-learn .nfx-learn-topic-copy{padding:16px}
+
+/* Bar Replay drawing rail refinement: compact professional charting toolbar. */
+#page-chart #replayWorkspace .nfx-replay-chart-layout{grid-template-columns:54px minmax(0,1fr)}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar{width:54px;min-width:54px;box-sizing:border-box;align-items:center;gap:4px;padding:10px 5px;background:#131722;border-right:1px solid #2a2e39;overflow-x:hidden;overflow-y:auto}
+#page-chart #replayWorkspace .nfx-tv-tool-group{width:42px;height:42px;flex:0 0 42px}
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary{width:40px;height:40px;flex:0 0 40px;border-radius:4px;color:#b2b5be}
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary:hover{border-color:#363a45;background:#2a2e39;color:#f0f3fa}
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary.active{border-color:#434956;background:#2a2e39;color:#f0f3fa;box-shadow:none}
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary.active:before{left:-5px;top:8px;bottom:8px;width:2px;background:#2962ff}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button svg{width:21px;height:21px;stroke-width:1.65}
+#page-chart #replayWorkspace .nfx-tv-tool-expand{right:-1px;bottom:-1px;width:13px;height:13px;min-height:13px;border:0;border-radius:2px;background:#1e222d;color:#aeb4c0}
+#page-chart #replayWorkspace .nfx-tv-tool-expand:hover,#page-chart #replayWorkspace .nfx-tv-tool-expand[aria-expanded=true]{background:#2a2e39;color:#fff;border:0}
+#page-chart #replayWorkspace .nfx-tv-tool-divider{width:30px;margin:4px 0;background:#363a45}
+#page-chart #replayWorkspace .nfx-tv-tool-actions{gap:4px;padding-top:2px}
+#page-chart #replayWorkspace .nfx-tv-tool-actions button{width:40px;height:38px;flex:0 0 38px;border-radius:4px;color:#9da3b0}
+#page-chart #replayWorkspace .nfx-tv-tool-actions button.active{background:#2a2e39;color:#f0f3fa;border-color:#434956}
+body>.nfx-tv-tool-menu{width:232px;padding:5px;border:1px solid #363a45;border-radius:5px;background:#1e222d;box-shadow:0 8px 24px #0009;backdrop-filter:none}
+body>.nfx-tv-tool-menu .nfx-tv-tool-menu-heading{padding:8px 9px;border-bottom:1px solid #363a45;color:#d1d4dc}
+body>.nfx-tv-tool-menu .nfx-tv-tool-menu-heading small{display:none}
+body>.nfx-tv-tool-menu button[data-replay-draw]{height:34px;min-height:34px;border-radius:3px;color:#c8cbd3}
+body>.nfx-tv-tool-menu button[data-replay-draw]:hover{border-color:transparent;background:#2a2e39;color:#fff}
+body>.nfx-tv-tool-menu button[data-replay-draw] svg{width:19px;height:19px}
+@media(max-width:620px){#page-chart #replayWorkspace .nfx-replay-chart-layout{grid-template-columns:49px minmax(0,1fr)}#page-chart #replayWorkspace .nfx-replay-drawing-toolbar{width:49px;min-width:49px;padding:8px 3px;gap:3px}#page-chart #replayWorkspace .nfx-tv-tool-group{width:41px;height:41px;flex-basis:41px}#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary{width:39px;height:39px;flex-basis:39px}#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button svg{width:20px;height:20px}#page-chart #replayWorkspace .nfx-tv-tool-actions button{width:39px}}
 </style>
 <script id="nfx-refresh-stabilizer">
 (function(){
