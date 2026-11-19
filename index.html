@@ -4573,6 +4573,34 @@ body>.nfx-tv-tool-menu button[data-replay-draw].active{
   body>.nfx-tv-tool-menu{width:min(224px,calc(100vw - 60px))!important;max-height:calc(100vh - 20px)!important}
 }
 </style>
+
+<style id="nfx-replay-fullscreen-drawing-fix">
+/* Fullscreen replay drawing rail visibility and sizing fix */
+#page-chart #replayWorkspace:fullscreen .nfx-replay-chart-frame{
+  display:flex!important;flex:1 1 auto!important;flex-direction:column!important;
+  min-height:0!important;min-width:0!important;overflow:hidden!important;
+}
+#page-chart #replayWorkspace:fullscreen .nfx-replay-chart-layout{
+  display:grid!important;grid-template-columns:54px minmax(0,1fr)!important;
+  flex:1 1 auto!important;align-self:stretch!important;
+  width:100%!important;min-width:0!important;min-height:0!important;
+  overflow:visible!important;position:relative!important;
+}
+#page-chart #replayWorkspace:fullscreen .nfx-replay-drawing-toolbar{
+  display:flex!important;visibility:visible!important;opacity:1!important;
+  position:relative!important;z-index:20!important;
+  width:54px!important;min-width:54px!important;height:100%!important;
+  min-height:0!important;align-self:stretch!important;overflow-x:hidden!important;
+  overflow-y:auto!important;flex-direction:column!important;
+}
+#page-chart #replayWorkspace:fullscreen .nfx-replay-chart{
+  min-width:0!important;min-height:0!important;width:100%!important;
+}
+@media(max-width:620px){
+ #page-chart #replayWorkspace:fullscreen .nfx-replay-chart-layout{grid-template-columns:49px minmax(0,1fr)!important}
+ #page-chart #replayWorkspace:fullscreen .nfx-replay-drawing-toolbar{width:49px!important;min-width:49px!important}
+}
+</style>
 </head>
 <body>
 <div id="nfx-page-loader" role="status" aria-live="polite" aria-label="Loading NABIL Fx workspace">
