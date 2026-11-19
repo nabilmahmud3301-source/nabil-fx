@@ -7850,7 +7850,7 @@ document.addEventListener('click', function(event) {
   }
   function setupReplayTools(){
     const wrap=$('nfxPointChart');if(!wrap||drawCanvas)return;
-    drawCanvas=document.createElement('canvas');drawCanvas.className='nfx-drawing-overlay';drawCanvas.setAttribute('aria-label','Chart drawing layer');wrap.appendChild(drawCanvas);drawCtx=drawCanvas.getContext('2d');
+    drawCanvas=document.createElement('canvas');drawCanvas.className='nfx-drawing-overlay is-editing';drawCanvas.setAttribute('aria-label','Chart drawing layer');wrap.appendChild(drawCanvas);drawCtx=drawCanvas.getContext('2d');
     document.querySelectorAll('[data-nfx-replay-action]').forEach(button=>button.addEventListener('click',()=>{
       const action=button.dataset.nfxReplayAction;
       if(action==='cursor'){drawMode='cursor';document.querySelectorAll('[data-draw]').forEach(b=>b.classList.toggle('active',b.dataset.draw==='cursor'));document.querySelectorAll('[data-nfx-replay-action="cursor"]').forEach(b=>b.classList.add('active'));drawCanvas.classList.remove('drawing-active');}
@@ -7865,7 +7865,7 @@ document.addEventListener('click', function(event) {
     if(window.ResizeObserver)new ResizeObserver(sizeCanvas).observe(wrap);window.addEventListener('resize',sizeCanvas);sizeCanvas();
     document.querySelectorAll('[data-replay-draw]').forEach(btn=>btn.addEventListener('click',()=>{
       const key=btn.dataset.replayDraw;
-      const mode=({cursor:'select',crosshair:'crosshair',trend:'trend',ray:'ray',extended:'extended',hline:'horizontal',hray:'hRay',vline:'vertical',vray:'vertical',infoline:'infoLine',channel:'parallel',fib:'fib',fibext:'fibExt',rect:'rectangle',ellipse:'circle',triangle:'triangle',arrow:'arrow',fibfan:'fibFan',brush:'brush',path:'brush',text:'text',pricerange:'priceRange',daterange:'dateRange',long:'longPosition',short:'shortPosition',undo:'undo',delete:'deleteSelected',clear:'clear'})[key];
+      const mode=({cursor:'select',crosshair:'crosshair',trend:'trend',ray:'ray',extended:'extended',hline:'horizontal',hray:'hRay',vline:'vertical',vray:'vRay',infoline:'infoLine',channel:'parallel',fib:'fib',fibext:'fibExt',rect:'rectangle',ellipse:'circle',triangle:'triangle',arrow:'arrow',fibfan:'fibFan',brush:'brush',path:'brush',text:'text',pricerange:'priceRange',daterange:'dateRange',long:'longPosition',short:'shortPosition',undo:'undo',delete:'deleteSelected',clear:'clear'})[key];
       if(mode==='clear'){if(window.confirm('Remove all drawings from this replay chart?')){drawings=[];redoDrawings=[];draftDrawing=null;selectedDrawing=null;drawAll();status('All drawings removed.');}return;}
       if(mode==='deleteSelected'){if(selectedDrawing){const index=drawings.indexOf(selectedDrawing);if(index>=0)drawings.splice(index,1);selectedDrawing=null;drawAll();status('Selected drawing deleted.');}return;}
       if(mode==='undo'){if(drawings.length)redoDrawings.push(drawings.pop());draftDrawing=null;drawAll();status('Last drawing removed.');return;}
