@@ -10691,5 +10691,85 @@ body>.nfx-tv-tool-menu .nfx-tv-tool-menu-check{color:#2962ff!important}
  #page-chart #replayWorkspace .nfx-tv-tool-group{width:40px!important}
 }
 </style>
+
+<style id="nfx-replay-tv-toolbar-final">
+/* TradingView-inspired corner-chevron tool groups — Bar Replay only. */
+#page-chart #replayWorkspace .nfx-replay-chart-layout{grid-template-columns:52px minmax(0,1fr)!important}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar{
+  width:52px!important;min-width:52px!important;max-width:52px!important;
+  padding:9px 5px!important;gap:4px!important;background:#131722!important;
+  border-right:1px solid #2a2e39!important;overflow-x:hidden!important
+}
+#page-chart #replayWorkspace .nfx-tv-tool-group{
+  position:relative!important;display:block!important;width:40px!important;height:40px!important;
+  min-height:40px!important;flex:0 0 40px!important
+}
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary{
+  position:relative!important;display:grid!important;place-items:center!important;
+  width:40px!important;height:40px!important;min-width:40px!important;min-height:40px!important;
+  padding:0!important;border:1px solid transparent!important;border-radius:5px!important;
+  background:transparent!important;color:#b2bac7!important
+}
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary:hover{
+  border-color:#3b4658!important;background:#252d3b!important;color:#f0f3fa!important
+}
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary.active,
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary[aria-pressed="true"]{
+  border-color:#2962ff!important;background:#1e2c45!important;color:#8ab4ff!important
+}
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-expand{
+  position:absolute!important;right:1px!important;bottom:1px!important;z-index:4!important;
+  display:grid!important;place-items:center!important;width:11px!important;height:11px!important;
+  min-width:11px!important;min-height:11px!important;padding:0!important;
+  border:0!important;border-radius:2px!important;background:#131722!important;color:#aeb9ca!important;
+  box-shadow:0 0 0 1px #131722!important;cursor:pointer!important
+}
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-expand:hover,
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-expand[aria-expanded="true"]{
+  background:#2962ff!important;color:#fff!important
+}
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-expand svg{
+  width:8px!important;height:8px!important;stroke:currentColor!important;stroke-width:2!important;fill:none!important
+}
+#page-chart #replayWorkspace .nfx-tv-tool-divider{
+  width:27px!important;margin:4px 0!important;background:#303744!important
+}
+#page-chart #replayWorkspace .nfx-tv-tool-actions{
+  width:40px!important;align-items:center!important;gap:3px!important;padding-top:6px!important
+}
+#page-chart #replayWorkspace .nfx-tv-tool-actions button[data-replay-draw]{
+  width:38px!important;height:36px!important;min-width:38px!important;min-height:36px!important;
+  border-radius:5px!important
+}
+body>.nfx-tv-tool-menu{
+  width:238px!important;max-width:calc(100vw - 18px)!important;
+  padding:6px!important;border:1px solid #3a4658!important;border-radius:6px!important;
+  background:#1e222d!important;box-shadow:0 8px 28px #0009!important;backdrop-filter:none!important
+}
+body>.nfx-tv-tool-menu .nfx-tv-tool-menu-heading{
+  padding:8px 9px!important;border-bottom:1px solid #343b49!important;
+  color:#e6eaf0!important;font-size:11px!important
+}
+body>.nfx-tv-tool-menu button[data-replay-draw]{
+  height:34px!important;min-height:34px!important;border-radius:4px!important;
+  color:#c4cbd5!important
+}
+body>.nfx-tv-tool-menu button[data-replay-draw]:hover{
+  border-color:#3a4658!important;background:#2a3140!important;color:#fff!important
+}
+body>.nfx-tv-tool-menu button[data-replay-draw].active{
+  border-color:#315fae!important;background:#1e3557!important;color:#9dc2ff!important
+}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button:focus-visible,
+body>.nfx-tv-tool-menu button[data-replay-draw]:focus-visible{
+  outline:2px solid #6b9fff!important;outline-offset:2px!important
+}
+@media(max-width:620px){
+  #page-chart #replayWorkspace .nfx-replay-chart-layout{grid-template-columns:48px minmax(0,1fr)!important}
+  #page-chart #replayWorkspace .nfx-replay-drawing-toolbar{width:48px!important;min-width:48px!important;max-width:48px!important;padding:7px 3px!important}
+  #page-chart #replayWorkspace .nfx-tv-tool-group{width:38px!important;height:38px!important;flex-basis:38px!important}
+  #page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary{width:38px!important;height:38px!important;min-width:38px!important}
+}
+</style>
 </body>
 </html>
