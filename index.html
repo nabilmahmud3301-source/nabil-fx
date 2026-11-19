@@ -6506,9 +6506,56 @@ window.addEventListener('resize',closeAccountDropdown);
   }
 
   // Bar Replay drawing toolbar: grouped tool families with reliable delegated menu selection.
+  function applyReplayTradingViewIcons(rail){
+    const icons={
+      cursor:'<path d="M5 3.5 18.5 15l-5.7 1.1-2.6 5.2L5 3.5Z" fill="currentColor" stroke="none"/><path d="m12.5 16.2 3.2 4.5"/>',
+      crosshair:'<circle cx="12" cy="12" r="4.1"/><path d="M12 2.5v4M12 17.5v4M2.5 12h4M17.5 12h4"/>',
+      trend:'<path d="M4 19.5 20 4.5"/><circle cx="4" cy="19.5" r="1.7"/><circle cx="20" cy="4.5" r="1.7"/>',
+      ray:'<path d="M4 20 20 4"/><circle cx="4" cy="20" r="1.7"/><path d="M13 4h7v7"/>',
+      extended:'<path d="M2.8 21.2 21.2 2.8"/><path d="M2.8 14.5v6.7h6.7M14.5 2.8h6.7v6.7"/>',
+      arrow:'<path d="M4 20 19.5 4.5"/><path d="M11.5 4.5h8v8"/>',
+      hline:'<path d="M2.5 12h19"/><circle cx="5" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>',
+      hray:'<path d="M3.5 12h17"/><circle cx="3.5" cy="12" r="1.6"/><path d="m15 7 5 5-5 5"/>',
+      vline:'<path d="M12 2.5v19"/><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="19" r="1.6"/>',
+      vray:'<path d="M12 20.5V3.5"/><circle cx="12" cy="20.5" r="1.6"/><path d="m7 8.5 5-5 5 5"/>',
+      infoline:'<path d="m4 18 14-14"/><path d="M10 4h8v8M3.5 21h17M7 18v3m5-3v3m5-3v3"/>',
+      channel:'<path d="m3 17 14-14M7 21 21 7"/><path d="M3 17h4v4M17 3h4v4"/>',
+      fib:'<path d="M4 4h16M4 8.5h16M4 12h16M4 15.5h16M4 20h16"/><path d="M4 4v16"/>',
+      fibext:'<path d="m3 18 5-10 4 6 9-11"/><path d="M3 20h18M8 8l4 6m0 0 9-11"/>',
+      fibfan:'<path d="M4 20 20 4M4 20l16-5M4 20l16-10M4 20l16 0"/><circle cx="4" cy="20" r="1.5"/>',
+      brush:'<path d="M4 17c3-7 4 4 7-3s5-6 9-7"/><path d="m17 5 3 2-2 3M3 20c2-2 4-2 6-1"/>',
+      path:'<path d="m3.5 18 5-11 5 8 7-10"/><circle cx="3.5" cy="18" r="1.5"/><circle cx="8.5" cy="7" r="1.5"/><circle cx="13.5" cy="15" r="1.5"/><circle cx="20.5" cy="5" r="1.5"/>',
+      rect:'<rect x="3.5" y="5" width="17" height="14" rx=".6"/><path d="M7 5v3m10 8v3"/>',
+      ellipse:'<ellipse cx="12" cy="12" rx="9" ry="6.5"/>',
+      triangle:'<path d="m12 3.5 9 17H3l9-17Z"/>',
+      text:'<path d="M4 5h16M12 5v14M8.5 19h7"/>',
+      pricerange:'<path d="M5 4h14v16H5zM8 8h8M8 12h5M8 16h8"/><path d="M17 8v8"/>',
+      daterange:'<rect x="4" y="5.5" width="16" height="15" rx="1"/><path d="M8 3v5m8-5v5M4 10h16M8 14h2m3 0h2m-7 3h2"/>',
+      long:'<path d="M4 18V6h16v12"/><path d="M12 15V8m-3 3 3-3 3 3M6 18h12"/>',
+      short:'<path d="M4 6v12h16V6"/><path d="M12 9v7m-3-3 3 3 3-3M6 6h12"/>',
+      magnet:'<path d="M6 4v8a6 6 0 0 0 12 0V4M6 4h4v8a2 2 0 0 0 4 0V4h4"/><path d="M4 4h4m8 0h4"/>',
+      lockall:'<rect x="5" y="10" width="14" height="11" rx="1.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>',
+      hideall:'<path d="M2.5 12s3.4-6 9.5-6 9.5 6 9.5 6-3.4 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.6"/><path d="m4 4 16 16"/>',
+      undo:'<path d="m9 14-5-5 5-5M4 9h9a7 7 0 0 1 0 14h-2"/>',
+      delete:'<path d="M4 7h16M10 11v7m4-7v7M6 7l1 14h10l1-14M9 7V4h6v3"/>',
+      clear:'<path d="M4 7h16M10 11v7m4-7v7M6 7l1 14h10l1-14M9 7V4h6v3"/>'
+    };
+    rail.querySelectorAll('button[data-replay-draw]').forEach(button=>{
+      const paths=icons[button.dataset.replayDraw];
+      if(!paths)return;
+      const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+      svg.setAttribute('viewBox','0 0 24 24');
+      svg.setAttribute('aria-hidden','true');
+      svg.setAttribute('focusable','false');
+      svg.innerHTML=paths;
+      const old=button.querySelector('svg');
+      if(old)old.replaceWith(svg);else button.prepend(svg);
+    });
+  }
   (function buildReplayToolGroups(){
     const rail=document.querySelector('#page-chart #replayWorkspace .nfx-replay-drawing-toolbar');
     if(!rail||rail.dataset.grouped==='true')return;
+    applyReplayTradingViewIcons(rail);
     const byKey=key=>rail.querySelector('button[data-replay-draw="'+key+'"]');
     const groups=[
       {name:'Cursor',keys:['cursor','crosshair']},
