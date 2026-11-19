@@ -7696,7 +7696,7 @@ document.addEventListener('click', function(event) {
   };
   if(!el.chart) return;
   let libPromise=null, chart=null, candles=null, emaSeries=null, smaSeries=null, allBars=[], visibleIndex=-1, selecting=false, timer=null, cursor=null, currentSymbol='', currentInterval='';
-  let indicatorSeries={}, drawCanvas=null, drawCtx=null, drawMode='cursor', drawings=[], redoDrawings=[], draftDrawing=null, drawingStart=null, magnetEnabled=false, drawingsVisible=true, selectedDrawing=null, dragDrawing=null, dragOrigin=null, dragPart='move';
+  let indicatorSeries={}, drawCanvas=null, drawCtx=null, drawMode='select', drawings=[], redoDrawings=[], draftDrawing=null, drawingStart=null, magnetEnabled=false, drawingsVisible=true, selectedDrawing=null, dragDrawing=null, dragOrigin=null, dragPart='move';
 
   function status(msg){el.status.textContent=msg;}
   function stop(){if(timer){clearInterval(timer);timer=null;}el.play.textContent='▶ Play';}
