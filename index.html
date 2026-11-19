@@ -4385,6 +4385,36 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
 #page-chart .replay-market-option span{overflow:hidden;color:#8191a6;font-size:9px;text-overflow:ellipsis;white-space:nowrap}
 @media(max-width:900px){#page-chart .nfx-replay-config{grid-template-columns:repeat(3,minmax(0,1fr))}#page-chart .nfx-replay-primary{width:100%}#page-chart .nfx-replay-chart{height:520px}}
 @media(max-width:620px){#page-chart .chart-mode-switch{flex-wrap:wrap}#page-chart .chart-mode-tab{flex:1;padding:0 8px}#page-chart .chart-mode-caption{width:100%;margin:2px 4px;text-align:center}#page-chart .nfx-replay-workspace{padding:10px}#page-chart .nfx-replay-header{align-items:flex-start}#page-chart .nfx-replay-header h2{font-size:21px}#page-chart .nfx-replay-config{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;padding:10px}#page-chart .nfx-replay-config>div:first-child{grid-column:span 2}#page-chart .nfx-replay-marketline{align-items:flex-start;flex-direction:column}#page-chart .nfx-replay-stats{width:100%;justify-content:space-between;gap:8px}#page-chart .nfx-replay-stats .nfx-replay-data-note{display:none}#page-chart .nfx-replay-chart-top{align-items:flex-start;flex-direction:column}#page-chart .nfx-replay-chart-tools{flex-wrap:wrap}#page-chart .nfx-replay-chart{height:470px;min-height:390px}#page-chart .nfx-replay-controls{align-items:flex-start;flex-direction:column}#page-chart .nfx-replay-speed{width:100%;justify-content:flex-end}}
+
+/* Premium Bar Replay drawing toolbar — scoped to this workspace only. */
+#page-chart #replayWorkspace .nfx-replay-chart-layout{grid-template-columns:48px minmax(0,1fr)}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar{position:relative;z-index:18;display:flex;align-items:center;flex-direction:column;gap:5px;max-height:590px;overflow-y:auto;overflow-x:visible;padding:10px 6px;background:linear-gradient(180deg,#111a27 0%,#0d141e 100%);border-right:1px solid #29384b;scrollbar-width:thin;scrollbar-color:#3b4d63 transparent}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar::-webkit-scrollbar{width:3px}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar::-webkit-scrollbar-thumb{border-radius:5px;background:#3b4d63}
+#page-chart #replayWorkspace .nfx-tv-tool-group{position:relative;display:flex;align-items:center;justify-content:center;width:36px;height:36px;flex:0 0 36px}
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary{width:35px;height:35px;flex:0 0 35px;border:1px solid transparent;border-radius:7px;color:#aebdd0;background:transparent}
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary:hover{background:#1b2a3c;border-color:#30445d;color:#f0f5fc}
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary.active{position:relative;border-color:#814653;background:linear-gradient(145deg,#39232d,#251d29);color:#ff9aa7;box-shadow:inset 0 0 0 1px #ff65731c,0 2px 8px #0004}
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary.active:before{content:"";position:absolute;left:-7px;top:8px;bottom:8px;width:2px;border-radius:2px;background:#f05a6c}
+#page-chart #replayWorkspace .nfx-tv-tool-expand{position:absolute;right:-3px;bottom:-2px;z-index:2;display:grid;place-items:center;width:14px;height:14px;min-height:14px;flex:0 0 14px;padding:0;border:1px solid #34465c;border-radius:4px;background:#172435;color:#93a5bc;cursor:pointer}
+#page-chart #replayWorkspace .nfx-tv-tool-expand:hover,#page-chart #replayWorkspace .nfx-tv-tool-expand[aria-expanded=true]{border-color:#b45c6b;background:#422632;color:#ffd5da}
+#page-chart #replayWorkspace .nfx-tv-tool-expand svg{width:9px;height:9px;fill:none;stroke:currentColor;stroke-width:1.7}
+#page-chart #replayWorkspace .nfx-tv-tool-divider{display:block;width:25px;height:1px;flex:0 0 1px;margin:3px 0;background:linear-gradient(90deg,transparent,#3b4a5e,transparent)}
+#page-chart #replayWorkspace .nfx-tv-tool-actions{display:flex;flex-direction:column;gap:5px;padding-top:1px}
+#page-chart #replayWorkspace .nfx-tv-tool-actions button{width:34px;height:32px;flex:0 0 32px;border:1px solid transparent;border-radius:6px;color:#91a2b8;background:transparent}
+#page-chart #replayWorkspace .nfx-tv-tool-actions button:hover{border-color:#35465c;background:#1b2a3c;color:#e7edf6}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+body>.nfx-tv-tool-menu{position:fixed;z-index:99999;width:224px;max-height:min(72vh,520px);overflow:auto;padding:6px;border:1px solid #34475f;border-radius:9px;background:linear-gradient(160deg,#172333,#101925);box-shadow:0 16px 42px #000b,0 2px 8px #0006;color:#dce6f4;backdrop-filter:blur(16px)}
+body>.nfx-tv-tool-menu[hidden]{display:none}
+body>.nfx-tv-tool-menu .nfx-tv-tool-menu-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 9px 9px;margin-bottom:4px;border-bottom:1px solid #2b3b50;color:#e8eff9;font:700 11px/1.2 system-ui,-apple-system,Segoe UI,sans-serif}
+body>.nfx-tv-tool-menu .nfx-tv-tool-menu-heading small{color:#7f93ad;font-size:8px;font-weight:800;letter-spacing:.13em}
+body>.nfx-tv-tool-menu button[data-replay-draw]{display:flex;align-items:center;gap:11px;width:100%;height:36px;min-height:36px;padding:0 9px;border:1px solid transparent;border-radius:6px;background:transparent;color:#b8c6d8;text-align:left;cursor:pointer}
+body>.nfx-tv-tool-menu button[data-replay-draw]:hover{border-color:#344a65;background:#213147;color:#fff}
+body>.nfx-tv-tool-menu button[data-replay-draw] svg{width:18px;height:18px;flex:0 0 18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+body>.nfx-tv-tool-menu button[data-replay-draw] .nfx-tv-tool-label{flex:1;font:500 11px/1.2 system-ui,-apple-system,Segoe UI,sans-serif;white-space:nowrap}
+body>.nfx-tv-tool-menu .nfx-tv-tool-menu-check{width:14px;flex:0 0 14px;color:#f07887;font-size:12px;text-align:center;opacity:0}
+body>.nfx-tv-tool-menu button[data-replay-draw].active .nfx-tv-tool-menu-check{opacity:1}
+@media(max-width:620px){#page-chart #replayWorkspace .nfx-replay-chart-layout{grid-template-columns:43px minmax(0,1fr)}#page-chart #replayWorkspace .nfx-replay-drawing-toolbar{padding:8px 4px;gap:4px}#page-chart #replayWorkspace .nfx-tv-tool-group{width:34px;height:34px;flex-basis:34px}#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary{width:33px;height:33px;flex-basis:33px}}
 </style>
 </head>
 <body>
@@ -6461,72 +6491,105 @@ window.addEventListener('resize',closeAccountDropdown);
     });
   }
 
-  // Bar Replay drawing toolbar: TradingView-style grouped flyouts with active-tool swapping.
+  // Bar Replay only: compact professional drawing rail with TradingView-inspired tool groups.
   (function buildReplayToolGroups(){
-    const rail=document.querySelector('#replayWorkspace .nfx-replay-drawing-toolbar');
+    const rail=document.querySelector('#page-chart #replayWorkspace .nfx-replay-drawing-toolbar');
     if(!rail||rail.dataset.grouped==='true')return;
     const byKey=key=>rail.querySelector('[data-replay-draw="'+key+'"]');
     const groups=[
-      {name:'Cursor',keys:['cursor','crosshair']},
+      {name:'Pointer',keys:['cursor','crosshair']},
       {name:'Trend Line Tools',keys:['trend','ray','extended','arrow']},
       {name:'Horizontal & Vertical Lines',keys:['hline','hray','vline','vray']},
-      {name:'Channels & Measurements',keys:['channel','infoline','pricerange','daterange']},
+      {name:'Channels & Measurement',keys:['channel','infoline','pricerange','daterange']},
       {name:'Fibonacci Tools',keys:['fib','fibext','fibfan']},
-      {name:'Shapes',keys:['rect','ellipse','triangle']},
+      {name:'Geometric Shapes',keys:['rect','ellipse','triangle']},
       {name:'Brushes & Annotations',keys:['brush','path','text']},
-      {name:'Long & Short Position',keys:['long','short']}
+      {name:'Position Tools',keys:['long','short']}
     ];
     const menus=[];
     const fragment=document.createDocumentFragment();
-    groups.forEach(group=>{
-      const items=group.keys.map(byKey).filter(Boolean);if(!items.length)return;
-      const wrap=document.createElement('div');wrap.className='nfx-tv-tool-group';wrap.setAttribute('role','group');wrap.setAttribute('aria-label',group.name);
-      const primary=items.shift();primary.classList.add('nfx-tv-tool-primary');primary.setAttribute('aria-label',primary.title||group.name);
+    const makeDivider=()=>{const d=document.createElement('span');d.className='nfx-tv-tool-divider';d.setAttribute('aria-hidden','true');return d;};
+    groups.forEach((group,index)=>{
+      const items=group.keys.map(byKey).filter(Boolean);
+      if(!items.length)return;
+      if(index)fragment.appendChild(makeDivider());
+      const wrap=document.createElement('div');
+      wrap.className='nfx-tv-tool-group';
+      wrap.setAttribute('role','group');
+      wrap.setAttribute('aria-label',group.name);
+      const primary=items.shift();
+      primary.classList.add('nfx-tv-tool-primary');
+      primary.dataset.toolGroup=group.name;
+      primary.setAttribute('aria-label',primary.title||group.name);
+      primary.title=(primary.title||group.name)+' · '+group.name;
       wrap.appendChild(primary);
       if(items.length){
-        const toggle=document.createElement('button');toggle.type='button';toggle.className='nfx-tv-tool-expand';toggle.title='More '+group.name;toggle.setAttribute('aria-label',toggle.title);toggle.setAttribute('aria-expanded','false');
+        const toggle=document.createElement('button');
+        toggle.type='button';toggle.className='nfx-tv-tool-expand';
+        toggle.title='More '+group.name;toggle.setAttribute('aria-label',toggle.title);
+        toggle.setAttribute('aria-expanded','false');
         toggle.innerHTML='<svg viewBox="0 0 12 12" aria-hidden="true"><path d="m3 4.5 3 3 3-3"/></svg>';
-        const menu=document.createElement('div');menu.className='nfx-tv-tool-menu';menu.hidden=true;menu.setAttribute('role','group');menu.setAttribute('aria-label',group.name);
+        const menu=document.createElement('div');
+        menu.className='nfx-tv-tool-menu';menu.hidden=true;
+        menu.setAttribute('role','group');menu.setAttribute('aria-label',group.name);
+        const heading=document.createElement('div');
+        heading.className='nfx-tv-tool-menu-heading';
+        heading.innerHTML='<span>'+group.name+'</span><small>DRAWING TOOLS</small>';
+        menu.appendChild(heading);
         items.forEach(item=>{
           item.classList.add('nfx-tv-tool-menu-item');
-          if(!item.querySelector('.nfx-tv-tool-label')){const label=document.createElement('span');label.className='nfx-tv-tool-label';label.textContent=item.title||item.getAttribute('aria-label')||'Drawing tool';item.appendChild(label);}
+          item.dataset.toolGroup=group.name;
+          item.setAttribute('role','button');
+          const label=document.createElement('span');
+          label.className='nfx-tv-tool-label';
+          label.textContent=item.title||item.getAttribute('aria-label')||'Drawing tool';
+          item.appendChild(label);
+          const hint=document.createElement('span');
+          hint.className='nfx-tv-tool-menu-check';hint.setAttribute('aria-hidden','true');hint.textContent='✓';
+          item.appendChild(hint);
           menu.appendChild(item);
         });
         const close=()=>{menu.hidden=true;toggle.setAttribute('aria-expanded','false');};
+        const place=()=>{
+          const r=wrap.getBoundingClientRect(),mw=menu.offsetWidth||224,mh=menu.offsetHeight||240;
+          const left=r.right+8+mw<=window.innerWidth-8?r.right+8:Math.max(8,r.left-mw-8);
+          const top=Math.max(8,Math.min(r.top,window.innerHeight-mh-8));
+          menu.style.left=left+'px';menu.style.top=top+'px';
+        };
         toggle.addEventListener('click',event=>{
           event.preventDefault();event.stopPropagation();
           menus.forEach(entry=>{if(entry.menu!==menu)entry.close();});
-          if(menu.hidden){
-            const r=wrap.getBoundingClientRect();
-            menu.style.left=Math.min(window.innerWidth-205,r.right+7)+'px';
-            menu.style.top=Math.max(8,Math.min(window.innerHeight-120,r.top))+'px';
-            menu.hidden=false;toggle.setAttribute('aria-expanded','true');
-          }else close();
+          if(menu.hidden){menu.hidden=false;place();toggle.setAttribute('aria-expanded','true');}
+          else close();
         });
         menu.addEventListener('click',event=>{
           const chosen=event.target.closest('button[data-replay-draw]');
           if(!chosen)return;
-          if(!primary.querySelector('.nfx-tv-tool-label')){const label=document.createElement('span');label.className='nfx-tv-tool-label';label.textContent=primary.title||primary.getAttribute('aria-label')||'Drawing tool';primary.appendChild(label);}
           const oldKey=primary.dataset.replayDraw,oldTitle=primary.title,oldAria=primary.getAttribute('aria-label');
-          const chosenKey=chosen.dataset.replayDraw,chosenIcon=chosen.querySelector('svg')?.cloneNode(true);
-          const oldIcon=primary.querySelector('svg')?.cloneNode(true),chosenTitle=chosen.title,chosenAria=chosen.getAttribute('aria-label');
+          const chosenKey=chosen.dataset.replayDraw,chosenTitle=chosen.title,chosenAria=chosen.getAttribute('aria-label');
+          const oldIcon=primary.querySelector('svg')?.cloneNode(true);
+          const chosenIcon=chosen.querySelector('svg')?.cloneNode(true);
           primary.replaceChildren(...(chosenIcon?[chosenIcon]:[]));
           primary.dataset.replayDraw=chosenKey;primary.title=chosenTitle;primary.setAttribute('aria-label',chosenAria||chosenTitle);
-          chosen.replaceChildren(...(oldIcon?[oldIcon]:[]));chosen.dataset.replayDraw=oldKey;
-          chosen.title=oldTitle;chosen.setAttribute('aria-label',oldAria||oldTitle);
-          const label=document.createElement('span');label.className='nfx-tv-tool-label';label.textContent=oldTitle||'Drawing tool';chosen.appendChild(label);
+          chosen.replaceChildren(...(oldIcon?[oldIcon]:[]));
+          chosen.dataset.replayDraw=oldKey;chosen.title=oldTitle;chosen.setAttribute('aria-label',oldAria||oldTitle);
+          const oldLabel=document.createElement('span');oldLabel.className='nfx-tv-tool-label';oldLabel.textContent=oldTitle;
+          chosen.appendChild(oldLabel);
+          const check=document.createElement('span');check.className='nfx-tv-tool-menu-check';check.setAttribute('aria-hidden','true');check.textContent='✓';chosen.appendChild(check);
           primary.classList.add('active');primary.setAttribute('aria-pressed','true');
           chosen.classList.remove('active');chosen.setAttribute('aria-pressed','false');
           close();
         });
-        document.body.appendChild(menu);menus.push({menu,close,wrap,toggle});
+        document.body.appendChild(menu);
+        menus.push({menu,close,wrap,toggle,place});
         wrap.appendChild(toggle);
       }
       fragment.appendChild(wrap);
     });
-    const actions=document.createElement('div');actions.className='nfx-tv-tool-actions';actions.setAttribute('role','group');actions.setAttribute('aria-label','Drawing actions');
+    const actions=document.createElement('div');
+    actions.className='nfx-tv-tool-actions';actions.setAttribute('role','group');actions.setAttribute('aria-label','Drawing actions');
     ['undo','delete','clear'].map(byKey).filter(Boolean).forEach(button=>actions.appendChild(button));
-    if(actions.children.length)fragment.appendChild(actions);
+    if(actions.children.length){fragment.appendChild(makeDivider());fragment.appendChild(actions);}
     rail.replaceChildren(fragment);rail.dataset.grouped='true';
     const closeAll=()=>menus.forEach(entry=>entry.close());
     document.addEventListener('click',event=>{
@@ -6534,7 +6597,7 @@ window.addEventListener('resize',closeAccountDropdown);
       closeAll();
     });
     document.addEventListener('keydown',event=>{if(event.key==='Escape')closeAll();});
-    window.addEventListener('resize',closeAll);
+    window.addEventListener('resize',()=>{menus.forEach(entry=>{if(!entry.menu.hidden)entry.place();});});
     rail._nfxCloseToolMenus=closeAll;
   })();
 
