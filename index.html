@@ -4627,6 +4627,9 @@ body>.nfx-tv-tool-menu button[data-replay-draw].active .nfx-tv-tool-menu-check{o
           <button type="button" class="" data-replay-draw="long" title="Long Position" aria-label="Long Position" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18V6h16v12"/><path d="M12 15V8m-3 3 3-3 3 3"/><path d="M6 18h12M6 6h12"/></svg></button>
           <button type="button" class="" data-replay-draw="short" title="Short Position" aria-label="Short Position" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6v12h16V6"/><path d="M12 9v7m-3-3 3 3 3-3"/><path d="M6 6h12M6 18h12"/></svg></button>
           <span class="nfx-replay-draw-divider" aria-hidden="true"></span>
+          <button type="button" data-replay-draw="magnet" title="Magnet snapping OFF" aria-label="Magnet snapping" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v8a6 6 0 0 0 12 0V4M6 4h4v8a2 2 0 0 0 4 0V4h4M4 4h4m8 0h4"/><path d="M8 18v2m8-2v2"/></svg></button>
+          <button type="button" data-replay-draw="lockall" title="Lock all drawings" aria-label="Lock all drawings" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></button>
+          <button type="button" data-replay-draw="hideall" title="Hide all drawings" aria-label="Hide all drawings" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.4-6 9.5-6 9.5 6 9.5 6-3.4 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.7"/><path d="m4 4 16 16"/></svg></button>
           <button type="button" data-replay-draw="undo" title="Undo Last Drawing" aria-label="Undo Last Drawing"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 14-5-5 5-5M4 9h9a7 7 0 0 1 0 14h-2"/></svg></button>
           <button type="button" data-replay-draw="delete" title="Delete Selected Drawing" aria-label="Delete Selected Drawing" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v7M14 11v7M6 7l1 14h10l1-14M9 7V4h6v3"/></svg></button>
           <button type="button" data-replay-draw="clear" title="Remove All Drawings" aria-label="Remove All Drawings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v7M14 11v7M6 7l1 14h10l1-14M9 7V4h6v3"/></svg></button>
@@ -6329,6 +6332,8 @@ window.addEventListener('resize',closeAccountDropdown);
   };
   let replayChart=null, replaySeries=null, replayEmaSeries=null, replayEmaEnabled=false, replayGridEnabled=true, replaySelectingPoint=false, replayBars=[], replayIndex=-1, replayTimer=null, replayLiveTimer=null, replayLiveMode=false, replayLiveFetchBusy=false, replayLibPromise=null;
   let replayDrawingMode='cursor', replayDrawings=[], replayDraft=null, replayDrawPointer=null, replaySelectedDrawing=-1;
+  let replayMagnetEnabled=false,replayDrawingsHidden=false,replayAllDrawingsLocked=false,replayDrawingHistory=[];
+  function replaySaveDrawingHistory(){replayDrawingHistory.push(JSON.stringify(replayDrawings));if(replayDrawingHistory.length>80)replayDrawingHistory.shift();}
   const replayDrawingCanvas=$('replayDrawingCanvas');
   const replayDrawingCtx=replayDrawingCanvas?.getContext('2d');
   const replayDrawingEditBar=$('replayDrawingEditBar');
@@ -6340,7 +6345,14 @@ window.addEventListener('resize',closeAccountDropdown);
     const price=replaySeries?.coordinateToPrice(y);
     if(time===null||time===undefined||price===null||price===undefined||!Number.isFinite(Number(price)))return null;
     const normalizedTime=typeof time==='number'?time:(time.year?Date.UTC(time.year,time.month-1,time.day)/1000:NaN);
-    return Number.isFinite(normalizedTime)?{time:normalizedTime,price:Number(price)}:null;
+    if(!Number.isFinite(normalizedTime))return null;
+    let point={time:normalizedTime,price:Number(price)};
+    if(replayMagnetEnabled&&Array.isArray(replayBars)&&replayBars.length&&replayChart&&replaySeries){
+      let nearest=null,bestX=Infinity;
+      for(const bar of replayBars){const bx=replayChart.timeScale().timeToCoordinate(bar.time);if(bx===null||bx===undefined)continue;const dx=Math.abs(bx-x);if(dx<bestX){bestX=dx;nearest=bar;}}
+      if(nearest&&bestX<34){let bestPrice=point.price,bestY=Infinity;for(const key of ['open','high','low','close']){const value=Number(nearest[key]),py=replaySeries.priceToCoordinate(value);if(!Number.isFinite(value)||py===null||py===undefined)continue;const dy=Math.abs(py-y);if(dy<bestY){bestY=dy;bestPrice=value;}}if(bestY<30)point={time:typeof nearest.time==='number'?nearest.time:normalizedTime,price:bestPrice};}
+    }
+    return point;
   }
   function replayDrawingXY(point){
     if(!replayChart||!replaySeries)return null;
@@ -6393,7 +6405,7 @@ window.addEventListener('resize',closeAccountDropdown);
         ctx.restore();
       }
     };
-    replayDrawings.forEach((d,i)=>paint(d,false,i===replaySelectedDrawing));if(replayDraft)paint(replayDraft,true);
+    if(!replayDrawingsHidden)replayDrawings.forEach((d,i)=>paint(d,false,i===replaySelectedDrawing));if(replayDraft)paint(replayDraft,true);
     const deleteButton=document.querySelector('[data-replay-draw="delete"]');
     if(deleteButton){deleteButton.classList.toggle('has-selection',replaySelectedDrawing>=0);deleteButton.disabled=replaySelectedDrawing<0;deleteButton.setAttribute('aria-pressed',String(replaySelectedDrawing>=0));}
     if(replayDrawingCanvas)replayDrawingCanvas.classList.toggle('is-editing',replaySelectedDrawing>=0&&replayDrawingMode==='cursor');
@@ -6421,7 +6433,7 @@ window.addEventListener('resize',closeAccountDropdown);
         const drawing=replayDrawings[replaySelectedDrawing];if(!drawing)return;
         const xy={x:event.clientX-replayDrawingCanvas.getBoundingClientRect().left,y:event.clientY-replayDrawingCanvas.getBoundingClientRect().top};
         const hit=replayFindDrawingAt(xy.x,xy.y);if(hit!==replaySelectedDrawing){replaySelectedDrawing=hit;replayPaintDrawings();return;}
-        if(drawing.locked){event.preventDefault();event.stopPropagation();return;}
+        if(drawing.locked||replayAllDrawingsLocked){event.preventDefault();event.stopPropagation();return;}
         const point=replayDrawingPoint(event);if(!point)return;
         const pts=(drawing.points||[]).map(replayDrawingXY).filter(Boolean);
         let handle=-1;for(let i=0;i<pts.length;i++)if(Math.hypot(xy.x-pts[i].x,xy.y-pts[i].y)<11){handle=i;break;}
@@ -6447,9 +6459,10 @@ window.addEventListener('resize',closeAccountDropdown);
     const finishReplayDrawing=event=>{
       if(replayDrawingEditDrag&&replayDrawingEditDrag.pointerId===event.pointerId){replayDrawingEditDrag=null;replayPaintDrawings();return;}
       if(replayDrawPointer!==event.pointerId||!replayDraft)return;
-      if(replayDraft.points.length===2||replayDraft.tool==='brush'||replayDraft.tool==='path'){
+      const oneClickTools=['hline','hray','vline','vray','text'];
+      if(replayDraft.points.length===2||replayDraft.tool==='brush'||replayDraft.tool==='path'||(replayDraft.points.length===1&&oneClickTools.includes(replayDraft.tool))){
         if(replayDraft.tool==='text'){const label=window.prompt('Enter chart note:','Note');if(label)replayDraft.label=label;}
-        if(replayDraft.tool!=='text'||replayDraft.label){replayDraft.color='#f0b86a';replayDraft.width=1.5;replayDrawings.push(replayDraft);replaySelectedDrawing=replayDrawings.length-1;}
+        if(replayDraft.tool!=='text'||replayDraft.label){replaySaveDrawingHistory();replayDraft.color='#f0b86a';replayDraft.width=1.5;replayDrawings.push(replayDraft);replaySelectedDrawing=replayDrawings.length-1;}
       }
       replayDraft=null;replayDrawPointer=null;replaySetDrawingMode('cursor');replayPaintDrawings();
     };
@@ -6566,6 +6579,7 @@ window.addEventListener('resize',closeAccountDropdown);
         menu.addEventListener('click',event=>{
           const chosen=event.target.closest('button[data-replay-draw]');
           if(!chosen)return;
+          event.preventDefault();event.stopPropagation();
           const oldKey=primary.dataset.replayDraw,oldTitle=primary.title,oldAria=primary.getAttribute('aria-label');
           const chosenKey=chosen.dataset.replayDraw,chosenTitle=chosen.title,chosenAria=chosen.getAttribute('aria-label');
           const oldIcon=primary.querySelector('svg')?.cloneNode(true);
@@ -6579,6 +6593,7 @@ window.addEventListener('resize',closeAccountDropdown);
           const check=document.createElement('span');check.className='nfx-tv-tool-menu-check';check.setAttribute('aria-hidden','true');check.textContent='✓';chosen.appendChild(check);
           primary.classList.add('active');primary.setAttribute('aria-pressed','true');
           chosen.classList.remove('active');chosen.setAttribute('aria-pressed','false');
+          replaySetDrawingMode(chosenKey);
           close();
         });
         document.body.appendChild(menu);
@@ -6589,7 +6604,7 @@ window.addEventListener('resize',closeAccountDropdown);
     });
     const actions=document.createElement('div');
     actions.className='nfx-tv-tool-actions';actions.setAttribute('role','group');actions.setAttribute('aria-label','Drawing actions');
-    ['undo','delete','clear'].map(byKey).filter(Boolean).forEach(button=>actions.appendChild(button));
+    ['magnet','lockall','hideall','undo','delete','clear'].map(byKey).filter(Boolean).forEach(button=>actions.appendChild(button));
     if(actions.children.length){fragment.appendChild(makeDivider());fragment.appendChild(actions);}
     rail.replaceChildren(fragment);rail.dataset.grouped='true';
     const closeAll=()=>menus.forEach(entry=>entry.close());
@@ -6605,17 +6620,21 @@ window.addEventListener('resize',closeAccountDropdown);
 
   document.querySelectorAll(replayDrawingToolSelector).forEach(button=>button.addEventListener('click',()=>{
     const mode=button.dataset.replayDraw;
-    if(mode==='undo'){replayDrawings.pop();replaySelectedDrawing=-1;replayPaintDrawings();return;}
-    if(mode==='delete'){if(replaySelectedDrawing>=0){replayDrawings.splice(replaySelectedDrawing,1);replaySelectedDrawing=-1;replayPaintDrawings();}return;}
-    if(mode==='clear'){if(replayDrawings.length&&!window.confirm('Remove all chart drawings?'))return;replayDrawings=[];replaySelectedDrawing=-1;replayDraft=null;replayPaintDrawings();return;}
+    if(mode==='magnet'){replayMagnetEnabled=!replayMagnetEnabled;button.classList.toggle('active',replayMagnetEnabled);button.setAttribute('aria-pressed',String(replayMagnetEnabled));button.title=replayMagnetEnabled?'Magnet snapping ON':'Magnet snapping OFF';return;}
+    if(mode==='lockall'){replayAllDrawingsLocked=!replayAllDrawingsLocked;button.classList.toggle('active',replayAllDrawingsLocked);button.setAttribute('aria-pressed',String(replayAllDrawingsLocked));button.title=replayAllDrawingsLocked?'Unlock all drawings':'Lock all drawings';return;}
+    if(mode==='hideall'){replayDrawingsHidden=!replayDrawingsHidden;button.classList.toggle('active',replayDrawingsHidden);button.setAttribute('aria-pressed',String(replayDrawingsHidden));button.title=replayDrawingsHidden?'Show all drawings':'Hide all drawings';replaySelectedDrawing=-1;replayPaintDrawings();return;}
+    if(mode==='undo'){if(replayDrawingHistory.length){replayDrawings=JSON.parse(replayDrawingHistory.pop());}else if(replayDrawings.length){replayDrawings.pop();}replaySelectedDrawing=-1;replayPaintDrawings();return;}
+    if(mode==='delete'){if(replaySelectedDrawing>=0){replaySaveDrawingHistory();replayDrawings.splice(replaySelectedDrawing,1);replaySelectedDrawing=-1;replayPaintDrawings();}return;}
+    if(mode==='clear'){if(replayDrawings.length&&!window.confirm('Remove all chart drawings?'))return;if(replayDrawings.length)replaySaveDrawingHistory();replayDrawings=[];replaySelectedDrawing=-1;replayDraft=null;replayPaintDrawings();return;}
     replaySetDrawingMode(mode);
   }));
-  function replayDeleteSelectedDrawing(){if(replaySelectedDrawing>=0){replayDrawings.splice(replaySelectedDrawing,1);replaySelectedDrawing=-1;replayPaintDrawings();}}
+  function replayDeleteSelectedDrawing(){if(replaySelectedDrawing>=0){replaySaveDrawingHistory();replayDrawings.splice(replaySelectedDrawing,1);replaySelectedDrawing=-1;replayPaintDrawings();}}
   replayDrawingEditBar?.addEventListener('click',event=>{
     const colorButton=event.target.closest('[data-draw-color]');
     if(colorButton&&replayDrawings[replaySelectedDrawing]){replayDrawings[replaySelectedDrawing].color=colorButton.dataset.drawColor;replayPaintDrawings();return;}
     if(event.target.closest('#replayDrawingDelete')){replayDeleteSelectedDrawing();return;}
     if(event.target.closest('#replayDrawingDuplicate')&&replayDrawings[replaySelectedDrawing]){
+      replaySaveDrawingHistory();
       const clone=JSON.parse(JSON.stringify(replayDrawings[replaySelectedDrawing]));clone.points=clone.points.map(p=>({time:p.time,price:p.price}));clone.points.forEach(p=>{p.time+=1;p.price+=Math.abs(p.price)*.0002||.00001;});clone.locked=false;replayDrawings.push(clone);replaySelectedDrawing=replayDrawings.length-1;replayPaintDrawings();return;
     }
     if(event.target.closest('#replayDrawingLock')&&replayDrawings[replaySelectedDrawing]){const d=replayDrawings[replaySelectedDrawing];d.locked=!d.locked;replayPaintDrawings();}
@@ -10428,5 +10447,57 @@ body>.nfx-tv-tool-menu button[data-replay-draw].active{border-color:#2962ff!impo
 }
 </style>
 
+
+
+<style id="nfx-replay-drawing-toolbar-pro-v2">
+/* TradingView-inspired drawing workspace. Strictly scoped to Bar Replay. */
+#page-chart #replayWorkspace .nfx-replay-chart-layout{grid-template-columns:48px minmax(0,1fr)!important}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar{
+ width:48px!important;min-width:48px!important;max-width:48px!important;box-sizing:border-box!important;
+ padding:7px 4px!important;gap:3px!important;align-items:center!important;overflow-x:hidden!important;overflow-y:auto!important;
+ background:#131722!important;border-right:1px solid #2a2e39!important;box-shadow:none!important
+}
+#page-chart #replayWorkspace .nfx-tv-tool-group{width:39px!important;height:36px!important;min-height:36px!important;flex:0 0 36px!important;grid-template-columns:29px 10px!important}
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary{
+ width:29px!important;min-width:29px!important;height:34px!important;min-height:34px!important;
+ border-radius:4px 0 0 4px!important;background:transparent!important;color:#b2bac7!important
+}
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary.active,
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary[aria-pressed="true"]{
+ background:#1e2c45!important;border-color:#2962ff!important;color:#8ab4ff!important;box-shadow:none!important
+}
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary.active:before{left:-4px!important;top:8px!important;bottom:8px!important;background:#2962ff!important}
+#page-chart #replayWorkspace .nfx-tv-tool-expand{
+ position:static!important;width:10px!important;min-width:10px!important;height:34px!important;min-height:34px!important;
+ border-radius:0 4px 4px 0!important;border-color:transparent!important;background:transparent!important;color:#8b95a5!important
+}
+#page-chart #replayWorkspace .nfx-tv-tool-expand:hover,
+#page-chart #replayWorkspace .nfx-tv-tool-expand[aria-expanded="true"]{background:#252d3b!important;border-color:#3b4658!important;color:#e5edf8!important}
+#page-chart #replayWorkspace .nfx-tv-tool-divider{width:25px!important;margin:2px 0!important;background:#303744!important}
+#page-chart #replayWorkspace .nfx-tv-tool-actions{width:39px!important;gap:2px!important;padding-top:5px!important;border-top:1px solid #303744!important}
+#page-chart #replayWorkspace .nfx-tv-tool-actions button[data-replay-draw]{
+ width:34px!important;min-width:34px!important;height:32px!important;min-height:32px!important;flex:0 0 32px!important;
+ border:1px solid transparent!important;border-radius:4px!important;background:transparent!important;color:#aab4c2!important
+}
+#page-chart #replayWorkspace .nfx-tv-tool-actions button[data-replay-draw]:hover{background:#252d3b!important;border-color:#3b4658!important;color:#f0f3fa!important}
+#page-chart #replayWorkspace .nfx-tv-tool-actions button[data-replay-draw].active,
+#page-chart #replayWorkspace .nfx-tv-tool-actions button[data-replay-draw][aria-pressed="true"]{background:#1e2c45!important;border-color:#2962ff!important;color:#8ab4ff!important}
+#page-chart #replayWorkspace .nfx-tv-tool-actions button[data-replay-draw="delete"]:hover,
+#page-chart #replayWorkspace .nfx-tv-tool-actions button[data-replay-draw="clear"]:hover{background:#302029!important;border-color:#70404a!important;color:#ff9aa7!important}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button svg{width:19px!important;height:19px!important;stroke-width:1.7!important}
+body>.nfx-tv-tool-menu{width:238px!important;padding:5px!important;border:1px solid #303744!important;border-radius:6px!important;background:#1e222d!important;box-shadow:0 8px 28px #0009!important}
+body>.nfx-tv-tool-menu .nfx-tv-tool-menu-heading{background:#1e222d!important;border-bottom:1px solid #303744!important}
+body>.nfx-tv-tool-menu button[data-replay-draw]{height:34px!important;min-height:34px!important;border:1px solid transparent!important;border-radius:4px!important;color:#c5ccd8!important}
+body>.nfx-tv-tool-menu button[data-replay-draw]:hover{background:#2a2e39!important;color:#fff!important}
+body>.nfx-tv-tool-menu button[data-replay-draw].active{background:#1e2c45!important;border-color:#2962ff!important;color:#8ab4ff!important}
+#page-chart #replayWorkspace .nfx-replay-editbar{background:#1e222d!important;border:1px solid #363c49!important;border-radius:6px!important;box-shadow:0 5px 20px #0008!important}
+#page-chart #replayWorkspace .nfx-replay-editbar button{background:#252a35!important;border-color:#3a414f!important}
+@media(max-width:620px){
+ #page-chart #replayWorkspace .nfx-replay-chart-layout{grid-template-columns:44px minmax(0,1fr)!important}
+ #page-chart #replayWorkspace .nfx-replay-drawing-toolbar{width:44px!important;min-width:44px!important;max-width:44px!important;padding:6px 2px!important}
+ #page-chart #replayWorkspace .nfx-tv-tool-group{width:39px!important}
+ #page-chart #replayWorkspace .nfx-tv-tool-actions{width:39px!important}
+}
+</style>
 </body>
 </html>
