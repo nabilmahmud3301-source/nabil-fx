@@ -7863,15 +7863,16 @@ document.addEventListener('click', function(event) {
     }));
     function sizeCanvas(){const r=wrap.getBoundingClientRect(),dpr=window.devicePixelRatio||1;drawCanvas.width=Math.max(1,Math.floor(r.width*dpr));drawCanvas.height=Math.max(1,Math.floor(r.height*dpr));drawCanvas.style.width=r.width+'px';drawCanvas.style.height=r.height+'px';drawCtx.setTransform(dpr,0,0,dpr,0,0);drawAll();}
     if(window.ResizeObserver)new ResizeObserver(sizeCanvas).observe(wrap);window.addEventListener('resize',sizeCanvas);sizeCanvas();
-    document.querySelectorAll('[data-draw]').forEach(btn=>btn.addEventListener('click',()=>{
-      const mode=btn.dataset.draw;
-      if(mode==='clear'){drawings=[];redoDrawings=[];draftDrawing=null;selectedDrawing=null;drawAll();return;}
+    document.querySelectorAll('[data-replay-draw]').forEach(btn=>btn.addEventListener('click',()=>{
+      const key=btn.dataset.replayDraw;
+      const mode=({cursor:'select',crosshair:'crosshair',trend:'trend',ray:'ray',extended:'extended',hline:'horizontal',hray:'hRay',vline:'vertical',vray:'vertical',infoline:'infoLine',channel:'parallel',fib:'fib',fibext:'fibExt',rect:'rectangle',ellipse:'circle',triangle:'triangle',arrow:'arrow',fibfan:'fibFan',brush:'brush',path:'brush',text:'text',pricerange:'priceRange',daterange:'dateRange',long:'longPosition',short:'shortPosition',undo:'undo',delete:'deleteSelected',clear:'clear'})[key];
+      if(mode==='clear'){if(window.confirm('Remove all drawings from this replay chart?')){drawings=[];redoDrawings=[];draftDrawing=null;selectedDrawing=null;drawAll();status('All drawings removed.');}return;}
       if(mode==='deleteSelected'){if(selectedDrawing){const index=drawings.indexOf(selectedDrawing);if(index>=0)drawings.splice(index,1);selectedDrawing=null;drawAll();status('Selected drawing deleted.');}return;}
       if(mode==='undo'){if(drawings.length)redoDrawings.push(drawings.pop());draftDrawing=null;drawAll();status('Last drawing removed.');return;}
-      drawMode=mode;selectedDrawing=null;document.querySelectorAll('[data-draw]').forEach(b=>b.classList.toggle('active',b===btn));
-      document.querySelectorAll('[data-nfx-replay-action="cursor"]').forEach(b=>b.classList.toggle('active',mode==='cursor'));
-      drawCanvas.classList.toggle('drawing-active',drawMode!=='cursor');
-      status(drawMode==='cursor'?'Cursor selected.':drawMode+' selected — click or drag on the chart to draw.');
+      drawMode=mode;selectedDrawing=null;document.querySelectorAll('[data-replay-draw]').forEach(b=>{const active=b===btn;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));});
+      document.querySelectorAll('[data-nfx-replay-action="cursor"]').forEach(b=>b.classList.toggle('active',mode==='select'));
+      drawCanvas.classList.toggle('drawing-active',drawMode!=='select'&&drawMode!=='cursor'&&drawMode!=='crosshair');
+      status(drawMode==='select'?'Cursor selected — select and move drawings.':drawMode==='crosshair'?'Crosshair selected.':key+' selected — click or drag on the chart to draw.');
     }));
     const catalog=[
       ['ema9','EMA 9','Moving average'],['ema20','EMA 20','Moving average'],['ema50','EMA 50','Moving average'],['ema100','EMA 100','Moving average'],['ema200','EMA 200','Moving average'],
@@ -9966,5 +9967,17 @@ window.renderBacktestMetrics=function(r,meta={}){
 }
 </style>
 
+
+<style id="nfx-replay-pro-drawing-toolbar">
+/* TradingView-inspired visual refinement, isolated to Bar Replay. */
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar{width:50px!important;min-width:50px!important;padding:8px 6px!important;gap:3px!important;background:#131722!important;border-right:1px solid #2a2e39!important}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button{width:36px!important;height:36px!important;min-width:36px!important;flex:0 0 36px!important;display:grid!important;place-items:center!important;padding:0!important;border:1px solid transparent!important;border-radius:5px!important;background:transparent!important;color:#aeb6c2!important;transition:background .14s ease,border-color .14s ease,color .14s ease!important}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button svg{width:20px!important;height:20px!important;display:block!important;fill:none!important;stroke:currentColor!important;stroke-width:1.65!important;stroke-linecap:round!important;stroke-linejoin:round!important}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button:hover{background:#202938!important;border-color:#35445a!important;color:#f1f5fb!important}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button.active{background:#1d2b43!important;border-color:#2962ff!important;color:#70a5ff!important;box-shadow:inset 0 0 0 1px #2962ff20!important}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button:focus-visible{outline:2px solid #5794f7!important;outline-offset:2px!important}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar .nfx-replay-draw-divider{width:26px!important;margin:5px 0!important;background:#303a49!important}
+@media(max-width:760px){#page-chart #replayWorkspace .nfx-replay-drawing-toolbar{width:44px!important;min-width:44px!important;padding:6px 4px!important}#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button{width:34px!important;min-width:34px!important;height:34px!important;flex-basis:34px!important}#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button svg{width:19px!important;height:19px!important}}
+</style>
 </body>
 </html>
