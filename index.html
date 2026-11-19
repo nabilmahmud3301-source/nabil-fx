@@ -6505,18 +6505,17 @@ window.addEventListener('resize',closeAccountDropdown);
     });
   }
 
-  // Bar Replay only: compact professional drawing rail with TradingView-inspired tool groups.
+  // Bar Replay drawing toolbar: grouped tool families with reliable delegated menu selection.
   (function buildReplayToolGroups(){
     const rail=document.querySelector('#page-chart #replayWorkspace .nfx-replay-drawing-toolbar');
     if(!rail||rail.dataset.grouped==='true')return;
-    const byKey=key=>rail.querySelector('[data-replay-draw="'+key+'"]');
-    // TradingView-style tool families: the first tool is the visible quick-access tool;
-    // the corner chevron opens the rest of that family's tools.
+    const byKey=key=>rail.querySelector('button[data-replay-draw="'+key+'"]');
     const groups=[
       {name:'Cursor',keys:['cursor','crosshair']},
       {name:'Trend Line Tools',keys:['trend','ray','extended','arrow']},
-      {name:'Horizontal & Vertical Lines',keys:['hline','hray','vline','vray']},
-      {name:'Channels',keys:['channel']},
+      {name:'Horizontal Lines',keys:['hline','hray']},
+      {name:'Vertical Lines',keys:['vline','vray']},
+      {name:'Channel',keys:['channel']},
       {name:'Fibonacci Tools',keys:['fib','fibext','fibfan']},
       {name:'Brushes',keys:['brush','path']},
       {name:'Geometric Shapes',keys:['rect','ellipse','triangle']},
@@ -6526,12 +6525,17 @@ window.addEventListener('resize',closeAccountDropdown);
     ];
     const menus=[];
     const fragment=document.createDocumentFragment();
-    const divider=()=>{const el=document.createElement('span');el.className='nfx-tv-tool-divider';el.setAttribute('aria-hidden','true');return el;};
-    let renderedGroups=0;
+    const divider=()=>{
+      const el=document.createElement('span');
+      el.className='nfx-tv-tool-divider';
+      el.setAttribute('aria-hidden','true');
+      return el;
+    };
+    let count=0;
     groups.forEach(group=>{
       const items=group.keys.map(byKey).filter(Boolean);
       if(!items.length)return;
-      if(renderedGroups++)fragment.appendChild(divider());
+      if(count++)fragment.appendChild(divider());
       const wrap=document.createElement('div');
       wrap.className='nfx-tv-tool-group';
       wrap.setAttribute('role','group');
@@ -6541,16 +6545,22 @@ window.addEventListener('resize',closeAccountDropdown);
       primary.dataset.toolGroup=group.name;
       primary.title=(primary.title||group.name).split(' · ')[0];
       primary.setAttribute('aria-label',primary.title);
+      primary.setAttribute('aria-pressed',String(primary.classList.contains('active')));
       wrap.appendChild(primary);
       if(items.length){
         const toggle=document.createElement('button');
-        toggle.type='button';toggle.className='nfx-tv-tool-expand';
-        toggle.title='More '+group.name;toggle.setAttribute('aria-label','More '+group.name);
+        toggle.type='button';
+        toggle.className='nfx-tv-tool-expand';
+        toggle.title='Open '+group.name;
+        toggle.setAttribute('aria-label','Open '+group.name);
+        toggle.setAttribute('aria-haspopup','menu');
         toggle.setAttribute('aria-expanded','false');
         toggle.innerHTML='<svg viewBox="0 0 12 12" aria-hidden="true"><path d="m3 4.5 3 3 3-3"/></svg>';
         const menu=document.createElement('div');
-        menu.className='nfx-tv-tool-menu';menu.hidden=true;
-        menu.setAttribute('role','menu');menu.setAttribute('aria-label',group.name);
+        menu.className='nfx-tv-tool-menu';
+        menu.hidden=true;
+        menu.setAttribute('role','menu');
+        menu.setAttribute('aria-label',group.name);
         const heading=document.createElement('div');
         heading.className='nfx-tv-tool-menu-heading';
         heading.innerHTML='<span>'+group.name+'</span><small>DRAWING TOOLS</small>';
@@ -6558,34 +6568,49 @@ window.addEventListener('resize',closeAccountDropdown);
         items.forEach(item=>{
           item.classList.add('nfx-tv-tool-menu-item');
           item.dataset.toolGroup=group.name;
-          item.setAttribute('role','menuitem');
+          item.setAttribute('role','menuitemradio');
+          item.setAttribute('aria-checked',String(item.classList.contains('active')));
           const label=document.createElement('span');
           label.className='nfx-tv-tool-label';
           label.textContent=item.title||item.getAttribute('aria-label')||'Drawing tool';
           item.appendChild(label);
           const check=document.createElement('span');
-          check.className='nfx-tv-tool-menu-check';check.setAttribute('aria-hidden','true');check.textContent='✓';
+          check.className='nfx-tv-tool-menu-check';
+          check.setAttribute('aria-hidden','true');
+          check.textContent='✓';
           item.appendChild(check);
           menu.appendChild(item);
         });
-        const close=()=>{menu.hidden=true;toggle.setAttribute('aria-expanded','false');};
+        const close=()=>{
+          menu.hidden=true;
+          toggle.setAttribute('aria-expanded','false');
+        };
         const place=()=>{
           const r=wrap.getBoundingClientRect();
-          const mw=menu.offsetWidth||238,mh=menu.offsetHeight||300;
-          const left=r.right+6+mw<=window.innerWidth-8?r.right+6:Math.max(8,r.left-mw-6);
-          const top=Math.max(8,Math.min(r.top-5,window.innerHeight-mh-8));
-          menu.style.left=left+'px';menu.style.top=top+'px';
+          const mw=menu.offsetWidth||238;
+          const mh=menu.offsetHeight||280;
+          const gap=7;
+          let left=r.right+gap;
+          if(left+mw>window.innerWidth-8)left=Math.max(8,r.left-mw-gap);
+          const top=Math.max(8,Math.min(r.top-4,window.innerHeight-mh-8));
+          menu.style.left=Math.round(left)+'px';
+          menu.style.top=Math.round(top)+'px';
         };
         toggle.addEventListener('click',event=>{
-          event.preventDefault();event.stopPropagation();
+          event.preventDefault();
+          event.stopPropagation();
           menus.forEach(entry=>{if(entry.menu!==menu)entry.close();});
-          if(menu.hidden){menu.hidden=false;place();toggle.setAttribute('aria-expanded','true');}
-          else close();
+          if(menu.hidden){
+            menu.hidden=false;
+            place();
+            toggle.setAttribute('aria-expanded','true');
+          }else close();
         });
         menu.addEventListener('click',event=>{
           const chosen=event.target.closest('button[data-replay-draw]');
           if(!chosen)return;
-          event.preventDefault();event.stopPropagation();
+          event.preventDefault();
+          event.stopPropagation();
           const oldKey=primary.dataset.replayDraw;
           const oldTitle=primary.title;
           const oldAria=primary.getAttribute('aria-label');
@@ -6596,15 +6621,20 @@ window.addEventListener('resize',closeAccountDropdown);
           const chosenIcon=chosen.querySelector('svg')?.cloneNode(true);
           primary.replaceChildren(...(chosenIcon?[chosenIcon]:[]));
           primary.dataset.replayDraw=chosenKey;
-          primary.title=chosenTitle;primary.setAttribute('aria-label',chosenAria||chosenTitle);
+          primary.title=chosenTitle;
+          primary.setAttribute('aria-label',chosenAria||chosenTitle);
           chosen.replaceChildren(...(oldIcon?[oldIcon]:[]));
           chosen.dataset.replayDraw=oldKey;
-          chosen.title=oldTitle;chosen.setAttribute('aria-label',oldAria||oldTitle);
+          chosen.title=oldTitle;
+          chosen.setAttribute('aria-label',oldAria||oldTitle);
           const rowLabel=document.createElement('span');
-          rowLabel.className='nfx-tv-tool-label';rowLabel.textContent=oldTitle;
+          rowLabel.className='nfx-tv-tool-label';
+          rowLabel.textContent=oldTitle;
           chosen.appendChild(rowLabel);
           const rowCheck=document.createElement('span');
-          rowCheck.className='nfx-tv-tool-menu-check';rowCheck.setAttribute('aria-hidden','true');rowCheck.textContent='✓';
+          rowCheck.className='nfx-tv-tool-menu-check';
+          rowCheck.setAttribute('aria-hidden','true');
+          rowCheck.textContent='✓';
           chosen.appendChild(rowCheck);
           replaySetDrawingMode(chosenKey);
           close();
@@ -6617,19 +6647,34 @@ window.addEventListener('resize',closeAccountDropdown);
     });
     const actions=document.createElement('div');
     actions.className='nfx-tv-tool-actions';
-    actions.setAttribute('role','group');actions.setAttribute('aria-label','Drawing actions');
-    ['magnet','lockall','hideall','undo','delete','clear'].map(byKey).filter(Boolean).forEach(button=>actions.appendChild(button));
-    if(actions.children.length){if(renderedGroups)fragment.appendChild(divider());fragment.appendChild(actions);}
+    actions.setAttribute('role','group');
+    actions.setAttribute('aria-label','Drawing actions');
+    ['magnet','lockall','hideall','undo','delete','clear']
+      .map(byKey).filter(Boolean).forEach(button=>actions.appendChild(button));
+    if(actions.children.length){
+      if(count)fragment.appendChild(divider());
+      fragment.appendChild(actions);
+    }
     rail.replaceChildren(fragment);
     rail.dataset.grouped='true';
     const closeAll=()=>menus.forEach(entry=>entry.close());
-    rail.querySelectorAll('.nfx-tv-tool-primary').forEach(button=>button.addEventListener('click',closeAll));
+    rail.querySelectorAll('.nfx-tv-tool-primary').forEach(button=>{
+      button.addEventListener('click',closeAll);
+    });
     document.addEventListener('click',event=>{
       if(rail.contains(event.target)||menus.some(entry=>entry.menu.contains(event.target)))return;
       closeAll();
     });
-    document.addEventListener('keydown',event=>{if(event.key==='Escape')closeAll();});
-    window.addEventListener('resize',()=>{menus.forEach(entry=>{if(!entry.menu.hidden)entry.place();});});
+    document.addEventListener('keydown',event=>{
+      if(event.key==='Escape'){
+        closeAll();
+        const active=document.activeElement;
+        if(active?.classList?.contains('nfx-tv-tool-expand'))active.focus();
+      }
+    });
+    window.addEventListener('resize',()=>{
+      menus.forEach(entry=>{if(!entry.menu.hidden)entry.place();});
+    });
     window.addEventListener('scroll',closeAll,true);
     rail._nfxCloseToolMenus=closeAll;
   })();
@@ -10692,83 +10737,151 @@ body>.nfx-tv-tool-menu .nfx-tv-tool-menu-check{color:#2962ff!important}
 }
 </style>
 
-<style id="nfx-replay-tv-toolbar-final">
-/* TradingView-inspired corner-chevron tool groups — Bar Replay only. */
-#page-chart #replayWorkspace .nfx-replay-chart-layout{grid-template-columns:52px minmax(0,1fr)!important}
-#page-chart #replayWorkspace .nfx-replay-drawing-toolbar{
-  width:52px!important;min-width:52px!important;max-width:52px!important;
-  padding:9px 5px!important;gap:4px!important;background:#131722!important;
-  border-right:1px solid #2a2e39!important;overflow-x:hidden!important
+<style id="nfx-replay-tv-toolbar-premium">
+/* Premium TradingView-inspired tool rail. Bar Replay only. */
+#page-chart #replayWorkspace .nfx-replay-chart-layout{
+  grid-template-columns:52px minmax(0,1fr)!important;
+  align-items:stretch!important
 }
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar{
+  box-sizing:border-box!important;position:relative!important;z-index:30!important;
+  display:flex!important;flex-direction:column!important;align-items:center!important;
+  gap:4px!important;width:52px!important;min-width:52px!important;max-width:52px!important;
+  height:100%!important;min-height:0!important;max-height:590px!important;
+  padding:9px 5px!important;overflow-x:hidden!important;overflow-y:auto!important;
+  background:#131722!important;border-right:1px solid #2a2e39!important;
+  scrollbar-width:thin!important;scrollbar-color:#424956 transparent!important
+}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar::-webkit-scrollbar{width:3px!important}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar::-webkit-scrollbar-thumb{background:#424956!important;border-radius:4px!important}
 #page-chart #replayWorkspace .nfx-tv-tool-group{
-  position:relative!important;display:block!important;width:40px!important;height:40px!important;
-  min-height:40px!important;flex:0 0 40px!important
+  position:relative!important;display:block!important;flex:0 0 40px!important;
+  width:40px!important;height:40px!important;min-height:40px!important
 }
 #page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary{
-  position:relative!important;display:grid!important;place-items:center!important;
-  width:40px!important;height:40px!important;min-width:40px!important;min-height:40px!important;
-  padding:0!important;border:1px solid transparent!important;border-radius:5px!important;
-  background:transparent!important;color:#b2bac7!important
+  box-sizing:border-box!important;position:relative!important;display:grid!important;
+  place-items:center!important;width:40px!important;height:40px!important;
+  min-width:40px!important;min-height:40px!important;padding:0!important;
+  border:1px solid transparent!important;border-radius:5px!important;
+  background:transparent!important;color:#b2bac7!important;cursor:pointer!important;
+  transition:background .12s ease,border-color .12s ease,color .12s ease!important
 }
 #page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary:hover{
   border-color:#3b4658!important;background:#252d3b!important;color:#f0f3fa!important
 }
 #page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary.active,
 #page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary[aria-pressed="true"]{
-  border-color:#2962ff!important;background:#1e2c45!important;color:#8ab4ff!important
+  border-color:#2962ff!important;background:#1e2c45!important;color:#8ab4ff!important;
+  box-shadow:inset 0 0 0 1px rgba(41,98,255,.12)!important
+}
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary.active:before{
+  content:"";position:absolute;left:-6px;top:9px;bottom:9px;width:2px;
+  border-radius:2px;background:#2962ff!important
+}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button[data-replay-draw] svg{
+  display:block!important;width:20px!important;height:20px!important;overflow:visible!important;
+  fill:none!important;stroke:currentColor!important;stroke-width:1.7!important;
+  stroke-linecap:round!important;stroke-linejoin:round!important
+}
+#page-chart #replayWorkspace .nfx-replay-drawing-toolbar button[data-replay-draw="cursor"] svg{
+  fill:currentColor!important;stroke:#131722!important;stroke-width:1.1!important
 }
 #page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-expand{
-  position:absolute!important;right:1px!important;bottom:1px!important;z-index:4!important;
-  display:grid!important;place-items:center!important;width:11px!important;height:11px!important;
-  min-width:11px!important;min-height:11px!important;padding:0!important;
-  border:0!important;border-radius:2px!important;background:#131722!important;color:#aeb9ca!important;
-  box-shadow:0 0 0 1px #131722!important;cursor:pointer!important
+  position:absolute!important;right:0!important;bottom:0!important;z-index:5!important;
+  display:grid!important;place-items:center!important;box-sizing:border-box!important;
+  width:13px!important;height:13px!important;min-width:13px!important;min-height:13px!important;
+  padding:0!important;border:1px solid #131722!important;border-radius:3px!important;
+  background:#2a2e39!important;color:#c5cad4!important;cursor:pointer!important;
+  box-shadow:0 0 0 1px rgba(0,0,0,.22)!important
 }
 #page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-expand:hover,
 #page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-expand[aria-expanded="true"]{
   background:#2962ff!important;color:#fff!important
 }
 #page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-expand svg{
-  width:8px!important;height:8px!important;stroke:currentColor!important;stroke-width:2!important;fill:none!important
+  display:block!important;width:8px!important;height:8px!important;
+  fill:none!important;stroke:currentColor!important;stroke-width:2!important
 }
 #page-chart #replayWorkspace .nfx-tv-tool-divider{
-  width:27px!important;margin:4px 0!important;background:#303744!important
+  display:block!important;flex:0 0 1px!important;width:27px!important;height:1px!important;
+  margin:4px 0!important;background:#303744!important
 }
 #page-chart #replayWorkspace .nfx-tv-tool-actions{
-  width:40px!important;align-items:center!important;gap:3px!important;padding-top:6px!important
+  display:flex!important;flex:0 0 auto!important;flex-direction:column!important;
+  align-items:center!important;gap:3px!important;width:40px!important;
+  padding-top:6px!important;border-top:1px solid #303744!important
 }
 #page-chart #replayWorkspace .nfx-tv-tool-actions button[data-replay-draw]{
+  display:grid!important;place-items:center!important;box-sizing:border-box!important;
   width:38px!important;height:36px!important;min-width:38px!important;min-height:36px!important;
-  border-radius:5px!important
+  padding:0!important;border:1px solid transparent!important;border-radius:5px!important;
+  background:transparent!important;color:#aab4c2!important
+}
+#page-chart #replayWorkspace .nfx-tv-tool-actions button:hover{
+  background:#252d3b!important;color:#f0f3fa!important
+}
+#page-chart #replayWorkspace .nfx-tv-tool-actions button:disabled{opacity:.32!important;cursor:not-allowed!important}
+#page-chart #replayWorkspace .nfx-tv-tool-actions button[data-replay-draw="delete"]:hover,
+#page-chart #replayWorkspace .nfx-tv-tool-actions button[data-replay-draw="clear"]:hover{
+  background:#302029!important;color:#ff9aa7!important;border-color:#70404a!important
 }
 body>.nfx-tv-tool-menu{
-  width:238px!important;max-width:calc(100vw - 18px)!important;
-  padding:6px!important;border:1px solid #3a4658!important;border-radius:6px!important;
-  background:#1e222d!important;box-shadow:0 8px 28px #0009!important;backdrop-filter:none!important
+  position:fixed!important;z-index:2147483000!important;box-sizing:border-box!important;
+  display:block!important;width:244px!important;max-width:calc(100vw - 16px)!important;
+  max-height:min(72vh,560px)!important;overflow-x:hidden!important;overflow-y:auto!important;
+  padding:6px!important;border:1px solid #363c49!important;border-radius:6px!important;
+  background:#1e222d!important;box-shadow:0 12px 34px rgba(0,0,0,.58)!important;
+  color:#d1d4dc!important;backdrop-filter:none!important
 }
+body>.nfx-tv-tool-menu[hidden]{display:none!important}
 body>.nfx-tv-tool-menu .nfx-tv-tool-menu-heading{
-  padding:8px 9px!important;border-bottom:1px solid #343b49!important;
-  color:#e6eaf0!important;font-size:11px!important
+  position:sticky!important;top:-6px!important;z-index:2!important;
+  display:flex!important;align-items:center!important;justify-content:space-between!important;
+  gap:10px!important;padding:9px 9px!important;margin:0 0 4px!important;
+  border-bottom:1px solid #303744!important;background:#1e222d!important;
+  color:#e6e9ef!important;font:600 11px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important
+}
+body>.nfx-tv-tool-menu .nfx-tv-tool-menu-heading small{
+  color:#787f8c!important;font-size:8px!important;font-weight:700!important;letter-spacing:.13em!important
 }
 body>.nfx-tv-tool-menu button[data-replay-draw]{
-  height:34px!important;min-height:34px!important;border-radius:4px!important;
-  color:#c4cbd5!important
+  box-sizing:border-box!important;display:flex!important;align-items:center!important;gap:10px!important;
+  width:100%!important;height:35px!important;min-height:35px!important;padding:0 9px!important;
+  border:1px solid transparent!important;border-radius:4px!important;
+  background:transparent!important;color:#c5cad4!important;text-align:left!important;cursor:pointer!important
+}
+body>.nfx-tv-tool-menu button[data-replay-draw] svg{
+  display:block!important;width:19px!important;height:19px!important;flex:0 0 19px!important;
+  fill:none!important;stroke:currentColor!important;stroke-width:1.7!important
+}
+body>.nfx-tv-tool-menu button[data-replay-draw] .nfx-tv-tool-label{
+  flex:1!important;font:500 11px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;
+  white-space:nowrap!important
+}
+body>.nfx-tv-tool-menu .nfx-tv-tool-menu-check{
+  width:14px!important;flex:0 0 14px!important;color:#8ab4ff!important;font-size:12px!important;text-align:center!important;opacity:0!important
 }
 body>.nfx-tv-tool-menu button[data-replay-draw]:hover{
-  border-color:#3a4658!important;background:#2a3140!important;color:#fff!important
+  border-color:#363c49!important;background:#2a2e39!important;color:#fff!important
 }
 body>.nfx-tv-tool-menu button[data-replay-draw].active{
   border-color:#315fae!important;background:#1e3557!important;color:#9dc2ff!important
 }
+body>.nfx-tv-tool-menu button[data-replay-draw].active .nfx-tv-tool-menu-check{opacity:1!important}
 #page-chart #replayWorkspace .nfx-replay-drawing-toolbar button:focus-visible,
 body>.nfx-tv-tool-menu button[data-replay-draw]:focus-visible{
   outline:2px solid #6b9fff!important;outline-offset:2px!important
 }
 @media(max-width:620px){
   #page-chart #replayWorkspace .nfx-replay-chart-layout{grid-template-columns:48px minmax(0,1fr)!important}
-  #page-chart #replayWorkspace .nfx-replay-drawing-toolbar{width:48px!important;min-width:48px!important;max-width:48px!important;padding:7px 3px!important}
+  #page-chart #replayWorkspace .nfx-replay-drawing-toolbar{
+    width:48px!important;min-width:48px!important;max-width:48px!important;padding:7px 3px!important
+  }
   #page-chart #replayWorkspace .nfx-tv-tool-group{width:38px!important;height:38px!important;flex-basis:38px!important}
-  #page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary{width:38px!important;height:38px!important;min-width:38px!important}
+  #page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary{
+    width:38px!important;height:38px!important;min-width:38px!important
+  }
+  body>.nfx-tv-tool-menu{width:min(244px,calc(100vw - 58px))!important}
 }
 </style>
 </body>
