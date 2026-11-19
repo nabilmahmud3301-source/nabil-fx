@@ -10608,6 +10608,71 @@ body>.nfx-tv-tool-menu button[data-replay-draw] .nfx-tv-tool-label{flex:1;font:5
 body>.nfx-tv-tool-menu .nfx-tv-tool-menu-check{width:14px;flex:0 0 14px;color:#2962ff;font-size:12px;text-align:center;opacity:0}
 body>.nfx-tv-tool-menu button[data-replay-draw].active .nfx-tv-tool-menu-check{opacity:1}
 @media(max-width:620px){#page-chart #replayWorkspace .nfx-replay-chart-layout{grid-template-columns:44px minmax(0,1fr)!important}#page-chart #replayWorkspace .nfx-replay-drawing-toolbar{width:44px;min-width:44px;padding:7px 3px;gap:3px}#page-chart #replayWorkspace .nfx-tv-tool-group,#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary{width:34px;height:34px;min-height:34px;flex-basis:34px}#page-chart #replayWorkspace .nfx-tv-tool-actions button{width:34px;height:32px;min-height:32px}}
+
+/* True side-by-side split controls: tool button + right-hand dropdown arrow. */
+#page-chart #replayWorkspace .nfx-tv-tool-group{
+  display:grid!important;
+  grid-template-columns:26px 10px!important;
+  grid-template-rows:34px!important;
+  gap:0!important;
+  width:36px!important;
+  height:34px!important;
+  min-height:34px!important;
+  flex:0 0 34px!important;
+  align-items:stretch!important;
+  justify-items:stretch!important;
+}
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary{
+  position:relative!important;
+  grid-column:1!important;
+  grid-row:1!important;
+  display:grid!important;
+  place-items:center!important;
+  box-sizing:border-box!important;
+  width:26px!important;
+  min-width:26px!important;
+  height:34px!important;
+  min-height:34px!important;
+  flex:none!important;
+  padding:0!important;
+  border-radius:4px 0 0 4px!important;
+}
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary svg{
+  width:19px!important;height:19px!important;
+}
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-expand{
+  position:static!important;
+  grid-column:2!important;
+  grid-row:1!important;
+  display:grid!important;
+  place-items:center!important;
+  box-sizing:border-box!important;
+  width:10px!important;
+  min-width:10px!important;
+  height:34px!important;
+  min-height:34px!important;
+  flex:none!important;
+  padding:0!important;
+  border:0!important;
+  border-left:1px solid #2a2e39!important;
+  border-radius:0 4px 4px 0!important;
+  background:transparent!important;
+  color:#858d9b!important;
+}
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-expand:hover,
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-expand[aria-expanded=true]{
+  background:#2a2e39!important;color:#dce3ef!important;
+}
+#page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-expand svg{
+  width:8px!important;height:8px!important;
+}
+#page-chart #replayWorkspace .nfx-tv-tool-group:not(:has(>.nfx-tv-tool-expand))>.nfx-tv-tool-primary{
+  grid-column:1/-1!important;width:36px!important;min-width:36px!important;border-radius:4px!important;
+}
+@media(max-width:620px){
+ #page-chart #replayWorkspace .nfx-tv-tool-group{width:36px!important;grid-template-columns:26px 10px!important}
+ #page-chart #replayWorkspace .nfx-tv-tool-group>.nfx-tv-tool-primary{width:26px!important;min-width:26px!important}
+}
 </style>
 </body>
 </html>
