@@ -6507,19 +6507,16 @@ window.addEventListener('resize',closeAccountDropdown);
           const chosen=event.target.closest('button[data-replay-draw]');
           if(!chosen)return;
           if(!primary.querySelector('.nfx-tv-tool-label')){const label=document.createElement('span');label.className='nfx-tv-tool-label';label.textContent=primary.title||primary.getAttribute('aria-label')||'Drawing tool';primary.appendChild(label);}
-          const oldTitle=primary.title,oldAria=primary.getAttribute('aria-label');
-          const oldIcon=primary.querySelector('svg')?.cloneNode(true);
-          const chosenIcon=chosen.querySelector('svg')?.cloneNode(true);
-          const chosenTitle=chosen.title,chosenAria=chosen.getAttribute('aria-label');
+          const oldKey=primary.dataset.replayDraw,oldTitle=primary.title,oldAria=primary.getAttribute('aria-label');
+          const chosenKey=chosen.dataset.replayDraw,chosenIcon=chosen.querySelector('svg')?.cloneNode(true);
+          const oldIcon=primary.querySelector('svg')?.cloneNode(true),chosenTitle=chosen.title,chosenAria=chosen.getAttribute('aria-label');
           primary.replaceChildren(...(chosenIcon?[chosenIcon]:[]));
-          primary.dataset.replayDraw=chosen.dataset.replayDraw;primary.title=chosenTitle;primary.setAttribute('aria-label',chosenAria||chosenTitle);
-          chosen.replaceChildren(...(oldIcon?[oldIcon]:[]));
-          chosen.dataset.replayDraw=items.find(x=>x.dataset.replayDraw===primary.dataset.replayDraw)?.dataset.replayDraw||chosen.dataset.replayDraw;
-          // Restore the former primary tool identity and accessible label in the menu.
-          const previousKey=group.keys.find(key=>key!==primary.dataset.replayDraw&&key===chosen.dataset.replayDraw);
-          if(previousKey){chosen.dataset.replayDraw=previousKey;}
+          primary.dataset.replayDraw=chosenKey;primary.title=chosenTitle;primary.setAttribute('aria-label',chosenAria||chosenTitle);
+          chosen.replaceChildren(...(oldIcon?[oldIcon]:[]));chosen.dataset.replayDraw=oldKey;
           chosen.title=oldTitle;chosen.setAttribute('aria-label',oldAria||oldTitle);
           const label=document.createElement('span');label.className='nfx-tv-tool-label';label.textContent=oldTitle||'Drawing tool';chosen.appendChild(label);
+          primary.classList.add('active');primary.setAttribute('aria-pressed','true');
+          chosen.classList.remove('active');chosen.setAttribute('aria-pressed','false');
           close();
         });
         document.body.appendChild(menu);menus.push({menu,close,wrap,toggle});
@@ -10176,23 +10173,23 @@ window.renderBacktestMetrics=function(r,meta={}){
 #page-chart #replayWorkspace .nfx-replay-drawing-toolbar button[data-replay-draw]:hover{background:#252d3b!important;border-color:#3b4658!important;color:#f0f3fa!important}
 #page-chart #replayWorkspace .nfx-replay-drawing-toolbar button[data-replay-draw].active,
 #page-chart #replayWorkspace .nfx-replay-drawing-toolbar button[data-replay-draw][aria-pressed="true"]{background:#1e2c45!important;border-color:#2962ff!important;color:#78a9ff!important;box-shadow:inset 0 0 0 1px #2962ff22!important}
-#page-chart #replayWorkspace .nfx-tv-tool-menu{
+body>.nfx-tv-tool-menu{
  position:fixed!important;z-index:99999!important;display:grid!important;grid-template-columns:1fr!important;gap:2px!important;
  width:196px!important;max-height:min(440px,calc(100vh - 24px))!important;overflow-y:auto!important;
  padding:5px!important;border:1px solid #363f50!important;border-radius:6px!important;
  background:#171d29!important;box-shadow:0 10px 28px #0009!important;
 }
-#page-chart #replayWorkspace .nfx-tv-tool-menu[hidden]{display:none!important}
-#page-chart #replayWorkspace .nfx-tv-tool-menu button[data-replay-draw]{
+body>.nfx-tv-tool-menu[hidden]{display:none!important}
+body>.nfx-tv-tool-menu button[data-replay-draw]{
  display:flex!important;justify-content:flex-start!important;align-items:center!important;gap:10px!important;
  width:100%!important;height:33px!important;min-width:0!important;min-height:33px!important;flex:0 0 33px!important;
  padding:0 9px!important;border:1px solid transparent!important;border-radius:4px!important;color:#c4ccd8!important;text-align:left!important;
 }
-#page-chart #replayWorkspace .nfx-tv-tool-menu button[data-replay-draw] svg{width:18px!important;height:18px!important;flex:0 0 18px!important}
-#page-chart #replayWorkspace .nfx-tv-tool-label{font:500 11px/1.2 system-ui,sans-serif!important;white-space:nowrap!important}
-#page-chart #replayWorkspace .nfx-tv-tool-primary .nfx-tv-tool-label{display:none!important}
-#page-chart #replayWorkspace .nfx-tv-tool-menu button[data-replay-draw]:hover{background:#252f40!important;color:#fff!important}
-#page-chart #replayWorkspace .nfx-tv-tool-menu button[data-replay-draw].active{background:#1d2b43!important;border-color:#2962ff!important;color:#8ab6ff!important}
+body>.nfx-tv-tool-menu button[data-replay-draw] svg{width:18px!important;height:18px!important;flex:0 0 18px!important}
+body>.nfx-tv-tool-menu .nfx-tv-tool-label{font:500 11px/1.2 system-ui,sans-serif!important;white-space:nowrap!important}
+body>.nfx-tv-tool-group .nfx-tv-tool-primary .nfx-tv-tool-label{display:none!important}
+body>.nfx-tv-tool-menu button[data-replay-draw]:hover{background:#252f40!important;color:#fff!important}
+body>.nfx-tv-tool-menu button[data-replay-draw].active{background:#1d2b43!important;border-color:#2962ff!important;color:#8ab6ff!important}
 #page-chart #replayWorkspace .nfx-tv-tool-actions{display:flex!important;flex-direction:column!important;align-items:center!important;gap:3px!important;width:38px!important;padding-top:5px!important;border-top:1px solid #303a49!important}
 #page-chart #replayWorkspace .nfx-tv-tool-actions button[data-replay-draw]{width:36px!important;height:34px!important;min-width:36px!important;min-height:34px!important;flex:0 0 34px!important;border-radius:5px!important}
 #page-chart #replayWorkspace .nfx-tv-tool-actions button[data-replay-draw="delete"]:hover,
