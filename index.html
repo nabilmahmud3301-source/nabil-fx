@@ -6634,7 +6634,8 @@ window.addEventListener('resize',closeAccountDropdown);
     rail._nfxCloseToolMenus=closeAll;
   })();
 
-  document.querySelectorAll(replayDrawingToolSelector).forEach(button=>button.addEventListener('click',()=>{
+  const replayDrawingToolbar=document.querySelector('#page-chart #replayWorkspace .nfx-replay-drawing-toolbar');
+  replayDrawingToolbar?.querySelectorAll('.nfx-tv-tool-primary, .nfx-tv-tool-actions button').forEach(button=>button.addEventListener('click',()=>{
     const mode=button.dataset.replayDraw;
     if(mode==='magnet'){replayMagnetEnabled=!replayMagnetEnabled;button.classList.toggle('active',replayMagnetEnabled);button.setAttribute('aria-pressed',String(replayMagnetEnabled));button.title=replayMagnetEnabled?'Magnet snapping ON':'Magnet snapping OFF';return;}
     if(mode==='lockall'){replayAllDrawingsLocked=!replayAllDrawingsLocked;button.classList.toggle('active',replayAllDrawingsLocked);button.setAttribute('aria-pressed',String(replayAllDrawingsLocked));button.title=replayAllDrawingsLocked?'Unlock all drawings':'Lock all drawings';return;}
