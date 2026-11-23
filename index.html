@@ -1,6 +1,10 @@
 <!doctype html>
 <html lang="en">
 <head>
+<link rel="preconnect" href="https://s3.tradingview.com" crossorigin>
+<link rel="preconnect" href="https://www.tradingview.com" crossorigin>
+<link rel="dns-prefetch" href="//s3.tradingview.com">
+<link rel="preload" href="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" as="script">
 <script>
 /* Always reopen NABIL Fx at the top of Home after a refresh or page restore. */
 (function(){
@@ -4810,6 +4814,7 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
             <button type="button" data-draw-color="#26a69a" aria-label="Teal color" title="Teal"><i style="--swatch:#26a69a"></i></button>
             <button type="button" data-draw-color="#ef5350" aria-label="Red color" title="Red"><i style="--swatch:#ef5350"></i></button>
             <span class="nfx-replay-editbar-sep"></span>
+            <label id="replayPositionRRControl" hidden>R:R <input id="replayPositionRR" type="number" min="0.1" max="100" step="0.1" value="1" aria-label="Risk reward ratio" style="width:54px;height:25px;padding:0 5px;border:1px solid #34445a;border-radius:4px;background:#172334;color:#e3ebf7;font-size:9px"></label>
             <label>WIDTH <select id="replayDrawingWidth" aria-label="Drawing line width"><option value="1">1 px</option><option value="1.5" selected>1.5 px</option><option value="2.5">2.5 px</option><option value="4">4 px</option></select></label>
             <button type="button" id="replayDrawingLock" title="Lock drawing" aria-label="Lock drawing">♧</button>
             <button type="button" id="replayDrawingDuplicate" title="Duplicate drawing" aria-label="Duplicate drawing"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="1.5"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button>
@@ -6563,7 +6568,8 @@ window.addEventListener('resize',closeAccountDropdown);
           const entryPrice=Number(drawing.points[0]?.price),stopPrice=Number(drawing.points[1]?.price);
           const risk=Math.abs(entryPrice-stopPrice);
           if(!Number.isFinite(risk)||risk<=0.0000000001){ctx.restore();return;}
-          const targetPrice=entryPrice+(isLong?1:-1)*risk*2;
+          const targetPrice=Number(drawing.points[2]?.price??(entryPrice+(isLong?1:-1)*risk));
+          const rr=Math.abs(targetPrice-entryPrice)/risk;
           const entryY=replaySeries.priceToCoordinate(entryPrice);
           const stopY=replaySeries.priceToCoordinate(stopPrice);
           const targetY=replaySeries.priceToCoordinate(targetPrice);
@@ -6590,7 +6596,7 @@ window.addEventListener('resize',closeAccountDropdown);
             ctx.fillStyle='rgba(10,15,23,.88)';ctx.fillRect(label,yy-11,tw+12,16);
             ctx.fillStyle=color;ctx.fillText(text,label+6,yy);
           };
-          tag(labelX,targetY,'#55d6a8','TARGET  +2R  '+priceText(targetPrice));
+          tag(labelX,targetY,'#55d6a8','TARGET  +'+rr.toFixed(2)+'R  '+priceText(targetPrice));
           tag(labelX,entryY,'#f0c17e','ENTRY  '+priceText(entryPrice));
           tag(labelX,stopY,'#ff7b82','STOP  '+priceText(stopPrice));
           const header=isLong?'LONG POSITION':'SHORT POSITION';
@@ -6599,9 +6605,9 @@ window.addEventListener('resize',closeAccountDropdown);
           ctx.fillStyle=accent;ctx.fillRect(labelX-2,hy-13,hw+16,19);
           ctx.fillStyle='#07131b';ctx.fillText(header,labelX+5,hy);
           ctx.fillStyle='rgba(220,230,244,.92)';ctx.font='600 10px system-ui';
-          const rr='R:R  1 : 2.00';const rw=ctx.measureText(rr).width;
+          const rrLabel='R:R  1 : '+rr.toFixed(2);const rw=ctx.measureText(rrLabel).width;
           ctx.fillStyle='rgba(10,15,23,.88)';ctx.fillRect(Math.max(left+5,right-rw-18),Math.max(4,Math.min(rect.height-18,entryY+14)),rw+12,16);
-          ctx.fillStyle='#dce6f4';ctx.fillText(rr,Math.max(left+11,right-rw-12),Math.max(16,Math.min(rect.height-6,entryY+26)));
+          ctx.fillStyle='#dce6f4';ctx.fillText(rrLabel,Math.max(left+11,right-rw-12),Math.max(16,Math.min(rect.height-6,entryY+26)));
         }else{
           ctx.rect(left,top,boxWidth,boxHeight);ctx.fill();ctx.stroke();
           if(drawing.tool==='pricerange'){
@@ -6628,7 +6634,7 @@ window.addEventListener('resize',closeAccountDropdown);
       if(selected){
         ctx.save();ctx.fillStyle='#f4f8ff';ctx.strokeStyle='#367ed8';ctx.lineWidth=1.5;
         const handles=[a,...(pts.length>1?[b]:[])];
-        handles.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,5,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.beginPath();ctx.arc(p.x,p.y,1.4,0,Math.PI*2);ctx.fillStyle='#367ed8';ctx.fill();});
+        (drawing.tool==='long'||drawing.tool==='short'?pts:handles).forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,5,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.beginPath();ctx.arc(p.x,p.y,1.4,0,Math.PI*2);ctx.fillStyle='#367ed8';ctx.fill();});
         ctx.restore();
       }
     };
@@ -6641,6 +6647,10 @@ window.addEventListener('resize',closeAccountDropdown);
       const drawing=replayDrawings[replaySelectedDrawing];
       if(drawing){
         const width=$('replayDrawingWidth');if(width)width.value=String(drawing.width||1.5);
+        const rrControl=$('replayPositionRRControl'),rrInput=$('replayPositionRR');
+        const isPosition=drawing.tool==='long'||drawing.tool==='short';
+        if(rrControl)rrControl.hidden=!isPosition;
+        if(rrInput&&isPosition){const risk=Math.abs(Number(drawing.points[0]?.price)-Number(drawing.points[1]?.price));const reward=Math.abs(Number(drawing.points[2]?.price??drawing.points[0]?.price)-Number(drawing.points[0]?.price));rrInput.value=String(risk>0?(reward/risk).toFixed(2):1);}
         const lock=$('replayDrawingLock');if(lock){lock.innerHTML=drawing.locked?'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>':'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 7-3"/></svg>';lock.title=drawing.locked?'Unlock drawing':'Lock drawing';}
       }
     }
@@ -6689,6 +6699,10 @@ window.addEventListener('resize',closeAccountDropdown);
       const oneClickTools=['hline','hray','vline','vray','text'];
       if(replayDraft.points.length===2||replayDraft.tool==='brush'||replayDraft.tool==='path'||(replayDraft.points.length===1&&oneClickTools.includes(replayDraft.tool))){
         if(replayDraft.tool==='text'){const label=window.prompt('Enter chart note:','Note');if(label)replayDraft.label=label;}
+        if(replayDraft.tool==='long'||replayDraft.tool==='short'){
+          const entry=Number(replayDraft.points[0]?.price),stop=Number(replayDraft.points[1]?.price),risk=Math.abs(entry-stop);
+          if(risk>0&&Number.isFinite(risk))replayDraft.points.push({time:replayDraft.points[1].time,price:entry+(replayDraft.tool==='long'?1:-1)*risk});
+        }
         if(replayDraft.tool!=='text'||replayDraft.label){replaySaveDrawingHistory();replayDraft.color='#f0b86a';replayDraft.width=1.5;replayDrawings.push(replayDraft);replaySelectedDrawing=replayDrawings.length-1;}
       }
       replayDraft=null;replayDrawPointer=null;replaySetDrawingMode('cursor');replayPaintDrawings();
@@ -6711,7 +6725,7 @@ window.addEventListener('resize',closeAccountDropdown);
       if((tool==='hline'&&Math.abs(y-a.y)<10)||(tool==='vline'&&Math.abs(x-a.x)<10)||(tool==='hray'&&x>=a.x-8&&Math.abs(y-a.y)<10)||(tool==='vray'&&y<=a.y+8&&Math.abs(x-a.x)<10))return i;
       if((tool==='long'||tool==='short')&&replayDrawings[i].points?.length>1){
         const p1=replayDrawings[i].points[0],p2=replayDrawings[i].points[1],risk=Math.abs(Number(p1.price)-Number(p2.price));
-        const targetPrice=Number(p1.price)+(tool==='long'?1:-1)*risk*2,targetXY=replayDrawingXY({time:p2.time,price:targetPrice});
+        const targetPrice=Number(replayDrawings[i].points[2]?.price??(Number(p1.price)+(tool==='long'?1:-1)*risk)),targetXY=replayDrawingXY({time:replayDrawings[i].points[2]?.time??p2.time,price:targetPrice});
         if(targetXY&&x>=l-8&&x<=r+8&&y>=Math.min(t,bt,targetXY.y)-10&&y<=Math.max(t,bt,targetXY.y)+10)return i;
       }
       if(['rect','pricerange','long','short','daterange','ellipse','triangle'].includes(tool)&&x>=l-8&&x<=r+8&&y>=t-8&&y<=bt+8){
@@ -6977,6 +6991,16 @@ window.addEventListener('resize',closeAccountDropdown);
     if(event.target.closest('#replayDrawingLock')&&replayDrawings[replaySelectedDrawing]){const d=replayDrawings[replaySelectedDrawing];d.locked=!d.locked;replayPaintDrawings();}
   });
   $('replayDrawingWidth')?.addEventListener('change',event=>{if(replayDrawings[replaySelectedDrawing]){replayDrawings[replaySelectedDrawing].width=Number(event.target.value)||1.5;replayPaintDrawings();}});
+  $('replayPositionRR')?.addEventListener('change',event=>{
+    const drawing=replayDrawings[replaySelectedDrawing];
+    if(!drawing||(drawing.tool!=='long'&&drawing.tool!=='short')||!drawing.points?.[1])return;
+    const ratio=Math.max(.1,Math.min(100,Number(event.target.value)||1));
+    const entry=Number(drawing.points[0].price),stop=Number(drawing.points[1].price),risk=Math.abs(entry-stop);
+    if(!Number.isFinite(risk)||risk<=0)return;
+    replaySaveDrawingHistory();
+    drawing.points[2]={time:drawing.points[2]?.time??drawing.points[1].time,price:entry+(drawing.tool==='long'?1:-1)*risk*ratio};
+    event.target.value=ratio.toFixed(2);replayPaintDrawings();
+  });
   $('replayDrawingContextMenu')?.addEventListener('click',event=>{const action=event.target.closest('[data-object-action]')?.dataset.objectAction,drawing=replayDrawings[replaySelectedDrawing];if(!action||!drawing)return;if(action==='delete')replayDeleteSelectedDrawing();if(action==='duplicate'){const clone=JSON.parse(JSON.stringify(drawing));clone.points=clone.points.map(p=>({time:p.time,price:p.price}));clone.points.forEach(p=>{p.time+=1;p.price+=Math.abs(p.price)*.0002||.00001;});clone.locked=false;replayDrawings.push(clone);replaySelectedDrawing=replayDrawings.length-1;replayPaintDrawings();}if(action==='lock'){drawing.locked=!drawing.locked;replayPaintDrawings();}$('replayDrawingContextMenu').hidden=true;});
   document.addEventListener('pointerdown',event=>{const menu=$('replayDrawingContextMenu');if(menu&&!menu.hidden&&!event.target.closest('#replayDrawingContextMenu'))menu.hidden=true;});
   function replayStatus(msg){ if(replayEls.status) replayEls.status.innerHTML=msg; }
