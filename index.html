@@ -6514,25 +6514,66 @@ window.addEventListener('resize',closeAccountDropdown);
   const replayDrawingCtx=replayDrawingCanvas?.getContext('2d');
   const replayDrawingEditBar=$('replayDrawingEditBar');
   let replayDrawingEditDrag=null;
+  function replayVisibleDrawingBars(){
+    return replayIndex>=0&&replayBars.length?replayBars.slice(0,replayIndex+1):replayBars;
+  }
+  function replayDrawingBarStep(bars){
+    if(!bars||bars.length<2)return 60;
+    const diffs=[];
+    for(let i=Math.max(1,bars.length-8);i<bars.length;i++){
+      const d=Number(bars[i].time)-Number(bars[i-1].time);
+      if(Number.isFinite(d)&&d>0)diffs.push(d);
+    }
+    diffs.sort((a,b)=>a-b);
+    return diffs.length?diffs[Math.floor(diffs.length/2)]:60;
+  }
+  function replayDrawingTimeAtLogical(logical){
+    const bars=replayVisibleDrawingBars();
+    if(!bars.length||!Number.isFinite(logical))return null;
+    const lastIndex=bars.length-1,last=Number(bars[lastIndex].time),step=replayDrawingBarStep(bars);
+    if(logical>lastIndex)return last+(logical-lastIndex)*step;
+    const index=Math.max(0,Math.min(lastIndex,Math.round(logical)));
+    return Number(bars[index].time)+(logical-index)*step;
+  }
+  function replayDrawingLogicalAtTime(time){
+    const bars=replayVisibleDrawingBars();
+    if(!bars.length||!Number.isFinite(Number(time)))return null;
+    const lastIndex=bars.length-1,last=Number(bars[lastIndex].time),step=replayDrawingBarStep(bars);
+    if(Number(time)>last)return lastIndex+(Number(time)-last)/step;
+    let lo=0,hi=lastIndex;
+    while(lo<hi){const mid=(lo+hi)>>1;if(Number(bars[mid].time)<Number(time))lo=mid+1;else hi=mid;}
+    const i=lo;
+    if(i===0)return (Number(time)-Number(bars[0].time))/step;
+    const before=Number(bars[i-1].time),after=Number(bars[i].time),span=after-before;
+    return i-1+(span>0?(Number(time)-before)/span:0);
+  }
   function replayDrawingPoint(event){
     const rect=replayDrawingCanvas.getBoundingClientRect();
-    const x=event.clientX-rect.left,y=event.clientY-rect.top;
-    const time=replayChart?.timeScale().coordinateToTime(x);
+    const x=event.clientX-rect.left,y=event.clientY-rect.top,scale=replayChart?.timeScale();
+    let time=scale?.coordinateToTime(x),normalizedTime=typeof time==='number'?time:(time?.year?Date.UTC(time.year,time.month-1,time.day)/1000:NaN);
     const price=replaySeries?.coordinateToPrice(y);
-    if(time===null||time===undefined||price===null||price===undefined||!Number.isFinite(Number(price)))return null;
-    const normalizedTime=typeof time==='number'?time:(time.year?Date.UTC(time.year,time.month-1,time.day)/1000:NaN);
-    if(!Number.isFinite(normalizedTime))return null;
+    if((!Number.isFinite(normalizedTime)||time===null||time===undefined)&&scale?.coordinateToLogical){
+      const logical=scale.coordinateToLogical(x);
+      normalizedTime=replayDrawingTimeAtLogical(logical);
+    }
+    if(!Number.isFinite(normalizedTime)||price===null||price===undefined||!Number.isFinite(Number(price)))return null;
     let point={time:normalizedTime,price:Number(price)};
     if(replayMagnetEnabled&&Array.isArray(replayBars)&&replayBars.length&&replayChart&&replaySeries){
       let nearest=null,bestX=Infinity;
-      for(const bar of replayBars){const bx=replayChart.timeScale().timeToCoordinate(bar.time);if(bx===null||bx===undefined)continue;const dx=Math.abs(bx-x);if(dx<bestX){bestX=dx;nearest=bar;}}
+      for(const bar of replayVisibleDrawingBars()){const bx=replayChart.timeScale().timeToCoordinate(bar.time);if(bx===null||bx===undefined)continue;const dx=Math.abs(bx-x);if(dx<bestX){bestX=dx;nearest=bar;}}
       if(nearest&&bestX<34){let bestPrice=point.price,bestY=Infinity;for(const key of ['open','high','low','close']){const value=Number(nearest[key]),py=replaySeries.priceToCoordinate(value);if(!Number.isFinite(value)||py===null||py===undefined)continue;const dy=Math.abs(py-y);if(dy<bestY){bestY=dy;bestPrice=value;}}if(bestY<30)point={time:typeof nearest.time==='number'?nearest.time:normalizedTime,price:bestPrice};}
     }
     return point;
   }
   function replayDrawingXY(point){
     if(!replayChart||!replaySeries)return null;
-    const x=replayChart.timeScale().timeToCoordinate(point.time),y=replaySeries.priceToCoordinate(point.price);
+    const scale=replayChart.timeScale(),bars=replayVisibleDrawingBars();
+    let x=scale.timeToCoordinate(point.time);
+    if((x===null||x===undefined)&&scale.logicalToCoordinate){
+      const logical=replayDrawingLogicalAtTime(Number(point.time));
+      if(logical!==null)x=scale.logicalToCoordinate(logical);
+    }
+    const y=replaySeries.priceToCoordinate(point.price);
     return x===null||x===undefined||y===null||y===undefined?null:{x,y};
   }
   function replayPaintDrawings(){
@@ -7132,7 +7173,7 @@ window.addEventListener('resize',closeAccountDropdown);
           return new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Dhaka',year:'numeric',month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(date)+' (BDT)';
         }
       },
-      timeScale:{borderColor:'#293241',timeVisible:true,secondsVisible:false,visible:true,barSpacing:9,minBarSpacing:4,rightOffset:10,lockVisibleTimeRangeOnResize:true},
+      timeScale:{borderColor:'#293241',timeVisible:true,secondsVisible:false,visible:true,barSpacing:9,minBarSpacing:4,rightOffset:18,lockVisibleTimeRangeOnResize:true},
       crosshair:{mode:LightweightCharts.CrosshairMode.Normal,vertLine:{color:'rgba(180,195,215,.55)',width:1,style:LightweightCharts.LineStyle.Dashed,labelBackgroundColor:'#34445a'},horzLine:{color:'rgba(180,195,215,.55)',width:1,style:LightweightCharts.LineStyle.Dashed,labelBackgroundColor:'#34445a'}},
       handleScroll:{mouseWheel:true,pressedMouseMove:true,horzTouchDrag:true,vertTouchDrag:false},
       handleScale:{mouseWheel:true,pinch:true,axisPressedMouseMove:{time:true,price:true}}
@@ -7493,7 +7534,7 @@ window.addEventListener('resize',closeAccountDropdown);
     replaySeries.setData(replayBars);
     if(replayEmaSeries)replayEmaSeries.setData([]);
     replayChart.timeScale().fitContent();
-    replayChart.timeScale().applyOptions({barSpacing:9,minBarSpacing:4,rightOffset:8});
+    replayChart.timeScale().applyOptions({barSpacing:9,minBarSpacing:4,rightOffset:18});
     const cursor=replayEls.chart.querySelector('.replay-replay-cursor');
     if(cursor)cursor.style.display='none';
     replayStatus('Choose your starting candle: move the vertical line to a candle and click it. All candles to its right will be hidden.');
