@@ -6418,7 +6418,10 @@ window.addEventListener('resize',closeAccountDropdown);
 
   function loadTradingView(symbol){
     if(!frame) return;
-    if(symbol) currentChartSymbol=symbol;
+    if(symbol && symbol!==currentChartSymbol){currentChartSymbol=symbol;chartLoaded=false;}
+    // Keep the live TradingView feed mounted while switching between site pages/modes.
+    // Recreating its iframe on every visit delays the first candles and restarts the feed.
+    if(chartLoaded && frame.querySelector('.tradingview-widget-container')) return;
     chartLoaded=true;
     frame.innerHTML='';
     const root=document.createElement('div');
@@ -6556,15 +6559,49 @@ window.addEventListener('resize',closeAccountDropdown);
       else if(drawing.tool==='rect'||drawing.tool==='pricerange'||drawing.tool==='long'||drawing.tool==='short'){
         const boxWidth=Math.max(1,right-left),boxHeight=Math.max(1,bottom-top);
         if(drawing.tool==='long'||drawing.tool==='short'){
-          const entry=mid,profitTop=drawing.tool==='long'?top:entry,profitBottom=drawing.tool==='long'?entry:top;
-          const lossTop=drawing.tool==='long'?entry:bottom,lossBottom=drawing.tool==='long'?bottom:entry;
-          ctx.fillStyle=drawing.tool==='long'?'rgba(38,166,154,.18)':'rgba(239,83,80,.18)';
-          ctx.fillRect(left,profitTop,boxWidth,Math.max(1,profitBottom-profitTop));
-          ctx.fillStyle=drawing.tool==='long'?'rgba(239,83,80,.16)':'rgba(38,166,154,.16)';
-          ctx.fillRect(left,lossTop,boxWidth,Math.max(1,lossBottom-lossTop));
-          ctx.strokeStyle=drawing.color||'#f0b86a';ctx.strokeRect(left,top,boxWidth,boxHeight);
-          ctx.setLineDash([4,3]);ctx.beginPath();ctx.moveTo(left,entry);ctx.lineTo(right,entry);ctx.stroke();ctx.setLineDash([]);
-          ctx.font='10px system-ui';ctx.fillStyle='#dce6f4';ctx.fillText(drawing.tool==='long'?'LONG':'SHORT',left+5,top+12);
+          const isLong=drawing.tool==='long';
+          const entryPrice=Number(drawing.points[0]?.price),stopPrice=Number(drawing.points[1]?.price);
+          const risk=Math.abs(entryPrice-stopPrice);
+          if(!Number.isFinite(risk)||risk<=0.0000000001){ctx.restore();return;}
+          const targetPrice=entryPrice+(isLong?1:-1)*risk*2;
+          const entryY=replaySeries.priceToCoordinate(entryPrice);
+          const stopY=replaySeries.priceToCoordinate(stopPrice);
+          const targetY=replaySeries.priceToCoordinate(targetPrice);
+          if([entryY,stopY,targetY].some(v=>v===null||v===undefined||!Number.isFinite(v))){ctx.restore();return;}
+          const entryTop=Math.min(entryY,targetY),entryBottom=Math.max(entryY,targetY);
+          const stopTop=Math.min(entryY,stopY),stopBottom=Math.max(entryY,stopY);
+          const accent=isLong?'#26a69a':'#ef5350';
+          const priceText=value=>Number(value).toPrecision(6).replace(/0+$/,'').replace(/\\.$/,'');
+          ctx.fillStyle='rgba(38,166,154,.19)';
+          ctx.fillRect(left,entryTop,boxWidth,Math.max(1,entryBottom-entryTop));
+          ctx.fillStyle='rgba(239,83,80,.19)';
+          ctx.fillRect(left,stopTop,boxWidth,Math.max(1,stopBottom-stopTop));
+          ctx.strokeStyle='rgba(38,166,154,.9)';ctx.lineWidth=1;ctx.strokeRect(left,entryTop,boxWidth,Math.max(1,entryBottom-entryTop));
+          ctx.strokeStyle='rgba(239,83,80,.9)';ctx.strokeRect(left,stopTop,boxWidth,Math.max(1,stopBottom-stopTop));
+          ctx.setLineDash([5,3]);ctx.lineWidth=1.2;
+          ctx.strokeStyle='#26a69a';ctx.beginPath();ctx.moveTo(left,targetY);ctx.lineTo(right,targetY);ctx.stroke();
+          ctx.strokeStyle='#f0b86a';ctx.beginPath();ctx.moveTo(left,entryY);ctx.lineTo(right,entryY);ctx.stroke();
+          ctx.strokeStyle='#ef5350';ctx.beginPath();ctx.moveTo(left,stopY);ctx.lineTo(right,stopY);ctx.stroke();
+          ctx.setLineDash([]);
+          const labelX=Math.max(4,Math.min(left+6,rect.width-154));
+          const tag=(label,y,color,text)=>{
+            const yy=Math.max(13,Math.min(rect.height-5,y-5));
+            ctx.font='600 10px system-ui';const tw=ctx.measureText(text).width;
+            ctx.fillStyle='rgba(10,15,23,.88)';ctx.fillRect(label,yy-11,tw+12,16);
+            ctx.fillStyle=color;ctx.fillText(text,label+6,yy);
+          };
+          tag(labelX,targetY,'#55d6a8','TARGET  +2R  '+priceText(targetPrice));
+          tag(labelX,entryY,'#f0c17e','ENTRY  '+priceText(entryPrice));
+          tag(labelX,stopY,'#ff7b82','STOP  '+priceText(stopPrice));
+          const header=isLong?'LONG POSITION':'SHORT POSITION';
+          ctx.font='700 10px system-ui';const hw=ctx.measureText(header).width;
+          const hy=Math.max(14,Math.min(rect.height-8,Math.min(entryY,targetY,stopY)-9));
+          ctx.fillStyle=accent;ctx.fillRect(labelX-2,hy-13,hw+16,19);
+          ctx.fillStyle='#07131b';ctx.fillText(header,labelX+5,hy);
+          ctx.fillStyle='rgba(220,230,244,.92)';ctx.font='600 10px system-ui';
+          const rr='R:R  1 : 2.00';const rw=ctx.measureText(rr).width;
+          ctx.fillStyle='rgba(10,15,23,.88)';ctx.fillRect(Math.max(left+5,right-rw-18),Math.max(4,Math.min(rect.height-18,entryY+14)),rw+12,16);
+          ctx.fillStyle='#dce6f4';ctx.fillText(rr,Math.max(left+11,right-rw-12),Math.max(16,Math.min(rect.height-6,entryY+26)));
         }else{
           ctx.rect(left,top,boxWidth,boxHeight);ctx.fill();ctx.stroke();
           if(drawing.tool==='pricerange'){
@@ -6672,6 +6709,11 @@ window.addEventListener('resize',closeAccountDropdown);
       for(let j=1;j<pts.length;j++)if(replayDrawingDistance(x,y,pts[j-1],pts[j])<12)return i;
       const a=pts[0],b=pts[pts.length-1],l=Math.min(a.x,b.x),r=Math.max(a.x,b.x),t=Math.min(a.y,b.y),bt=Math.max(a.y,b.y),tool=replayDrawings[i].tool;
       if((tool==='hline'&&Math.abs(y-a.y)<10)||(tool==='vline'&&Math.abs(x-a.x)<10)||(tool==='hray'&&x>=a.x-8&&Math.abs(y-a.y)<10)||(tool==='vray'&&y<=a.y+8&&Math.abs(x-a.x)<10))return i;
+      if((tool==='long'||tool==='short')&&replayDrawings[i].points?.length>1){
+        const p1=replayDrawings[i].points[0],p2=replayDrawings[i].points[1],risk=Math.abs(Number(p1.price)-Number(p2.price));
+        const targetPrice=Number(p1.price)+(tool==='long'?1:-1)*risk*2,targetXY=replayDrawingXY({time:p2.time,price:targetPrice});
+        if(targetXY&&x>=l-8&&x<=r+8&&y>=Math.min(t,bt,targetXY.y)-10&&y<=Math.max(t,bt,targetXY.y)+10)return i;
+      }
       if(['rect','pricerange','long','short','daterange','ellipse','triangle'].includes(tool)&&x>=l-8&&x<=r+8&&y>=t-8&&y<=bt+8){
         if(Math.min(Math.abs(x-l),Math.abs(x-r),Math.abs(y-t),Math.abs(y-bt))<13||tool==='daterange')return i;
       }
