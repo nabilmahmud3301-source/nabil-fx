@@ -6721,7 +6721,20 @@ window.addEventListener('resize',closeAccountDropdown);
       }
       if(replayDrawingMode==='cursor'||replayDrawingMode==='crosshair')return;
       const point=replayDrawingPoint(event);if(!point)return;
-      event.preventDefault();event.stopPropagation();replayDrawPointer=event.pointerId;
+      event.preventDefault();event.stopPropagation();
+      if(replayDrawingMode==='long'||replayDrawingMode==='short'){
+        let visibleRange=null;
+        try{visibleRange=replaySeries?.priceScale().getVisibleRange();}catch(_){}
+        const visibleSpan=visibleRange&&Number.isFinite(visibleRange.from)&&Number.isFinite(visibleRange.to)?Math.abs(visibleRange.to-visibleRange.from):Math.abs(point.price)*.02;
+        const risk=Math.max(visibleSpan*.08,Math.abs(point.price)*1e-7,1e-8);
+        const isLong=replayDrawingMode==='long',step=replayDrawingBarStep(replayVisibleDrawingBars());
+        const rightTime=point.time+step*8,stopPrice=point.price+(isLong?-1:1)*risk,targetPrice=point.price+(isLong?1:-1)*risk;
+        replaySaveDrawingHistory();
+        replayDrawings.push({tool:replayDrawingMode,points:[{time:point.time,price:point.price},{time:rightTime,price:stopPrice},{time:rightTime,price:targetPrice}],color:'#f0b86a',width:1.5});
+        replaySelectedDrawing=replayDrawings.length-1;
+        replaySetDrawingMode('cursor');replayPaintDrawings();return;
+      }
+      replayDrawPointer=event.pointerId;
       replayDraft={tool:replayDrawingMode,points:[point]};replayDrawingCanvas.setPointerCapture(event.pointerId);replayPaintDrawings();
     });
     replayDrawingCanvas.addEventListener('pointermove',event=>{
