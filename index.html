@@ -6571,7 +6571,7 @@ window.addEventListener('resize',closeAccountDropdown);
           const entryTop=Math.min(entryY,targetY),entryBottom=Math.max(entryY,targetY);
           const stopTop=Math.min(entryY,stopY),stopBottom=Math.max(entryY,stopY);
           const accent=isLong?'#26a69a':'#ef5350';
-          const priceText=value=>Number(value).toPrecision(6).replace(/0+$/,'').replace(/\\.$/,'');
+          const priceText=value=>new Intl.NumberFormat('en-US',{maximumSignificantDigits:8}).format(Number(value));
           ctx.fillStyle='rgba(38,166,154,.19)';
           ctx.fillRect(left,entryTop,boxWidth,Math.max(1,entryBottom-entryTop));
           ctx.fillStyle='rgba(239,83,80,.19)';
