@@ -6420,38 +6420,16 @@ window.addEventListener('resize',closeAccountDropdown);
   const frame=$('tvChart');
   let currentChartSymbol='FX:EURUSD';
   let chartLoaded=false;
-  let tradingViewRoot=null;
-  let tradingViewStage=null;
 
   function loadTradingView(symbol){
     if(!frame) return;
-    if(symbol && symbol!==currentChartSymbol){
-      currentChartSymbol=symbol;
-      chartLoaded=false;
-      if(tradingViewRoot)tradingViewRoot.remove();
-      tradingViewRoot=null;
-    }
-    // Start the TradingView connection during the Home-page load, in a full-size
-    // off-screen stage. Move the already-running widget into the visible chart later.
-    if(chartLoaded && tradingViewRoot){
-      if(tradingViewRoot.parentElement!==frame){
-        frame.innerHTML='';
-        tradingViewRoot.style.height='100%';
-        tradingViewRoot.style.width='100%';
-        frame.appendChild(tradingViewRoot);
-        requestAnimationFrame(()=>window.dispatchEvent(new Event('resize')));
-      }
-      return;
-    }
+    if(symbol && symbol!==currentChartSymbol){currentChartSymbol=symbol;chartLoaded=false;}
+    // Keep the live TradingView feed mounted while switching between site pages/modes.
+    // Recreating its iframe on every visit delays the first candles and restarts the feed.
+    if(chartLoaded && frame.querySelector('.tradingview-widget-container')) return;
     chartLoaded=true;
-    if(!tradingViewStage){
-      tradingViewStage=document.createElement('div');
-      tradingViewStage.setAttribute('aria-hidden','true');
-      tradingViewStage.style.cssText='position:fixed;left:-14000px;top:0;width:1280px;height:720px;opacity:0;pointer-events:none;z-index:-1;overflow:hidden;';
-      document.body.appendChild(tradingViewStage);
-    }
+    frame.innerHTML='';
     const root=document.createElement('div');
-    tradingViewRoot=root;
     root.className='tradingview-widget-container';
     root.style.height='100%';
     root.style.width='100%';
@@ -6461,7 +6439,7 @@ window.addEventListener('resize',closeAccountDropdown);
     inner.style.height='100%';
     inner.style.width='100%';
     root.appendChild(inner);
-    tradingViewStage.appendChild(root);
+    frame.appendChild(root);
 
     const script=document.createElement('script');
     script.src='https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
@@ -6493,9 +6471,6 @@ window.addEventListener('resize',closeAccountDropdown);
     });
     root.appendChild(script);
   }
-
-  // Warm up the real-time feed immediately instead of waiting for the user to open Chart.
-  loadTradingView();
 
   // Keep the embedded real-time TradingView chart and the custom historical Bar Replay in separate modes.
   function setChartWorkspaceMode(mode){
