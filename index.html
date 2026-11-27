@@ -5402,8 +5402,16 @@ async function analyzeStrategyWithAI(){
     if(!data.supported)return data;
     return data;
   }catch(providerError){
-    // Do not silently substitute a template when the AI provider is unavailable.
-    // A backtest must only run from a compiler result for this exact strategy.
+    // If the AI provider is unavailable, allow only a deterministic local template
+    // that recognizes the user's exact rules. Never guess or silently alter a strategy.
+    try{
+      const offline=compileStrategyLocally($('rules').value);
+      if(offline?.supported&&offline.execution){
+        return {...offline,providerNotice:'AI service was unavailable; this exact supported template was compiled locally.'};
+      }
+    }catch(offlineError){
+      // Preserve the provider error below; unsupported custom strategies must not be approximated.
+    }
     throw Error('Strategy AI is temporarily unavailable, so the exact rules could not be compiled. No backtest was run. Provider detail: '+String(providerError?.message||providerError));
   }
 }
