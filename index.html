@@ -6161,8 +6161,9 @@ function backtestCustom(c,r,seriesMap=null){
   if(long===short){if(long&&short)diagnostics.conflictingSignals++;recordEquity(bar);continue;}
   diagnostics.signalEvents++;
   const side=long?'LONG':'SHORT',sig=c[signalIndex],entryBar=c[i];
-  const marketClosed=marketClosureReason(entryBar.t,String($('market').value||'').toLowerCase());
-  if(marketClosed){diagnostics.marketOff++;if(diagnostics.marketOffExamples.length<8)diagnostics.marketOffExamples.push({time:entryBar.t,reason:marketClosed});recordEquity(bar);continue;}
+  const marketCheckTime=ex.entry==='signal_close'&&!['aggregated_trades','databento_trades'].includes(ex.dataMode)?Number(sig.t)+intervalMilliseconds($('interval').value):entryBar.t;
+  const marketClosed=marketClosureReason(marketCheckTime,String($('market').value||'').toLowerCase());
+  if(marketClosed){diagnostics.marketOff++;if(diagnostics.marketOffExamples.length<8)diagnostics.marketOffExamples.push({time:marketCheckTime,reason:marketClosed});recordEquity(bar);continue;}
   const en=ex.entry==='signal_close'?sig.c:(['aggregated_trades','databento_trades'].includes(ex.dataMode)?entryBar.c:entryBar.o);
   let sl;
   if(ex.stop.type==='signal_candle')sl=side==='LONG'?sig.l:sig.h;
