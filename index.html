@@ -5640,7 +5640,7 @@ function evaluateStrategyExpression(c,expr,i,cache){
     for(let j=period;j<c.length;j++){const base=c[j-period].c;values[j]=base?((c[j].c-base)/base)*100:NaN;}
    }
    else if(expr.indicator==='wma'||expr.indicator==='hma'){
-    const weighted=(arr,n)=>{const out=new Array(arr.length).fill(null),den=n*(n+1)/2;for(let j=n-1;j<arr.length;j++){let sum=0;for(let k=0;k<n;k++)sum+=Number(arr[j-n+1+k])*(k+1);out[j]=sum/den;}return out;};
+    const weighted=(arr,n)=>{const out=new Array(arr.length).fill(null),den=n*(n+1)/2;for(let j=n-1;j<arr.length;j++){const win=arr.slice(j-n+1,j+1);if(win.some(v=>v==null||!Number.isFinite(Number(v))))continue;let sum=0;for(let k=0;k<n;k++)sum+=Number(win[k])*(k+1);out[j]=sum/den;}return out;};
     const raw=c.map(z=>Number(z[source]));
     if(expr.indicator==='wma')values=weighted(raw,period);
     else{const half=Math.max(1,Math.floor(period/2)),root=Math.max(1,Math.floor(Math.sqrt(period))),a=weighted(raw,half),b=weighted(raw,period),diff=raw.map((_,j)=>a[j]==null||b[j]==null?null:2*a[j]-b[j]);values=weighted(diff,root);}
@@ -5665,7 +5665,7 @@ function evaluateStrategyExpression(c,expr,i,cache){
    else if(expr.indicator==='mfi'){
     values=new Array(c.length).fill(null);const positive=new Array(c.length).fill(0),negative=new Array(c.length).fill(0);
     for(let j=1;j<c.length;j++){const tp=(c[j].h+c[j].l+c[j].c)/3,prior=(c[j-1].h+c[j-1].l+c[j-1].c)/3,money=tp*(Number(c[j].v)||0);if(tp>prior)positive[j]=money;else if(tp<prior)negative[j]=money;}
-    for(let j=period;j<c.length;j++){const pos=positive.slice(j-period+1,j+1).reduce((a,b)=>a+b,0),neg=negative.slice(j-period+1,j+1).reduce((a,b)=>a+b,0);values[j]=neg===0?100:100-(100/(1+pos/neg));}
+    for(let j=period;j<c.length;j++){const pos=positive.slice(j-period+1,j+1).reduce((a,b)=>a+b,0),neg=negative.slice(j-period+1,j+1).reduce((a,b)=>a+b,0);values[j]=pos+neg===0?null:neg===0?100:100-(100/(1+pos/neg));}
    }
    else if(expr.indicator==='typical_price')values=c.map(z=>(z.h+z.l+z.c)/3);
    else if(['pivot_high','pivot_low'].includes(expr.indicator)){
