@@ -5598,7 +5598,7 @@ function evaluateStrategyExpression(c,expr,i,cache){
  if(expr.indicator){
   const period=Math.max(2,Math.min(500,Math.floor(Number(expr.period)||14)));
   const source={open:'o',high:'h',low:'l',close:'c',volume:'v'}[expr.source||'close']||'c';
-  const cacheKey='expr:'+expr.indicator+':'+period+':'+source+':'+Number(expr.multiplier||2)+':'+c.length+':'+c[0]?.t+':'+c[1]?.t+':'+c[c.length-1]?.t;
+  const cacheKey='expr:'+JSON.stringify({indicator:expr.indicator,period,source,multiplier:expr.multiplier,fast:expr.fast,slow:expr.slow,signalPeriod:expr.signalPeriod})+':'+c.length+':'+c[0]?.t+':'+c[1]?.t+':'+c[c.length-1]?.t;
   let values=cache.get(cacheKey);
   if(!values){
    if(expr.indicator==='ema')values=emaValues(c,period,source);
@@ -5639,6 +5639,44 @@ function evaluateStrategyExpression(c,expr,i,cache){
     values=new Array(c.length).fill(null);
     for(let j=period;j<c.length;j++){const base=c[j-period].c;values[j]=base?((c[j].c-base)/base)*100:NaN;}
    }
+   else if(expr.indicator==='wma'||expr.indicator==='hma'){
+    const weighted=(arr,n)=>{const out=new Array(arr.length).fill(null),den=n*(n+1)/2;for(let j=n-1;j<arr.length;j++){let sum=0;for(let k=0;k<n;k++)sum+=Number(arr[j-n+1+k])*(k+1);out[j]=sum/den;}return out;};
+    const raw=c.map(z=>Number(z[source]));
+    if(expr.indicator==='wma')values=weighted(raw,period);
+    else{const half=Math.max(1,Math.floor(period/2)),root=Math.max(1,Math.floor(Math.sqrt(period))),a=weighted(raw,half),b=weighted(raw,period),diff=raw.map((_,j)=>a[j]==null||b[j]==null?null:2*a[j]-b[j]);values=weighted(diff,root);}
+   }
+   else if(['donchian_upper','donchian_lower'].includes(expr.indicator)){
+    values=new Array(c.length).fill(null);
+    for(let j=period;j<c.length;j++){const win=c.slice(j-period,j);values[j]=expr.indicator==='donchian_upper'?Math.max(...win.map(z=>z.h)):Math.min(...win.map(z=>z.l));}
+   }
+   else if(['keltner_upper','keltner_lower'].includes(expr.indicator)){
+    const mid=emaValues(c,period,'c'),range=atrValues(c,period),mult=Number(expr.multiplier||2);values=new Array(c.length).fill(null);
+    for(let j=0;j<c.length;j++)if(mid[j]!=null&&range[j]!=null)values[j]=mid[j]+(expr.indicator==='keltner_upper'?1:-1)*range[j]*mult;
+   }
+   else if(expr.indicator==='vwap'){
+    values=new Array(c.length).fill(null);
+    for(let j=period-1;j<c.length;j++){let pv=0,vol=0;for(let k=j-period+1;k<=j;k++){const v=Number(c[k].v);if(Number.isFinite(v)&&v>0){pv+=((c[k].h+c[k].l+c[k].c)/3)*v;vol+=v;}}values[j]=vol>0?pv/vol:null;}
+   }
+   else if(['macd_line','macd_signal','macd_histogram'].includes(expr.indicator)){
+    const fast=Math.max(2,Math.min(200,Math.floor(Number(expr.fast)||12))),slow=Math.max(fast+1,Math.min(500,Math.floor(Number(expr.slow)||26))),sig=Math.max(2,Math.min(200,Math.floor(Number(expr.signalPeriod)||9)));
+    const a=emaValues(c,fast,'c'),b=emaValues(c,slow,'c'),line=a.map((v,j)=>v==null||b[j]==null?null:v-b[j]),signal=emaRawSeries(line,sig);
+    values=line.map((v,j)=>v==null?null:expr.indicator==='macd_line'?v:signal[j]==null?null:expr.indicator==='macd_signal'?signal[j]:v-signal[j]);
+   }
+   else if(expr.indicator==='mfi'){
+    values=new Array(c.length).fill(null);const positive=new Array(c.length).fill(0),negative=new Array(c.length).fill(0);
+    for(let j=1;j<c.length;j++){const tp=(c[j].h+c[j].l+c[j].c)/3,prior=(c[j-1].h+c[j-1].l+c[j-1].c)/3,money=tp*(Number(c[j].v)||0);if(tp>prior)positive[j]=money;else if(tp<prior)negative[j]=money;}
+    for(let j=period;j<c.length;j++){const pos=positive.slice(j-period+1,j+1).reduce((a,b)=>a+b,0),neg=negative.slice(j-period+1,j+1).reduce((a,b)=>a+b,0);values[j]=neg===0?100:100-(100/(1+pos/neg));}
+   }
+   else if(expr.indicator==='typical_price')values=c.map(z=>(z.h+z.l+z.c)/3);
+   else if(['pivot_high','pivot_low'].includes(expr.indicator)){
+    values=new Array(c.length).fill(null);
+    for(let j=period*2;j<c.length;j++){const pivot=j-period,win=c.slice(pivot-period,pivot+period+1),candidate=expr.indicator==='pivot_high'?c[pivot].h:c[pivot].l,extreme=expr.indicator==='pivot_high'?Math.max(...win.map(z=>z.h)):Math.min(...win.map(z=>z.l)),matches=win.filter(z=>(expr.indicator==='pivot_high'?z.h:z.l)===candidate).length;if(candidate===extreme&&matches===1)values[j]=candidate;}
+   }
+   else if(['supertrend_line','supertrend_direction'].includes(expr.indicator)){
+    const mult=Number(expr.multiplier||3),ranges=atrValues(c,period),upper=new Array(c.length).fill(null),lower=new Array(c.length).fill(null),trend=new Array(c.length).fill(null),direction=new Array(c.length).fill(null);
+    for(let j=0;j<c.length;j++){if(ranges[j]==null)continue;const mid=(c[j].h+c[j].l)/2,bu=mid+mult*ranges[j],bl=mid-mult*ranges[j];upper[j]=j===0||upper[j-1]==null||bu<upper[j-1]||c[j-1].c>upper[j-1]?bu:upper[j-1];lower[j]=j===0||lower[j-1]==null||bl>lower[j-1]||c[j-1].c<lower[j-1]?bl:lower[j-1];const pd=j===0||direction[j-1]==null?1:direction[j-1];direction[j]=pd===1?(c[j].c<lower[j]?-1:1):(c[j].c>upper[j]?1:-1);trend[j]=direction[j]===1?lower[j]:upper[j];}
+    values=expr.indicator==='supertrend_line'?trend:direction;
+   }
    else if(expr.indicator==='obv'){
     values=new Array(c.length).fill(null);
     for(let j=0;j<c.length;j++)values[j]=j===0?Number(c[j].v)||0:values[j-1]+(c[j].c>c[j-1].c?1:c[j].c<c[j-1].c?-1:0)*(Number(c[j].v)||0);
@@ -5649,7 +5687,7 @@ function evaluateStrategyExpression(c,expr,i,cache){
    } else throw Error('Unsupported expression indicator: '+expr.indicator);
    cache.set(cacheKey,values);
   }
-  return Number(values[i]);
+  const lag=Math.max(0,Math.min(500,Math.floor(Number(expr.lag)||0)));return Number(values[i-lag]);
  }
  const op=String(expr.op||'').toLowerCase(),args=Array.isArray(expr.args)?expr.args:[];
  if(op==='and')return args.length>0&&args.every(a=>!!evaluateStrategyExpression(c,a,i,cache));
