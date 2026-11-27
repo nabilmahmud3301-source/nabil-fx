@@ -6023,18 +6023,74 @@ function backtestCustom(c,r,seriesMap=null){
  const isShort=(i)=>shortC.length>0&&shortC.every(q=>conditionSignal(q,i));
  const closePosition=(pos,bar,exit,reason)=>{
   const grossR=pos.side==='LONG'?(exit-pos.en)/pos.dist:(pos.en-exit)/pos.dist;
-  const netR=grossR-cost,pnl=pos.riskAmount*netR;
+  const remaining=Number.isFinite(pos.remainingFraction)?pos.remainingFraction:1;
+  const netR=grossR-cost,pnl=(Number(pos.realizedPnl)||0)+pos.riskAmount*remaining*netR;
+  const totalNetR=pos.riskAmount>0?pnl/pos.riskAmount:0;
   eq+=pnl;
-  ts.push({t:pos.t,exitTime:bar.t,side:pos.side,en:pos.en,sl:pos.sl,tp:pos.tp,ex:exit,rr:grossR,netR,costR:cost,pnl,open:false,exitReason:reason});
+  ts.push({t:pos.t,exitTime:bar.t,side:pos.side,en:pos.en,sl:pos.sl,tp:pos.tp,ex:exit,rr:totalNetR+cost,netR:totalNetR,costR:cost,pnl,open:false,exitReason:reason});
+ };
+ const managementOffset=(item,pos)=>{
+  if(!item||item.offset===undefined)return 0;
+  let offset=Number(item.offset);
+  const unit=item.unit||'price',sym=$('symbol').value.trim().toUpperCase();
+  if(unit==='pip')offset*=/JPY/.test(sym)?0.01:0.0001;
+  else if(unit==='tick'||unit==='point')offset*=Number(item.tickSize||1);
+  else if(unit==='percent')offset*=pos.en/100;
+  return offset;
  };
  const checkPosition=(pos,bar,index)=>{
   pos.index=index;
+  // Update protective stops only from the previous completed candle. This avoids
+  // using the current candle's future high/low to move a stop before its own fill.
+  if(index>pos.entryIndex){
+   const prior=c[index-1];
+   const favorable=pos.side==='LONG'?prior.h:prior.l;
+   pos.bestPrice=pos.side==='LONG'?Math.max(pos.bestPrice??pos.en,favorable):Math.min(pos.bestPrice??pos.en,favorable);
+   const reachedR=pos.side==='LONG'?(pos.bestPrice-pos.en)/pos.dist:(pos.en-pos.bestPrice)/pos.dist;
+   if(pos.breakEven&&!pos.breakEvenMoved&&reachedR>=Number(pos.breakEven.triggerR)){
+    const offset=managementOffset(pos.breakEven,pos);
+    const be=pos.side==='LONG'?pos.en+offset:pos.en-offset;
+    pos.sl=pos.side==='LONG'?Math.max(pos.sl,be):Math.min(pos.sl,be);
+    pos.breakEvenMoved=true;
+   }
+   if(pos.trailingStop&&reachedR>=(Number(pos.trailingStop.activationR)||0)){
+    const rule=pos.trailingStop;let distance=Number(rule.value);
+    if(rule.type==='atr')distance*=Number(atr[index-1]);
+    else if(rule.type==='percent')distance*=pos.bestPrice/100;
+    if(Number.isFinite(distance)&&distance>0){
+     const candidate=pos.side==='LONG'?pos.bestPrice-distance:pos.bestPrice+distance;
+     pos.sl=pos.side==='LONG'?Math.max(pos.sl,candidate):Math.min(pos.sl,candidate);
+    }
+   }
+  }
   const stop=pos.side==='LONG'?bar.l<=pos.sl:bar.h>=pos.sl;
+  // A stop takes priority over partial targets when both are touched in one OHLC candle.
+  if(stop){
+   closePosition(pos,bar,pos.sl,'Stop Loss');
+   return true;
+  }
+  const partials=pos.partialTakeProfits||[];
+  for(let n=0;n<partials.length;n++){
+   const part=partials[n];if(pos.partialDone?.has(n))continue;
+   const level=pos.side==='LONG'?pos.en+pos.dist*Number(part.atR):pos.en-pos.dist*Number(part.atR);
+   const touched=pos.side==='LONG'?bar.h>=level:bar.l<=level;
+   if(!touched)continue;
+   const fraction=Math.min(pos.remainingFraction,Number(part.closePercent)/100);
+   if(fraction<=0)continue;
+   const grossR=pos.side==='LONG'?(level-pos.en)/pos.dist:(pos.en-level)/pos.dist;
+   pos.realizedPnl+=pos.riskAmount*fraction*(grossR-cost);
+   pos.remainingFraction-=fraction;
+   if(!pos.partialDone)pos.partialDone=new Set();
+   pos.partialDone.add(n);
+   if(pos.remainingFraction<=1e-9){
+    pos.remainingFraction=0;
+    closePosition(pos,bar,level,'Partial Take Profit · Position Closed');
+    return true;
+   }
+  }
   const target=pos.tp!==null&&(pos.side==='LONG'?bar.h>=pos.tp:bar.l<=pos.tp);
-  // Conservative OHLC rule: if SL and TP are both touched in one candle, SL is first.
-  if(stop||target){
-   const exit=stop?pos.sl:pos.tp;
-   closePosition(pos,bar,exit,stop?'Stop Loss':'Take Profit');
+  if(target){
+   closePosition(pos,bar,pos.tp,'Take Profit');
    return true;
   }
   if(pos.exitRules.length&&pos.exitRules.every(q=>conditionAt(c,q,pos.index,cache,seriesMap))){
@@ -6050,7 +6106,9 @@ function backtestCustom(c,r,seriesMap=null){
  const recordEquity=(bar)=>{
   let favorableEquity=eq,adverseEquity=eq,closeEquity=eq;
   for(const pos of active){
-   const pnlAt=(price)=>(pos.side==='LONG'?(price-pos.en)/pos.dist:(pos.en-price)/pos.dist)*pos.riskAmount;
+   const remaining=Number.isFinite(pos.remainingFraction)?pos.remainingFraction:1;
+   const realized=Number(pos.realizedPnl)||0;
+   const pnlAt=(price)=>realized+(pos.side==='LONG'?(price-pos.en)/pos.dist:(pos.en-price)/pos.dist)*pos.riskAmount*remaining;
    favorableEquity+=pnlAt(pos.side==='LONG'?bar.h:bar.l);
    adverseEquity+=pnlAt(pos.side==='LONG'?bar.l:bar.h);
    closeEquity+=pnlAt(bar.c);
@@ -6111,7 +6169,7 @@ function backtestCustom(c,r,seriesMap=null){
   const tradeDay=dailyTradeLimit?tradeDayKey(entryBar.t):null;
   if(dailyTradeLimit&&(dailyTradeCounts.get(tradeDay)||0)>=dailyTradeLimit){recordEquity(bar);continue;}
   if(dailyTradeLimit)dailyTradeCounts.set(tradeDay,(dailyTradeCounts.get(tradeDay)||0)+1);
-  active.push({t:entryBar.t,side,en,sl,tp,dist,riskAmount:eq*risk,entryIndex:i,index:i,exitRules,maxBars:Math.max(0,Number(ex.maxBarsInTrade)||0)});
+  active.push({t:entryBar.t,side,en,sl,tp,dist,riskAmount:eq*risk,entryIndex:i,index:i,exitRules,maxBars:Math.max(0,Number(ex.maxBarsInTrade)||0),breakEven:ex.breakEven||null,trailingStop:ex.trailingStop||null,partialTakeProfits:Array.isArray(ex.partialTakeProfits)?ex.partialTakeProfits:[],remainingFraction:1,realizedPnl:0,bestPrice:en,partialDone:new Set()});
   // Also test the entry candle: price may hit SL/TP after the opening fill.
   const opened=active[active.length-1];
   if(checkPosition(opened,entryBar,i))active.pop();
@@ -6122,8 +6180,10 @@ function backtestCustom(c,r,seriesMap=null){
  const last=c[c.length-1],unrealized=0;
  for(const pos of active){
   const grossR=pos.side==='LONG'?(last.c-pos.en)/pos.dist:(pos.en-last.c)/pos.dist;
-  const netR=grossR-cost,pnl=pos.riskAmount*netR;
-  ts.push({t:pos.t,exitTime:last.t,side:pos.side,en:pos.en,sl:pos.sl,tp:pos.tp,ex:last.c,rr:grossR,netR,costR:cost,pnl,open:true,exitReason:'OPEN · Mark to Market'});
+  const remaining=Number.isFinite(pos.remainingFraction)?pos.remainingFraction:1;
+  const pnl=(Number(pos.realizedPnl)||0)+pos.riskAmount*remaining*(grossR-cost);
+  const netR=pos.riskAmount>0?pnl/pos.riskAmount:0;
+  ts.push({t:pos.t,exitTime:last.t,side:pos.side,en:pos.en,sl:pos.sl,tp:pos.tp,ex:last.c,rr:netR+cost*remaining,netR,costR:cost,pnl,open:true,exitReason:'OPEN · Mark to Market'});
  }
  const floating=ts.filter(x=>x.open).reduce((sum,x)=>sum+x.pnl,0);
  const end=eq+floating;
