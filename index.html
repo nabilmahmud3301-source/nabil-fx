@@ -6009,6 +6009,18 @@ function backtestCustom(c,r,seriesMap=null){
   }
   return false;
  };
+ const recordEquity=(bar)=>{
+  let favorableEquity=eq,adverseEquity=eq,closeEquity=eq;
+  for(const pos of active){
+   const pnlAt=(price)=>(pos.side==='LONG'?(price-pos.en)/pos.dist:(pos.en-price)/pos.dist)*pos.riskAmount;
+   favorableEquity+=pnlAt(pos.side==='LONG'?bar.h:bar.l);
+   adverseEquity+=pnlAt(pos.side==='LONG'?bar.l:bar.h);
+   closeEquity+=pnlAt(bar.c);
+  }
+  peak=Math.max(peak,favorableEquity,closeEquity);
+  if(peak>0)dd=Math.max(dd,(peak-adverseEquity)/peak);
+  curve.push(closeEquity);
+ };
  for(let i=1;i<c.length;i++){
   const bar=c[i];
   // Manage every existing position independently. An open trade does NOT block
@@ -6019,13 +6031,13 @@ function backtestCustom(c,r,seriesMap=null){
    if(checkPosition(pos,bar,i))active.splice(k,1);
   }
   const signalIndex=i-1;
-  if(signalIndex<1||i>=c.length)continue;
+  if(signalIndex<1||i>=c.length){recordEquity(bar);continue;}
   const longNow=isLong(signalIndex),shortNow=isShort(signalIndex);
   const longPrev=isLong(signalIndex-1),shortPrev=isShort(signalIndex-1);
   // Treat a continuously true condition as one signal, not one new trade per candle.
   // Once it resets and triggers again, a new trade is allowed even if earlier trades remain open.
   const long=longNow&&!longPrev,short=shortNow&&!shortPrev;
-  if(long===short)continue;
+  if(long===short){recordEquity(bar);continue;}
   const side=long?'LONG':'SHORT',sig=c[signalIndex],entryBar=c[i];
   const en=ex.entry==='signal_close'?sig.c:(['aggregated_trades','databento_trades'].includes(ex.dataMode)?entryBar.c:entryBar.o);
   let sl;
@@ -6053,30 +6065,20 @@ function backtestCustom(c,r,seriesMap=null){
    sl=side==='LONG'?en-d:en+d;
   } else throw Error('Unsupported stop-loss type in compiled strategy.');
   const dist=side==='LONG'?en-sl:sl-en;
-  if(!(dist>0))continue;
+  if(!(dist>0)){recordEquity(bar);continue;}
   const rr=Number(ex.targetR),hasFixedTarget=Number.isFinite(rr)&&rr>0;
   const exitRules=side==='LONG'?(ex.exitLongConditions||[]):(ex.exitShortConditions||[]);
   if(!hasFixedTarget&&!exitRules.length)throw Error('A fixed R target or a rule-based exit condition is required.');
   const tp=hasFixedTarget?(side==='LONG'?en+dist*rr:en-dist*rr):null;
   const tradeDay=dailyTradeLimit?tradeDayKey(entryBar.t):null;
-  if(dailyTradeLimit&&(dailyTradeCounts.get(tradeDay)||0)>=dailyTradeLimit)continue;
+  if(dailyTradeLimit&&(dailyTradeCounts.get(tradeDay)||0)>=dailyTradeLimit){recordEquity(bar);continue;}
   if(dailyTradeLimit)dailyTradeCounts.set(tradeDay,(dailyTradeCounts.get(tradeDay)||0)+1);
   active.push({t:entryBar.t,side,en,sl,tp,dist,riskAmount:eq*risk,entryIndex:i,index:i,exitRules,maxBars:Math.max(0,Number(ex.maxBarsInTrade)||0)});
   // Also test the entry candle: price may hit SL/TP after the opening fill.
   const opened=active[active.length-1];
   if(checkPosition(opened,entryBar,i))active.pop();
   }
-  // Track equity using candle excursions so open-position losses are included in drawdown.
-  let favorableEquity=eq,adverseEquity=eq,closeEquity=eq;
-  for(const pos of active){
-   const pnlAt=(price)=>(pos.side==='LONG'?(price-pos.en)/pos.dist:(pos.en-price)/pos.dist)*pos.riskAmount;
-   favorableEquity+=pnlAt(pos.side==='LONG'?bar.h:bar.l);
-   adverseEquity+=pnlAt(pos.side==='LONG'?bar.l:bar.h);
-   closeEquity+=pnlAt(bar.c);
-  }
-  peak=Math.max(peak,favorableEquity,closeEquity);
-  if(peak>0)dd=Math.max(dd,(peak-adverseEquity)/peak);
-  curve.push(closeEquity);
+  recordEquity(bar);
  }
  // Positions not exited by the final historical candle stay OPEN. Mark them to
  // the last available close; do not fabricate an exit or silently block later entries.
