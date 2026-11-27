@@ -310,7 +310,8 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
             stopOffsetValid
           );
           const maxTradesPerDayValid = execution?.maxTradesPerDay === undefined || execution?.maxTradesPerDay === null || (Number.isInteger(execution.maxTradesPerDay) && execution.maxTradesPerDay >= 1 && execution.maxTradesPerDay <= 100);
-          const executionValid = !!execution && maxTradesPerDayValid && dataModeValid &&
+          const maxBarsInTradeValid = execution?.maxBarsInTrade === undefined || execution?.maxBarsInTrade === null || (Number.isInteger(execution.maxBarsInTrade) && execution.maxBarsInTrade >= 1 && execution.maxBarsInTrade <= 5000);
+          const executionValid = !!execution && maxTradesPerDayValid && maxBarsInTradeValid && dataModeValid &&
             validConditions(execution.longConditions) &&
             validConditions(execution.shortConditions) &&
             (execution.exitLongConditions === undefined || (validConditions(execution.exitLongConditions) && !containsSequence(execution.exitLongConditions))) &&
@@ -364,7 +365,8 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
               entry: execution.entry,
               stop: execution.stop,
               targetR: execution.targetR === null ? null : Number(execution.targetR),
-              maxBarsInTrade: Number.isFinite(Number(execution.maxBarsInTrade)) ? Math.max(1, Math.min(5000, Number(execution.maxBarsInTrade))) : null,
+              // Null means the user did not request a holding-time limit. Never turn it into 1 bar.
+              maxBarsInTrade: Number.isInteger(execution.maxBarsInTrade) && execution.maxBarsInTrade >= 1 && execution.maxBarsInTrade <= 5000 ? execution.maxBarsInTrade : null,
               maxTradesPerDay: Number.isInteger(execution.maxTradesPerDay) ? Math.max(1, Math.min(100, execution.maxTradesPerDay)) : null,
               timezone: typeof execution.timezone === "string" ? execution.timezone.slice(0,80) : "UTC",
               dataMode: ["aggregated_trades","databento_trades"].includes(String(execution.dataMode)) ? execution.dataMode : "candles",
