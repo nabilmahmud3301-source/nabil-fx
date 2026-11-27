@@ -5402,17 +5402,9 @@ async function analyzeStrategyWithAI(){
     if(!data.supported)return data;
     return data;
   }catch(providerError){
-    // If the AI provider is unavailable, allow only a deterministic local template
-    // that recognizes the user's exact rules. Never guess or silently alter a strategy.
-    try{
-      const offline=compileStrategyLocally($('rules').value);
-      if(offline?.supported&&offline.execution){
-        return {...offline,providerNotice:'AI service was unavailable; this exact supported template was compiled locally.'};
-      }
-    }catch(offlineError){
-      // Preserve the provider error below; unsupported custom strategies must not be approximated.
-    }
-    throw Error('Strategy AI is temporarily unavailable, so the exact rules could not be compiled. No backtest was run. Provider detail: '+String(providerError?.message||providerError));
+    // Never replace a user's custom strategy with a predefined template or default RR.
+    // If the AI compiler is unavailable, fail clearly instead of running different rules.
+    throw Error('Strategy AI is temporarily unavailable, so the exact custom rules could not be compiled. No backtest was run. Provider detail: '+String(providerError?.message||providerError));
   }
 }
 
@@ -6325,7 +6317,7 @@ $('run').onclick=async()=>{
     if((!rule.long&&!rule.short)||!(rule.r===null&&hasRuleExit)&&!(Number.isFinite(rule.r)&&rule.r>0)){
       const details=[];
       if(!rule.long&&!rule.short)details.push('AI did not produce executable BUY/SELL entry rules. Rewrite the entry trigger clearly (what exact event opens a BUY or SELL).');
-      if(!(Number.isFinite(rule.r)&&rule.r>0))details.push('Take-profit target is missing or invalid. Specify a target such as 2R.');
+      if(!(Number.isFinite(rule.r)&&rule.r>0))details.push('Take-profit target is missing or invalid. Specify your own RR multiple, fixed target, or supported rule-based exit for each enabled direction.');
       throw Error('Strategy compiler output incomplete. '+details.join(' '));
     }
     status('Step 2/3 · Fetching historical candles…');
