@@ -6077,7 +6077,6 @@ function backtestCustom(c,r,seriesMap=null){
   // Also test the entry candle: price may hit SL/TP after the opening fill.
   const opened=active[active.length-1];
   if(checkPosition(opened,entryBar,i))active.pop();
-  }
   recordEquity(bar);
  }
  // Positions not exited by the final historical candle stay OPEN. Mark them to
