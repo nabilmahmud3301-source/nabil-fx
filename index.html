@@ -5687,7 +5687,7 @@ function evaluateStrategyExpression(c,expr,i,cache){
    } else throw Error('Unsupported expression indicator: '+expr.indicator);
    cache.set(cacheKey,values);
   }
-  const lag=Math.max(0,Math.min(500,Math.floor(Number(expr.lag)||0)));return Number(values[i-lag]);
+  const lag=Math.max(0,Math.min(500,Math.floor(Number(expr.lag)||0))),result=values[i-lag];return result==null?NaN:Number(result);
  }
  const op=String(expr.op||'').toLowerCase(),args=Array.isArray(expr.args)?expr.args:[];
  if(op==='and')return args.length>0&&args.every(a=>!!evaluateStrategyExpression(c,a,i,cache));
