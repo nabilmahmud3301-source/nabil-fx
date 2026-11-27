@@ -5986,9 +5986,8 @@ function backtestCustom(c,r,seriesMap=null){
  const closePosition=(pos,bar,exit,reason)=>{
   const grossR=pos.side==='LONG'?(exit-pos.en)/pos.dist:(pos.en-exit)/pos.dist;
   const netR=grossR-cost,pnl=pos.riskAmount*netR;
-  eq+=pnl;peak=Math.max(peak,eq);dd=Math.max(dd,(peak-eq)/peak);
+  eq+=pnl;
   ts.push({t:pos.t,exitTime:bar.t,side:pos.side,en:pos.en,sl:pos.sl,tp:pos.tp,ex:exit,rr:grossR,netR,costR:cost,pnl,open:false,exitReason:reason});
-  curve.push(eq);
  };
  const checkPosition=(pos,bar,index)=>{
   pos.index=index;
@@ -6066,6 +6065,18 @@ function backtestCustom(c,r,seriesMap=null){
   // Also test the entry candle: price may hit SL/TP after the opening fill.
   const opened=active[active.length-1];
   if(checkPosition(opened,entryBar,i))active.pop();
+  }
+  // Track equity using candle excursions so open-position losses are included in drawdown.
+  let favorableEquity=eq,adverseEquity=eq,closeEquity=eq;
+  for(const pos of active){
+   const pnlAt=(price)=>(pos.side==='LONG'?(price-pos.en)/pos.dist:(pos.en-price)/pos.dist)*pos.riskAmount;
+   favorableEquity+=pnlAt(pos.side==='LONG'?bar.h:bar.l);
+   adverseEquity+=pnlAt(pos.side==='LONG'?bar.l:bar.h);
+   closeEquity+=pnlAt(bar.c);
+  }
+  peak=Math.max(peak,favorableEquity,closeEquity);
+  if(peak>0)dd=Math.max(dd,(peak-adverseEquity)/peak);
+  curve.push(closeEquity);
  }
  // Positions not exited by the final historical candle stay OPEN. Mark them to
  // the last available close; do not fabricate an exit or silently block later entries.
@@ -6077,7 +6088,6 @@ function backtestCustom(c,r,seriesMap=null){
  }
  const floating=ts.filter(x=>x.open).reduce((sum,x)=>sum+x.pnl,0);
  const end=eq+floating;
- if(active.length)curve.push(end);
  ts.sort((x,y)=>x.t-y.t);
  return {ts,curve,start:bal,end,dd,openPositions:active.length,realizedEnd:eq,unrealizedPnl:floating};
 }
