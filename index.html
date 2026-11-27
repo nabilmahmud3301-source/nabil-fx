@@ -5960,7 +5960,7 @@ function backtestCustom(c,r,seriesMap=null){
   if(!signals){signals=sequenceSignalSeries(c,condition,cache,seriesMap);sequenceCache.set(condition,signals);}
   return !!signals[index];
  };
- const allConditions=longC.concat(shortC);
+ const allConditions=longC.concat(shortC,ex.exitLongConditions||[],ex.exitShortConditions||[]);
  const validateRangeGranularity=(items)=>{
   for(const q of items||[]){
    if(!q||typeof q!=='object')continue;
