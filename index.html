@@ -5033,8 +5033,8 @@ html{overflow-y:scroll!important;scrollbar-gutter:stable!important}
     <h2>Trade journal</h2>
     <div class="tablewrap">
       <table>
-        <thead><tr><th>#</th><th>Entry time</th><th>Side</th><th>Entry</th><th>Stop</th><th>Target</th><th>Exit</th><th>R</th><th>P/L USD</th></tr></thead>
-        <tbody id="trades"><tr><td colspan="9" class="muted">No completed backtest yet.</td></tr></tbody>
+        <thead><tr><th>#</th><th>Entry time</th><th>Side</th><th>Entry</th><th>Stop</th><th>Target</th><th>Exit</th><th>R</th><th>P/L USD</th><th>Exit reason</th></tr></thead>
+        <tbody id="trades"><tr><td colspan="10" class="muted">No completed backtest yet.</td></tr></tbody>
       </table>
     </div>
   </section>
@@ -6027,7 +6027,7 @@ function backtestCustom(c,r,seriesMap=null){
   const netR=grossR-cost,pnl=(Number(pos.realizedPnl)||0)+pos.riskAmount*remaining*netR;
   const totalNetR=pos.riskAmount>0?pnl/pos.riskAmount:0;
   eq+=pnl;
-  ts.push({t:pos.t,exitTime:bar.t,side:pos.side,en:pos.en,sl:pos.sl,tp:pos.tp,ex:exit,rr:totalNetR+cost,netR:totalNetR,costR:cost,pnl,open:false,exitReason:reason});
+  ts.push({t:pos.t,exitTime:bar.t,side:pos.side,en:pos.en,sl:pos.sl,tp:pos.tp,ex:exit,rr:totalNetR+cost,netR:totalNetR,costR:cost,pnl,open:false,exitReason:reason+(pos.partialHistory?.length?' · Partial exits: '+pos.partialHistory.map(x=>x.closePercent+'% @ '+x.atR+'R').join(', '):'')});
  };
  const managementOffset=(item,pos)=>{
   if(!item||item.offset===undefined)return 0;
@@ -6082,6 +6082,8 @@ function backtestCustom(c,r,seriesMap=null){
    pos.remainingFraction-=fraction;
    if(!pos.partialDone)pos.partialDone=new Set();
    pos.partialDone.add(n);
+   if(!pos.partialHistory)pos.partialHistory=[];
+   pos.partialHistory.push({atR:Number(part.atR),closePercent:Number(part.closePercent)});
    if(pos.remainingFraction<=1e-9){
     pos.remainingFraction=0;
     closePosition(pos,bar,level,'Partial Take Profit · Position Closed');
@@ -6169,7 +6171,7 @@ function backtestCustom(c,r,seriesMap=null){
   const tradeDay=dailyTradeLimit?tradeDayKey(entryBar.t):null;
   if(dailyTradeLimit&&(dailyTradeCounts.get(tradeDay)||0)>=dailyTradeLimit){recordEquity(bar);continue;}
   if(dailyTradeLimit)dailyTradeCounts.set(tradeDay,(dailyTradeCounts.get(tradeDay)||0)+1);
-  active.push({t:entryBar.t,side,en,sl,tp,dist,riskAmount:eq*risk,entryIndex:i,index:i,exitRules,maxBars:Math.max(0,Number(ex.maxBarsInTrade)||0),breakEven:ex.breakEven||null,trailingStop:ex.trailingStop||null,partialTakeProfits:Array.isArray(ex.partialTakeProfits)?ex.partialTakeProfits:[],remainingFraction:1,realizedPnl:0,bestPrice:en,partialDone:new Set()});
+  active.push({t:entryBar.t,side,en,sl,tp,dist,riskAmount:eq*risk,entryIndex:i,index:i,exitRules,maxBars:Math.max(0,Number(ex.maxBarsInTrade)||0),breakEven:ex.breakEven||null,trailingStop:ex.trailingStop||null,partialTakeProfits:Array.isArray(ex.partialTakeProfits)?ex.partialTakeProfits:[],remainingFraction:1,realizedPnl:0,bestPrice:en,partialDone:new Set(),partialHistory:[]});
   // Also test the entry candle: price may hit SL/TP after the opening fill.
   const opened=active[active.length-1];
   if(checkPosition(opened,entryBar,i))active.pop();
@@ -6183,7 +6185,7 @@ function backtestCustom(c,r,seriesMap=null){
   const remaining=Number.isFinite(pos.remainingFraction)?pos.remainingFraction:1;
   const pnl=(Number(pos.realizedPnl)||0)+pos.riskAmount*remaining*(grossR-cost);
   const netR=pos.riskAmount>0?pnl/pos.riskAmount:0;
-  ts.push({t:pos.t,exitTime:last.t,side:pos.side,en:pos.en,sl:pos.sl,tp:pos.tp,ex:last.c,rr:netR+cost,netR,costR:cost,pnl,open:true,exitReason:'OPEN · Mark to Market'});
+  ts.push({t:pos.t,exitTime:last.t,side:pos.side,en:pos.en,sl:pos.sl,tp:pos.tp,ex:last.c,rr:netR+cost,netR,costR:cost,pnl,open:true,exitReason:'OPEN · Mark to Market'+(pos.partialHistory?.length?' · Partial exits: '+pos.partialHistory.map(x=>x.closePercent+'% @ '+x.atR+'R').join(', '):'')});
  }
  const floating=ts.filter(x=>x.open).reduce((sum,x)=>sum+x.pnl,0);
  const end=eq+floating;
@@ -6260,7 +6262,7 @@ function drawEquity(a){
 
 function renderResults(r,timezone='UTC'){
   const t=r.ts;
-  const tradeRows=t.length?t.map((x,i)=>`<tr><td>${i+1}</td><td>${new Intl.DateTimeFormat('en-GB',{timeZone:timezone||'UTC',dateStyle:'short',timeStyle:'medium',hour12:false}).format(new Date(x.t))}</td><td>${x.side}${x.open?' · OPEN':''}</td><td>${x.en}</td><td>${x.sl}</td><td>${x.tp??'Rule exit'}</td><td>${x.open?'MARK '+x.ex:x.ex}</td><td>${fmt(x.netR)}</td><td>${fmt(x.pnl)}</td></tr>`).join(''):'<tr><td colspan="10">No valid entry signals were generated in this historical window. Check the compiled rules, symbol, timeframe and date coverage.</td></tr>';
+  const tradeRows=t.length?t.map((x,i)=>`<tr><td>${i+1}</td><td>${new Intl.DateTimeFormat('en-GB',{timeZone:timezone||'UTC',dateStyle:'short',timeStyle:'medium',hour12:false}).format(new Date(x.t))}</td><td>${x.side}${x.open?' · OPEN':''}</td><td>${x.en}</td><td>${x.sl}</td><td>${x.tp??'Rule exit'}</td><td>${x.open?'MARK '+x.ex:x.ex}</td><td>${fmt(x.netR)}</td><td>${fmt(x.pnl)}</td><td>${x.exitReason||'—'}</td></tr>`).join(''):'<tr><td colspan="10">No valid entry signals were generated in this historical window. Check the compiled rules, symbol, timeframe and date coverage.</td></tr>';
   if($('trades'))$('trades').innerHTML=tradeRows;
 }
 
