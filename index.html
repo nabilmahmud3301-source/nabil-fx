@@ -5961,8 +5961,21 @@ function backtestCustom(c,r,seriesMap=null){
   return !!signals[index];
  };
  const allConditions=longC.concat(shortC);
- const hasSessionRule=allConditions.some(q=>q.type==='session_opening_range_breakout');
- if(hasSessionRule&&allConditions.some(q=>q.type==='session_opening_range_breakout'&&q.rangeMinutes===5)&&$('interval').value!=='5m')throw Error('This opening range is defined as five minutes; choose the 5m timeframe or specify a range compatible with the selected timeframe.');
+ const validateRangeGranularity=(items)=>{
+  for(const q of items||[]){
+   if(!q||typeof q!=='object')continue;
+   if(['session_opening_range_breakout','time_range_breakout','time_range_sweep'].includes(q.type)){
+    const ruleTf=q.timeframe||$('interval').value;
+    const tfMs=intervalMilliseconds(ruleTf),rangeMs=Number(q.rangeMinutes)*60000;
+    if(!Number.isFinite(rangeMs)||rangeMs<=0||rangeMs%tfMs!==0){
+     throw Error('The '+q.type.replaceAll('_',' ')+' range duration ('+q.rangeMinutes+' minutes) cannot be represented exactly on '+ruleTf+' candles. Choose a compatible timeframe or change the range duration. No approximation was used.');
+    }
+   }
+   if(q.type==='logic')validateRangeGranularity(q.conditions);
+   if(q.type==='sequence')validateRangeGranularity(q.stages);
+  }
+ };
+ validateRangeGranularity(allConditions);
  const cache=new Map(),atr=atrValues(c,14),dailyTradeCounts=new Map();
  const dailyTradeLimit=Number.isInteger(ex.maxTradesPerDay)&&ex.maxTradesPerDay>0?ex.maxTradesPerDay:null;
  const tradeDayKey=(timestamp)=>{try{return new Intl.DateTimeFormat("en-CA",{timeZone:ex.timezone||"UTC",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date(timestamp));}catch(e){throw Error("Invalid strategy timezone for daily trade limit: "+(ex.timezone||"UTC"));}};
