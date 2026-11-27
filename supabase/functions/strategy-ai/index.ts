@@ -31,6 +31,38 @@ function parseModelJson(raw: string): any {
   return JSON.parse(cleaned);
 }
 
+
+function compileStandardLondonOpen(body: any): any | null {
+  const strategy = String(body?.strategy || "").toLowerCase().replace(/[–—]/g, "-").replace(/\s+/g, " ").trim();
+  const market = String(body?.market || "").toLowerCase();
+  const symbol = String(body?.symbol || "").toUpperCase().replace(/[^A-Z]/g, "");
+  const hasLondonOpen = /\blondon\b/.test(strategy) && /\b(?:session\s+)?open\b/.test(strategy);
+  const buyOnly = /\b(?:buy|long)\b/.test(strategy) && !/\b(?:sell|short)\b/.test(strategy);
+  const bangladeshTime = /\b(?:bangladesh|dhaka|bd)\s+time\b/.test(strategy) || /\btime\s+(?:in\s+)?(?:bangladesh|dhaka)\b/.test(strategy);
+  const hasExtraSignal = /\b(?:ema|sma|rsi|macd|fvg|fair\s+value\s+gap|mss|choch|liquidity|sweep|breakout|order\s+block|support|resistance|trend|volume|candle|wick|footprint|order\s+flow|once\s+a\s+day|one\s+trade|maximum\s+trades)\b/.test(strategy);
+  const stopMatch =
+    strategy.match(/(?:stop[\s-]*loss|stoploss|\bsl\b)\s*(?:of|at|is|=|:)?\s*(\d+(?:\.\d+)?)\s*pips?\b/) ||
+    strategy.match(/\b(\d+(?:\.\d+)?)\s*[- ]?pips?\b(?=[^.!?]{0,40}(?:stop[\s-]*loss|stoploss|\bsl\b))/);
+  const rrMatch = strategy.match(/\b1\s*(?::|\/|to)\s*(\d+(?:\.\d+)?)\b/);
+  if (market !== "forex" || !/^[A-Z]{6}$/.test(symbol) || !hasLondonOpen || !buyOnly || !bangladeshTime || hasExtraSignal || !stopMatch || !rrMatch) return null;
+  const stopPips = Number(stopMatch[1]);
+  const targetR = Number(rrMatch[1]);
+  if (!(Number.isFinite(stopPips) && stopPips > 0 && stopPips <= 1000 && Number.isFinite(targetR) && targetR > 0 && targetR <= 20)) return null;
+  return {
+    supported: true, long: true, short: false, rewardRisk: targetR,
+    normalizedRules: "BUY at the standard London FX session open (08:00 Europe/London); display trade times in Asia/Dhaka; stop loss " + stopPips + " pips from entry; take profit " + targetR + "R.",
+    explanation: "Compiled using the standard London FX session open at 08:00 Europe/London. The entry schedule follows UK daylight-saving changes automatically. Trade timestamps are displayed in Bangladesh time (Asia/Dhaka). The strategy is long-only; the stop is measured from the actual entry price.",
+    missing: [], unsupportedReasons: [], assumptions: [],
+    execution: {
+      longConditions: [{ type: "scheduled_entry_time", timezone: "Europe/London", hour: 8, minute: 0 }],
+      shortConditions: [], exitLongConditions: [], exitShortConditions: [],
+      entry: "next_open", stop: { type: "entry_offset", value: stopPips, unit: "pip" },
+      targetR, maxBarsInTrade: null, timezone: "Asia/Dhaka", dataMode: "candles",
+    },
+    model: "NABIL Fx Deterministic London Session Compiler",
+  };
+}
+
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   if (req.method !== "POST") {
@@ -60,6 +92,15 @@ Deno.serve(async (req: Request) => {
       });
     }
 
+    // Deterministic, exact fallback for a clearly specified long-only London-open FX setup.
+    // This path avoids unnecessary model outages without guessing missing entry/exit rules.
+    const directSessionCompile = compileStandardLondonOpen(body);
+    if (directSessionCompile) {
+      return new Response(JSON.stringify(directSessionCompile), {
+        headers: { ...cors, "Content-Type": "application/json" },
+      });
+    }
+
     const systemInstruction = `You are a professional, multilingual, market-agnostic strategy compiler for Nabil FX. Current test context: market=${market}, symbol=${symbol}, candle timeframe=${interval}, ${hasDateWindow ? `selected historical test window=${selectedStart} through ${selectedEnd} inclusive. The selected dates are hard boundaries: compile only the user strategy; never widen or change this window.` : "strategy review only; no historical test window has been selected."} The user may specify a location, exchange, named session, or timezone in ANY language. Resolve named places to valid IANA timezone IDs (examples: Europe/London, America/New_York, Asia/Tokyo, Asia/Dhaka); never assume the browser timezone or Bangladesh timezone when another location is named. If a place/timezone is ambiguous, return supported=false and ask for clarification. Convert the user's rules into a deterministic executable specification. Support broad reusable primitives and compose them; do not restrict strategies to a small list of named templates. The user may write in ANY human language or mix languages, transliteration, abbreviations, trading slang, or imperfect grammar. Detect language and preserve meaning.
 
 You are the multilingual natural-language strategy compiler for Nabil FX Backtesting. The user may write in ANY human language or mix multiple languages, use transliteration, abbreviations, trading slang, or imperfect grammar. Detect the input language automatically; understand it directly, internally normalize/translate it as needed, and compile the intended trading rules into the deterministic schema below. Do not require the user to write English. Always return normalizedRules, explanation, missing, assumptions, and unsupportedReasons in clear English, regardless of the language used to describe the strategy. The compiler must understand input in any language, but every user-facing result and validation message must be English. Convert the user's strategy into a deterministic executable rule specification. Never invent conditions that the user did not state. Compile a strategy only when every required rule and its logical relationships are clear; otherwise set supported=false and ask for clarification. Never invent or assume a stop-loss, take-profit, entry timing, trade direction, filter, timeframe, session, or other rule. If any rule required to execute the requested strategy is omitted or ambiguous, set supported=false, list the missing detail, and do not create an executable specification. Only compile details explicitly stated by the user. If the user explicitly defines exitLongConditions or exitShortConditions as the take-profit/exit logic and gives no fixed R target, set targetR=null so the simulator exits by those rules rather than inventing a 2R cap. If the user specifies a fixed price, pip/percent level, indicator target, opposing structure level or other deterministic non-R exit, compile it only if the simulator can represent the exact requested trigger and fill rule. If exact execution cannot be represented, set supported=false and explain the limitation; never substitute a candle-close approximation or reinterpret a price as an R multiple. For aggregated-trade event replay, require the user to explicitly specify a valid stop method compatible with event data; never default it. Return an empty assumptions array when the user's rules are explicit; any unavoidable interpretation must make supported=false until clarified. Never silently drop a core entry condition. If any requested rule cannot be represented exactly by the supported conditions, set supported=false and explain what is needed. Approximation is not permitted.
@@ -73,12 +114,14 @@ execution schema:
  "stop":{"type":"signal_candle"|"previous_candle"|"atr"|"percent"|"signal_candle_offset"|"entry_offset","value":number,"unit"?: "price"|"pip"|"tick"|"point"|"percent","tickSize"?:number},
  "targetR":positive number or null when rule-based exit conditions are supplied,
  "maxBarsInTrade":positive integer or null,
+ "maxTradesPerDay":positive integer or null (only when explicitly specified; enforce by local calendar date in execution.timezone),
  "dataMode"?: "candles"|"aggregated_trades"|"databento_trades"
 }
 For Binance crypto only, if the user explicitly requests aggregated trade-event replay, set execution.dataMode="aggregated_trades". For exchange-listed futures only, if the user explicitly requests raw exchange trade-tick replay, set execution.dataMode="databento_trades"; this requires Databento historical entitlement, DATABENTO_API_KEY, a valid dataset (default GLBX.MDP3), and the exact listed expiry contract symbol. Never choose this for OTC spot Forex, spot XAUUSD, cash indices or broker CFDs; explain that a futures proxy is a different instrument. The Binance aggregated_trades mode uses compressed aggregate trades: fills at the same time, price and taker order are combined, so it is not raw individual fills. The Databento databento_trades mode uses the provider exchange trades schema and is distinct from MBO order-by-order messages. Full historical Level-2/Level-3 book, footprint and order-flow strategy execution remain unsupported by the backtest engine; do not claim the separate depth preview executes those strategies. Databento trades records are exchange trade events, not order-by-order MBO messages. For any other market, tick replay is unsupported unless an explicitly connected historical tick provider is available. Event replay supports price-sequence rules, volume-per-event, indicators over event prices and clock/session filters; do not compile candle-body, inside-bar, opening-range, candle-range-expansion or ATR rules for event mode. Use price/percent/event-based stops, not ATR or pip-size assumptions.
 For combinations of price levels, indicator thresholds, arithmetic comparisons or indicator crossovers, use the safe generic expression condition only when it represents the user's exact stated logic. Never approximate. Expression AST: {"type":"expression","expr":node}; node is {"value":number}, {"field":"open"|"high"|"low"|"close"|"volume"}, {"lag":integer,"field":"open"|"high"|"low"|"close"|"volume"}, {"indicator":"ema"|"sma"|"rsi"|"atr"|"highest"|"lowest"|"volume_sma"|"stdev"|"bollinger_upper"|"bollinger_lower"|"stochastic_k"|"adx"|"cci"|"williams_r"|"roc"|"obv","period":integer,"source":"open"|"high"|"low"|"close"|"volume","multiplier"?:positive number}, or {"op":"gt"|"gte"|"lt"|"lte"|"eq"|"neq"|"crosses_above"|"crosses_below"|"and"|"or"|"not"|"add"|"sub"|"mul"|"div"|"abs"|"min"|"max","args":[node,...]}. Binary operators require two args; not requires one; and/or accept 1..12 args. Crosses compare current and previous fully closed bar. Never emit executable code, scripts, eval, or arbitrary functions. AST depth maximum 10.
 Any condition may include optional "timeframe":"1m"|"3m"|"5m"|"15m"|"30m"|"1h"|"2h"|"4h"|"1d". When the user explicitly assigns a rule to a timeframe (for example, 1H trend filter and 5M entry), tag each condition with its own timeframe. Evaluate it on the latest fully closed historical candle of that timeframe at each selected execution-candle close. If timeframe assignment is unclear, return supported=false and ask for clarification. The selected chart timeframe remains the execution/entry/exit timeframe. Preserve timeframe tags on nested conditions. Only set supported=true when every required timeframe is available from historical providers. Tick-level data is not candle data.
-For the exact sequence "MSS, then create a new FVG, then retrace into that FVG", compile the FVG-return stage as {"type":"fair_value_gap_return","direction":"bullish"|"bearish","lookback":integer,"linkedToPreviousStage":true}; the simulator will match only the zone created by the immediately preceding FVG stage in this same sequence, not any older unrelated gap. The lookback is the maximum number of execution candles AFTER that exact FVG formation in which the return may occur; preserve the user's stated window, and if the user gives no return window, ask for clarification rather than inventing one. This linked return stage must directly follow the FVG-creation stage. Ordered event sequences are supported with {"type":"sequence","stages":[condition,...],"maxBarsBetweenStages"?:positive integer}. Use this only when the user explicitly describes events that must occur in order (for example: liquidity sweep, THEN market structure shift, THEN fair value gap formation, THEN return to that newly formed fair value gap). Each stage must be a single supported condition and must occur on a strictly later fully closed execution candle than the prior stage. The sequence becomes an entry signal only when its final stage occurs. Do not convert ordered events into an AND list. If the user specifies a maximum number of execution candles allowed between stages, set maxBarsBetweenStages exactly; otherwise omit it (no invented timeout). Sequence stages are evaluated in the selected execution timeframe only. If the user explicitly assigns a sequence stage to a different timeframe, return supported=false and explain that multi-timeframe event sequencing is not yet supported; do not silently remove the timeframe. Do not claim a generic FVG-return stage is linked to a particular earlier FVG unless the engine can identify that exact zone; if the requested strategy requires returning to the exact FVG created after the preceding MSS, represent that dependency explicitly or return supported=false rather than matching an unrelated older FVG. Preserve the user's explicitly stated AND/OR/NOT relationships using {"type":"logic","operator":"all"|"any"|"not","conditions":[...]}. If the relationship between conditions is not explicit, set supported=false instead of assuming one. Empty side means disabled. Preserve every logical grouping from the user's original strategy. Parse natural-language descriptions in any language, including translated equivalents of buy/long, sell/short, crosses above/below, greater/less than, stop loss, take profit, R-multiple, candle, and lookback. Never reject a strategy merely because its language is not English. Preserve every essential rule the schema can express; if an essential condition cannot be represented exactly, clearly list it and set supported=false rather than silently dropping it or pretending it was tested. Allowed condition forms:
+For the exact sequence "MSS, then create a new FVG, then retrace into that FVG", compile the FVG-return stage as {"type":"fair_value_gap_return","direction":"bullish"|"bearish","lookback":integer,"linkedToPreviousStage":true}; the simulator will match only the zone created by the immediately preceding FVG stage in this same sequence, not any older unrelated gap. The lookback is the maximum number of execution candles AFTER that exact FVG formation in which the return may occur; preserve the user's stated window, and if the user gives no return window, ask for clarification rather than inventing one. This linked return stage must directly follow the FVG-creation stage. Ordered event sequences are supported with {"type":"sequence","stages":[condition,...],"maxBarsBetweenStages"?:positive integer}. Use this only when the user explicitly describes events that must occur in order (for example: liquidity sweep, THEN market structure shift, THEN fair value gap formation, THEN return to that newly formed fair value gap). Each stage must be a single supported condition and must occur on a strictly later fully closed execution candle than the prior stage. The sequence becomes an entry signal only when its final stage occurs. Do not convert ordered events into an AND list. If the user specifies a maximum number of execution candles allowed between stages, set maxBarsBetweenStages exactly; otherwise omit it (no invented timeout). Sequence stages are evaluated in the selected execution timeframe only. If the user explicitly assigns a sequence stage to a different timeframe, return supported=false and explain that multi-timeframe event sequencing is not yet supported; do not silently remove the timeframe. Do not claim a generic FVG-return stage is linked to a particular earlier FVG unless the engine can identify that exact zone; if the requested strategy requires returning to the exact FVG created after the preceding MSS, represent that dependency explicitly or return supported=false rather than matching an unrelated older FVG. Preserve the user's explicitly stated AND/OR/NOT relationships using {"type":"logic","operator":"all"|"any"|"not","conditions":[...]}.
+For liquidity-source alternatives, do NOT reject a strategy just because it says sweep ANY ONE of several levels. Represent the alternatives as one sequence stage containing {"type":"logic","operator":"any","conditions":[...]}. For example, a bullish reversal may begin with ANY of: a bullish previous_day_sweep (PDL), a bullish session_range_sweep (Asia low, with the user's exact Asia start/end and timezone), or another explicitly named supported liquidity condition. A bearish reversal may use the corresponding highs. Then put the later MSS, FVG-creation, and linked FVG-return stages after that OR-stage in the same ordered sequence. The logic stage is evaluated on each candle; it must trigger once before the next stage. Do not replace OR with AND, do not require every level to be swept, and do not invent session hours. If session hours are absent, return them as missing and ask for them. If the relationship between conditions is not explicit, set supported=false instead of assuming one. Empty side means disabled. Preserve every logical grouping from the user's original strategy. Parse natural-language descriptions in any language, including translated equivalents of buy/long, sell/short, crosses above/below, greater/less than, stop loss, take profit, R-multiple, candle, and lookback. Never reject a strategy merely because its language is not English. Preserve every essential rule the schema can express; if an essential condition cannot be represented exactly, clearly list it and set supported=false rather than silently dropping it or pretending it was tested. Allowed condition forms:
 - {"type":"ema_cross","fast":integer,"slow":integer,"direction":"bullish"|"bearish"}
 - {"type":"sma_cross","fast":integer,"slow":integer,"direction":"bullish"|"bearish"}
 - {"type":"close_vs_ema","period":integer,"operator":"above"|"below"}
@@ -114,12 +157,13 @@ For the exact sequence "MSS, then create a new FVG, then retrace into that FVG",
 - {"type":"order_block_return","direction":"bullish"|"bearish","lookback":integer} (return to the most recent opposing candle before a displacement candle; deterministic OHLC proxy, not volume/order-flow confirmation)
 - {"type":"gap","direction":"bullish"|"bearish"} (current open gaps beyond previous candle high/low)
 - stop type signal_candle_offset is an offset beyond the signal candle high/low. For a fixed stop distance measured from actual entry price, use stop={type:"entry_offset",value:number,unit:"pip"|"point"|"tick"|"price"|"percent"}; entry_offset places the stop exactly value units below entry for LONG or above entry for SHORT. If the user says "fixed 50-pip stop loss", this means exactly 50 pips from the entry price, not from the signal candle high/low. Pip conversion is symbol-aware; do not assume a universal tick size.
-Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. Only translate if the user's rules faithfully match these forms. Do not claim arbitrary ICT/FVG/liquidity/session/multi-timeframe rules are supported unless expressible exactly in this schema. For unsupported concepts, return supported=false rather than approximating. A missing fixed target is allowed only when the user explicitly supplies rule-based exit conditions for every enabled trade direction; otherwise set supported=false. A missing stop-loss or entry timing is always a missing required rule: do not supply a default. Do not add assumptions or defaults. For unsupported concepts that cannot be represented, clearly identify the limitation rather than pretending the exact strategy was tested. When a user specifies a session/location/timezone, put the exact IANA timezone in execution.timezone and in every time condition. For an opening range, faithfully use the specified start time, duration, and wick/close trigger; do not hardcode London or a five-minute timeframe. If the user says one pip beyond the signal candle, use stop={type:"signal_candle_offset",value:1,unit:"pip"}; if the user says a fixed X-pip stop loss from entry, use stop={type:"entry_offset",value:X,unit:"pip"}. Pip size is calculated from the actual symbol. If a tick/point size is unknown, do not invent it. If the user specifies a rule-based exit (e.g. close a BUY when RSI crosses below a threshold, or close a SELL when an opposite candle pattern appears), compile it into execution.exitLongConditions or execution.exitShortConditions using the same condition schema. These exit conditions are checked on each later candle close; all conditions in each exit array are ANDed unless nested logic is used. Do not put entry triggers in exit arrays. If no custom exit rule is stated, return empty arrays. Preserve entry timing, direction, stop/target, filters, trade frequency, weekdays, and exit rules. If the strategy says both directions, create conditions for each direction. For EMA crossover set EMA cross conditions. Long/short arrays are evaluated independently. Include a concise normalizedRules description.`;
+Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. Only translate if the user's rules faithfully match these forms. Do not claim arbitrary ICT/FVG/liquidity/session/multi-timeframe rules are supported unless expressible exactly in this schema. For unsupported concepts, return supported=false rather than approximating. A missing fixed target is allowed only when the user explicitly supplies rule-based exit conditions for every enabled trade direction; otherwise set supported=false. A missing stop-loss or entry timing is always a missing required rule: do not supply a default. Do not add assumptions or defaults. For unsupported concepts that cannot be represented, clearly identify the limitation rather than pretending the exact strategy was tested. When a user specifies a session/location/timezone, put the exact IANA timezone in execution.timezone and in every time condition. For an opening range, faithfully use the specified start time, duration, and wick/close trigger; do not hardcode London or a five-minute timeframe. If the user says one pip beyond the signal candle, use stop={type:"signal_candle_offset",value:1,unit:"pip"}; if the user says a fixed X-pip stop loss from entry, use stop={type:"entry_offset",value:X,unit:"pip"}. Pip size is calculated from the actual symbol. If a tick/point size is unknown, do not invent it. If the user specifies a rule-based exit (e.g. close a BUY when RSI crosses below a threshold, or close a SELL when an opposite candle pattern appears), compile it into execution.exitLongConditions or execution.exitShortConditions using the same condition schema. These exit conditions are checked on each later candle close; all conditions in each exit array are ANDed unless nested logic is used. Do not put entry triggers in exit arrays. If no custom exit rule is stated, return empty arrays. Preserve entry timing, direction, stop/target, filters, trade frequency, weekdays, and exit rules. If the user explicitly specifies a maximum number of trades per day, set execution.maxTradesPerDay to that exact integer; do not omit or reinterpret this execution constraint. If the strategy says both directions, create conditions for each direction. For EMA crossover set EMA cross conditions. Long/short arrays are evaluated independently. Include a concise normalizedRules description.`;
 
     // Primary Gemini 3.x models first, then independent stable 2.5 fallbacks.
     // Gemini 3.7 is intentionally omitted: Google documents automatic routing
     // from 3.7 to 3.8 on the Developer API, so it is not an independent fallback.
-    const models = ["gemini-3.8-flash", "gemini-3.1-flash-lite", "gemini-2.5-flash", "gemini-2.5-flash-lite"];
+    const openRouterKey = Deno.env.get("OPENROUTER_API_KEY") || "";
+    const models = [...(openRouterKey ? ["openrouter/free"] : []), "gemini-3.8-flash", "gemini-3.5-flash-lite", "gemini-3.6-flash", "gemini-3.1-flash-lite"];
     const failures: string[] = [];
     let semanticFallbackUsed = false;
 
@@ -133,17 +177,39 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
           const timeout = setTimeout(() => controller.abort(), 14000);
           let response: Response;
           try {
-            response = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
-              method: "POST",
-              headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
-              signal: controller.signal,
-              body: JSON.stringify({
-                model,
-                store: false,
-                system_instruction: systemInstruction,
-                input: strategy,
-              }),
-            });
+            if (model === "openrouter/free") {
+              response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": "Bearer " + openRouterKey,
+                  "HTTP-Referer": "https://nabilmahmud3301-source.github.io/nabil-fx/",
+                  "X-Title": "Nabil FX Strategy Compiler",
+                },
+                signal: controller.signal,
+                body: JSON.stringify({
+                  model: "openrouter/free",
+                  messages: [
+                    { role: "system", content: systemInstruction + "\\nReturn only one valid JSON object. Do not wrap it in Markdown." },
+                    { role: "user", content: strategy },
+                  ],
+                  response_format: { type: "json_object" },
+                  temperature: 0,
+                }),
+              });
+            } else {
+              response = await fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
+                signal: controller.signal,
+                body: JSON.stringify({
+                  model,
+                  store: false,
+                  system_instruction: systemInstruction,
+                  input: strategy,
+                }),
+              });
+            }
           } finally {
             clearTimeout(timeout);
           }
@@ -152,7 +218,7 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
           if (!response.ok) {
             const message = result?.error?.message || "Gemini API returned HTTP " + response.status + ".";
             const retryable = [408, 429, 500, 502, 503, 504].includes(response.status);
-            if (retryable && attempt === 0) {
+            if (retryable && attempt === 0 && !(response.status === 429 && /per day|daily.*limit|resets? in/i.test(String(message)))) {
               const retryAfterHeader = Number(response.headers.get("retry-after") || 0);
               const backoffMs = retryAfterHeader > 0
                 ? Math.min(4000, retryAfterHeader * 1000)
@@ -165,12 +231,14 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
             break;
           }
 
-          if (result?.status && result.status !== "completed") {
+          if (model !== "openrouter/free" && result?.status && result.status !== "completed") {
             failures.push(model + ": response status " + String(result.status));
             break;
           }
 
-          const raw = extractText(result);
+          const raw = model === "openrouter/free"
+            ? String(result?.choices?.[0]?.message?.content || "").trim()
+            : extractText(result);
           if (!raw) {
             failures.push(model + ": empty model output");
             break;
@@ -281,7 +349,8 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
             (["atr","percent"].includes(stop.type) && Number.isFinite(Number(stop.value)) && Number(stop.value) > 0) ||
             stopOffsetValid
           );
-          const executionValid = !!execution && dataModeValid &&
+          const maxTradesPerDayValid = execution?.maxTradesPerDay === undefined || execution?.maxTradesPerDay === null || (Number.isInteger(execution.maxTradesPerDay) && execution.maxTradesPerDay >= 1 && execution.maxTradesPerDay <= 100);
+          const executionValid = !!execution && maxTradesPerDayValid && dataModeValid &&
             validConditions(execution.longConditions) &&
             validConditions(execution.shortConditions) &&
             (execution.exitLongConditions === undefined || (validConditions(execution.exitLongConditions) && !containsSequence(execution.exitLongConditions))) &&
@@ -336,6 +405,7 @@ Indicator periods must be 2..200; breakout lookback 2..500; RSI value 0..100. On
               stop: execution.stop,
               targetR: execution.targetR === null ? null : Number(execution.targetR),
               maxBarsInTrade: Number.isFinite(Number(execution.maxBarsInTrade)) ? Math.max(1, Math.min(5000, Number(execution.maxBarsInTrade))) : null,
+              maxTradesPerDay: Number.isInteger(execution.maxTradesPerDay) ? Math.max(1, Math.min(100, execution.maxTradesPerDay)) : null,
               timezone: typeof execution.timezone === "string" ? execution.timezone.slice(0,80) : "UTC",
               dataMode: ["aggregated_trades","databento_trades"].includes(String(execution.dataMode)) ? execution.dataMode : "candles",
             } : null,
