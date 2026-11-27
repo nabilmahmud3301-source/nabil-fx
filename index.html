@@ -6183,7 +6183,7 @@ function backtestCustom(c,r,seriesMap=null){
   const remaining=Number.isFinite(pos.remainingFraction)?pos.remainingFraction:1;
   const pnl=(Number(pos.realizedPnl)||0)+pos.riskAmount*remaining*(grossR-cost);
   const netR=pos.riskAmount>0?pnl/pos.riskAmount:0;
-  ts.push({t:pos.t,exitTime:last.t,side:pos.side,en:pos.en,sl:pos.sl,tp:pos.tp,ex:last.c,rr:netR+cost*remaining,netR,costR:cost,pnl,open:true,exitReason:'OPEN · Mark to Market'});
+  ts.push({t:pos.t,exitTime:last.t,side:pos.side,en:pos.en,sl:pos.sl,tp:pos.tp,ex:last.c,rr:netR+cost,netR,costR:cost,pnl,open:true,exitReason:'OPEN · Mark to Market'});
  }
  const floating=ts.filter(x=>x.open).reduce((sum,x)=>sum+x.pnl,0);
  const end=eq+floating;
