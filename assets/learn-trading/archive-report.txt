@@ -156,6 +156,8 @@ SUCCESS assets/learn-trading/commodity-investing-0.webp
 SUCCESS assets/learn-trading/crypto-investing-risk-0.webp
 SUCCESS assets/learn-trading/investment-scam-due-diligence-0.webp
 SUCCESS assets/learn-trading/breaker-block-0.webp
+SUCCESS assets/learn-trading/mitigation-0.webp
+SUCCESS assets/learn-trading/mitigation-1.webp
 SUCCESS assets/learn-trading/crt-0.webp
 SUCCESS assets/learn-trading/crt-1.webp
 SUCCESS assets/learn-trading/turtle-soup-0.webp
@@ -226,5 +228,3 @@ SUCCESS assets/learn-trading/out-of-sample-testing-0.webp
 SUCCESS assets/learn-trading/walk-forward-analysis-0.webp
 SUCCESS assets/learn-trading/monte-carlo-analysis-0.webp
 SUCCESS assets/learn-trading/sample-size-0.webp
-FAILED mitigation/0: <urlopen error [Errno 111] Connection refused> | HTTP Error 404: Not Found | HTTP Error 404: Not Found
-FAILED mitigation/1: <urlopen error [Errno 111] Connection refused> | HTTP Error 404: Not Found | HTTP Error 404: Not Found
