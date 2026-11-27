@@ -32,37 +32,6 @@ function parseModelJson(raw: string): any {
 }
 
 
-function compileStandardLondonOpen(body: any): any | null {
-  const strategy = String(body?.strategy || "").toLowerCase().replace(/[–—]/g, "-").replace(/\s+/g, " ").trim();
-  const market = String(body?.market || "").toLowerCase();
-  const symbol = String(body?.symbol || "").toUpperCase().replace(/[^A-Z]/g, "");
-  const hasLondonOpen = /\blondon\b/.test(strategy) && /\b(?:session\s+)?open\b/.test(strategy);
-  const buyOnly = /\b(?:buy|long)\b/.test(strategy) && !/\b(?:sell|short)\b/.test(strategy);
-  const bangladeshTime = /\b(?:bangladesh|dhaka|bd)\s+time\b/.test(strategy) || /\btime\s+(?:in\s+)?(?:bangladesh|dhaka)\b/.test(strategy);
-  const hasExtraSignal = /\b(?:ema|sma|rsi|macd|fvg|fair\s+value\s+gap|mss|choch|liquidity|sweep|breakout|order\s+block|support|resistance|trend|volume|candle|wick|footprint|order\s+flow|once\s+a\s+day|one\s+trade|maximum\s+trades)\b/.test(strategy);
-  const stopMatch =
-    strategy.match(/(?:stop[\s-]*loss|stoploss|\bsl\b)\s*(?:of|at|is|=|:)?\s*(\d+(?:\.\d+)?)\s*pips?\b/) ||
-    strategy.match(/\b(\d+(?:\.\d+)?)\s*[- ]?pips?\b(?=[^.!?]{0,40}(?:stop[\s-]*loss|stoploss|\bsl\b))/);
-  const rrMatch = strategy.match(/\b1\s*(?::|\/|to)\s*(\d+(?:\.\d+)?)\b/);
-  if (market !== "forex" || !/^[A-Z]{6}$/.test(symbol) || !hasLondonOpen || !buyOnly || !bangladeshTime || hasExtraSignal || !stopMatch || !rrMatch) return null;
-  const stopPips = Number(stopMatch[1]);
-  const targetR = Number(rrMatch[1]);
-  if (!(Number.isFinite(stopPips) && stopPips > 0 && stopPips <= 1000 && Number.isFinite(targetR) && targetR > 0 && targetR <= 20)) return null;
-  return {
-    supported: true, long: true, short: false, rewardRisk: targetR,
-    normalizedRules: "BUY at the standard London FX session open (08:00 Europe/London); display trade times in Asia/Dhaka; stop loss " + stopPips + " pips from entry; take profit " + targetR + "R.",
-    explanation: "Compiled using the standard London FX session open at 08:00 Europe/London. The entry schedule follows UK daylight-saving changes automatically. Trade timestamps are displayed in Bangladesh time (Asia/Dhaka). The strategy is long-only; the stop is measured from the actual entry price.",
-    missing: [], unsupportedReasons: [], assumptions: [],
-    execution: {
-      longConditions: [{ type: "scheduled_entry_time", timezone: "Europe/London", hour: 8, minute: 0 }],
-      shortConditions: [], exitLongConditions: [], exitShortConditions: [],
-      entry: "next_open", stop: { type: "entry_offset", value: stopPips, unit: "pip" },
-      targetR, maxBarsInTrade: null, timezone: "Asia/Dhaka", dataMode: "candles",
-    },
-    model: "NABIL Fx Deterministic London Session Compiler",
-  };
-}
-
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   if (req.method !== "POST") {
@@ -92,16 +61,7 @@ Deno.serve(async (req: Request) => {
       });
     }
 
-    // Deterministic, exact fallback for a clearly specified long-only London-open FX setup.
-    // This path avoids unnecessary model outages without guessing missing entry/exit rules.
-    const directSessionCompile = compileStandardLondonOpen(body);
-    if (directSessionCompile) {
-      return new Response(JSON.stringify(directSessionCompile), {
-        headers: { ...cors, "Content-Type": "application/json" },
-      });
-    }
-
-    const systemInstruction = `You are a professional, multilingual, market-agnostic strategy compiler for Nabil FX. Current test context: market=${market}, symbol=${symbol}, candle timeframe=${interval}, ${hasDateWindow ? `selected historical test window=${selectedStart} through ${selectedEnd} inclusive. The selected dates are hard boundaries: compile only the user strategy; never widen or change this window.` : "strategy review only; no historical test window has been selected."} The user may specify a location, exchange, named session, or timezone in ANY language. Resolve named places to valid IANA timezone IDs (examples: Europe/London, America/New_York, Asia/Tokyo, Asia/Dhaka); never assume the browser timezone or Bangladesh timezone when another location is named. If a place/timezone is ambiguous, return supported=false and ask for clarification. Convert the user's rules into a deterministic executable specification. Support broad reusable primitives and compose them; do not restrict strategies to a small list of named templates. The user may write in ANY human language or mix languages, transliteration, abbreviations, trading slang, or imperfect grammar. Detect language and preserve meaning.
+    const systemInstruction = `You are a professional, multilingual, market-agnostic strategy compiler for Nabil FX. The user controls every parameter: never insert a preset strategy, fixed reward:risk ratio, default stop, default take-profit, or default entry rule. If the user specifies a custom RR, preserve that exact numeric multiple; if the user specifies a price/indicator/structure exit, compile that exact exit rule with targetR=null. There is no preferred or default RR. Never force 1:2 or any other ratio. Current test context: market=${market}, symbol=${symbol}, candle timeframe=${interval}, ${hasDateWindow ? `selected historical test window=${selectedStart} through ${selectedEnd} inclusive. The selected dates are hard boundaries: compile only the user strategy; never widen or change this window.` : "strategy review only; no historical test window has been selected."} The user may specify a location, exchange, named session, or timezone in ANY language. Resolve named places to valid IANA timezone IDs (examples: Europe/London, America/New_York, Asia/Tokyo, Asia/Dhaka); never assume the browser timezone or Bangladesh timezone when another location is named. If a place/timezone is ambiguous, return supported=false and ask for clarification. Convert the user's rules into a deterministic executable specification. Support broad reusable primitives and compose them; do not restrict strategies to a small list of named templates. The user may write in ANY human language or mix languages, transliteration, abbreviations, trading slang, or imperfect grammar. Detect language and preserve meaning.
 
 You are the multilingual natural-language strategy compiler for Nabil FX Backtesting. The user may write in ANY human language or mix multiple languages, use transliteration, abbreviations, trading slang, or imperfect grammar. Detect the input language automatically; understand it directly, internally normalize/translate it as needed, and compile the intended trading rules into the deterministic schema below. Do not require the user to write English. Always return normalizedRules, explanation, missing, assumptions, and unsupportedReasons in clear English, regardless of the language used to describe the strategy. The compiler must understand input in any language, but every user-facing result and validation message must be English. Convert the user's strategy into a deterministic executable rule specification. Never invent conditions that the user did not state. Compile a strategy only when every required rule and its logical relationships are clear; otherwise set supported=false and ask for clarification. Never invent or assume a stop-loss, take-profit, entry timing, trade direction, filter, timeframe, session, or other rule. If any rule required to execute the requested strategy is omitted or ambiguous, set supported=false, list the missing detail, and do not create an executable specification. Only compile details explicitly stated by the user. If the user explicitly defines exitLongConditions or exitShortConditions as the take-profit/exit logic and gives no fixed R target, set targetR=null so the simulator exits by those rules rather than inventing a 2R cap. If the user specifies a fixed price, pip/percent level, indicator target, opposing structure level or other deterministic non-R exit, compile it only if the simulator can represent the exact requested trigger and fill rule. If exact execution cannot be represented, set supported=false and explain the limitation; never substitute a candle-close approximation or reinterpret a price as an R multiple. For aggregated-trade event replay, require the user to explicitly specify a valid stop method compatible with event data; never default it. Return an empty assumptions array when the user's rules are explicit; any unavoidable interpretation must make supported=false until clarified. Never silently drop a core entry condition. If any requested rule cannot be represented exactly by the supported conditions, set supported=false and explain what is needed. Approximation is not permitted.
 Return ONLY JSON with keys: supported, long, short, rewardRisk, normalizedRules, explanation, missing, unsupportedReasons, assumptions, execution.
